@@ -1,0 +1,22 @@
+button.searchBtn{
+    border: none;
+    background-color: white;
+}
+button.searchBtn:hover{
+    border: none;
+    background-color: white;
+}
+
+button.searchBtn i{
+    color: black;
+    background-color: white;
+}
+
+.nav-item i{
+    font-size: 30px;
+    display: inline-block;
+}
+
+.navBarMargin{
+    margin-top: 10px;
+}
