@@ -1,0 +1,182 @@
+body{
+    background-color: rgb(221, 217, 217);
+}
+.header{
+    background-color: rgb(194, 221, 121);
+    display:flex;
+    flex-wrap: wrap;
+    width: 70%;
+    margin: 0 auto;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.navbar{
+flex:50%;
+}
+
+.search{
+flex:30%
+}
+
+.connect{
+    flex:20%
+}
+
+.main{
+    width: 70%;
+    margin: 0 auto;
+    background-color: rgb(149, 149, 173);
+}
+
+.prodact{
+flex: 100%;
+}
+
+.main_area{
+    display: flex;
+    width: 80%;
+    margin: 0 auto;
+}
+.picture{
+    flex:50%
+}
+
+.prodact_list{
+background-color: rgb(185, 187, 182);
+margin-block-start: 0em;
+}
+
+
+.prodact_list li{
+   list-style-type: none;
+}
+
+.price{
+    text-decoration:line-through 1px
+}
+
+.cur_price{
+    color:rgb(158, 43, 43);
+}
+
+.pictures{
+    padding-inline-start: 0px;
+    flex:100%
+}
+
+.piclist{
+display: inline-flex;
+margin: 5px;
+}
+
+.bigpicture{
+    width: 300px;
+    height: 250px;
+    flex:100%;
+}
+
+.smallpicture{
+    width: 50px;
+    flex:30%
+}
+
+.list_kat{
+    
+    display: inline-flex;
+    margin: 0 auto;
+    /* justify-self: center;
+    justify-items: center; */
+}
+
+.prodact{
+    margin: auto;
+    width: 90%;
+}
+.list_kat button{
+    border: none;
+    background:none;
+    margin: 5px;
+}
+
+
+/**/
+.border{
+    position: relative;
+    display: inline;
+    margin-left:0px;
+    margin-right: 5px;
+    padding-top: 100px;
+}
+
+#icon2, #icon3, #icon4{ 
+    color:rgb(255, 0, 0);
+    border: solid  rgb(85, 82, 82) 1px;
+    border-radius: 50%;
+    padding:8px;
+    
+}
+#icon1{
+    color:rgb(255, 0, 0);
+    border: solid  rgb(85, 82, 82) 1px;
+    border-radius: 50%;
+    padding:8px 10px 8px 10px ;
+}
+
+footer{
+    background-color: rgb(53, 51, 51);
+    margin-top: 0;
+    text-align: center;
+    color:gray;
+    font-size: 14px;
+}
+
+.footer{
+    display: flex;
+    width: 50%;
+    margin: 0 auto;
+    text-align: left;
+    
+}
+
+.f1{
+    margin-top: 50px;
+    flex:20%;
+    margin-right: 20px;
+}
+
+.f2{
+    margin-top: 50px;
+    flex:20%;
+}
+
+.f3{
+    margin-top: 50px;   
+    flex:20%;
+    margin-left: 50px;
+    
+}
+
+.fo1{
+    color:white;
+    font-size: 16px;
+}
+
+.nav2{
+    color:red;
+}
+
+.nav22{
+    text-align: left;
+
+}
+.nav22 li{
+    margin-top: 15px;
+    color:red;
+    display:flex;
+    text-align: left;
+}
+
+.fo2{
+    color:white;
+}
