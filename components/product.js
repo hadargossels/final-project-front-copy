@@ -37,7 +37,7 @@ class Product extends Component{
                 <div className="card bd-highlight mt-1 p-5" style={{"direction":"rtl"}} >
                     <div className="card-body fs-4">
                         <h3 className="card-title">טארט פירות העונה</h3>
-                        <p className="card-text">פירוט-בצק פריך ממולא בקרם פטיסייר ופירות העונה.</p>
+                        <p className="card-text">בצק פריך ממולא בקרם פטיסייר ופירות העונה.</p>
                         <p className="card-text">מחיר:  קטן  30₪   /  גדול 140₪</p>
                     </div>
                     
