@@ -1,0 +1,91 @@
+footer {
+    padding: 2.5rem 0;
+    color: #727272;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-top: .05rem solid #e5e5e5;
+  }
+  .fa-youtube,
+  .fa-twitter-square,
+  .fa-instagram,
+  .fa-facebook-square{
+    color:orange;
+    padding:13px;
+    border-radius: 50%;
+    margin-right: 10px;
+    background-color: white;
+    margin-left:30px;
+    border:1px grey solid;
+  }
+  .fa-heart{
+    color:red;
+    padding:10px;
+    border-radius: 50%;
+    margin-right: 10px;
+    background-color: white;
+    margin-left:30px;
+    border:1px grey solid;
+    font-size: 23px;
+  }
+  .fa-heart:hover{
+    box-shadow: 3px 3px 3px grey;
+  }
+
+.smallPics{
+    height:100px;
+    width:100px;
+    opacity: 0.7;
+}
+.mediumPics{
+    height:110px;
+    width:110px;
+}
+.btnQty{
+    background: orange;
+    padding:0 8px;
+    border-radius: 10px;
+    border:0px;
+    
+}
+.fa-star{
+    color:orange
+}
+
+.title{
+    font-size: 20px;
+}
+
+.seller{
+    background-color: lightcoral;
+    border-radius: 30px;
+    margin-right: 170px;
+    padding:10px;
+}
+
+.price{
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.similar{
+    font-weight: bold;
+    font-size: 20px;
+    font-style:italic;
+}
+.shipping{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.cursor {
+    cursor: pointer;
+  }
+
+.buyBtn{
+    background: orange;
+    padding:5px 50px;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 10px;
+    border: 1px grey solid;
+}
