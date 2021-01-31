@@ -1,0 +1,13 @@
+.starsAdd:after{
+    content: ' \2605';
+    font-size: 3rem;
+  }
+  .fa-shopping-bag{
+      font-size: 2rem;
+  }
+  .starsBlanck:after{
+    content: ' \2606';
+    font-size: 3rem;
+    /* border-width: thin;
+    border: black; */
+  }
