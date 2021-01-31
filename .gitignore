@@ -1,0 +1,7 @@
+node_modules
+Screenshot_20210130_230940.png
+.babelrc
+package-lock.json
+package.json
+webpack.config.js
+main.js
