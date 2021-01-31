@@ -15,7 +15,7 @@ class Stars extends Component{
         htmlStars.push(<span className='starsBlanck'></span>)
     }
       return(
-            <div>{htmlStars}</div>
+            <div key="{htmlStars}">{htmlStars}</div>
       );
    }
 }

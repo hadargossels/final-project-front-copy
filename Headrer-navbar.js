@@ -5,8 +5,10 @@ class Header extends Component{
           <div>
             <div className="collapse" id="navbarToggleExternalContent">
                 <div className="bg-dark p-4">
-                    <h5 className="text-white h4">Collapsed content</h5>
-                    <span className="text-muted">Toggleable via the navbar brand.</span>
+                    <h5 className="text-white h4">Menu</h5>
+                    <a className="nav-link text-white" href="#">Home</a>
+                    <a className="nav-link text-white" href="#">Contact us</a>
+                    <span className="text-muted"></span>
                 </div>
             </div>
             <nav className="navbar navbar-dark bg-dark">
