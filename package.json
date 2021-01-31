@@ -1,7 +1,6 @@
 {
   "name": "reactApp",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "webpack-cli serve --mode development --open --hot",
@@ -20,12 +19,23 @@
     "webpack-dev-server": "^3.11.2"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^8.2.2",
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-react": "^7.0.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.2.2",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
     "babel-webpack-plugin": "^0.1.2",
     "html-webpack-plugin": "^4.5.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gagishmagi/Final-project-front-end.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gagishmagi/Final-project-front-end/issues"
+  },
+  "homepage": "https://github.com/gagishmagi/Final-project-front-end#readme",
+  "description": ""
 }
