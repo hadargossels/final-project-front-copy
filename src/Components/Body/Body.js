@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-class Middle extends Component{
+import './Body.css';
+class Body extends Component{
    render(){
       return(
           <div className="mx-96 my-10">
@@ -178,4 +179,4 @@ class Middle extends Component{
    }
 }
 
-export default Middle;
+export default Body;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Header.css';
 class Header extends Component{
    render(){
       return(
@@ -34,7 +35,7 @@ class Header extends Component{
                 </ul>
                 <div className="relative flex w-1/2 sm:w-7/12 md:w-5/12 px-4 flex-wrap items-stretch lg:ml-auto">
                     <div className="flex">
-                    <span className="font-normal leading-snug flex text-center white-space-no-wrap border border-solid border-blue-600 rounded-full text-sm bg-blue-100 items-center rounded-r-none pl-2 py-1 text-blue-800 border-r-0 placeholder-blue-300">
+                    <span className="font-normal leading-snug flex text-center white-space-no-wrap border border-solid border-blue-500 rounded-full text-sm bg-blue-100 items-center rounded-r-none pl-2 py-1 text-blue-800 border-r-0 placeholder-blue-300">
                         <i className="fas fa-search"></i>
                     </span>
                     </div>
