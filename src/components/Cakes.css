@@ -1,0 +1,28 @@
+
+.myContainer{
+
+    max-width: 1200px;
+    margin: auto ;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 200px;
+    margin-bottom: 150px;
+}
+.myContainer img{
+
+    padding: 0px 12px;
+    width: 100%;
+
+}
+.myBox{
+    width: 30%;
+    margin: 10px;
+}
+.details{
+    margin: 0px 12px;
+    padding: 12px;
+    background-color: white;
+    font-size: 20px;
+    direction: rtl;
+}

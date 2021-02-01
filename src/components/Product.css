@@ -3,8 +3,99 @@
     max-width: 700px;
     max-height: 500px;
 }
+
+
 .margin-top-product{
 
     margin-top: 200px;
+    margin-bottom: 330px;
 
+}
+#priceChoice{
+
+    font-size: 30px;
+    height: 60px;
+    color: red;
+    font-weight: bold;
+    margin-right: 50px;
+    margin-top: 10px;
+}
+.btn-group label{
+
+padding: 15px 25px;
+font-size: 15px;
+
+}
+.card-body i{
+    font-size: 30px;
+    padding: 0px;
+    margin-left: 0px;
+}
+.card-body button{
+
+    padding: 5px 10px;
+    font-size: 20px;
+}
+
+.card-body textarea{
+
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    resize: none;
+    padding: 5px;
+    font-size: 20px;
+}
+
+.rating {
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center
+}
+
+.rating>input {
+    display: none
+}
+
+.rating>label {
+    position: relative;
+    width: 1em;
+    font-size: 45px;
+    color: #FFD600;
+    cursor: pointer
+}
+
+.rating>label::before {
+    content: "\2605";
+    position: absolute;
+    opacity: 0
+}
+
+.rating>label:hover:before,
+.rating>label:hover~label:before {
+    opacity: 1 !important
+}
+
+.rating>input:checked~label:before {
+    opacity: 1
+}
+
+.rating:hover>input:checked~label:before {
+    opacity: 0.4
+}
+
+@media (max-width: 1250px) {
+    .img-size {
+        width: 600px;
+        height: 450px;
+    }
+    .card{
+        width: 600px;
+    }
+    .margin-top-product{
+        margin-bottom: 100px;
+    }
 }

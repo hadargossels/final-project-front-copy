@@ -24,6 +24,7 @@ function Header(){
                </li>
                </ul>
             </div>
+            <span class="navbar-text"><i class="fas fa-user"></i></span>
             <span class="navbar-text"><i class="fas fa-shopping-cart"></i></span>
 
          </div>
