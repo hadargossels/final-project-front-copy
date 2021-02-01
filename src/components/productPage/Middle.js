@@ -8,9 +8,9 @@ class Middle extends Component{
         <div className="row">
             <div className="col-1">
                 <img src='/images/benchPress.jpg' alt="..." className="img-thumbnail"/><br/><br/>
-                <img src='/images/benchPress2.jpeg' className="img-thumbnail"/><br/><br/>
+                <img src='/images/benchPress2.jpg' className="img-thumbnail"/><br/><br/>
                 <img src='/images/benchPress.jpg' alt="..." className="img-thumbnail"/><br/><br/>
-                <img src='/images/benchPress2.jpeg' alt="..." className="img-thumbnail"/><br/><br/>
+                <img src='/images/benchPress2.jpg' alt="..." className="img-thumbnail"/><br/><br/>
                 <img src='/images/benchPress.jpg' alt="..." className="img-thumbnail"/>
             </div>
             <div className="col-5">

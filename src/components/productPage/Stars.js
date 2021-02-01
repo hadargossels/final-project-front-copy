@@ -7,14 +7,14 @@ class Stars extends Component{
    render(){
     let htmlStars=[];
     for (let i = 0; i < this.numStars; i++){
-        htmlStars.push(<span className='starsAdd'></span>)
+        htmlStars.push(<span key={i} className='starsAdd'></span>)
     }
-    for (let i=0; i<5-this.numStars; i++){
-        htmlStars.push(<span className='starsBlanck'></span>)
+    for (let i=htmlStars.length; i<5; i++){
+        htmlStars.push(<span key={i} className='starsBlanck'></span>)
     }
     console.log(htmlStars);
       return(
-            <div key="{htmlStars}">{htmlStars}</div>
+            <div>{htmlStars}</div>
       );
    }
 }
