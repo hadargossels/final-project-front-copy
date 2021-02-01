@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 
 class Products extends Component{
 
-    constructor() {
+    constructor(props) {
 
-        super();
-  
-        this.state = [{img: "/images/brands/ASUS/ASUS-XONAR-AE/1.png", alt: "asus-xonar-ae", name: "ASUS XONAR AE", price: 216.99, rating: 3.5},
-                    {img: "/images/brands/Creative/Creative-Sound-BlasterX-AE-5/1.png", alt: "creative-sound--blasterx-ae-5", name: "Creative Sound BlasterX AE-5", price: 600.00, rating: 2.5},
-                    {img: "/images/brands/EVGA/EVGA-NU-Audio/1.png", alt: "evga-nu-audio", name: "EVGA NU Audio", price: 752.23, rating: 1.0}];
-
+        super(props);
+        
+        this.state = props.prodsArr;
+        
         this.len = this.state.length;
+        
         this.lowPrice = this.lowPrice.bind(this);
         this.highPrice = this.highPrice.bind(this);
         this.bestRating = this.bestRating.bind(this);
