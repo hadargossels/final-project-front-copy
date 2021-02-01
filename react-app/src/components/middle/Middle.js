@@ -1,5 +1,22 @@
 import React, { Component } from 'react';
+
 class Middle extends Component{
+
+   constructor() {
+
+      super();
+
+      this.state = {src: '/images/brands/ASUS/ASUS-XONAR-AE/1.png'};
+
+      this.updateState = this.updateState.bind(this);
+
+   };
+
+   updateState(img) {
+
+      this.setState({src: img.target.src});
+   }
+
    render(){
       return(
          <main role="main" className="container lead">
@@ -25,8 +42,8 @@ class Middle extends Component{
                </div>
 
                <div className="col-sm">
-                  <img src="https://www.asus.com/media/global/products/fS9hNFSsuUJ8Gj5k/P_setting_xxx_0_90_end_692.png" alt="Prod_Img" className="img-product"
-                     style={{position: "relative", bottom: "10%", objectFit: "cover", width: "500px"}}/>
+                  <img src={this.state.src} alt="Prod_Img" className="img-product"
+                     style={{position: "relative", bottom: "5%", objectFit: "cover", width: "500px"}}/>
                </div>
 
                <div className="col-sm">
@@ -58,23 +75,23 @@ class Middle extends Component{
             <br/><br/>
             
             <div className="gallery">
-               <img src="https://www.asus.com/media/global/gallery/4enNzOgsVmK8mQmU_setting_xxx_0_90_end_1000.png" alt="Img_1"/>
+               <img src="/images/brands/ASUS/ASUS-XONAR-AE/1.png" alt="Img_1" onClick={this.updateState}/>
             </div>
 
             <div className="gallery">
-               <img src="https://www.asus.com/media/global/gallery/iRbQDTZHs61TPHxM_setting_xxx_0_90_end_1000.png" alt="Img_2"/>
+               <img src="/images/brands/ASUS/ASUS-XONAR-AE/2.png" alt="Img_2" onClick={this.updateState}/>
             </div>
 
             <div className="gallery">
-               <img src="https://www.asus.com/media/global/gallery/X5N5zbOq263GBM1n_setting_xxx_0_90_end_1000.png" alt="Img_3"/>
+               <img src="/images/brands/ASUS/ASUS-XONAR-AE/3.png" alt="Img_3" onClick={this.updateState}/>
             </div>
 
             <div className="gallery">
-               <img src="https://www.asus.com/media/global/gallery/lAOyT4mKr0C1FYjy_setting_xxx_0_90_end_1000.png" alt="Img_4"/>
+               <img src="/images/brands/ASUS/ASUS-XONAR-AE/4.png" alt="Img_4" onClick={this.updateState}/>
             </div>
 
             <div className="gallery">
-               <img src="https://www.asus.com/media/global/gallery/wN9K3cLQsb2KhPRI_setting_xxx_0_90_end_1000.png" alt="Img_5"/>
+               <img src="/images/brands/ASUS/ASUS-XONAR-AE/5.png" alt="Img_5" onClick={this.updateState}/>
             </div>
             
             {/*https://getbootstrap.com/docs/4.0/utilities/display/#hiding-elements*/}
@@ -88,13 +105,13 @@ class Middle extends Component{
 
             <div className="gallery">
                <a target="_blank" href="#"/>
-               <img src="https://d287ku8w5owj51.cloudfront.net/images/products/hero/sound-blasterx-ae-5/hero-sound-blasterx-ae-5.png" alt="Other_1"/>
+               <img src="/images/brands/Creative/Creative-Sound-BlasterX-AE-5/1.png" alt="Other_1"/>
                <div className="desc">Creative Sound BlasterX AE-5</div>
             </div>
 
             <div className="gallery">
                <a target="_blank" href="#"/>
-               <img src="https://images.evga.com/products/gallery/png/712-P1-AN01-KR_XL_4.png" alt="Other_2"/>
+               <img src="/images/brands/EVGA/EVGA-NU-Audio/1.png" alt="Other_2"/>
                <div className="desc">EVGA NU Audio</div>
             </div>
 

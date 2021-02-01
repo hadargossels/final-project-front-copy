@@ -26,15 +26,17 @@ export default App; */
 
 import React, { Component } from 'react';
 import Header from './components/header/Header';
-import Middle from './components/middle/Middle';
 import Footer from './components/footer/Footer';
+import Middle from './components/middle/Middle';
+import Products from './components/products/Products';
 
 class App extends Component{
    render(){
       return(
          <div>
             <Header />
-            <Middle />
+{/*             <Middle /> */}
+            <Products />
             <Footer />
          </div>
       );
