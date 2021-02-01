@@ -1,15 +1,14 @@
-import React, { Component } from "react";
+import './Header.css';
+import logo1 from './logo1.png'
 
-class Header extends Component {
-  render(props) {
-    return (
-      <div>
-        <nav className="navbar navbar-light bg-light">
+function Header() {
+  return (
+    <div>
+      <nav className="navbar navbar-light bg-light">
           <div className="container-fluid">
             <a className="navbar-brand" href="#">
               <img
-                src="imgs/logo1.png"
-                alt=""
+                src={logo1}
                 width="100"
                 height="24"
                 className="d-inline-block align-top"
@@ -40,7 +39,7 @@ class Header extends Component {
             </form>
             <div>
             <a className="navbar-brand" href="#">
-            <i class="fas fa-sign-in-alt"></i>Sign in
+            <i className="fas fa-sign-in-alt"></i>Sign in
             </a>
             <a className="navbar-brand" href="#">
             <i className="fas fa-shopping-cart"></i>
@@ -48,9 +47,8 @@ class Header extends Component {
             </div>
           </div>
         </nav>
-      </div>
-    );
-  }
+    </div>
+  );
 }
+
 export default Header;
-//  ReactDOM.render(< App myHeader = "this is my Header....."/> , document.getElementById('app'));

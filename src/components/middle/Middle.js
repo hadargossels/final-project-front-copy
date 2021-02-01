@@ -1,16 +1,26 @@
-import React, { Component } from "react";
-// import Card from './components/card.js';
 
-class Middle extends Component {
-  render() {
+import './Middle.css';
+import barista from './imgs/barista.jpg'
+import gal3 from './imgs/gal3.jpg'
+import gal4 from './imgs/gal4.jpg'
+import gal5 from './imgs/gal5.png'
+import gal6 from './imgs/gal6.jpg'
+import gal1 from './imgs/gal1.png'
+import gal2 from './imgs/gal2.jpg'
+import img1 from './imgs/img1.png'
+import img2 from './imgs/img2.png'
+import img3 from './imgs/img3.png'
+
+function Middle() {
     return (
+     
       <div>
         <div className="container">
           <div className="row">
             <div className="col">
               <div id="bigImg">
                 <img
-                  src="/imgs/barista.jpg"
+                  src={barista}
                   width="400"
                   height="430"
                   className="row"
@@ -23,7 +33,7 @@ class Middle extends Component {
                   <div className="row">
                     <div className="col-sm">
                       <img
-                        src="/imgs/gal2.jpg"
+                        src={gal2}
                         width="100"
                         height="100"
                         className="img col"
@@ -31,7 +41,7 @@ class Middle extends Component {
                     </div>
                     <div className="col-sm">
                       <img
-                        src="/imgs/gal3.jpg"
+                        src={gal3}
                         width="100"
                         height="100"
                         className="img col"
@@ -39,7 +49,7 @@ class Middle extends Component {
                     </div>
                     <div className="col-sm">
                       <img
-                        src="/imgs/gal4.jpg"
+                        src={gal4}
                         width="100"
                         height="100"
                         className="img col"
@@ -48,7 +58,7 @@ class Middle extends Component {
                     <div className="row">
                       <div className="col-sm">
                         <img
-                          src="/imgs/gal5.png"
+                          src={gal5}
                           width="100"
                           height="100"
                           className="img col"
@@ -56,7 +66,7 @@ class Middle extends Component {
                       </div>
                       <div className="col-sm">
                         <img
-                          src="/imgs/gal6.jpg"
+                          src={gal6}
                           width="100"
                           height="100"
                           className="img col"
@@ -64,7 +74,7 @@ class Middle extends Component {
                       </div>
                       <div className="col-sm">
                         <img
-                          src="/imgs/gal1.png"
+                          src={gal1}
                           width="100"
                           height="100"
                           className="img col"
@@ -137,8 +147,8 @@ class Middle extends Component {
 
                         <div className="col-sm ">
 
-                        <div className="card border border-danger"  style={{width: "15vw"}}>
-                            <img src="/imgs/img1.png" className="card-img-top"/>
+                        <div className="card border border-danger" >
+                            <img src={img1} className="card-img-top"/>
                             <div className="card-body">
                             <h5 className="card-title">ESSENZA MINI PIANO BLACK</h5>
                             <p className="card-text">749<i className="fas fa-shekel-sign"></i></p>
@@ -154,8 +164,8 @@ class Middle extends Component {
                 </div>
 
                 <div className="col-sm">
-                    <div className="card border border-danger"  style={{width: "15vw"}}>
-                            <img src="/imgs/img2.png" className="card-img-top"/>
+                    <div className="card border border-danger" >
+                            <img src={img2} className="card-img-top"/>
                             <div className="card-body">
                             <h5 className="card-title">2 VIEW Recipe Glasses</h5>
                             <p className="card-text">89.00<i className="fas fa-shekel-sign"></i></p>
@@ -168,8 +178,8 @@ class Middle extends Component {
                     </div>
                         
                 <div className="col-sm">
-                <div className="card border border-danger"  style={{width: "15vw"}}>
-                            <img src="/imgs/img3.png" className="card-img-top"/>
+                <div className="card border border-danger" >
+                            <img src={img3} className="card-img-top"/>
                             <div className="card-body">
                             <h5 className="card-title">Orange Flavored Biscuits</h5>
                             <p className="card-text">25.00<i className="fas fa-shekel-sign"></i></p>
@@ -189,14 +199,6 @@ class Middle extends Component {
       </div>
     );
   }
-}
-export default Middle;
+  
+  export default Middle;
 
-function bigImg(src) {
-  let bigImg = document.getElementById("bigImg");
-  bigImg.innerHTML = `"<img
-    src="${src}"
-    width="400"
-    height="400"
-  />"`;
-}
