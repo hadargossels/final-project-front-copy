@@ -12,6 +12,7 @@ class Stars extends Component{
     for (let i=0; i<5-this.numStars; i++){
         htmlStars.push(<span className='starsBlanck'></span>)
     }
+    console.log(htmlStars);
       return(
             <div key="{htmlStars}">{htmlStars}</div>
       );
