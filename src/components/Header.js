@@ -7,7 +7,7 @@ class Header extends Component{
          <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
                <a className="navbar-brand" href="#">
-                  <img className="rounded-circle" width="70px" src="/img/99236.jpg"/>
+                  <img className="rounded-circle" width="70px" src="/img/99236.jpg" alt=""/>
                </a>
 
                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +20,7 @@ class Header extends Component{
                         <a className="nav-link active" aria-current="page" href="#">Home</a>
                      </li>
                      <li className="nav-item">
-                        <a className="nav-link" href="#">Link1</a>
+                        <a className="nav-link" href="#">Game Catalog</a>
                      </li>
                      <li className="nav-item">
                         <a className="nav-link" href="#">Link2</a>
@@ -41,12 +41,11 @@ class Header extends Component{
                </div>
 
                <ul className="navbar-nav navbar-right">
-
                   <form className="d-flex">
                      <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
                      <button className="btn btn-outline-light" type="submit">Search</button>
                   </form>
-                  </ul>
+               </ul>
             </div>
          </nav>
        );

@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 class Price extends Component{
     render(){
         let price = 60;
-        let discount = true;
+        let discount = true
 
-        if (discount ==true){
+        if (discount){
             return(
                 <div className="text-start py-3">
                     <p className="h5">Price: 

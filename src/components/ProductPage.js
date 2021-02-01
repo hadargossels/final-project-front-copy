@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Price from './Price';
-import Rating from './Rating';
 import Platforms from './Platforms';
 import Gallery from './Gallery';
 import AlsoViewed from './AlsoViewed';
@@ -22,7 +21,11 @@ class ProductPage extends Component{
                     <h6 className="text-center text-warning">Currently in stock!</h6>
                     <div className = "d-flex justify-content-center">
                         <div>
-                            <Rating/>
+                        <div className = "text-start py-3">
+                            <span className="h5 me-2">Global Rating:</span>
+                            <Rating rating="3"/>
+                        </div> 
+                            
                             <Price/>
                             <p>This item ships to Israel. Arrives: March 9 - 16</p>
                             <Platforms/>
@@ -32,7 +35,7 @@ class ProductPage extends Component{
                         <div className="mx-3 my-2 h5 text-primary">
                             <button className="btn btn-danger my-3 btn-lg">Buy Now!</button>
                             <br/>
-                            <button className="btn btn-outline-danger"><i className="far fa-heart"></i> Add to Cart</button>
+                            <button className="btn btn-outline-danger"><i className="fas fa-shopping-cart"></i> Add to Cart</button>
                             <br/>
                             <button className="btn btn-outline-danger my-3"><i className="far fa-heart"></i> Add to Wishlist</button>
                         </div>
