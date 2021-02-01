@@ -1,0 +1,120 @@
+
+.prodCont {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 15px;
+    justify-content: center;
+    font-family: 'Yusei Magic', sans-serif;
+    margin: 0 auto;
+}
+
+.prodDec {width:30%}
+
+.related {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 15px;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.related img {
+    width: 100px;
+    height: auto;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 15px;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.gallery img {
+    width: 100px;
+    height: auto;
+    margin: 10px;
+}
+
+.mainImg img {
+    width: 400px;
+    height: auto;
+}
+
+.mainImg {
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 15px;
+    justify-content: center;
+    margin: 0 auto;
+
+}
+
+.prodCont {
+    margin: 25px auto;
+}
+
+.stock {
+    color: green;
+}
+
+.prodDec {
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 15px;
+    margin-left: 25px;
+}
+
+.prodImg {
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 15px;
+    margin-right: 25px;
+}
+
+.qt {
+    padding: 5px;
+}
+
+.addcart {
+    padding: 5px;
+    border: none;
+    background-color: #64495c;
+    color: white;
+    padding: 4px 6px 6px 6px;
+    font-family: 'Yusei Magic', sans-serif;
+    letter-spacing: 1px;
+    margin-left: 15px;
+}
+
+.headline {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+
+    div.prodImg {margin-right: 0px;
+        margin: 0 auto;}
+
+    .mainImg img {
+        width: 100%;
+        height: auto;
+    }
+
+    .prodDec {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+}

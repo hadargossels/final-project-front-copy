@@ -1,0 +1,55 @@
+.head {
+    background-color: #64495c;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 15px;
+    justify-content: center;
+    font-family: 'Yusei Magic', sans-serif;
+    margin: 0 auto;
+    
+}
+
+.navbtn {
+    border: none;
+    background-color: rgba(255, 255, 255, 0);
+    color: #adadad;
+    font-family: 'Yusei Magic', sans-serif;
+    
+}
+
+.navbar {
+    margin: auto 45px;
+}
+
+#search {
+    margin: auto 45px;
+    width: 250px;
+    height: 35px;
+}
+
+.logindiv {
+    margin: auto 45px;
+    color: #adadad;
+}
+
+.login {
+    text-decoration: none;
+    color: #adadad;
+}
+
+.fa-shopping-cart {
+    color: white;
+    font-size: 18px;
+    margin: auto 20px;
+}
+
+.logo {
+    margin: auto 45px;
+    width: 100px;
+    height: 70px;
+    background-image: url();
+    background-repeat:no-repeat;
+    background-size:contain;
+
+}

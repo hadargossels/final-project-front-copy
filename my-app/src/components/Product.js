@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import './Product.css';
+// import img1 from '../../public/img/souffle1.jpg'
+// import img2 from '../../public/img/souffle_2.jpg'
+// import img3 from '../../public/img/Souffle-Packaging.jpg'
 
 
 class Product extends Component {
@@ -7,12 +11,12 @@ class Product extends Component {
          <div className='prodCont'>
             <div className='prodImg'>
                <div className='mainImg'>
-                  <img src="img\souffle1.jpg" alt="product"/>
+                  <img src="img/souffle1.jpg" alt="product"/>
                </div>
                <div className="gallery">
-                  <img src="img\souffle1.jpg" alt="product"/>
-                  <img src="img\souffle_2.jpg" alt="product"/>
-                  <img src="img\Souffle-Packaging.jpg" alt="product"/>
+                  <img src="img/souffle1.jpg" alt="product"/>
+                  <img src='img/souffle_2.jpg' alt="product"/>
+                  <img src='img/Souffle-Packaging.jpg' alt="product"/>
                </div>
             </div>
 

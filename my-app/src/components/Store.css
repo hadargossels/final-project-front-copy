@@ -1,0 +1,49 @@
+.storeCont {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 15px;
+    justify-content: center;
+    font-family: 'Yusei Magic', sans-serif;
+    margin: 0 auto;
+}
+
+.filter {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 15px;
+    justify-content: center;
+    font-family: 'Yusei Magic', sans-serif;
+    margin: 0 auto;
+    width: 30%;
+}
+
+.storeDisp {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 15px;
+    justify-content: center;
+    font-family: 'Yusei Magic', sans-serif;
+    margin: 0 auto;
+}
+
+.product {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 15px;
+    font-family: 'Yusei Magic', sans-serif;
+    margin: 0 auto;
+}
+
+.filterDiv {
+    margin: 10px;
+    padding: 10px;
+}
+
+.title {
+    color: #64495c;
+    font-size: 20px;
+}

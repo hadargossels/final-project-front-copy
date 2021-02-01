@@ -1,0 +1,83 @@
+.foot {
+    background-color: #2e1115;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 15px;
+    justify-content: center;
+    color: #adadad;
+    margin: 0 auto;
+}
+
+.info {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 15px;
+    justify-content: center;
+    margin: 0 45px;
+    font-family: 'Yusei Magic', sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.info a {
+    font-size: 16px;
+    font-weight: normal;
+    letter-spacing: 1px;
+
+}
+
+
+.newsletter {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px;
+    justify-content: center;
+    margin: 0 45px;
+    font-family: 'Yusei Magic', sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.social {   
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 15px;
+   text-align: center;
+    margin: 0 45px;
+}
+
+.socialmedia {
+    color: white;
+    font-size:35px;
+    margin: 8px;
+}
+
+#subs {
+    border: none;
+    background-color: #64495c;
+    color: white;
+    padding: 10px 12px 12px 12px;
+    font-family: 'Yusei Magic', sans-serif;
+    letter-spacing: 1px;
+}
+
+#email {
+    padding: 13px;
+    border: none;
+    width: 220px;
+    
+}
+
+.infolink {
+    text-decoration: none;
+    color: #adadad;
+}
+
+small {
+    font-family: sans-serif
+}
