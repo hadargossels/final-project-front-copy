@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Price from '/components/Price';
-import Rating from '/components/Rating';
-import Platforms from '/components/Platforms';
-import Gallery from '/components/Gallery';
-import AlsoViewed from '/components/AlsoViewed';
+import Price from './Price';
+import Rating from './Rating';
+import Platforms from './Platforms';
+import Gallery from './Gallery';
+import AlsoViewed from './AlsoViewed';
 
 class ProductPage extends Component{
     render(){
