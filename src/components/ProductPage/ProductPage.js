@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import './productPage.css';
+
 class ProductPage extends Component{
    
    render(){
