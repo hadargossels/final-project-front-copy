@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
+import "./StorePage.css";
 
-function Content() {
+function StorePage() {
   return (
     <>
       <div className="container-fluid px-sm-1 py-5 mx-auto">
@@ -42,4 +43,4 @@ function Content() {
   );
 }
 
-export default Content;
+export default StorePage;

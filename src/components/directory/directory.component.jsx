@@ -15,14 +15,14 @@ class Directory extends React.Component {
           imageUrl:
             "https://ae01.alicdn.com/kf/HTB1vPHMN3HqK1RjSZFkq6x.WFXax.jpg",
           id: 1,
-          linkUrl: "hats",
+          linkUrl: "cloths",
         },
         {
           title: "Toys",
           imageUrl:
             "https://ae01.alicdn.com/kf/H5c9f33d2c25147c18a4a83af93fb1744a/Squeaky-Dog-Toys-Animal-Shape-Pet-Chew-Toys-Cotton-Rope-Grind-Teeth-Doll-For-Dog-Chew.jpg",
           id: 2,
-          linkUrl: "",
+          linkUrl: "toys",
         },
         {
           title: "Games",

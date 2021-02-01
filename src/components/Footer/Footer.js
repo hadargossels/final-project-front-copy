@@ -1,6 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 // const year = new Date().getFullYear();
 // <p>Copyright ⓒ {year}</p>
+import "./Footer.css";
+
 function Footer() {
   return (
     <>
