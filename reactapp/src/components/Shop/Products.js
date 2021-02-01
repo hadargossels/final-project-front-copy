@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
+import './productsStyle.css';
 
-function productCard(props){
+function ProductCard(props){
     console.log(props)
     return(
         <div>
-            <img src={props.imageUrl}/>
-            <h3>{props.name}</h3>
-            <p>{props.price}</p>
-            <p>{props.discription}Discription</p>
+            <img src={props.productCardInfo.imageUrl} className="img"/>
+            <h3>name: {props.productCardInfo.name}</h3>
+            <p>price: {props.productCardInfo.price}</p>
+            <p>Discription: {props.productCardInfo.discription}</p>
         </div>
     )
 }
 
-export default productCard
+export default ProductCard

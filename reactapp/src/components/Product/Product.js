@@ -1,22 +1,25 @@
 import React, { Component } from 'react';
 import './productStyle.css';
 
-function cartClick() {
-    if(this===undefined)
-      return;
-      let button = this;
-      console.log(button)
-      button.classList.add('clicked');
-      return;
-  }
+
 class Product extends Component{
    render(){
+    
+    function cartClick() {
+        if(this===undefined)
+          return;
+          let button = this;
+          console.log(button)
+          button.classList.add('clicked');
+          return;
+      }
       return(
     <div>
        <div className="container-row-app">
           <div className="container-col-app">
              <img src="motor.png" alt="motor" className="imgProduct"  width="400" height="400"/>
              <img src="aboutItem.png" alt="aboutItem" className="imgProduct"  width="400" height="400"/>
+             
           </div>
           <div className="container-col-app">
              <h1 className="productHeader">The Emula electric motorcycle is a two-wheeled time machine</h1>
@@ -120,31 +123,31 @@ class Product extends Component{
              </div>
           </div>
           <div className="container-col-add">
-             <div class="borderAddToCart">
+             <div className="borderAddToCart">
              <p></p>
 
-                <button class="cart-button" onclick={cartClick()}>
-                   <span class="add-to-cart">Add to cart</span>
-                   <span class="added">Added</span>
-                   <i class="fas fa-shopping-cart"></i>
-                   <i class="fas fa-box"></i>
+                <button className="cart-button" onClick={cartClick()}>
+                   <span className="add-to-cart">Add to cart</span>
+                   <span className="added">Added</span>
+                   <i className="fas fa-shopping-cart"></i>
+                   <i className="fas fa-box"></i>
                 </button>
                 <p></p>
-                <button class="cart-button">
-                   <span class="add-to-cart">Buy Now</span>
+                <button className="cart-button">
+                   <span className="add-to-cart">Buy Now</span>
                 </button>                     
              
 
-                <div class="input-group plus-minus-input">
-                   <div class="input-group-button">
-                      <button type="button" class="button hollow circle" data-quantity="minus" data-field="quantity">
-                         <i class="fa fa-minus" aria-hidden="true"></i>
+                <div className="input-group plus-minus-input">
+                   <div className="input-group-button">
+                      <button type="button" className="button hollow circle" data-quantity="minus" data-field="quantity">
+                         <i className="fa fa-minus" aria-hidden="true"></i>
                       </button>
                    </div>
-                   <input class="input-group-field" type="number" name="quantity" value="0"/>
-                   <div class="input-group-button">
-                      <button type="button" class="button hollow circle" data-quantity="plus" data-field="quantity">
-                         <i class="fa fa-plus" aria-hidden="true"></i>
+                   <input className="input-group-field" type="number" name="quantity" defaultValue="0"/>
+                   <div className="input-group-button">
+                      <button type="button" className="button hollow circle" data-quantity="plus" data-field="quantity">
+                         <i className="fa fa-plus" aria-hidden="true"></i>
                       </button>
                    </div>
                 </div>
