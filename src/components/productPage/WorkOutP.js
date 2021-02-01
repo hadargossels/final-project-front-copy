@@ -28,8 +28,9 @@ class WorkOutP extends Component{
         return(
             <div className="row">
                 <div className="col-2">
-                    <button onClick={()=>this.sortPrice()}>Sort by Price Low to High</button><br/><br/>
-                    <button onClick={()=>this.sortStars()}>Sort by Stars</button>
+                    <label>Sort By:</label><br/>
+                    <button className="btn btn-secondary" onClick={()=>this.sortPrice()}>Price Low to High</button><br/><br/>
+                    <button className="btn btn-secondary" onClick={()=>this.sortStars()}>Most Stars</button>
                 </div>
                 {this.state.myArr}
                 <div className="col-1"></div>

@@ -13,6 +13,7 @@ function App() {
         <Header/><br/>
         <Album/>
         {/* <Header/> */}
+        <br/><br/><br/>
         <Footer/>
     </div>
   );
