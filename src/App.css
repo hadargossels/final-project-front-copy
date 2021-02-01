@@ -1,4 +1,19 @@
-.App {
+.socialmedia-links *{
+  margin: 0 5px;
+  font-size: 20px
+}
+
+.footer-info *{
+  margin: 0 5px 0 0;
+}
+
+#favorateIcon{
+  font-size: 25px;
+
+}
+
+
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +50,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */
