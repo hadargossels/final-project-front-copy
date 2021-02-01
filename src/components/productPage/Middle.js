@@ -18,7 +18,7 @@ class Middle extends Component{
             </div>
             <div className="col-3">
                 <h1>Bench Press</h1> <br/><br/>
-                <Stars numStars='2'/>
+                <Stars numStars='4'/>
                 <button>Rate</button>
                 <br/><br/><br/>
                 short explanation About the product here
