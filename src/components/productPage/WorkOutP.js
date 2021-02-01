@@ -17,10 +17,10 @@ class WorkOutP extends Component{
         if(this.state.myArr.length==0){
             let tempArr=[];
             for(let i=0; i<this.state.name.length; i++){
-                tempArr.push(<div className="col-3 text-center">
+                tempArr.push(<div className="col-3 text-center" key={i}>
                     <h3>{this.state.name[i]} Price: {this.state.prices[i]}$</h3>
                     <img key={this.state.name[i]} src={this.state.urlImg[i]} alt="..." width='100%' height="300px"/><br/>
-                    <Stars  numStars={this.state.stars[i]}/>
+                    <Stars numStars={this.state.stars[i]}/>
                 </div>)
             }
             this.state.myArr=tempArr;
@@ -63,7 +63,7 @@ class WorkOutP extends Component{
     let sName=this.state.name
     let sUrl=this.state.urlImg
     let sStars=this.state.stars
-    console.log(sStars);
+    // console.log(sStars);
      for(let i=0; i<3; i++){
          for(let k=i; k<3; k++){
              if(sStars[k]>sStars[i]){
@@ -75,7 +75,7 @@ class WorkOutP extends Component{
          }
 
      }
-     console.log(sStars);
+    //  console.log(sStars);
      this.setState({prices:sArr});
      this.setState({name:sName});
      this.setState({urlImg:sUrl});
