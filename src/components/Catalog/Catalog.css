@@ -1,0 +1,31 @@
+.catalog{
+    width: 200px;
+    height:200px;
+}
+
+.btnAdd{
+    background-color: orange;
+    border:1px grey solid;
+    border-radius: 10px;
+}
+
+.stars{
+    color: #ffc700;
+    font-size:25px;
+}
+.starsNot{
+    font-size:25px;
+    color:#ccc;
+}
+
+.for{
+    border:1px grey solid;
+    border-radius: 30px;
+    width:120px; 
+    margin:0 auto;
+    box-shadow: 2px 2px 5px grey;
+    margin-bottom: 5px;
+}
+.alignCenter{
+    margin:0 auto;
+}

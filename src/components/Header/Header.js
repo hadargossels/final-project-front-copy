@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import './Header.css';
 class Header extends Component{
-
    render(){
       return(
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -12,10 +12,10 @@ class Header extends Component{
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
                     <li className="nav-item">
-                        <a className="nav-link" href="#">התחבר</a>
+                        <a className="nav-link" href="#">Login</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">הרשם</a>
+                        <a className="nav-link" href="#">Register</a>
                     </li>
                     <li className="nav-item">
                         <a className="navbar-brand" href="#"><i className="fas fa-shopping-cart"></i></a>
