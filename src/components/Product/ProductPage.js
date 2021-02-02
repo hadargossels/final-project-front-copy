@@ -3,6 +3,7 @@ import Price from './Price';
 import Platforms from './Platforms';
 import Gallery from './Gallery';
 import AlsoViewed from './AlsoViewed';
+import Rating from './Rating'
 
 class ProductPage extends Component{
     render(){

@@ -1,8 +1,8 @@
 import './App.css';
 import Header from './components/Header';
-// import ProductPage from './components/ProductPage';
+import ProductPage from './components/Product/ProductPage';
 import Footer from './components/Footer';
-import CatalogPage from './components/CatalogPage';
+import CatalogPage from './components//Catalog/CatalogPage';
 
 function App() {
   return (

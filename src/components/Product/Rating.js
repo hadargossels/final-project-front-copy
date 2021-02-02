@@ -12,7 +12,6 @@ class Rating extends Component{
         }
        return(
               <span className="text-primary">{starsArr}</span>
-
        );
     }
  }
