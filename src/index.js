@@ -13,8 +13,8 @@ ReactDOM.render(
   <React.StrictMode>
     <Header/>
     {/* <Carousel/> */}
-    {/* <Catalog/> */}
-    <App />
+    <Catalog/>
+    {/* <App /> */}
     <Footer/>
   </React.StrictMode>,
   document.getElementById('root')
