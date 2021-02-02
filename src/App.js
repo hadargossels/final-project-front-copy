@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Header from './components/productPage/Headrer-navbar';
 import Middle from './components/productPage/Middle';
@@ -12,7 +11,7 @@ function App() {
     <div>
         <Header/><br/>
         <Album/>
-        {/* <Header/> */}
+        {/* <Middle/> */}
         <br/><br/><br/>
         <Footer/>
     </div>

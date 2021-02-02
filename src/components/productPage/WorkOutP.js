@@ -28,9 +28,10 @@ class WorkOutP extends Component{
         return(
             <div className="row">
                 <div className="col-2">
-                    <label>Sort By:</label><br/>
+                    <label>Sort By:</label><br/><br/>
                     <button className="btn btn-secondary" onClick={()=>this.sortPrice()}>Price Low to High</button><br/><br/>
-                    <button className="btn btn-secondary" onClick={()=>this.sortStars()}>Most Stars</button>
+                    <button className="btn btn-secondary" onClick={()=>this.sortStars()}>Most Stars</button><br/><br/>
+                    <img src="/images/experisSportLogo.png"></img>
                 </div>
                 {this.state.myArr}
                 <div className="col-1"></div>
