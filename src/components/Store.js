@@ -19,25 +19,13 @@ const product = [
      id: 2
      }
  ]
-const priceHighArr = []
- const priceHigh = () => {
-    for (let i = 0; i < product.length; i++) {
-        for (let j = 0; j < product.length; j++) {
-            if (product[i].price > product[j].price) {
-                let temp = 
-                priceHighArr.push(product)
-            }
-        }
-        
-
-    }
- }
-
 
 class Store extends Component{
     constructor(props) {
         super(props);
         this.createProd = this.createProd.bind(this);
+        this.sortHigh = this.sortHigh.bind(this);
+        this.sortLow = this.sortLow.bind(this);
       }
 
     createProd (prod) {
@@ -49,6 +37,15 @@ class Store extends Component{
         )
     }
 
+    sortHigh (prod) {
+        prod.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+
+    }
+
+    sortLow (prod) {
+        prod.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+    }
+
    render(){
       return(
           <div className='storeCont'>
@@ -56,8 +53,8 @@ class Store extends Component{
                   <div className='sort filterDiv'>
                       <span className='title'>Sort By:</span><br/>
                       <select className='sortSel'>
-                          <option>Price: Low - High</option>
-                          <option>Price: High - Low</option>
+                          <option onChange='sortLow(product)'>Price: Low - High</option>
+                          <option onChange='sortHigh(product)'>Price: High - Low</option>
                       </select>
                   </div>
                   <div className='category filterDiv'>
