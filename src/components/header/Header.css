@@ -1,0 +1,16 @@
+#search{
+    position: relative;
+    left: 40vw;
+    /* float: right; */
+}
+/* #links{
+    position: relative;
+    right:15vw ;
+} */
+/* #nav{
+    width: 1000px;
+} */
+.nav-link{
+    color: green;
+    font-weight: bolder;
+}

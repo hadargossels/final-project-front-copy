@@ -1,0 +1,32 @@
+.item{
+    width: 13vw;
+}
+.carditem{
+    width: 12vw;
+    height: 22vw;
+}
+.img{
+    width: 12vw;
+}
+.card-title{
+    font-size: 0.8vw;
+}
+.stars{
+    font-size: 0.8vw;
+}
+.btnAdd{
+    width: 8vw;
+    height: 3vw;
+    font-size: 0.9vw;
+}
+#sort{
+    margin-top: 5vw;
+}
+.starsort{
+    color: rgb(255, 230, 0);
+}
+.form-select{
+  background-color: rgb(124, 168, 107); 
+  font-weight:bolder;
+  color: azure;
+} 
