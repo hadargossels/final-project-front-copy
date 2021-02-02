@@ -11,41 +11,74 @@ class Directory extends React.Component {
     this.state = {
       sections: [
         {
-          title: "cloths",
+          title: "clothing",
           imageUrl:
-            "https://ae01.alicdn.com/kf/HTB1vPHMN3HqK1RjSZFkq6x.WFXax.jpg",
+            "https://ae01.alicdn.com/kf/Ha197d7b26eff4a2882f988f66c8677fcY/Pet-Dog-Clothes-for-Small-Medium-Big-Dog-Funny-Adjustable-Cotton-Puppy-Costumes-Cute-Clothing-Pet.jpg_220x220xz.jpg_.webp",
           id: 1,
-          linkUrl: "cloths",
+          linkUrl: "clothing",
         },
         {
-          title: "Toys",
+          title: "collars",
           imageUrl:
-            "https://ae01.alicdn.com/kf/H5c9f33d2c25147c18a4a83af93fb1744a/Squeaky-Dog-Toys-Animal-Shape-Pet-Chew-Toys-Cotton-Rope-Grind-Teeth-Doll-For-Dog-Chew.jpg",
+            "https://ae01.alicdn.com/kf/H8e3f98557a31499ab4803c18bb319b22R/Personalized-Collar-Pet-ID-Tag-Engraved-Pet-ID-Name-for-Cat-Puppy-Dog-Tag-Pendant-Keyring.jpg_220x220xz.jpg_.webp",
           id: 2,
+          linkUrl: "collars",
+        },
+        {
+          title: "grooming",
+          imageUrl:
+            "https://ae01.alicdn.com/kf/He72bd27b4ca543e783aab7dfde336319t/guante-para-gato-dog-Grooming-Glove-pet-products-mascotas-cat-Deshedding-Hair-Remove-Cleaning-Puppy-Massage.jpg_220x220xz.jpg_.webp",
+          id: 3,
+          linkUrl: "grooming",
+        },
+        {
+          title: "training",
+          imageUrl:
+            "https://ae01.alicdn.com/kf/H0d8ad26c121649f5a896598e148ac4513/1pc-Pet-Trainer-Pet-Dog-Training-Dog-Clicker-Adjustable-Sound-Plastic-Key-Chain-And-Wrist-Strap.jpg_220x220xz.jpg_.webp",
+          // size: "large",
+          id: 4,
+          linkUrl: "training",
+        },
+
+        {
+          title: "houses & Furniture",
+          imageUrl:
+            "https://ae01.alicdn.com/kf/H763f2014f36d49659ff07f9df3c98c71F/Dog-Bed-House-Winter-Warm-Small-Dog-Teddy-Cat-Bed-All-Seasons-Universal-Removable-and-Washable.jpg_220x220xz.jpg_.webp",
+          // size: "large",
+          id: 5,
+          linkUrl: "houses",
+        },
+        {
+          title: "carriers",
+          imageUrl:
+            "https://ae01.alicdn.com/kf/H67cf5fd183b24f4f93b9220017a5bccc1/Pet-Dog-Carrier-Single-Shoulder-Bag-Breathable-Outdoor-Travel-Handbag-Pouch-Mesh-Oxford-Sling-Comfort-TravelTote.jpg_220x220xz.jpg_.webp",
+          // size: "large",
+          id: 6,
+          linkUrl: "carriers",
+        },
+        {
+          title: "toys",
+          imageUrl:
+            "https://ae01.alicdn.com/kf/H33e8a780d2d84ee39dcc2afc26c1f62cA/Toys-for-Dogs-Rubber-Dog-Ball-For-Puppy-Funny-Dog-Toys-For-Pet-Puppies-Large-Dogs.jpg_220x220xz.jpg_.webp",
+          // size: "large",
+          id: 7,
           linkUrl: "toys",
         },
         {
-          title: "Games",
+          title: "outdoor",
           imageUrl:
-            "https://ae01.alicdn.com/kf/H49e9615cd33f4fb4abf2c5e3e33d4f491/Multifunction-Pet-Molar-Bite-Dog-Toys-Rubber-Chew-Ball-Cleaning-Teeth-Safe-Elasticity-TPR-Soft-Puppy.jpg",
-          id: 3,
-          linkUrl: "",
+            "https://ae01.alicdn.com/kf/Hbee31d8c2d8b4f2997633a370f9feb1b0/Portable-Dog-Poop-Waste-Bag-Dispenser-Pouch-Pet-Puppy-Cat-Pick-Up-Poop-Bag-holder-Outdoor.jpg_220x220xz.jpg_.webp",
+          // size: "large",
+          id: 8,
+          linkUrl: "outdoor",
         },
         {
-          title: "Food",
+          title: "feeding",
           imageUrl:
-            "https://thestylink.com/wp-content/uploads/2018/11/dogs_toys_6_Tumbler-Leakage-Ball-Dog-Bite-Toy-Removable-Dogs-Leakage-Dispenser_3.jpg",
-          size: "large",
-          id: 4,
-          linkUrl: "",
-        },
-        {
-          title: "Gadgets",
-          imageUrl:
-            "https://ae01.alicdn.com/kf/He1208987b9634c35a83c60f07d093097z/Dog-Toy-Ball-Food-Funny-Toothbrush-Stick-Pet-Dog-Toys-For-Small-Large-Dogs-Tooth-Brush.jpg_960x960.jpg",
-          size: "large",
-          id: 5,
-          linkUrl: "",
+            "https://ae01.alicdn.com/kf/H5e0709639e5b44df8b6d19579307da6aO/Pet-Dog-Intelligent-Timing-Feeder-Six-Grid-Dog-Cat-Automatic-Timing-Quantitative-Feeder-Pet-Feeder.jpg_220x220xz.jpg_.webp",
+          // size: "large",
+          id: 9,
+          linkUrl: "feeding",
         },
       ],
     };
@@ -54,7 +87,9 @@ class Directory extends React.Component {
   render() {
     return (
       <div className="directory-menu">
+        {/* section.title, section.imgUrl, section.size, section.id, section.imgUrl */}
         {this.state.sections.map(({ id, ...otherSectionProps }) => (
+          //             title={section.title}
           <MenuItem key={id} {...otherSectionProps} />
         ))}
       </div>
