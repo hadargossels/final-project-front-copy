@@ -1,6 +1,14 @@
 import React, { Component } from 'react'
 import './Catalog.css';
-import Rating from './Rating';
+import Rating from '../Rating/Rating';
+import T2 from '../../pictures/T2.jpg';
+import T1 from '../../pictures/T1.png';
+import usb_c from '../../pictures/usb_c.jpg';
+import T1_white from '../../pictures/T1_white.png';
+import lanyard from '../../pictures/lanyard-09.png';
+import incharge_usb_c from '../../pictures/incharge_usb_c.jpg';
+import cs_interactive from '../../pictures/cs_interactive.png';
+import case_T_front_dark_blue_empty from '../../pictures/case_T_front_dark_blue_empty.png';
 
 const align={
     width:"230px",
@@ -27,9 +35,9 @@ export default class Catalog extends Component {
                     <div className="container">
                     <div className="row">
                         <p className="col-6 cursor">All</p>
-                        <p className="col-6 text-end">7</p>
+                        <p className="col-6 text-end">8</p>
                         <p className="col-6 cursor">Hardware wallet</p>
-                        <p className="col-6 text-end">2</p>
+                        <p className="col-6 text-end">3</p>
                         <div className="col-6 cursor">Accessories</div>
                         <div className="col-6 text-end">5</div>
                     </div>
@@ -59,21 +67,28 @@ export default class Catalog extends Component {
                     <div className="container d-flex justify-content-center flex-wrap">
                     <div style={align} className="text-center .align-content-center">
                         
-                        <img src="https://shop.trezor.io/static/img/product/T2.jpg" className="catalog alignCenter cursor"/>
+                        <img src={T2} className="catalog alignCenter cursor"/>
                         <div><b>Trezor Model T</b></div><br/>
                         <div><b>price: $190.8</b></div>
                         <Rating/>
                         <button className="mx-auto cursor btnAdd">Add to Cart</button>
                     </div>
                     <div style={align} className="text-center">
-                        <img src="https://shop.trezor.io/static/img/product/T1_white.png" className="catalog alignCenter cursor"/>
+                        <img src={T1} className="catalog alignCenter cursor"/>
                         <div><b>Trezor Model One</b></div><br/>
                         <div><b>price: $58.5</b></div>
                         <Rating/>
                         <button className="mx-auto cursor btnAdd">Add to Cart</button>
                     </div>
                     <div style={align} className="text-center">
-                        <img src="https://shop.trezor.io/static/img/cables/usb_c.jpg" className="catalog alignCenter cursor"/>
+                        <img src={T1_white} className="catalog alignCenter cursor"/>
+                        <div><b>Trezor Model One (white)</b></div><br/>
+                        <div><b>price: $58.5</b></div>
+                        <Rating/>
+                        <button className="mx-auto cursor btnAdd">Add to Cart</button>
+                    </div>
+                    <div style={align} className="text-center">
+                        <img src={usb_c} className="catalog alignCenter cursor"/>
                         <div><b>Extended USB-C cable</b></div><br/>
                         <div><b>price: $6</b></div>
                         <Rating/>
@@ -81,7 +96,7 @@ export default class Catalog extends Component {
                     </div>
                     <div style={align} className="text-center">
                     <div className="for">Recommended</div>
-                    <img src="https://shop.trezor.io/static/img/product/cs_interactive.png" className="catalog alignCenter cursor"/>
+                    <img src={cs_interactive} className="catalog alignCenter cursor"/>
                     <div><b>Cryptosteel Cassette</b></div><br/>
                         <div><b>price: $130.8</b></div>
                         <Rating/>
@@ -89,7 +104,7 @@ export default class Catalog extends Component {
                     </div>
                     <div style={align} className="text-center">
                     <div className="for">for Model T</div>
-                    <img src="https://shop.trezor.io/static/img/product/accessories/case_T_front_dark_blue_empty.png" className="catalog alignCenter cursor"/>
+                    <img src={case_T_front_dark_blue_empty} className="catalog alignCenter cursor"/>
                     <div><b>Silicone case for Trezor Model T</b></div>
                         <div><b>price: $16.8</b></div>
                         <Rating/>
@@ -97,7 +112,7 @@ export default class Catalog extends Component {
                     </div>
                     <div style={align} className="text-center">
                     <div className="for">for Model T</div>
-                    <img src="https://shop.trezor.io/static/img/product/accessories/incharge_usb_c.jpg" className="catalog alignCenter cursor"/>
+                    <img src={incharge_usb_c} className="catalog alignCenter cursor"/>
                     <div><b>InCharge Ultra Portable Cable USB-C</b></div>
                         <div><b>price: $13.2</b></div>
                         <Rating/>
@@ -105,7 +120,7 @@ export default class Catalog extends Component {
                     </div>
                     <div style={align} className="text-center">
                     <div className="for">For Model T &#38; Model One</div>
-                    <img src="https://shop.trezor.io/static/img/lanyard/lanyard-09.png" className="catalog alignCenter cursor"/>
+                    <img src={lanyard} className="catalog alignCenter cursor"/>
                     <div><b>Premium Adjustable Trezor Lanyard</b></div>
                         <div><b>price: $3.48</b></div>
                     <Rating/>

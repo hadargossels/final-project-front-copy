@@ -1,4 +1,16 @@
 import './App.css';
+import T2 from '../../pictures/T2.jpg';
+import T1 from '../../pictures/T1.png';
+import usb_c from '../../pictures/usb_c.jpg';
+import T1_white from '../../pictures/T1_white.png';
+import lanyard from '../../pictures/lanyard-09.png';
+import incharge_usb_c from '../../pictures/incharge_usb_c.jpg';
+import cs_interactive from '../../pictures/cs_interactive.png';
+import case_T_front_dark_blue_empty from '../../pictures/case_T_front_dark_blue_empty.png';
+import T1_scale from '../../pictures/T1_scale.jpg';
+import T1_scale2 from '../../pictures/T1_scale2.jpg';
+import T1_scale3 from '../../pictures/T1_scale3.jpg';
+import T1_scale4 from '../../pictures/T1_scale4.jpg';
 
 function App() {
   return (
@@ -7,17 +19,17 @@ function App() {
     <div className="row">
        <div className="col-2 border">
        <br></br>  
-       <img src="https://shop.trezor.io/static/img/product/T1_white.png" className="smallPics mx-auto d-block cursor"></img>
+       <img src={T1_scale} className="smallPics mx-auto d-block cursor"></img>
        <br></br>  
-       <img src="https://shop.trezor.io/static/img/product/T1_white.png" className="smallPics mx-auto d-block cursor"></img>
+       <img src={T1_scale2} className="smallPics mx-auto d-block cursor"></img>
        <br></br>
-       <img src="https://shop.trezor.io/static/img/product/T1_white.png" className="smallPics mx-auto d-block cursor"></img>
+       <img src={T1_scale3} className="smallPics mx-auto d-block cursor"></img>
        <br></br> 
-       <img src="https://shop.trezor.io/static/img/product/T1_white.png" className="smallPics mx-auto d-block cursor"></img>
+       <img src={T1_scale4} className="smallPics mx-auto d-block cursor"></img>
        </div>
        <div className="col-6">
        <br></br><br></br>
-       <img src="https://shop.trezor.io/static/img/product/T1.png" className="mx-auto d-block cursor" onclick="openModal()"></img>
+       <img src={T1} className="mx-auto d-block cursor" onclick="openModal()"></img>
 
        </div>
        <div className="col-4">
@@ -52,13 +64,13 @@ function App() {
           <br></br>
           <div className="text-center similar">Similar Products</div>
           <br></br>
-       <div className="mx-auto d-block">
-          <img src="https://shop.trezor.io/static/img/product/T1_white.png" className="mediumPics cursor"></img>
-          <img src="https://shop.trezor.io/static/img/product/T1_white.png" className="mediumPics cursor"></img>
-          <img src="https://shop.trezor.io/static/img/product/T1_white.png" className="mediumPics cursor"></img>
-          <img src="https://shop.trezor.io/static/img/product/T1_white.png" className="mediumPics cursor"></img>
-          <img src="https://shop.trezor.io/static/img/product/T1_white.png" className="mediumPics cursor"></img>
-          <img src="https://shop.trezor.io/static/img/product/T1_white.png" className="mediumPics cursor"></img>
+       <div className="container-fluid mx-auto d-block">
+          <img src={T1_white} className="mediumPics cursor border m-2"></img>
+          <img src={cs_interactive} className="mediumPics cursor border m-2"></img>
+          <img src={T2} className="mediumPics cursor border m-2"></img>
+          <img src={usb_c} className="mediumPics cursor border m-2"></img>
+          <img src={case_T_front_dark_blue_empty} className="mediumPics cursor border m-2"></img>
+          <img src={incharge_usb_c} className="mediumPics cursor border m-2"></img>
           </div>
        </div>
        <div className="col-4">

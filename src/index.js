@@ -6,12 +6,15 @@ import reportWebVitals from './reportWebVitals';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import Catalog from './components/Catalog/Catalog';
+import Carousel from './components/Carousel/Carousel'
+
 
 ReactDOM.render(
   <React.StrictMode>
     <Header/>
-    <Catalog/>
-    {/* <App /> */}
+    {/* <Carousel/> */}
+    {/* <Catalog/> */}
+    <App />
     <Footer/>
   </React.StrictMode>,
   document.getElementById('root')
