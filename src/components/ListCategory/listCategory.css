@@ -1,0 +1,40 @@
+.moreDiv{
+    /* font-size: 20px; */
+    margin-top: 10px;
+    display: block;
+}
+.lessDiv{
+    /* font-size: 20px; */
+    margin-top: 10px;
+    display: none;
+}
+.moreSpan{
+    font-size: 22px;
+    float: right;
+    margin-right: 10px;
+    cursor: pointer;
+
+}
+
+ul{
+    list-style: none;
+    font-size: 22px;
+    padding-left:0px;
+}
+.brandList b{
+    font-size: 22px;
+}
+input{
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+label{
+    margin-left: 5px;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+li:hover{
+    font-size: 1.2em;
+    cursor: pointer;
+}

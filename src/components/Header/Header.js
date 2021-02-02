@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import './header.css';
+
+
 class Header extends Component{
+   
    render(){
       return(
          <header>
             <nav className="navbar navbar-expand-lg sticky-top navbar-light bg-light">
                <div className="container-fluid">
-                  <a className="navbar-brand" href="#">MakeUp</a>
+                  <a className="navbar-brand" href="#"><img id="logoImg" src='images/logo3.jpg'/></a>
                   <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                      <span className="navbar-toggler-icon"></span>
                   </button>

@@ -1,0 +1,28 @@
+.headerCategory{
+    margin-bottom:30px ;
+}
+
+.headerCategory p{
+    display: inline-block;
+    font-size: 18px;
+}
+
+.headerCategory h2{
+    display: inline-block;
+
+}
+
+.headerCategory select{
+  margin-left: 20px;
+  font-size: 19px;
+  padding: 5px;
+  border: 1px solid rgb(214, 213, 213);
+
+ 
+}
+
+option{
+    border: none;
+    font-size: 19px;
+}
+

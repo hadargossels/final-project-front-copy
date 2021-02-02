@@ -1,0 +1,50 @@
+.divProduct{
+    text-align: center;
+    width: 250px;
+    margin: 20px 5px;
+    position: relative;
+    padding: 0px;
+}
+.divProduct:hover{
+/* border: 1px solid black; */
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+a#headerProduct{
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+}
+
+.divProduct img{
+    width: 248px;
+    height: 250px;
+}
+#brandDiv{
+    font-size: 15px;
+}
+.priceOfProduct{
+    text-decoration: line-through;
+    font-size: 20px;
+}
+
+.discountOfProduct{
+    color: red;
+    font-size: 20px;
+}
+.loveIcon{
+ position: absolute;
+ top: 20px;
+ left: 20px;
+ 
+}
+
+.loveIcon:hover{
+    color: red;
+}
+
+.divPrice{
+    margin-bottom: 20px;
+}

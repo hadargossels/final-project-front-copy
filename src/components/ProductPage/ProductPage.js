@@ -3,12 +3,30 @@ import './productPage.css';
 
 class ProductPage extends Component{
    
+   constructor(props){
+      super(props);
+      this.state={
+         span1:"lessDiv",
+         span2:"lessDiv",
+         span3:"lessDiv",
+
+      }
+   }
+
+
+   toggleMoreDiv(e){
+      let spanName=e.target.id;
+      let classToggle=(this.state[spanName]=="lessDiv")?"moreDiv":"lessDiv";
+      this.setState({[spanName]:classToggle})
+   }
+
    render(){
       let headerProduct;
       return(
          <div className="ProductDiv">
             <div className="detailsProduct">
                <h2>header Product</h2>
+               <div>macat</div>
                <div>brand</div>
                <br/>
                <div>explanation of product</div>
@@ -20,20 +38,20 @@ class ProductPage extends Component{
                <button id="addToShoppingBtn">add to shopping cart</button>
                <span onClick="changeLove(e)"><i className="far fa-heart loveIcon"></i></span>
                <hr/>
-               <div><b>more information</b><span className="moreSpan">+</span><br/>
-                  <div className="moreDiv">
+               <div><b>more information</b><span id="span1" onClick={this.toggleMoreDiv.bind(this)} className="moreSpan">+</span><br/>
+                  <div className={this.state.span1}>
                      Lorem ipsum dolor sit, amet consectetur adipisicing elit. A omnis vitae eos possimus delectus tempore. Quas veniam, distinctio facere modi culpa recusandae aliquid consequatur? Atque recusandae perferendis ipsum facere hic.
                   </div>
                </div>
                <hr/>
-               <div><b>Shipments and returns</b><span className="moreSpan">+</span><br/>
-                  <div className="moreDiv">
+               <div><b>Shipments and returns</b><span id="span2" onClick={this.toggleMoreDiv.bind(this)} className="moreSpan">+</span><br/>
+                  <div className={this.state.span2}>
                      Lorem ipsum dolor sit, amet consectetur adipisicing elit. A omnis vitae eos possimus delectus tempore. Quas veniam, distinctio facere modi culpa recusandae aliquid consequatur? Atque recusandae perferendis ipsum facere hic.
                   </div>
                </div>
                <hr/>
-               <div><b>similar product</b><span className="moreSpan">+</span><br/>
-                  <div className="moreDiv">
+               <div><b>similar product</b><span id="span3" onClick={this.toggleMoreDiv.bind(this)} className="moreSpan">+</span><br/>
+                  <div className={this.state.span3}>
                      Lorem ipsum dolor sit, amet consectetur adipisicing elit. A omnis vitae eos possimus delectus tempore. Quas veniam, distinctio facere modi culpa recusandae aliquid consequatur? Atque recusandae perferendis ipsum facere hic.
                   </div>
                </div>
