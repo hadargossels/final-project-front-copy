@@ -1,0 +1,101 @@
+
+.sortBar{
+    
+    margin: auto;
+    text-align: center;
+    justify-content: center;
+    background-color: rgb(170, 170, 170);
+    padding: 20px;
+    width: 100%;
+    color: rgb(240, 0, 228);
+    height: 200px;
+    direction: rtl;
+    font-size: 20px;
+    font-family: sans-serif;
+    border-bottom: rgb(240, 0, 228) solid 5px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.sortBar select{
+
+    padding: 5px 20px;
+    border-radius: 10px;
+    background-color: rgb(243, 146, 227);
+    color: white;
+
+}
+.sort{
+
+    width: 15%;
+    border-left: rgb(94, 93, 93) solid 2px;
+    border-right: rgb(94, 93, 93) solid 2px;
+
+}
+
+.sortBar .sort label{
+
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.filter{
+
+
+    width: 15%;
+    border-left: rgb(94, 93, 93) solid 2px;
+    border-right: rgb(94, 93, 93) solid 2px;
+
+}
+.filter p{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+
+
+
+/* ////////////////////////////////////    checkbox button    ///////////////////////////////////////// */
+.btn-group{
+    direction: ltr;
+    margin-bottom: 10px !important;
+}
+.btn-primary{
+    background-color:   rgb(243, 146, 227) !important;
+    border: rgb(243, 146, 227) !important;
+    text-align: center;
+    justify-content: center;
+    
+}
+.btn-group label{
+    padding: 3px 25px !important;
+}
+.form-group input[type="checkbox"] {
+    display: none;
+}
+.btn-default{
+    background-color: white;
+    font-size: 16px !important;
+
+}
+
+.form-group input[type="checkbox"] + .btn-group > label span {
+    width: 5px;
+}
+
+.form-group input[type="checkbox"] + .btn-group > label span:first-child {
+    display: none;
+}
+.form-group input[type="checkbox"] + .btn-group > label span:last-child {
+    display: inline-block;   
+}
+
+.form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+    display: inline-block;
+}
+.form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+    display: none;   
+}
+/* ////////////////////////////////////    checkbox button    ///////////////////////////////////////// */

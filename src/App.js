@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Product from './components/Product';
 import Footer from './components/Footer';
 import Cakes from './components/Cakes';
+import Sortbar from './components/Sortbar';
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
   return (
     <div>
       <Header/>
+      <Sortbar/>
       {/* <Product/> */}
       <Cakes/>
       <Footer/>

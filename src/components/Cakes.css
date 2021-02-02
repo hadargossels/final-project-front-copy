@@ -8,6 +8,8 @@
     flex-wrap: wrap;
     margin-top: 200px;
     margin-bottom: 150px;
+    align-items: center;
+    justify-content: center;
 }
 .myContainer img{
 
@@ -17,7 +19,11 @@
 }
 .myBox{
     width: 30%;
-    margin: 10px;
+    margin: 13px;
+    padding: 10px 0px;
+    background-color: white;
+    border: rgb(239, 68, 255) solid 4px;
+    cursor: pointer;
 }
 .details{
     margin: 0px 12px;
@@ -25,4 +31,9 @@
     background-color: white;
     font-size: 20px;
     direction: rtl;
+    height: 90px;
+}
+.myBox:hover{
+
+    transform: scale(1.1)
 }
