@@ -45,7 +45,7 @@ class Header extends Component{
                 <ul className="flex flex-col lg:flex-row list-none">
                 <li className="nav-item">
                     <a className="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75" href="#pablo">
-                        <i className="fas fa-user-check text-sm leading-xs text-white opacity-75" /> <span class="ml-2">Sing Up/Sign In</span>
+                        <i className="fas fa-user-check text-sm leading-xs text-white opacity-75" /> <span className="ml-2">Sing Up/Sign In</span>
                     </a>
                 </li>
                 <li className="nav-item">

@@ -1,17 +1,21 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 import Header from './Components/Header/Header';
-import Body from './Components/Body/Body';
+import ProductPage from './Components/ProductPage/ProductPage';
 import Footer from './Components/Footer/Footer';
+import StoreFront from './Components/storeFront/storeFront';
 
-function App() {
-  return (
-    <div className="font-mono">
+class App extends Component {
+  render () {
+    return (
+      <div className="font-mono">
       <Header />
-      <Body />
+      <StoreFront />
+      {/* <ProductPage /> */}
       <Footer />
     </div>
-  );
+    )
+  }
 }
 
 export default App;

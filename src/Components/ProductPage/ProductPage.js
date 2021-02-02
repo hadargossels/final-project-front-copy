@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import './Body.css';
-class Body extends Component{
+import './ProductPage.css';
+class ProductPage extends Component{
    render(){
       return(
+          <main className="myYellow">
           <div className="mx-96 my-10">
               <div className="grid grid-cols-4 grid-rows-7 gap-3">
                 <div className="col-span-4 row-span-1">
@@ -14,14 +15,6 @@ class Body extends Component{
                     <img src="https://via.placeholder.com/350x450" className="border border-black" />
                 </div>
                 <div className="col-span-2 row-span-3 bg-white p-9 border border-gray-300 rounded">
-                    <p className="text-red-600">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                    </p>
-                    <br/>
                     <p>
                         <span className="underline">Author(s):</span>
                         <span> John Doe</span>
@@ -29,6 +22,14 @@ class Body extends Component{
                     <p>
                         <span className="underline">Artist(s):</span>
                         <span> Michael Smith</span>
+                    </p>
+                    <br/>
+                    <p className="text-red-600">
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="far fa-star"></i>
                     </p>
                     <br/>
                     <p>
@@ -51,7 +52,7 @@ class Body extends Component{
                     </p>
                     <br/>
                     <button className="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-base px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 hover:bg-white hover:text-red-500 active:bg-white" type="button" style={{ transition: "all .15s ease" }}>
-                        <i class="fas fa-cart-arrow-down"></i> Add to Cart
+                        <i className="fas fa-cart-arrow-down"></i> Add to Cart
                     </button>
                     <button className="text-red-500 bg-white bg-transparent border border-solid border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 font-bold uppercase text-sm px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style={{ transition: "all .15s ease" }}>
                         <i className="far fa-heart"></i> Add to Wishlist
@@ -137,11 +138,11 @@ class Body extends Component{
                             <br/>
                             <span>$25</span>
                             <br/>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i> 
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
+                            <i className="fas fa-star"></i>
+                            <i className="fas fa-star"></i> 
+                            <i className="fas fa-star"></i>
+                            <i className="far fa-star"></i>
+                            <i className="far fa-star"></i>
                         </p>
                         <p className="col-span-1">
                             <a>
@@ -151,11 +152,11 @@ class Body extends Component{
                             <br/>
                             <span>$17</span>
                             <br/>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i> 
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
+                            <i className="fas fa-star"></i>
+                            <i className="fas fa-star"></i> 
+                            <i className="fas fa-star"></i>
+                            <i className="fas fa-star"></i>
+                            <i className="fas fa-star"></i>
                         </p>
                         <p className="col-span-1">
                             <a>
@@ -165,18 +166,19 @@ class Body extends Component{
                             <br/>
                             <span>$37</span>
                             <br/>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i> 
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
+                            <i className="fas fa-star"></i>
+                            <i className="fas fa-star"></i> 
+                            <i className="far fa-star"></i>
+                            <i className="far fa-star"></i>
+                            <i className="far fa-star"></i>
                         </p>
                     </div>
                 </div>
               </div>
           </div>
+        </main>
       );
    }
 }
 
-export default Body;
+export default ProductPage;

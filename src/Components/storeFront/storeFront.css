@@ -1,0 +1,12 @@
+.storeFront {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.itemsView {
+    flex: 3 60rem;
+}
+
+.filters {
+    flex: 1 20rem;
+}
