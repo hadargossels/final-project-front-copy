@@ -19,6 +19,7 @@ class Header extends React.Component {
       }
       const cartStyle = {
          color: 'white',
+         textDecoration: 'none'
       }
       return (
          <>
@@ -35,7 +36,7 @@ class Header extends React.Component {
                      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
                      <Button variant="outline-success">Search</Button>
                   </Form>
-                  <span style={cartStyle}> Shopping cart <FontAwesomeIcon id="shoppingCartId" icon={faShoppingCart} style={cartStyle}/></span>
+                  <a href="#shoppingCartId" style={cartStyle}> Shopping cart <FontAwesomeIcon id="shoppingCartId" icon={faShoppingCart} style={cartStyle}/></a>
                   <span id="registerID" style={spanElemStyle}> Hi! <a href="#Register"> Register </a>Or <a href="#SignIn"> Sign in </a></span>
                </Navbar.Collapse>
             </Navbar>

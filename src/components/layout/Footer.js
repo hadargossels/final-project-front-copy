@@ -25,7 +25,7 @@ class Footer extends React.Component {
             <a href="#instagram" style={ {textDecoration: 'none'}}> <FontAwesomeIcon icon={faInstagram} style={iconsStyle} /></a>
             <a href="#twitter" style={ {textDecoration: 'none'}}> <FontAwesomeIcon icon={faTwitter} style={iconsStyle} /></a>
             <br></br><br></br>
-            <p>Copyright &copy; All rights reserved <br></br> This template is made with &hearts; by <span style={{color:"blue"}}>Mansor Mansor</span></p>
+            <p>Copyright &copy; All rights reserved <br></br> This store is made with &hearts; by <span style={{color:"blue"}}>Mansor Mansor</span></p>
          </div>
       );
    }
