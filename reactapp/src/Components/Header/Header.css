@@ -1,0 +1,37 @@
+/*.header{
+    background-color: rgb(40, 41, 39);
+    display:flex;
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color:white;
+}
+
+.navbar{
+flex:50%;
+flex-wrap: wrap;
+}
+
+.href_group1{
+    text-decoration: none;
+    color:white;
+    margin-left: 1vw;
+}
+
+.search{
+flex:30%;
+margin: 0 auto;
+}
+
+.connect{
+    flex:20%;
+    text-decoration: none;
+    color:red;
+
+}
+
+.fas{
+    color:rgb(135, 135, 167)
+}
+*/

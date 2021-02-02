@@ -1,0 +1,318 @@
+body{
+    background-color: rgb(255, 255, 255);
+    
+    
+}
+.header{
+    background-color: rgb(40, 41, 39);
+    display:flex;
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color:white;
+}
+
+.navbar{
+flex:50%;
+flex-wrap: wrap;
+}
+
+.href_group1{
+    text-decoration: none;
+    color:white;
+    margin-left: 1vw;
+}
+
+.search{
+flex:30%;
+margin: 0 auto;
+}
+
+.connect{
+    flex:20%;
+    text-decoration: none;
+    color:red;
+
+}
+
+.fas{
+    color:rgb(135, 135, 167)
+}
+/*so far header*/
+
+.main{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.prodact{
+flex: 100%;
+}
+
+.main_area{
+    display: flex;
+    width: 80%;
+    margin: 0 auto;
+}
+.picture{
+    flex:50%
+}
+/* .prodact_list label{
+    display: inline-table;
+}
+.prodact_list li{
+     display: inline-table; 
+    border-bottom: blue 1px solid;
+    list-style-type: none;
+     
+}*/
+
+
+
+.prodact_list{
+background-color: rgb(82, 75, 75);
+margin-block-start: 0em;
+color:rgb(0, 0, 0);
+border-radius: 1rem;
+font-family: sans-serif;
+} 
+
+
+.prodact_list li{
+   list-style-type: none;
+}
+
+.prodact_list li span{
+    color: rgb(243, 0, 0);
+ }
+ 
+ 
+
+.price{
+    text-decoration:line-through 1px
+}
+
+.cur_price{
+    color:rgb(255, 0, 0);
+}
+
+.pictures{
+    padding-inline-start: 0px;
+    flex:100%
+}
+
+.piclist{
+display: inline-flex;
+margin: 5px;
+}
+
+.bigpicture{
+    width: 300px;
+    height: 250px;
+    flex:100%;
+    background-color:  #fff;
+    
+}
+
+.smallpicture{
+    width: 50px;
+    flex:30%
+}
+
+.list_kat{    
+    display: inline-flex;
+    margin: 0 auto;
+    /* justify-self: center;
+    justify-items: center; */
+}
+
+
+
+
+.prodact{
+    margin: auto;
+    width: 90%;
+}
+.list_kat button{
+    border: none;
+    background:none;
+    margin: 5px;
+    color:rgb(0, 153, 224);
+    font-weight: 700;
+}
+
+.list_kat button:hover{
+    cursor: pointer;
+    color:red
+}
+
+
+/**/
+.border{
+    position: relative;
+    display: inline;
+    margin-left:0px;
+    margin-right: 5px;
+    padding-top: 100px;
+}
+
+#icon2, #icon3, #icon4{ 
+    color:rgb(255, 0, 0);
+    border: solid  rgb(85, 82, 82) 1px;
+    border-radius: 50%;
+    padding:8px;
+    
+}
+#icon1{
+    color:rgb(255, 0, 0);
+    border: solid  rgb(85, 82, 82) 1px;
+    border-radius: 50%;
+    padding:8px 10px 8px 10px ;
+}
+
+footer{
+    background-color: rgb(53, 51, 51);
+    margin-top: 0;
+    text-align: center;
+    color:gray;
+    font-size: 14px;
+}
+
+.footer{
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
+    text-align: left;
+    margin-left: 13vw;
+    
+    
+}
+
+.f1{
+    margin-top: 1vh;
+    flex:33%;
+    margin-right: 2vw;
+}
+
+.f2{
+    margin-top: 1vh;
+    flex:33%;
+}
+
+.f3{
+    margin-top: 1vh;
+    flex:33%;
+    /* padding-left: 10vw; */
+    
+    
+}
+
+.fo1{
+    color:white;
+    font-size: 16px;
+}
+
+p{
+    margin-block-start: 0rem;
+    margin-block-end: 0rem;
+}
+.nav2{
+    color:red;
+}
+
+.nav22{
+    text-align: left;
+
+}
+.nav22 li{
+    margin-top: 5px;
+    color:red;
+    display:flex;
+    text-align: left;
+}
+
+.fo2{
+    color:white;
+}
+
+
+
+
+.star1{
+    scrollbar-face-color: red;
+
+}
+
+.grid{
+    display: grid;
+    margin: 2rem auto;
+    max-width: 1000px;
+    gap: 1rem;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.sort_type{
+    float: right;
+    margin-right: 5vw;
+}
+/* @media screen and (min-width:768px){ */
+    /* .gridlist{
+        grid-template-columns: repeat(3, 1fr);
+    } */
+/* } */
+
+.App1{
+display: flex;
+}
+
+.grid_main1{
+    flex:20%;
+}
+
+.grid_main2{
+    flex:80%;
+}
+
+.rating {
+    unicode-bidi: bidi-override;
+    direction:rtl;
+    /* margin-right:7vw; */
+   }   
+
+
+.watch_name{
+margin-block-start: 0px;
+margin-block-end: 0px;
+
+}
+
+.rating > span {
+    display: inline-block;
+    position: relative;
+    width: 1em;
+  }
+
+  .rating > span:hover:before,
+  .rating > span:hover ~ span:before {
+    
+     content: "\2605";
+     position: absolute;
+     color: gold;
+  }
+
+  .gridlist{
+      background-color:  #fff;
+      border-radius: 1rem;
+      padding: 1rem 2rem;
+      width: 10vw;
+  }
+
+  .img_grid{
+      width: 10vw;
+  }
+
+  .price_grid{
+    margin-block-start: 0px;
+    margin-block-end: 0px;   
+  }
