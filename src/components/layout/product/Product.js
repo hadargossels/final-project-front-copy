@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Carousel } from 'react-bootstrap';
 import ReactReadMoreReadLess from "react-read-more-read-less";
-import img1 from '../imgs/Samsung_S20-1.jpeg';
-import img2 from '../imgs/Samsung_S20-2.jpg';
-import img3 from '../imgs/Samsung_S20-3.jpg';
+import img1 from '../../../imgs/Samsung_S20-1.jpeg';
+import img2 from '../../../imgs/Samsung_S20-2.jpg';
+import img3 from '../../../imgs/Samsung_S20-3.jpg';
 import './Product.css'
 
 export default class ProductView extends Component {

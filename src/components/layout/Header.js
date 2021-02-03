@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../imgs/StoreLogo.png';
+import logo from '../../imgs/StoreLogo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';

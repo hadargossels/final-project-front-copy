@@ -8,7 +8,7 @@ import { faTwitter } from '@fortawesome/free-brands-svg-icons'
 class Footer extends React.Component {
    render() {
       const divStyle = {
-         height: '20vh',
+         height: '10rem',
          margin: '10px',
          border: '2px solid gold',
          color: 'white',

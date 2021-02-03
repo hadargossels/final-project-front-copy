@@ -1,0 +1,39 @@
+.mainStyle {
+    margin : 10px;
+    border : 2px solid gold;
+    height : 150rem;
+    position: relative;
+}
+
+h2 {
+    text-align: center;
+}
+
+.filters {
+    height: 35rem;
+    width: 15vw;
+    position: sticky;
+    top: 20vh;
+    text-align: center;
+    background-color: LightGray;
+}
+
+.sorting {
+    height: 10vh;
+    width: 20vw;
+    position: absolute;
+    left: 77vw;
+    top: 6vh;
+}
+
+.container {
+    width: 75vw;
+    height: 280vh;
+    position: absolute;
+    top: 15vh;
+    left: 20vw;
+}
+
+.cards:hover {
+    transform: scale(1.1);
+}
