@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import './Product.css';
 
-class Middle extends Component{
+export default class Product extends Component {
 
    constructor() {
 
       super();
 
-      this.state = {src: '/images/brands/ASUS/ASUS-XONAR-AE/1.png'};
+      this.state = {src: '/images/brands/ASUS/XONAR AE/1.png'};
 
       this.updateState = this.updateState.bind(this);
 
@@ -75,23 +76,23 @@ class Middle extends Component{
             <br/><br/>
             
             <div className="gallery">
-               <img src="/images/brands/ASUS/ASUS-XONAR-AE/1.png" alt="Img_1" onClick={this.updateState}/>
+               <img src="/images/brands/ASUS/XONAR AE/1.png" alt="Img_1" onClick={this.updateState}/>
             </div>
 
             <div className="gallery">
-               <img src="/images/brands/ASUS/ASUS-XONAR-AE/2.png" alt="Img_2" onClick={this.updateState}/>
+               <img src="/images/brands/ASUS/XONAR AE/2.png" alt="Img_2" onClick={this.updateState}/>
             </div>
 
             <div className="gallery">
-               <img src="/images/brands/ASUS/ASUS-XONAR-AE/3.png" alt="Img_3" onClick={this.updateState}/>
+               <img src="/images/brands/ASUS/XONAR AE/3.png" alt="Img_3" onClick={this.updateState}/>
             </div>
 
             <div className="gallery">
-               <img src="/images/brands/ASUS/ASUS-XONAR-AE/4.png" alt="Img_4" onClick={this.updateState}/>
+               <img src="/images/brands/ASUS/XONAR AE/4.png" alt="Img_4" onClick={this.updateState}/>
             </div>
 
             <div className="gallery">
-               <img src="/images/brands/ASUS/ASUS-XONAR-AE/5.png" alt="Img_5" onClick={this.updateState}/>
+               <img src="/images/brands/ASUS/XONAR AE/5.png" alt="Img_5" onClick={this.updateState}/>
             </div>
             
             {/*https://getbootstrap.com/docs/4.0/utilities/display/#hiding-elements*/}
@@ -105,13 +106,13 @@ class Middle extends Component{
 
             <div className="gallery">
                <a target="_blank" href="#"/>
-               <img src="/images/brands/Creative/Creative-Sound-BlasterX-AE-5/1.png" alt="Other_1"/>
+               <img src="/images/brands/Creative/Sound BlasterX AE-5/1.png" alt="Other_1"/>
                <div className="desc">Creative Sound BlasterX AE-5</div>
             </div>
 
             <div className="gallery">
                <a target="_blank" href="#"/>
-               <img src="/images/brands/EVGA/EVGA-NU-Audio/1.png" alt="Other_2"/>
+               <img src="/images/brands/EVGA/NU Audio/1.png" alt="Other_2"/>
                <div className="desc">EVGA NU Audio</div>
             </div>
 
@@ -121,5 +122,3 @@ class Middle extends Component{
       );
    }
 }
-
-export default Middle;
