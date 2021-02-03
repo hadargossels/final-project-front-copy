@@ -5,24 +5,22 @@ import T2 from '../../pictures/T2.jpg';
 import T1 from '../../pictures/T1.png';
 import usb_c from '../../pictures/usb_c.jpg';
 import T1_white from '../../pictures/T1_white.png';
-import lanyard from '../../pictures/lanyard-09.png';
 import incharge_usb_c from '../../pictures/incharge_usb_c.jpg';
 import cs_interactive from '../../pictures/cs_interactive.png';
 import case_T_front_dark_blue_empty from '../../pictures/case_T_front_dark_blue_empty.png';
-import T1_scale from '../../pictures/T1_scale.jpg';
 import T1_scale2 from '../../pictures/T1_scale2.jpg';
 import T1_scale3 from '../../pictures/T1_scale3.jpg';
 import T1_scale4 from '../../pictures/T1_scale4.jpg';
 
 export default class App extends Component {
-   constructor(){
-      super()
+   constructor(props){
+      super(props)
       this.state = {
           Image: T1,
       }
-
+      
       this.updateState = this.updateState.bind(this)
-  }
+   }
 
   updateState(e){
           this.setState({ Image: e.target.src})
@@ -31,8 +29,10 @@ export default class App extends Component {
 
    render() {
 
-      
+      console.log(this.props.match.params.title)
+
    return (
+      
       <div>
          <div className="container">
          <div className="row">
