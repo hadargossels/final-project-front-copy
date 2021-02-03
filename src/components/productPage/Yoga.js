@@ -4,16 +4,29 @@ import ChartBtn from './ChartBtn';
 class Yoga extends Component{
     constructor(){
         super();
+        this.myJson = require('./workOutP.json').Yoga;
         this.state ={
-             urlImg :["/images/yogaMattress.jpg","/images/yoga-wheel.jpg","/images/yoga-block.jpg"],
-             name: ['Yoga mat','Yoga wheel','Yoga block'],
-             prices :[35,20,11],
-             stars:[3,5,4],
-             myArr:[]
+            urlImg :[],
+            name: [],
+            prices :[],
+            stars:[],
+            myArr:[]
         }
-
+        this.deState();
     }
+
+    deState(){
+        for (const i of this.myJson) {
+            this.state.name.push(i.name);
+            this.state.prices.push(Number(i.price));
+            this.state.stars.push(Number(i.stars));
+            this.state.urlImg.push(i.urlImg[0]);
+        };
+    }
+
+
     render(){
+
         if(this.state.myArr.length==0){
             let tempArr=[];
             for(let i=0; i<this.state.name.length; i++){
@@ -66,8 +79,8 @@ class Yoga extends Component{
     let sUrl=this.state.urlImg
     let sStars=this.state.stars
     // console.log(sStars);
-     for(let i=0; i<3; i++){
-         for(let k=i; k<3; k++){
+     for(let i=0; i<this.state.stars.length; i++){
+         for(let k=i; k<this.state.stars.length; k++){
              if(sStars[k]>sStars[i]){
                  [sArr[i],sArr[k]]=[sArr[k],sArr[i]];
                  [sName[i],sName[k]]=[sName[k],sName[i]];
