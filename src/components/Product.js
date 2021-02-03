@@ -29,17 +29,17 @@ class Product extends Component{
                    <div className="carousel-inner img-size">
                        <div className="carousel-item active">
                        <div className="container">
-                           <img src="/images/cake 1.jpeg" className="d-block w-100 img-size" alt="cake"></img>
+                           <img src="/images/cake1-1.jpeg" className="d-block w-100 img-size" alt="cake"></img>
                            </div>
                        </div>
                        <div className="carousel-item">
                            <div className="container">
-                               <img src="/images/cake 2.jpeg" className="d-block w-100 img-size" alt="cake"></img>
+                               <img src="/images/cake1-2.jpeg" className="d-block w-100 img-size" alt="cake"></img>
                            </div>
                        </div>
                        <div className="carousel-item">
                            <div className="container">
-                               <img src="/images/cake 3.jpeg" className="d-block w-100 img-size" alt="cake"></img>
+                               <img src="/images/cake1-3.jpeg" className="d-block w-100 img-size" alt="cake"></img>
                            </div>
                        </div>
                    </div>

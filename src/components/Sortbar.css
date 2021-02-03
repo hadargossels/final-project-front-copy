@@ -98,4 +98,51 @@
 .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
     display: none;   
 }
-/* ////////////////////////////////////    checkbox button    ///////////////////////////////////////// */
+/* ////////////////////////////////////    checkbox button end   ///////////////////////////////////////// */
+
+
+@media only screen and (max-width: 1370px) {
+    .sortBar{
+        height:auto;
+
+    }
+    .filter{
+        width: 30%;
+        border-bottom: rgb(94, 93, 93) solid 2px;
+    }
+    .sort{
+        width: 30%;
+        border-bottom: rgb(94, 93, 93) solid 2px;
+
+    }
+
+}
+@media only screen and (max-width: 800px) {
+    
+    .sortBar{
+        height:auto;
+
+    }
+    .filter{
+        width: 45%;
+    }
+    .sort{
+        width: 45%;
+    }
+
+}
+@media only screen and (max-width: 500px) {
+    
+    .sortBar{
+        height:auto;
+        flex-direction: column;
+
+    }
+    .filter{
+        width: 100%;
+    }
+    .sort{
+        width: 100%;
+    }
+
+}
