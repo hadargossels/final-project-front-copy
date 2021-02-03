@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 
 class Gallery extends Component{
+    constructor(props){
+        super(props)
+        this.img = this.props.img
+    }
     render(){
 
        return(
-            <div className = "pe-3"> 
-                <img className="img-fluid rounded float-start" src="/img/gameImg1.jpg" alt="gameImg1.jpg"/>
+            <div className = "float-start"> 
+                <img className="img-fluid rounded d-flex justify-content-center " src={this.img} alt="gameImg1.jpg"/>
                 
                 <div className = "py-3 d-flex justify-content-center flex-wrap  float-start">
                     <img className="m-2 rounded" width="150px" src="/img/game1Gallery1.jpg" alt=""/>
@@ -14,7 +18,6 @@ class Gallery extends Component{
                     <img className="m-2 rounded" width="150px" src="/img/game1Gallery4.jpg" alt=""/>
                 </div>
             </div>
-          
        );
     }
  }

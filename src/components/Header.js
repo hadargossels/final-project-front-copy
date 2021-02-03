@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
+import {NavLink} from 'react-router-dom';
 
 class Header extends Component{
     render(){
+      const noDeco = {textDecoration:"none"}
        return(
 
          <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
-               <a className="navbar-brand" href="#">
+               <NavLink style={noDeco} className=" navbar-brand" exact to="/">
                   <img className="rounded-circle" width="70px" src="/img/99236.jpg" alt=""/>
-               </a>
+               </NavLink>
 
                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span className="navbar-toggler-icon"></span>
@@ -17,25 +19,27 @@ class Header extends Component{
                <div className="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul className="navbar-nav">
                      <li className="nav-item">
-                        <a className="nav-link active" aria-current="page" href="#">Home</a>
+                           <NavLink style={noDeco} className="nav-link" exact to="/">Home</NavLink>
                      </li>
                      <li className="nav-item">
-                        <a className="nav-link" href="#">Game Catalog</a>
+                        <NavLink style={noDeco} className="nav-link" exact to="/store">Game Catalog</NavLink>
                      </li>
                      <li className="nav-item">
-                        <a className="nav-link" href="#">Link2</a>
+                        <NavLink style={noDeco} className="nav-link" exact to="/blog">Blog</NavLink>
                      </li>
                      <li className="nav-item">
-                        <a className="nav-link" href="#">Link3</a>
+                        <NavLink style={noDeco} className="nav-link" to="/login">
+                           <i className="fas fa-shopping-cart me-2"></i>
+                           <span>Your Cart</span>
+                        </NavLink>
                      </li>
                      <li className="nav-item">
-                        <a className="nav-link" href="#">
-                           <i className="fas fa-shopping-cart"></i>
-                           <span>  Your Cart</span>
-                        </a>
+                        <NavLink style={noDeco} className="nav-link" exact to="/login">Sign-in</NavLink>
+                        
                      </li>
+                     
                      <li className="nav-item">
-                        <a className="nav-link" href="#">Sign-in</a>
+                        <NavLink style={noDeco} className="nav-link" exact to="/signup">Register</NavLink>
                      </li>
                   </ul>
                </div>

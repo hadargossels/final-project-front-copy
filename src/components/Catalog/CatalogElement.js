@@ -1,8 +1,14 @@
+import {Link} from 'react-router-dom'
 import Rating from "../Product/Rating";
+import './CatalogElement.css'
+import { CatalogPrice } from './CatalogPrice';
 
-const CatalogElement = ({ img, name, rating, platforms, price }) => (
+const CatalogElement = ({ id, img, name, rating, platforms, price,discount }) => (
   <div className="col-lg-4 col-md-6 mb-2">
-    <img src={img} alt="" className="rounded img-fluid" />
+    <div className="imgContain">
+      <img src={img} alt="" className="rounded img-fluid" /> 
+    </div>
+   
     <div className="d-grid gap-2 d-md-flex float-end">
       <button className="mt-2 btn btn-outline-primary me-md-1" type="button">
         <i className="fas fa-shopping-cart"></i>
@@ -11,8 +17,11 @@ const CatalogElement = ({ img, name, rating, platforms, price }) => (
         <i className="far fa-heart"></i>
       </button>
     </div>
-    <h3 className="catalog-title">{name}</h3>
-    <h3 className="text-danger">{price.toFixed(2)}$</h3>
+    <Link style={{textDecoration:"none"}} to={`/product/${id}`}>
+      <h3 className="catalog-title">{name}</h3>
+    </Link>
+    
+    <CatalogPrice discount={discount} price={price}/>
     <p className="text-danger">{platforms}</p>
     <Rating rating={rating} />
   </div>
