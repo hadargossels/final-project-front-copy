@@ -1,53 +1,10 @@
-.container {
-    display: flex;
-    flex-direction: row;
-    width:100%;
-    padding: 3% 0 0 0;
-    margin-left:  10%;
-    /* background-color:transparent; */
-     /* justify-content: center; */
-    align-items: center;
-    /* height: fit-content; */
-    /* background-color:rgb(3, 3, 104); */
 
-}
-.navBar{
-    color: white;
-    display: flex;
-	flex-direction: row; 
-}
 .aNavBar{
     /* margin-left: 10%; */
     color: white;
 
 
 }
-
-.fa-bars{
-    display: flex;
-
-    margin-right: 30%;
-
-}
-.fa-shopping-cart{
-    display: flex;
-    font-size: 100%;
-
-}
-.cartSpan{
-    margin-left: 20%;
-}
-
-
-
-
-
-
-
-
-
-
-
 
 .btn {		
 	 position: relative;	
@@ -222,69 +179,48 @@ from-top:before,
 body {
 	--def: #96B7C4; 	
 	--inv: #fff;
-	display: flex;
-	/* justify-content: center;
-	align-items: center; */
-	flex-direction: column;
-	/* height: 100%;
-	width: 100%; */
-    background-image: linear-gradient( #616161 0%, #96B7C4 100%);
-    margin: 0;
-
 }
-
-html {
-	font-size: 12px;
-	font-family: 'Playfair Display', serif;
-}
-
 
 /* div {margin-bottom: 3rem;}
  div:last-child {margin-bottom: 0;} */
 
- .searchbar {
-    margin: 1rem;
-  }
-  
-  .search-field {
-    width: 0;
-    height: 40px;
-    margin-left: 1rem;
-    padding: 0;
-    border-radius: 50px;
-    border: none;
-    transition: all 0.5s ease;
-  }
-  
-  .expand-search {
-    width: 80%;
-    max-width: calc(80% - 3rem);
-    border: 1px solid #c9c9c9;
-    padding: .5rem;
-  }
-  
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-  
-  .buttonSearch {
-    border-radius: 50px;
-  }
+/* Styles for wrapping the search box */
 
+.main {
+    width: 50%;
+    margin: 50px auto;
+}
 
+/* Bootstrap 4 text input with search icon */
 
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
 
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
 
-
-
-
-  
+.big-menu {
+	width: 100%;
+}
   @media (max-width: 880px) {
  
 	.footer-distributed{
 		font: bold 14px sans-serif;
 	
+	}
+
+	.big-menu {
+		display: none;
 	}
  
 	.footer-distributed .footer-left,

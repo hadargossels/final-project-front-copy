@@ -121,7 +121,6 @@ footer{
 
 .main {
 	max-height: 550px;;
-	background-color: #292c2f;
 	color: white;
 	font-size: 38pt;
 	text-align: center;
@@ -138,7 +137,8 @@ footer{
 	width: 100%;
 	text-align: left;
 	font: bold 16px sans-serif;
- 
+	background-color: var(--mainBlue);
+
 	padding: 55px 50px;
 	margin-top: 80px;
 }

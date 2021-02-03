@@ -1,39 +1,36 @@
-import Header from './components/Header/Header.js';
-import Footer from './components/Footer/Footer.js';
-import Product from './components/Product/Product.js';
-import SideMenu from './components/SideMenu.js';
+import React, {Component} from "react";
+import {Switch,Route} from 'react-router-dom'
+import "./App.css";
+import 'bootstrap/dist/css/bootstrap.min.css'
+import Navbar from './components/Navbar';
+import ProductList from './components/ProductList';
+import Details from './components/Details';
+import Cart from './components/Cart';
+import Footer from './components/Footer';
+import Default from './components/Default';
+import Modal from './components/Modal';
 
-// import Shop from './components/Shop/Shop.js';
+class App extends Component{
+  render() {
+    return (
+    <React.Fragment>
+      <Navbar/>
+      
+      <Switch>
+        {/* <ProductList></ProductList> */}
+        <Route exact path="/" component={ProductList}/>
+        <Route exact path="/details" component={Details }/>
+        <Route exact path="/cart" component={Cart}/>
 
-// const cartButtons = document.querySelector('#cart-add-button');
+        <Route Component={Default}/>
+
+      </Switch>
+      <Modal/>
+      <Footer/>
+    </React.Fragment>
     
-// cartButtons.forEach(button => {
-//     button.addEventListener('click', cartClick);
-// });
-// console.log(cartButtons)
-// if(cartButtons){
-//   cartButtons.addEventListener('click', cartClick);
-// function cartClick() {
-//   if(this==undefined)
-//     return;
-//     let button = this;
-//     console.log(button)
-//     button.classList.add('clicked');
-//     return;
-// }
-function App() {
-  return (
 
-<div>
-    <Header></Header>
-    <SideMenu></SideMenu>
-    <Product></Product>
-     {/* <Shop></Shop> */}
-    <Footer></Footer> 
-
-</div>
-
-  );
+    );
+  }
 }
-
 export default App;

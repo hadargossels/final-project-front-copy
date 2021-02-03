@@ -1,8 +1,8 @@
 import React from "react";
 import Toolbar from "./Toolbar";
-import "./SideMenuStyles.css";
-import SideDrawer from "./SideMenu/Drawer";
-import BackDrop from "./backDrop/BackDrop";
+import "./sideMenuStyle.css";
+import SideDrawer from "./Drawer.js";
+import BackDrop from "./backDrop/BackDrop.js";
 
 class SideMenu extends React.Component {
   state = {
@@ -31,10 +31,6 @@ class SideMenu extends React.Component {
         <Toolbar drawerToggleClickHandler={this.drawerToggleClickHandler} />
         <SideDrawer show={this.state.sideDrawerOpen} />
         {backdrop}
-
-        <main style={{ marginTop: "64px" }}>
-          <p>This is the content</p>
-        </main>
       </div>
     );
   }
