@@ -1,0 +1,21 @@
+.App1{
+    display: flex;
+    }
+    
+
+/* .brand_list{
+
+} */
+
+.grid_main1{
+    flex:20%;
+}
+
+.grid_main2{
+    flex:80%;
+}
+
+.sort_type{
+    float: right;
+    margin-right: 5vw;
+}

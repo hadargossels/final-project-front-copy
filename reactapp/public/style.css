@@ -14,26 +14,51 @@ body{
 }
 
 .navbar{
-flex:50%;
+padding-inline-start:0rem;
+flex:40%;
 flex-wrap: wrap;
+display: inline;
+margin-block-start: 0rem;
+}
+
+.navbar_links{
+text-decoration: none;
+color:gray;
+font-size: 14px;
+font-weight: bold;
 }
 
 .href_group1{
     text-decoration: none;
     color:white;
+    display: inline;
     margin-left: 1vw;
+    margin-top: 0px;
 }
 
 .search{
-flex:30%;
+flex:20%;
 margin: 0 auto;
 }
 
 .connect{
-    flex:20%;
+    flex:25%;
     text-decoration: none;
     color:red;
+    display: inline;
 
+}
+
+.connect_link{
+    display: inline;
+    text-decoration: none;
+    color:white
+}
+
+.connect_l{
+    text-decoration: none;
+    color: red;
+    font-weight: bold;
 }
 
 .fas{
@@ -52,11 +77,11 @@ flex: 100%;
 
 .main_area{
     display: flex;
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
 }
 .picture{
-    flex:50%
+    flex:30%
 }
 /* .prodact_list label{
     display: inline-table;
@@ -67,28 +92,54 @@ flex: 100%;
     list-style-type: none;
      
 }*/
-
-
-
-.prodact_list{
-background-color: rgb(82, 75, 75);
-margin-block-start: 0em;
-color:rgb(0, 0, 0);
-border-radius: 1rem;
-font-family: sans-serif;
-} 
-
-
-.prodact_list li{
-   list-style-type: none;
+.prodact1{
+    flex:30%;
+    padding-right: 2vw;
 }
 
-.prodact_list li span{
+
+.prodact_details{
+margin-block-start: 0em;
+color:rgb(0, 0, 0);
+font-size: 12px;
+
+} 
+
+.prodact_details li span{
     color: rgb(243, 0, 0);
  }
- 
- 
 
+td{
+    border-bottom:  solid rgb(93, 93, 98) 3px;
+    
+}
+
+table{
+    border-spacing: 0px;
+    width:100%;
+    line-height: 22px;
+    
+}
+
+.main_details{
+    flex:20%;
+    font-size: 12px;
+    background-color:rgb(126, 170, 190);
+
+    margin-bottom: 5vh;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.button_main{
+background-color: red;
+color:rgb(255, 255, 255);
+border-radius: 5px;
+width: 80%;
+height: 10%;
+font-size: 18px;
+}
+ 
 .price{
     text-decoration:line-through 1px
 }
@@ -252,27 +303,11 @@ p{
     grid-template-columns: repeat(4, 1fr);
 }
 
-.sort_type{
-    float: right;
-    margin-right: 5vw;
-}
-/* @media screen and (min-width:768px){ */
-    /* .gridlist{
-        grid-template-columns: repeat(3, 1fr);
-    } */
-/* } */
 
-.App1{
-display: flex;
-}
 
-.grid_main1{
-    flex:20%;
-}
 
-.grid_main2{
-    flex:80%;
-}
+
+
 
 .rating {
     unicode-bidi: bidi-override;

@@ -8,7 +8,7 @@ class Footer extends Component{
 
         <div className="footer">
            <div className="f1">
-                <h4 class="fo1">About us</h4>
+                <h4 className="fo1">About us</h4>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                 
                 <div className="border">

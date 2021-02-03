@@ -52,24 +52,33 @@ export default class Main extends Component{
                     </ul>
                 </div>
                 <div className="prodact1">
-                    <ul className="prodact_list">
-                        <li className="price"><span>price:</span> 400$</li>
-                        <li><span>correct price:</span> <span className="cur_price">375$</span></li>
-                        <li><span>size:</span> 51x59 mm </li>
-                        <li><span>Case Thickness:</span> 13 mm</li>
-                        <li><span>Water Resistance:</span> 10 ATM</li>
-                        <li><span>Case Material:</span> stainless steel</li>
-                        <li><span>Case Finish:</span> combo</li>
-                        <li><span>Attachment Material:</span> stainless steel</li>
-                        <li><span>Attachment Color:</span> black</li>
-                        <li><span>Dial Color:</span> black</li>
-                        <li><span>Movement:</span> alog</li>
-                        <li><span>Closure:</span> bracelet deployant</li> 
+
+                        <table className="prodact_details">   
+                            <tbody>      
+                                <tr><td className="price">Price:</td><td>400$</td></tr>                       
+                                <tr><td className="cur_price">Correct price:</td><td className="cur_price">375$</td></tr>
+                                <tr><td>Size</td><td> 51x59 mm</td></tr>
+                                <tr><td>Case Thickness</td><td>13 mmn</td></tr>
+                                <tr><td>Water Resistance</td><td>10 ATM</td></tr>
+                                <tr><td>Case Finish</td><td>combo</td></tr>
+                                <tr><td>Attachment Material</td><td>stainless steel</td></tr>
+                                <tr><td>Case Material</td><td>stainless steel</td></tr>
+                                <tr><td>Attachment color</td><td>black</td></tr>
+                                <tr><td>Dial Color</td><td>black</td></tr>
+                                <tr><td>Movement</td><td>alog</td></tr>
+                                </tbody>
+                        </table>
+                </div>
+                <div className="main_details">
+                    <div className="rating">
+                        <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+                    </div> 
+                    <ul>
+                        <li>IN STOCK</li>
+                        <li>FREE SHIPPING </li>
+                        <li>DELIVERY TIME </li>
                     </ul>
-                    <p>IN STOCK</p>
-                    <p>FREE SHIPPING </p>
-                    <p>DELIVERY TIME </p>
-                    <button>add to cart</button>
+                    <button className='button_main'>add to cart</button>
                 </div>
             </div>    
         </main>
