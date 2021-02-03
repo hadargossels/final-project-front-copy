@@ -4,16 +4,29 @@ import Stars from './Stars';
 class WorkOutP extends Component{
     constructor(){
         super();
+        this.myJson = require('./workOutP.json').workOut;
         this.state ={
-             urlImg :["/images/benchPress.jpg","/images/pullupbar.jpg","/images/FUEL-Weighted-Vest.jpg"],
-             name: ['Bench Press','Pull up bar','FUEL Weighted Vest'],
-             prices :[187,152,90],
-             stars:[4,3,5],
-             myArr:[]
+            urlImg :[],
+            name: [],
+            prices :[],
+            stars:[],
+            myArr:[]
         }
-
+        this.deState();
     }
+
+    deState(){
+        for (const i of this.myJson) {
+            this.state.name.push(i.name);
+            this.state.prices.push(Number(i.price));
+            this.state.stars.push(Number(i.stars));
+            this.state.urlImg.push(i.urlImg[0]);
+        };
+    }
+
+
     render(){
+
         if(this.state.myArr.length==0){
             let tempArr=[];
             for(let i=0; i<this.state.name.length; i++){
@@ -66,8 +79,8 @@ class WorkOutP extends Component{
     let sUrl=this.state.urlImg
     let sStars=this.state.stars
     // console.log(sStars);
-     for(let i=0; i<3; i++){
-         for(let k=i; k<3; k++){
+     for(let i=0; i<this.state.stars.length; i++){
+         for(let k=i; k<this.state.stars.length; k++){
              if(sStars[k]>sStars[i]){
                  [sArr[i],sArr[k]]=[sArr[k],sArr[i]];
                  [sName[i],sName[k]]=[sName[k],sName[i]];
