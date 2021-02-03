@@ -12,9 +12,10 @@ import PageNotFound from './components/404/PageNotFound';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Header/>
     <div>
+    
     <Router>
+    <Header/>
       <Switch>
           <Route exact path="/" component={Catalog}></Route>
           <Route path="/app/:title" component={App}></Route>

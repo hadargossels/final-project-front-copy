@@ -63,6 +63,8 @@ export default class Catalog extends Component {
         myArr = myArr.filter((prod) => {
             return (prod.Hardware ===true)
         });
+        else if (e.target.id === "all")
+            myArr = [...this.Products]
         else if (e.target.id === "accessories")
         myArr = myArr.filter((prod) => {
             return (prod.Hardware ===false)
@@ -75,6 +77,9 @@ export default class Catalog extends Component {
     
 
     render() {
+
+
+
         return (
             <div className="container-fluid">
                 <div className="row">
