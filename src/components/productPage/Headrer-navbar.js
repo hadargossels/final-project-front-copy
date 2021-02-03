@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link,Route,BrowserRouter as Router,NavLink, withRouter, Switch  } from "react-router-dom";
+import {Link,Route} from "react-router-dom";
 // import LinkFunction from "./LinkFunction";
 // import Middle from './Middle';
 // import Album from './Album';
@@ -11,15 +11,6 @@ const ListItemLink = ({ to, name }) => (
     )}/>)
 
 class Header extends Component{
-    // constructor(){
-    //     super();
-    //     this.state = {
-    //         btnLink :""
-    //     }
-    // }
-    // links(location){
-    //     this.setState({btnLink:<LinkFunction path={location}/>})
-    // }
 
    render(){
       return(
@@ -28,7 +19,7 @@ class Header extends Component{
                 <div className="bg-dark p-4">
                     <h5 className="text-white h4">Menu</h5>
                     <ListItemLink to="/" name="Home"/>
-                    <ListItemLink to="/page/1" name="page1"/>
+                    {/* <ListItemLink to="/page/1" name="page1"/> */}
                     <ListItemLink to="/contact" name="Contact Us"/>
                     <ListItemLink to="/about" name="About Us"/>
                     <ListItemLink to="/blog" name="Blog"/>

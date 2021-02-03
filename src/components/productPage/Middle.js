@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
+import {match,params} from "react-router-dom";
 import Stars from './Stars';
 import ChartBtn from './ChartBtn';
 class Middle extends Component{
     constructor(){
         super();
+        this.myJson=require('./workOutP.json').workOut[0];
         this.state={
-            imgSrc:['/images/benchPress.jpg','/images/benchPress2.jpg','/images/benchPress.jpg','/images/benchPress2.jpg','/images/benchPress.jpg'],
-            title:'Bench Press',
+            imgSrc:this.myJson.urlImg,
+            title:this.myJson.name,
             about:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
             imgid:0,
-            price:187,
-            rateStars:4
+            price:this.myJson.price,
+            rateStars:this.myJson.stars
         }
     }
     
+
+
     changePic(l){
         this.setState({imgid:l});
     }
@@ -27,6 +31,7 @@ class Middle extends Component{
     }
 
     render(){
+        console.log(this.props.match.params.num);
       return(
         <div className="row">
             <div className="col-1">

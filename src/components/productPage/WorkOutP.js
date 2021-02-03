@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
-import Footer from './Footer';
+import {Link,Route} from "react-router-dom";
 import Stars from './Stars';
+const ListItemLink = ({ name , urlImg ,index}) => (
+    <Route path={"/product/"+index+"/"+name} children={({ match }) => (
+      <li className={match ? 'active' : ''}>
+        <Link className="btn text-white" to={"/product/"+index+"/"+name}>
+            <img key={name} src={urlImg} alt="..." width='100%' height="300px"/><br/>
+        </Link>
+      </li>
+)}/>)
+
 class WorkOutP extends Component{
     constructor(){
         super();
@@ -10,7 +19,8 @@ class WorkOutP extends Component{
             name: [],
             prices :[],
             stars:[],
-            myArr:[]
+            myArr:[],
+            jsonPlace:[]
         }
         this.deState();
     }
@@ -21,6 +31,7 @@ class WorkOutP extends Component{
             this.state.prices.push(Number(i.price));
             this.state.stars.push(Number(i.stars));
             this.state.urlImg.push(i.urlImg[0]);
+            this.state.jsonPlace.push(Number(i.jsonPlace));
         };
     }
 
@@ -32,7 +43,7 @@ class WorkOutP extends Component{
             for(let i=0; i<this.state.name.length; i++){
                 tempArr.push(<div className="col-3 text-center" key={i}>
                     <h3>{this.state.name[i]} Price: {this.state.prices[i]}$</h3>
-                    <img key={this.state.name[i]} src={this.state.urlImg[i]} alt="..." width='100%' height="300px"/><br/>
+                    <ListItemLink name={this.state.name[i]} urlImg={this.state.urlImg[i]} index={this.state.jsonPlace[i]} /><br/>
                     <Stars numStars={this.state.stars[i]}/>
                 </div>)
             }
@@ -56,6 +67,7 @@ class WorkOutP extends Component{
        let sName=this.state.name
        let sUrl=this.state.urlImg
        let sStars=this.state.stars
+       let sJson=this.state.jsonPlace
         for(let i=0; i<3; i++){
             for(let k=i; k<3; k++){
                 if(sArr[k]<sArr[i]){
@@ -63,6 +75,7 @@ class WorkOutP extends Component{
                     [sName[i],sName[k]]=[sName[k],sName[i]];
                     [sUrl[i],sUrl[k]]=[sUrl[k],sUrl[i]];
                     [sStars[i],sStars[k]]=[sStars[k],sStars[i]];
+                    [sJson[i],sJson[k]]=[sJson[k],sJson[i]];
                 }
             }
 
@@ -71,6 +84,7 @@ class WorkOutP extends Component{
         this.setState({name:sName});
         this.setState({urlImg:sUrl});
         this.setState({stars:sStars});
+        this.setState({jsonPlace:sJson});
         this.setState({myArr:[]});
    }
    sortStars(){
@@ -78,6 +92,7 @@ class WorkOutP extends Component{
     let sName=this.state.name
     let sUrl=this.state.urlImg
     let sStars=this.state.stars
+    let sJson=this.state.jsonPlace
     // console.log(sStars);
      for(let i=0; i<this.state.stars.length; i++){
          for(let k=i; k<this.state.stars.length; k++){
@@ -86,6 +101,7 @@ class WorkOutP extends Component{
                  [sName[i],sName[k]]=[sName[k],sName[i]];
                  [sUrl[i],sUrl[k]]=[sUrl[k],sUrl[i]];
                  [sStars[i],sStars[k]]=[sStars[k],sStars[i]];
+                 [sJson[i],sJson[k]]=[sJson[k],sJson[i]];
              }
          }
 
@@ -95,6 +111,7 @@ class WorkOutP extends Component{
      this.setState({name:sName});
      this.setState({urlImg:sUrl});
      this.setState({stars:sStars});
+     this.setState({jsonPlace:sJson});
      this.setState({myArr:[]});
 }
 }

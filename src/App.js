@@ -17,7 +17,7 @@ function App() {
           <Router>
             <Header/><br/>
               <Route exact path="/" component={Album} />
-              <Route path="/page/:num" component={Middle} />
+              <Route path="/product/:num/:name" component={Middle} />
               <Route path="/contact" component={Contact} />
               <Route path="/about" component={About} />
               <Route path="/blog" component={Blog} />
