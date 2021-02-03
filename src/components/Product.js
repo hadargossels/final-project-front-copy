@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import './Product.css';
-// import img1 from '../../public/img/souffle1.jpg'
-// import img2 from '../../public/img/souffle_2.jpg'
-// import img3 from '../../public/img/Souffle-Packaging.jpg'
 
 
 class Product extends Component {

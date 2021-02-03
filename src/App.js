@@ -2,7 +2,7 @@ import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Product from './components/Product';
-import Store from './components/Store';
+import Store from './components/store/Store';
 import {useState} from 'react'
 
 
@@ -12,10 +12,10 @@ const [storeVis,setStoreVis] = useState('')
 const updatestate = (str) => setStoreVis(str)
   return (
     <div>
-      <Header updatestate={updatestate}/>
+      {/* <Header updatestate={updatestate}/>
       {storeVis=='store' && <Store/>}
       {storeVis=='product' && <Product/>}
-      <Footer/>
+      <Footer/> */}
     </div>
   );
 }
