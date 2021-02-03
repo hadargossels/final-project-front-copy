@@ -13,7 +13,7 @@ class StorePage extends Component{
        this.state={
          categoryHeader:"Makeup",
          arrProduct:props.arrAllProduct,
-         arrFilterList:{category:"Makeup",brands:{"MAC":true,"LORIAL PARIS":true,"BOBBI BROWN":true,"IL MAKIAGE":true},orderBy:"defalte"}
+         arrFilterList:{category:"Makeup",brands:{"MAC":false,"LORIAL PARIS":false,"BOBBI BROWN":false,"IL MAKIAGE":false},orderBy:"defalte"}
 
         //props.arrAllProduct is include all makeup product
        }
@@ -56,16 +56,16 @@ class StorePage extends Component{
 
       changedBrandFilter(brandToFilter,boolBrand){
          let tempArray=Object.assign({}, this.state.arrFilterList);
-         if(brandToFilter=="All Brands")
-         {
-            tempArray.brands["MAC"]=boolBrand;
-            tempArray.brands["LORIAL PARIS"]=boolBrand;
-            tempArray.brands[ "BOBBI BROWN"]=boolBrand;
-            tempArray.brands["IL MAKIAGE"]=boolBrand;
-         }
-         else{
+         // if(brandToFilter=="All Brands")
+         // {
+         //    tempArray.brands["MAC"]=boolBrand;
+         //    tempArray.brands["LORIAL PARIS"]=boolBrand;
+         //    tempArray.brands[ "BOBBI BROWN"]=boolBrand;
+         //    tempArray.brands["IL MAKIAGE"]=boolBrand;
+         // }
+         // else{
             tempArray.brands[brandToFilter]=boolBrand;
-         }
+         // }
        
          this.setState({arrFilterList:tempArray}, this.updateArrProductAllFilters);
       }

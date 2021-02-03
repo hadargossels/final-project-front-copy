@@ -9,10 +9,10 @@ export default class ListCategory extends Component{
        this.state={
         span1:"lessDiv"
        }
-       this.brand1Ref=React.createRef();
-       this.brand2Ref=React.createRef();
-       this.brand3Ref=React.createRef();
-       this.brand4Ref=React.createRef();
+      //  this.brand1Ref=React.createRef();
+      //  this.brand2Ref=React.createRef();
+      //  this.brand3Ref=React.createRef();
+      //  this.brand4Ref=React.createRef();
     }
 
     toggleMoreDiv(e){
@@ -20,13 +20,13 @@ export default class ListCategory extends Component{
         this.setState({span1:classToggle});
      }
 
-     inputAllBrandsChanged(e){
-      this.brand1Ref.current.checked=e.target.checked;
-      this.brand2Ref.current.checked=e.target.checked; 
-      this.brand3Ref.current.checked=e.target.checked; 
-      this.brand4Ref.current.checked=e.target.checked; 
-      this.props.changedBrandFilter(e.target.value,e.target.checked);
-     }
+   //   inputAllBrandsChanged(e){
+   //    this.brand1Ref.current.checked=e.target.checked;
+   //    this.brand2Ref.current.checked=e.target.checked; 
+   //    this.brand3Ref.current.checked=e.target.checked; 
+   //    this.brand4Ref.current.checked=e.target.checked; 
+   //    this.props.changedBrandFilter(e.target.value,e.target.checked);
+   //   }
 
     render()
     {
@@ -44,8 +44,8 @@ export default class ListCategory extends Component{
                <div className="brandList">
                   <b>brand</b><span id="span1" onClick={this.toggleMoreDiv.bind(this)} className="moreSpan">+</span><br/>
                   <div className={this.state.span1}>
-                     <input type="checkbox" id="allBrands" name="allBrands" value="All Brands" onChange={this.inputAllBrandsChanged.bind(this)}/>
-                     <label for="brand1">All Brands</label><br/>
+                     {/* <input type="checkbox" id="allBrands" name="allBrands" value="All Brands" onChange={this.inputAllBrandsChanged.bind(this)}/>
+                     <label for="brand1">All Brands</label><br/> */}
                      <input ref={this.brand1Ref} type="checkbox" id="brand1" name="brand1" value="MAC" onChange={(e)=>this.props.changedBrandFilter(e.target.value,e.target.checked)}/>
                      <label for="brand1">MAC</label><br/>
                      <input ref={this.brand2Ref} type="checkbox" id="brand2" name="brand2" value="LORIAL PARIS" onChange={(e)=>this.props.changedBrandFilter(e.target.value,e.target.checked)}/>
