@@ -32,7 +32,6 @@ class Cakes extends Component {
    }
 
    addFilter(e){
-      console.log(e.checked)
       let copyFilterArr=[...this.state.filterArr]
       if(e.checked){
          copyFilterArr.push(e.id)
@@ -41,9 +40,21 @@ class Cakes extends Component {
             return (e.id !==item)
          })
       }
-      console.log(copyFilterArr)
       this.setState({filterArr: copyFilterArr})
    }
+
+   // filtering(){
+   //    let copyFilterArr=[...this.state.filterArr]
+   //    let copyArr=[...this.state.Arr]
+
+   //    for (const iterator of copyFilterArr) {
+   //       copyArr=copyArr.filter((item)=>{
+   //          return (iterator !==item.id)
+   //       })
+   //    }
+   //    this.setState({Arr: copyArr})
+
+   // }
 
 
 

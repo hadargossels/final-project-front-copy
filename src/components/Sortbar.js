@@ -8,13 +8,9 @@ class Sortbar extends Component{
     constructor(props){
         super(props)
         this.state={
-            check1:true,check2:false
 
         }
     }
-
- checkboxIcon = (bool)=>bool?'✔':``
- updateState = (str)=>this.setState((state)=>({[str]:!state[str]}))
 
 
    render(){
@@ -38,8 +34,9 @@ class Sortbar extends Component{
                 <div className="[ form-group ]" style={{"marginTop":"20px"}}>
                     <input type="checkbox" name="milk" id="milk" autoComplete="off" onClick={(e)=>this.props.addFilter(e.target)}/>
                     <div className="[ btn-group ]">
-                        <label htmlFor="milk" class="[ btn btn-primary ]" onClick={()=>this.updateState('check1')}>
-                            <span class="[ glyphicon glyphicon-ok ]">{this.checkboxIcon(this.state.check1)}</span>
+                        <label htmlFor="milk" class="[ btn btn-primary ]">
+                            <span class="[ glyphicon glyphicon-ok ]">✔</span>
+                            <span> </span>
                         </label>
                         <label htmlFor="milk" className="[ btn btn-default active ]">חלבי</label>
                     </div>    
@@ -87,7 +84,7 @@ class Sortbar extends Component{
             <div className="filter">
 
                 <div className="[ form-group ]" style={{"marginTop":"20px"}}>
-                    <input type="checkbox" name="glutenFree" id="glutenFree" autoComplete="off" onClick={(e)=>this.props.addFilter(e.target)} checked/>
+                    <input type="checkbox" name="glutenFree" id="glutenFree" autoComplete="off" onClick={(e)=>this.props.addFilter(e.target)}/>
                     <div className="[ btn-group ]">
                         <label htmlFor="glutenFree" class="[ btn btn-primary ]">
                             <span class="[ glyphicon glyphicon-ok ]">✔</span>
@@ -140,7 +137,7 @@ class Sortbar extends Component{
                     <div className="[ btn-group ]">
                         <label htmlFor="price3" class="[ btn btn-primary ]">
                             <span class="[ glyphicon glyphicon-ok ]">✔</span>
-                            <span> </span>
+                            <span> </span>
                         </label>
                         <label htmlFor="price3" className="[ btn btn-default active ]">₪ מעל 200</label>
                     </div>    
