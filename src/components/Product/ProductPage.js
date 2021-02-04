@@ -12,7 +12,7 @@ import {objectsArr} from './data'
 class ProductPage extends Component{
     
     render(){
-        const product2 = objectsArr.find(({id})=>id===Number(this.props.match.params.id))
+        const product2 = objectsArr.find(({name})=>name===(this.props.match.params.name))
 
         return(
             <div className = "container pt-4">

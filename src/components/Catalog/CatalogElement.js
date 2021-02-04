@@ -17,7 +17,7 @@ const CatalogElement = ({ id, img, name, rating, platforms, price,discount }) =>
         <i className="far fa-heart"></i>
       </button>
     </div>
-    <Link style={{textDecoration:"none"}} to={`/product/${id}`}>
+    <Link style={{textDecoration:"none"}} to={`/product/${name}`}>
       <h3 className="catalog-title">{name}</h3>
     </Link>
     
