@@ -2,72 +2,279 @@ import React from "react";
 // const year = new Date().getFullYear();
 // <p>Copyright ⓒ {year}</p>
 import "./Footer.css";
+import { ReactComponent as Logo } from "../../assets/pug.svg";
+import { NavLink } from "react-router-dom";
 
+const activeStyle = {
+  color: "#f7a116",
+};
 function Footer() {
   return (
     <>
-      <div id="container">
-        <div id="part1">
-          <div id="companyinfo">
-            {" "}
-            <a id="sitelink" href="#">
-              Dog&CatWorld
-            </a>
-            <p id="title">Cool store </p>
-            <p id="detail">we love dog and cats. </p>
+      <footer id="dk-footer" className="dk-footer">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12 col-lg-4">
+              <div className="dk-footer-box-info">
+                <a href="index.html" className="footer-logo">
+                  <img
+                    src="https://cdn.pixabay.com/photo/2017/12/27/14/02/friends-3042751_960_720.jpg"
+                    alt="footer_logo"
+                    className="img-fluid"
+                  />
+                </a>
+                <p className="footer-info-text">
+                  The best products to our best friends
+                </p>
+                <div className="footer-social-link">
+                  <h3>Follow us</h3>
+                  <ul>
+                    <li>
+                      <a href="https://www.facebook.com/">
+                        <i className="fa fa-facebook" />
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://www.twitter.com/">
+                        <i className="fa fa-twitter" />
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://www.google.com/">
+                        <i className="fa fa-google-plus" />
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://www.linkedin.com/">
+                        <i className="fa fa-linkedin" />
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://www.instagram.com/">
+                        <i className="fa fa-instagram" />
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                {/* End Social link */}
+              </div>
+              {/* End Footer info */}
+              <div className="footer-awarad">
+                <NavLink className="logo-container" to="/">
+                  <Logo className="logo" />
+                </NavLink>{" "}
+                <p>Dog Best Friends {new Date().getFullYear()}</p>
+              </div>
+            </div>
+            {/* End Col */}
+            <div className="col-md-12 col-lg-8">
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="contact-us">
+                    <div className="contact-icon">
+                      <i className="fa fa-map-o" aria-hidden="true" />
+                    </div>
+                    {/* End contact Icon */}
+                    <div className="contact-info">
+                      <h3>Rehovot, Israel</h3>
+                      <p>Moskovich 19</p>
+                    </div>
+                    {/* End Contact Info */}
+                  </div>
+                  {/* End Contact Us */}
+                </div>
+                {/* End Col */}
+                <div className="col-md-6">
+                  <div className="contact-us contact-us-last">
+                    <div className="contact-icon">
+                      <i
+                        className="fa fa-volume-control-phone"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    {/* End contact Icon */}
+                    <div className="contact-info">
+                      <h3>08 111 1 1111</h3>
+                      <p>Contact Us</p>
+                    </div>
+                    {/* End Contact Info */}
+                  </div>
+                  {/* End Contact Us */}
+                </div>
+                {/* End Col */}
+              </div>
+              {/* End Contact Row */}
+              <div className="row">
+                <div className="col-md-12 col-lg-6">
+                  <div className="footer-widget footer-left-widget">
+                    <div className="section-heading">
+                      <h3>Useful Links</h3>
+                      <span className="animate-border border-black" />
+                    </div>
+                    <ul>
+                      <li>
+                        <NavLink
+                          className="option"
+                          activeStyle={activeStyle}
+                          to="/about"
+                        >
+                          About
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          className="option"
+                          activeStyle={activeStyle}
+                          to="/shop"
+                        >
+                          Collections
+                        </NavLink>{" "}
+                      </li>
+                      <li>
+                        <NavLink
+                          className="option"
+                          activeStyle={activeStyle}
+                          to="/store"
+                        >
+                          Store
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          className="option"
+                          activeStyle={activeStyle}
+                          to="/blog"
+                        >
+                          Blog
+                        </NavLink>{" "}
+                      </li>
+                    </ul>
+                    <ul>
+                      <li>
+                        <NavLink
+                          className="option"
+                          activeStyle={activeStyle}
+                          to="/contact"
+                        >
+                          Contact
+                        </NavLink>{" "}
+                      </li>
+                      <li>
+                        <NavLink
+                          className="option"
+                          activeStyle={activeStyle}
+                          to="/signin"
+                        >
+                          Sign In
+                        </NavLink>{" "}
+                      </li>
+                      <li>
+                        <NavLink
+                          className="option"
+                          activeStyle={activeStyle}
+                          to="/signout"
+                        >
+                          Sign Out
+                        </NavLink>{" "}
+                      </li>
+                      <li>
+                        <NavLink
+                          className="option"
+                          activeStyle={activeStyle}
+                          to="/shop"
+                        >
+                          <i className="fa fa-cart-plus mr-2"></i>{" "}
+                        </NavLink>{" "}
+                      </li>
+                    </ul>
+                  </div>
+                  {/* End Footer Widget */}
+                </div>
+                {/* End col */}
+                <div className="col-md-12 col-lg-6">
+                  <div className="footer-widget">
+                    <div className="section-heading">
+                      <h3>Subscribe</h3>
+                      <span className="animate-border border-black" />
+                    </div>
+                    <p>
+                      {/* Don’t miss to subscribe to our new feeds, kindly fill the form below. */}
+                      Subscribe to get more promotions and discounts
+                    </p>
+                    <form action="#">
+                      <div className="form-row">
+                        <div className="col dk-footer-form">
+                          <input
+                            type="email"
+                            className="form-control"
+                            placeholder="Email Address"
+                          />
+                          <button type="submit">
+                            <i className="fa fa-send" />
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                    {/* End form */}
+                  </div>
+                  {/* End footer widget */}
+                </div>
+                {/* End Col */}
+              </div>
+              {/* End Row */}
+            </div>
+            {/* End Col */}
           </div>
-          <div id="explore">
-            <p id="txt1">Explore</p>{" "}
-            <a class="link" href="#">
-              Home
-            </a>{" "}
-            <a class="link" href="#">
-              About
-            </a>{" "}
-            <a class="link" href="#">
-              Snippet
-            </a>{" "}
-            <a class="link" href="#">
-              Careers
-            </a>
-          </div>
-          <div id="visit">
-            <p id="txt2">Visit</p>
-            <p class="text">Gilad House </p>
-            <p class="text">78 Herzel Road </p>
-            <p class="text">Rehovot 400 026 </p>
-            <p class="text">Phone: (22) 2363-3611 </p>
-            <p class="text">Fax: (22) 2363-0350 </p>
-          </div>
-          <div id="legal">
-            <p id="txt3">Legal</p>{" "}
-            <a class="link1" href="#">
-              Terms and Conditions
-            </a>{" "}
-            <a class="link1" href="#">
-              Private Policy
-            </a>
-          </div>
-          <div id="subscribe">
-            <p id="txt4">Subscribe to US</p>
-            <form>
-              {" "}
-              <input id="email" type="email" placeholder="Email" />{" "}
-            </form>{" "}
-            <a class="waves-effect waves-light btn subscribeBtn">Subscribe</a>
-            <p id="txt5">Connect With US</p>
-            <i className="fab fa-facebook fa-2x "></i>{" "}
-            <i class="fab fa-linkedin  fa-2x"></i>{" "}
-            <i class="fab fa-twitter fa-2x"></i>
-          </div>
+          {/* End Widget Row */}
         </div>
-        <div id="part2">
-          <p id="txt6">
-            <i class="material-icons tiny"> </i>copyright 2021 GD - All right
-            reserved
-          </p>
+        {/* End Contact Container */}
+        <div className="copyright">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-6">
+                <span>
+                  Copyright © {new Date().getFullYear()}, All Right Reserved Dog
+                  best friends
+                </span>
+              </div>
+              {/* End Col */}
+              <div className="col-md-6">
+                <div className="copyright-menu">
+                  <ul>
+                    <li>
+                      <a href="#">Home</a>
+                    </li>
+                    <li>
+                      <a href="#">Terms</a>
+                    </li>
+                    <li>
+                      <a href="#">Privacy Policy</a>
+                    </li>
+                    <li>
+                      <a href="#">Contact</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              {/* End col */}
+            </div>
+            {/* End Row */}
+          </div>
+          {/* End Copyright Container */}
         </div>
-      </div>
+        {/* End Copyright */}
+        {/* Back to top */}
+        <div id="back-to-top" className="back-to-top">
+          <button
+            className="btn btn-dark"
+            title="Back to Top"
+            style={{ display: "block" }}
+          >
+            <i className="fa fa-angle-up" />
+          </button>
+        </div>
+        {/* End Back to top */}
+      </footer>
     </>
   );
 }

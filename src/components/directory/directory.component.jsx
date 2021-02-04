@@ -46,7 +46,7 @@ class Directory extends React.Component {
             "https://ae01.alicdn.com/kf/H763f2014f36d49659ff07f9df3c98c71F/Dog-Bed-House-Winter-Warm-Small-Dog-Teddy-Cat-Bed-All-Seasons-Universal-Removable-and-Washable.jpg_220x220xz.jpg_.webp",
           // size: "large",
           id: 5,
-          linkUrl: "houses",
+          linkUrl: "furniture",
         },
         {
           title: "carriers",

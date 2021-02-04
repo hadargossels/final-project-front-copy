@@ -7,8 +7,8 @@ const CollectionTopic = ({ title, items }) => (
   <div className="topic-preview">
     <h1>{title.toUpperCase()}</h1>
     <div className="topic-display">
-      {items.map(({ id, ...otherItemProps }) => (
-        <CollectionItem key={items.id} {...otherItemProps} />
+      {items.map(({ ...otherItemProps }) => (
+        <CollectionItem {...otherItemProps} />
       ))}
     </div>
   </div>

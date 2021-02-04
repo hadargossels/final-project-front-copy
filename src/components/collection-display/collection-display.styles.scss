@@ -1,0 +1,14 @@
+.collection-display {
+  margin-bottom: 30px;
+
+  .title {
+    font-size: 35px;
+    margin-bottom: 25px;
+    cursor: pointer;
+  }
+
+  .display {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

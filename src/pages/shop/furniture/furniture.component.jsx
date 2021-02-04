@@ -3,7 +3,7 @@ import SHOP_DATA from "../shop.data";
 import CollectionTopic from "../../../components/collection-topic/collection-topic.component";
 // import CollectionItem from "../../../components/collection-item/collection-item.component";
 
-class HousesPage extends React.Component {
+class FurniturePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,4 +24,4 @@ class HousesPage extends React.Component {
   }
 }
 
-export default HousesPage;
+export default FurniturePage;
