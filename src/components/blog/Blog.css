@@ -1,0 +1,25 @@
+.blog {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 15px;
+    justify-content: center;
+    font-family: 'Yusei Magic', sans-serif;
+    margin: 10px auto;
+    background-color: rgb(172, 151, 172);
+}
+
+.post {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 15px;
+    justify-content: left;
+    font-family: 'Yusei Magic', sans-serif;
+    margin: 10px auto;
+    background-color: rgb(221, 213, 221);
+}
+
+.post span {
+    margin: 0px 20px;
+}

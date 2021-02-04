@@ -1,0 +1,28 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 70%;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+}
+#emaillog {
+    border: 1px black solid;
+    height: 50px;
+    width: 500px;
+}
+
+#password {
+    border: 1px black solid;
+    height: 50px;
+    width: 500px;
+}
+
+#sublog {
+    border: none;
+    background-color: black;
+    color: white;
+    padding: 5px;
+    width: 70px;
+}

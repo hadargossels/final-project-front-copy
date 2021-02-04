@@ -1,0 +1,32 @@
+.contact {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 70%;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+    font-family: 'Yusei Magic', sans-serif;
+}
+
+#phone {
+    width:375px;
+}
+
+#contemail {
+    width:375px;
+}
+
+#contname {
+    width:375px;
+}
+
+#submsg {
+    border: none;
+    background-color: #64495c;
+    color: white;
+    padding: 5px;
+    font-family: 'Yusei Magic', sans-serif;
+    letter-spacing: 1px;
+    font-size: 16px;
+}

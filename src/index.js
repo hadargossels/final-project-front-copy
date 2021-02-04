@@ -1,48 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Route,Link,NavLink,Switch, BrowserRouter as Router} from 'react-router-dom'
+import {Route,Switch, BrowserRouter as Router} from 'react-router-dom'
 import './index.css';
-import Header from './components/Header';
+import Header from './components/header/Header';
 import App from './App';
-import About from './components/About';
-import Contact from './components/Contact';
-import NotFound from './components/NotFound';
-import Footer from './components/Footer';
+import About from './components/about/About';
+import Contact from './components/contact/Contact';
+import NotFound from './components/notfound/NotFound';
+import Footer from './components/footer/Footer';
 import Store from './components/store/Store';
-import Product from './components/Product';
+import Blog from './components/blog/Blog';
+import Shipping from './components/shipping/Shipping'
+import Faq from './components/faq/Faq'
+import Product from './components/product/Product'
+import Login from './components/login/Login'
 
 
 const router = (
   <Router>
-    <ul>
-      <li>
-        <NavLink exact to="/" activeStyle={{color:"red"}}>Home</NavLink>
-      </li>
-      <li>
-        <NavLink exact to="/About" activeStyle={{color:"red"}}>About</NavLink>
-      </li>
-    </ul>
-    <div>
-    <Switch>
-      <Route exact path="/" component={App}/>
-      <Route path="/About" component={About}/>
-      <Route path="/Contact" component={Contact}/>
-      <Route path="" component={NotFound}/>
-    </Switch>
-
-  </div>
+  <Header/>
+  <Switch>
+     <Route exact path="/" component={App}/>
+     <Route path="/About" component={About}/>
+     <Route path="/Contact" component={Contact}/>
+     <Route path="/Store" component={Store}/>
+     <Route path="/Blog" component={Blog}/>
+     <Route path="/Shipping" component={Shipping}/>
+     <Route path="/Faq" component={Faq}/>
+     <Route path="/Login" component={Login}/>
+     <Route path="/Product/:productid" component={Product}/>
+     <Route component={NotFound}/>
+  </Switch>
+  <Footer/>
   </Router>
   
 )
 
 ReactDOM.render(
-  <>
-  <Header/>
-  {router},
-  <Store/>
-  {/* <Product/> */}
-  <Footer/>
-  </>,
+  router,
   document.getElementById('root')
 );
 

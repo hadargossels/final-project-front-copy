@@ -1,0 +1,20 @@
+.faq {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 70%;
+    justify-content: center;
+    text-align: left;
+    padding: 50px;
+    font-size: 35px;
+    font-family: 'Yusei Magic', sans-serif;
+}
+
+.qutitle {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.qupara {
+    font-size: 16px;
+}
