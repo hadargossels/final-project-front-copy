@@ -3,9 +3,9 @@ import React, { Component } from 'react'
 export default class NotFound extends Component {
     render() {
         return (
-            <div className="text-center">
+            <div className="text-center my-5">
                 <h1>Sorry!</h1>
-                <img src="/img/notFound.gif" alt=""></img>
+                <img className="img-fluid" src="/img/notFound.gif" alt=""></img>
                 <h3>404 - The page cannot be found</h3>
                 <p>Unfortunately, we could not find the page you were looking for :( <br/>
                 It might have been removed, had its name changed, or is temporarily unavailable.<br/>

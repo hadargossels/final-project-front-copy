@@ -4,14 +4,14 @@ class Gallery extends Component{
     render(){
 
        return(
-            <div className = "float-start"> 
-                <img className="img-fluid rounded d-flex justify-content-center lessZoom" src={this.props.mainImg} alt=""/>
+            <div className = ""> 
+                <img className="img-fluid rounded lessZoom" src={this.props.mainImg} alt=""/>
                 
-                <div className = "py-3 d-flex justify-content-center flex-wrap  float-start">
-                    <img className="m-2 rounded zoom" width="150px" src="/img/game1Gallery1.jpg" alt=""/>
-                    <img className="m-2 rounded zoom" width="150px" src="/img/game1Gallery2.jpg" alt=""/>
-                    <img className="m-2 rounded zoom" width="150px" src="/img/game1Gallery3.jpg" alt=""/>
-                    <img className="m-2 rounded zoom" width="150px" src="/img/game1Gallery4.jpg" alt=""/>
+                <div className = "py-3 text-center row">
+                    <img className="my-1 img-fluid rounded zoom col-lg-6 col-md-12" src="/img/game1Gallery1.jpg" alt=""/>
+                    <img className=" my-1 img-fluid rounded zoom col-lg-6 col-md-12" src="/img/game1Gallery2.jpg" alt=""/>
+                    <img className=" my-1 img-fluid rounded zoom col-lg-6 col-md-12" src="/img/game1Gallery3.jpg" alt=""/>
+                    <img className=" my-1 img-fluid rounded zoom col-lg-6 col-md-12" src="/img/game1Gallery4.jpg" alt=""/>
                 </div>
             </div>
        );

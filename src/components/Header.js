@@ -9,7 +9,7 @@ class Header extends Component{
          <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
                <NavLink style={noDeco} className=" navbar-brand" exact to="/">
-                  <img className="rounded-circle" width="70px" src="/img/99236.jpg" alt=""/>
+                  <img className="rounded-circle img-fluid" width="70px" src="/img/99236.jpg" alt=""/>
                </NavLink>
 
                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,8 +44,8 @@ class Header extends Component{
                   </ul>
                </div>
 
-               <ul className="navbar-nav navbar-right">
-                  <form className="d-flex">
+               <ul className="navbar-nav navbar-right py-1">
+                  <form className="d-flex ">
                      <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
                      <button className="btn btn-outline-light" type="submit">Search</button>
                   </form>

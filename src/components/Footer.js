@@ -7,7 +7,7 @@ class Footer extends Component{
          <div className="bg-dark">
 
          <div className="container text-primary">
-           <div className="row py-3 mb-0 text-sm-center text-lg-start">
+           <div className="row py-3 mb-0 text-center text-lg-start">
 
             <div className = "col-12 col-lg-4 pb-4">
               <p className="h5 text-light py-2 pb-3">Stay in touch!</p>
@@ -33,7 +33,7 @@ class Footer extends Component{
 
             <div className="col-12 col-lg-4  pb-4">
               <p className="h5 text-light list-style-none py-2">Copyright</p>
-              <p className=" footer mb-0">© 2021 PenguinGames All Rights Reserved</p></div>
+              <p className=" mb-0">© 2021 PenguinGames All Rights Reserved</p></div>
            </div>
          </div>
          </div>
