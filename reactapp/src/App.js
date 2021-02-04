@@ -1,32 +1,34 @@
 import React, {Component} from "react";
-import {Switch,Route} from 'react-router-dom'
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Navbar from './components/Navbar';
 import ProductList from './components/ProductList';
 import Details from './components/Details';
-import Cart from './components/Cart';
+import Cart from './components/Cart/Cart';
 import Footer from './components/Footer';
 import Default from './components/Default';
 import Modal from './components/Modal';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 class App extends Component{
   render() {
     return (
     <React.Fragment>
-      <Navbar/>
+      <Router>
+
+        <Navbar/>
       
-      <Switch>
-        {/* <ProductList></ProductList> */}
-        <Route exact path="/" component={ProductList}/>
-        <Route exact path="/details" component={Details }/>
-        <Route exact path="/cart" component={Cart}/>
+        <Switch>
+          <Route exact path="/" component={ProductList}/>
+          <Route exact path="/details" component={Details }/>
+          <Route exact path="/cart" component={Cart}/>
+          <Route component={Default}/>
 
-        <Route Component={Default}/>
+        </Switch>
+        <Modal/>
+        <Footer/>
+      </Router>
 
-      </Switch>
-      <Modal/>
-      <Footer/>
     </React.Fragment>
     
 

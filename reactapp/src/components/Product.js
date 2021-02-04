@@ -6,7 +6,9 @@ import PropTypes from 'prop-types'
 
 export default class Product extends Component {
     render() {
+        console.log("in peoduct" , this)
         const {id, title, img, price, inCart} =this.props.product;
+       
         return (
             <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
                 <div className="card">
@@ -15,7 +17,7 @@ export default class Product extends Component {
                     <div className="img-container p-5" onClick={()=>
                         value.handleDetail(id)}>
                        <Link to='/details'>
-                            <img src={img} alt="product" className="card-img-top"/>
+                            <img src={img} height='120px' alt="product" className="card-img-top"/>
                         </Link> 
                     <button className="cart-btn" disabled={inCart ? true:false}
                              onClick={()=>
