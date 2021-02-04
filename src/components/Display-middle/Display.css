@@ -1,23 +1,31 @@
-.item{
+/* .item{
     width: 13vw;
-}
+} */
 .carditem{
-    width: 12vw;
-    height: 22vw;
+    width: 230px;
+    height: 360px;
+    text-align: center;
+    padding: 10px;
 }
 .img{
-    width: 12vw;
+    width: 200px;
+    height: 230px;
 }
 .card-title{
-    font-size: 0.8vw;
+    width: 200px;
+    height: 35px;
+    font-size: 17px;
+    text-align: center;
+    margin-bottom: 20px;
+
 }
 .stars{
-    font-size: 0.8vw;
+    font-size: 16px;
 }
 .btnAdd{
-    width: 8vw;
-    height: 3vw;
-    font-size: 0.9vw;
+    width: 100px;
+    height: 30px;
+    font-size: 14px;
 }
 #sort{
     margin-top: 5vw;
@@ -30,3 +38,9 @@
   font-weight:bolder;
   color: azure;
 } 
+.card-text{
+    font-size: 18px;
+    color: rgb(221, 72, 72);
+    text-align: center;
+
+}

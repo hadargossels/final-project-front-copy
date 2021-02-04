@@ -1,0 +1,25 @@
+.img{
+    width: 100px !important ;
+    height: 120px !important;
+  }
+.firstrow{
+    margin: 60px auto;
+  }
+
+.galery{
+    margin-top: 50px;
+}
+.priceAndBtn{
+    margin: 20px auto;
+    font-size: 18px;
+    font-weight: bolder;
+    color: rgb(182, 53, 53);
+}
+#stock{
+    color: seagreen;
+    font-weight: bolder;
+}
+.ship{
+    font-weight: bolder;
+    color:rgb(182, 53, 53) ;
+}

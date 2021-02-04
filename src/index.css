@@ -34,10 +34,10 @@ html {
   .stars{
     color: rgb(255, 230, 0);
   }
- .img:hover{
+ /* .img:hover{
   width:150px;
   height:150px;
- }
+ } */
  .row{
    grid-row-gap: 20px;
  }
@@ -46,11 +46,20 @@ html {
    margin-bottom: 50px;
  }
  .card{
-  width: 15vw;
+  width: 230px;
+
  }
- @media only screen and (max-width: 600px) {
-.card{
-  width: 50vw;
+ .greystar{
+  color: rgb(175, 175, 175);
 }
+a{
+  text-decoration: none;
+  color: green;
+}
+
+ @media only screen and (max-width: 600px) {
+/* .card{
+  width: 50vw;
+} */
 
  }
