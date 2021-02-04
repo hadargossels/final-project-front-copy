@@ -1,15 +1,14 @@
 
-/* .myLogo{
+.myLogo{
 
-    background-image: url(/images/logo.jpeg);
     background-repeat: no-repeat;
-    background-size: 150%;
-    border-radius: 50%;
-    width: 200px;
+    background-size: 100%;
+    width: 100px;
+    min-width: 100px;
     height: 100px;
-    margin-right: 100px;
-    
-    } */
+    min-height: 80px;
+    float: right;    
+    }
 
 .navbar{
 

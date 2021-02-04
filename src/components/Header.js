@@ -1,5 +1,6 @@
 
 import './Header.css';
+import { Link,NavLink } from 'react-router-dom';
 
 function Header(){
       return(
@@ -7,23 +8,23 @@ function Header(){
             
          <nav className="navbar navbar-expand-lg navbar-dark bg-dark fs-4">
             <div className="container-fluid col-8">
-            {/* <div className="myLogo"></div> */}
+            <div className="myLogo" style={{"backgroundImage":"url(/images/logo3.png)"}}></div>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
                <ul className="navbar-nav">
                <li className="nav-item ms-3">
-                  <a className="nav-link active" aria-current="page" href="#">ראשי</a>
+                  <NavLink to="/" className="nav-link active" aria-current="page" href="#">ראשי</NavLink>
                   </li>
                <li className="nav-item ms-3">
-                  <a className="nav-link" href="#">המוצרים שלנו</a>
+               <NavLink to="/Catalog" className="nav-link" href="#">המוצרים שלנו</NavLink>
                </li>
                <li className="nav-item ms-3">
-                  <a className="nav-link" href="#">סדנאות</a>
+               <NavLink to="/Courses" className="nav-link" href="#">סדנאות</NavLink>
                </li>
                <li className="nav-item ms-3">
-                  <a className="nav-link" href="#">מתכונים</a>
+               <NavLink to="/Recipes" className="nav-link" href="#">מתכונים</NavLink>
                </li>
                </ul>
             </div>

@@ -4,7 +4,7 @@
     margin: auto;
     text-align: center;
     justify-content: center;
-    background-color: rgb(170, 170, 170);
+    background-color: rgb(245, 233, 250);
     padding: 20px;
     width: 100%;
     color: rgb(240, 0, 228);
@@ -12,7 +12,8 @@
     direction: rtl;
     font-size: 20px;
     font-family: sans-serif;
-    border-bottom: rgb(240, 0, 228) solid 5px;
+    border-bottom: rgb(240, 0, 228) solid 6px;
+    border-top: rgb(240, 0, 228) solid 6px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

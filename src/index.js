@@ -1,13 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Route,Switch, BrowserRouter as Router } from "react-router-dom";
 import './index.css';
+import Header from "./components/Header";
 import App from './App';
+import Product from './components/Product';
+import Catalog from './components/Catalog';
+import Courses from './components/Courses';
+import Recipes from './components/Recipes';
+import Footer from "./components/Footer";
 import reportWebVitals from './reportWebVitals';
+import NotFound from './components/NotFound';
+
+
+const router=(
+
+  <Router>
+    <Header/>
+    <Switch>
+      <Route exact path="/" component={App}/>
+      <Route path="/Product" component={Product}/>
+      <Route path="/Catalog" component={Catalog}/>
+      <Route path="/Courses" component={Courses}/>
+      <Route path="/Recipes" component={Recipes}/>
+
+      <Route component={NotFound}/>
+    </Switch>
+    <Footer/>
+  </Router>
+
+)
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  router,
   document.getElementById('root')
 );
 

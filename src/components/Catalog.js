@@ -1,7 +1,9 @@
 
 import React, { Component } from 'react';
-import './Cakes.css';
+import { Link,NavLink } from 'react-router-dom';
+import './Catalog.css';
 import SortBar from "./Sortbar";
+
 
 
 const cakeArr = [
@@ -18,7 +20,7 @@ const cakeArr = [
 
 const updateCakeArr=[...cakeArr.reverse()]
 
-class Cakes extends Component {
+class Catalog extends Component {
 
    constructor(){
       super()
@@ -125,15 +127,16 @@ class Cakes extends Component {
 
       return (
          <div>
+            
             <SortBar sortFunc={this.sortFunc} addFilter={this.addFilter}/>
             <div className="myContainer">
                {this.state.Arr.map((el, key) => (
-                  <div className="myBox" key={key}>
+                  <Link className="myBox"  key={key} to={"/Product"}>
                      <img src={el.img} alt={el.alt}></img>
                      <div className="details">
                         <p>{el.title}</p>
                      </div>
-                  </div>
+                  </Link>
                ))}
             </div>
          </div>
@@ -141,4 +144,4 @@ class Cakes extends Component {
       );
    }
 }
-export default Cakes;
+export default Catalog;
