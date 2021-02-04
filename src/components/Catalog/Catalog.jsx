@@ -1,27 +1,14 @@
 import React, { Component } from 'react'
 import './Catalog.css';
-import Product from '../Product/Product';
-import T2 from '../../pictures/T2.jpg';
-import T1 from '../../pictures/T1.png';
-import usb_c from '../../pictures/usb_c.jpg';
-import T1_white from '../../pictures/T1_white.png';
-import lanyard from '../../pictures/lanyard-09.png';
-import incharge_usb_c from '../../pictures/incharge_usb_c.jpg';
-import cs_interactive from '../../pictures/cs_interactive.png';
-import case_T_front_dark_blue_empty from '../../pictures/case_T_front_dark_blue_empty.png';
-
+import Product from '../Prod/Prod';
+import myProducts from './prod.json';
 
 export default class Catalog extends Component {
     constructor(props){
         super(props)
-        this.Products=[{Price:190.8,Title:"Trezor Model T",Image:T2,Hardware:true},
-        {Price:58.5,Title:"Trezor Model One",Image:T1,Hardware:true},
-        {Price:58.5,Title:"Trezor Model One(white)",Image:T1_white,Hardware:true},
-        {Price:6,Title:"Extended USB-C cable",Image:usb_c,Hardware:false},
-        {Price:130.8,Title:"Cryptosteel Cassette",Image:cs_interactive,Hardware:false},
-        {Price:16.8,Title:"Silicone case for Trezor Model T",Image:case_T_front_dark_blue_empty,Hardware:false},
-        {Price:13.2,Title:"InCharge Ultra Portable Cable USB-C",Image:incharge_usb_c,Hardware:false},
-        {Price:3.48,Title:"Premium Adjustable Trezor Lanyard",Image:lanyard,Hardware:false}]
+
+        this.Products= myProducts;
+
         this.state = {
             Arr:this.Products
         }
@@ -33,7 +20,7 @@ export default class Catalog extends Component {
     updateState(e){
         
         let myArr =[...this.Products]
-        
+        //check price
         if(e.target.id === "price1")
             myArr = myArr.filter((prod) => {
                     return (prod.Price <10)
@@ -58,7 +45,7 @@ export default class Catalog extends Component {
             myArr = myArr.filter((prod) => {
                 return (prod.Price >100)
             });
-
+        //check if hardware
         if(e.target.id === "hardware")
         myArr = myArr.filter((prod) => {
             return (prod.Hardware ===true)

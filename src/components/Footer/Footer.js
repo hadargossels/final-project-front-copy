@@ -4,14 +4,16 @@ class Footer extends Component{
    render(){
       return(
         <footer className="footer">
-        <div><i className="fab fa-facebook-square cursor"></i>
-         <i className="fab fa-instagram cursor"></i> 
-         <i className="fab fa-twitter-square cursor"></i> 
-         <i className="fab fa-youtube cursor"></i></div>
+        <div>
+          <a href="https://www.facebook.com/"><i className="fab fa-facebook-square cursor"></i></a>
+          <a href="https://www.instagram.com/"><i className="fab fa-instagram cursor"></i></a> 
+          <a href="https://twitter.com/"><i className="fab fa-twitter-square cursor"></i></a>
+          <a href="https://www.youtube.com/"><i className="fab fa-youtube cursor"></i></a>
+         </div>
          <br></br>
         <p> כל הזכויות שמורות ליוני טוקן בע"מ&#169; </p>
         <p>
-          <a href="#">חזור למעלה</a>
+          חזור למעלה
         </p>
       </footer>
       );

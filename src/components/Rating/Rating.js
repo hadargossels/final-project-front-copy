@@ -16,7 +16,7 @@ export default class Rating extends Component {
             //     <input type="radio" id="star5" name="rate" value="5" />
             //     <label for="star5" title="text">5 stars</label>
             // </div>
-            <div class="rating">
+            <div className="rating">
             <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
             </div>
         )
