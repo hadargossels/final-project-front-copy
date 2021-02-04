@@ -1,28 +1,97 @@
 button.searchBtn{
     border: none;
-    background-color: white;
+    background-color:black;
 }
 button.searchBtn:hover{
     border: none;
-    background-color: white;
+    background-color: black;
+}
+.collapse a {
+    font-size: 20px;
+    margin: 0 5px;
 }
 
+
+
 button.searchBtn i{
-    color: black;
-    background-color: white;
+    background-color:black;
+    color: white;
+    font-size: 25px;
+    margin: 0 ;
 }
 
 .nav-item i{
     font-size: 30px;
     display: inline-block;
-}
+    color: white;
 
+}
+.heartIcon{
+    color: red !important; 
+}
 .navBarMargin{
     margin-top: 10px;
 }
 
 
-#logoImg{
-    width: 140px;
-    height: 70px;
+
+/* nav{
+    position: fixed !important;
+    width: 100%;
+    top: -10px;
+    z-index: 2;
+    background-color: black;
+} */
+header{
+    position: fixed !important;
+    width: 100%;
+    z-index: 2;
+    background-color: black;
+    padding:20px 0 5px 0;
 }
+
+.aLogo{
+
+  display: block;
+  text-align: center;
+}
+
+
+#logoImg{
+    width: 160px;
+    height: 80px;
+}
+
+.collapse a:hover {
+    font-size: 21px;
+    color: salmon !important;
+}
+
+.navBarRighet{
+    flex-direction: row !important;
+}
+
+.displaySmall{
+    
+    display: none;
+}
+
+.displayBig{
+    display: block;
+}
+
+
+@media only screen and (max-width: 992px) {
+    .navBarRighet li {
+        margin: 0px 10px;
+    }
+
+    .displaySmall{
+        display: block;
+    }
+
+    .displayBig{
+        display: none;
+    }
+    
+  }

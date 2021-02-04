@@ -23,9 +23,12 @@
 
 .discountProduct{
     color: red;
+    display: inline-block;
+    margin-left: 20px;
 }
 .priceProduct{
-    text-decoration: line-through;
+    text-decoration: none;
+    display: inline-block;
 }
 #amountProduct{
     width: 40px;
@@ -39,7 +42,7 @@
     margin: 10px 10px;
     color: white;
 }
-.loveIcon:hover{
+.loveIconn:hover{
     color: red;
 }
 
@@ -86,7 +89,7 @@
 
 .imageProductDisplay img{
     /* width: 400px; */
-    width: 100%;
+    width: 400px;
     height: 400px;
     /* border: 1px solid black; */
 }
@@ -95,6 +98,16 @@
     width: 100px;
     height: 100px;
     border: 1px solid black;
+}
+
+#macatDiv{
+    font-size:16px ;
+}
+.grin{
+    color: green;
+}
+.red{
+    color: red;
 }
 
 /* 

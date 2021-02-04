@@ -1,19 +1,23 @@
 .divProduct{
     text-align: center;
-    width: 250px;
-    margin: 20px 5px;
+    width: 270px;
     position: relative;
     padding: 0px;
+    color: black;
   
 }
-.divProduct:hover{
-    cursor: pointer;
+.linkStyle{
+    width: 270px;
+    margin: 20px 5px;
+    padding: 22px 0px 0 0;
+    text-decoration: none;
 }
 
-.divProduct:hover{
-/* border: 1px solid black; */
-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+.linkStyle:hover{
+    cursor: pointer;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
 
 
 a#headerProduct{
@@ -31,7 +35,7 @@ a#headerProduct{
     font-size: 15px;
 }
 .priceOfProduct{
-    text-decoration: line-through;
+    text-decoration: none;
     font-size: 20px;
 }
 
@@ -53,3 +57,4 @@ a#headerProduct{
 .divPrice{
     margin-bottom: 20px;
 }
+

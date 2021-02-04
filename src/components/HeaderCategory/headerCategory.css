@@ -26,3 +26,12 @@ option{
     font-size: 19px;
 }
 
+.selectDiv{
+    text-align: right;
+}
+
+@media only screen and (max-width: 768px) {
+    .selectDiv{
+        text-align:left;
+    }
+  }

@@ -1,0 +1,52 @@
+.loginDiv{
+    width: 100%;
+    font-size: 20px;
+    /* margin: 50px 0px; */
+}
+
+.containerLogin{
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+  
+}
+
+
+.containerLogin button{
+    background-color: salmon;
+    width:300px;
+    border-radius: 10px;
+    border: none;
+    height: 50px;
+    margin: 10px 10px;
+    color: white;
+}
+#signUpBtn{
+    background-color: black;
+}
+#signUpBtn:hover{
+    background-color: salmon;
+}
+
+.inputs{
+    width: 400px;
+    height: 50px;
+    margin: 10px;
+    padding: 0px 5px;
+}
+
+#labelRemomber{
+    margin-left: 7px;
+    font-size: 15px;
+}
+
+#forgatA{
+    cursor: pointer;
+}
+
+
+#nanLink{
+    font-size: 20px;
+    text-decoration: none;
+    color: white;
+}

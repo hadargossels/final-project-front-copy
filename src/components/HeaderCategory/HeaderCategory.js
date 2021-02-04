@@ -15,8 +15,9 @@ export default class HeaderCategory extends Component{
 
     render(){
         return(
-            <div className="row headerCategory">
-                  <div className="col-9">
+            <div className="row justify-content-center headerCategory">
+                <h2 className="col-md-2 col-12">{this.props.categoryHeader}</h2>
+                  <div className="col-md-8 col-12 selectDiv">
                      <p>order by:</p>
                      <select onChange={(e)=>this.props.sortChoiced(e.target[e.target.selectedIndex].value)}>
                            <option>default</option>
@@ -24,7 +25,7 @@ export default class HeaderCategory extends Component{
                            <option>expensive-cheap</option>
                      </select>
                   </div>
-                  <h2 className="col-3">{this.props.categoryHeader}</h2>
+                  
                </div>
            );
     }

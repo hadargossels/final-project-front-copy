@@ -98,10 +98,9 @@ class StorePage extends Component{
   
     render(){
        return(
-        <div className="row storeDiv">
+        <div className="row justify-content-center storeDiv">
 
             <ListCategory clickedCategory={this.clickedCategory} changedBrandFilter={this.changedBrandFilter}/>
-           
            <div className="col-10">
                <HeaderCategory categoryHeader={this.state.categoryHeader} sortChoiced={this.sortChoiced}/>
                <GridProduct arrProduct={this.state.arrProduct}/>

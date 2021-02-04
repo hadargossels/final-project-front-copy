@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link, NavLink } from 'react-router-dom';
 import './product.css';
 
 class Product extends Component{
@@ -16,15 +17,16 @@ class Product extends Component{
  
     render(){
        return(
-        <div className="divProduct col-3">
-            <i className="far fa-heart loveIcon"></i>
-            <img src={this.props.data.imgSrc}/>
-            <br/>
-            <a id="headerProduct" src="">{this.props.data.headerProduct}</a>
-            <div id="brandDiv">{this.props.data.brandProduct}</div>
-           <div className="divPrice"><span className="priceOfProduct">{this.props.data.priceProduct}</span><span className="discountOfProduct">  {this.props.data.discountProduct}</span></div>      
+        <NavLink className="linkStyle col-3" to={`/product/${this.props.data.headerProduct.replace(" ","-")}`}>
+            <div className="divProduct">
+                <i className="far fa-heart loveIcon"></i>
+                <img src={this.props.data.imgSrc[0]}/>
+                <br/>
+                <a id="headerProduct" src="">{this.props.data.headerProduct}</a>
+                <div id="brandDiv">{this.props.data.brandProduct}</div>
+                <div className="divPrice"><span className="priceOfProduct">{this.props.data.priceProduct}</span><span className="discountOfProduct">  {this.props.data.discountProduct}</span></div>      
         </div>
-        
+         </NavLink>
           
        );
     }

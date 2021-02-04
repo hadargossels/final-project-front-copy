@@ -4,7 +4,7 @@ import Product from '../Product/Product.js'
 
   function GridProduct(props){
     return(
-        <div className="row divGridProduct">
+        <div className="row justify-content-center divGridProduct">
          {props.arrProduct.map((element,key)=>{
                 return <Product data={element} key={key}/>})}
     
