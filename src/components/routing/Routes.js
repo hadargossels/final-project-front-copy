@@ -10,9 +10,16 @@ import Login from '../Login/Login'
 import SignUp from '../SignUp/SignUp'
 import ProductPage from '../Product/ProductPage'
 import NotFound from '../404/NotFound'
+import Dashboard from '../Dashboard/Dashboard'
 
 
 const Routes = () => {
+    localStorage.setItem("user","connected")
+    localStorage.removeItem("user")
+    let secretLink = Login
+    if (localStorage.getItem("user") === "connected"){
+        secretLink = Dashboard
+    }
     return (
        
             <Switch>
@@ -24,6 +31,7 @@ const Routes = () => {
                 <Route path="/signup" component={SignUp}/>
                 <Route path="/store" component={CatalogPage}/>
                 <Route path="/product/:name" component={ProductPage}/>
+                <Route path="/dashboard" component={secretLink}/>
                 <Route component={NotFound}/>
             </Switch>
     
