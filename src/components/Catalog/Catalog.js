@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { lowToHigh, highToLow, ratingOrder, alphabetOrder} from "../../functions/compareFuncs.js";
 import CatalogElement from "./CatalogElement";
+import './Catalog.css'
 
 export default class Catalog extends Component {
   constructor(props) {
@@ -53,23 +54,27 @@ export default class Catalog extends Component {
   render() {
     return (
 
-      <div className="container">
+      <div className=" mb-2">
+        
         {/* sorter */}
-        <div className="mb-2 text-end">
-          <span className="me-1">Sort by:</span>
-          <select onChange={this.setOrder}>
-            <option defaultValue>Alphabetical</option>
-            <option value="cheapFirst">Price Low to High</option>
-            <option value="expensiveFirst">Price High to Low</option>
-            <option value="byRating">Highest-Rated</option>
-          </select>
+        <div className="row">
+          <div className="text-end col-12 mb-2">
+            <span className="me-1">Sort by:</span>
+            <select onChange={this.setOrder}>
+              <option defaultValue>Alphabetical</option>
+              <option value="cheapFirst">Price Low to High</option>
+              <option value="expensiveFirst">Price High to Low</option>
+              <option value="byRating">Highest-Rated</option>
+            </select>
+          </div>
         </div>
+
         {/* filtering */}
         <div className="row">
-          <div className="col-lg-2 col-md-3 col-4 list-group pe-0 mb-5">
-            <span className="ps-2 pb-2 h3 text-light bg-primary">Categories</span>
-            <span className="ps-2 h5">Platform</span>
-            <form className="ps-3">
+          <div className="col-lg-2 col-md-3 col-4">
+            <h3 className="categs p-1 text-light bg-primary">Categories</h3>
+            <h5 className="p-1 platf">Platform</h5>
+            <form className="ps-sm-3">
               <input type="checkbox" onChange={this.filteredCategories} value="Computer" id="comp" />
               <label htmlFor="comp" className="ps-1">Computer</label>
               <br />
@@ -81,7 +86,7 @@ export default class Catalog extends Component {
             </form>
           </div>
           {/* showing the catalog items on the screen */}
-          <div className="container col-lg-10 col-md-9 col-8 mb-5">
+          <div className="container col-lg-10 col-md-9 col-8 ">
             <div className="row">
               {this.state.displayArr.map(({ ...rest }, key) => (
                 <CatalogElement {...rest} key={key} />

@@ -11,7 +11,7 @@ export default class CatalogPage extends Component {
         let objCatalog = objectsArr
 
         return (
-            <div>
+            <div className="container">
                 <h1 className="text-center py-3">Game Catalog</h1>
                 <Catalog arr={objCatalog}/>
             </div>
