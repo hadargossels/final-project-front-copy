@@ -10,6 +10,7 @@
     margin-bottom: 150px;
     align-items: center;
     justify-content: center;
+    min-height: 350px;
 }
 .myContainer img{
 
@@ -41,8 +42,16 @@
     transform: scale(1.1)
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
     .myBox{
         width: 40%;
     }
+    
+}
+
+@media only screen and (max-width: 700px) {
+    .myBox{
+        width: 65%;
+    }
+    
 }
