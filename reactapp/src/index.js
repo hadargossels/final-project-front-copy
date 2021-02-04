@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Route, BrowserRouter as Router, Switch, NavLink} from 'react-router-dom';
 import './index.css';
-import App from './App';
-import App1 from './App1';
+import Product from './App';
+import Store from './store';
 import Header from './Components/Header/Header';
 import Footer from './Components/Footer/Footer';
 import reportWebVitals from './reportWebVitals';
@@ -18,24 +18,17 @@ import SignUp from './Components/signUp/signUp';
 const active = {
   color: 'red'
 }
-
+// const Contact = ({match}) => <p>{match.param.id}</p>
 const router = (
   
     <Router>
       <Header/>
-      {/* <ul>
-        <li>
-         <NavLink exact to= "/App" activeStyle={active}>abb</NavLink>
-        </li>
-        <li>
-        <NavLink exact to= "/App1" activeStyle={active}>abbA</NavLink>
-        </li>
-
-      </ul> */}
+     
       <div>
         <Switch>
-        <Route path='/product' component={App} />
-        <Route path='/store' component={App1} />
+        {/* <Route path='/' component={Home} /> */}
+        <Route path="/product/:name" component={Product} />
+        <Route path='/store' component={Store} />
         <Route path='/contact' component={ContactUs} />
         <Route path='/about' component={AboutUs} />
         <Route path='/NewLogin' component={SignUp} />

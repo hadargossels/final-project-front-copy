@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './Header.css';
 import {Link, Route } from 'react-router-dom';
-import App from '../../App';
 
 const Contacts = ({match}) => {
     console.log(match.params.num)
@@ -14,9 +13,6 @@ class Header extends Component{
             <div className='header'>
                 <span>logo</span>
                 <ul className="navbar">
-                    <li className="href_group1">
-                    <Link className="navbar_links" to = '/product'>prodact_page</Link>
-                    </li>
                     <li className="href_group1">
                     <Link className="navbar_links" to = '/store'>shop</Link>
                     </li>

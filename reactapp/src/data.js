@@ -1,5 +1,5 @@
 export const data = [
-    {id: 1, name: 'watch1', price:805, brand:"boss", url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc1YxoLOY7eY93uEnZ6AdChuP_Pp9Z__QPQfxC_JgZjWbhElgMB1qcIb4NQv4F7-QsxBWCFkg&usqp=CAc'},
+    {id: 1, name: 'watch1', price:805, brand:"boss", url:"../../../public/logo192.png"},
     {id: 2, name: 'watch2', price:190, brand:"casio", url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc1YxoLOY7eY93uEnZ6AdChuP_Pp9Z__QPQfxC_JgZjWbhElgMB1qcIb4NQv4F7-QsxBWCFkg&usqp=CAc'},
     {id: 3, name: 'watch3', price:350, brand:"casio", url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc1YxoLOY7eY93uEnZ6AdChuP_Pp9Z__QPQfxC_JgZjWbhElgMB1qcIb4NQv4F7-QsxBWCFkg&usqp=CAc'},
     {id: 4, name: 'watch4', price:300, brand:"casio", url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc1YxoLOY7eY93uEnZ6AdChuP_Pp9Z__QPQfxC_JgZjWbhElgMB1qcIb4NQv4F7-QsxBWCFkg&usqp=CAc'},
