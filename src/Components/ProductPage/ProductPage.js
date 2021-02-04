@@ -1,132 +1,192 @@
 import React, { Component } from 'react';
 import './ProductPage.css';
+import data from '../../data.json';
+import formatStars from '../utility/Stars';
+import formatPrice from '../utility/Price';
+import formatPrecent from '../utility/Pecent';
+
 class ProductPage extends Component{
+    constructor() {
+        super();
+        this.state = {
+            imgUrl: "https://via.placeholder.com/350x450",
+            title: null,
+            format: null,
+            pages: null,
+            dimensions: null,
+            weight: null,
+            publisher: null,
+            publicationPlace: null,
+            language: null,
+            price: null,
+            publicationDate: null,
+            description: null,
+            ISBN10: null,
+            ISBN13: null,
+            author: null,
+            artist: null,
+            stars: null,
+            originalPrice: null,
+            diff: null
+        };
+    }
+
+    showEvent = (event) => {
+        this.setState ({
+            imgUrl: event.target.src
+        })
+    }
+
+    componentDidMount() {
+        let MyISBN10 = this.props.match.params.itemISBN;
+        let obj = data.products.filter(product => product.ISBN10 === MyISBN10)
+        let myObj = obj[0]
+        let diff = myObj.originalPrice - myObj.price;
+        this.setState({
+            diff: diff,
+            title: myObj.title,
+            format: myObj.format,
+            pages: myObj.pages,
+            dimensions: myObj.dimensions,
+            weight: myObj.weight,
+            publisher: myObj.publisher,
+            publicationPlace: myObj.publicationPlace,
+            language: myObj.language,
+            price: myObj.price,
+            publicationDate: myObj.publicationDate,
+            description: myObj.description,
+            ISBN10: myObj.ISBN10,
+            ISBN13: myObj.ISBN13,
+            author: myObj.author,
+            artist: myObj.artist,
+            stars: myObj.stars,
+            originalPrice: myObj.originalPrice
+        })
+    }
+
+    returnStars = () => {
+        return <i className="fas fa-star"></i>
+    }
+
    render(){
       return(
           <main className="myYellow">
           <div className="mx-96 my-10">
               <div className="grid grid-cols-4 grid-rows-7 gap-3">
                 <div className="col-span-4 row-span-1">
-                    <h1 className="text-4xl font-bold mx-5 my-2 py-2 bg-red-600 text-center rounded text-white">
-                        Prodcut Name
+                    <h1 className="text-4xl font-bold py-2 bg-yellow-700 text-center rounded text-white">
+                        {this.state.title}
                     </h1>
                 </div>
                 <div className="col-span-1 row-span-3 place-self-center">
-                    <img src="https://via.placeholder.com/350x450" className="border border-black" />
+                    <img src={this.state.imgUrl} className="border border-black" />
                 </div>
-                <div className="col-span-2 row-span-3 bg-white p-9 border border-gray-300 rounded">
+                <div className="col-span-2 row-span-3 bg-gray-300 p-9 border border-gray-200 rounded text-xl">
                     <p>
                         <span className="underline">Author(s):</span>
-                        <span> John Doe</span>
+                        <span> {this.state.author}</span>
                     </p>
                     <p>
                         <span className="underline">Artist(s):</span>
-                        <span> Michael Smith</span>
+                        <span> {this.state.artist}</span>
                     </p>
                     <br/>
-                    <p className="text-red-600">
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="far fa-star"></i>
+                    <p className="text-yellow-500">
+                        {formatStars(this.state.stars)}
                     </p>
                     <br/>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo, nulla distinctio tempora asperiores dignissimos molestiae ratione sit illo, 
-                        placeat ipsum, ipsam officia. Assumenda deleniti blanditiis aliquam voluptates nesciunt asperiores architecto? Unde obcaecati officia aliquid temporibus iure 
-                        libero nemo praesentium distinctio corrupti nostrum neque voluptates quam excepturi, perferendis molestiae repudiandae eaque!
+                        {this.state.description}
                     </p>
                 </div>
                 <div className="col-span-1 row-span-3 text-center p-9">
                     <p>
-                        <span className="text-base text-gray-400 line-through italic">$30</span> 
-                        <span className="text-5xl text-red-600">$27</span>
+                        <span className="text-2xl text-gray-400 line-through italic">{formatPrice(this.state.originalPrice)}</span> 
+                        <span className="text-5xl text-yellow-500">{formatPrice(this.state.price)}</span>
                     </p>
-                    <p className="text-xs text-gray-500 italic">
-                        You save 7%!
+                    <p className="text-xl text-gray-400 italic">
+                        You save {formatPrecent(this.state.originalPrice,this.state.diff)}!
                     </p>
                     <br/>
-                    <p>
+                    <p className="text-3xl text-gray-300">
                         Worldwide delivery
                     </p>
                     <br/>
-                    <button className="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-base px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 hover:bg-white hover:text-red-500 active:bg-white" type="button" style={{ transition: "all .15s ease" }}>
+                    <button className="bg-yellow-700 text-yellow-100 active:bg-yellow-700 font-medium uppercase text-lg px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 hover:bg-yellow-100 hover:text-yellow-600 active:bg-white" type="button" style={{ transition: "all .15s ease" }}>
                         <i className="fas fa-cart-arrow-down"></i> Add to Cart
                     </button>
-                    <button className="text-red-500 bg-white bg-transparent border border-solid border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 font-bold uppercase text-sm px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style={{ transition: "all .15s ease" }}>
+                    <button className="text-yellow-700 bg-yellow-100 border border-solid border-yellow-700 hover:bg-yellow-700 hover:text-yellow-100 active:bg-yellow-700 font-medium uppercase text-lg px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style={{ transition: "all .15s ease" }}>
                         <i className="far fa-heart"></i> Add to Wishlist
                     </button>
                 </div>
                 <div className="col-span-1 row-span-1">
                     <div className="grid grid-cols-5 grid-rows-1 gap-2">
-                        <a className="col-span-1" href="">
-                            <img src="https://via.placeholder.com/50" className="mx-auto border border-black"/>
-                        </a>
-                        <a className="col-span-1" href="">
-                            <img src="https://via.placeholder.com/50" className="mx-auto border border-black"/>
-                        </a>
-                        <a className="col-span-1" href="">
-                            <img src="https://via.placeholder.com/50" className="mx-auto border border-black"/>
-                        </a>
-                        <a className="col-span-1" href="">
-                            <img src="https://via.placeholder.com/50" className="mx-auto border border-black"/>
-                        </a>
-                        <a className="col-span-1" href="">
-                            <img src="https://via.placeholder.com/50" className="mx-auto border border-black"/>
-                        </a>
+                        <span className="col-span-1">
+                            <img src="https://via.placeholder.com/350x450" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
+                        </span>
+                        <span className="col-span-1">
+                            <img src="https://via.placeholder.com/350x450/0000FF" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
+                        </span>
+                        <span className="col-span-1" href="">
+                            <img src="https://via.placeholder.com/350x450/FF0000" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
+                        </span>
+                        <span className="col-span-1" href="">
+                            <img src="https://via.placeholder.com/350x450/008000" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
+                        </span>
+                        <span className="col-span-1" href="">
+                            <img src="https://via.placeholder.com/350x450/000000" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
+                        </span>
                     </div>
                 </div>
-                <div className="col-span-3 row-span-1 border border-gray-300 rounded">
-                    <div className="grid grid-cols-3 grid-rows-1 gap-2 text-sm px-2 py-3">
-                        <div className="col-span-1">
+                <div className="col-span-3 row-span-1 border border-gray-600 rounded bg-gray-700 text-gray-300 tracking-wide">
+                    <div className="grid grid-cols-3 grid-rows-1 gap-2 px-2 py-3">
+                        <div className="col-span-1 text-xl">
                             <p>
-                                <span className="font-bold text-red-600">Format: </span>
-                                Paperback | 496 pages
+                                <span className="font-medium text-yellow-100">Format: </span>
+                                {this.state.format} | {this.state.pages} pages
                             </p>
                             <p>
-                                <span className="font-bold text-red-600">Dimensions: </span>
-                                168 x 259 x 22.86mm | 748.43g
+                                <span className="font-medium text-yellow-600">Dimensions: </span>
+                                {this.state.dimensions} | {this.state.weight}
                             </p>
                             <p>
-                                <span className="font-bold text-red-600">Publication date: </span>
-                                24 Dec 2019
-                            </p>
-                        </div>
-                        <div className="col-span-1">
-                            <p>
-                                <span className="font-bold text-red-600">Publisher: </span>
-                                Darkhorse Comics
-                            </p>
-                            <p>
-                                <span className="font-bold text-red-600">Publication City/Country: </span>
-                                New York, United States
-                            </p>
-                            <p>
-                                <span className="font-bold text-red-600">Language: </span>
-                                English
+                                <span className="font-medium text-yellow-100">Publication date: </span>
+                                {this.state.publicationDate}
                             </p>
                         </div>
-                        <div className="col-span-1">
+                        <div className="col-span-1 text-xl">
                             <p>
-                                <span className="font-bold text-red-600">ISBN10: </span>
-                                1302920669
+                                <span className="font-medium text-yellow-600">Publisher: </span>
+                                {this.state.publisher}
                             </p>
                             <p>
-                                <span className="font-bold text-red-600">ISBN13: </span>
-                                9781302920661
+                                <span className="font-medium text-yellow-100">Language: </span>
+                                {this.state.language}
                             </p>
                             <p>
-                                <span className="font-bold text-red-600">Illustrations note: </span>
-                                <br/>
+                                <span className="font-medium text-yellow-600">Illustrations note: </span>
                                 6 Illustrations, unspecified
                             </p>
                         </div>
+                        <div className="col-span-1 text-xl">
+                            <p>
+                                <span className="font-medium text-yellow-100">ISBN10: </span>
+                                {this.state.ISBN10}
+                            </p>
+                            <p>
+                                <span className="font-medium text-yellow-600">ISBN13: </span>
+                                {this.state.ISBN13}
+                            </p>
+                            <p>
+                            <   span className="font-medium text-yellow-100">Publication City/Country: </span>
+                                {this.state.publicationPlace}
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div className="col-span-4 row-span-2 border-2 border-red-700">
-                    <p className="font-extrabold bg-red-700 px-2 text-white">
-                        You might also like:
+                <div className="col-span-4 row-span-2 border-2 border-gray-300 bg-gray-700">
+                    <p className="font-medium bg-gray-300 px-2 text-gray-800 text-2xl">
+                        You might also like
                     </p>
                     <br/>
                     <div className="grid grid-cols-3 grid-rows-1 gap-2 text-sm px-2 py-3">
@@ -134,43 +194,43 @@ class ProductPage extends Component{
                             <a>
                                 <img src="https://via.placeholder.com/100x150" className="border border-black float-left mr-2" />
                             </a>
-                            <span className="font-bold">Lorem ipsum dolor sit amet</span>
+                            <span className="font-medium text-yellow-400 text-lg">Lorem ipsum dolor sit amet</span>
                             <br/>
-                            <span>$25</span>
+                            <span className="font-medium text-gray-200 text-base">$25</span>
                             <br/>
-                            <i className="fas fa-star"></i>
-                            <i className="fas fa-star"></i> 
-                            <i className="fas fa-star"></i>
-                            <i className="far fa-star"></i>
-                            <i className="far fa-star"></i>
+                            <i className="fas fa-star text-yellow-500"></i>
+                            <i className="fas fa-star text-yellow-500"></i> 
+                            <i className="fas fa-star text-yellow-500"></i>
+                            <i className="far fa-star text-yellow-500"></i>
+                            <i className="far fa-star text-yellow-500"></i>
                         </p>
                         <p className="col-span-1">
                             <a>
                                 <img src="https://via.placeholder.com/100x150" className="border border-black float-left mr-2" />
                             </a>
-                            <span className="font-bold">Lorem ipsum dolor sit amet</span>
+                            <span className="font-medium text-yellow-400 text-lg">Lorem ipsum dolor sit amet</span>
                             <br/>
-                            <span>$17</span>
+                            <span className="font-medium text-gray-200 text-base">$17</span>
                             <br/>
-                            <i className="fas fa-star"></i>
-                            <i className="fas fa-star"></i> 
-                            <i className="fas fa-star"></i>
-                            <i className="fas fa-star"></i>
-                            <i className="fas fa-star"></i>
+                            <i className="fas fa-star text-yellow-500"></i>
+                            <i className="fas fa-star text-yellow-500"></i> 
+                            <i className="fas fa-star text-yellow-500"></i>
+                            <i className="fas fa-star text-yellow-500"></i>
+                            <i className="fas fa-star text-yellow-500"></i>
                         </p>
                         <p className="col-span-1">
                             <a>
                                 <img src="https://via.placeholder.com/100x150" className="border border-black float-left mr-2" />
                             </a>
-                            <span className="font-bold">Lorem ipsum dolor sit amet</span>
+                            <span className="font-medium text-yellow-400 text-lg">Lorem ipsum dolor sit amet</span>
                             <br/>
-                            <span>$37</span>
+                            <span className="font-medium text-gray-200 text-base">$37</span>
                             <br/>
-                            <i className="fas fa-star"></i>
-                            <i className="fas fa-star"></i> 
-                            <i className="far fa-star"></i>
-                            <i className="far fa-star"></i>
-                            <i className="far fa-star"></i>
+                            <i className="fas fa-star text-yellow-500"></i>
+                            <i className="fas fa-star text-yellow-500"></i> 
+                            <i className="far fa-star text-yellow-500"></i>
+                            <i className="far fa-star text-yellow-500"></i>
+                            <i className="far fa-star text-yellow-500"></i>
                         </p>
                     </div>
                 </div>

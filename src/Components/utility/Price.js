@@ -1,4 +1,6 @@
 export default function formatPrice(num) {
-    let myPrice = Number(num.toFixed(1)).toLocaleString()
-    return `$${myPrice} `
+    if (num != null) {
+        let myPrice = Number(num.toFixed(1)).toLocaleString()
+        return `$${myPrice} `
+    } 
 }

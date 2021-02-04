@@ -4,9 +4,9 @@ import './filters.css';
 class Filters extends Component {
   render () {
     return (
-        <div className="filters">
-            <div className="border-4 border-red-700 rounded">
-            <h1 className="filtersHeader bg-red-700 text-white font-bold">Filters</h1>
+        <div className="filters text-xl">
+            <div className="border-4 border-yellow-700 rounded bg-yellow-100">
+            <h1 className="filtersHeader bg-yellow-700 text-black text-3xl">Filters</h1>
             <div className="filterLanguage mx-4">
                 Language 
                 <br/>

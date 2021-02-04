@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&family=Teko:wght@300;500;700&display=swap');
+
+.globalFont {
+  font-family: 'Teko', sans-serif;
+  font-weight: 300;
+}
+
 .App {
   text-align: center;
 }
