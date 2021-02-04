@@ -4,32 +4,22 @@ import { Card, Button } from 'react-bootstrap';
 import './CatalogProduct.css'
 
 export default class CatalogProduct extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            image: props.img,
-            productName: props.title,
-            starsRating: props.stars,
-            prodDescription: props.desc,
-            prodPrice: props.price
-        };
-    }
     render() {
         return (
             <div className="col-4">
                 <Card style={{ width: '20vw', height: '41rem', margin: '30px' }}>
-                    <Card.Img variant="top" src={this.state.image} />
+                    <Card.Img variant="top" src={this.props.img} />
                     <Card.Body>
-                        <Card.Title>{this.state.productName}</Card.Title>
+                        <Card.Title>{this.props.title}</Card.Title>
                         <ReactStars
                             count={5}
                             size={24}
-                            value={this.state.starsRating}
+                            value={this.props.stars}
                             edit={false}
                             activeColor="#ffd700"
                         />
-                        <Card.Text>{this.state.prodDescription}</Card.Text>
-                        <span style={{ color: 'red' }}>Starting price: {this.state.prodPrice}$ </span><Button variant="primary">Add to basket</Button>
+                        <Card.Text>{this.props.desc}</Card.Text>
+                        <span style={{ color: 'red' }}>Starting price: {this.props.price}$ </span><Button variant="primary">Add to basket</Button>
                     </Card.Body>
                 </Card>
             </div>

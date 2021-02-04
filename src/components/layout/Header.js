@@ -28,7 +28,7 @@ class Header extends React.Component {
                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                <Navbar.Collapse id="responsive-navbar-nav">
                   <Nav className="mr-auto" style={navElemStyle}>
-                     <Nav.Link href="#link1">link1</Nav.Link>
+                     <Nav.Link href="/">Home</Nav.Link>
                      <Nav.Link href="#link2">link2</Nav.Link>
                      <Nav.Link href="#link3">link3</Nav.Link>
                   </Nav>

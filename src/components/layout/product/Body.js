@@ -6,17 +6,11 @@ import Rating from './Rating'
 import './Body.css';
 
 class Body extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-        };
-    }
-
     render() {
         const divStyle = {
             margin: '10px',
             border: '2px solid gold',
-            height: '110vh',
+            height: '90vh',
             textAlign: 'center',
             position: 'relative',
             backgroundColor: 'rgb(217, 236, 228)'
@@ -29,7 +23,6 @@ class Body extends React.Component {
         }
         return (
             <div style={divStyle}>
-                <h1 style={{ marginTop: '10px' }}>Samsung Galaxy S20 Ultra 5G</h1>
                 <ProductView />
                 <div style={prodInfoStyle}>
                     <Favorite />

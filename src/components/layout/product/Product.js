@@ -21,7 +21,7 @@ export default class ProductView extends Component {
             border: '2px solid black'
         }
         const longText =
-        `The Galaxy S20 Ultra is the flagship smartphone of Samsung’s Galaxy S20 series. The device is huge with the display measuring 6.9-inches.
+            `The Galaxy S20 Ultra is the flagship smartphone of Samsung’s Galaxy S20 series. The device is huge with the display measuring 6.9-inches.
         The QHD+ panel on the Galaxy S20 Ultra has excellent viewing angles and the output is vivid. The panel also gets bright enough when outdoors.
         The phone is powered by an Exynos 990 SoC and has 12GB of RAM and 128GB of storage onboard.
         
@@ -29,46 +29,49 @@ export default class ProductView extends Component {
         The phone has a quad-camera setup with a 108-megapixel primary camera, a 48-megapixel telephoto camera, 12-megapixel ultrawide-angle-camera and a depth vision camera.
         Samsung also offers 100x zoom on the device which is the highlight of the Galaxy S20 Ultra. The camera performance is excellent as the device manages to take good shots irrespective of the lighting conditions.`
         return (
-            <div style={carouselStyle}>
-                <Carousel>
-                    <Carousel.Item>
-                        <img
-                            src={img1}
-                            alt="S20 ulta pic"
-                            width="300px"
-                            height="300px"
-                        />
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                            src={img2}
-                            alt="S20 ulta pic"
-                            width="250px"
-                            height="300px"
-                        />
+            <>
+                <h1 style={{ marginTop: '10px' }}>Samsung Galaxy S20 Ultra 5G</h1>
+                <div style={carouselStyle}>
+                    <Carousel>
+                        <Carousel.Item>
+                            <img
+                                src={img1}
+                                alt="S20 ulta pic"
+                                width="300px"
+                                height="300px"
+                            />
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img
+                                src={img2}
+                                alt="S20 ulta pic"
+                                width="250px"
+                                height="300px"
+                            />
 
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                            src={img3}
-                            alt="S20 ulta pic"
-                            width="400px"
-                            height="300px"
-                        />
-                    </Carousel.Item>
-                </Carousel>
-                <div style={pStyle}>
-                    <ReactReadMoreReadLess
-                        charLimit={400}
-                        readMoreText={"Read more ▼"}
-                        readLessText={"Read less ▲"}
-                        readMoreClassName="read-more-less--more"
-                        readLessClassName="read-more-less--less"
-                    >
-                        {longText}
-                    </ReactReadMoreReadLess>
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img
+                                src={img3}
+                                alt="S20 ulta pic"
+                                width="400px"
+                                height="300px"
+                            />
+                        </Carousel.Item>
+                    </Carousel>
+                    <div style={pStyle}>
+                        <ReactReadMoreReadLess
+                            charLimit={400}
+                            readMoreText={"Read more ▼"}
+                            readLessText={"Read less ▲"}
+                            readMoreClassName="read-more-less--more"
+                            readLessClassName="read-more-less--less"
+                        >
+                            {longText}
+                        </ReactReadMoreReadLess>
+                    </div>
                 </div>
-            </div>
+            </>
         )
     }
 }
