@@ -6,7 +6,7 @@ import './CatalogProduct.css'
 export default class CatalogProduct extends Component {
     render() {
         return (
-            <div className="col-4">
+            <div>
                 <Card style={{ width: '20vw', height: '41rem', margin: '30px' }}>
                     <Card.Img variant="top" src={this.props.img} />
                     <Card.Body>

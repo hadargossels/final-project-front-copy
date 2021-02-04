@@ -198,7 +198,7 @@ export default class Catalog extends Component {
                     <div className="row row-cols-3">
                         {this.state.productsArr.map((product,index) => (
                             <div className="cards" key={index}>
-                                <Link to={"/mobile" + index} style={{ textDecoration: 'none' }}><CatalogProduct img={product.img} title={product.title} stars={product.stars} desc={product.desc} price={product.price} /></Link>
+                                <Link to={"/product/" + product.title.replace(/\s/g, '')} style={{ textDecoration: 'none' }}><CatalogProduct img={product.img} title={product.title} stars={product.stars} desc={product.desc} price={product.price} /></Link>
                             </div>
                         ))}
                     </div>

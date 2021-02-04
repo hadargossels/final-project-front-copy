@@ -17,13 +17,14 @@ class Footer extends React.Component {
       }
       const iconsStyle = {
          color: 'red',
+         fontSize: '1.2em',
          margin: '20px 10px 0 10px'
       }
       return (
          <div style={divStyle}>
-            <a href="#facebook" style={ {textDecoration: 'none'}}> <FontAwesomeIcon icon={faFacebookF} style={iconsStyle} /></a>
-            <a href="#instagram" style={ {textDecoration: 'none'}}> <FontAwesomeIcon icon={faInstagram} style={iconsStyle} /></a>
-            <a href="#twitter" style={ {textDecoration: 'none'}}> <FontAwesomeIcon icon={faTwitter} style={iconsStyle} /></a>
+            <a href="https://www.facebook.com/" target="_blank" rel="noreferrer" style={ {textDecoration: 'none'}}> <FontAwesomeIcon icon={faFacebookF} style={iconsStyle} /></a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noreferrer" style={ {textDecoration: 'none'}}> <FontAwesomeIcon icon={faInstagram} style={iconsStyle} /></a>
+            <a href="https://twitter.com/" target="_blank" rel="noreferrer" style={ {textDecoration: 'none'}}> <FontAwesomeIcon icon={faTwitter} style={iconsStyle} /></a>
             <br></br><br></br>
             <p>Copyright &copy; All rights reserved <br></br> This store is made with &hearts; by <span style={{color:"blue"}}>Mansor Mansor</span></p>
          </div>

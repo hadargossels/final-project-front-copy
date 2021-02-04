@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../../imgs/StoreLogo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
@@ -21,6 +22,11 @@ class Header extends React.Component {
          color: 'white',
          textDecoration: 'none'
       }
+      const linkStyle = {
+         color: 'white',
+         textDecoration: 'none',
+         marginRight: '8px'
+      }
       return (
          <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" style={navStyle}>
@@ -28,16 +34,17 @@ class Header extends React.Component {
                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                <Navbar.Collapse id="responsive-navbar-nav">
                   <Nav className="mr-auto" style={navElemStyle}>
-                     <Nav.Link href="/">Home</Nav.Link>
-                     <Nav.Link href="#link2">link2</Nav.Link>
-                     <Nav.Link href="#link3">link3</Nav.Link>
+                     <Link to="/" style={linkStyle}>Home</Link>
+                     <Link to="/about" style={linkStyle}>About-Us</Link>
+                     <Link to="/contact" style={linkStyle}>Contact-Us</Link>
+                     <Link to="/blog" style={linkStyle}>Blog</Link>
                   </Nav>
                   <Form inline style={{padding:'0 30px'}}>
                      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
                      <Button variant="outline-success">Search</Button>
                   </Form>
                   <a href="#shoppingCartId" style={cartStyle}> Shopping cart <FontAwesomeIcon id="shoppingCartId" icon={faShoppingCart} style={cartStyle}/></a>
-                  <span id="registerID" style={spanElemStyle}> Hi! <a href="#Register"> Register </a>Or <a href="#SignIn"> Sign in </a></span>
+                  <span id="registerID" style={spanElemStyle}> Hi! <Link to=""> Register </Link>Or <Link to="/login"> Sign in </Link></span>
                </Navbar.Collapse>
             </Navbar>
          </>
