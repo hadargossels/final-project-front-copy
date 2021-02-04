@@ -14,7 +14,7 @@ class Price extends Component{
                     <p className="h5">Price: 
                         <span className="text-danger h4 text-decoration-line-through m-2">{this.price.toFixed(2)}$</span>
                     </p> 
-                    <span className="text-success h4">  Limited-time offer - {(this.price*this.discount).toFixed(2)}$</span>
+                    <span className="text-success h4">  Limited-time offer - {this.discount.toFixed(2)}$</span>
                 </div>
             )
         }

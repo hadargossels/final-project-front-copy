@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import Catalog from './Catalog';
 import './CatalogPage.css'
-import data from '../Product/data'
+import {objectsArr} from '../Product/data'
 
 
 export default class CatalogPage extends Component {
 
     render() {
 
-        let objCatalog = data
+        let objCatalog = objectsArr
 
         return (
             <div>

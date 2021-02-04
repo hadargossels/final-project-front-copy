@@ -7,11 +7,11 @@ class AlsoViewed extends Component{
              <p className="h5">Customers who viewed this game also viewed</p>
              <div className = "py-3 d-flex justify-content-center flex-wrap text-primary">
                  <div>
-                    <img className="m-2" width="150px" src="../img/gameImg2.jpg" alt="game2"></img>
+                    <img className="m-2" width="150px" src="/img/catalog/catalog1.jpg" alt="game2"></img>
                     <p>Atelier Ryza 2</p>
                  </div>
                  <div>
-                    <img className="m-2" width="150px" src="../img/gameImg3.jpg" alt="game3"></img>
+                    <img className="m-2" width="150px" src="/img/catalog/catalog2.jpg" alt="game3"></img>
                     <p>Atelier Lydie & Suelle</p>
                  </div>
                     

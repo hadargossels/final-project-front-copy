@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { lowToHigh, highToLow, alphabetOrder} from "../../functions/compareFuncs.js";
+import { lowToHigh, highToLow, ratingOrder, alphabetOrder} from "../../functions/compareFuncs.js";
 import CatalogElement from "./CatalogElement";
 
 export default class Catalog extends Component {
@@ -18,6 +18,9 @@ export default class Catalog extends Component {
       case "expensiveFirst":
         sortFunction = highToLow;
         break;
+      case "byRating":
+          sortFunction = ratingOrder;
+          break;
       default:
         sortFunction = alphabetOrder;
         break;
@@ -58,6 +61,7 @@ export default class Catalog extends Component {
             <option defaultValue>Alphabetical</option>
             <option value="cheapFirst">Price Low to High</option>
             <option value="expensiveFirst">Price High to Low</option>
+            <option value="byRating">Highest-Rated</option>
           </select>
         </div>
         {/* filtering */}
