@@ -1,16 +1,28 @@
 import React, { Component } from 'react';
+import {Link,Route} from "react-router-dom";
 import Stars from './Stars';
 import ChartBtn from './ChartBtn';
+const ListItemLink = ({ name , urlImg ,index }) => (
+    <Route path={"/product/yoga/"+index+"/"+name} children={({ match }) => (
+      <li className={match ? 'active' : ''}><br/>
+        <Link className="btn text-white" to={"/product/yoga/"+index+"/"+name}>
+            <img key={name} src={urlImg} alt="..." width='100%' height="250rem"/><br/>
+        </Link>
+      </li>
+)}/>)
+
 class Yoga extends Component{
     constructor(){
         super();
         this.myJson = require('./workOutP.json').Yoga;
+        console.log(this.myJson);
         this.state ={
             urlImg :[],
             name: [],
             prices :[],
             stars:[],
-            myArr:[]
+            myArr:[],
+            jsonPlace:[]
         }
         this.deState();
     }
@@ -21,6 +33,7 @@ class Yoga extends Component{
             this.state.prices.push(Number(i.price));
             this.state.stars.push(Number(i.stars));
             this.state.urlImg.push(i.urlImg[0]);
+            this.state.jsonPlace.push(Number(i.jsonPlace));
         };
     }
 
@@ -32,7 +45,7 @@ class Yoga extends Component{
             for(let i=0; i<this.state.name.length; i++){
                 tempArr.push(<div className="col-3 text-center" key={i}>
                     <h3>{this.state.name[i]} Price: {this.state.prices[i]}$</h3>
-                    <img key={this.state.name[i]} src={this.state.urlImg[i]} alt="..." width='100%' height="300px"/><br/>
+                    <ListItemLink name={this.state.name[i]} urlImg={this.state.urlImg[i]} index={this.state.jsonPlace[i]}/><br/>
                     <Stars numStars={this.state.stars[i]}/>
                 </div>)
             }
@@ -56,6 +69,7 @@ class Yoga extends Component{
        let sName=this.state.name
        let sUrl=this.state.urlImg
        let sStars=this.state.stars
+       let sJson=this.state.jsonPlace
         for(let i=0; i<3; i++){
             for(let k=i; k<3; k++){
                 if(sArr[k]<sArr[i]){
@@ -63,6 +77,7 @@ class Yoga extends Component{
                     [sName[i],sName[k]]=[sName[k],sName[i]];
                     [sUrl[i],sUrl[k]]=[sUrl[k],sUrl[i]];
                     [sStars[i],sStars[k]]=[sStars[k],sStars[i]];
+                    [sJson[i],sJson[k]]=[sJson[k],sJson[i]];
                 }
             }
 
@@ -71,6 +86,7 @@ class Yoga extends Component{
         this.setState({name:sName});
         this.setState({urlImg:sUrl});
         this.setState({stars:sStars});
+        this.setState({jsonPlace:sJson});
         this.setState({myArr:[]});
    }
    sortStars(){
@@ -78,6 +94,7 @@ class Yoga extends Component{
     let sName=this.state.name
     let sUrl=this.state.urlImg
     let sStars=this.state.stars
+    let sJson=this.state.jsonPlace
     // console.log(sStars);
      for(let i=0; i<this.state.stars.length; i++){
          for(let k=i; k<this.state.stars.length; k++){
@@ -86,6 +103,7 @@ class Yoga extends Component{
                  [sName[i],sName[k]]=[sName[k],sName[i]];
                  [sUrl[i],sUrl[k]]=[sUrl[k],sUrl[i]];
                  [sStars[i],sStars[k]]=[sStars[k],sStars[i]];
+                 [sJson[i],sJson[k]]=[sJson[k],sJson[i]];
              }
          }
 
@@ -95,6 +113,7 @@ class Yoga extends Component{
      this.setState({name:sName});
      this.setState({urlImg:sUrl});
      this.setState({stars:sStars});
+     this.setState({jsonPlace:sJson});
      this.setState({myArr:[]});
 }
 }

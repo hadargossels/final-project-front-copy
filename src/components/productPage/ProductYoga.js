@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import {match,params} from "react-router-dom";
 import Stars from './Stars';
 import ChartBtn from './ChartBtn';
-class Middle extends Component{
+class ProductYoga extends Component{
     constructor(props){
         super(props);
-        this.myJson=require('./workOutP.json').data[Number(this.props.match.params.num)];
+        this.myJson=require('./workOutP.json').Yoga[Number(this.props.match.params.num)];
         this.state={
             imgSrc:this.myJson.urlImg,
             title:this.myJson.name,
@@ -31,6 +31,7 @@ class Middle extends Component{
     }
 
     render(){
+        console.log(this.props.match.params.num);
       return(
         <div className="row">
             <div className="col-1">
@@ -40,7 +41,7 @@ class Middle extends Component{
                 <img src={this.state.imgSrc[3]} alt="..." className="img-thumbnail" onClick={()=>this.changePic(3)}/><br/><br/>
                 <img src={this.state.imgSrc[4]} alt="..." className="img-thumbnail" onClick={()=>this.changePic(4)}/>
             </div>
-            <div className="col-5">
+            <div className="col-5"><br/><br/>
             <img id="bigI" src={this.state.imgSrc[this.state.imgid]} alt="..." width='100%'/><br/><br/>
             </div>
             <div className="col-3">
@@ -61,4 +62,4 @@ class Middle extends Component{
       );
    }
 }
-export default Middle;
+export default ProductYoga;

@@ -11,3 +11,8 @@
     /* border-width: thin;
     border: black; */
   }
+  #homePage{
+    background-image: url("/images/experisSportLogo.png");
+    /* background-repeat:repeat-y; */
+    height: 38rem;
+  }

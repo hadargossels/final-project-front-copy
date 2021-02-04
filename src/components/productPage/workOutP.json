@@ -1,5 +1,5 @@
 {
-  "workOut" : [{
+  "data" : [{
       "name":"Bench Press",
       "urlImg":["/images/benchPress.jpg","/images/benchPress2.jpg","/images/benchPress.jpg","/images/benchPress2.jpg","/images/benchPress.jpg"],
       "price":"187",
@@ -9,43 +9,51 @@
       },
       {
          "name":"Pull up bar",
-         "urlImg":["/images/pullupbar.jpg","/images/pullupbar.jpg","/images/pullupbar.jpg","/images/pullupbar.jpg","/images/pullupbar.jpg"],
-         "price":"152",
-         "stars":"3",
-         "jsonPlace":"1"
-      },
-      {
-         "name":"FUEL Weighted Vest",
-         "urlImg":["/images/FUEL-Weighted-Vest.jpg","/images/FUEL-Weighted-Vest.jpg","/images/FUEL-Weighted-Vest.jpg","/images/FUEL-Weighted-Vest.jpg","/images/FUEL-Weighted-Vest.jpg"],
-         "price":"90",
-         "stars":"5",
-         "jsonPlace":"2",
-         "type":"workOut"
-      }
-  ],
-   "Yoga" : [{
-      "name":"Yoga mat",
-      "urlImg":["/images/yogaMattress.jpg","/images/yogaMattress.jpg","/images/yogaMattress.jpg","/images/yogaMattress.jpg","/images/yogaMattress.jpg"],
-      "price":"187",
-      "stars":"4",
-      "jsonPlace":"0",
-      "type":"workOut"
-      },
-      {
-         "name":"Yoga wheel",
-         "urlImg":["/images/yoga-wheel.jpg","/images/yoga-wheel.jpg","/images/yoga-wheel.jpg","/images/pullupbar.jpg","/images/yoga-wheel.jpg"],
-         "price":"152",
+         "urlImg":["/images/pullupbar.jpg","/images/pullupbar2.jpg","/images/pUpB3.jpg","/images/pullupbar.jpg","/images/pullupbar2.jpg"],
+         "price":"52",
          "stars":"3",
          "jsonPlace":"1",
          "type":"workOut"
       },
       {
-         "name":"Yoga block",
-         "urlImg":["/images/yoga-block.jpg","/images/yoga-block.jpg","/images/yoga-block.jpg","/images/yoga-block.jpg","/images/yoga-block.jpg"],
+         "name":"FUEL Weighted Vest",
+         "urlImg":["/images/FUEL-Weighted-Vest.jpg","/images/fWVback.jpg","/images/FUEL-Weighted-Vest.jpg","/images/fWVback.jpg","/images/FUEL-Weighted-Vest.jpg"],
          "price":"90",
          "stars":"5",
-         "jsonPlace":"0",
+         "jsonPlace":"2",
          "type":"workOut"
+      },
+      {
+         "name":"Kettlebell weights 5kg",
+         "urlImg":["/images/kattlebell5kg.jpg","/images/kattlebell5kg2.jpg","/images/kattlebell5kg.jpg","/images/kattlebell5kg2.jpg","/images/kattlebell5kg.jpg"],
+         "price":"35",
+         "stars":"4",
+         "jsonPlace":"3",
+         "type":"workOut"
+      },
+      {
+      "name":"Yoga mat",
+      "urlImg":["/images/yogaMattress.jpg","/images/yogaMattress2.jpg","/images/yogaMattress3.jpg","/images/yogaMattress4.jpg","/images/yogaMattress.jpg"],
+      "price":"30",
+      "stars":"3",
+      "jsonPlace":"4",
+      "type":"yoga"
+      },
+      {
+         "name":"Yoga wheel",
+         "urlImg":["/images/yoga-wheel.jpg","/images/yoga-wheel2.jpg","/images/yoga-wheel-3.jpg","/images/yoga-wheel.jpg","/images/yoga-wheel2.jpg"],
+         "price":"19",
+         "stars":"5",
+         "jsonPlace":"5",
+         "type":"yoga"
+      },
+      {
+         "name":"Yoga block",
+         "urlImg":["/images/yoga-block.jpg","/images/yoga-block2.jpg","/images/yoga-block3.jpg","/images/yoga-block.jpg","/images/yoga-block2.jpg"],
+         "price":"10",
+         "stars":"4",
+         "jsonPlace":"6",
+         "type":"yoga"
       }
    ]
 }
