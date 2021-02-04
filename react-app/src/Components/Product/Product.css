@@ -20,3 +20,17 @@
     padding: 15px;
     text-align: center;
 }
+
+#myImg {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative; 
+    bottom: 5%; 
+    object-fit: cover;
+    width: 500px;
+}
+  
+#myImg:hover {
+    opacity: 0.7;
+}

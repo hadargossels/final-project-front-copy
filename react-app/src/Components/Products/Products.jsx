@@ -4,13 +4,15 @@ import ratingStars from '../../js/script';
 import ProductsList from '../ProductsList/ProductsList';
 /* import ProductsFilter from '../ProductsFilter/ProductsFilter'; */
 
+const products = require('../../database/products.json');
+
 export default class Products extends Component {
 
-    constructor(props) {
+    constructor() {
 
-        super(props);
+        super();
         
-        this.state = {prodsArr: props.prodsArr, displayArr: props.prodsArr, displayArrLen: props.prodsArr.length, filterArr: [], numHardware: 0, numLaptops: 0, numPeripheral: 0, numSoftwares: 0};
+        this.state = {prodsArr: products, displayArr: products, displayArrLen: products.length, filterArr: [], numHardware: 0, numLaptops: 0, numPeripheral: 0, numSoftwares: 0};
         
         this.lowPrice = this.lowPrice.bind(this);
         this.highPrice = this.highPrice.bind(this);
@@ -89,7 +91,7 @@ export default class Products extends Component {
 
         let newArr = this.state.displayArr;
 
-        newArr = newArr.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+        newArr = newArr.sort((a,b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0));
 
         this.setState({displayArr: newArr});
     }
@@ -130,8 +132,7 @@ export default class Products extends Component {
 
             <div>
                 <ol className="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                        / <li className="active"><a href="#">Products</a></li>
+                    <li><a href="#">Store</a></li>
                 </ol>
             </div>
 
@@ -336,13 +337,13 @@ export default class Products extends Component {
                               <span className="caret"></span>
                             </button>
                             <ul className="dropdown-menu">
-                                <li><a href="#" onClick={this.lowPrice}>By Price Low</a></li>
+                                <li><a onClick={this.lowPrice}>By Price Low</a></li>
                                 <li className="divider"></li>
-                                <li><a href="#" onClick={this.highPrice}>By Price High</a></li>
+                                <li><a onClick={this.highPrice}>By Price High</a></li>
                                 <li className="divider"></li>
-                                <li><a href="#" onClick={this.bestRating}>By Ratings</a></li>
+                                <li><a onClick={this.bestRating}>By Ratings</a></li>
                                 <li className="divider"></li>
-                                <li><a href="#" onClick={this.alphabet}>By Alphabet</a></li>
+                                <li><a onClick={this.alphabet}>By Alphabet</a></li>
                             </ul>
                         </div>
                     </div>
@@ -353,7 +354,7 @@ export default class Products extends Component {
                     {
                         this.state.displayArr.map((prod, index) =>
                         <ProductsList 
-                            key={index} img={prod.img} imgAlt={prod.imgAlt} name={prod.name} price={prod.price} rating={prod.rating} stock={prod.stock} discount={prod.discount} discountPercentage={prod.discountPercentage}
+                            key={index} img={prod.img[0]} alt={prod.alt} title={prod.title} price={prod.price} rating={prod.rating} stock={prod.stock} discount={prod.discount} discountPercentage={prod.discountPercentage}
                         />)
                     }
         
@@ -361,20 +362,20 @@ export default class Products extends Component {
                 <br /><br /><br />
                 <div className="d-flex justify-content-center">
                     <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
+                        <ul className="pagination">
+                            <li className="page-item">
+                            <a className="page-link" href="#" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
+                                <span className="sr-only">Previous</span>
                             </a>
                             </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
+                            <li className="page-item"><a className="page-link" href="#">1</a></li>
+                            <li className="page-item"><a className="page-link" href="#">2</a></li>
+                            <li className="page-item"><a className="page-link" href="#">3</a></li>
+                            <li className="page-item">
+                            <a className="page-link" href="#" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
+                                <span className="sr-only">Next</span>
                             </a>
                             </li>
                         </ul>

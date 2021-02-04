@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import ratingStars from '../../js/script';
 
 export default function ProductsList(props) {
@@ -8,12 +9,12 @@ export default function ProductsList(props) {
     let newPrice;
     
     if (props.stock) {
-        addNotify = <a href="#" className="btn btn-success" role="button">Add To <i className="fas fa-shopping-cart"></i></a>;
+        addNotify = <a href="#" className="btn btn-outline-primary" role="button">Add To <i className="fas fa-shopping-cart"></i></a>;
         status = <span className="text-success">In Stock</span>;
     }
 
     else {
-        addNotify = <a href="#" className="btn btn-danger" role="button">Notify Me</a>;
+        addNotify = <a href="#" className="btn btn-outline-danger" role="button">Notify Me</a>;
         status = <span className="text-danger">Out of Stock</span>;
     }
 
@@ -30,16 +31,20 @@ export default function ProductsList(props) {
     return(
         <div className="col-md-4 text-center col-sm-6 col-xs-6">
             <div className="thumbnail product-box">
-                <img src={props.img} alt={props.imgAlt} height="150px"/>
+                <Link to={"/store/products/"+props.alt}>
+                    <img src={props.img} alt={props.alt} height="150px"/>
+                </Link>
                     <div className="caption">
                         {/*https://forum.bootstrapstudio.io/t/dynamic-text-sizing/4282*/}
-                        <h3 style={{fontSize: "calc(0.9em + 0.1vw)"}}><a href="#">{props.name}</a></h3><br/>
+                        <Link to={"/store/products/"+props.alt}>
+                            <h3 style={{fontSize: "calc(0.9em + 0.1vw)"}}>{props.title}</h3><br/>
+                        </Link>
                         {price}
                         {newPrice}
                         <p>Ratings:&emsp;{ratingStars(props.rating)}</p>
                         <p>Status:&emsp;{status}</p>
                         <p>Lorem ipsum</p>
-                        <p>{addNotify} <a href="#" className="btn btn-primary" role="button">See Details</a></p>
+                        <p>{addNotify} <Link to={"/store/products/"+props.alt}><span className="btn btn-outline-success" role="button">More Details</span></Link></p>
                     </div>
             </div>
         </div>

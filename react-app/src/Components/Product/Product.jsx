@@ -1,124 +1,175 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './Product.css';
+import ratingStars from '../../js/script';
+import NotFound from '../404/NotFound';
+
+const products = require('../../database/products.json');
 
 export default class Product extends Component {
 
-   constructor() {
+   constructor(props) {
 
-      super();
+      super(props);
+      
+      const product = products.filter(prod => prod.alt == this.props.match.params.prodName);
 
-      this.state = {src: '/images/brands/ASUS/XONAR AE/1.png'};
+      if (product.length > 0) {
 
-      this.updateState = this.updateState.bind(this);
+         this.state = {arr: product[0], src: product[0].img[0], type: product[0].type, addNotify: "", status: "", price: "", newPrice: ""};
+      
+         this.updateImage = this.updateImage.bind(this);
+         this.setStatusPrice = this.setStatusPrice.bind(this);
+
+         if (this.state.arr.stock) {
+            this.state.addNotify = <button type="button" className="btn btn-outline-primary"><span style={{fontSize: "1.25rem", fontWeight: "300"}}>Add to <i className="fas fa-shopping-cart"></i></span></button>;
+            this.state.status = <span className="text-success">In Stock</span>;
+         }
+    
+         else {
+            this.state.addNotify = <button type="button" className="btn btn-outline-danger"><span style={{fontSize: "1.25rem", fontWeight: "300"}}>Notify Me</span></button>
+            this.state.status = <span className="text-danger">Out of Stock</span>;
+         }
+    
+         if (this.state.arr.discount) {
+            this.state.price =  <span style={{textDecoration: "line-through"}}>Price: ₪{this.state.arr.price.toFixed(2)}</span>;
+            this.state.newPrice = <strong className="text-danger"><br/>Discount: ₪{(this.state.arr.price*(1-this.state.arr.discountPercentage)).toFixed(2)}</strong>;
+         } 
+    
+         else {
+            this.state.price = <strong>Price: ₪{this.state.arr.price.toFixed(2)}</strong>;
+            this.state.newPrice = <span style={{display: "none"}}>.</span>;
+         }
+      }
 
    };
 
-   updateState(img) {
+   updateImage(img) {
 
       this.setState({src: img.target.src});
    }
+   
+   setStatusPrice(prod) {
+
+         if (prod.stock) {
+            this.setState({addNotify: <button type="button" className="btn btn-outline-primary"><span style={{fontSize: "1.25rem", fontWeight: "300"}}>Add to <i className="fas fa-shopping-cart"></i></span></button>});
+            this.setState({status: <span className="text-success">In Stock</span>});
+         }
+    
+         else {
+            this.setState({addNotify: <button type="button" className="btn btn-outline-danger"><span style={{fontSize: "1.25rem", fontWeight: "300"}}>Notify Me</span></button>});
+            this.setState({status: <span className="text-danger">Out of Stock</span>});
+         }
+    
+         if (prod.discount) {
+            this.setState({price:  <span style={{textDecoration: "line-through"}}>Price: ₪{prod.price.toFixed(2)}</span>});
+            this.setState({newPrice: <strong className="text-danger"><br/>Discount: ₪{(prod.price*(1-prod.discountPercentage)).toFixed(2)}</strong>});
+         } 
+    
+         else {
+            this.setState({price: <strong>Price: ₪{prod.price.toFixed(2)}</strong>});
+            this.setState({newPrice: <span style={{display: "none"}}>.</span>});
+         }
+   }
+
 
    render(){
-      return(
-         <main role="main" className="container lead">
 
-            <br/><br/>
-            
-            <h1 className="mt-5">ASUS XONAR AE</h1>
+      if (this.state) {
 
-            <p>7.1 PCIe gaming sound card with 192kHz/24-bit Hi-Res audio quality, 150ohm headphone amp, high-quality DAC, and exclusive EMI back plate.</p>
+         return(
+            <main role="main" className="lead" style={{width: "95%", margin: "0 auto"}}>
+               
+               <br/><br/><br/><br/>
 
-            <br/>
-
-            <div className="row">
-
-               <div className="col-sm">
-                  <ul style={{paddingLeft: "20px"}}>
-                     <li>192kHz/24-bit Hi-Res audio and 7.1-channel, 150ohm headphone amp</li>
-                     <li>High-quality ESS DAC with 110dB signal-to-noise ratio (SNR)</li>
-                     <li>Exclusive EMI back plate provides noise shielding for exceptionally clear audio</li>
-                     <li>Sonic Studio enables full audio control via an intuitive, one-page interface</li>
-                     <li>Perfect Voice technology eliminates background noise for clear in-game communication</li>
-                  </ul>
+               <div>
+                  <ol className="breadcrumb">
+                     <li><a href="#">Store&nbsp;</a></li>
+                           / <Link to="/store/products"><li className="active">&nbsp;Products</li></Link>
+                  </ol>
                </div>
 
-               <div className="col-sm">
-                  <img src={this.state.src} alt="Prod_Img" className="img-product"
-                     style={{position: "relative", bottom: "5%", objectFit: "cover", width: "500px"}}/>
+               <h1 className="mt-5">{this.state.arr.title}</h1>
+   
+               <div className="row">
+
+                  <div className="col-sm">
+                  
+                     <br/><p>{this.state.arr.subtitle}</p><br/>
+                     
+                     <ul style={{paddingLeft: "20px"}}>
+                        {this.state.arr.details.map(detail => <span><li>{detail}</li><br/></span>)}
+                     </ul>
+
+                  </div>
+   
+                  <div className="col-sm">
+                     <img id="myImg" src={this.state.src} alt="Prod_Img"
+                        onClick={() => window.open(this.state.src,'targetWindow', 'toolbar=no, location=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1090px, height=550px, top=25px left=120px')}
+                     />
+                  </div>
+
+                  <div className="col-sm">
+                  {this.state.price}
+                     {this.state.newPrice}
+                     <br/><br/>
+                     Ratings:&emsp;{ratingStars(this.state.arr.rating)}
+                     <br/><br/>
+                     {this.state.status}
+                     <br/><br/>
+                     Shipping:&emsp;<span className="text-success">Free Shipping</span>
+                     <br/><br/>
+                     Shipping To:&emsp;Worldwide
+                     <br/><br/>
+                     Arrives:&emsp;6-12 Working Days After Dispatch
+                     <br/><br/>
+                     Quantity:&emsp;<select><option>1</option><option>2</option><option>3</option></select>
+                     <br/><br/>
+                     {this.state.addNotify}
+                     &emsp;
+                     <button type="button" className="btn btn-outline-warning">
+                        <span style={{fontSize: "1.25rem", fontWeight: "300"}}>Add to <i className="fas fa-star"></i></span>
+                     </button>
+                  </div>
+   
                </div>
+   
+               <br/><br/>
 
-               <div className="col-sm">
-                  Ratings:&emsp;<span className="text-warning"><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star-half"></i></span>
-                  <br/><br/>
-                  Price:&emsp;₪216.99
-                  <br/><br/>
-                  <span className="text-success">In Stock</span>
-                  <br/><br/>
-                  Shipping:&emsp;<span className="text-success">Free Shipping</span>
-                  <br/><br/>
-                  Shipping To:&emsp;Worldwide
-                  <br/><br/>
-                  Arrives:&emsp;6-12 Working Days After Dispatch
-                  <br/><br/>
-                  Quantity:&emsp;<select><option>1</option><option>2</option><option>3</option></select>
-                  <br/><br/>
-                  <button type="button" className="btn btn-outline-primary">
-                     <span style={{fontSize: "1.25rem", fontWeight: "300"}}>Add to <i className="fas fa-shopping-cart"></i></span>
-                  </button>
-                  &emsp;
-                  <button type="button" className="btn btn-outline-warning">
-                     <span style={{fontSize: "1.25rem", fontWeight: "300"}}>Add to <i className="fas fa-star"></i></span>
-                  </button>
-               </div>
+               {this.state.arr.img.map((img, index) => <div className="gallery"><img src={img} alt={"Img"+(index+1)} onClick={this.updateImage}/></div>)}
+               
+               {/*https://getbootstrap.com/docs/4.0/utilities/display/#hiding-elements*/}
+               <span className="d-block d-xl-none" style={{color: "white"}}>........................</span>
+   
+               <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+   
+               <h3>Similar Products:</h3>
+   
+               <br/>
 
-            </div>
+               {  products.map((prod,index) => {
 
-            <br/><br/>
-            
-            <div className="gallery">
-               <img src="/images/brands/ASUS/XONAR AE/1.png" alt="Img_1" onClick={this.updateState}/>
-            </div>
-
-            <div className="gallery">
-               <img src="/images/brands/ASUS/XONAR AE/2.png" alt="Img_2" onClick={this.updateState}/>
-            </div>
-
-            <div className="gallery">
-               <img src="/images/brands/ASUS/XONAR AE/3.png" alt="Img_3" onClick={this.updateState}/>
-            </div>
-
-            <div className="gallery">
-               <img src="/images/brands/ASUS/XONAR AE/4.png" alt="Img_4" onClick={this.updateState}/>
-            </div>
-
-            <div className="gallery">
-               <img src="/images/brands/ASUS/XONAR AE/5.png" alt="Img_5" onClick={this.updateState}/>
-            </div>
-            
-            {/*https://getbootstrap.com/docs/4.0/utilities/display/#hiding-elements*/}
-            <span className="d-block d-xl-none" style={{color: "white"}}>........................</span>
-
-            <br/><br/><br/><br/><br/><br/><br/><br/>
-
-            <h3>Similar Products:</h3>
-
-            <br/>
-
-            <div className="gallery">
-               <a target="_blank" href="#"/>
-               <img src="/images/brands/Creative/Sound BlasterX AE-5/1.png" alt="Other_1"/>
-               <div className="desc">Creative Sound BlasterX AE-5</div>
-            </div>
-
-            <div className="gallery">
-               <a target="_blank" href="#"/>
-               <img src="/images/brands/EVGA/NU Audio/1.png" alt="Other_2"/>
-               <div className="desc">EVGA NU Audio</div>
-            </div>
-
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-            
-       </main>
-      );
+                     if (prod.type == this.state.type && prod.alt != this.props.match.params.prodName) {
+                        return (
+                           <Link onClick={() => { this.setState({arr: prod, src: prod.img[0], type: prod.type}); this.setStatusPrice(prod) }} to={"/store/products/"+prod.alt}>
+                              <div className="gallery">
+                                 <img src={prod.img[0]} alt={"Other_"+index}/>
+                                 <div className="desc">{prod.title}</div>
+                              </div>
+                           </Link>
+                        );
+                     }
+                  })
+               }
+               
+               <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+               
+          </main>
+         );
+      }
+      
+      else {
+         return <NotFound />;
+      }
    }
 }
