@@ -3,9 +3,9 @@ import {match,params} from "react-router-dom";
 import Stars from './Stars';
 import ChartBtn from './ChartBtn';
 class Middle extends Component{
-    constructor(){
-        super();
-        this.myJson=require('./workOutP.json').workOut[0];
+    constructor(props){
+        super(props);
+        this.myJson=require('./workOutP.json').workOut[Number(this.props.match.params.num)];
         this.state={
             imgSrc:this.myJson.urlImg,
             title:this.myJson.name,

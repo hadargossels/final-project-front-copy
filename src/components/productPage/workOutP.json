@@ -4,7 +4,8 @@
       "urlImg":["/images/benchPress.jpg","/images/benchPress2.jpg","/images/benchPress.jpg","/images/benchPress2.jpg","/images/benchPress.jpg"],
       "price":"187",
       "stars":"4",
-      "jsonPlace":"0"
+      "jsonPlace":"0",
+      "type":"workOut"
       },
       {
          "name":"Pull up bar",
@@ -18,7 +19,8 @@
          "urlImg":["/images/FUEL-Weighted-Vest.jpg","/images/FUEL-Weighted-Vest.jpg","/images/FUEL-Weighted-Vest.jpg","/images/FUEL-Weighted-Vest.jpg","/images/FUEL-Weighted-Vest.jpg"],
          "price":"90",
          "stars":"5",
-         "jsonPlace":"2"
+         "jsonPlace":"2",
+         "type":"workOut"
       }
   ],
    "Yoga" : [{
@@ -26,21 +28,24 @@
       "urlImg":["/images/yogaMattress.jpg","/images/yogaMattress.jpg","/images/yogaMattress.jpg","/images/yogaMattress.jpg","/images/yogaMattress.jpg"],
       "price":"187",
       "stars":"4",
-      "jsonPlace":"0"
+      "jsonPlace":"0",
+      "type":"workOut"
       },
       {
          "name":"Yoga wheel",
          "urlImg":["/images/yoga-wheel.jpg","/images/yoga-wheel.jpg","/images/yoga-wheel.jpg","/images/pullupbar.jpg","/images/yoga-wheel.jpg"],
          "price":"152",
          "stars":"3",
-         "jsonPlace":"1"
+         "jsonPlace":"1",
+         "type":"workOut"
       },
       {
          "name":"Yoga block",
          "urlImg":["/images/yoga-block.jpg","/images/yoga-block.jpg","/images/yoga-block.jpg","/images/yoga-block.jpg","/images/yoga-block.jpg"],
          "price":"90",
          "stars":"5",
-         "jsonPlace":"0"
+         "jsonPlace":"0",
+         "type":"workOut"
       }
    ]
 }

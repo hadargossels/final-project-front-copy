@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {Link,Route} from "react-router-dom";
 import Stars from './Stars';
-const ListItemLink = ({ name , urlImg ,index}) => (
-    <Route path={"/product/"+index+"/"+name} children={({ match }) => (
+const ListItemLink = ({ name , urlImg ,index , type}) => (
+    <Route path={"/product/"+type+"/"+index+"/"+name} children={({ match }) => (
       <li className={match ? 'active' : ''}>
-        <Link className="btn text-white" to={"/product/"+index+"/"+name}>
+        <Link className="btn text-white" to={"/product/"+type+"/"+index+"/"+name}>
             <img key={name} src={urlImg} alt="..." width='100%' height="300px"/><br/>
         </Link>
       </li>
@@ -43,7 +43,7 @@ class WorkOutP extends Component{
             for(let i=0; i<this.state.name.length; i++){
                 tempArr.push(<div className="col-3 text-center" key={i}>
                     <h3>{this.state.name[i]} Price: {this.state.prices[i]}$</h3>
-                    <ListItemLink name={this.state.name[i]} urlImg={this.state.urlImg[i]} index={this.state.jsonPlace[i]} /><br/>
+                    <ListItemLink name={this.state.name[i]} urlImg={this.state.urlImg[i]} index={this.state.jsonPlace[i]} type="workOut"/><br/>
                     <Stars numStars={this.state.stars[i]}/>
                 </div>)
             }
