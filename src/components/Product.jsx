@@ -1,5 +1,7 @@
 import React, { Component} from 'react';
-// import image1 from '../img/sheets1.png';
+import ReactDOM from 'react-dom';
+import {Route, Link, BrowserRouter as Router, Switch} from 'react-router-dom';
+import ProductPage from './ProductPage.jsx';
 
 class Product extends Component {
     displayPrice = () => {
@@ -19,13 +21,15 @@ class Product extends Component {
     render() {
         return (
             <div className="col-xs-6 col-md-3">
-                <div className="card text-center">
-                    <img className="card-img-top" src={this.props.productElement.images[0]} alt="Card image cap"></img>
-                    <div className="card-body py-0 px-0">
-                        <p className="card-title">{this.props.productElement.name}</p>
-                        <p className="card-text">{this.displayPrice()}</p>
+                <Link to="/productpage">
+                    <div className="card text-center">
+                        <img className="card-img-top" src={this.props.productElement.images[0]} alt="Card image cap"></img>
+                        <div className="card-body py-0 px-0">
+                            <p className="card-title">{this.props.productElement.name}</p>
+                            <p className="card-text">{this.displayPrice()}</p>
+                        </div>
                     </div>
-                </div>
+                </Link>
             </div>
         );
     }

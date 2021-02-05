@@ -1,7 +1,9 @@
 import React, { Component} from 'react';
+import ReactDOM from 'react-dom';
 import Product from './Product.jsx';
 import ProductPage from './ProductPage.jsx';
 import images from '../images'
+import {Route, Link, BrowserRouter as Router, Switch} from 'react-router-dom';
 
 class Store extends Component {
     storeItems = [
@@ -60,17 +62,22 @@ class Store extends Component {
     ]
 
     state = {
-        // category: [{bedroom: ["bedding", "blankets"]}, 
-        //            {bathroom: ["bath towels", "bath accessories"]}, 
-        //            {kitchen: ["kitchen towels", "storage", "serving dishes"]} ],
-        //category: ["bedroom", "bathroom", "kitchen"],
         category: [
-            {value: "bedroom", isChecked: false},
-            {value: "bathroom", isChecked: false},
-            {value: "kitchen", isChecked: false}
+            {name: "bedroom", isChecked: false, subCategory: [
+                {name: "bedding", isChecked: false}, 
+                {name: "blankets", isChecked: false}]
+            },
+            {name: "bathroom", isChecked: false, subCategory: [
+                {name:"bath towels", isChecked: false}, 
+                {name:"bath accessories", isChecked: false}]
+            },
+            {name: "kitchen", isChecked: false, subCategory: [
+                {name:"kitchen towels", isChecked: false}, 
+                {name:"storage", isChecked: false}, 
+                {name:"serving dishes", isChecked: false}]
+            }
         ],
-        subcategory: ["bedding", "blankets", "bath towels", "bath accessories", "kitchen towels", "storage", "serving dishes"],
-        valuePriceSelect: "",
+        valuePriceSelect: 0,
         valueSortSelect: "",
         store: this.storeItems
     };
@@ -81,22 +88,56 @@ class Store extends Component {
 
     filterCategory = (event) => {
         let category = this.state.category
-        category.forEach(item => {
-            if (item.value === event.target.value)
-                item.isChecked = event.target.checked
+        category.forEach(categoryItem => {
+            if (categoryItem.name === event.target.value)
+                categoryItem.isChecked = event.target.checked
         })
         this.setState({category: category})
-
-        let checkedCategories = category.filter(item => item.isChecked).map(function(item) { return item.value; });
-        let filterSort = this.storeItems;
-        if (checkedCategories.length > 0)
-            filterSort = filterSort.filter(element => checkedCategories.includes(element.category));
-        this.setState({store: filterSort})
     }
 
     filterSubcategory = (event) => {
-        const filterSort = this.state.store.filter(element => element.subcategory === event.target.value);
-        this.setState({store: filterSort});
+        let category = this.state.category
+        category.forEach(categoryItem => {
+            categoryItem.subCategory.forEach(subCategoryItem => {
+                if (subCategoryItem.name === event.target.value)
+                    subCategoryItem.isChecked = event.target.checked
+            })
+        })
+        this.setState({category: category})
+    }
+
+    displayFilteredItems = () => {
+        let numChecked = 0;
+        let filteredItems = [];
+        this.state.category.forEach(categoryItem => {            
+            let checkedSubCategories = [];
+            categoryItem.subCategory.forEach(subCategoryItem => {
+                if (subCategoryItem.isChecked)
+                    checkedSubCategories.push(subCategoryItem.name)
+            })
+
+            if (checkedSubCategories.length > 0) {
+                numChecked += checkedSubCategories.length;
+                filteredItems.push(...this.storeItems.filter(element => checkedSubCategories.includes(element.subcategory)));
+            }
+            else if (categoryItem.isChecked) {
+                numChecked += 1;
+                filteredItems.push(...this.storeItems.filter(element => categoryItem.name === element.category));
+            }
+
+        })
+
+        if (numChecked === 0)
+            filteredItems = this.storeItems;
+        
+        if (this.state.valuePriceSelect > 0){
+            filteredItems = filteredItems.filter(element => (element.price * (1 - element.discount)) <= this.state.valuePriceSelect);
+        }
+        
+        this.setState({store: filteredItems});
+    }
+
+    resetFilter = (event) => {
     }
 
     changeSort = (event) => {
@@ -106,13 +147,13 @@ class Store extends Component {
         switch (event.target.value){
             case 'low': {
                 sortedStore.sort(function (a, b) {
-                    return a.price - b.price;
+                    return a.actualPrice - b.actualPrice;
                   });
                 break;
             }
             case 'high': {
                 sortedStore.sort(function (a, b) {
-                    return b.price - a.price;
+                    return b.actualPrice - a.actualPrice;
                   });
                 break;
             }
@@ -125,6 +166,16 @@ class Store extends Component {
         }
 
         this.setState({store: sortedStore});
+    }
+
+    getSubCategories = () => {
+        let subCategories = [];
+        this.state.category.forEach(categoryItem => {
+            categoryItem.subCategory.forEach(subCategoryItem => {
+                subCategories.push(subCategoryItem.name)
+            })
+        })
+        return subCategories;
     }
 
     render() {
@@ -145,17 +196,17 @@ class Store extends Component {
 
                         <h6>Category</h6>
                         {this.state.category.map((element, index) => (
-                            <div className="form-check" key={index}>
-                                <input className="form-check-input" type="checkbox" value={element.value} onChange={this.filterCategory}></input>
-                                <label className="form-check-label" htmlFor={Object.keys(element.value)}>
-                                    {element.value}
+                            <div className= "form-check" key={index}>
+                                <input className="form-check-input" type="checkbox" value={element.name} onChange={this.filterCategory}></input>
+                                <label className="form-check-label" htmlFor={Object.keys(element.name)}>
+                                    {element.name}
                                 </label>
                             </div>
                         ))}
 
                         <br></br>
                         <h6>Sub Category</h6>    
-                        {this.state.subcategory.map((element, index) => (
+                        {this.getSubCategories().map((element, index) => (
                             <div className="form-check" key={index}>
                                 <input className="form-check-input" type="checkbox" value={element} onChange={this.filterSubcategory}></input>
                                 <label className="form-check-label" htmlFor={Object.keys(element)}>
@@ -167,17 +218,20 @@ class Store extends Component {
                         <br></br>
                         <h6>Price</h6> 
                         <label htmlFor="priceRange" className="form-label"></label>
-                        <input type="range" className="form-range" id="priceRange" min="0" max="5000" step="50" onInput={this.setPriceValue}></input>
+                        <input type="range" className="form-range" id="priceRange" min="0" max="1000" step="10" onInput={this.setPriceValue}></input>
                         <output>{this.state.valuePriceSelect}</output>
+
+                        <div className="mt-3">
+                        <input className="btn btn-outline-primary btn-sm" type="button" value="Apply" onClick={this.displayFilteredItems}></input>
+                        <input className="btn btn-outline-primary btn-sm mx-2" type="button" value="Reset" onClick={this.resetFilter}></input>
+                        </div>
                         
                     </div>
                     <div className="col-10 justify-content-center">
                         <div className="row">
                             {this.state.store.map(productElement => 
-                                <Product 
-                                    key={productElement.id}
-                                    productElement={productElement} 
-                                />)}
+                                <Product key={productElement.id} productElement={productElement}/>)
+                            }
                         </div>
                     </div>
                 </div>
