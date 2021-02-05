@@ -8,7 +8,7 @@ import Contact from './components/productPage/Contact';
 import About from "./components/productPage/About";
 import Blog from "./components/productPage/Blog";
 import Sign from "./components/productPage/Sign";
-import ProductYoga from "./components/productPage/ProductYoga";
+// import ProductYoga from "./components/productPage/ProductYoga";
 import Home from "./components/productPage/Home";
 
 

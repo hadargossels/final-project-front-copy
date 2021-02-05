@@ -13,11 +13,10 @@ class Home extends Component{
 
     render(){
        return ( 
-                <div className="text-center">
-                    <h1>Wellcome to Experis Sports</h1>
+                <div id="homePage" className="text-center">
+                    <h1 id="homeHeadLine" className="text-white">Wellcome to Experis Sports</h1>
+                    <img src="/images/experisSportLogo.png"></img>
                     <ListItemLink to="/store"  name="Go to store"/>
-                    <div id="homePage">
-                    </div>
                 </div>
 
 

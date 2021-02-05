@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+// import {Link,Route} from "react-router-dom";
 import {match,params} from "react-router-dom";
 import Stars from './Stars';
 import ChartBtn from './ChartBtn';
+
 class Middle extends Component{
     constructor(props){
         super(props);
@@ -38,15 +40,17 @@ class Middle extends Component{
                 <img src={this.state.imgSrc[1]} alt="..." className="img-thumbnail" onClick={()=>this.changePic(1)}/><br/><br/>
                 <img src={this.state.imgSrc[2]} alt="..." className="img-thumbnail" onClick={()=>this.changePic(2)}/><br/><br/>
                 <img src={this.state.imgSrc[3]} alt="..." className="img-thumbnail" onClick={()=>this.changePic(3)}/><br/><br/>
-                <img src={this.state.imgSrc[4]} alt="..." className="img-thumbnail" onClick={()=>this.changePic(4)}/>
+                {/* <img src={this.state.imgSrc[4]} alt="..." className="img-thumbnail" onClick={()=>this.changePic(4)}/> */}
             </div>
-            <div className="col-5">
-            <img id="bigI" src={this.state.imgSrc[this.state.imgid]} alt="..." width='100%'/><br/><br/>
+            <div className="col-5 text-center">
+            <img id="bigI" src={this.state.imgSrc[this.state.imgid]} alt="..." width='80%'/><br/><br/>
             </div>
             <div className="col-3">
                 <h1 className="text-danger">{this.state.title}</h1> <br/><br/>
-                <Stars numStars={this.state.rateStars}/>
-                <br/><br/><br/>
+                <Stars numStars={this.state.rateStars}/><br/>
+                <a href="https://www.facebook.com/"><i className="fab fa-facebook fs-4"></i></a>
+                <a href="https://www.twitter.com/"><i className="fab fa-twitter fs-4 ms-4"></i></a>
+                <br/><br/>
                 {this.state.about}
             </div>
             <div className="col-3">

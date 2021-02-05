@@ -5,7 +5,7 @@ const ListItemLink = ({ name , urlImg ,index }) => (
     <Route path={"/product/"+index+"/"+name} children={({ match }) => (
       <li className={match ? 'active' : ''}><br/>
         <Link className="btn text-white" to={"/product/"+index+"/"+name}><br/>
-            <img key={name} src={urlImg} alt="..." width='100%' height="250rem"/><br/>
+            <img key={name} src={urlImg} alt="..." width='80%' height="200rem"/><br/>
         </Link>
       </li>
 )}/>)
@@ -13,6 +13,7 @@ const ListItemLink = ({ name , urlImg ,index }) => (
 class WorkOutP extends Component{
     constructor(){
         super();
+        this.pType = ["yoga","weights"];
         this.myJson = require('./workOutP.json').data;
         this.state ={
             urlImg :[],
@@ -21,7 +22,7 @@ class WorkOutP extends Component{
             stars:[],
             myArr:[],
             jsonPlace:[],
-            filteFlagYoga: true
+            // filteFlags:[true,true]
         }
         this.deState();
     }
@@ -57,15 +58,26 @@ class WorkOutP extends Component{
         return(
             <div className="row">
                 <div className="col-2">
-                    <label>Sort By:</label><br/><br/>
-                    <button className="btn btn-secondary" onClick={()=>this.sortPrice()}>Price Low to High</button><br/><br/>
-                    <button className="btn btn-secondary" onClick={()=>this.sortStars()}>Most Stars</button><br/><br/>
                     <div className="text-center">
-                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" onChange={()=>this.filterSelect("yoga")}/>
-                    <label className="form-check-label" htmlFor="flexCheckDefault" >Yoga
-                    </label>
+                        <label className="fs-4">Sort By:</label><br/>
+                        <button className="btn btn-secondary" onClick={()=>this.sortPrice()}>Price Low to High</button><br/>
+                        <button className="btn btn-secondary mt-1" onClick={()=>this.sortStars()}>Most Stars</button><br/><br/>
+                        <label className="fs-4">Filter By:</label><br/>
                     </div>
-                    <img src="/images/experisSportLogo.png"></img>
+                    <div className="myFilters">
+                        <input className="form-check-input mycheck" type="radio" name="myRadio" value="" id="flexCheckDefault" onChange={()=>this.filterSelect("yoga")}/>
+                        <label className="form-check-label" htmlFor="flexCheckDefault" >Yoga<br/>
+                        </label><br/>
+                        <input className="form-check-input mycheck" type="radio" name="myRadio" value="" id="flexCheckDefault1" onChange={()=>this.filterSelect("weights")}/>
+                        <label className="form-check-label" htmlFor="flexCheckDefault" >Weights<br/>
+                        </label><br/>
+                        <input className="form-check-input mycheck" type="radio" name="myRadio" value="" id="flexCheckDefault2" onChange={()=>this.cancelFilter()}/>
+                        <label className="form-check-label" htmlFor="flexCheckDefault" >All products<br/>
+                        </label>
+                    </div>
+                    <div className="text-center">
+                        <img src="/images/experisSportLogo.png"></img>
+                    </div>
                 </div>
                 {this.state.myArr}
                 <div className="col-1"></div>
@@ -123,33 +135,41 @@ class WorkOutP extends Component{
      this.setState({jsonPlace:sJson});
      this.setState({myArr:[]});
 }
+    cancelFilter(){
+        let sPrice=[]
+        let sName=[]
+        let sUrl=[]
+        let sStars=[]
+        let sJson =[]
+        for (const i of this.myJson) {
+            sName.push(i.name);
+            sPrice.push(Number(i.price));
+            sStars.push(Number(i.stars));
+            sUrl.push(i.urlImg[0]);
+            sJson.push(Number(i.jsonPlace));
+        };
+        this.setState({prices:sPrice});
+        this.setState({name:sName});
+        this.setState({urlImg:sUrl});
+        this.setState({stars:sStars});
+        this.setState({jsonPlace:sJson});
+        this.setState({myArr:[]});
+    }
     filterSelect(name){
         let sPrice=[]
         let sName=[]
         let sUrl=[]
         let sStars=[]
         let sJson =[]
-        if(this.state.filteFlagYoga){
-            for (const iterator of this.myJson) {
-                if(iterator.type==name){
-                    sPrice.push(iterator.price);
-                    sName.push(iterator.name);
-                    sUrl.push(iterator.urlImg[0]);
-                    sStars.push(iterator.stars);
-                    sJson.push(iterator.jsonPlace);
-                }
+
+        for (const iterator of this.myJson) {
+            if(iterator.type==name){
+                sPrice.push(iterator.price);
+                sName.push(iterator.name);
+                sUrl.push(iterator.urlImg[0]);
+                sStars.push(iterator.stars);
+                sJson.push(iterator.jsonPlace);
             }
-            this.setState({filteFlagYoga:false});
-        }
-        else {
-            for (const i of this.myJson) {
-                sName.push(i.name);
-                sPrice.push(Number(i.price));
-                sStars.push(Number(i.stars));
-                sUrl.push(i.urlImg[0]);
-                sJson.push(Number(i.jsonPlace));
-            };
-            this.setState({filteFlagYoga:true});
         }
         this.setState({prices:sPrice});
         this.setState({name:sName});

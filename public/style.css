@@ -12,7 +12,15 @@
     border: black; */
   }
   #homePage{
-    background-image: url("/images/experisSportLogo.png");
-    /* background-repeat:repeat-y; */
-    height: 38rem;
+    background-image: url("/images/bg-img.jpg");
+    background-repeat: no-repeat;
+    background-size:100%;
+    height: 50rem;
+  }
+  #homeHeadLine{
+    padding-top: 10%;
+  }
+  .myFilters{
+    padding-left: 30%;
+    padding-top: 5%;
   }

@@ -4,8 +4,8 @@ class Album extends Component{
 
     render(){
       return(
-        <div className="text-center">
-            <h3 className="text-danger">Top seller</h3>
+        <div className="">
+            <h3 className="text-danger text-center">Top seller</h3>
             <hr/>
             <WorkOutP/><br/>
         </div>

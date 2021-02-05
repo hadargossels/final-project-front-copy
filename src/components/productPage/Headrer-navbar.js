@@ -16,7 +16,7 @@ class Header extends Component{
       return(
           <div>
             <div className="collapse" id="navbarToggleExternalContent">
-                <div className="bg-dark p-4">
+                <div className="bg-dark p-4 d-flex">
                     <h5 className="text-white h4">Menu</h5>
                     <ListItemLink to="/" name="Home"/>
                     <ListItemLink to="/store" name="Store"/>
