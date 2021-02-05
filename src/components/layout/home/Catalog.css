@@ -15,7 +15,7 @@ h2 {
     position: sticky;
     top: 20vh;
     text-align: center;
-    background-color: LightGray;
+    background-image: linear-gradient(120deg, SlateGrey , Silver);
 }
 
 .sorting {
