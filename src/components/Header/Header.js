@@ -14,6 +14,9 @@ class Header extends Component{
                 </button>
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
+                <li className="nav-item">
+                        <div className="navbar-brand"><i className="fas fa-wallet"></i></div>
+                    </li>
                     <li className="nav-item">
                         <div className="navbar-brand"><i className="fas fa-shopping-cart"></i></div>
                     </li>

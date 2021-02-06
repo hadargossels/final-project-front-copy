@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router,Switch,Route} from "react-router-dom";
+import {BrowserRouter as Router,Switch,Route, Redirect} from "react-router-dom";
 import './index.css';
 import Product from './components/Product/Product';
 // import reportWebVitals from './reportWebVitals';
@@ -14,7 +14,21 @@ import Info from './components/Info/Info';
 import PageNotFound from './components/404/PageNotFound';
 import ContactUs from './components/ContactUs/ContactUs';
 import Dashboard from './components/Dashboard/Dashboard';
+import Auth from './Auth' 
 // import Test from './components/Test/Test';
+
+//protected route for registered users only
+function PrivateRoute({children,...rest}){
+  console.log(Auth.isAuthenticated)
+  return(
+    <Route {...rest} render={()=>{
+    return Auth.authenticated===true
+    ?children
+    :<Redirect to="/login" />
+    }}/>
+
+  )
+}
 
 ReactDOM.render(
   <React.StrictMode>
@@ -22,7 +36,7 @@ ReactDOM.render(
     <Router>
     <Header/>
       <Switch>  
-          <Route exact path="/dashboard" component={Dashboard}></Route>
+          <PrivateRoute exact path="/dashboard"> <Dashboard /></PrivateRoute>
           <Route exact path="/" component={Catalog}></Route>
           <Route exact path="/home" component={Home}></Route>
           <Route exact path="/contactUs" component={ContactUs}></Route>

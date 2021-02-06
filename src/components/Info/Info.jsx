@@ -5,7 +5,7 @@ export default class Info extends Component {
         return (
             <div className="container">
                 <h1 className="text-center">Info about hardware walltets</h1><br/>
-                <p>A hardware wallet is a special type of bitcoin wallet which stores the user's private keys in a secure hardware device.
+                <p>A hardware wallet is a special type of bitcoin wallet which stores the user's private keys in a secure hardware device.</p>
 
                     <p>They have major advantages over standard software wallets:</p>
                     <ol>
@@ -14,8 +14,6 @@ export default class Info extends Component {
                         <li>can be used securely and interactively, private keys never need to touch potentially-vulnerable software</li>
                         <li>much of the time, the software is open source, allowing a user to validate the entire operation of the device</li>
                     </ol>
-
-                </p>
             </div>
         )
     }

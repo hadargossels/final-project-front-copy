@@ -64,9 +64,6 @@ export default class Catalog extends Component {
     
 
     render() {
-
-
-
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -115,15 +112,13 @@ export default class Catalog extends Component {
                         <div className="container d-flex justify-content-center flex-wrap">
                             {
                                 this.state.Arr.map((prod) =>
-                                    <Product price={prod.Price} title={prod.Title} image={prod.Image} />
+                                    <Product key={prod.Title} price={prod.Price} title={prod.Title} image={prod.Image} />
                                 )
                             }
                         </div>
                     </div>
-
                 </div>
             </div>
-            
         )
     }
 }
