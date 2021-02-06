@@ -39,24 +39,158 @@ class StorePage extends React.Component {
 
   sortBtnClick = (str) => {
     console.log("strssort :", str);
-    if (str === "price") {
-      this.setState((prevState) => {
-        prevState.collections.map((col) => {
-          return col.items.sort((a, b) => a.price - b.price);
+
+    switch (str) {
+      case "Price: Low to High":
+        this.setState((prevState) => {
+          prevState.collections.map((col) => {
+            return col.items.sort((a, b) => a.price - b.price);
+          });
+          return {
+            collections: prevState.collections,
+          };
+        });
+        break;
+
+      case "Price: High to Low":
+        this.setState((prevState) => {
+          prevState.collections.map((col) => {
+            return col.items.sort((a, b) => b.price - a.price);
+          });
+          return {
+            collections: prevState.collections,
+          };
         });
 
-        return {
-          collections: prevState.collections,
-        };
-      });
+        break;
 
-      // this.setState({
+      case "Price: Low to High":
+        this.setState((prevState) => {
+          prevState.collections.map((col) => {
+            return col.items.sort((a, b) => a.price - b.price);
+          });
+          return {
+            collections: prevState.collections,
+          };
+        });
+        break;
 
-      //   // collections: this.collections.sort(function (a, b) {
-      //   //   return a.items.price - b.items.price;
-      //   // }),
-      // });
+      case "Price: Under $25":
+        this.setState((prevState) => {
+          prevState.collections.map((col) => {
+            return col.items.filter(
+              (collection) => Number(collection.price) <= 25
+            );
+          });
+          return {
+            collections: prevState.collections,
+          };
+        });
+        break;
+
+      case "Price: $25 to $50":
+        this.setState((prevState) => {
+          prevState.collections.map((col) => {
+            return col.items.sort((a, b) => a.price - b.price);
+          });
+          return {
+            collections: prevState.collections,
+          };
+        });
+        break;
+
+      case "Price: $50 to $100":
+        this.setState((prevState) => {
+          prevState.collections.map((col) => {
+            return col.items.sort((a, b) => a.price - b.price);
+          });
+          return {
+            collections: prevState.collections,
+          };
+        });
+        break;
+
+      case "Price: $100 to $200":
+        this.setState((prevState) => {
+          prevState.collections.map((col) => {
+            return col.items.sort((a, b) => a.price - b.price);
+          });
+          return {
+            collections: prevState.collections,
+          };
+        });
+        break;
+
+      case "Price: $200 & Above":
+        this.setState((prevState) => {
+          prevState.collections.map((col) => {
+            return col.items.sort((a, b) => a.price - b.price);
+          });
+          return {
+            collections: prevState.collections,
+          };
+        });
+        break;
+
+      case "Name: A to Z":
+        this.setState((prevState) => {
+          prevState.collections.map((col) => {
+            return col.items.sort((a, b) => {
+              var x = a.name.toLowerCase();
+              var y = b.name.toLowerCase();
+              if (x < y) {
+                return -1;
+              }
+              if (x > y) {
+                return 1;
+              }
+              return 0;
+            });
+          });
+          return {
+            collections: prevState.collections,
+          };
+        });
+
+        break;
+
+      case "Name: Z to A":
+        this.setState((prevState) => {
+          prevState.collections.map((col) => {
+            return col.items.sort((a, b) => {
+              var x = a.name.toLowerCase();
+              var y = b.name.toLowerCase();
+              if (x < y) {
+                return 1;
+              }
+              if (x > y) {
+                return -1;
+              }
+              return 0;
+            });
+          });
+          return {
+            collections: prevState.collections,
+          };
+        });
+
+        break;
+
+      default:
+        break;
     }
+    // if (str === "Price: Low to High") {
+    //   this.setState((prevState) => {
+    //     prevState.collections.map((col) => {
+    //       return col.items.sort((a, b) => a.price - b.price);
+    //     });
+
+    //     return {
+    //       collections: prevState.collections,
+    //     };
+    //   });
+
+    // }
   };
 
   /* */

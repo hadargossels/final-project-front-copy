@@ -27,11 +27,11 @@ import FurniturePage from "./pages/shop/furniture/furniture.component.jsx";
 import ContactPage from "./pages/contact/contact.component";
 import AboutPage from "./pages/about/about.component";
 import BlogPage from "./pages/blog/blog.component";
-import SignInPage from "./pages/signin/signin.component";
 import SignOutPage from "./pages/signout/signout.component";
 import ProductPage from "./pages/product/product.component";
 import DashboardPage from "./pages/dashboard/dashboard.component";
 import AccountPage from "./pages/account/account.component";
+import SignInAndSignUpPage from "./pages/signin-signup/signin-signup.component";
 // import SortingBtn from "./components/sorting-btn/sorting-btn.component";
 {
   /* <Content /> */
@@ -64,7 +64,7 @@ function App() {
         <Route path="/carriers" component={CarriersPage} />
         <Route path="/outdoor" component={OutdoorPage} />
         <Route path="/feeding" component={FeedingPage} />
-        <Route path="/signin" component={SignInPage} />
+        <Route path="/signin" component={SignInAndSignUpPage} />
         <Route path="/signout" component={SignOutPage} />
         <Route path="/dashboard" component={DashboardPage} />
         <Route path="/account" component={AccountPage} />

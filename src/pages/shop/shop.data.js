@@ -6,7 +6,7 @@ const SHOP_DATA = [
     items: [
       {
         id: 1,
-        name: " Dogs Raincoat",
+        name: "Dogs Raincoat",
         imageUrl:
           "https://ae01.alicdn.com/kf/Hf0a42d4f48b246f794b940dd08c899d9M/Dog-Clothes-for-Pet-Dogs-Raincoat-for-Dog-Coat-Windbreaker-Fashion-Reflective-Clothing-for-Large-Small.jpg_220x220xz.jpg_.webp",
         price: 25,
@@ -20,7 +20,7 @@ const SHOP_DATA = [
       },
       {
         id: 3,
-        name: " Pet Winter Sweater",
+        name: "Pet Winter Sweater",
         imageUrl:
           "https://ae01.alicdn.com/kf/H82c084b9e5cf4f7ea087829512d60739g/Puppy-Clothes-Pet-Winter-Sweater-Flexible-Fashion-Sweater-for-Korea-Dog-Koki-Teddy-Cat.jpg_220x220xz.jpg_.webp",
         price: 35,
@@ -41,14 +41,14 @@ const SHOP_DATA = [
       },
       {
         id: 6,
-        name: "didog coat",
+        name: "Didog coat",
         imageUrl:
           "https://ae01.alicdn.com/kf/Hacbcbaa2c39642d0bb9d1838227a2208p/Pet-Products-Dog-Clothing-Coat-Jacket-Hoodie-Sweater-Clothes-For-Dogs-Cotton-Clothing-For-Dogs-Sports.jpg_220x220xz.jpg_.webp",
         price: 14,
       },
       {
         id: 7,
-        name: "pajama jacket",
+        name: "Pajama jacket",
         imageUrl:
           "https://ae01.alicdn.com/kf/Hc9b91ca4034a4ec4adc8f9e88e51930d7/Pet-clothes-dog-clothes-dog-autumn-and-winter-warm-pajamas-jacket-pet-supplies-cat-clothes.jpg_220x220xz.jpg_.webp",
         price: 18,

@@ -1,6 +1,7 @@
 import React from "react";
 
 import { NavLink } from "react-router-dom";
+import { auth } from "../../firebase/firebase.utils";
 
 import "./header.styles.scss";
 
@@ -10,7 +11,7 @@ const activeStyle = {
   color: "#f7a116",
 };
 
-const Header = () => (
+const Header = ({ currentUser }) => (
   <div className="header">
     <NavLink className="logo-container" to="/">
       <Logo className="logo" />
@@ -43,12 +44,15 @@ const Header = () => (
         Contact
       </NavLink>
 
-      <NavLink className="option" activeStyle={activeStyle} to="/signin">
-        Sign In
-      </NavLink>
-      <NavLink className="option" activeStyle={activeStyle} to="/signout">
-        Sign Out
-      </NavLink>
+      {currentUser ? (
+        <div className="option" onClick={() => auth.signOut()}>
+          SIGN OUT
+        </div>
+      ) : (
+        <NavLink className="option" activeStyle={activeStyle} to="/signin">
+          SIGN IN
+        </NavLink>
+      )}
 
       <NavLink className="option" activeStyle={activeStyle} to="/shop">
         <i className="fa fa-cart-plus mr-2"></i>{" "}
