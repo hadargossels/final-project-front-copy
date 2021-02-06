@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import ReactDOM from 'react-dom';
-import {Link} from 'react-router-dom';
-
+import {Route, Link, BrowserRouter as Router, Switch} from 'react-router-dom';
+import ProductPage from './ProductPage.jsx';
 
 class Product extends Component {
     displayPrice = () => {
@@ -21,12 +21,12 @@ class Product extends Component {
     render() {
         return (
             <div className="col-xs-6 col-md-3">
-                <Link to={`/${this.props.productElement.url}`} style={{ textDecoration: 'none' }}>
+                <Link to="/productpage">
                     <div className="card text-center">
                         <img className="card-img-top" src={this.props.productElement.images[0]} alt="Card image cap"></img>
                         <div className="card-body py-0 px-0">
                             <p className="card-title">{this.props.productElement.name}</p>
-                            {this.displayPrice()}
+                            <p className="card-text">{this.displayPrice()}</p>
                         </div>
                     </div>
                 </Link>
@@ -36,3 +36,13 @@ class Product extends Component {
 }
 
 export default Product;
+
+{/* <div className="col-6 col-md-3">
+                <div className="card text-center" style={{width: "18rem"}}>
+                    <img className="card-img-top mx-auto" src={this.props.productElement.images[0]} alt="Card image cap" style={{height: "100%", width: "70%"}}></img>
+                    <div className="card-body py-0 px-0 mt-0" style={{height: "80px"}}>
+                        <p className="card-title mx-0 my-0">{this.props.productElement.name}</p>
+                        <p className="card-text mx-0 my-0">{this.displayPrice()}</p>
+                    </div>
+                </div>
+            </div> */}

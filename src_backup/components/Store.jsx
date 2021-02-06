@@ -1,11 +1,65 @@
 import React, { Component} from 'react';
 import ReactDOM from 'react-dom';
 import Product from './Product.jsx';
-import storeItems from './StoreItems.jsx'
-
+import ProductPage from './ProductPage.jsx';
+import images from '../images'
+import {Route, Link, BrowserRouter as Router, Switch} from 'react-router-dom';
 
 class Store extends Component {
-    
+    storeItems = [
+        {   id: 1, 
+            name: "Saten sheets",
+            description: "Satin bedding is made of 100% combed cotton with a smooth, glossy and pleasant to the touch finish.",
+            images: [images.image1_1, images.image1_2, images.image1_3],
+            price: 150,
+            discount: 0.25,
+            stars: 4,
+            category: "bedroom",
+            subcategory: "bedding",
+            inStock: true,
+            deliver: true,
+            favorite: false 
+        },
+        {   id: 2, 
+            name: "Wool blanket",
+            description: "A thick and luxurious wool blanket.",
+            images: [images.image2_1, images.image2_2, images.image2_3],
+            price: 250,
+            discount: 0,
+            stars: 3,
+            category: "bedroom",
+            subcategory: "blankets",
+            inStock: true,
+            deliver: true,
+            favorite: false
+        },
+        {   id: 3, 
+            name: "Bath towel",
+            description: "A thick and luxurious bath towel.",
+            images: [images.image3_1, images.image3_2, images.image3_3],
+            price: 200,
+            discount: 0.25,
+            stars: 4,
+            category: "bathroom",
+            subcategory: "towels",
+            inStock: true,
+            deliver: true,
+            favorite: false
+        }, 
+        {   id: 4, 
+            name: "Storage for tea, coffee and sugar",
+            description: "Storage for tea, coffee and sugar made of ceramic with a hermetic wooden lid",
+            images: [images.image4_1, images.image4_2, images.image4_3],
+            price: 225,
+            discount: 0.30,
+            stars: 4,
+            category: "kitchen",
+            subcategory: "storage",
+            inStock: true,
+            deliver: true,
+            favorite: false
+        }           
+    ]
 
     state = {
         category: [
@@ -23,20 +77,20 @@ class Store extends Component {
                 {name:"serving dishes", isChecked: false}]
             }
         ],
-        valuePriceSelect: {value: 0},
+        valuePriceSelect: 0,
         valueSortSelect: "",
-        store: storeItems
+        store: this.storeItems
     };
 
     setPriceValue = (event) => {
-        this.setState({valuePriceSelect: {value: event.target.value}});
+        this.setState({valuePriceSelect: event.target.value});
     }
 
     filterCategory = (event) => {
         let category = this.state.category
         category.forEach(categoryItem => {
             if (categoryItem.name === event.target.value)
-                categoryItem.isChecked = event.target.checked;
+                categoryItem.isChecked = event.target.checked
         })
         this.setState({category: category})
     }
@@ -46,7 +100,7 @@ class Store extends Component {
         category.forEach(categoryItem => {
             categoryItem.subCategory.forEach(subCategoryItem => {
                 if (subCategoryItem.name === event.target.value)
-                    subCategoryItem.isChecked = event.target.checked;
+                    subCategoryItem.isChecked = event.target.checked
             })
         })
         this.setState({category: category})
@@ -59,55 +113,31 @@ class Store extends Component {
             let checkedSubCategories = [];
             categoryItem.subCategory.forEach(subCategoryItem => {
                 if (subCategoryItem.isChecked)
-                    checkedSubCategories.push(subCategoryItem.name);
+                    checkedSubCategories.push(subCategoryItem.name)
             })
 
             if (checkedSubCategories.length > 0) {
                 numChecked += checkedSubCategories.length;
-                filteredItems.push(...storeItems.filter(element => checkedSubCategories.includes(element.subcategory)));
+                filteredItems.push(...this.storeItems.filter(element => checkedSubCategories.includes(element.subcategory)));
             }
             else if (categoryItem.isChecked) {
                 numChecked += 1;
-                filteredItems.push(...storeItems.filter(element => categoryItem.name === element.category));
+                filteredItems.push(...this.storeItems.filter(element => categoryItem.name === element.category));
             }
 
         })
-        
+
         if (numChecked === 0)
-            filteredItems = storeItems;
+            filteredItems = this.storeItems;
         
-        if (this.state.valuePriceSelect.value > 0){
-            filteredItems = filteredItems.filter(element => (element.price * (1 - element.discount)) <= this.state.valuePriceSelect.value);
+        if (this.state.valuePriceSelect > 0){
+            filteredItems = filteredItems.filter(element => (element.price * (1 - element.discount)) <= this.state.valuePriceSelect);
         }
         
         this.setState({store: filteredItems});
     }
 
-    resetFilter = () => {
-        // setting all categories and sub categories elements checked = false
-        const elements = document.getElementsByClassName("form-check-input");
-        Array.from(elements).forEach((element) => {
-            element.checked = false;
-        });
-
-        // setting all categories and sub categories state checked = false
-        let category = this.state.category
-        category.forEach(categoryItem => {
-            categoryItem.isChecked = false;
-
-            categoryItem.subCategory.forEach(subCategoryItem => {
-                subCategoryItem.isChecked = false;
-            })
-        })
-
-        // reset price to be 0
-        document.getElementById("priceRange").value = 0;
-        let valuePriceSelect = this.state.valuePriceSelect
-        valuePriceSelect.value = 0;
-        this.setState({category: category, valuePriceSelect: valuePriceSelect});  // TODO: bug - price
-
-        // display all items (no item it filtered)
-        this.displayFilteredItems();
+    resetFilter = (event) => {
     }
 
     changeSort = (event) => {
@@ -189,11 +219,11 @@ class Store extends Component {
                         <h6>Price</h6> 
                         <label htmlFor="priceRange" className="form-label"></label>
                         <input type="range" className="form-range" id="priceRange" min="0" max="1000" step="10" onInput={this.setPriceValue}></input>
-                        <output> {this.state.valuePriceSelect.value}</output>
+                        <output>{this.state.valuePriceSelect}</output>
 
                         <div className="mt-3">
-                            <input className="btn btn-outline-primary btn-sm" type="button" value="Apply" onClick={this.displayFilteredItems}></input>
-                            <input className="btn btn-outline-primary btn-sm mx-2" type="button" value="Reset" onClick={this.resetFilter}></input>
+                        <input className="btn btn-outline-primary btn-sm" type="button" value="Apply" onClick={this.displayFilteredItems}></input>
+                        <input className="btn btn-outline-primary btn-sm mx-2" type="button" value="Reset" onClick={this.resetFilter}></input>
                         </div>
                         
                     </div>
@@ -211,3 +241,39 @@ class Store extends Component {
 }
 
 export default Store;
+
+
+{/* <div className= "container py-3 d-flex flex-row">
+                <div className="p-2" style={{width:"25%", backgroundColor: "red"}}>
+                    <h1>hello</h1>
+                </div>
+                <div className="p-2 row justify-content-center" style={{width:"75%", backgroundColor: "green"}}>
+                    {this.state.store.map(productElement => 
+                        <Product 
+                            key={productElement.id}
+                            productElement={productElement} 
+                        />)}
+                </div>
+            </div> */}
+
+
+            // {this.state.category.map((element, index) => (
+                            
+            //     <div className="form-check" key={index}>
+            //         <input className="form-check-input" type="checkbox" value="" id={Object.keys(element)}></input>
+            //         <label className="form-check-label" for={Object.keys(element)}>
+            //             {Object.keys(element)}
+            //         </label>
+            //     </div>
+            // ))}
+
+                    // for (let i = 0; i < n-1; i++){ 
+        //     for (let j = 0; j < n-i-1; j++){
+        //         if ((sortedStore[j].price * (1-sortedStore[j].discount)) > (sortedStore[j+1].price * (1-sortedStore[j+1].discount))) 
+        //         { 
+        //             let temp = sortedStore[j]; 
+        //             sortedStore[j] = sortedStore[j+1]; 
+        //             sortedStore[j+1] = temp; 
+        //         }
+        //     }
+        // }

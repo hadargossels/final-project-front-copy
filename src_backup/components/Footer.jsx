@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Link} from 'react-router-dom';
+import {Route, Link, BrowserRouter as Router, Switch} from 'react-router-dom';
 import {Card} from "react-bootstrap";
-
 
 class Footer extends React.Component {
     render() {
@@ -15,11 +14,17 @@ class Footer extends React.Component {
                     <a href="https://twitter.com/"><i className="fab fa-twitter-square"></i></a>
                 </div>
                 <div className="footer-info">
-                    <Link to="/contact">Contact |</Link>
-                    <Link to="/info">Info</Link>
+                    <Router>
+                        <Link to="/contact">Contact |</Link>
+                        <Link to="/info">Info</Link>
+                        <Switch>
+                            {/* <Route path="/contact"> <Contact /> </Route>
+                            <Route path="/info"> <Info /> </Route> */}
+                        </Switch>
+                    </Router>
                 </div>
             </Card.Body>
-            <Card.Footer className="text-muted">© 2021 Copyright HomeStyle</Card.Footer>
+        <Card.Footer className="text-muted">© 2021 Copyright HomeStyle</Card.Footer>
         </Card>
         );
     }
