@@ -1,6 +1,8 @@
 import React from "react";
 
 import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
+
 import { auth } from "../../firebase/firebase.utils";
 
 import "./header.styles.scss";
@@ -25,23 +27,23 @@ const Header = ({ currentUser }) => (
       </form>
 
       <NavLink className="option" activeStyle={activeStyle} to="/shop">
-        Collections
+        COLLECTIONS
       </NavLink>
 
       <NavLink className="option" activeStyle={activeStyle} to="/store">
-        Store
+        STORE
       </NavLink>
 
       <NavLink className="option" activeStyle={activeStyle} to="/about">
-        About
+        ABOUT
       </NavLink>
 
       <NavLink className="option" activeStyle={activeStyle} to="/blog">
-        Blog
+        BLOG
       </NavLink>
 
       <NavLink className="option" activeStyle={activeStyle} to="/contact">
-        Contact
+        CONTACT
       </NavLink>
 
       {currentUser ? (
@@ -61,4 +63,8 @@ const Header = ({ currentUser }) => (
   </div>
 );
 
-export default Header;
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser,
+});
+
+export default connect(mapStateToProps)(Header);

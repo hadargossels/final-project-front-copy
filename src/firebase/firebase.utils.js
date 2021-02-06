@@ -4,6 +4,8 @@ import "firebase/firestore";
 
 import "firebase/auth";
 
+import "firebase/database";
+
 const config = {
   apiKey: "AIzaSyCWoQa6kXdCKNaOveQ8eSrwt0rgKwS08CM",
   authDomain: "dog-store-db.firebaseapp.com",
@@ -12,8 +14,8 @@ const config = {
   messagingSenderId: "736078134737",
   appId: "1:736078134737:web:960d0671bace265d1174f0",
   measurementId: "G-N8LSB8GGRK",
+  databaseUrl: "https://dog-store-db-default-rtdb.firebaseio.com",
 };
-
 firebase.initializeApp(config);
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {

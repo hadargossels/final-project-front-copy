@@ -14,13 +14,12 @@ class StorePage extends React.Component {
       collections: SHOP_DATA,
       chooseItems: ["all"],
       allCounter: 1,
-      sorting: "none",
     };
   }
 
   putItemInArr = (str) => {
     if (!this.state.chooseItems.includes(str) || str === "all") {
-      console.log("str :", str);
+      // console.log("str :", str);
 
       if (str === "all") {
         this.setState((prevState) => ({
@@ -38,7 +37,7 @@ class StorePage extends React.Component {
   };
 
   sortBtnClick = (str) => {
-    console.log("strssort :", str);
+    // console.log("strssort :", str);
 
     switch (str) {
       case "Price: Low to High":
@@ -63,24 +62,28 @@ class StorePage extends React.Component {
         });
 
         break;
+      case "Price: Under $25":
+        console.log("SHOP_DATA :", SHOP_DATA);
 
-      case "Price: Low to High":
-        this.setState((prevState) => {
-          prevState.collections.map((col) => {
-            return col.items.sort((a, b) => a.price - b.price);
-          });
-          return {
-            collections: prevState.collections,
-          };
-        });
-        break;
+      //   this.setState((prevState) => {
+
+      //  var arr=[]
+      //   for (let i = 0; i < SHOP_DATA.length; i++) {
+      //     for (let j = 0; j < SHOP_DATA[i].items.length; j++) {
+      //       if (SHOP_DATA[i].items[j].price <= 25) {
+      //         console.log("dddddd");
+      //       }
+
+      //     }
+      //   }
+      //   })
+
+      //   break;
 
       case "Price: Under $25":
         this.setState((prevState) => {
           prevState.collections.map((col) => {
-            return col.items.filter(
-              (collection) => Number(collection.price) <= 25
-            );
+            return col.items.filter((collection) => collection.price <= 25);
           });
           return {
             collections: prevState.collections,

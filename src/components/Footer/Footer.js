@@ -59,12 +59,6 @@ function Footer() {
                 {/* End Social link */}
               </div>
               {/* End Footer info */}
-              <div className="footer-awarad">
-                <NavLink className="logo-container" to="/">
-                  <Logo className="logo" />
-                </NavLink>{" "}
-                <p>Dog Best Friends {new Date().getFullYear()}</p>
-              </div>
             </div>
             {/* End Col */}
             <div className="col-md-12 col-lg-8">
@@ -225,54 +219,18 @@ function Footer() {
             </div>
             {/* End Col */}
           </div>
-          {/* End Widget Row */}
+          {/* End Widget Row */}{" "}
+          <span className="copyright">
+            Copyright © {new Date().getFullYear()}, All Right Reserved Dog best
+            friends
+          </span>
         </div>
         {/* End Contact Container */}
-        <div className="copyright">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-6">
-                <span>
-                  Copyright © {new Date().getFullYear()}, All Right Reserved Dog
-                  best friends
-                </span>
-              </div>
-              {/* End Col */}
-              <div className="col-md-6">
-                <div className="copyright-menu">
-                  <ul>
-                    <li>
-                      <a href="#">Home</a>
-                    </li>
-                    <li>
-                      <a href="#">Terms</a>
-                    </li>
-                    <li>
-                      <a href="#">Privacy Policy</a>
-                    </li>
-                    <li>
-                      <a href="#">Contact</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              {/* End col */}
-            </div>
-            {/* End Row */}
-          </div>
-          {/* End Copyright Container */}
-        </div>
+
         {/* End Copyright */}
         {/* Back to top */}
-        <div id="back-to-top" className="back-to-top">
-          <button
-            className="btn btn-dark"
-            title="Back to Top"
-            style={{ display: "block" }}
-          >
-            <i className="fa fa-angle-up" />
-          </button>
-        </div>
+
+        {/* End Copyright Container */}
         {/* End Back to top */}
       </footer>
     </>
