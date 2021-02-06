@@ -5,7 +5,8 @@
       "price":"187",
       "stars":"4",
       "jsonPlace":"0",
-      "type":"workOut"
+      "type":"workOut",
+      "onSale":true
       },
       {
          "name":"Pull up bar",
@@ -13,7 +14,8 @@
          "price":"52",
          "stars":"3",
          "jsonPlace":"1",
-         "type":"workOut"
+         "type":"workOut",
+         "onSale":false
       },
       {
          "name":"FUEL Weighted Vest",
@@ -21,7 +23,8 @@
          "price":"90",
          "stars":"5",
          "jsonPlace":"2",
-         "type":"workOut"
+         "type":"workOut",
+         "onSale":false
       },
       {
          "name":"Kettlebell weights 5kg",
@@ -29,7 +32,8 @@
          "price":"35",
          "stars":"4",
          "jsonPlace":"3",
-         "type":"weights"
+         "type":"weights",
+         "onSale":false
       },
       {
       "name":"Yoga mat",
@@ -37,7 +41,8 @@
       "price":"30",
       "stars":"3",
       "jsonPlace":"4",
-      "type":"yoga"
+      "type":"yoga",
+      "onSale":true
       },
       {
          "name":"Yoga wheel",
@@ -45,7 +50,8 @@
          "price":"19",
          "stars":"5",
          "jsonPlace":"5",
-         "type":"yoga"
+         "type":"yoga",
+         "onSale":false
       },
       {
          "name":"Yoga block",
@@ -53,7 +59,8 @@
          "price":"10",
          "stars":"4",
          "jsonPlace":"6",
-         "type":"yoga"
+         "type":"yoga",
+         "onSale":false
       }
    ]
 }

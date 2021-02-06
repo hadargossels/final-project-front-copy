@@ -14,7 +14,7 @@ class Header extends Component{
 
    render(){
       return(
-          <div>
+          <div className="myNav">
             <div className="collapse" id="navbarToggleExternalContent">
                 <div className="bg-dark p-4 d-flex">
                     <h5 className="text-white h4">Menu</h5>

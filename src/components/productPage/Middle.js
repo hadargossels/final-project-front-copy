@@ -34,7 +34,7 @@ class Middle extends Component{
 
     render(){
       return(
-        <div className="row">
+        <div className="row pt-4">
             <div className="col-1">
                 <img src={this.state.imgSrc[0]} alt="..." className="img-thumbnail" onClick={()=>this.changePic(0)}/><br/><br/>
                 <img src={this.state.imgSrc[1]} alt="..." className="img-thumbnail" onClick={()=>this.changePic(1)}/><br/><br/>
@@ -54,7 +54,9 @@ class Middle extends Component{
                 {this.state.about}
             </div>
             <div className="col-3">
-                <h2>Price : {this.state.price}$</h2><br/>
+                {(this.myJson.onSale==false)?(<h2>Price : {this.state.price}$</h2>):
+                 (<h2>Price: <del>{this.state.price}$</del> <span className="text-danger">{(this.state.price*(9/10)).toFixed(2)}$</span></h2>)}
+                <br/>
                 <button className="btn btn-dark" onClick={()=>this.discount()}>get discount</button>
                 <input id="disC" type="text" placeholder="Enter coupon" />
                 <br/><br/>
