@@ -1,22 +1,38 @@
 import React, { Component } from 'react'
-import CatalogProduct from './CatalogProduct'
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import Dropdown from 'react-bootstrap/Dropdown'
-import { Link } from 'react-router-dom'
-import './Catalog.css'
+import Dropdown from 'react-bootstrap/Dropdown';
+import { Link } from 'react-router-dom';
+import queryString from 'query-string';
+import CatalogProduct from './CatalogProduct'
+import './Catalog.css';
+
+import { _mobilesData, _accessoriesData } from '../../data';
 
 export default class Mobiles extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            productsArr: this.props._data,
-            backUpArr: this.props._data,
+            productsArr: (this.props._data) ? (this.props._data) : [],
             sortingBy: "Sort By",
             priceFil: 0,
             rateFil: 0,
-            typeFil: 0
+            typeFil: 0,
+            isSearch: (this.props._data) ? false : true,
         };
-
+        //! Handling search request:
+        let searchValue = (this.state.isSearch) ? queryString.parse(this.props.location.search).q : "";
+        if (this.state.isSearch) {
+            for (const mobile of _mobilesData) {
+                if ((mobile.title).toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
+                    this.state.productsArr.push(mobile);
+                }
+            }
+            for (const accessory of _accessoriesData) {
+                if ((accessory.title).toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
+                    this.state.productsArr.push(accessory);
+                }
+            }
+        }
     }
     //* Listener to filter choosing: 
     onChangePriceFilter = (event) => {
@@ -62,10 +78,10 @@ export default class Mobiles extends Component {
             this.setState({ productsArr : [] })
         }
         else if (this.state.priceFil === 0 && this.state.rateFil === 0 && this.state.typeFil === 0) {
-            this.setState({ productsArr : this.state.backUpArr });
+            this.setState({ productsArr : this.props._data });
         }
         else {
-            for (const product of this.state.backUpArr) {
+            for (const product of this.state.productsArr) {
                 //! Filter by price:
                 if (this.state.priceFil) {
                     if (event.target.name === "300") {

@@ -6,6 +6,19 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
 
 class Header extends React.Component {
+   constructor(props){
+      super(props)
+      this.state = {
+         searchValue: ''
+      }
+      this.callRef = React.createRef();
+   }
+  
+   searchClick() {
+      let node = this.callRef.current;
+      this.setState({searchValue: node.value})
+   };
+
    render() {
       const navStyle = {
          margin: '10px',
@@ -39,9 +52,9 @@ class Header extends React.Component {
                      <Link to="/contact" style={linkStyle}>Contact-Us</Link>
                      <Link to="/blog" style={linkStyle}>Blog</Link>
                   </Nav>
-                  <Form inline style={{padding:'0 30px'}}>
-                     <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                     <Button variant="outline-success">Search</Button>
+                  <Form action="/shop" inline style={{padding:'0 30px'}}>
+                     <FormControl name="q" type="text" placeholder="Search" className="mr-sm-2" ref={this.callRef} />
+                     <Button type="submit" variant="outline-success" onClick={this.searchClick.bind(this)}>Search</Button>
                   </Form>
                   <a href="#shoppingCartId" style={cartStyle}> Shopping cart <FontAwesomeIcon id="shoppingCartId" icon={faShoppingCart} style={cartStyle}/></a>
                   <span id="registerID" style={spanElemStyle}> Hi! <Link to=""> Register </Link>Or <Link to="/login"> Sign in </Link></span>

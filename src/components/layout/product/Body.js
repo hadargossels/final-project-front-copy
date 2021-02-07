@@ -10,7 +10,7 @@ class Body extends React.Component {
         const divStyle = {
             margin: '10px',
             border: '2px solid gold',
-            height: '90vh',
+            height: '100vh',
             textAlign: 'center',
             position: 'relative',
             backgroundColor: 'rgb(217, 236, 228)'
@@ -23,7 +23,7 @@ class Body extends React.Component {
         }
         return (
             <div style={divStyle}>
-                <ProductView />
+                <ProductView name={this.props.prodData.title} desc={this.props.prodData.longDesc}/>
                 <div style={prodInfoStyle}>
                     <Favorite />
                     <Prices />
