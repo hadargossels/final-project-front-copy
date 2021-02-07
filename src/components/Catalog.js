@@ -30,6 +30,7 @@ class Catalog extends Component {
       this.filteringPrice=this.filteringPrice.bind(this)
       this.price=this.price.bind(this)
       this.filterSearch=this.filterSearch.bind(this)
+      this.filterSearch()
    }
 
     addFilter(e){

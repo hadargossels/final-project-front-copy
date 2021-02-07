@@ -5,17 +5,22 @@ import { Link,NavLink } from 'react-router-dom';
 
 class Header extends Component{
 
-   constructor(){
-      super()
+   constructor(props){
+      super(props)
       this.state={
          urlValue:"",
       }
       this.callRef= React.createRef()
       this.setUrl=this.setUrl.bind(this)
+      this.resetUrl=this.resetUrl.bind(this)
    }
 
    setUrl(){
       this.setState({urlValue: this.callRef.current.value})
+   }
+   resetUrl(){
+      this.setState({urlValue:""})
+      console.log(this.props)
    }
    
    render() {
@@ -31,16 +36,16 @@ class Header extends Component{
             <div className="collapse navbar-collapse" id="navbarNav">
                <ul className="navbar-nav">
                <li className="nav-item ms-3">
-                  <NavLink to="/" className="nav-link active" aria-current="page" href="#">ראשי</NavLink>
+                  <NavLink to="/" className="nav-link active" aria-current="page" href="#" onClick={this.resetUrl}>ראשי</NavLink>
                </li>
                <li className="nav-item ms-3">
-                  <NavLink to="/Catalog" className="nav-link" href="#">המוצרים שלנו</NavLink>
+                  <NavLink to="/Catalog" className="nav-link" href="#" onClick={this.resetUrl,this.props.filterSearch}>המוצרים שלנו</NavLink>
                </li>
                <li className="nav-item ms-3">
-                  <NavLink to="/Courses" className="nav-link" href="#">סדנאות</NavLink>
+                  <NavLink to="/Courses" className="nav-link" href="#" onClick={this.resetUrl}>סדנאות</NavLink>
                </li>
                <li className="nav-item ms-3">
-                  <NavLink to="/Recipes" className="nav-link" href="#">מתכונים</NavLink>
+                  <NavLink to="/Recipes" className="nav-link" href="#" onClick={this.resetUrl}>מתכונים</NavLink>
                </li>
                </ul>
             </div>

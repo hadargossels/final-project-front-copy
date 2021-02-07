@@ -103,7 +103,7 @@ class Product extends Component{
                     </div>
                    <div className="card-body fs-4">
                        <h3 className="card-title">{this.state.prod.title}</h3>
-                       <p className="card-text" style={{"margin":"1px"}}>בצק פריך ממולא בקרם פטיסייר ופירות העונה.</p>
+                       <p className="card-text" style={{"margin":"1px"}}>{this.state.prod.description}</p>
                        <p id="priceText" className="card-text" style={{"margin":"1px"} }>{this.priceSmallExists()}</p>
                        <p className="card-text" style={{"margin":"1px"}}>*{this.typeOfCake()}</p>
                        <p className="card-text" style={{"margin":"1px"}}>*את המוצר ניתן להזמין מראש בלבד</p>
@@ -128,7 +128,7 @@ class Product extends Component{
                    <div>
                        <button type="button" className="btn btn-outline-danger">הוסף לסל<i className="fas fa-shopping-cart"></i></button>
                    </div>
-                    <textarea rows="7" cols="30"></textarea>
+                    <textarea rows="6" cols="25"></textarea>
                        
                    </div>
                </div>
