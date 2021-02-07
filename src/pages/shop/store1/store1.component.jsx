@@ -6,15 +6,12 @@ import SHOP_DATA from "../shop.data";
 import "./store.styles.scss";
 import CollectionTopic from "../../../components/collection-topic/collection-topic.component";
 
-import queryString from "query-string";
-import FilterSidebar from "../../../components/filter-sidebar/filter-sidebar.component";
-
 class StorePage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      collections: SHOP_DATA,
+      collections: STORE_DATA,
       chooseItems: ["all"],
       allCounter: 1,
     };
@@ -211,7 +208,6 @@ class StorePage extends React.Component {
     const { collections, chooseItems, allCounter, sorting } = this.state;
     return (
       <div className="store-page">
-        {/* <FilterSidebar /> */}
         <div className="upper-store-content">
           <DepartmentsBtn
             key={0}
