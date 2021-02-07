@@ -35,17 +35,17 @@ class Middle extends Component{
     render(){
       return(
         <div className="row pt-4">
-            <div className="col-1">
+            <div className="col-sm-0 col-md-1">
                 <img src={this.state.imgSrc[0]} alt="..." className="img-thumbnail" onClick={()=>this.changePic(0)}/><br/><br/>
                 <img src={this.state.imgSrc[1]} alt="..." className="img-thumbnail" onClick={()=>this.changePic(1)}/><br/><br/>
                 <img src={this.state.imgSrc[2]} alt="..." className="img-thumbnail" onClick={()=>this.changePic(2)}/><br/><br/>
                 <img src={this.state.imgSrc[3]} alt="..." className="img-thumbnail" onClick={()=>this.changePic(3)}/><br/><br/>
                 {/* <img src={this.state.imgSrc[4]} alt="..." className="img-thumbnail" onClick={()=>this.changePic(4)}/> */}
             </div>
-            <div className="col-5 text-center">
+            <div className="col-sm-12 col-md-5 text-center">
             <img id="bigI" src={this.state.imgSrc[this.state.imgid]} alt="..." width='80%'/><br/><br/>
             </div>
-            <div className="col-3">
+            <div className="col-sm-12 col-md-3">
                 <h1 className="text-danger">{this.state.title}</h1> <br/><br/>
                 <Stars numStars={this.state.rateStars}/><br/>
                 <a href="https://www.facebook.com/"><i className="fab fa-facebook fs-4"></i></a>
@@ -53,7 +53,7 @@ class Middle extends Component{
                 <br/><br/>
                 {this.state.about}
             </div>
-            <div className="col-3">
+            <div className="col-sm-12 col-md-3">
                 {(this.myJson.onSale==false)?(<h2>Price : {this.state.price}$</h2>):
                  (<h2>Price: <del>{this.state.price}$</del> <span className="text-danger">{(this.state.price*(9/10)).toFixed(2)}$</span></h2>)}
                 <br/>
