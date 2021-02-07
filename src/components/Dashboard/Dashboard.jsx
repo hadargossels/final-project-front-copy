@@ -4,7 +4,7 @@ export default class Dashboard extends Component {
     render() {
         return (
             <div>
-                <h1 className="text-center">Dashboard - only for managers!</h1>
+                <h1 className="text-center">Dashboard - Registered users only!</h1>
             </div>
         )
     }

@@ -14,8 +14,27 @@ export default class Catalog extends Component {
         }
         
         this.updateState = this.updateState.bind(this)
+
+
+        this.inputRef=React.createRef()
+        this.cbRef=null
+        this.setCbRef=element =>{
+            this.cbRef=element
+        }
+
+
+
+    }
+    //if the window onload, it focus on search bar
+    componentDidMount(){
+        if(this.cbRef)
+            this.cbRef.focus()
     }
     
+
+
+
+
 
     updateState(e){
         
@@ -73,7 +92,7 @@ export default class Catalog extends Component {
                         <div className="container-fluid">
                             <form className="d-flex">
                             
-                            <input className="form-control me-2" type="search" placeholder="Search items" aria-label="Search"/>
+                            <input ref={this.setCbRef}  className="form-control me-2" type="search" placeholder="Search items" aria-label="Search"/>
                             </form>
                         </div>
                         <br/>

@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import './Footer.css';
 class Footer extends Component{
    render(){
-      return(
+      
+    return(
+      
         <footer className="footer">
         <div>
           <a href="https://www.facebook.com/"><i className="fab fa-facebook-square cursor"></i></a>
