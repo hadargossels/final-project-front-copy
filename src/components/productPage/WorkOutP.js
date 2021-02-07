@@ -61,9 +61,9 @@ class WorkOutP extends Component{
             for(let i=0; i<this.state.name.length; i++){
                 if(i%3==0 && i!=0){
                     tempArr.push(<hr key={-i*10}/>)
-                    tempArr.push(<div key={-i} className="col-2"></div>)
+                    tempArr.push(<div key={-i} className="col-sm-12 col-md-2"></div>)
                 }
-                tempArr.push(<div className="col-3 text-center " key={i}>
+                tempArr.push(<div className="col-sm-12 col-md-3 text-center " key={i}>
                     <h3>{this.state.name[i]}</h3>
                     <ListItemLink name={this.state.name[i]} urlImg={this.state.urlImg[i]} index={this.state.jsonPlace[i]}/><br/>
                     <Stars numStars={this.state.stars[i]}/><br/>
@@ -76,7 +76,7 @@ class WorkOutP extends Component{
         }
         return(
             <div className="row">
-                <div className="col-2">
+                <div className="col-sm-12 col-md-2">
                     <div className="text-center">
                         <label className="fs-4">Sort By</label><br/>
                         <button className="btn btn-secondary" onClick={()=>this.sortPrice()}>Price Low to High</button><br/>
@@ -99,7 +99,7 @@ class WorkOutP extends Component{
                     </div>
                 </div>
                 {this.state.myArr}
-                <div className="col-1"></div>
+                <div className="col-sm-12 col-md-1"></div>
             </div>
         );
    }

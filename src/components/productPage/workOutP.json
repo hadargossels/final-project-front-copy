@@ -36,13 +36,13 @@
          "onSale":false
       },
       {
-      "name":"Yoga mat",
-      "urlImg":["/images/yogaMattress.jpg","/images/yogaMattress2.jpg","/images/yogaMattress3.jpg","/images/yogaMattress4.jpg","/images/yogaMattress.jpg"],
-      "price":"30",
-      "stars":"3",
-      "jsonPlace":"4",
-      "type":"yoga",
-      "onSale":true
+         "name":"Yoga mat",
+         "urlImg":["/images/yogaMattress.jpg","/images/yogaMattress2.jpg","/images/yogaMattress3.jpg","/images/yogaMattress4.jpg","/images/yogaMattress.jpg"],
+         "price":"30",
+         "stars":"3",
+         "jsonPlace":"4",
+         "type":"yoga",
+         "onSale":true
       },
       {
          "name":"Yoga wheel",
@@ -60,6 +60,34 @@
          "stars":"4",
          "jsonPlace":"6",
          "type":"yoga",
+         "onSale":false
+      },
+      {
+         "name":"Nike shaker",
+         "urlImg":["/images/bottles/nike-training-hypercharge-shaker-bottle-07l.jpg","/images/bottles/nike-bottle.jpg","/images/bottles/nike-training-hypercharge-shaker-bottle-07l.jpg","/images/bottles/nike-bottle.jpg"],
+         "price":"27",
+         "stars":"5",
+         "jsonPlace":"7",
+         "type":"bottle",
+         "onSale":false
+      },
+      {
+         "name":"Nike water bottle",
+         "urlImg":["/images/bottles/nike-water-bottle.jpg","/images/bottles/nike-water-bottle2.jpg","/images/bottles/nike-water-bottle3.jpg","/images/bottles/nike-water-bottle.jpg"],
+         "price":"22",
+         "stars":"4",
+         "jsonPlace":"8",
+         "type":"bottle",
+         "onSale":false
+      },
+
+      {
+         "name":"Adidas water bottle 600ml",
+         "urlImg":["/images/bottles/adidas-steel-bottle-1-l.jpg","/images/bottles/adidas-steel-bottle-600-ml.jpg","/images/bottles/adidas-steel-bottle-600-ml-2.jpg","/images/bottles/adidas-steel-bottle-1-l.jpg.jpg"],
+         "price":"19",
+         "stars":"4",
+         "jsonPlace":"9",
+         "type":"bottle",
          "onSale":false
       }
    ]
