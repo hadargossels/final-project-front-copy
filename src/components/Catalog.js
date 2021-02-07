@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
 import { Link,NavLink } from 'react-router-dom';
+import querystring from "query-string";
 import './Catalog.css';
 import SortBar from "./Sortbar";
 import Header from "./Header";
@@ -21,6 +22,7 @@ class Catalog extends Component {
          sortSelected:"",
          priceMin:"",
          priceMax:"",
+         urlSearch:"",
       }
       this.sortFunc=this.sortFunc.bind(this)
       this.addFilter=this.addFilter.bind(this)
@@ -28,10 +30,9 @@ class Catalog extends Component {
       this.filteringPrice=this.filteringPrice.bind(this)
       this.price=this.price.bind(this)
       this.filterSearch=this.filterSearch.bind(this)
-      console.log((this.props.location.search))
    }
 
-   addFilter(e){
+    addFilter(e){
       let copyFilterArr=[...this.state.filterArr]
 
       if(e.checked){
@@ -45,16 +46,16 @@ class Catalog extends Component {
       this.setState({filterArr: copyFilterArr})
    }
 
-   filteringPrice(min,max){
+   async filteringPrice(min,max){
 
       let copyFilterArr=[...this.state.filterArr]
-      this.setState({priceMin: min})
-      this.setState({priceMax: max})
-      setTimeout(()=>this.filtering(copyFilterArr),0)
+      await this.setState({priceMin: min})
+      await this.setState({priceMax: max})
+      this.filtering(copyFilterArr)
    }
 
 
-   filtering(copyFilterArr){
+   async filtering(copyFilterArr){
 
       let copyArr=[...cakeArr]
 
@@ -86,6 +87,11 @@ class Catalog extends Component {
             return (item["priceBig"]<=this.state.priceMax)
          })
       }
+      if(this.state.urlSearch){
+         copyArr=copyArr.filter((item)=>{
+            return (item["title"].includes(this.state.urlSearch))
+         })
+      }
 
       for (const type of copyFilterArr) {
           if(type==="withoutfruit"){
@@ -107,8 +113,8 @@ class Catalog extends Component {
          document.querySelector("#notFoundResults").style.display = "none";
 
       }
-      this.setState({Arr: copyArr})
-      setTimeout(()=>this.sortFunc(this.state.sortSelected),0)
+      await this.setState({Arr: copyArr})
+      this.sortFunc(this.state.sortSelected)
       
    }
 
@@ -148,9 +154,13 @@ class Catalog extends Component {
       
   }
 
-  filterSearch(){
-   console.log("sad")
-   console.log((this.props.location.search).q)
+   async filterSearch(){
+
+      let copyFilterArr=[...this.state.filterArr]
+      await setTimeout(()=>console.log("just wait"),1)
+      await this.setState({urlSearch: querystring.parse(this.props.location.search).q})
+      this.filtering(copyFilterArr)
+         
   }
 
    render() {

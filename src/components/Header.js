@@ -45,8 +45,8 @@ class Header extends Component{
                </ul>
             </div>
             
-            <input id="serchInput" class="form-control mr-sm-2 ms-3 " type="search" placeholder="Search" ref={this.callRef} onChange={this.setUrl}/>
-            <NavLink to={"/Catalog?q="+this.state.urlValue}> <button id="serchBtn" class="btn btn-outline-success my-2 my-sm-0 " type="submit" onClick={this.props.filterSearch}>חפש</button></NavLink>
+            <input id="serchInput" class="form-control mr-sm-2 ms-3 " type="search" placeholder="Search" ref={this.callRef} onChange={this.setUrl} value={this.state.urlValue}/>
+            <NavLink to={"/Catalog?q="+this.state.urlValue}><button id="serchBtn" class="btn btn-outline-success my-2 my-sm-0 " type="submit" onClick={this.props.filterSearch}>חפש</button></NavLink>
            
            
                <span class="navbar-text"><i class="fas fa-user"></i></span>
