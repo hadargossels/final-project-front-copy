@@ -1,12 +1,14 @@
 import React from 'react'
 
 const Categories = (props) => {
-    let categories = props.platforms.join(" game, ")
-    categories+=" game"
+    let categories = ''
+    for (let platforms of props.platforms){
+        categories += platforms + " game"
+    }
 
     return (
         <div className="mb-3 text-center">
-            <span className="h5 mx-2">Categories:</span>
+            <h5>Categories:</h5>
             <span>{categories}</span>
         </div>
     )

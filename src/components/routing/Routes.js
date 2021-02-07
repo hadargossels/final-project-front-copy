@@ -12,7 +12,6 @@ import ProductPage from '../Product/ProductPage'
 import NotFound from '../404/NotFound'
 import Dashboard from '../Dashboard/Dashboard'
 
-
 const Routes = () => {
     localStorage.setItem("user","connected")
     localStorage.removeItem("user")
@@ -27,11 +26,12 @@ const Routes = () => {
                 <Route path="/about" component={AboutUs}/>
                 <Route path="/blog" component={Blog}/>
                 <Route path="/contact" component={ContactUs}/>
-                <Route path="/login" component={Login}/>
-                <Route path="/signup" component={SignUp}/>
-                <Route path="/store" component={CatalogPage}/>
-                <Route path="/product/:name" component={ProductPage}/>
                 <Route path="/dashboard" component={secretLink}/>
+                <Route path="/login" component={Login}/>
+                <Route path="/product/:name" component={ProductPage}/>
+                <Route path="/signup" component={SignUp}/>
+                <Route exact path="/store/" component={CatalogPage}/>
+                <Route path="/store/:search" component={CatalogPage}/>
                 <Route component={NotFound}/>
             </Switch>
     

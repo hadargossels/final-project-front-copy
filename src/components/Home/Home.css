@@ -1,0 +1,50 @@
+.homeTitle{
+    color:white;
+    text-align: center;
+}
+
+.toBlur:hover{
+    filter: blur(5px);
+    transition:all 1s;
+}
+
+.homeShop{
+    font-size:2rem;
+}
+
+.carouselImg{
+    min-height: 30vw;
+}
+
+.carousel-caption{
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+@media only screen and (max-width: 990px) {   
+    .homeTitle{
+        font-size:2rem  !important
+    }
+}   
+ 
+
+@media only screen and (max-width: 766px) {   
+    .homeTitle{
+        font-size:3rem  !important
+    }
+}  
+
+
+@media only screen and (max-width: 500px) {   
+    #carouselExampleFade{
+        display:none;
+    }
+    .btmSlider{
+        display:none;
+    }
+} 
+
+@media only screen and (max-width: 300px) {   
+    .homeTitle{
+        font-size:2rem !important
+    }
+}

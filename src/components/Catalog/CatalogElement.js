@@ -4,10 +4,10 @@ import './CatalogElement.css'
 import { CatalogPrice } from './CatalogPrice';
 
 const CatalogElement = ({ img, name, rating, platforms, price,discount }) => (
-  <div className="col-lg-4 col-md-6">
+  <div className="col-lg-4 col-md-6 mb-1">
    
-    <div className="row ">
-      <div className="imgContain col-12">
+    <div className="row">
+      <div className="imgContain">
         <img src={img} alt="" className="rounded img-fluid" /> 
       </div>
       <div className="col-9 ">
@@ -16,7 +16,7 @@ const CatalogElement = ({ img, name, rating, platforms, price,discount }) => (
         </Link>
       
         <CatalogPrice discount={discount} price={price}/>
-        <p className="text-danger">{platforms}</p>
+        <h6 className="text-danger fw-normal">{platforms}</h6>
         <Rating rating={rating} />
       </div>
       <div className="col-2  p-0">

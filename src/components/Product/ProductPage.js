@@ -6,6 +6,7 @@ import AlsoViewed from './AlsoViewed';
 import Stock from './Stock'
 import Rating from './Rating'
 import Categories from './Categories'
+import './ProductPage.css'
 
 import {objectsArr} from './data'
 
@@ -18,7 +19,7 @@ class ProductPage extends Component{
             <div className = "container-fluid pt-4 m-auto px-2">
                 <div className="row mx-md-5 mx-0">
 
-                    <div className="col-5 col-md-4 ps-0 pe-2">
+                    <div className="gallery col-5 col-md-4 ps-0 pe-2">
                         <Gallery mainImg={product2.imgBig}/>
                     </div>
 
@@ -34,7 +35,7 @@ class ProductPage extends Component{
                                 
                                 <Price price={product2.price} discount={product2.discount}/>
                                 <p>This item ships to Israel. Arrives: March 9 - 16</p>
-                                {/* <Platforms/> */}
+                                <Platforms platforms={product2.platforms}/>
                                 
                             </div>
 
@@ -48,7 +49,7 @@ class ProductPage extends Component{
                         </div>
                         
                         <p className="text-start"><span className="fw-bold me-2">About:</span>{product2.about}</p>
-                        {/* <Categories platforms={product2.platforms}/> */}
+                        <Categories platforms={product2.platforms}/>
                         
                         <hr/>
                         <AlsoViewed/>

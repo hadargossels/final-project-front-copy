@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { lowToHigh, highToLow, ratingOrder, alphabetOrder} from "../../functions/compareFuncs.js";
+import {lowToHigh,highToLow,ratingOrder,alphabetOrder} from "../../functions/compareFuncs.js";
 import CatalogElement from "./CatalogElement";
-import './Catalog.css'
+
+import "./Catalog.css";
 
 export default class Catalog extends Component {
   constructor(props) {
     super(props);
     this.arr = this.props.arr;
-    this.state = { arr: props.arr, displayArr:props.arr, filtering:[] };
+    this.state = {arr: props.arr, displayArr: props.arr, filtering: [], page: 1,limit: 6};
   }
 
   setOrder = (e) => {
@@ -20,8 +21,8 @@ export default class Catalog extends Component {
         sortFunction = highToLow;
         break;
       case "byRating":
-          sortFunction = ratingOrder;
-          break;
+        sortFunction = ratingOrder;
+        break;
       default:
         sortFunction = alphabetOrder;
         break;
@@ -33,29 +34,34 @@ export default class Catalog extends Component {
     this.setState({ arr }); //as we use arr in categores filtering, it needs to be in the correct sorting order as well
   };
 
-  filteredCategories = (e) =>{
-    let displayArr = [...this.state.arr]
-    let categ = [...this.state.filtering]
-    let checkbox = e.target
+  filteredCategories = (e) => {
+    let displayArr = [...this.state.arr];
+    let categ = [...this.state.filtering];
+    let checkbox = e.target;
 
-    if (checkbox.checked)
-      categ.push(checkbox.value)
-    else
-      categ = categ.filter((el) =>(el !== checkbox.value))
+    if (checkbox.checked) categ.push(checkbox.value);
+    else categ = categ.filter((el) => el !== checkbox.value);
 
-    this.setState({filtering:categ})
-    
+    this.setState({ filtering: categ });
+
     if (categ.length >= 1)
-      displayArr = displayArr.filter(el =>(categ.includes(el.platforms[0])))
+      displayArr = displayArr.filter((el) => categ.includes(el.platforms[0]));
+
+    this.setState({ displayArr });
+  };
+
+  checkIfLast(){
+    let lastPage = (0 | (this.state.displayArr.length / this.state.limit + 1))
+    let currentPage = (this.state.page)
+    if (lastPage !== currentPage)
+      currentPage +=1
     
-    this.setState({displayArr})
-  }
+    this.setState({page:currentPage})
+  };
 
   render() {
     return (
-
       <div className=" mb-2">
-        
         {/* sorter */}
         <div className="row">
           <div className="text-end col-12 mb-2">
@@ -69,31 +75,53 @@ export default class Catalog extends Component {
           </div>
         </div>
 
-        {/* filtering */}
         <div className="row">
+          {/* filtering */}
           <div className="col-lg-2 col-md-3 col-4">
             <h3 className="categs p-1 text-light bg-primary">Categories</h3>
             <h5 className="p-1 platf">Platform</h5>
             <form className="ps-sm-3">
-              <input type="checkbox" onChange={this.filteredCategories} value="Computer" id="comp" />
-              <label htmlFor="comp" className="ps-1">Computer</label>
-              <br />
-              <input type="checkbox" onChange={this.filteredCategories} value="PlayStation4" id="ps4" />
-              <label htmlFor="ps4" className="ps-1">PlayStation4</label>
-              <br />
-              <input type="checkbox" onChange={this.filteredCategories} value="Nintendo Switch" id="switch" />
+              <input type="checkbox" onChange={this.filteredCategories} value="Computer" id="comp"/>
+              <label htmlFor="comp" className="ps-1">Computer</label> <br />
+              <input type="checkbox" onChange={this.filteredCategories} value="PlayStation4" id="ps4"/>
+              <label htmlFor="ps4" className="ps-1">PlayStation4</label> <br />
+              <input type="checkbox" onChange={this.filteredCategories} value="Nintendo Switch" id="switch"/>
               <label htmlFor="switch" className="ps-1">Switch</label>
             </form>
           </div>
           {/* showing the catalog items on the screen */}
           <div className="container col-lg-10 col-md-9 col-8 ">
-            <div className="row">
-              {this.state.displayArr.map(({ ...rest }, key) => (
-                <CatalogElement {...rest} key={key} />
-              ))}
+            <div className="row mb-2">
+              {this.state.displayArr.slice(
+                  (this.state.page - 1) * this.state.limit, this.state.page * this.state.limit
+                )
+                .map(({ ...rest }, key) => (
+                  <CatalogElement {...rest} key={key} />
+                ))}
             </div>
           </div>
+          {/* page navigation */}
+          <nav aria-label="Page navigation example">
+            <ul className="pagination justify-content-center">
+              <li className="page-item" onClick={(e) => {
+                  this.setState((state) => ({page: !(state.page - 1) || state.page - 1}));
+                }}>
+                <span className="page-link">Previous</span>
+              </li>
+              
+              {Array(0 | (this.state.displayArr.length / this.state.limit + 1))
+                .fill(0)
+                .map((_, index) => (
+                  <li key={index} className="page-item" onClick={() => this.setState({ page: index + 1 })}>
+                    <span className="page-link">{index + 1}</span>
+                  </li>
+                ))}
 
+              <li className="page-item"  onClick={() => {this.checkIfLast()}}>
+                <span className="page-link">Next</span>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     );

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {NavLink} from 'react-router-dom';
 
 class Header extends Component{
+   
     render(){
       const noDeco = {textDecoration:"none"}
        return(
@@ -45,12 +46,12 @@ class Header extends Component{
                </div>
 
                <ul className="navbar-nav navbar-right py-1">
-                  <form className="d-flex ">
-                     <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                     <button className="btn btn-outline-light" type="submit">Search</button>
+                  <form className="d-flex" action="/store/">
+                     <input name="q" className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                        <button className="btn btn-outline-light" type="submit">Search</button>
                   </form>
-               </ul>
-            </div>
+            </ul>
+         </div>
          </nav>
        );
     }
