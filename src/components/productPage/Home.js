@@ -13,10 +13,17 @@ class Home extends Component{
 
     render(){
        return ( 
-                <div id="homePage" className="text-center">
+                <div id="homePage"
+                 style={{
+                   backgroundImage:"url('/images/bg-img.jpg')",
+                   backgroundRepeat: "no-repeat",
+                   backgroundSize:"100%",
+                   height: "55vw"
+                 }}
+                 className="text-center">
                     <h1 id="homeHeadLine" className="text-white">Wellcome to Experis Sports</h1>
                     <img src="/images/experisSportLogo.png"></img>
-                    <ListItemLink to="/store"  name="Go to store"/>
+                    <ListItemLink to="/store/all"  name="Go to store"/>
                 </div>
 
 

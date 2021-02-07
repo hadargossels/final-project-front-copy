@@ -11,6 +11,13 @@ const ListItemLink = ({ to, name }) => (
     )}/>)
 
 class Header extends Component{
+    constructor(){
+        super()
+        this.searchRef = React.createRef();
+        this.state = {
+            search : ""
+        }
+    }
 
    render(){
       return(
@@ -19,11 +26,15 @@ class Header extends Component{
                 <div className="bg-dark p-4 d-flex">
                     <h5 className="text-white h4">Menu</h5>
                     <ListItemLink to="/" name="Home"/>
-                    <ListItemLink to="/store" name="Store"/>
+                    <ListItemLink to="/store/all" name="Store"/>
                     <ListItemLink to="/contact" name="Contact Us"/>
                     <ListItemLink to="/about" name="About Us"/>
                     <ListItemLink to="/blog" name="Blog"/>
                     <ListItemLink to="/login" name="Sign In"/>
+                    <div className="d-flex">
+                        <input onChange={()=>this.searchInput()} ref={this.searchRef} className="ms-3" type="search" placeholder="Search" />
+                        <ListItemLink to={`/store/${this.state.search}`} name="Search"/>
+                    </div>
                     <span className="text-muted"></span>
                 </div>
             </div>
@@ -38,6 +49,10 @@ class Header extends Component{
           </div>
 
       );
+   }
+
+   searchInput(){
+       this.setState({search :this.searchRef.current.value})
    }
 
 }

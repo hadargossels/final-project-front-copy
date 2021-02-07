@@ -19,7 +19,7 @@ function App() {
           <Router>
             <Header/><br/>
               <Route exact path="/" component={Home} />
-              <Route path="/store" component={Album} />
+              <Route path="/store/:cat" component={Album} />
               <Route path="/product/:num/:name" component={Middle} />
               <Route path="/contact" component={Contact} />
               <Route path="/about" component={About} />
