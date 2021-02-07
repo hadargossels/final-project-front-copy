@@ -3,23 +3,64 @@ import React, { Component } from 'react';
 import './Product.css';
 
 
+const productArr= require("../dataBase/productsData.json")
+
 class Product extends Component{
+    constructor(props){
+        super(props)
+        
 
+        const product=productArr.filter((item)=>{
+            return (item["title"]==this.props.match.params.ProductName)
+        })
 
+        this.state={
+            prod:product[0],
+         }
+         this.state.priceSmallExists=this.priceSmallExists.bind(this)
+         this.state.typeOfCake=this.typeOfCake.bind(this)
+         
+         
+    }
     showPriceSmall(){
         let price=document.querySelector("#priceChoice")
-        price.innerText=" ₪ 30"
+        price.innerText=` ₪ ${this.state.prod.priceSmall}`
+        
+
     }   
     showPriceBig(){
         let price=document.querySelector("#priceChoice")
-        price.innerText=" ₪ 140"
+        price.innerText=` ₪ ${this.state.prod.priceBig}`
     } 
+
+    priceSmallExists(){
+
+        if(this.state.prod.priceSmall){
+            return `מחיר: ${this.state.prod.priceBig}₪ גדול  /${this.state.prod.priceSmall}₪  קטן `
+        }else{
+            setTimeout(()=>{let price=document.querySelector("#priceChoice")
+            price.innerText=` ₪ ${this.state.prod.priceBig}`
+            document.querySelector("#btns").style.display="none"
+                },5)
+             
+            return `  מחיר:  ${this.state.prod.priceBig}₪`
+        }
+        
+    }
+    typeOfCake(){
+
+        if(this.state.prod.milk && this.state.prod.parve)
+            return ` פרווה / חלבי`
+        if(this.state.prod.milk)
+            return `חלבי`
+        if(this.state.prod.parve)
+            return `פרווה`
+        
+    }
 
 
    render(){
     
-
-
       return(
          
         <div className="margin-top-product">
@@ -59,10 +100,10 @@ class Product extends Component{
                         <input type="radio" name="rating" value="5" id="5"></input><label htmlFor="5">☆</label> <input type="radio" name="rating" value="4" id="4"></input><label htmlFor="4">☆</label> <input type="radio" name="rating" value="3" id="3"></input><label htmlFor="3">☆</label> <input type="radio" name="rating" value="2" id="2"></input><label htmlFor="2">☆</label> <input type="radio" name="rating" value="1" id="1"></input><label htmlFor="1">☆</label>
                     </div>
                    <div className="card-body fs-4">
-                       <h3 className="card-title">טארט פירות העונה</h3>
+                       <h3 className="card-title">{this.state.prod.title}</h3>
                        <p className="card-text" style={{"margin":"1px"}}>בצק פריך ממולא בקרם פטיסייר ופירות העונה.</p>
-                       <p className="card-text" style={{"margin":"1px"}}>מחיר:  קטן  30₪   /  גדול 140₪</p>
-                       <p className="card-text" style={{"margin":"1px"}}>*חלבי</p>
+                       <p id="priceText" className="card-text" style={{"margin":"1px"} }>{this.priceSmallExists()}</p>
+                       <p className="card-text" style={{"margin":"1px"}}>*{this.typeOfCake()}</p>
                        <p className="card-text" style={{"margin":"1px"}}>*את המוצר ניתן להזמין מראש בלבד</p>
                        <p className="card-text" style={{"margin":"1px"}}>*הערות ושינויים ניתן להוסיף בתיבת הטקסט</p>
 
@@ -70,7 +111,7 @@ class Product extends Component{
                    </div>
                    
                    <div className="card-body" style={{"position":"relative"}}>
-                   <div className="btn-group" role="group" aria-label="Basic radio toggle button group" style={{"direction":"ltr"}}>
+                   <div className="btn-group" role="group" aria-label="Basic radio toggle button group" id="btns" style={{"direction":"ltr"}}>
 
                        <input onClick={()=>this.showPriceBig()} type="radio" className="btn-check" name="btnradio" id="btnradio1" autoComplete="off"></input>
                        <label className="btn btn-outline-danger" htmlFor="btnradio1">גדול</label>

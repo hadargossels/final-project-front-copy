@@ -2,6 +2,9 @@
 import React, { Component } from 'react';
 import './Sortbar.css';
 
+// let sliderC = new Slider("#ex12c", { id: "slider12c", min: 0, max: 10, range: true, value: [3, 7] });
+
+
 
 class Sortbar extends Component{
 
@@ -10,7 +13,23 @@ class Sortbar extends Component{
         this.state={
 
         }
+        this.valiPrice=this.valiPrice.bind(this)
     }
+    valiPrice(e) {
+        e.value=e.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+        let max=Number(document.querySelector("#priceMax").value)
+        let min=Number(document.querySelector("#priceMin").value)
+
+        if(min>max && max !=""){
+            
+            document.querySelector("#invalid").innerHTML= "המחיר המקסימילי חייב להיות גדול מהמחיר המינימלי"
+        }else{
+            document.querySelector("#invalid").innerHTML= ""
+            this.props.filteringPrice(min,max)
+        }
+
+
+      }
 
 
    render(){
@@ -107,47 +126,22 @@ class Sortbar extends Component{
 
             </div>
 
-            <div className="filter">
+            <div className="priceFilter">
 
-                <p> טווח מחירים:</p>
-                <div className="[ form-group ]" style={{"marginTop":"10px"}}>
-                    <input type="checkbox" name="price1" id="price1" autoComplete="off" onClick={(e)=>this.props.addFilter(e.target)}/>
-                    <div className="[ btn-group ]">
-                        <label htmlFor="price1" class="[ btn btn-primary ]">
-                            <span class="[ glyphicon glyphicon-ok ]">✔</span>
-                            <span> </span>
-                        </label>
-                        <label htmlFor="price1" className="[ btn btn-default active ]">₪ 0 - 100</label>
-                    </div>    
-                </div>
+                <p><b> טווח מחירים:</b></p>
 
-                <div className="[ form-group ]">
-                    <input type="checkbox" name="price2" id="price2" autoComplete="off" onClick={(e)=>this.props.addFilter(e.target)}/>
-                    <div className="[ btn-group ]">
-                        <label htmlFor="price2" class="[ btn btn-primary ]">
-                            <span class="[ glyphicon glyphicon-ok ]">✔</span>
-                            <span> </span>
-                        </label>
-                        <label htmlFor="price2" className="[ btn btn-default active ]">₪ 100 - 200</label>
-                    </div>    
-                </div>
-
-                <div className="[ form-group ]">
-                    <input type="checkbox" name="price3" id="price3" autoComplete="off" onClick={(e)=>this.props.addFilter(e.target)}/>
-                    <div className="[ btn-group ]">
-                        <label htmlFor="price3" class="[ btn btn-primary ]">
-                            <span class="[ glyphicon glyphicon-ok ]">✔</span>
-                            <span> </span>
-                        </label>
-                        <label htmlFor="price3" className="[ btn btn-default active ]">₪ מעל 200</label>
-                    </div>    
-                </div>
-
+                    <label htmlFor="priceMin">מחיר מינימלי:</label>
+                    <input type="text" name="priceMin" id="priceMin" maxLength="3" onChange={(e)=>this.valiPrice(e.target)}/>
+                    <label htmlFor="priceMax">מחיר מקסימלי:</label>
+                    <input type="text" name="priceMax" id="priceMax" maxLength="3" onChange={(e)=>this.valiPrice(e.target)}/>
+                    <p id="invalid"></p>
+    
             </div>
 
         </div>
         
       );
+      
    }
 }
    export default Sortbar;

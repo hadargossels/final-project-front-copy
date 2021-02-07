@@ -1,4 +1,5 @@
 
+
 .img-size{
     max-width: 700px;
     max-height: 500px;
@@ -6,12 +7,11 @@
 .card{
     background-image: radial-gradient(rgb(255, 255, 255), rgb(255, 255, 255), rgb(255, 255, 255), rgb(255, 187, 255));
 }
-
-
 .margin-top-product{
 
-    margin-top: 200px;
-    margin-bottom: 100px;
+    padding-top: 200px;
+    padding-bottom: 100px;
+    background-color:rgb(250,228,241);
 
 }
 #priceChoice{

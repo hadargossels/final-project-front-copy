@@ -19,8 +19,8 @@ const router=(
     <Header/>
     <Switch>
       <Route exact path="/" component={App}/>
-      <Route path="/Product" component={Product}/>
-      <Route path="/Catalog" component={Catalog}/>
+      <Route path="/Catalog/:ProductName" component={Product}/>
+      <Route path="/Catalog" exact component={Catalog}/>
       <Route path="/Courses" component={Courses}/>
       <Route path="/Recipes" component={Recipes}/>
 

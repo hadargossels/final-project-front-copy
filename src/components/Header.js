@@ -6,7 +6,7 @@ function Header(){
       return(
          <div>
             
-         <nav className="navbar navbar-expand-lg navbar-dark bg-dark fs-4">
+         <nav className="navbar navbar-expand-lg navbar-dark bg-dark fs-5">
             <div className="container-fluid col-8">
             <div className="myLogo" style={{"backgroundImage":"url(/images/logo3.png)"}}></div>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

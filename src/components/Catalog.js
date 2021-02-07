@@ -5,18 +5,7 @@ import './Catalog.css';
 import SortBar from "./Sortbar";
 
 
-
-const cakeArr = [
-   { img: '/images/cake1-1.jpeg', alt: 'PHOTO',id: 1, title: 'טארט פירות העונה',priceSmall: 30,priceBig: 140, milk: true ,parve: false ,fruit: true, glutenFree: false,shugerFree: false,stars: 5},
-   { img: '/images/cake2-1.jpeg', alt: 'PHOTO',id: 2, title: 'פיסטוק-פירות יער',priceSmall: 35,priceBig: 180, milk: true ,parve: false ,fruit: true, glutenFree: false,shugerFree: false,stars: 4},
-   { img: '/images/cake3-1.jpeg', alt: 'PHOTO',id: 3, title: 'לוזיק- עוגת אגוזי לוז',priceSmall: 30,priceBig: 130, milk: true ,parve: false ,fruit: false, glutenFree: false,shugerFree: false,stars: 3}, 
-   { img: '/images/cake4-1.jpeg', alt: 'PHOTO',id: 4, title: 'עוגת גבינה קרמית',priceSmall: "",priceBig: 160, milk: true ,parve: false ,fruit: true, glutenFree: false,shugerFree: false,stars: 3 },
-   { img: '/images/cake5-1.jpeg', alt: 'PHOTO',id: 5, title: 'פאי לימון',priceSmall: "",priceBig: 120, milk: true ,parve: false ,fruit: true, glutenFree: true,shugerFree: false,stars: 4 },
-   { img: '/images/cake6-1.jpeg', alt: 'PHOTO',id: 6, title: 'עוגות שמרים',priceSmall: "",priceBig: 50, milk: true ,parve: true ,fruit: false, glutenFree: false,shugerFree: false,stars: 5},
-   { img: '/images/cake7-1.jpeg', alt: 'PHOTO',id: 7, title: 'עוגיות',priceSmall: "",priceBig: 50, milk: true ,parve: false ,fruit: true, glutenFree: false,shugerFree: true,stars: 2},
-   { img: '/images/cake8-1.jpeg', alt: 'PHOTO',id: 8, title: 'מקרונים',priceSmall: "",priceBig: 20, milk: true ,parve: false ,fruit: true, glutenFree: true,shugerFree: false,stars: 3 },
-   { img: '/images/cake9-1.jpeg', alt: 'PHOTO',id: 9, title: 'חלות שבת',priceSmall: "",priceBig: 10, milk: false ,parve: true ,fruit: false, glutenFree: false,shugerFree: true,stars: 5 },
-]
+const cakeArr= require("../dataBase/productsData.json")
 
 const updateCakeArr=[...cakeArr.reverse()]
 
@@ -28,10 +17,14 @@ class Catalog extends Component {
          Arr: [...updateCakeArr],
          filterArr: [],
          sortSelected:"",
+         priceMin:"",
+         priceMax:"",
       }
       this.sortFunc=this.sortFunc.bind(this)
       this.addFilter=this.addFilter.bind(this)
       this.filtering=this.filtering.bind(this)
+      this.filteringPrice=this.filteringPrice.bind(this)
+      this.price=this.price.bind(this)
    }
 
    addFilter(e){
@@ -48,6 +41,13 @@ class Catalog extends Component {
       this.setState({filterArr: copyFilterArr})
    }
 
+   filteringPrice(min,max){
+
+      let copyFilterArr=[...this.state.filterArr]
+      this.setState({priceMin: min})
+      this.setState({priceMax: max})
+      setTimeout(()=>this.filtering(copyFilterArr),5)
+   }
 
 
    filtering(copyFilterArr){
@@ -63,24 +63,28 @@ class Catalog extends Component {
             return (item !=="fruit" && item !=="withoutfruit")
          })
       }
+      let flagMilkParve=copyFilterArr.filter((item)=>{
+         return (item==="parve" || item==="milk")
+      })
+
+      if(flagMilkParve.length==2){
+         copyFilterArr=copyFilterArr.filter((item)=>{
+            return (item !=="parve" && item !=="milk")
+         })
+      }
+      if(this.state.priceMin){
+         copyArr=copyArr.filter((item)=>{
+            return (item["priceBig"]>=this.state.priceMin)
+         })
+      }
+      if(this.state.priceMax){
+         copyArr=copyArr.filter((item)=>{
+            return (item["priceBig"]<=this.state.priceMax)
+         })
+      }
 
       for (const type of copyFilterArr) {
-         if(type==="price1"){
-            copyArr=copyArr.filter((item)=>{
-               return (item["priceBig"]<=100)
-            })
-         }
-         else if(type==="price2"){
-            copyArr=copyArr.filter((item)=>{
-               return (item["priceBig"]>=100 && item["priceBig"]<=200)
-            })
-         }
-         else if(type==="price3"){
-            copyArr=copyArr.filter((item)=>{
-               return (item["priceBig"]>=200)
-            })
-         }
-         else if(type==="withoutfruit"){
+          if(type==="withoutfruit"){
             copyArr=copyArr.filter((item)=>{
                return (!item["fruit"])
             })
@@ -89,6 +93,15 @@ class Catalog extends Component {
                return (item[type])
             })
          }
+      }
+      if(!copyArr[0]){
+         document.querySelector("#notFoundResults").innerHTML="לא נמצאו תוצאות"
+         document.querySelector("#notFoundResults").style.display = "inline";
+
+      }else{
+         document.querySelector("#notFoundResults").innerHTML=""
+         document.querySelector("#notFoundResults").style.display = "none";
+
       }
       this.setState({Arr: copyArr})
       setTimeout(()=>this.sortFunc(this.state.sortSelected),5)
@@ -122,19 +135,29 @@ class Catalog extends Component {
       this.setState({sortSelected: e})
 
    }
+   price(el){
+
+      if(el.priceSmall)
+          return `מחיר: ${el.priceBig}₪ גדול  /${el.priceSmall}₪  קטן `
+      else
+          return `  מחיר:  ${el.priceBig}₪`
+      
+  }
 
    render() {
 
       return (
          <div>
             
-            <SortBar sortFunc={this.sortFunc} addFilter={this.addFilter}/>
+            <SortBar sortFunc={this.sortFunc} addFilter={this.addFilter} filteringPrice={this.filteringPrice}/>
             <div className="myContainer">
+               <span id="notFoundResults"></span>
                {this.state.Arr.map((el, key) => (
-                  <Link className="myBox"  key={key} to={"/Product"}>
+                  <Link className="myBox"  key={key} to={"/Catalog/"+el.title}>
                      <img src={el.img} alt={el.alt}></img>
                      <div className="details">
                         <p>{el.title}</p>
+                        <p>{this.price(el)}</p>
                      </div>
                   </Link>
                ))}

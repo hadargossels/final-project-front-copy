@@ -7,13 +7,13 @@
     background-color: rgb(245, 233, 250);
     padding: 20px;
     width: 100%;
-    color: rgb(240, 0, 228);
+    color: rgb(250,156,184);
     height: 200px;
     direction: rtl;
     font-size: 20px;
     font-family: sans-serif;
-    border-bottom: rgb(240, 0, 228) solid 6px;
-    border-top: rgb(240, 0, 228) solid 6px;
+    border-bottom:rgb(250,156,184) solid 6px;
+    border-top: rgb(250,156,184) solid 6px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -23,15 +23,13 @@
 
     padding: 5px 20px;
     border-radius: 10px;
-    background-color: rgb(243, 146, 227);
+    background-color: rgb(250,156,184);
     color: white;
 
 }
 .sort{
 
     width: 15%;
-    border-left: rgb(94, 93, 93) solid 2px;
-    border-right: rgb(94, 93, 93) solid 2px;
 
 }
 
@@ -45,7 +43,6 @@
 
 
     width: 15%;
-    border-left: rgb(94, 93, 93) solid 2px;
     border-right: rgb(94, 93, 93) solid 2px;
 
 }
@@ -64,7 +61,7 @@
     margin-bottom: 10px !important;
 }
 .btn-primary{
-    background-color:   rgb(243, 146, 227) !important;
+    background-color:  rgb(250,156,184) !important;
     border: rgb(243, 146, 227) !important;
     text-align: center;
     justify-content: center;
@@ -99,8 +96,34 @@
 .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
     display: none;   
 }
-/* ////////////////////////////////////    checkbox button end   ///////////////////////////////////////// */
+/* ////////////////////////////////////     price   ///////////////////////////////////////// */
 
+
+.priceFilter{
+
+    width: 15%;
+    border-right: rgb(94, 93, 93) solid 2px;
+    font-size: 20px;
+}
+#invalid{
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+
+}
+
+.priceFilter input{
+
+    width: 30%;
+}
+.priceFilter label{
+
+    width: 60%;
+    margin: 5px;
+}
+
+
+/* ////////////////////////////////////     price end  ///////////////////////////////////////// */
 
 @media only screen and (max-width: 1370px) {
     .sortBar{
@@ -110,13 +133,16 @@
     .filter{
         width: 30%;
         border-bottom: rgb(94, 93, 93) solid 2px;
-        border-top: rgb(94, 93, 93) solid 2px;
 
     }
     .sort{
         width: 30%;
         border-bottom: rgb(94, 93, 93) solid 2px;
-        border-top: rgb(94, 93, 93) solid 2px;
+
+    }
+    .priceFilter{
+        width: 40%;
+        border-bottom: rgb(94, 93, 93) solid 2px;
 
     }
 
@@ -133,6 +159,10 @@
     .sort{
         width: 45%;
     }
+    .priceFilter{
+        width: 60%;
+
+    }
 
 }
 @media only screen and (max-width: 500px) {
@@ -140,14 +170,27 @@
     .sortBar{
         height:auto;
         flex-direction: column;
+        border-left: rgb(94, 93, 93) solid 2px;
 
     }
     .filter{
         width: 100%;
+        border-left: rgb(94, 93, 93) solid 2px;
+        
+
     }
     .sort{
         width: 100%;
         padding-bottom: 20px;
+        border-left: rgb(94, 93, 93) solid 2px;
+        border-right: rgb(94, 93, 93) solid 2px;
+        border-top: rgb(94, 93, 93) solid 2px;
+
+    }
+    .priceFilter{
+        width: 100%;
+        border-left: rgb(94, 93, 93) solid 2px;
+
     }
 
 }
