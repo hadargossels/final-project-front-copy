@@ -1,8 +1,24 @@
 
-import './Header.css';
+import React, { Component } from 'react';import './Header.css';
 import { Link,NavLink } from 'react-router-dom';
 
-function Header(){
+
+class Header extends Component{
+
+   constructor(){
+      super()
+      this.state={
+         urlValue:"",
+      }
+      this.callRef= React.createRef()
+      this.setUrl=this.setUrl.bind(this)
+   }
+
+   setUrl(){
+      this.setState({urlValue: this.callRef.current.value})
+   }
+   
+   render() {
       return(
          <div>
             
@@ -16,26 +32,32 @@ function Header(){
                <ul className="navbar-nav">
                <li className="nav-item ms-3">
                   <NavLink to="/" className="nav-link active" aria-current="page" href="#">ראשי</NavLink>
-                  </li>
-               <li className="nav-item ms-3">
-               <NavLink to="/Catalog" className="nav-link" href="#">המוצרים שלנו</NavLink>
                </li>
                <li className="nav-item ms-3">
-               <NavLink to="/Courses" className="nav-link" href="#">סדנאות</NavLink>
+                  <NavLink to="/Catalog" className="nav-link" href="#">המוצרים שלנו</NavLink>
                </li>
                <li className="nav-item ms-3">
-               <NavLink to="/Recipes" className="nav-link" href="#">מתכונים</NavLink>
+                  <NavLink to="/Courses" className="nav-link" href="#">סדנאות</NavLink>
+               </li>
+               <li className="nav-item ms-3">
+                  <NavLink to="/Recipes" className="nav-link" href="#">מתכונים</NavLink>
                </li>
                </ul>
             </div>
-            <span class="navbar-text"><i class="fas fa-user"></i></span>
-            <span class="navbar-text"><i class="fas fa-shopping-cart"></i></span>
-
+            
+            <input id="serchInput" class="form-control mr-sm-2 ms-3 " type="search" placeholder="Search" ref={this.callRef} onChange={this.setUrl}/>
+            <NavLink to={"/Catalog?q="+this.state.urlValue}> <button id="serchBtn" class="btn btn-outline-success my-2 my-sm-0 " type="submit" onClick={this.props.filterSearch}>חפש</button></NavLink>
+           
+           
+               <span class="navbar-text"><i class="fas fa-user"></i></span>
+               <span class="navbar-text"><i class="fas fa-shopping-cart"></i></span>
+            
          </div>
          </nav>
 
          </div>
       );
    }
+}
 
 export default Header;

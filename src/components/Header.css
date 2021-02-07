@@ -13,5 +13,19 @@
 .navbar{
 
     direction: rtl;
+
 }
+.navbar-text i{
+    font-size: 35px;
+}
+#serchInput{
+    max-width: 200px;
+
+}
+#serchIdBtn{
+  
+
+}
+
+
 

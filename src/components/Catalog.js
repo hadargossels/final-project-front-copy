@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { Link,NavLink } from 'react-router-dom';
 import './Catalog.css';
 import SortBar from "./Sortbar";
+import Header from "./Header";
+
 
 
 const cakeArr= require("../dataBase/productsData.json")
@@ -11,8 +13,8 @@ const updateCakeArr=[...cakeArr.reverse()]
 
 class Catalog extends Component {
 
-   constructor(){
-      super()
+   constructor(props){
+      super(props)
       this.state={
          Arr: [...updateCakeArr],
          filterArr: [],
@@ -25,6 +27,8 @@ class Catalog extends Component {
       this.filtering=this.filtering.bind(this)
       this.filteringPrice=this.filteringPrice.bind(this)
       this.price=this.price.bind(this)
+      this.filterSearch=this.filterSearch.bind(this)
+      console.log((this.props.location.search))
    }
 
    addFilter(e){
@@ -46,7 +50,7 @@ class Catalog extends Component {
       let copyFilterArr=[...this.state.filterArr]
       this.setState({priceMin: min})
       this.setState({priceMax: max})
-      setTimeout(()=>this.filtering(copyFilterArr),5)
+      setTimeout(()=>this.filtering(copyFilterArr),0)
    }
 
 
@@ -104,7 +108,7 @@ class Catalog extends Component {
 
       }
       this.setState({Arr: copyArr})
-      setTimeout(()=>this.sortFunc(this.state.sortSelected),5)
+      setTimeout(()=>this.sortFunc(this.state.sortSelected),0)
       
    }
 
@@ -144,11 +148,16 @@ class Catalog extends Component {
       
   }
 
+  filterSearch(){
+   console.log("sad")
+   console.log((this.props.location.search).q)
+  }
+
    render() {
 
       return (
          <div>
-            
+            <Header filterSearch={this.filterSearch}/>
             <SortBar sortFunc={this.sortFunc} addFilter={this.addFilter} filteringPrice={this.filteringPrice}/>
             <div className="myContainer">
                <span id="notFoundResults"></span>

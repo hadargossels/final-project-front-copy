@@ -1,5 +1,6 @@
 
 import React, { Component } from 'react';
+import Header from "./Header";
 import './Product.css';
 
 
@@ -62,7 +63,8 @@ class Product extends Component{
    render(){
     
       return(
-         
+         <div>
+             <Header/>
         <div className="margin-top-product">
         <div className="d-flex flex-row bd-highlight flex-wrap justify-content-center">
                <div id="carouselExampleFade" className="carousel slide carousel-fade p-2 bd-highlight mt-1" data-bs-ride="carousel">
@@ -130,6 +132,7 @@ class Product extends Component{
                        
                    </div>
                </div>
+        </div>
         </div>
 
 

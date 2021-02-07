@@ -16,7 +16,6 @@ import NotFound from './components/NotFound';
 const router=(
 
   <Router>
-    <Header/>
     <Switch>
       <Route exact path="/" component={App}/>
       <Route path="/Catalog/:ProductName" component={Product}/>

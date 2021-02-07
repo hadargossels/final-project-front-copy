@@ -1,5 +1,6 @@
 
 import React, { Component } from 'react'
+import Header from './Header';
 import './Recipes.css';
 
 
@@ -7,8 +8,11 @@ import './Recipes.css';
 export default class Recipes extends Component {
     render() {
         return (
-            <div className="myContainer">
-                <h1>מתכונים</h1>
+            <div>
+                <Header/>
+                <div className="myContainer">
+                    <h1>מתכונים</h1>
+                </div>
             </div>
         )
     }
