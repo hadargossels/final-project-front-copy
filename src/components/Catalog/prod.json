@@ -4,55 +4,63 @@
       "Price":190.8,
       "Title":"Trezor Model T",
       "Image":"/pictures/T2.jpg",
-      "Hardware":true
+      "Hardware":true,
+      "Rating":4
   },
   {
     "id":1,
     "Price":58.5,
     "Title":"Trezor Model One",
     "Image":"/pictures/T1.png",
-    "Hardware":true
+    "Hardware":true,
+    "Rating":4
   },
   {
     "id":2,
     "Price":58.5,
     "Title":"Trezor Model One(white)",
     "Image":"/pictures/T1white.png",
-    "Hardware":true
+    "Hardware":true,
+    "Rating":4
   },
   {
     "id":3,
     "Price":6,
     "Title":"Extended USB-C cable",
     "Image":"/pictures/usb_c.jpg",
-    "Hardware":false
+    "Hardware":false,
+    "Rating":3
   },
   {
     "id":4,
     "Price":130.8,
     "Title":"Cryptosteel Cassette",
     "Image":"/pictures/cs_interactive.png",
-    "Hardware":false
+    "Hardware":false,
+    "Rating":2
     },
     {
       "id":5,
       "Price":16.8,
       "Title":"Silicone case for Trezor Model T",
       "Image":"/pictures/case_T_front_dark_blue_empty.png",
-      "Hardware":false
+      "Hardware":false,
+      "Rating":2
     },
     {
       "id":6,
       "Price":13.2,
       "Title":"InCharge Ultra Portable Cable USB-C",
       "Image":"/pictures/incharge_usb_c.jpg",
-      "Hardware":false
+      "Hardware":false,
+      "Rating":5
     },
     {
       "id":7,
       "Price":3.48,
       "Title":"Premium Adjustable Trezor Lanyard",
       "Image":"/pictures/lanyard-09.png",
-      "Hardware":false
+      "Hardware":false,
+      "Rating":1
     }
 ]

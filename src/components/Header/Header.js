@@ -1,14 +1,17 @@
-import React, { Component } from 'react';
+import React, {  useRef, useState } from 'react';
 import './Header.css';
 import {Link,NavLink} from "react-router-dom";
-import Logo from "../../pictures/bitcoinLogo.png"
-class Header extends Component{   
+import Logo from "../../pictures/bitcoinLogo.png";
+import { Overlay, Tooltip} from 'react-bootstrap';
 
-   render(){
+
+export default function Header (){   
+    const [show, setShow] = useState(false);
+    const target = useRef(null);
     return(
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
-                <Link to="/home"><img className="navbar-brand" width="50px" height="50px" alt="..." src={Logo}></img></Link>
+                <Link to="/home"><img className="navbar-brand" width="40px" height="50px" alt="..." src={Logo}></img></Link>
 
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
@@ -16,9 +19,24 @@ class Header extends Component{
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
                     <li className="nav-item">
-                        <div className="navbar-brand" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Balance: 1 BTC"><i className="fas fa-wallet"></i></div>
+                        <div className="navbar-brand">
+                        <div ref={target} onClick={() => setShow(!show)} className="cursor">
+                            <i className="fas fa-wallet"></i>
+                        </div>
+                    <Overlay target={target.current} show={show} placement="bottom">
+                        {(props) => (
+                        <Tooltip id="overlay-example" {...props}>
+                            Balance:<br/>
+                            200 USD<br/>
+                            2 BTC<br/>
+                            1 ETH
+                        </Tooltip>
+                        )}
+                    </Overlay>
+                        </div>
                     </li>
                     <li className="nav-item">
+
                         <div className="navbar-brand"><i className="fas fa-shopping-cart"></i></div>
                     </li>
                     <li className="nav-item">
@@ -44,13 +62,12 @@ class Header extends Component{
                     </li>
                 </ul>
             </div>
-          {/* <form className="d-flex">
+          <form className="d-flex">
             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"></input>
             <button className="btn btn-outline-warning" type="submit">Search</button>
-          </form> */}
+          </form>
         </div>
       </nav>
       );
    }
-}
-export default Header;
+

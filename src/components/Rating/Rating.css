@@ -23,3 +23,11 @@
      color: gold;
   }
   
+  .stars{
+    color: #ffc700;
+    font-size:25px;
+}
+.starsNot{
+    font-size:25px;
+    color:#ccc;
+}

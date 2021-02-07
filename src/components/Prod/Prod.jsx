@@ -17,7 +17,7 @@ export default function Product(props) {
                 <Link to={`/product/${props.title}`}><img src={props.image} alt="..." className="catalog alignCenter cursor"/></Link>
                 <div><b>{props.title}</b></div><br/>
                 <div><b>price: {(props.price/36000).toFixed(6)} BTC <p>(${props.price})</p></b></div>
-                <Rating/>
+                <Rating rating={props.rating}/>
                 <button className="mx-auto cursor btnAdd">Add to Cart</button>
             </div>
         )

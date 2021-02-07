@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { } from 'react';
 import './Footer.css';
-class Footer extends Component{
-   render(){
-      
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+export default function Footer (){  
+  
     return(
       
         <footer className="footer">
@@ -20,5 +21,4 @@ class Footer extends Component{
       </footer>
       );
    }
-}
-export default Footer;
+
