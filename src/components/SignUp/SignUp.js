@@ -93,7 +93,7 @@ export default class SignUp extends Component {
 
 function emailValidation(email)
 {
-   if (!email.match(/^[\w\d]+@\w+[.]\w+$/))//null
+   if (!email.match(/^[\w\d]+@\w+[.]\w+([.]\w+){0,1}$/))//null
         return false;
     return true;
 }

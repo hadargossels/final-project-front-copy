@@ -4,6 +4,7 @@
     position: relative;
     padding: 0px;
     color: black;
+    position: relative;
   
 }
 .linkStyle{
@@ -11,11 +12,13 @@
     margin: 20px 5px;
     padding: 22px 0px 0 0;
     text-decoration: none;
+    position: relative;
 }
 
 .linkStyle:hover{
     cursor: pointer;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: relative;
 }
 
 
@@ -35,8 +38,11 @@ a#headerProduct{
     font-size: 15px;
 }
 .priceOfProduct{
-    text-decoration: none;
+    text-decoration:none;
     font-size: 20px;
+}
+.decoration{
+    text-decoration:line-through;
 }
 
 .discountOfProduct{
@@ -57,4 +63,37 @@ a#headerProduct{
 .divPrice{
     margin-bottom: 20px;
 }
+
+.discNoDisplay{
+    display:none ;
+}
+.hideBtn{
+    display: none;
+}
+
+.showBtn{
+    display: block;
+}
+.quickBtn{
+    position: absolute;
+    left: 30%;
+    top: -10px;
+    color: white;
+    background-color: black;
+    border: none;
+    /* width: 100px; */
+    /* height: 30px; */
+}
+.quickBtn:hover{
+  
+    color: white;
+    background-color: salmon;
+    border: none;
+ }
+ .divMainProduct{
+     position: relative;
+ }
+ /* .modalll{
+     z-index: 20;
+ } */
 

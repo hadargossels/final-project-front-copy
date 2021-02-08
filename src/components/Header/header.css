@@ -21,7 +21,7 @@ button.searchBtn i{
 }
 
 .nav-item i{
-    font-size: 30px;
+    font-size: 28px;
     display: inline-block;
     color: white;
 
@@ -30,7 +30,7 @@ button.searchBtn i{
     color: red !important; 
 }
 .navBarMargin{
-    margin-top: 10px;
+    margin-top: 0px;
 }
 
 
@@ -47,7 +47,8 @@ header{
     width: 100%;
     z-index: 2;
     background-color: black;
-    padding:20px 0 5px 0;
+    padding:8px 0 5px 0;
+    max-height: 125px;
 }
 
 .aLogo{
@@ -55,11 +56,15 @@ header{
   display: block;
   text-align: center;
 }
+.linkLogo{
+    text-decoration: none;
+
+}
 
 
 #logoImg{
     width: 160px;
-    height: 80px;
+    height: 69px;
 }
 
 .collapse a:hover {
@@ -80,6 +85,12 @@ header{
     display: block;
 }
 
+header nav{
+    margin: 0px !important;
+    padding: 0px!important;
+   
+}
+
 
 @media only screen and (max-width: 992px) {
     .navBarRighet li {
@@ -92,6 +103,9 @@ header{
 
     .displayBig{
         display: none;
+    }
+    header{
+        max-height: 400px;
     }
     
   }

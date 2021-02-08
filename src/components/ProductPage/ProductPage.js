@@ -48,7 +48,7 @@ class ProductPage extends Component{
                <div id="categoryProduct">{this.state.theProduct.categoryProduct}</div>
                <br/>
                <div className={this.state.theProduct.stockProduct=="in stock"?"grin":"red"}>{this.state.theProduct.stockProduct}</div>
-               <div><p className="priceProduct">{this.state.theProduct.priceProduct}</p><p className="discountProduct"> {this.state.theProduct.discountProduct}</p></div>
+               <div><p className={`priceProduct ${this.state.theProduct.discountProduct=="none"?"":"decoration"}`}>{this.state.theProduct.priceProduct}</p><p className={`discountProduct ${this.state.theProduct.discountProduct!="none"?"":"discNoDisplay"}`}> {this.state.theProduct.discountProduct}</p></div>
                <input onChange={(e)=>this.amountChanged(e.target.value)} id="amountProduct" type="number" name="amount" value={this.state.amountInput} min="0"/>
                <button id="addToShoppingBtn">add to shopping cart</button>
                <span onClick="changeLove(e)"><i className="far fa-heart loveIconn"></i></span>

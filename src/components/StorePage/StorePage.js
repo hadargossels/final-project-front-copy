@@ -3,6 +3,10 @@ import GridProduct from '../GridProduct/GridProduct';
 import ListCategory from '../ListCategory/ListCategory'
 import HeaderCategory from '../HeaderCategory/HeaderCategory'
 import './storePage.css';
+import propTypes from 'prop-types'
+import querystring from 'query-string'
+
+import arrayAllProduct from '../../dataBase'
 
 
 
@@ -11,11 +15,17 @@ class StorePage extends Component{
     constructor(props){
        super(props);
        this.state={
-         categoryHeader:"Makeup",
-         arrProduct:props.arrAllProduct,
-         arrFilterList:{category:"Makeup",brands:{"MAC":false,"LORIAL PARIS":false,"BOBBI BROWN":false,"IL MAKIAGE":false},orderBy:"defalte"}
-
+         categoryHeader:props.categoryHeader,
+         arrProduct:props.arrProduct,
+         arrFilterList:{category:props.categoryFilter,brands:{"MAC":false,"LORIAL PARIS":false,"BOBBI BROWN":false,"IL MAKIAGE":false},orderBy:"defalte"}
+       //arrProduct include the product after filter, for display
         //props.arrAllProduct is include all makeup product
+       }
+       if(this.props.location){//if we have location prop we need show the search array in store
+         let valSearch=querystring.parse(this.props.location.search).q;
+         let arraySearch=searchFromAllProduct(valSearch);
+         this.state.arrProduct=arraySearch;
+         this.state.categoryHeader=`Search '${valSearch}'`
        }
        this.clickedCategory= this.clickedCategory.bind(this);
        this.changedBrandFilter=this.changedBrandFilter.bind(this);
@@ -25,7 +35,8 @@ class StorePage extends Component{
     }
  
       updateArrProductAllFilters(){
-      let filterArr=[...this.props.arrAllProduct].map(a=>({...a}));
+      this.setState({categoryHeader:this.state.arrFilterList.category});
+      let filterArr=[...arrayAllProduct].map(a=>({...a}));
       let categoryToFilter=this.state.arrFilterList.category;
 
       if(categoryToFilter!="Makeup"){//makeup is all the product
@@ -103,11 +114,29 @@ class StorePage extends Component{
             <ListCategory clickedCategory={this.clickedCategory} changedBrandFilter={this.changedBrandFilter}/>
            <div className="col-10">
                <HeaderCategory categoryHeader={this.state.categoryHeader} sortChoiced={this.sortChoiced}/>
-               <GridProduct arrProduct={this.state.arrProduct}/>
+               {(this.state.arrProduct.length!=0)? <GridProduct arrProduct={this.state.arrProduct}/>:<div class="NoProductsDiv">No products</div>}
+              
            </div>
         </div>
           
        );
     }
 }
+
+StorePage.defaultProps={
+   arrProduct:arrayAllProduct,
+   categoryHeader:"Makeup",
+   categoryFilter:"Makeup"
+ }
+
  export default StorePage;
+
+
+ function searchFromAllProduct(valSearch){
+    let allProductArr=arrayAllProduct;
+    allProductArr=allProductArr.filter((v)=>{
+      return v.headerProduct.indexOf(valSearch)!=-1||v.explanationproduct.indexOf(valSearch)!=-1||v.brandProduct.indexOf(valSearch)!=-1;
+    });
+    return allProductArr;
+ }
+ 

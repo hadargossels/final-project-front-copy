@@ -26,9 +26,15 @@
     display: inline-block;
     margin-left: 20px;
 }
+.discNoDisplay{
+    display: none;
+}
 .priceProduct{
     text-decoration: none;
     display: inline-block;
+}
+.decoration{
+    text-decoration:line-through;
 }
 #amountProduct{
     width: 40px;

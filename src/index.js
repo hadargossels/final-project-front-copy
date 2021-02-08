@@ -16,7 +16,7 @@ import StorePage from './components/StorePage/StorePage';
 import SignUp from './components/SignUp/SignUp'
 import ScrollToTop from './components/ScrollToTop/ScrollToTop'
 
-import arrayAllProduct from './dataBase.js'
+import allProduct from './dataBase'
 
 
 let routing=(
@@ -31,7 +31,13 @@ let routing=(
                     <Route  path="/about" component={AboutUs}/>
                     <Route  path="/policy" component={Policy}/>
                     <Route  path="/shipping-Policy" component={ShippingPolicy}/>
-                    <Route  path="/store" component={() => <StorePage arrAllProduct={arrayAllProduct} />}/>
+                    <Route  exact path="/store" component={() => <StorePage categoryFilter={"Makeup"}/>}/>
+                    <Route  exact path="/store/best_Sellers" component={bestSellersStore}/>
+                    <Route  exact path="/store/category_face" component={()=>categoryStore("Face")}/>
+                    <Route  exact path="/store/category_lips" component={()=>categoryStore("Lips")}/>
+                    <Route  exact path="/store/category_eyes" component={()=>categoryStore("Eyes")}/>
+                    <Route  exact path="/store/sales" component={salesStore}/>
+                    <Route exact path="/shop" component={StorePage}/> 
                     <Route exact path="/login" component={Login}/>
                     <Route  path="/login/signup" component={SignUp}/>
                     <Route  path="/product/:productName" component={ProductPage}/>
@@ -49,12 +55,27 @@ let routing=(
 ReactDOM.render( routing, document.getElementById('root'));
 
 
+function bestSellersStore(){
 
+    let bestSellersArr=[...allProduct];
+    bestSellersArr.sort((a,b)=>a.buyNum-b.buyNum);
+    bestSellersArr=bestSellersArr.slice(0,4);//the 4 besr seller product
+    return <StorePage arrProduct={bestSellersArr} categoryFilter={"Makeup"} categoryHeader={"Best Sellers"}/>
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();
+}
 
+function categoryStore(category) { 
+    
+    let categoryArr=[...allProduct];
+    categoryArr=categoryArr.filter((v)=>v.categoryProduct==category);
+    return <StorePage arrProduct={categoryArr} categoryFilter={category} categoryHeader={category}/>
 
+ }
 
+ function salesStore() { 
+    
+    let salesArr=[...allProduct];
+    salesArr=salesArr.filter((v)=>v.discountProduct!="none");
+    return <StorePage arrProduct={salesArr} categoryHeader={"Sales"}/>
+
+ }

@@ -9,8 +9,8 @@ class Header extends Component{
       return(
          
          <header>
-            <a className=" aLogo" href="#"><img id="logoImg" src='/images/logo3.jpg'/></a>
-            <nav className="navbar navbar-expand-lg navbar-dark"> 
+            <a className=" aLogo" href="#"><NavLink className="linkLogo" exact to="/"><img id="logoImg" src='/images/logo3.jpg'/></NavLink></a>
+            <nav className="navbar navbar-expand-lg navbar-dark "> 
                <div className="container-fluid">
                  
                   <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,8 +48,8 @@ class Header extends Component{
                         </li>
                      </ul>
                     
-                     <form className="d-flex">
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                     <form className="d-flex" action="/shop">
+                        <input className="form-control me-2 " type="search" placeholder="Search" aria-label="Search" name="q" required/>
                         <button className="btn btn-outline-success searchBtn" type="submit"><i className="fas fa-search"></i></button>
                      </form>
                   </div>
