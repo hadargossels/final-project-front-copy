@@ -8,7 +8,6 @@ export default class Home extends Component {
     render() {
         return (
             <div>
-                <Header/>
                 <div className="myContainer">
                     <h1>Home</h1>
                 </div>

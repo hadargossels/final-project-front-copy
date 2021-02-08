@@ -53,8 +53,8 @@ class Sortbar extends Component{
                 <div className="[ form-group ]" style={{"marginTop":"20px"}}>
                     <input type="checkbox" name="milk" id="milk" autoComplete="off" onClick={(e)=>this.props.addFilter(e.target)}/>
                     <div className="[ btn-group ]">
-                        <label htmlFor="milk" class="[ btn btn-primary ]">
-                            <span class="[ glyphicon glyphicon-ok ]">✔</span>
+                        <label htmlFor="milk" className="[ btn btn-primary ]">
+                            <span className="[ glyphicon glyphicon-ok ]">✔</span>
                             <span> </span>
                         </label>
                         <label htmlFor="milk" className="[ btn btn-default active ]">חלבי</label>
@@ -64,8 +64,8 @@ class Sortbar extends Component{
                 <div className="[ form-group ]">
                     <input type="checkbox" name="parve" id="parve" autoComplete="off" onClick={(e)=>this.props.addFilter(e.target)}/>
                     <div className="[ btn-group ]">
-                        <label htmlFor="parve" class="[ btn btn-primary ]">
-                            <span class="[ glyphicon glyphicon-ok ]">✔</span>
+                        <label htmlFor="parve" className="[ btn btn-primary ]">
+                            <span className="[ glyphicon glyphicon-ok ]">✔</span>
                             <span> </span>
                         </label>
                         <label htmlFor="parve" className="[ btn btn-default active ]">פרווה</label>
@@ -79,8 +79,8 @@ class Sortbar extends Component{
                 <div className="[ form-group ]" style={{"marginTop":"20px"}}>
                     <input type="checkbox" name="fruit" id="fruit" autoComplete="off" onClick={(e)=>this.props.addFilter(e.target)}/>
                     <div className="[ btn-group ]">
-                        <label htmlFor="fruit" class="[ btn btn-primary ]">
-                            <span class="[ glyphicon glyphicon-ok ]">✔</span>
+                        <label htmlFor="fruit" className="[ btn btn-primary ]">
+                            <span className="[ glyphicon glyphicon-ok ]">✔</span>
                             <span> </span>
                         </label>
                         <label htmlFor="fruit" className="[ btn btn-default active ]">פירותי</label>
@@ -90,8 +90,8 @@ class Sortbar extends Component{
                 <div className="[ form-group ]">
                     <input type="checkbox" name="withoutfruit" id="withoutfruit" autoComplete="off" onClick={(e)=>this.props.addFilter(e.target)}/>
                     <div className="[ btn-group ]">
-                        <label htmlFor="withoutfruit" class="[ btn btn-primary ]">
-                            <span class="[ glyphicon glyphicon-ok ]">✔</span>
+                        <label htmlFor="withoutfruit" className="[ btn btn-primary ]">
+                            <span className="[ glyphicon glyphicon-ok ]">✔</span>
                             <span> </span>
                         </label>
                         <label htmlFor="withoutfruit" className="[ btn btn-default active ]">ללא פירות</label>
@@ -105,8 +105,8 @@ class Sortbar extends Component{
                 <div className="[ form-group ]" style={{"marginTop":"20px"}}>
                     <input type="checkbox" name="glutenFree" id="glutenFree" autoComplete="off" onClick={(e)=>this.props.addFilter(e.target)}/>
                     <div className="[ btn-group ]">
-                        <label htmlFor="glutenFree" class="[ btn btn-primary ]">
-                            <span class="[ glyphicon glyphicon-ok ]">✔</span>
+                        <label htmlFor="glutenFree" className="[ btn btn-primary ]">
+                            <span className="[ glyphicon glyphicon-ok ]">✔</span>
                             <span> </span>
                         </label>
                         <label htmlFor="glutenFree" className="[ btn btn-default active ]">ללא גלוטן</label>
@@ -116,8 +116,8 @@ class Sortbar extends Component{
                 <div className="[ form-group ]">
                     <input type="checkbox" name="shugerFree" id="shugerFree" autoComplete="off" onClick={(e)=>this.props.addFilter(e.target)}/>
                     <div className="[ btn-group ]">
-                        <label htmlFor="shugerFree" class="[ btn btn-primary ]">
-                            <span class="[ glyphicon glyphicon-ok ]">✔</span>
+                        <label htmlFor="shugerFree" className="[ btn btn-primary ]">
+                            <span className="[ glyphicon glyphicon-ok ]">✔</span>
                             <span> </span>
                         </label>
                         <label htmlFor="shugerFree" className="[ btn btn-default active ]">ללא סוכר</label>

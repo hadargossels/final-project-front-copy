@@ -1,17 +1,24 @@
 
 
+#bg{
+    background-color:rgb(250,228,241);
+}
 .img-size{
-    max-width: 700px;
-    max-height: 500px;
+    width: 600px;
+    height: 450px;
 }
-.card{
-    background-image: radial-gradient(rgb(255, 255, 255), rgb(255, 255, 255), rgb(255, 255, 255), rgb(255, 187, 255));
+
+.card-text{
+    clear: both;
 }
+.myCard{
+    max-width: 500px;
+}
+
 .margin-top-product{
 
-    padding-top: 200px;
-    padding-bottom: 100px;
-    background-color:rgb(250,228,241);
+    padding-top: 120px;
+    padding-bottom: 50px;
 
 }
 #priceChoice{
@@ -49,8 +56,23 @@ font-size: 15px;
     padding: 5px;
     font-size: 20px;
 }
+.btn-outline-danger i{
 
-.rating {
+    
+    font-size: 30px;
+    color:rgb(250, 156, 184);
+    margin: 20px;
+}
+/* ///////////////////////////////////////// stars  /////////////////////////////////////////////*/
+
+.stars1 {
+
+    display: flex;
+    flex-direction: row-reverse;
+    float: right;
+}
+
+.stars2 {
     position: absolute;
     left: 10px;
     top: 5px;
@@ -89,9 +111,11 @@ font-size: 15px;
 .rating:hover>input:checked~label:before {
     opacity: 0.4
 }
+/* ///////////////////////////////////////// stars end /////////////////////////////////////////////*/
 
 .contFeedback{
     padding: 20px 40px;
+    width: 1400px;
 }
 
 #addFeedback{
@@ -140,6 +164,8 @@ font-size: 15px;
     width: 90%;
 
 }
+
+/* ////////////////////////// btn send //////////////////////////////// */
 .centered {
     position: absolute;
     bottom: 15px;
@@ -180,6 +206,10 @@ font-size: 15px;
     
 }
 
+
+/*////////////////////////// btn send end //////////////////////////////// */
+
+
 #addFeedback a {
     text-decoration: none !important
 }
@@ -200,4 +230,57 @@ font-size: 15px;
         width: 600px;
     }
     
+}
+@media (max-width: 600px) {
+    .img-size {
+        width: 300px;
+        height: 250px;
+    }
+    .carousel-item img{
+        width: 100% !important;
+        height: auto !important;
+    }
+    .card{
+        width: none;
+    }
+    .contFeedback{
+        width: 90%;
+        padding: 10px 0px;
+    }
+    .contFeedback .stars2{
+        clear: both;
+        position:static;
+
+    }
+    .contFeedback h3{
+        clear: both;
+        position:static;
+
+    }
+    #addFeedback textarea{
+        margin-left: 15px;
+        position:static;
+
+    }
+    .centered{
+        position: static;
+    }
+    .lgbtn{
+        position: static;
+        padding: 0px 15px;
+        font-size: 17px;
+        border-radius: 5px;
+    }
+    .container{
+        width: none;
+    }
+    .btn-outline-danger{
+        margin-bottom: 220px;
+    }
+    .card-body{
+        padding-bottom: 0px;
+    }
+    .card-body textarea{
+        margin-left: 60px;
+    }
 }

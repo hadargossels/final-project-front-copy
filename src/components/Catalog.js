@@ -30,9 +30,13 @@ class Catalog extends Component {
       this.filteringPrice=this.filteringPrice.bind(this)
       this.price=this.price.bind(this)
       this.filterSearch=this.filterSearch.bind(this)
-      this.filterSearch()
    }
-
+   
+   componentDidUpdate(prevProps){
+      if(this.props.location.search!==prevProps.location.search){
+      this.filterSearch()
+       }
+    }
     addFilter(e){
       let copyFilterArr=[...this.state.filterArr]
 
@@ -90,7 +94,7 @@ class Catalog extends Component {
       }
       if(this.state.urlSearch){
          copyArr=copyArr.filter((item)=>{
-            return (item["title"].includes(this.state.urlSearch))
+            return (item["title"].includes(this.state.urlSearch)||item["description"].includes(this.state.urlSearch))
          })
       }
 
@@ -158,22 +162,20 @@ class Catalog extends Component {
    async filterSearch(){
 
       let copyFilterArr=[...this.state.filterArr]
-      await setTimeout(()=>console.log("just wait"),1)
       await this.setState({urlSearch: querystring.parse(this.props.location.search).q})
       this.filtering(copyFilterArr)
          
   }
 
    render() {
-
       return (
-         <div>
-            <Header filterSearch={this.filterSearch}/>
+         <div style={{backgroundImage: "url(../../public/images/logo.jpeg)"}}>
             <SortBar sortFunc={this.sortFunc} addFilter={this.addFilter} filteringPrice={this.filteringPrice}/>
             <div className="myContainer">
                <span id="notFoundResults"></span>
                {this.state.Arr.map((el, key) => (
                   <Link className="myBox"  key={key} to={"/Catalog/"+el.title}>
+                     {el.new&&<p id="banner">New</p>}
                      <img src={el.img} alt={el.alt}></img>
                      <div className="details">
                         <p>{el.title}</p>

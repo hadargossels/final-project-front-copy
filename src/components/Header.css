@@ -17,15 +17,15 @@
 }
 .navbar-text i{
     font-size: 35px;
+    color:rgb(250, 156, 184);
+    margin: 20px;
 }
 #serchInput{
     max-width: 200px;
+    min-width: 150px;
 
 }
 #serchIdBtn{
   
 
 }
-
-
-

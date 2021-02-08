@@ -7,7 +7,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-top: 200px;
+    margin-top: 80px;
     margin-bottom: 150px;
     align-items: center;
     justify-content: center;
@@ -42,6 +42,20 @@
     cursor: pointer;
     color: black;
     text-decoration: none;
+    position: relative;
+}
+.myBox #banner{
+
+    font-size: 20px;
+    padding: 5px;
+    color: rgb(255, 255, 255);
+    z-index: 1;
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    border-radius: 10%;
+    background-color: red;
+
 }
 .myBox:hover {
     color: rgb(250,156,184);
