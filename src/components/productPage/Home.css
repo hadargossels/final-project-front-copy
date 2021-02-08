@@ -1,0 +1,16 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
+.quickView{
+    overflow: hidden;
+    position: relative;
+}
+
+.quickView:hover{
+    transform: scale(1.75);
+}
+.hiddenText{
+    position: absolute;
+    left: 40%;
+    top: 50%;
+}

@@ -54,7 +54,6 @@ class WorkOutP extends Component{
         }
     }
 
-
     render(){
         if(this.state.myArr.length==0){
             let tempArr=[];
