@@ -13,7 +13,7 @@ const ImgLink = ({ name , to ,src }) => (
   <Route path={to} children={({ match }) => (
       <li className={match ? 'active' : ''}><br/>
       <Link className="btn text-white text-center" to={to}><br/>
-          <img key={name} src={src} alt="..." width='200rem' height="200rem"/><br/>
+          <img  className="rounded-pill" key={name} src={src} alt="..." width='200rem' height="200rem"/><br/>
           <h3>{name}</h3>
       </Link>
       </li>
@@ -25,7 +25,7 @@ class Home extends Component{
       this.state = {
         hidText:["","",""]
       }
-      this.topPrice = ["187 $","19 $","22 $"];
+      this.topPrice = ["168.3 $","19 $","22 $"];
     }
 
     render(){
