@@ -28,10 +28,10 @@ class App extends Component{
           <Route exact path="/details/:id" component={Details}/>
           <Route exact path="/" component={Homepage}/>
           <Route exact path="/cart" component={Cart}/>
-          <Route path="/shop" component={ProductList}/>
-          <Route path="/register" component={Register}/>
-          <Route path="/login" component={Login}/>
-          <Route path="/:search?" component={ProductList}/>
+          <Route exact path="/shop" component={ProductList}/>
+          <Route exact path="/register" component={Register}/>
+          <Route exact path="/login" component={Login}/>
+          <Route path="/:?q=" component={ProductList}/>
           <Route component={Default}/>
 
 
