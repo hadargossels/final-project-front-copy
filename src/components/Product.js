@@ -7,11 +7,9 @@ import './product.css';
 
 export default class Product extends Component {
     render() {
-        // console.log("in peoduct" , this)
-        const {id, title, img, price, inCart,rating} =this.props.product;
-        // const four =0
-        // if(id==4)
-        //     four = (rating.props)
+        const {id, title, img, price, inCart} =this.props.product;
+      
+        //console.log( img)
         return (
             <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
                 <div className="card">

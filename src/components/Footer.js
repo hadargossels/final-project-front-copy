@@ -12,17 +12,16 @@ class Footer extends Component{
             <h3>First<span>Motor</span></h3>
     
             <p className="footer-links">
-                <a href="#">Home</a>
+                <a href="/">Home</a>
             ·
-                <a href="#">Blog</a>
+                <a href="shop">Shop</a>
             ·
-                <a href="#">Pricing</a>
+                <a href="services">Services</a>
             ·
-                <a href="#">About</a>
+                <a href="about">About</a>
             ·
-                <a href="#">Faq</a>
-            ·
-                <a href="#">Contact</a>
+                <a href="news">News</a>
+
             </p>
     
             <p className="footer-company-name">firstmotor &copy; 2021</p>
@@ -56,10 +55,10 @@ class Footer extends Component{
  
 		<div className="footer-icons">
      
-		<a href="#"><i className="fab fa-facebook-f"></i></a>
-		<a href="#"><i className="fab fa-twitter"></i></a>
-		<a href="#"><i className="fab fa-linkedin-in"></i></a>
-		<a href="#"><i className="fab fa-instagram"></i></a>
+		<a href="https://www.facebook.com/"><i className="fab fa-facebook-f"></i></a>
+		<a href="https://twitter.com/"><i className="fab fa-twitter"></i></a>
+		<a href="https://www.linkedin.com/"><i className="fab fa-linkedin-in"></i></a>
+		<a href="https://www.instagram.com/"><i className="fab fa-instagram"></i></a>
  
 		</div>
  

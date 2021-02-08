@@ -5,7 +5,15 @@ import {ProductConsumer} from '../context'
 export default class ProductList extends Component {
 
 render() {
-    let search = this.props.match.params.search?this.props.match.params.search:"";
+    //  console.log(this.props)
+      let search ='';
+    // if(this.props.location.pathname!='/search/' ||this.props.location.pathname!='/search/q=')
+    if(this.props.location.pathname[10]!==undefined && this.props.location.pathname.includes("search"))
+    {
+        search = this.props.location.pathname.slice(10, this.props.location.pathname.length);
+    }
+    // let search = this.props.match.params.search?this.props.match.params.search:"";
+    // console.log(search)
     return (
         <React.Fragment>
             <ProductConsumer>
@@ -83,6 +91,7 @@ render() {
                                     <div className="col-10">
                                         <div className="row">
                                         {value.getProducts(search).map(product =>{
+                                            console.log(product)
                                             return <Product key={product.id} product={product}/>
                                         })}
                                         </div>
@@ -94,15 +103,15 @@ render() {
                     }}
             </ProductConsumer>
             <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                <ul className="pagination justify-content-center">
+                    <li className="page-item disabled">
+                        <a className="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
                     </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
+                    <li className="page-item"><a className="page-link" href="#">1</a></li>
+                    <li className="page-item"><a className="page-link" href="#">2</a></li>
+                    <li className="page-item"><a className="page-link" href="#">3</a></li>
+                    <li className="page-item">
+                        <a className="page-link" href="#">Next</a>
                     </li>
                 </ul>
             </nav>

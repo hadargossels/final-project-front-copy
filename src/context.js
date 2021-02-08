@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import {storeProducts, detailProduct} from './data'
 const ProductContext = React.createContext();
-var pageNum1;
-var sortOptions = [
-    {label: 'Low to High', value: 'LH'},
-    {label: 'High to Low', value: 'HL'},
-    {label: 'Most Rated', value: 'MT'},
-];
+// var pageNum1;
+// var sortOptions = [
+//     {label: 'Low to High', value: 'LH'},
+//     {label: 'High to Low', value: 'HL'},
+//     {label: 'Most Rated', value: 'MT'},
+// ];
 
 class ProductProvider extends Component {
     
@@ -89,22 +89,12 @@ class ProductProvider extends Component {
                    products:this.state.origProducts.filter((item)=>{
                         return this.shouldShow(item, arr);
 
-                   // return(item.id>0 && item.id<11);
                    }),
 
                }
            )
     }
-    // state={
-    //     products:[],
-    //     detailProduct:detailProduct,
-    //     cart:[],
-    //     modalOpen:false,
-    //     modalProduct:detailProduct,
-    //     cartSubTotal:0,
-    //     cartTax: 0,
-    //     cartTotal:0
-    // }
+
     componentDidMount(){
         this.setProducts();
     }
@@ -209,7 +199,7 @@ class ProductProvider extends Component {
     };
     addTotals =() =>{
         let subTotal =0;
-        this.state.cart.map(item =>(subTotal +=item.total))
+        this.state.cart.map(item =>{return(subTotal +=item.total)})
         const tempTax = subTotal *0.17;
         const tax = parseFloat(tempTax.toFixed(2))
         const total = (subTotal +tax).toFixed(2);
@@ -230,16 +220,15 @@ class ProductProvider extends Component {
     };
 
     getProducts = (search)=> {
-
         return this.state.products.filter((item)=>{
             return item.title.toLowerCase().indexOf(search.toLowerCase())!= -1;
         });
     }
     getHomepageProducts = ()=> {
         
-        // return this.state.products.filter((item)=>{
-        //     return item.title.toLowerCase().indexOf(search.toLowerCase())!= -1;
-        // });
+        return this.state.products.filter((item)=>{
+            return item.sale;
+        });
     }
     
     

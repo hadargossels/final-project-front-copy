@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom';
-// import logo from '../logo.svg'; 
 import styled from 'styled-components';
 import "./headerStyle.css";
 import {ButtonContainer} from './Button';
 import SideMenu from './sideMenu/SideMenu';
-import {ProductConsumer} from '../context';
 
 export default class Navbar extends Component {
 
@@ -19,12 +17,11 @@ export default class Navbar extends Component {
 
          // this.callRef.current.focus();
         const node =this.callRef.current.value;
-        window.location.href = "/" + node;
+        window.location.href = "/search/q=" + node;
 
 }
 
     render() {
-let logo = <i className="fas fa-motorcycle"></i>;
         return (
             <NavWrapper className="navbar navbar-expand-sm navbar-dark px-sm-5" >
                 <SideMenu></SideMenu>
