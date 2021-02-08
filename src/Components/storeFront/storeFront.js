@@ -4,11 +4,13 @@ import data from '../../data.json';
 import ItemView from '../itemView/itemView';
 import Filters from '../filters/filters';
 import Pagination from '../Pagination/Pagination';
+import queryString from 'query-string';
 
 
 class StoreFront extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        this.searchVal = queryString.parse(props.location.search)
         this.state = {
             products: data.products,
             language:"",
@@ -102,6 +104,27 @@ class StoreFront extends Component {
     }
 
     render () {
+        let catalogObj = [...this.state.products]
+        let toSearch = (this.searchVal.q)
+        if(toSearch && typeof(toSearch) === "string") {
+            toSearch = toSearch.toLowerCase()
+            catalogObj = catalogObj.filter(obj => (obj.title.toLowerCase().includes(toSearch)))
+        }
+
+        let myUrl = window.location.href.split('catalogue/');
+
+        if(myUrl[1] == "new") {
+            catalogObj = catalogObj.filter(obj => (obj.new == "yes"))
+        };
+
+        if(myUrl[1] == "specials") {
+            catalogObj = catalogObj.filter(obj => (obj.special == "yes"))
+        };
+
+        if(myUrl[1] == "top") {
+            catalogObj = catalogObj.filter(obj => (obj.top == "yes"))
+        };
+
         return(    
             <main className="storeFront">
                 <div className="filters">
@@ -117,7 +140,7 @@ class StoreFront extends Component {
                     ></Filters>
                 </div>
                 <div className="itemsView">
-                    <ItemView products={this.state.products}></ItemView>
+                    <ItemView products={catalogObj}></ItemView>
                     <br/>
                     <Pagination/>
                     <br/>

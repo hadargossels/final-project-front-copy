@@ -19,7 +19,11 @@ class App extends Component {
         <Header />
           <Switch>
             <Route path="/" exact component={Homepage} />
-            <Route path="/catalogue" component={StoreFront} />
+            <Route exact path="/catalogue/" component={StoreFront} />
+            <Route exact path="/catalogue/new" component={StoreFront} />
+            <Route exact path="/catalogue/specials" component={StoreFront} />
+            <Route exact path="/catalogue/top" component={StoreFront} />
+            <Route path="/catalogue/:search" component={StoreFront} />
             <Route path="/item/:itemISBN" component={ProductPage} />
             <Route path="/about-us" component={AboutUs} />
             <Route path="/blog" component={Blog} />

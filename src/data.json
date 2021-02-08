@@ -40,6 +40,9 @@
             "author": "Johnathan Leigh",
             "artist": "Mariah Patrick",
             "stars": 3,
+            "special": "no",
+            "new": "no",
+            "top": "no",
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eleifend rutrum lorem vitae condimentum. Suspendisse scelerisque nisi eget finibus auctor. Quisque blandit risus ut nunc rhoncus, non sagittis est commodo. Aenean ut turpis sed lectus iaculis ullamcorper. Sed viverra viverra iaculis. In at eros vel sapien gravida auctor. Suspendisse potenti."
         },
         {
@@ -61,6 +64,9 @@
             "author": "Harun Dale",
             "artist": "Bobbi Hail",
             "stars": 5,
+            "special": "yes",
+            "new": "yes",
+            "top": "yes",
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi et sodales nisi, sit amet pellentesque diam. Donec vel efficitur ex. Phasellus ipsum nunc, tempus at ultricies ultricies, efficitur et orci. Nulla sed lobortis lacus. Ut tempor imperdiet odio eget sollicitudin. Ut vitae lorem ipsum. Quisque eu lorem at nunc iaculis."
         },
         {
@@ -82,6 +88,9 @@
             "author": "Maegan Zamora",
             "artist": "Ellis Olsen",
             "stars": 4,
+            "special": "no",
+            "new": "yes",
+            "top": "yes",
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse elementum purus at mollis rutrum. Fusce vitae auctor diam. Proin non eros est. Sed bibendum nibh sed ornare maximus. Curabitur tempor fermentum ex. Suspendisse faucibus commodo nisl, quis ultrices ante ultrices in. Morbi a libero ex. Ut viverra orci sed tortor."
         },
         {
@@ -103,6 +112,9 @@
             "author": "Finnian Dodd",
             "artist": "Evan Villa",
             "stars": 3,
+            "special": "no",
+            "new": "yes",
+            "top": "yes",
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sodales, erat eget vehicula vehicula, purus sem dignissim nunc, in ornare nisl lectus et elit. In dignissim aliquam neque id dapibus. Quisque dignissim, diam nec tempor tristique, lacus ligula lacinia ipsum, id tristique libero tortor ut metus. In mollis ex non."
         },
         {
@@ -124,6 +136,9 @@
             "author": "Ira Keenan",
             "artist": "Floyd Woods",
             "stars": 2,
+            "special": "yes",
+            "new": "yes",
+            "top": "no",
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis tempor massa, sit amet venenatis dolor dictum vitae. Phasellus ut mi pretium, consectetur nulla a, rhoncus diam. Integer tincidunt felis feugiat tincidunt interdum. Quisque rhoncus sed nisi molestie tristique. Praesent non aliquet sem. Duis aliquet, magna sed fringilla aliquet, lacus."
         },
         {
@@ -145,6 +160,9 @@
             "author": "Evangeline Lawrence",
             "artist": "Darrel Fields",
             "stars": 2,
+            "special": "yes",
+            "new": "no",
+            "top": "no",
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id nunc a nunc hendrerit bibendum in at quam. Nam pretium sed est eu sodales. Phasellus sit amet turpis ante. Sed eget risus dignissim, eleifend quam ac, condimentum arcu. Sed aliquam sagittis dolor vel volutpat. Pellentesque nisi lacus, blandit id posuere."
         },
         {
@@ -166,6 +184,9 @@
             "author": "Freya Nielsen",
             "artist": "Zeynep Price",
             "stars": 1,
+            "special": "no",
+            "new": "no",
+            "top": "yes",
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin posuere, urna sit amet placerat semper, quam felis imperdiet metus, varius scelerisque metus libero ac diam. Ut efficitur sapien eget justo posuere, ut vehicula sem pretium. Proin aliquam risus id risus sagittis, nec iaculis sapien interdum. Nunc commodo sit amet ipsum."
         },
         {
@@ -187,6 +208,9 @@
             "author": "Lilly-May Sampson",
             "artist": "Jordyn Baxter",
             "stars": 5,
+            "special": "no",
+            "new": "yes",
+            "top": "no",
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam et enim eget dui tempus auctor. In non varius metus. Phasellus a dui risus. Aenean lacus orci, bibendum id metus quis, fermentum aliquet arcu. Pellentesque consectetur nisi ut arcu ullamcorper, eget elementum massa congue. Ut eu neque eu lorem consequat molestie."
         },
         {
@@ -208,6 +232,9 @@
             "author": "Kyla Dickens",
             "artist": "Floyd Woods",
             "stars": 4,
+            "special": "no",
+            "new": "yes",
+            "top": "no",
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra, metus ut dictum semper, neque sapien imperdiet quam, quis vehicula justo nunc non massa. Vestibulum congue fringilla sapien eget feugiat. Nulla lacinia molestie enim eget aliquet. Sed est tortor, pulvinar et mollis at, placerat eu mauris. Phasellus dui nulla, molestie."
         }
     ]

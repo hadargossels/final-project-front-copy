@@ -21,9 +21,9 @@ class Header extends Component{
                 <ul className="flex flex-col lg:flex-row list-none mr-auto">
                     <li className="nav-item">
                     <span className="px-3 py-2 flex items-center text-sm uppercase leading-snug text-white hover:opacity-75">
-                    <Link exact="true" to="/">
-                        <span className="ml-2 text-lg font-bold">Homepage</span>
-                    </Link>
+                        <Link exact="true" to="/">
+                            <span className="ml-2 text-lg font-bold">Homepage</span>
+                        </Link>
                     </span>
                     </li>
                     <li className="nav-item">
@@ -42,13 +42,14 @@ class Header extends Component{
                     </li>
                 </ul>
                 <div className="relative flex w-1/2 sm:w-7/12 md:w-5/12 px-4 flex-wrap items-stretch lg:ml-auto">
-                    <div className="flex">
-                    <span className="font-normal leading-snug flex text-center white-space-no-wrap border border-solid border-yellow-500 rounded-full text-sm bg-yellow-100 items-center rounded-r-none pl-2 py-1 text-yellow-800 border-r-0 placeholder-yellow-300">
-                        <i className="fas fa-search"></i>
-                    </span>
-                    </div>
-
-                    <input type="text" className="px-2 py-1 h-8 border border-solid  border-yellow-600 rounded-full text-sm leading-snug text-yellow-700 bg-yellow-100 shadow-none outline-none focus:outline-none w-full font-normal rounded-l-none flex-1 border-l-0 placeholder-yellow-600" placeholder="Search" />
+                    <form action='/catalogue/'>
+                        <div className="flex">
+                        <button type="submit" className="font-normal leading-snug flex text-center white-space-no-wrap border border-solid border-yellow-500 rounded-full text-sm bg-yellow-100 items-center rounded-r-none pl-2 py-1 text-yellow-800 border-r-0 placeholder-yellow-300">
+                            <i className="fas fa-search"></i>
+                        </button>
+                        <input name="q" type="search" className="px-2 py-1 h-8 border border-solid  border-yellow-600 rounded-full text-sm leading-snug text-yellow-700 bg-yellow-100 shadow-none outline-none focus:outline-none w-full font-normal rounded-l-none flex-1 border-l-0 placeholder-yellow-600" placeholder="Search" />
+                        </div>
+                    </form>
                 </div>
                 <ul className="flex flex-col lg:flex-row list-none">
                 <li className="nav-item">
