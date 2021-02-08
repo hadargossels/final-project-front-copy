@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {ProductConsumer} from '../context';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import {ButtonContainer} from './Button';
 import Product from './Product';
 
@@ -10,7 +10,10 @@ export default class Details extends Component {
             <ProductConsumer>
                 {(value)=>{
                     const {id,company,img,info,price,title,inCart}=
-                    value.detailProduct;
+                    value.products.filter((item)=>{
+                        return item.id==this.props.match.params.id;
+                        
+                    })[0];
                     return(
                         <div className="container py-5">
                             {/* title */}
@@ -25,7 +28,7 @@ export default class Details extends Component {
                             {/* product info */}
                             <div className="row">
                                 <div className="col-10 mx-auto col-md-6 my-3">
-                                    <img src={img} className="img-fluid" alt="product" />
+                                    <img src={"/" + img} className="img-fluid" alt="product" />
                                 </div>
                                 <div className="col-10 mx-auto col-md-6 my-3 text-capitalize">
                                     <h2>model: {title}</h2>

@@ -7,50 +7,104 @@ var sortOptions = [
     {label: 'High to Low', value: 'HL'},
     {label: 'Most Rated', value: 'MT'},
 ];
-// const [boardItems,setBoardItems] = useState([])
-// const [itemsOrig,setItemsOrig] =  useState(posts)
-// const [raceType,setRaceType] = useState(false)
-// const [roadType,setRoadType] = useState(false)
-// const [mountainType,setMountainType] = useState(false)
-// const [sortValue,setSortValue] = useState('HL')
-// const [pageNum,setPageNum] = useState(0)
-// const [first, setFirst] = useState(0);
-// const [rows, setRows] = useState(10);
+
 class ProductProvider extends Component {
     
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         products:[],
-    //         detailProduct:detailProduct,
-    //         cart:[],
-    //         modalOpen:false,
-    //         modalProduct:detailProduct,
-    //         CartSubTotal:0,
-    //         CartTax: 0,
-    //         CartTotal:0,
-    //         boardProduct:[],
-    //         itemsOrig:[],
-    //         raceType:false,
-    //         roadType:false,
-    //         mountainType:false,
-    //         sortValue:'HL',
-    //         pageNum:0,
-    //         first:0,
-    //         rows:10
+    constructor(props) {
+        super(props);
+        let cartSubTotal = 0, cartTax = 0, cartTotal = 0;
+        let cart = [];
+        if (localStorage.cart != null) {
+            cart = JSON.parse(localStorage.cart);
+            let total = JSON.parse(localStorage.totals );
+            cartSubTotal = total.cartSubTotal;
+            cartTax = total.cartTax;
+            cartTotal = total.cartTotal;
+
+        }
+
+        this.state = {
+            products:storeProducts,
+            origProducts:storeProducts,
+            filtersArray : [{isEnabled:false, type:"helmet"}, {isEnabled:false, type:"bike"},{isEnabled:false, type:"cub"},{isEnabled:false, type:"scooter"}],
+            detailProduct:detailProduct,
+            cart: cart,
+            modalOpen:false,
+            modalProduct:detailProduct,
+            cartSubTotal:cartSubTotal,
+            cartTax: cartTax,
+            cartTotal:cartTotal,
+            boardProducts:[],
+            itemsOrig:[],
+            raceType:false,
+            roadType:false,
+            mountainType:false,
+            sortValue:'HL',
+            pageNum:0,
+            first:0,
+            rows:10
             
-    //     };
-    //   }
-    state={
-        products:[],
-        detailProduct:detailProduct,
-        cart:[],
-        modalOpen:false,
-        modalProduct:detailProduct,
-        CartSubTotal:0,
-        CartTax: 0,
-        CartTotal:0
+        };
+        
+      }
+
+      areAnyFilterEnable = (filterArr) =>{
+        let found= false;
+
+        filterArr.map((filterItem)=> {
+            if (filterItem.isEnabled){
+                found= true;
+            }
+       })
+       return found;
+      }
+
+      shouldShow =(item, filterArr) =>{
+          let found = false;
+        if (!this.areAnyFilterEnable(filterArr)) {
+            return true;
+        }
+
+        filterArr.map((filterItem)=> {
+             if (filterItem.isEnabled&& filterItem.type == item.type){
+                found = true;
+             }
+        })
+
+        return found;
+      }
+
+      setFilter = (filterName) => {
+
+        let arr = [...this.state.filtersArray];
+
+        for(let i=0; i< arr.length;i++){
+            if(arr[i].type == filterName) {
+                arr[i].isEnabled = !arr[i].isEnabled;
+            }
+        }        
+           this.setState(
+               {
+                   filtersArray:arr, 
+                   products:this.state.origProducts.filter((item)=>{
+                        return this.shouldShow(item, arr);
+
+                   // return(item.id>0 && item.id<11);
+                   }),
+
+               }
+           )
     }
+    // state={
+    //     products:[],
+    //     detailProduct:detailProduct,
+    //     cart:[],
+    //     modalOpen:false,
+    //     modalProduct:detailProduct,
+    //     cartSubTotal:0,
+    //     cartTax: 0,
+    //     cartTotal:0
+    // }
     componentDidMount(){
         this.setProducts();
     }
@@ -71,10 +125,8 @@ class ProductProvider extends Component {
     };
     handleDetail = (id) =>{
         const product = this.getItem(id);
-        this.setState(()=>{
-            return {detailProduct:product};
-        })
-    }
+        this.setState({detailProduct:product})
+}
     addToCart = (id) =>{
         let tempProducts = [...this.state.products];
         const index = tempProducts.indexOf(this.getItem(id));
@@ -83,20 +135,14 @@ class ProductProvider extends Component {
         product.count = 1;
         const price = product.price;
         product.total = price;
-        this.setState(() =>{
-            return {products:tempProducts , cart:[...this.state.cart , product]};
-        },
-        ()=> {
-            this.addTotals();
-        }
-    );
+
+        localStorage.cart = JSON.stringify([...this.state.cart , product]);
+        this.setState({products:tempProducts ,cart:[...this.state.cart , product]},()=> {this.addTotals()});
 
     };
     openModal = id =>{
         const product = this.getItem(id);
-        this.setState(() => {
-            return {modalProduct:product, modalOpen:true}
-        })
+        this.setState({modalProduct:product, modalOpen:true})
     }
     closeModal = () => {
         this.setState(()=>{
@@ -110,7 +156,7 @@ class ProductProvider extends Component {
         const product = tempCart[index];
         product.count = product.count +1;
         product.total = product.count * product.price;
-
+        localStorage.cart = JSON.stringify([...tempCart]);
         this.setState(()=>{return{cart:[...tempCart]}
         },()=>{this.addTotals()})
     };
@@ -126,6 +172,7 @@ class ProductProvider extends Component {
         }
         else{
             product.total = product.count*product.price;
+            localStorage.cart = JSON.stringify([...tempCart]);
             this.setState(()=>{return{cart:[...tempCart]}
             },()=>{this.addTotals()})
         }
@@ -140,6 +187,7 @@ class ProductProvider extends Component {
         removedProduct.inCart=false;
         removedProduct.count = 0;
         removedProduct.total = 0;
+        localStorage.cart = JSON.stringify([...tempCart]);
 
         this.setState(()=>{
             return{
@@ -151,6 +199,7 @@ class ProductProvider extends Component {
         })
     };
     clearCart = () =>{
+        localStorage.cart = [JSON.stringify([])];
         this.setState(() =>{
             return {cart:[]};
         },()=>{
@@ -163,48 +212,64 @@ class ProductProvider extends Component {
         this.state.cart.map(item =>(subTotal +=item.total))
         const tempTax = subTotal *0.17;
         const tax = parseFloat(tempTax.toFixed(2))
-        const total = subTotal +tax;
+        const total = (subTotal +tax).toFixed(2);
+
+        localStorage.totals = JSON.stringify({
+            cartSubTotal: subTotal,
+            cartTax: tax,
+            cartTotal: total
+        });
+
         this.setState(()=>{
             return{
-                CartSubTotal: subTotal,
+                cartSubTotal: subTotal,
                 cartTax: tax,
                 cartTotal: total
             }
         })
     };
 
-    
+    getProducts = (search)=> {
 
+        return this.state.products.filter((item)=>{
+            return item.title.toLowerCase().indexOf(search.toLowerCase())!= -1;
+        });
+    }
+    getHomepageProducts = ()=> {
+        
+        // return this.state.products.filter((item)=>{
+        //     return item.title.toLowerCase().indexOf(search.toLowerCase())!= -1;
+        // });
+    }
     
     
     
     
-    //  setBoardItemsFunction=() =>  {
+    //  setBoardItemsFunction =() =>  {
     //                 let list = []
     //                 for(var i=pageNum1*10;i<(pageNum1+1)*10;i++) {
     //                   list.push(this.state.products[i])
-    //                 }
-    //                 // setBoardItems(list)
-    //                 return this.setState({boardProduct:list})
+    //                 this.setState({boardProducts:list})
     //               }
+    //             }
     // onOpen = (event) => {
     //             pageNum1 = event.page
     //                 // console.log(event.page + " event page");
     //             this.setState({first:event.first});
     //             this.setState({rows:event.rows})
-    //             return setBoardItemsFunction()
+    //             this.setBoardItemsFunction()
     //     }
-    //     //    sortLowtoHigh = () => {
-    //     //     var itemList = [...this.products];
-    //     //     var array = []
-    //     //     for (var i of itemList) {
-    //     //       for(var j of itemList) {
+    //        sortLowtoHigh = () => {
+    //         var itemList = [...this.products];
+    //         var array = []
+    //         for (var i of itemList) {
+    //           for(var j of itemList) {
     
-    //     //       }
-    //     //     }
-    //     //   }
+    //           }
+    //         }
+    //       }
     //        sortFunction = (e) => {
-    //           setSortValue(e.value)
+    //            this.setState({sortValue: e.value})
     //           if(e.value == 'LH') {
     //                 var list1 = []
     //                 list1 = [...this.state.products]
@@ -277,7 +342,7 @@ class ProductProvider extends Component {
     
     //        filterUpto = (top) => {
     //         if(top == '' || top == null || top == undefined) {
-    //         this.setState({products: products});
+    //         this.setState({products: this.state.origProducts});
 
     //         } else {
     //         var itemList = [...this.state.itemsOrig]
@@ -291,61 +356,7 @@ class ProductProvider extends Component {
 
     //       }
     //     }
-    //      filterByType = (reqType,name) => {
-    //       if(name == 'race') {
-    //         setRaceType(reqType)
-    //         if(raceType) {
-    //             this.setState({products:itemsOrig});
-    //         } else {
-    //           var itemList = itemsOrig;
-    //           var array = []
-    //           for(var i of itemList) {
-    //                   if(i.type == 'Race') {
-    //                   array.push(i)
-    //                   }
-                      
-    //           }
-    //           this.setState({itemsOrig:array});
-              
-    //         }
     
-            
-    //       } else if (name == 'road') {
-    //         setRoadType(reqType)
-    //         if(roadType) {
-    //             this.setState({products:itemsOrig});
-    //         } else {
-    //           var itemList = itemsOrig;
-    //           var array = []
-    //           for(var i of itemList) {
-    //                   if(i.type == 'Road') {
-    //                   array.push(i)
-    //                   }
-                      
-    //           }
-    //           this.setState({products:array});
-
-    //         }
-    //       } 
-    //       else {
-    //         setMountainType(reqType)
-    //         if(mountainType) {
-    //             this.setState({products:itemsOrig});
-    //         } else {
-    //           var itemList = itemsOrig;
-    //           var array = []
-    //           for(var i of itemList) {
-    //                   if(i.type == 'Mountain') {
-    //                   array.push(i)
-    //                   }
-                      
-    //           }
-    //           this.setState({products:array});
-              
-    //         }
-    //     }
-    
-    // } 
     
     render() {
         return (
@@ -358,7 +369,10 @@ class ProductProvider extends Component {
                increment: this.increment,
                decrement:this.decrement,
                removeItem:this.removeItem,
-               clearCart:this.clearCart
+               clearCart:this.clearCart,
+               setFilter:this.setFilter,
+               getProducts: this.getProducts,
+               getHomepageProducts:this.getHomepageProducts
             }}>
                 {this.props.children}
             </ProductContext.Provider>

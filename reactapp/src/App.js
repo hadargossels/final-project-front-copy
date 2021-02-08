@@ -8,21 +8,33 @@ import Cart from './components/Cart/Cart';
 import Footer from './components/Footer';
 import Default from './components/Default';
 import Modal from './components/Modal';
+import Homepage from './components/Homepage';
+import Register from './components/Register';
+import Login from './components/Login';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 class App extends Component{
+
+ 
+
   render() {
     return (
-    <React.Fragment>
+    <React.Fragment>{/*just instend of div, this does not doing anything */}
       <Router>
 
         <Navbar/>
       
         <Switch>
-          <Route exact path="/" component={ProductList}/>
-          <Route exact path="/details" component={Details }/>
+          <Route exact path="/details/:id" component={Details}/>
+          <Route exact path="/" component={Homepage}/>
           <Route exact path="/cart" component={Cart}/>
+          <Route path="/shop" component={ProductList}/>
+          <Route path="/register" component={Register}/>
+          <Route path="/login" component={Login}/>
+          <Route path="/:search?" component={ProductList}/>
           <Route component={Default}/>
+
+
 
         </Switch>
         <Modal/>
