@@ -1,0 +1,69 @@
+
+.footer {
+    /* position: absolute; */
+    /* margin: 0 auto; */
+    margin-top: 100px;
+    width: 100%;
+    bottom: 0px;
+    width: 100%;
+    font-size: 16px;
+    /* height: 330px; */
+    line-height: 60px;
+    background-color: #f5f5f5;
+    padding: 10px 100px;
+  }
+ 
+  body > .container {
+    padding: 60px 15px 0;
+  }
+  
+  .footer > .container {
+    padding-right: 15px;
+    padding-left: 15px;
+   
+  }
+#iconsAndfooter{
+    text-align: center ;
+    /* float:right; */
+}
+#formFooter{
+    margin-left: 2rem;
+    /* float: right; */
+    /* width: 50%; */
+    /* height: 300px; */
+}
+#firstLastName{
+    display: flex;
+}
+#firstFooter{
+    width: 15rem;
+    
+}
+#lastFooter{
+    margin-left: 3rem;
+    width: 15rem;
+}
+.emailFooter{
+    width: 16.5rem;
+}
+.textareaFooter{
+    width: 15.5rem ;
+    margin-left: 2rem;
+}
+.btnFooter{
+    text-align: center;
+}
+.iconsFooter{
+    text-align: center;
+    margin: 10px 30px 10px 20px;
+    /* padding-left: 20px; */
+    border: 1px solid rgb(245, 213, 213);
+    border-radius: 100px;
+    width: 4rem;
+    height: 4rem;
+    font-size: 1.5rem;
+    
+}
+.iconImg{
+    margin-right: 2rem;
+}

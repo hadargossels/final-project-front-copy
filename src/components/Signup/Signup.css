@@ -1,0 +1,39 @@
+
+#formSignUp{
+    margin: 0 auto;
+    
+}
+.linkSign{
+    color: rgb(255, 136, 0);
+    font-weight: bolder;
+}
+.linkSign:hover{
+    color: green;
+}
+.signUp{
+    margin: 50px auto;
+    width: 600px;
+}
+.firstLast{
+    display:flex;
+}
+#firstName{
+    width: 290px;
+}
+#lastName{
+    width: 290px;
+    
+}
+.divLast{
+    margin-left: 20px;
+}
+.btnSignUp{
+    width: 400px ;
+    border-radius: 10rem ;
+    /* margin-top: 20px; */
+    margin: 20px auto;
+    
+}
+#btnSignIn{
+    text-align: center;
+}

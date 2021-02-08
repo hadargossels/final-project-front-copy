@@ -21,6 +21,10 @@
 .shop{
     padding-right: 10px;
 }
+.signinBtn{
+    margin-right: 10px;
+}
+
 @media screen and (max-width: 990px) {   
     .nav-item{
         text-align: center;

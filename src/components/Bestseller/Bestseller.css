@@ -1,0 +1,17 @@
+.imgBest{
+    width: 5rem;
+    height: 5rem;
+    position:absolute;
+}
+.itemBest{
+    text-align: center;
+    
+}
+.bestsellerdiv{
+    display: grid;
+    width: 16rem;
+}
+.imgsub{
+    width: 4rem;
+    position:absolute;
+}

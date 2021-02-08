@@ -44,3 +44,44 @@
     text-align: center;
 
 }
+.pagesNum{
+    text-align: center;
+    margin: 0 auto;
+    width: 300px;
+}
+.greystars{
+    color: rgb(161, 159, 159);
+}
+.imgsubca{
+    width: 4rem;
+    position: absolute;
+    z-index: 2;
+}
+.imgproduct{
+    position:relative;
+    width: 10rem;
+}
+.shekel{
+    font-size: 0.6rem;
+}
+.price{
+    font-size: 1rem;
+    font-weight: bold;
+    color: indianred;
+}
+.pricesale{
+    font-size: 1rem;
+    font-weight: bold;
+}
+.imgQuickview{
+    width: 16rem;
+}
+.textquick{
+    margin-bottom: 1rem;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align: left;
+}
+.titlequick{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    
+}
