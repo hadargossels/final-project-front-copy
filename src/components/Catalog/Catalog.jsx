@@ -10,11 +10,10 @@ export default class Catalog extends Component {
         this.Products= myProducts;
 
         this.state = {
-            Arr:this.Products
+            Arr:this.Products,
         }
         
         this.updateState = this.updateState.bind(this)
-
 
         this.inputRef=React.createRef()
         this.cbRef=null
@@ -22,10 +21,25 @@ export default class Catalog extends Component {
             this.cbRef=element
         }
     }
-    //if the window onload, it focus on search bar
+    componentDidUpdate(prevProps) {       
+        if (this.props.location.search !== prevProps.location.search) {
+            let myArr =[...this.Products]
+            this.cbRef.value=window.location.search.slice(3)
+            myArr = myArr.filter((prod) => {
+                return (prod.Title.toLowerCase().includes(this.cbRef.value.toLowerCase()))     
+            });
+            this.setState({ Arr: myArr })
+      }
+    }
     componentDidMount(){
-        if(this.cbRef)
-            this.cbRef.focus()
+        if(this.cbRef){
+            let myArr =[...this.Products]
+            this.cbRef.value=window.location.search.slice(3)
+            myArr = myArr.filter((prod) => {
+                return (prod.Title.toLowerCase().includes(this.cbRef.value.toLowerCase()))     
+            });
+            this.setState({ Arr: myArr })
+        }
     }
     
     
@@ -123,6 +137,8 @@ export default class Catalog extends Component {
     
 
     render() {
+
+       
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -171,8 +187,11 @@ export default class Catalog extends Component {
                         <div className="container d-flex justify-content-center flex-wrap">
                             {
                                 this.state.Arr.map((prod) =>
-                                    <Product key={prod.Title} rating={prod.Rating} price={prod.Price} title={prod.Title} image={prod.Image} />
+                                    <Product key={prod.Title} id={prod.id} rating={prod.Rating} price={prod.Price} title={prod.Title} image={prod.Image} />
                                 )
+                            }
+                            {
+                                !this.state.Arr.length && <h1>No products to be shown</h1>
                             }
                         </div>
                     </div>

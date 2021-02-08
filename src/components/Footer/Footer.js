@@ -1,6 +1,6 @@
 import React, { } from 'react';
 import './Footer.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 export default function Footer (){  
   
@@ -15,9 +15,6 @@ export default function Footer (){
          </div>
          <br></br>
         <p> כל הזכויות שמורות ליוני טוקן בע"מ&#169; </p>
-        <p>
-          חזור למעלה
-        </p>
       </footer>
       );
    }

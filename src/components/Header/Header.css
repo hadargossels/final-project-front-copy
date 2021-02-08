@@ -24,4 +24,6 @@
   .tooltip:hover .tooltiptext {
     visibility: visible;
   }
-  
+  #searcBox{
+    margin:auto auto;
+  }

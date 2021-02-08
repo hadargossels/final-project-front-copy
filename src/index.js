@@ -14,8 +14,13 @@ import Info from './components/Info/Info';
 import PageNotFound from './components/404/PageNotFound';
 import ContactUs from './components/ContactUs/ContactUs';
 import Dashboard from './components/Dashboard/Dashboard';
+import Cart from './components/Cart/Cart';
 import Auth from './Auth' 
 // import Test from './components/Test/Test';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'bootstrap-css-only/css/bootstrap.min.css';
+import 'mdbreact/dist/css/mdb.css';
+
 
 //protected route for registered users only
 function PrivateRoute({children,...rest}){
@@ -31,13 +36,14 @@ function PrivateRoute({children,...rest}){
 }
 
 ReactDOM.render(
-  <React.StrictMode>
+
     <div>
     <Router>
     <Header/>
       <Switch>  
           <PrivateRoute exact path="/dashboard"> <Dashboard /></PrivateRoute>
           <Route exact path="/" component={Catalog}></Route>
+          <Route exact path="/cart" component={Cart}></Route>
           <Route exact path="/home" component={Home}></Route>
           <Route exact path="/contactUs" component={ContactUs}></Route>
           <Route exact path="/login" component={Login}></Route>
@@ -49,8 +55,7 @@ ReactDOM.render(
     <Footer/>
     </Router>
     
-    </div>
-  </React.StrictMode>,
+    </div>,
   document.getElementById('root')
 );
 

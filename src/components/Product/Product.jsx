@@ -7,11 +7,10 @@ import T1_scale2 from '../../pictures/T1_scale2.jpg';
 import T1_scale3 from '../../pictures/T1_scale3.jpg';
 import T1_scale4 from '../../pictures/T1_scale4.jpg';
 import myProducts from '../Catalog/prod.json';
-import {Link} from "react-router-dom";
+// import Cart from '../Cart/Cart';
 
 
-
-export default class App extends Component {
+export default class Product extends Component {
    constructor(props){
       super(props)
       
@@ -23,17 +22,30 @@ export default class App extends Component {
       
       this.state = {
           Image: result,
+          Item:1
       }
       
       this.updateState = this.updateState.bind(this)
+      this.addedToCart = this.addedToCart.bind(this)
    }
 
   updateState(e){
-          this.setState({ Image: e.target.src})
+     let counter=this.state.Item
+         if(e.target.value==="+")
+            this.setState({ Item: ++counter})
+         if(e.target.value==="-" && counter>1)
+            this.setState({ Item: --counter})
+         if(e.target.classList[0]==="smallPics")   
+            this.setState({ Image: e.target.src})
   }
 
+  addedToCart(){
+  
+ }
+  
 
    render() {
+      
    return (
       
       <div>
@@ -62,7 +74,6 @@ export default class App extends Component {
                <i className="fas fa-star"></i>
                <i className="fas fa-star"></i>
                <i className="fas fa-star"></i>
-               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                <i className="far fa-heart cursor"></i>
                </span></div>
                <br></br>
@@ -75,11 +86,11 @@ export default class App extends Component {
                <div><span className="seller">Best Seller</span>&#10003; in stock</div>
                <br></br>
                <div className="price">$59.18</div>
-               <div>Quantity:  &nbsp;&nbsp;<span>
-               <button className="btnQty">-</button>
-               &nbsp;1&nbsp;
-               <button className="btnQty">+</button>
-               </span></div>
+               <span>Quantity:&nbsp; 
+               <input onClick={this.updateState} type="button" className="btnQty" value="-"/>&nbsp; {this.state.Item} &nbsp;
+               <input onClick={this.updateState} type="button" className="btnQty" value="+"/>
+               
+               </span>
             </div>
          </div>
          <div className="row">
@@ -90,7 +101,7 @@ export default class App extends Component {
                <div className="container-fluid mx-auto d-block">
                {
                   myProducts.map((obj)=>{
-                     return <Link to={`/product/${obj.Title}`}><img key={obj.Image} alt="..." src={obj.Image} className="mediumPics cursor border m-2"></img></Link>
+                     return <img key={obj.id} alt="..." src={obj.Image} className="mediumPics cursor border m-2"></img>
                   })
                }
                </div>
@@ -113,7 +124,15 @@ export default class App extends Component {
                <div>cost to ship:</div>
                <div style={{fontWeight:"bold"}}>$20</div>
                <br></br><br></br>
-               <button className="mx-auto d-block cursor buyBtn">Add to Cart</button>
+               <button className="mx-auto d-block cursor buyBtn" 
+               
+               // onClick={
+            
+                  // <Cart product={this.state.Image} quantity={this.state.Item}>
+                  // alert("added to cart successfully");
+                  // }
+                  >
+               add to Cart</button>
                <br></br>
                <button className="mx-auto d-block cursor buyBtn">Purchase Now</button>
                <br></br><br></br><br></br>

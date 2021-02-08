@@ -1,0 +1,20 @@
+.shopping{
+    height:260px;
+}
+
+.banner{
+    /* font-family: 'Source Sans Pro', sans-serif; */
+    /* font-family: 'IBM Plex Serif', serif; */
+    font-family: 'Permanent Marker', cursive;
+    margin:0
+}
+
+#shopBtn{
+    background-color: black;
+    color:rgb(58, 148, 204);
+    border:2px solid black;
+    border-radius: 14px;
+    padding:10px;
+    font-size: 20px;
+    margin:0 auto;
+}
