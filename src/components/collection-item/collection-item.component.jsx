@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import QuickView from "../quick-view/quick-view.component";
 
 import "./collection-item.style.scss";
 
@@ -13,6 +14,7 @@ const CollectionItem = ({
   history,
   linkUrl,
   match,
+  source,
 }) => {
   const imgStyle = {
     backgroundImage: `url(${imageUrl})`,
@@ -21,7 +23,7 @@ const CollectionItem = ({
   };
 
   const handelClick = (event) => {
-    console.log(event.target.id);
+    // console.log(event.target.id);
     history.push(`/product/${name.split(" ").join("-")}`);
   };
 
@@ -34,6 +36,15 @@ const CollectionItem = ({
         style={imgStyle}
         onClick={handelClick}
       />
+
+      {source !== "main" && (
+        <QuickView
+          img={imageUrl}
+          title={name}
+          text="Glove For Cats Cat Grooming Silicone Pet Dog brush Glove De shedding Gentle Efficient Pet Grooming Glove Dog Bath Cat cleaning"
+          price={price}
+        />
+      )}
 
       <div className="collection-footer">
         <span className="name">{name}</span>{" "}
@@ -68,3 +79,48 @@ const CollectionItem = ({
 };
 
 export default withRouter(CollectionItem);
+
+//  <div className="col-md-3 col-sm-6">
+//    <div className="product-grid7">
+//      <div className="product-image7">
+//        <a href="#">
+//          <img
+//            className="pic-1"
+//            src={imageUrl}
+//          />
+//          <img
+//            className="pic-2"
+//            src={imageUrl}
+//          />
+//        </a>
+//        <ul className="social">
+//          <li>
+//            <a href className="fa fa-search" />
+//          </li>
+//          <li>
+//            <a href className="fa fa-shopping-bag" />
+//          </li>
+//          <li>
+//            <a href className="fa fa-shopping-cart" />
+//          </li>
+//        </ul>
+//        <span className="product-new-label">New</span>
+//      </div>
+//      <div className="product-content">
+//        <h3 className="title">
+//          <a href="#">{name}/a>
+//        </h3>
+//        <ul className="rating">
+//          <li className="fa fa-star" />
+//          <li className="fa fa-star" />
+//          <li className="fa fa-star" />
+//          <li className="fa fa-star" />
+//          <li className="fa fa-star" />
+//        </ul>
+//        <div className="price">
+//          {price}
+//          <span>{price+10} </span>
+//        </div>
+//      </div>
+//    </div>
+//  </div>;

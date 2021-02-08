@@ -5,6 +5,7 @@ import CollectionDisplay from "../../../components/collection-display/collection
 import SHOP_DATA from "../shop.data";
 import "./store.styles.scss";
 import CollectionTopic from "../../../components/collection-topic/collection-topic.component";
+import { useLocation } from "react-router";
 
 import queryString from "query-string";
 import FilterSidebar from "../../../components/filter-sidebar/filter-sidebar.component";
@@ -17,6 +18,7 @@ class StorePage extends React.Component {
       collections: SHOP_DATA,
       chooseItems: ["all"],
       allCounter: 1,
+      searchData: "",
     };
   }
 
@@ -25,9 +27,12 @@ class StorePage extends React.Component {
 
     const values = queryString.parse(this.props.location.search);
     console.log("values :", values.q);
+
+    this.setState({ searchData: values.q });
   }
 
   putItemInArr = (str) => {
+    this.setState({ searchData: "" });
     if (!this.state.chooseItems.includes(str) || str === "all") {
       // console.log("str :", str);
 
@@ -72,77 +77,97 @@ class StorePage extends React.Component {
         });
 
         break;
-      case "Price: Under $25":
-        console.log("SHOP_DATA :", SHOP_DATA);
-
-      //   this.setState((prevState) => {
-
-      //  var arr=[]
-      //   for (let i = 0; i < SHOP_DATA.length; i++) {
-      //     for (let j = 0; j < SHOP_DATA[i].items.length; j++) {
-      //       if (SHOP_DATA[i].items[j].price <= 25) {
-      //         console.log("dddddd");
-      //       }
-
-      //     }
-      //   }
-      //   })
-
-      //   break;
 
       case "Price: Under $25":
-        this.setState((prevState) => {
-          prevState.collections.map((col) => {
-            return col.items.filter((collection) => collection.price <= 25);
-          });
-          return {
-            collections: prevState.collections,
-          };
-        });
+        const newData = [...SHOP_DATA]
+          .map((cat) => {
+            return {
+              ...cat,
+              items: cat.items.filter((item) => item.price <= 25),
+            };
+          })
+          .filter((a) => a.items.length);
+        // console.log(newData);
+        this.setState({ collections: newData });
+
         break;
 
       case "Price: $25 to $50":
-        this.setState((prevState) => {
-          prevState.collections.map((col) => {
-            return col.items.sort((a, b) => a.price - b.price);
-          });
-          return {
-            collections: prevState.collections,
-          };
-        });
+        const newData2 = [...SHOP_DATA]
+          .map((cat) => {
+            return {
+              ...cat,
+              items: cat.items.filter(
+                (item) => item.price >= 25 && item.price <= 50
+              ),
+            };
+          })
+          .filter((a) => a.items.length);
+        // console.log(newData);
+        this.setState({ collections: newData2 });
+
         break;
 
       case "Price: $50 to $100":
-        this.setState((prevState) => {
-          prevState.collections.map((col) => {
-            return col.items.sort((a, b) => a.price - b.price);
-          });
-          return {
-            collections: prevState.collections,
-          };
-        });
+        const newData3 = [...SHOP_DATA]
+          .map((cat) => {
+            return {
+              ...cat,
+              items: cat.items.filter(
+                (item) => item.price >= 50 && item.price <= 100
+              ),
+            };
+          })
+          .filter((a) => a.items.length);
+        // console.log(newData);
+        this.setState({ collections: newData3 });
+
         break;
 
-      case "Price: $100 to $200":
-        this.setState((prevState) => {
-          prevState.collections.map((col) => {
-            return col.items.sort((a, b) => a.price - b.price);
-          });
-          return {
-            collections: prevState.collections,
-          };
-        });
+      case "Price: $100 to $150":
+        const newData4 = [...SHOP_DATA]
+          .map((cat) => {
+            return {
+              ...cat,
+              items: cat.items.filter(
+                (item) => item.price >= 100 && item.price <= 150
+              ),
+            };
+          })
+          .filter((a) => a.items.length);
+        // console.log(newData);
+        this.setState({ collections: newData4 });
+
+        break;
+
+      case "Price: $150 to $200":
+        const newData5 = [...SHOP_DATA]
+          .map((cat) => {
+            return {
+              ...cat,
+              items: cat.items.filter(
+                (item) => item.price >= 150 && item.price <= 200
+              ),
+            };
+          })
+          .filter((a) => a.items.length);
+        // console.log(newData);
+        this.setState({ collections: newData5 });
+
         break;
 
       case "Price: $200 & Above":
-        this.setState((prevState) => {
-          prevState.collections.map((col) => {
-            return col.items.sort((a, b) => a.price - b.price);
-          });
-          return {
-            collections: prevState.collections,
-          };
-        });
+        const newData6 = [...SHOP_DATA]
+          .map((cat) => {
+            return {
+              ...cat,
+              items: cat.items.filter((item) => item.price >= 200),
+            };
+          })
+          .filter((a) => a.items.length);
+        // console.log(newData);
+        this.setState({ collections: newData6 });
+
         break;
 
       case "Name: A to Z":
@@ -192,23 +217,11 @@ class StorePage extends React.Component {
       default:
         break;
     }
-    // if (str === "Price: Low to High") {
-    //   this.setState((prevState) => {
-    //     prevState.collections.map((col) => {
-    //       return col.items.sort((a, b) => a.price - b.price);
-    //     });
-
-    //     return {
-    //       collections: prevState.collections,
-    //     };
-    //   });
-
-    // }
   };
 
   /* */
   render() {
-    const { collections, chooseItems, allCounter, sorting } = this.state;
+    const { collections, chooseItems, allCounter, searchData } = this.state;
     return (
       <div className="store-page">
         {/* <FilterSidebar /> */}
@@ -232,18 +245,36 @@ class StorePage extends React.Component {
             <SortingBtn sortBtnClick={this.sortBtnClick} />
           </div>
         </div>
-
+        <br />
+        <h1>
+          {searchData !== undefined &&
+            searchData !== "" &&
+            `
+            
+            showing results for ` +
+              `"` +
+              searchData +
+              `" :`}
+        </h1>
         {(chooseItems.length === 1 && chooseItems[0] === "all") ||
         allCounter % 2 === 0
           ? collections.map(({ id, ...otherCollectionProps }) => (
-              <CollectionTopic key={id} {...otherCollectionProps} />
+              <CollectionTopic
+                searchData={searchData}
+                key={id}
+                {...otherCollectionProps}
+              />
             ))
           : collections
               .filter((collection) =>
                 chooseItems.includes(collection.routeName)
               )
               .map(({ id, ...otherCollectionProps }) => (
-                <CollectionTopic key={id} {...otherCollectionProps} />
+                <CollectionTopic
+                  searchData={searchData}
+                  key={id}
+                  {...otherCollectionProps}
+                />
               ))}
       </div>
     );

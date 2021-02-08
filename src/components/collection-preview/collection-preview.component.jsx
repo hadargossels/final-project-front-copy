@@ -24,7 +24,7 @@ const CollectionPreview = ({
       {items
         .filter((item, index) => index < 4)
         .map(({ id, ...otherItemProps }) => (
-          <CollectionItem {...otherItemProps} />
+          <CollectionItem source="main" {...otherItemProps} />
         ))}
     </div>
     <button

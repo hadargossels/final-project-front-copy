@@ -33,7 +33,7 @@ const Slider = () => (
                   <div className="thumb-wrapper">
                     <div className="img-box">
                       <img
-                        src="https://ae01.alicdn.com/kf/H2c115b36190d4dffbbc31614c046f0f1N/Pet-Dog-Waterproof-Raincoat-Jumpsuit-Reflective-Rain-Coat-Sunscreen-Dog-Outdoor-Clothes-Jacket-for-Small-Dog.jpg_220x220xz.jpg_.webp"
+                        src="https://image.ibb.co/g0CAPp/ipad.jpg"
                         className="img-responsive img-fluid"
                         alt
                       />

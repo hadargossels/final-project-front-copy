@@ -6,6 +6,7 @@ import HeadingSlider from "../../components/heading-slider/heading-slider.compon
 import Slider from "../../components/slider/slider.component";
 import StoreBanner from "../../components/store-banner/store-banner.component";
 import ShopPage from "../shop/shop.component";
+import ItemsGrid from "../../components/items-grid/items-grid.component";
 
 import "./homepage.styles.scss";
 
@@ -13,13 +14,12 @@ const HomePage = () => (
   <div className="homepage">
     <Directory />
     {/* <HeadingSlider /> */}
-
     <StoreBanner />
-    <Discounts />
     <Slider title="Featured Product" />
-    <Slider title="Sales" />
-    <Slider title="Best Sellers" />
-    <Slider title="Hot/New" />
+
+    <ItemsGrid />
+    <Discounts />
+
     <ShopPage />
   </div>
 );
