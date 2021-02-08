@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
+// import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import CatalogProduct from './CatalogProduct'
 import './Catalog.css';
 
 import { _mobilesData, _accessoriesData } from '../../data';
 
-export default class Mobiles extends Component {
+export default class Catalog extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,9 +19,11 @@ export default class Mobiles extends Component {
             rateFil: 0,
             typeFil: 0,
             isSearch: (this.props._data) ? false : true,
+            searchProd: ''
         };
         //! Handling search request:
         let searchValue = (this.state.isSearch) ? queryString.parse(this.props.location.search).q : "";
+        this.state.searchProd = searchValue;
         if (this.state.isSearch) {
             for (const mobile of _mobilesData) {
                 if ((mobile.title).toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
@@ -160,7 +163,7 @@ export default class Mobiles extends Component {
     render() {
         return (
             <div className="mainStyle">
-                <h2> {this.props.title} </h2>
+                <h2> {(this.props.title) ? (this.props.title) : "Search results for: " + this.state.searchProd} </h2>
                 {/* //! Filtering Items: */}
                 <div className="filters">
                     <p style={{ textDecoration: 'underline', fontSize: '1.5em', margin: '30px 0' }}> Filter by price </p>
@@ -203,3 +206,12 @@ export default class Mobiles extends Component {
         )
     }
 }
+
+// // ! Validation:
+// Catalog.propTypes = {
+//     searchValue: PropTypes.string.isRequired
+// }
+
+// Catalog.defaultProps = {
+//     searchValue: "Search..."
+// }

@@ -16,7 +16,7 @@ class Header extends React.Component {
   
    searchClick() {
       let node = this.callRef.current;
-      this.setState({searchValue: node.value})
+      this.setState({searchValue: node.value});
    };
 
    render() {
@@ -53,7 +53,7 @@ class Header extends React.Component {
                      <Link to="/blog" style={linkStyle}>Blog</Link>
                   </Nav>
                   <Form action="/shop" inline style={{padding:'0 30px'}}>
-                     <FormControl name="q" type="text" placeholder="Search" className="mr-sm-2" ref={this.callRef} />
+                     <FormControl name="q" required type="text" placeholder="Search" className="mr-sm-2" ref={this.callRef} />
                      <Button type="submit" variant="outline-success" onClick={this.searchClick.bind(this)}>Search</Button>
                   </Form>
                   <a href="#shoppingCartId" style={cartStyle}> Shopping cart <FontAwesomeIcon id="shoppingCartId" icon={faShoppingCart} style={cartStyle}/></a>
