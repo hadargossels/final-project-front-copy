@@ -1,132 +1,188 @@
 import React, { Component } from 'react';
 import './Store.css';
-import {Route,Link,NavLink,Switch, BrowserRouter as Router} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 
-const product = [
-    {src: "img/souffle1.jpg",
-    category: 'pens',
-    brand: 'brandA',
-    color: 'multi',
-    price: 10,
-    priceRange: "0-10",
-    name: 'aa',
-    id: 1
-    },
-    {src: "img/souffle_2.jpg",
-     category: 'pencils',
-     brand: 'brandB',
-     color: 'multi',
-     price: 15,
-     priceRange: "11-20",
-     name: 'aa',
-     id: 2
-     },
-     {src: "img/notebooks/noteb1.jpg",
-     category: 'notebooks',
-     brand: 'brandC',
-     color: 'pink',
-     price: 6,
-     priceRange: "0-10",
-     name: 'aa',
-     id: 3
-     },
-     {src: "img/notebooks/noteb2.jpg",
-     category: 'notebooks',
-     brand: 'brandD',
-     color: 'purple',
-     price: 23,
-     priceRange: "21-30",
-     name: 'aa',
-     id: 4
-     },
-     {src: "img/notebooks/noteb3.jpg",
-     category: 'notebooks',
-     brand: 'brandA',
-     color: 'purple',
-     price: 8,
-     priceRange: "0-10",
-     name: 'aa',
-     id: 5
-     },
-     {src: "img/notebooks/noteb4.jpg",
-     category: 'notebooks',
-     brand: 'brandB',
-     color: 'blue',
-     price: 9,
-     priceRange: "0-10",
-     name: 'aa',
-     id: 6
-     },
-     {src: "img/notebooks/noteb5.jpg",
-     category: 'notebooks',
-     brand: 'brandC',
-     color: 'multi',
-     price: 11,
-     priceRange: "11-20",
-     name: 'aa',
-     id: 7
-     },
-     {src: "img/notebooks/noteb6.jpg",
-     category: 'notebooks',
-     brand: 'brandD',
-     color: 'yellow',
-     price: 7,
-     priceRange: "0-10",
-     name: 'aa',
-     id: 8
-     },
-     {src: "img/notebooks/noteb7.jpg",
-     category: 'notebooks',
-     brand: 'brandA',
-     color: 'red',
-     price: 18,
-     priceRange: "11-20",
-     name: 'aa',
-     id: 9
-     },
-     {src: "img/notebooks/noteb8.jpg",
-     category: 'notebooks',
-     brand: 'brandB',
-     color: 'yellow',
-     price: 14,
-     priceRange: "11-20",
-     name: 'aa',
-     id: 10
-     },
-     {src: "img/notebooks/noteb9.jpg",
-     category: 'notebooks',
-     brand: 'brandC',
-     color: 'yellow',
-     price: 18,
-     priceRange: "11-20",
-     name: 'aa',
-     id: 11
-     },
-     {src: "img/notebooks/noteb10.jpg",
-     category: 'notebooks',
-     brand: 'brandD',
-     color: 'blue',
-     price: 18,
-     priceRange: "11-20",
-     name: 'aa',
-     id: 12
-     }
- ]
+ const product = [
+  {src: "/img/souffle1.jpg",
+  category: 'pens',
+  brand: 'brandA',
+  color: 'multi',
+  price: 10,
+  priceRange: "0-10",
+  name: 'pen1',
+  description: 'aaaaaa',
+  id: 1,
+  date: new Date ('2019-06-28'),
+  featured: 15
+  },
+  {src: "/img/souffle_2.jpg",
+   category: 'pencils',
+   brand: 'brandB',
+   color: 'multi',
+   price: 15,
+   priceRange: "11-20",
+   name: 'pencil1',
+   description: 'aaaaaa',
+   id: 2,
+   date: new Date ('2012-06-28'),
+   featured: 8
+   },
+   {src: "/img/notebooks/noteb1.jpg",
+   category: 'notebooks',
+   brand: 'brandC',
+   color: 'pink',
+   price: 6,
+   priceRange: "0-10",
+   name: 'notebook1',
+   description: 'aaaaaa',
+   id: 3,
+   date: new Date ('2018-06-28'),
+   featured: 17
+   },
+   {src: "/img/notebooks/noteb2.jpg",
+   category: 'notebooks',
+   brand: 'brandD',
+   color: 'purple',
+   price: 23,
+   priceRange: "21-30",
+   name: 'notebook2',
+   description: 'aaaaaa',
+   id: 4,
+   date: new Date ('2019-08-28'),
+   featured: 5
+   },
+   {src: "/img/notebooks/noteb3.jpg",
+   category: 'notebooks',
+   brand: 'brandA',
+   color: 'purple',
+   price: 8,
+   priceRange: "0-10",
+   name: 'notebook3',
+   description: 'bbb',
+   id: 5,
+   date: new Date ('2019-07-28'),
+   featured: 6
+   },
+   {src: "/img/notebooks/noteb4.jpg",
+   category: 'notebooks',
+   brand: 'brandB',
+   color: 'blue',
+   price: 9,
+   priceRange: "0-10",
+   name: 'notebook4',
+   description: 'bbb',
+   id: 6,
+   date: new Date ('2020-06-28'),
+   featured: 24
+   },
+   {src: "/img/notebooks/noteb5.jpg",
+   category: 'notebooks',
+   brand: 'brandC',
+   color: 'multi',
+   price: 11,
+   priceRange: "11-20",
+   name: 'notebook5',
+   description: 'bbb',
+   id: 7,
+   date: new Date ('2004-06-28'),
+   featured: 16
+   },
+   {src: "/img/notebooks/noteb6.jpg",
+   category: 'notebooks',
+   brand: 'brandD',
+   color: 'yellow',
+   price: 7,
+   priceRange: "0-10",
+   name: 'notebook6',
+   description: 'bbb',
+   id: 8,
+   date: new Date ('2012-06-28'),
+   featured: 22
+   },
+   {src: "/img/notebooks/noteb7.jpg",
+   category: 'notebooks',
+   brand: 'brandA',
+   color: 'red',
+   price: 18,
+   priceRange: "11-20",
+   name: 'notebook7',
+   description: 'ccccccc',
+   id: 9,
+   date: new Date ('2018-11-28'),
+   featured: 30
+   },
+   {src: "/img/notebooks/noteb8.jpg",
+   category: 'notebooks',
+   brand: 'brandB',
+   color: 'yellow',
+   price: 14,
+   priceRange: "11-20",
+   name: 'notebook8',
+   description: 'ccccccc',
+   id: 10,
+   date: new Date ('2019-06-13'),
+   featured: 4
+   },
+   {src: "/img/notebooks/noteb9.jpg",
+   category: 'notebooks',
+   brand: 'brandC',
+   color: 'yellow',
+   price: 18,
+   priceRange: "11-20",
+   name: 'notebook9',
+   description: 'ccccccc',
+   id: 11,
+   date: new Date ('2017-04-28'),
+   featured: 19
+   },
+   {src: "/img/notebooks/noteb10.jpg",
+   category: 'notebooks',
+   brand: 'brandD',
+   color: 'blue',
+   price: 18,
+   priceRange: "11-20",
+   name: 'notebook10',
+   description: 'ccccccc',
+   id: 12,
+   date: new Date ('2021-02-28'),
+   featured: 6
+   }
+]
 
 class Store extends Component{
-    constructor() {
-      super();
+    constructor(props) {
+      super(props);
 
       this.state = {
       product: product,
       display: product,
-      checked: []
+      checked: [],
+      searchKey: "",
+      results: [],
+      filterDis: "flex",
+      storeDis: "flex",
+      errorDis: "none"
     }
     this.isChecked = this.isChecked.bind(this);
     this.filter = this.filter.bind(this);
+    this.searchK = this.searchK.bind(this);
+    this.search = this.search.bind(this);
+    this.searchK()
+    this.newFeatured()
       }
 
+    newFeatured () {
+      let path = this.props.location.pathname
+      path = path.substring(7);
+      if (path === 'New') {
+        this.state.product.sort((a, b) => b.date - a.date)
+      }
+      else if (path === 'Featured')
+      this.state.product.sort((a, b) => b.featured - a.featured)
 
+      else this.state.product.sort((a, b) => a.id - b.id)
+    }
+    
     sort (e) {
       let byPrice =  this.state.product
       if (e.target.value === 'high')
@@ -137,6 +193,7 @@ class Store extends Component{
     }
 
     isChecked (e) {
+      this.search()
       let checkbox = e.target.value
       let checkedBox =[...this.state.checked]
       if(e.target.checked){
@@ -149,17 +206,16 @@ class Store extends Component{
       } 
       setTimeout(()=>{this.setState({checked: checkedBox})
     this.setState({display: []});
-    this.filter(e)},300) 
+    this.filter(e)},5) 
     }
 
     filter (e) {
       let display = [...this.state.display];
       let filterThat = [...this.state.product];
       let filtered = [];
-      
       let name = e.target.name
-      console.log(name)
       let filterby = [...this.state.checked]
+      
       if (name === 'category'){
         for (let i = 0; i<filterby.length; i++){
           filtered = filterThat.filter((v)=> {return v.category === filterby[i]}) 
@@ -185,22 +241,65 @@ class Store extends Component{
           filtered.forEach(element => {display.push(element)});         
         }
       }
-      if (display.length === 0) {
+      
+      if (display.length === 0 && this.state.searchKey == "") {
         display = product
+      }
+      else if (display.length === 0 && this.state.searchKey !== "") {
+        
+        display = [...this.state.results]
       }
       setTimeout(()=>{
         this.setState({display: display})
-      console.log(this.state.display)
-      },300)
+      },5)
     }
 
+    searchK () {
+      let searchKey = this.props.location.search
+      searchKey = searchKey.substring(3);
+      setTimeout(() => {
+        this.setState({searchKey: searchKey})
+        this.search()
+      }, 5);
+    }
 
+    search() {
+      if (this.state.searchKey !== "") {
+        let display = [];
+        let results = [];
+        let re = new RegExp (this.state.searchKey, "g")
+        for (const element of product) {
+        if (re.test(element.name) || re.test(element.description)){
+          console.log(re.test(element.name))
+          display.push(element);
+          results.push(element);
+        }
+        }
+        if (results.length === 0) {
+          setTimeout(()=>{
+            this.setState({filterDis: "none"})
+          this.setState({storeDis: "none"})
+          this.setState({errorDis: "flex"})
+          console.log(this.state.storeDis)
+          },5)
+        }
+        console.log(this.state.searchKey)
+      console.log(this.state.results.length)
+        setTimeout(()=>{
+          this.setState({display: display})
+          this.setState({results:results})
+        },5)
+      }
+    }
+
+    
+ 
 
    render(){
-
       return(
           <div className='storeCont'>
-              <div className='filter' >
+            <div className="searchErr" style={{display: this.state.errorDis}}>Sorry, your search didn't match any results, please try searching something else.</div>
+              <div className='filter' style={{display: this.state.filterDis}}>
                   <div className='sort filterDiv'>
                       <span className='title'>Sort By:</span><br/>
                       <select className='sortSel' onChange={(e) => this.sort(e)}>
@@ -271,14 +370,33 @@ class Store extends Component{
                     <label htmlFor="41-50">41-50 USD</label><br/>
                   </div>
               </div>
-              <div className='storeDisp'>
+              <div className='storeDisp' style={{display: this.state.storeDis}}>
               {this.state.display.map((v) =>
-                  <div className='product' key={v.id} productid={v.id}>
+              <div>
+                <div className='product' key={v.id} productid={v.id}>
                     <NavLink exact to={"/Product/"+v.id} ><img src={v.src} alt='product' width='200px'/></NavLink><br/>
                     <span className='prodName'>{v.name}</span><br/>
                     <span className='price'>{v.price}$</span>
-                  </div>)}
-                  
+                    <button className='fas fa-search-plus' data-bs-toggle="modal" data-bs-target={"#modal"+v.id}></button>
+                  </div>
+                  <div className="modal fade" id={"modal"+v.id} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title" id="exampleModalLabel">{v.name}</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+        {v.description}
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" className="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+              </div>)}                  
               </div>
           </div>
         

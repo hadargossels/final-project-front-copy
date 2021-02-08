@@ -1,13 +1,15 @@
 import './App.css';
-
-import {useState} from 'react'
 import Home from './components/home/Home';
-// import Product from './components/Product'
+import New from './components/new/New';
+import Featured from './components/featured/Featured'
+import Lightbox from './components/lightbox/Lightbox';
 
 function App() {
   return (
     <div>
       <Home/>
+      <New/>
+      <Featured/>
     </div>
   );
 }

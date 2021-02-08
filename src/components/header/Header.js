@@ -14,7 +14,10 @@ class Header extends Component{
                <NavLink exact to="/Blog" activeStyle={{color:"white"}}><button className='navbtn'>Blog</button></NavLink>
                <NavLink exact to="/Contact" activeStyle={{color:"white"}}><button className='navbtn'>Contact</button></NavLink>
             </div>
-            <input type="text" id="search" name="search" placeholder="Search"></input>
+            <form action="/Store">
+            <input type="text" id="search" name="q" placeholder="Search"></input>
+            <input type="submit" id="subSer" className="fas fa-search serBtn" value=""></input>
+            </form>
             <div className='logo'></div>
             <i className="fas fa-shopping-cart"></i>
             <div className='logindiv'><NavLink exact to="/Login" className='logindiv'>Log In/Sign In</NavLink></div>

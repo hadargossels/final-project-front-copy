@@ -47,3 +47,10 @@
     color: #64495c;
     font-size: 20px;
 }
+
+.fa-search-plus {
+    width: 30px;
+    border: none;
+    background-color: white;
+    font-size: 18px;
+}

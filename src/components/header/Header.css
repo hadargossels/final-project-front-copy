@@ -23,7 +23,7 @@
 }
 
 #search {
-    margin: auto 45px;
+    margin: 20px 0px auto 45px;
     width: 250px;
     height: 35px;
 }
@@ -52,4 +52,11 @@
     background-repeat:no-repeat;
     background-size:contain;
 
+}
+
+.serBtn {
+    background-color:  #64495c;
+    border: none;
+    color: white;
+    font-size: 18px;
 }

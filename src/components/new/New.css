@@ -1,0 +1,45 @@
+.carImg {
+    width: 50%;
+}
+
+.carItem {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.newitems {
+    padding: 15px;
+}
+
+.seemore {
+    float: right;
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 100px;
+  width: 50px;
+  background-size: 100%, 100%;
+  background-image: none;
+}
+
+.carousel-control-next-icon:after
+{
+  content: '>';
+  font-size: 55px;
+  color: black;
+}
+
+.carousel-control-prev-icon:after {
+  content: '<';
+  font-size: 55px;
+  color: black;
+}

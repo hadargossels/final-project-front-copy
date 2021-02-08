@@ -23,8 +23,10 @@ const router = (
      <Route exact path="/" component={App}/>
      <Route path="/About" component={About}/>
      <Route path="/Contact" component={Contact}/>
-     <Route path="/Store" component={Store}/>
-     <Route path="/Blog" component={Blog}/>
+     <Route exact path="/Store" component={Store}/>
+     <Route exact path="/Store/New" component={Store}/>
+     <Route exact path="/Store/Featured" component={Store}/>
+     <Route exact path="/Blog" component={Blog}/>
      <Route path="/Shipping" component={Shipping}/>
      <Route path="/Faq" component={Faq}/>
      <Route path="/Login" component={Login}/>

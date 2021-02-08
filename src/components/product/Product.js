@@ -3,44 +3,44 @@ import './Product.css';
 
 const product = [
    {
-      src: "img/souffle1.jpg",
+      src: "/img/souffle1.jpg",
       price: 10,
       name: 'Product1',
       id: 1,
-      gallery1: "img/souffle1.jpg",
-      gallery2: "img/souffle_2.jpg",
-      gallery3: "img/Souffle-Packaging.jpg",
+      gallery1: "/img/souffle1.jpg",
+      gallery2: "/img/souffle_2.jpg",
+      gallery3: "/img/Souffle-Packaging.jpg",
       description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Id molestiae exercitationem, ab itaque ad nisi repellendus eum corporis voluptates cupiditate aut, nostrum non fugit dolore numquam, dignissimos nemo nulla necessitatibus.",
       stock: "IN STOCK",
       rating: '4.5',
       raters: '150',
-      related1: "img/Craft-Glaze.jpg",
-      related2: "img/Craft-QuickieGlue.jpg",
-      related3: "img/GellyRoll-GoldSilverShadow.jpg"
+      related1: "/img/Craft-Glaze.jpg",
+      related2: "/img/Craft-QuickieGlue.jpg",
+      related3: "/img/GellyRoll-GoldSilverShadow.jpg"
    },
    {
-      src: "img/notebooks/noteb1.jpg",
+      src: "/img/notebooks/noteb1.jpg",
       price: 15,
       name: 'Product2',
       id: 2,
-      gallery1: "img/notebooks/noteb1.jpg",
-      gallery2: "img/notebooks/noteb1.jpg",
-      gallery3: "img/notebooks/noteb1.jpg",
+      gallery1: "/img/notebooks/noteb1.jpg",
+      gallery2: "/img/notebooks/noteb1.jpg",
+      gallery3: "/img/notebooks/noteb1.jpg",
       description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Id molestiae exercitationem, ab itaque ad nisi repellendus eum corporis voluptates cupiditate aut, nostrum non fugit dolore numquam, dignissimos nemo nulla necessitatibus.",
       stock: "IN STOCK",
       rating: '3',
       raters: '150',
-      related1: "img/notebooks/noteb2.jpg",
-      related2: "img/notebooks/noteb3.jpg",
-      related3: "img/notebooks/noteb4.jpg"
+      related1: "/img/notebooks/noteb2.jpg",
+      related2: "/img/notebooks/noteb3.jpg",
+      related3: "/img/notebooks/noteb4.jpg"
    },
    {
-      src: "img/notebooks/noteb1.jpg",
+      src: "/img/notebooks/noteb1.jpg",
       price: 6,
       id: 3
    },
    {
-      src: "img/notebooks/noteb2.jpg",
+      src: "/img/notebooks/noteb2.jpg",
       // category: 'notebooks',
       brand: 'brandD',
       color: 'purple',
@@ -50,7 +50,7 @@ const product = [
       id: 4
    },
    {
-      src: "img/notebooks/noteb3.jpg",
+      src: "/img/notebooks/noteb3.jpg",
       // category: 'notebooks',
       brand: 'brandA',
       color: 'purple',
@@ -60,7 +60,7 @@ const product = [
       id: 5
    },
    {
-      src: "img/notebooks/noteb4.jpg",
+      src: "/img/notebooks/noteb4.jpg",
       // category: 'notebooks',
       brand: 'brandB',
       color: 'blue',
@@ -70,7 +70,7 @@ const product = [
       id: 6
    },
    {
-      src: "img/notebooks/noteb5.jpg",
+      src: "/img/notebooks/noteb5.jpg",
       // category: 'notebooks',
       brand: 'brandC',
       color: 'multi',
@@ -80,7 +80,7 @@ const product = [
       id: 7
    },
    {
-      src: "img/notebooks/noteb6.jpg",
+      src: "/img/notebooks/noteb6.jpg",
       // category: 'notebooks',
       brand: 'brandD',
       color: 'yellow',
@@ -90,7 +90,7 @@ const product = [
       id: 8
    },
    {
-      src: "img/notebooks/noteb7.jpg",
+      src: "/img/notebooks/noteb7.jpg",
       // category: 'notebooks',
       brand: 'brandA',
       color: 'red',
@@ -100,7 +100,7 @@ const product = [
       id: 9
    },
    {
-      src: "img/notebooks/noteb8.jpg",
+      src: "/img/notebooks/noteb8.jpg",
       // category: 'notebooks',
       brand: 'brandB',
       color: 'yellow',
@@ -110,7 +110,7 @@ const product = [
       id: 10
    },
    {
-      src: "img/notebooks/noteb9.jpg",
+      src: "/img/notebooks/noteb9.jpg",
       // category: 'notebooks',
       brand: 'brandC',
       color: 'yellow',
@@ -120,7 +120,7 @@ const product = [
       id: 11
    },
    {
-      src: "img/notebooks/noteb10.jpg",
+      src: "/img/notebooks/noteb10.jpg",
       price: 18,
       name: 'aa',
       id: 12
@@ -137,6 +137,7 @@ class Product extends Component {
       i: 0
     }
     this.findIndex = this.findIndex.bind(this);
+    this.findIndex();
       }
 
    findIndex () {
@@ -146,13 +147,14 @@ class Product extends Component {
          {i = element.id - 1; }
       }
       setTimeout(()=>
-      {this.setState({i:i})},5) 
+      {this.setState({i:i})
+   console.log(this.state.i)},100) 
    }
    
    
    render() {
       return (
-         <div className='prodCont' onLoad={this.findIndex()}>
+         <div className='prodCont'>
          <div className='prodImg'>
             <div className='mainImg'>
                <img src={this.state.product[this.state.i].src} alt="product" />
