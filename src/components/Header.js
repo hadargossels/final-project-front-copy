@@ -48,7 +48,7 @@ class Header extends Component{
                <ul className="navbar-nav navbar-right py-1">
                   <form className="d-flex" action="/store/">
                      <input name="q" className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                        <button className="btn btn-outline-light" type="submit">Search</button>
+                     <button className="btn btn-outline-light" type="submit">Search</button>
                   </form>
             </ul>
          </div>

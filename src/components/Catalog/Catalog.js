@@ -29,9 +29,8 @@ export default class Catalog extends Component {
     }
 
     let displayArr = [...this.state.displayArr].sort(sortFunction);
-    this.setState({ displayArr });
     let arr = this.props.arr.sort(sortFunction);
-    this.setState({ arr }); //as we use arr in categores filtering, it needs to be in the correct sorting order as well
+    this.setState({ arr,displayArr,page:1 }); //as we use arr in categores filtering, it needs to be in the correct sorting order as well
   };
 
   filteredCategories = (e) => {
@@ -47,7 +46,7 @@ export default class Catalog extends Component {
     if (categ.length >= 1)
       displayArr = displayArr.filter((el) => categ.includes(el.platforms[0]));
 
-    this.setState({ displayArr });
+    this.setState({ displayArr, page:1 });
   };
 
   checkIfLast(){

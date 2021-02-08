@@ -16,12 +16,14 @@ export default class Home extends Component {
     super(props);
     this.state = {bestSellers: objectsArr.filter((el) => el.bestseller)};
   }
+
   clickHandler = ({ target: { innerHTML } }) => {
     const newArr = [...this.state.bestSellers];
     if (innerHTML === "&lt;") newArr.unshift(newArr.pop());
     if (innerHTML === "&gt;") newArr.push(newArr.shift());
     this.setState({ bestSellers: newArr });
   };
+  
   render() {
     let homeCategs = [
       {title: "NEW", src: "/img/home/new.jpg", link: "new"},
