@@ -8,7 +8,6 @@ import NotFound from './Components/404/NotFound';
 
 import Home from './Components/Home/Home';
 import About from './Components/About/About';
-import Store from './Components/Store/Store';
 import Blog from './Components/Blog/Blog';
 import ContactUs from './Components/ContactUs/ContactUs';
 
@@ -30,13 +29,13 @@ export default function App() {
                   <Route exact path="/blog" component={Blog}/>
                   <Route exact path="/contact" component={ContactUs}/>
 
-                  <Route exact path="/store" component={Store}/>
-                  <Route exact path="/store/products" component={Products}/>
-                  <Route exact path="/store/products/:prodName" component={Product}/>
+                  <Route exact path="/shop" component={Products}/>
+                  <Route exact path="/shop/:prodName" component={Product}/>
 
                   <Route exact path="/sign-in-up" component={SignInUp}/>
                   <Route exact path="/account" component={Account}/>
                   <Route exact path="/cart" component={Cart}/>
+                  
 
                   <Route component={NotFound}/>
                </Switch>

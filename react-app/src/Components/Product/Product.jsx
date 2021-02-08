@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import './Product.css';
 import ratingStars from '../../js/script';
 import NotFound from '../404/NotFound';
@@ -12,9 +12,9 @@ export default class Product extends Component {
 
       super(props);
       
-      const product = products.filter(prod => prod.alt == this.props.match.params.prodName);
+      const product = products.filter(prod => prod.name === this.props.match.params.prodName);
 
-      if (product.length > 0) {
+      if (product.length === 1) {
 
          this.state = {arr: product[0], src: product[0].img[0], type: product[0].type, addNotify: "", status: "", price: "", newPrice: ""};
       
@@ -84,8 +84,8 @@ export default class Product extends Component {
 
                <div>
                   <ol className="breadcrumb">
-                     <li><a href="#">Store&nbsp;</a></li>
-                           / <Link to="/store/products"><li className="active">&nbsp;Products</li></Link>
+                     <li><NavLink to="/shop" style={{textDecoration: "none"}}>Shop&nbsp;</NavLink></li>
+                           / <NavLink to={"/shop/"+this.state.arr.name} style={{textDecoration: "none"}}><li className="active">&nbsp;{this.state.arr.title}</li></NavLink>
                   </ol>
                </div>
 
@@ -104,7 +104,8 @@ export default class Product extends Component {
                   </div>
    
                   <div className="col-sm">
-                     <img id="myImg" src={this.state.src} alt="Prod_Img"
+                     <br/>
+                     <img id="myImg" src={this.state.src} alt="Prod_Img" title="Click to enlarge image"
                         onClick={() => window.open(this.state.src,'targetWindow', 'toolbar=no, location=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1090px, height=550px, top=25px left=120px')}
                      />
                   </div>
@@ -147,13 +148,13 @@ export default class Product extends Component {
    
                <br/>
 
-               {  products.map((prod,index) => {
+               {  products.map(prod => {
 
-                     if (prod.type == this.state.type && prod.alt != this.props.match.params.prodName) {
+                     if (prod.type === this.state.type && prod.name !== this.props.match.params.prodName) {
                         return (
-                           <Link onClick={() => { this.setState({arr: prod, src: prod.img[0], type: prod.type}); this.setStatusPrice(prod) }} to={"/store/products/"+prod.alt}>
+                           <Link onClick={() => { this.setState({arr: prod, src: prod.img[0], type: prod.type}); this.setStatusPrice(prod) }} to={"/shop/products/"+prod.name}>
                               <div className="gallery">
-                                 <img src={prod.img[0]} alt={"Other_"+index}/>
+                                 <img src={prod.img[0]} alt={prod.name}/>
                                  <div className="desc">{prod.title}</div>
                               </div>
                            </Link>

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 import './Products.css';
 import ratingStars from '../../js/script';
 import ProductsList from '../ProductsList/ProductsList';
-/* import ProductsFilter from '../ProductsFilter/ProductsFilter'; */
+import ProductsFilter from '../ProductsFilter/ProductsFilter';
 
 const products = require('../../database/products.json');
 
@@ -12,12 +13,18 @@ export default class Products extends Component {
 
         super();
         
-        this.state = {prodsArr: products, displayArr: products, displayArrLen: products.length, filterArr: [], numHardware: 0, numLaptops: 0, numPeripheral: 0, numSoftwares: 0};
-        
+        this.state = {prodsArr: products, displayArr: products, displayArrLen: products.length, searched: "",
+                        numHardware: 0, numLaptops: 0, numPeripheral: 0, numSoftwares: 0,
+                        filterArrRating: [], isStock: false, isSale: false,
+                        filterArrCat: [], arrCat: [], filterArrSub: [], arrSub: [], filterArrType: [], arrType: [], filterArrBrand: [], arrBrand: [],
+                        callRefHardware: React.createRef(), callRefLaptops: React.createRef(), callRefPeripheral: React.createRef(), callRefSoftwares: React.createRef(),
+                        callRefSub: React.createRef(), callRefType: React.createRef(), callRefBrand: React.createRef()};
+
         this.lowPrice = this.lowPrice.bind(this);
         this.highPrice = this.highPrice.bind(this);
         this.bestRating = this.bestRating.bind(this);
         this.alphabet = this.alphabet.bind(this);
+        this.setSearchedProducts = this.setSearchedProducts.bind(this);
 
         for (let prod of this.state.prodsArr) {
 
@@ -98,12 +105,18 @@ export default class Products extends Component {
 
     filterCategories(category) {
 
+        if (this.state.callRefSub.current) {
+
+            if (this.state.callRefSub.current._reactInternals.alternate)
+                this.state.callRefSub.current._reactInternals.alternate.firstEffect.stateNode.checked = false;
+        }
+
         let arr = [...this.state.prodsArr];
-        let filterArr = [...this.state.filterArr];
+        let filterArr = [...this.state.filterArrCat]; 
 
         const index = filterArr.indexOf(category);
 
-        if (index == -1)
+        if (index === -1)
             filterArr.push(category);
         
         else
@@ -113,26 +126,237 @@ export default class Products extends Component {
 
            arr = arr.filter(prod => {
 
-            //    if ((filterArr.indexOf(prod.category) != -1) || (filterArr.indexOf(prod.subCategory) != -1) || (filterArr.indexOf(prod.type) != -1) || (filterArr.indexOf(prod.brand) != -1))
-            //         return prod;
-
-                if ((filterArr.indexOf(prod.category) != -1))
+                if ((filterArr.indexOf(prod.category) !== -1))
                     return prod;
             });
         }
 
-        this.setState({displayArr: arr, displayArrLen: arr.length, filterArr: filterArr}); 
+        this.setState({displayArr: arr, displayArrLen: arr.length, arrCat: arr, filterArrCat: filterArr, filterArrSub: [], arrSub: [], filterArrType: [], arrType: [], filterArrBrand: [], arrBrand: []});   
+    }
+
+
+    filterCategoriesSub(category) {
+
+        if (this.state.callRefType.current) {
+
+            if (this.state.callRefType.current._reactInternals.alternate)
+                this.state.callRefType.current._reactInternals.alternate.firstEffect.stateNode.checked = false;
+        }
+        
+        let arr = [...this.state.arrCat];
+        let filterArr = [...this.state.filterArrSub]; 
+
+        const index = filterArr.indexOf(category);
+
+        if (index === -1)
+            filterArr.push(category);
+        
+        else
+            filterArr.splice(index, 1);
+        
+        if (filterArr.length > 0) {
+
+           arr = arr.filter(prod => {
+
+                if ((filterArr.indexOf(prod.subCategory) !== -1))
+                    return prod;
+            }); 
+        }
+
+        this.setState({displayArr: arr, displayArrLen: arr.length, arrSub: arr, filterArrSub: filterArr, filterArrType: [], arrType: [], filterArrBrand: [], arrBrand: []}); 
+    }
+
+    filterCategoriesType(category) {
+
+        if (this.state.callRefBrand.current) {
+
+            if (this.state.callRefBrand.current._reactInternals.alternate)
+                this.state.callRefBrand.current._reactInternals.alternate.firstEffect.stateNode.checked = false;
+        }
+
+        let arr = [...this.state.arrSub];
+        let filterArr = [...this.state.filterArrType]; 
+
+        const index = filterArr.indexOf(category);
+
+        if (index === -1)
+            filterArr.push(category);
+        
+        else
+            filterArr.splice(index, 1);
+        
+        if (filterArr.length > 0) {
+
+           arr = arr.filter(prod => {
+
+                if ((filterArr.indexOf(prod.type) !== -1))
+                    return prod;
+            });
+        }
+
+        this.setState({displayArr: arr, displayArrLen: arr.length, arrType: arr, filterArrType: filterArr, filterArrBrand: [], arrBrand: []});   
+    }
+
+    filterCategoriesBrand(category) {
+
+        let arr = [...this.state.arrType];
+        let filterArr = [...this.state.filterArrBrand]; 
+
+        const index = filterArr.indexOf(category);
+
+        if (index === -1)
+            filterArr.push(category);
+        
+        else
+            filterArr.splice(index, 1);
+        
+        if (filterArr.length > 0) {
+
+           arr = arr.filter(prod => {
+
+                if ((filterArr.indexOf(prod.brand) !== -1))
+                    return prod;
+            });  
+        }
+
+        this.setState({displayArr: arr, displayArrLen: arr.length, arrBrand: arr, filterArrBrand: filterArr}); 
+    }
+
+    filterRating(rate) {
+
+        let arr = [...this.state.prodsArr];
+        let filterArr = [...this.state.filterArrRating]; 
+
+        const index = filterArr.indexOf(rate);
+
+        if (index === -1)
+            filterArr.push(rate);
+        
+        else
+            filterArr.splice(index, 1);
+        
+        if (filterArr.length > 0) {
+
+           arr = arr.filter(prod => {
+
+                if (prod.rating === rate)
+                    return prod;
+            });  
+        }
+
+        this.setState({displayArr: arr, displayArrLen: arr.length, filterArrRating: filterArr}); 
+    }
+
+    filterStock() {
+
+        let arr = [...this.state.prodsArr];
+
+        if (this.state.isStock)
+            this.setState({isStock: false});
+        
+        else
+            this.setState({isStock: true});
+
+        if (!this.state.isStock) {
+
+            arr = arr.filter(prod => {
+
+                    if (prod.stock !== this.state.isStock)
+                        return prod;
+                });
+        }
+
+        this.setState({displayArr: arr, displayArrLen: arr.length}); 
+    }
+
+    filterSale() {
+
+        let arr = [...this.state.prodsArr];
+
+        if (this.state.isSale)
+            this.setState({isSale: false});
+        
+        else
+            this.setState({isSale: true});
+
+        if (!this.state.isSale) {
+            
+            arr = arr.filter(prod => {
+
+                    if (prod.discount !== this.state.isSale)
+                        return prod;
+                });
+        }
+
+        this.setState({displayArr: arr, displayArrLen: arr.length}); 
+    }
+
+    setSearchedProducts() {
+
+        let search = window.location.href.split("?q=")[1];
+
+        if ((search) && (search.replace(/%20/g, " ") !== this.state.searched) && (typeof search === 'string')) {
+
+        if (this.state.callRefHardware.current)
+            this.state.callRefHardware.current.checked = false;
+            
+        if (this.state.callRefLaptops.current)
+            this.state.callRefLaptops.current.checked = false;
+
+        if (this.state.callRefPeripheral.current)
+            this.state.callRefPeripheral.current.checked = false;
+
+        if (this.state.callRefSoftwares.current)
+            this.state.callRefSoftwares.current.checked = false;
+
+            search = search.replace(/%20/g, " ");
+
+            let arr = [...this.state.prodsArr];
+            
+            const space = [...new Set(search.split(" "))];
+
+            if ((space.length > 1) || (space[0] !== "")) {
+
+                arr = arr.filter(prod => {
+                
+                    if ((prod.title.toLowerCase().includes(search.toLowerCase())))
+                        return prod;
+                });
+
+            }
+
+            this.setState({displayArr: arr, displayArrLen: arr.length, searched: search, arrCat: [], filterArrCat: [], filterArrSub: [], arrSub: [], filterArrType: [], arrType: [], filterArrBrand: [], arrBrand: []});
+        }
+
+        else if (!(search) && ("" !== this.state.searched) && (typeof search === 'string')) {
+
+            if (this.state.callRefHardware.current)
+            this.state.callRefHardware.current.checked = false;
+            
+            if (this.state.callRefLaptops.current)
+                this.state.callRefLaptops.current.checked = false;
+
+            if (this.state.callRefPeripheral.current)
+                this.state.callRefPeripheral.current.checked = false;
+
+            if (this.state.callRefSoftwares.current)
+                this.state.callRefSoftwares.current.checked = false;
+
+            this.setState({displayArr: this.state.prodsArr, displayArrLen: this.state.prodsArr.length, searched: "", arrCat: [], filterArrCat: [], filterArrSub: [], arrSub: [], filterArrType: [], arrType: [], filterArrBrand: [], arrBrand: []});
+        }
     }
 
    render(){
       return(
          <main role="main" className="lead" style={{width: "95%", margin: "0 auto"}}>
 
+             {this.setSearchedProducts()}
+
             <br/><br/><br/><br/>
 
             <div>
                 <ol className="breadcrumb">
-                    <li><a href="#">Store</a></li>
+                    <li><NavLink to="/shop?q=" style={{textDecoration: "none"}}>Shop</NavLink></li>
                 </ol>
             </div>
 
@@ -141,18 +365,18 @@ export default class Products extends Component {
             <div className="col-md-3">
 
                 <div>
-                    <a href="#" className="list-group-item active">Categories</a>
+                    <span className="list-group-item active">Categories</span>
                     <ul className="list-group">
-                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterCategories(e.target.value)} value="Hardware"/> Hardware
+                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterCategories(e.target.value, "Cat")} value="Hardware" ref={this.state.callRefHardware}/> Hardware
                            <span className="label label-success pull-right"> ({this.state.numHardware})</span>
                         </li>
-                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterCategories(e.target.value)} value="Laptops"/> Laptops
+                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterCategories(e.target.value, "Cat")} value="Laptops" ref={this.state.callRefLaptops}/> Laptops
                          <span className="label label-danger pull-right"> ({this.state.numLaptops})</span>
                         </li>
-                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterCategories(e.target.value)} value="Peripheral"/> Peripheral
+                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterCategories(e.target.value, "Cat")} value="Peripheral" ref={this.state.callRefPeripheral}/> Peripheral
                              <span className="label label-info pull-right"> ({this.state.numPeripheral})</span>
                         </li>
-                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterCategories(e.target.value)} value="Softwares"/> Softwares
+                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterCategories(e.target.value, "Cat")} value="Softwares" ref={this.state.callRefSoftwares}/> Softwares
                              <span className="label label-success pull-right"> ({this.state.numSoftwares})</span>
                         </li>
                      </ul>
@@ -160,29 +384,15 @@ export default class Products extends Component {
 
                 <br/>
 
-                {/* ---------------------- To Be Continued ----------------------*/}
-                {/* ---------------------- ProductsFilter ----------------------*/}
-
                 <div>
-                    <a href="#" className="list-group-item active list-group-item-success">Sub-Categories</a>
+                    <span className="list-group-item active list-group-item-success">Sub-Categories</span>
                     <ul className="list-group">
-
-                        <li className="list-group-item"><input type="checkbox"/> CPUs
-                             <span className="label label-danger pull-right"> ()</span>
-                        </li>
-                        <li className="list-group-item"><input type="checkbox"/> GPUs
-                             <span className="label label-success pull-right"> ()</span>
-                        </li>
-                        <li className="list-group-item"><input type="checkbox"/> Operating Systems
-                             <span className="label label-info pull-right"> ()</span>
-                        </li>
-                        <li className="list-group-item"><input type="checkbox"/> Sound Cards
-                             <span className="label label-info pull-right"> ()</span>
-                        </li>
-                        <li className="list-group-item"><input type="checkbox"/> Speakers
-                             <span className="label label-info pull-right"> ()</span>
-                        </li>
-
+                    {
+                        this.state.filterArrCat.map((prod, index) =>
+                        <ProductsFilter
+                            key={index} category={"category"} filter={prod} filterCategories={this.filterCategoriesSub.bind(this)} ref={this.state.callRefSub}
+                        />)
+                    }
                     </ul>
 
                 </div>
@@ -190,32 +400,14 @@ export default class Products extends Component {
                 <br/>
 
                 <div>
-                    <a href="#" className="list-group-item active">Types</a>
+                    <span className="list-group-item active">Types</span>
                     <ul className="list-group">
-                        <li className="list-group-item"><input type="checkbox"/> Internal
-                             <span className="label label-warning pull-right"> ()</span>
-                        </li>
-                        <li className="list-group-item"><input type="checkbox"/> External
-                             <span className="label label-success pull-right"> ()</span>
-                        </li>
-                        <li className="list-group-item"><input type="checkbox"/> OEM
-                             <span className="label label-success pull-right"> ()</span>
-                        </li>
-                        <li className="list-group-item"><input type="checkbox"/> Retail
-                             <span className="label label-success pull-right"> ()</span>
-                        </li>
-                        <li className="list-group-item"><input type="checkbox"/> 2.0
-                             <span className="label label-success pull-right"> ()</span>
-                        </li>
-                        <li className="list-group-item"><input type="checkbox"/> 2.1
-                             <span className="label label-success pull-right"> ()</span>
-                        </li>
-                        <li className="list-group-item"><input type="checkbox"/> 5.1
-                             <span className="label label-success pull-right"> ()</span>
-                        </li>
-                        <li className="list-group-item"><input type="checkbox"/> 7.1
-                             <span className="label label-success pull-right"> ()</span>
-                        </li>
+                    {
+                        this.state.filterArrSub.map((prod, index) =>
+                        <ProductsFilter
+                            key={index} category={"subCategory"} filter={prod} filterCategories={this.filterCategoriesType.bind(this)} ref={this.state.callRefType}
+                        />)
+                    }
                     </ul>
 
                 </div>
@@ -223,23 +415,14 @@ export default class Products extends Component {
                 <br/>
 
                 <div>
-                    <a href="#" className="list-group-item active">Brands</a>
+                    <span className="list-group-item active">Brands</span>
                     <ul className="list-group">
-                        <li className="list-group-item"><input type="checkbox"/> ASUS
-                             <span className="label label-warning pull-right"> ()</span>
-                        </li>
-                        <li className="list-group-item"><input type="checkbox"/> Creative
-                             <span className="label label-success pull-right"> ()</span>
-                        </li>
-                        <li className="list-group-item"><input type="checkbox"/> Edifier
-                             <span className="label label-success pull-right"> ()</span>
-                        </li>
-                        <li className="list-group-item"><input type="checkbox"/> EVGA
-                             <span className="label label-success pull-right"> ()</span>
-                        </li>
-                        <li className="list-group-item"><input type="checkbox"/> Microsoft
-                             <span className="label label-success pull-right"> ()</span>
-                        </li>
+                    {
+                        this.state.filterArrType.map((prod, index) =>
+                        <ProductsFilter
+                            key={index} category={"type"} filter={prod} filterCategories={this.filterCategoriesBrand.bind(this)} ref={this.state.callRefBrand}
+                        />)
+                    }
                     </ul>
 
                 </div>
@@ -247,39 +430,39 @@ export default class Products extends Component {
                 <br/>
 
                 <div>
-                    <a href="#" className="list-group-item active">Ratings</a>
+                    <span className="list-group-item active">Ratings</span>
                     <ul className="list-group">
-                        <li className="list-group-item"><input type="checkbox"/> {ratingStars(0)}
+                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterRating(0)}/> {ratingStars(0)}
                             <span className="label label-warning pull-right"> ()</span>
                         </li>
-                        <li className="list-group-item"><input type="checkbox"/> {ratingStars(0.5)}
+                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterRating(0.5)}/> {ratingStars(0.5)}
                             <span className="label label-success pull-right"> ()</span>
                         </li>
-                        <li className="list-group-item"><input type="checkbox"/> {ratingStars(1.0)}
+                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterRating(1.0)}/> {ratingStars(1.0)}
                             <span className="label label-success pull-right"> ()</span>
                         </li>
-                        <li className="list-group-item"><input type="checkbox"/> {ratingStars(1.5)}
+                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterRating(1.5)}/> {ratingStars(1.5)}
                             <span className="label label-success pull-right"> ()</span>
                         </li>
-                        <li className="list-group-item"><input type="checkbox"/> {ratingStars(2.0)}
+                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterRating(2.0)}/> {ratingStars(2.0)}
                             <span className="label label-success pull-right"> ()</span>
                         </li>
-                        <li className="list-group-item"><input type="checkbox"/> {ratingStars(2.5)}
+                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterRating(2.5)}/> {ratingStars(2.5)}
                             <span className="label label-success pull-right"> ()</span>
                         </li>
-                        <li className="list-group-item"><input type="checkbox"/> {ratingStars(3.0)}
+                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterRating(3.0)}/> {ratingStars(3.0)}
                             <span className="label label-success pull-right"> ()</span>
                         </li>
-                        <li className="list-group-item"><input type="checkbox"/> {ratingStars(3.5)}
+                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterRating(3.5)}/> {ratingStars(3.5)}
                             <span className="label label-success pull-right"> ()</span>
                         </li>
-                        <li className="list-group-item"><input type="checkbox"/> {ratingStars(4.0)}
+                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterRating(4.0)}/> {ratingStars(4.0)}
                             <span className="label label-success pull-right"> ()</span>
                         </li>
-                        <li className="list-group-item"><input type="checkbox"/> {ratingStars(4.5)}
+                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterRating(4.5)}/> {ratingStars(4.5)}
                             <span className="label label-success pull-right"> ()</span>
                         </li>
-                        <li className="list-group-item"><input type="checkbox"/> {ratingStars(5.0)}
+                        <li className="list-group-item"><input type="checkbox" onChange={(e) => this.filterRating(5.0)}/> {ratingStars(5.0)}
                             <span className="label label-success pull-right"> ()</span>
                         </li>
                     </ul>
@@ -289,13 +472,10 @@ export default class Products extends Component {
                 <br/>
 
                 <div>
-                    <a href="#" className="list-group-item active">Stock</a>
+                    <span className="list-group-item active">Stock</span>
                     <ul className="list-group">
-                        <li className="list-group-item"><input type="checkbox"/> In Stock
+                        <li className="list-group-item"><input type="checkbox" onChange={() => this.filterStock()}/> In Stock
                             <span className="label label-warning pull-right"> ()</span>
-                        </li>
-                        <li className="list-group-item"><input type="checkbox"/> Out of Stock
-                            <span className="label label-success pull-right"> ()</span>
                         </li>
                     </ul>
 
@@ -304,13 +484,10 @@ export default class Products extends Component {
                 <br/>
 
                 <div>
-                    <a href="#" className="list-group-item active">On Sale</a>
+                    <span className="list-group-item active">On Sale</span>
                     <ul className="list-group">
-                        <li className="list-group-item"><input type="checkbox"/> Yes
+                        <li className="list-group-item"><input type="checkbox" onChange={() => this.filterSale()}/> Yes
                             <span className="label label-warning pull-right"> ()</span>
-                        </li>
-                        <li className="list-group-item"><input type="checkbox"/> No
-                            <span className="label label-success pull-right"> ()</span>
                         </li>
                     </ul>
 
@@ -319,7 +496,7 @@ export default class Products extends Component {
                 <br/>
 
                 <div>
-                    <a href="#" className="list-group-item active btn-danger text-center font-weight-bold" style={{borderRadius: "15px"}}>Reset</a>
+                    <a className="list-group-item active btn-danger text-center font-weight-bold" style={{borderRadius: "15px", cursor: "pointer", textDecoration: "none"}}>Reset</a>
                 </div>
 
                 <br/><br/><br/>
@@ -351,11 +528,11 @@ export default class Products extends Component {
                 <br/>
                 <div className="row">
 
-                    {
-                        this.state.displayArr.map((prod, index) =>
-                        <ProductsList 
-                            key={index} img={prod.img[0]} alt={prod.alt} title={prod.title} price={prod.price} rating={prod.rating} stock={prod.stock} discount={prod.discount} discountPercentage={prod.discountPercentage}
-                        />)
+                    {   this.state.displayArrLen <= 0 ? <div className="col-md-4 text-center col-sm-6 col-xs-6 font-weight-bold">No Products</div> :
+                            this.state.displayArr.map((prod, index) =>
+                            <ProductsList 
+                                key={index} img={prod.img[0]} name={prod.name} title={prod.title} subtitle={prod.subtitle} price={prod.price} rating={prod.rating} stock={prod.stock} discount={prod.discount} discountPercentage={prod.discountPercentage}
+                            />)
                     }
         
                 </div>
