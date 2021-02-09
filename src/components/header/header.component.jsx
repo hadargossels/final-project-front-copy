@@ -9,12 +9,14 @@ import "./header.styles.scss";
 
 import { ReactComponent as Logo } from "../../assets/pug.svg";
 import SearchBar from "../search-bar/search-bar.component";
+import CartIcon from "../cart-icon/cart-icon.component";
+import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 
 const activeStyle = {
   color: "#f7a116",
 };
 
-const Header = ({ currentUser }) => (
+const Header = ({ currentUser, hidden }) => (
   <div className="header">
     <NavLink className="logo-container" to="/">
       <Logo className="logo" />
@@ -58,16 +60,18 @@ const Header = ({ currentUser }) => (
           SIGN IN
         </NavLink>
       )}
-
-      <NavLink className="option" activeStyle={activeStyle} to="/shop">
-        <i className="fa fa-cart-plus mr-2"></i>{" "}
-      </NavLink>
+      <CartIcon />
     </div>
+    {hidden ? null : <CartDropdown />}
   </div>
 );
 
-const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser,
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+  currentUser,
+  hidden,
 });
+
+// currentUser: state.user.currentUser,
+// hidden : state.cart.hidden,
 
 export default connect(mapStateToProps)(Header);

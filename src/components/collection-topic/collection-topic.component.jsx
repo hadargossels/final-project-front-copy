@@ -11,10 +11,12 @@ const CollectionTopic = ({ imageUrl, title, items, searchData }) => {
       <div className="topic-display">
         {!searchData
           ? items.map(({ ...otherItemProps }) => {
-              console.log(
+              {
+                /* console.log(
                 "...otherItemProps :",
                 { ...otherItemProps }.imageUrl
-              );
+              ); */
+              }
               {
                 var imglink = { ...otherItemProps }.imageUrl;
               }
