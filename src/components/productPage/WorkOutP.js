@@ -42,6 +42,12 @@ class WorkOutP extends Component{
                     this.state.jsonPlace.push(Number(i.jsonPlace));
                 }
             }
+            if (this.state.name.length===0){
+                this.props.searchHead("No matches found");
+            }
+            else {
+                this.props.searchHead(this.props.search);
+            }
         }
         else{
             for (const i of this.myJson) {
@@ -51,6 +57,7 @@ class WorkOutP extends Component{
                 this.state.urlImg.push(i.urlImg[0]);
                 this.state.jsonPlace.push(Number(i.jsonPlace));
             }
+            this.props.searchHead(this.props.search+ " product");
         }
     }
 
