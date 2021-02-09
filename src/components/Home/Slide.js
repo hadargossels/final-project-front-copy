@@ -58,7 +58,7 @@ console.log(arr)
         >
           <div className="carousel-inner">
             <div className="carousel-item   active">
-                <div style={{display:'flex',justifyContent:'center'}}>
+                <div className="d-flex justify-content-center">
                 {this.counterItems(0)}
                 </div>
             </div>

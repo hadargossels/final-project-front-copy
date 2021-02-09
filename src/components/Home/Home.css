@@ -25,6 +25,10 @@
     background-size: cover;
     text-align: center;
 }
+.spantext:hover{
+   
+   color: rgb(218, 213, 213);
+}
 .spantext{
     position: absolute;
     top: 50%;
@@ -40,6 +44,7 @@
 }
 .slideImg{
     height: 30rem;
+   
 }
 .pageSlide{
    padding: 0 50px;
@@ -50,9 +55,11 @@
 }
 .slideA:nth-child(2){
 transform: translateX(-40%);
+width: 5%;
 }
 .slideA:last-child{
 transform: translateX(40%);
+width: 5%;
 }
 .titleH2{
     margin-bottom: 1rem;

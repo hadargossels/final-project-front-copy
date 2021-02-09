@@ -6,6 +6,7 @@
     height: 360px;
     text-align: center;
     padding: 10px;
+   
 }
 .img{
     width: 200px;
@@ -13,10 +14,10 @@
 }
 .card-title{
     width: 200px;
-    height: 35px;
-    font-size: 17px;
+    height: 20px;
+    font-size: 1rem;
     text-align: center;
-    margin-bottom: 20px;
+ 
 
 }
 .stars{
@@ -46,20 +47,21 @@
 }
 .pagesNum{
     text-align: center;
-    margin: 0 auto;
+    margin: 2rem auto;
     width: 300px;
+    position: absolute;
 }
 .greystars{
     color: rgb(161, 159, 159);
 }
 .imgsubca{
-    width: 4rem;
+    width: 3rem;
     position: absolute;
     z-index: 2;
 }
 .imgproduct{
     position:relative;
-    width: 10rem;
+    width: 9rem;
 }
 .shekel{
     font-size: 0.6rem;
@@ -84,4 +86,15 @@
 .titlequick{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     
+}
+.Quickview{
+    width: 3rem;
+    height: 3rem;
+    text-align: center;
+   position:absolute;
+   right: 1rem;
+   top:8rem;
+}
+.storeItems{
+    margin-top: 4rem;
 }

@@ -14,7 +14,7 @@ export default class Items extends Component {
     };
   }
 
-  openProduct() {
+  openProduct=()=> {
     window.location.reload(false);
   }
   sales(){
@@ -64,7 +64,7 @@ export default class Items extends Component {
           </Link>
           <div className="card-body">
             <h5 className="card-title">{this.props.name}</h5>
-            <button type="button" class="btn btn-primary Quickview" data-bs-toggle="modal" data-bs-target={`#exampleModal${this.props.id}`}><i class="fas fa-search"></i></button>
+            <button type="button" class="btn btn Quickview" data-bs-toggle="modal" data-bs-target={`#exampleModal${this.props.id}`}><i class="fas fa-search"></i></button>
             <div class="modal fade hidePrevented.bs.modal" id={`exampleModal${this.props.id}`} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -80,7 +80,7 @@ export default class Items extends Component {
                                     <div className="price">{this.props.price}<i className="fas fa-shekel-sign shekel"></i><br/>
                                     {this.sales()}                                    
                                     </div>
-                                    <Link to={`/product/${this.props.name}`} openProduct={this.openProduct} type="button" class="btn btn-secondary" >Shop Now</Link>
+                                    {/* <Link to={`/product/${this.props.name}`} openProduct={this.openProduct} type="button" class="btn btn-secondary" >Shop Now</Link> */}
                                    
                                 </div>
                                 <div className="col">

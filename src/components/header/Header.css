@@ -35,6 +35,7 @@
      
      .icons{
         text-align: center;
-        display: inline !important ;
+        position: relative;
+        
      }
 }

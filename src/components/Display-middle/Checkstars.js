@@ -20,6 +20,7 @@ export default class Checkstars extends Component {
   clear=()=>{
       this.setState({checkbox:[]})
       this.props.filterStars([])
+      this.props.no()
   }
 
   render() {

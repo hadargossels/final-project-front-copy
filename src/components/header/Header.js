@@ -92,8 +92,10 @@ export default class Header extends Component {
             </ul>
             <form className="d-flex shop" action="/store/">
               <input
-              
-                  name="q"
+                title="only letters a-z A–Z"
+                required="required"
+                pattern="[a-z A-Z]{1,}"
+                name="q"
                 className="form-control me-2"
                 type="search"
                 placeholder="Search"
@@ -103,8 +105,9 @@ export default class Header extends Component {
                 Search
               </button>
             </form>
-            <ul className="navbar-nav mr-auto icons">
-              <li>
+            {/* <ul className="navbar-nav mr-auto icons"> */}
+              {/* <li> */}
+                <div className="icons">
                 <button
                   type="button"
                   className="btn signinBtn"
@@ -193,18 +196,19 @@ export default class Header extends Component {
                 </div>
 
             
-              </li>
-              <li>
+              {/* </li> */}
+              {/* <li> */}
                 <Link to="/signup" className="navbar-brand" alt="Sign up">
                   <i className="fas fa-user-plus"></i>
                 </Link>
-              </li>
-              <li>
+              {/* </li> */}
+              {/* <li> */}
                 <Link to='/cart' className="navbar-brand" href="#">
                   <i className="fas fa-shopping-cart"></i>
                 </Link>
-              </li>
-            </ul>
+              {/* </li> */}
+            {/* </ul> */}
+            </div>
           </div>
         </div>
       </nav>

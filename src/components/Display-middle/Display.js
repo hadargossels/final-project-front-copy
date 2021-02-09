@@ -18,7 +18,7 @@ export default class Display extends Component {
       origItem:data ,
       ItemsDet: data,
       searchValue:queryString.parse(props.location.search),
-      display:"none"
+      noResult:''
       
     };
     this.filterStars = this.filterStars.bind(this);
@@ -84,12 +84,14 @@ export default class Display extends Component {
 
   updateSearch(){
     let searchValueInput=this.state.searchValue.q
+    this.setState({noResult:''})
     if(searchValueInput){
       let searchInput=[]
       searchInput=[...this.state.origItem].filter(item=>{
        return item.name.toLowerCase().includes(searchValueInput.toLowerCase())
       })
           this.setState({ItemsDet:searchInput})
+          if(searchInput.length===0) this.setState({noResult:"No Result"})
           // if(!this.state.ItemsDet) this.setState({display:"inline"})
           // else this.setState({display:"none"})
          
@@ -105,11 +107,12 @@ export default class Display extends Component {
       this.setState({ItemsDet:searchCategory})
   }
 }
+no=()=>{
+  this.setState({noResult:''})
+}
   render() {
     
-  //  console.log("inRender",this.updateSearch())
-  //  let a=this.updateSearch()
-  //  this.setState({ItemsDet:a})
+  
     return (
 
       
@@ -125,6 +128,7 @@ export default class Display extends Component {
                   <Checkstars
                     filterStars={this.filterStars}
                     selectStars={this.selectStars}
+                    no={this.no}
                   />
                 </div>
                 <div className="row mb-4">
@@ -134,9 +138,10 @@ export default class Display extends Component {
             </div>
             <div className="col-12 col-sm-12 col-md-8 col-lg-10">
 
-              <div id="noresult" style={{display:this.state.display}}>No results found</div>
-              
-              <div className="row">{this.update()}</div>
+              {/* <div id="noresult" >{this.state.noResult}</div> */}
+              {this.state.noResult && <p className="no-matching display-4 justify-content-center">{this.state.noResult}</p>}
+
+              <div className="row storeItems">{this.update()}</div>
               <div className="row pagesNum">
                 <nav aria-label="Page navigation example">
                   <ul className="pagination">

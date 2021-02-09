@@ -15,7 +15,7 @@ import Signup from './components/Signup/Signup';
 import Product from './components/Product/Product';
 import Home from './components/Home/Home';
 import Cart from './components/Cart/Cart';
-
+import "bootstrap/dist/css/bootstrap.css";
 
 const routing = (
   <Router>  

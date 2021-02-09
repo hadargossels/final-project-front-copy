@@ -43,6 +43,7 @@ export default class Product extends Component {
   }
   render() {
     // window.location.reload();
+   
     let nameP = this.props.match.params;
     
     let currentItem = this.state.origItem.filter(
@@ -121,8 +122,8 @@ export default class Product extends Component {
                     {currentItem.price}
                     <i className="fas fa-shekel-sign"></i>
                   </span>
-                  &emsp;
-                  <button className="col btn btn-success" type="button">
+                  &emsp;<br/>
+                  <button className="col btn btn-success btnProduct" type="button">
                     <i className="fas fa-cart-plus"></i>&thinsp;Add to cart
                   </button>
                 </div>
