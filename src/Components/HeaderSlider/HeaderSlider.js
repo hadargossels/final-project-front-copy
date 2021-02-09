@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Swiper from 'swiper';
 import 'swiper/swiper-bundle.min.css';
 import './HeaderSlider.css';
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class HeaderSlider extends Component {
   constructor() {
