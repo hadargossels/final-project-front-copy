@@ -56,44 +56,44 @@
 
 
 /* ////////////////////////////////////    checkbox button    ///////////////////////////////////////// */
-.btn-group{
+.sortBar .btn-group{
     direction: ltr;
     margin-bottom: 10px !important;
 }
-.btn-primary{
+.sortBar .btn-primary{
     background-color:  rgb(250,156,184) !important;
     border: rgb(243, 146, 227) !important;
     text-align: center;
     justify-content: center;
     
 }
-.btn-group label{
+.sortBar .btn-group label{
     padding: 3px 25px !important;
 }
-.form-group input[type="checkbox"] {
+.sortBar .form-group input[type="checkbox"] {
     display: none;
 }
-.btn-default{
+.sortBar .btn-default{
     background-color: white;
     font-size: 16px !important;
 
 }
 
-.form-group input[type="checkbox"] + .btn-group > label span {
+.sortBar .form-group input[type="checkbox"] + .btn-group > label span {
     width: 5px;
 }
 
-.form-group input[type="checkbox"] + .btn-group > label span:first-child {
+.sortBar .form-group input[type="checkbox"] + .btn-group > label span:first-child {
     display: none;
 }
-.form-group input[type="checkbox"] + .btn-group > label span:last-child {
+.sortBar .form-group input[type="checkbox"] + .btn-group > label span:last-child {
     display: inline-block;   
 }
 
-.form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+.sortBar .form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
     display: inline-block;
 }
-.form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+.sortBar .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
     display: none;   
 }
 /* ////////////////////////////////////     price   ///////////////////////////////////////// */

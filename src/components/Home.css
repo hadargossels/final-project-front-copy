@@ -4,22 +4,44 @@
 
     max-width: 1200px;
     margin: auto ;
-    margin-top: 200px;
+    margin-top: 120px;
     margin-bottom: 150px;
     min-height: 40vh;
-    position: relative;
     align-items: center;
     justify-content: center;
 
 }
-h1{
+.myRow{
 
-    position: absolute;
-    top: 50px;
-    font-size: 2vmax;
-    background-color: rgb(250,228,241);
-    padding: 20px;
-    text-align: center;
-    border:  rgb(240, 0, 228) solid 5px;
-    border-radius: 10px;
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.textOnMe{
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    flex: 45%;
+    padding: 40px;
+    text-align: right;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+.myImage{
+
+    flex: 30%;
+    height: auto;
+    border-top-right-radius: 20px;
+    background-image: url(/src/shirley.jpeg);
+    border-bottom-right-radius: 20px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.mySlider{
+    
+    display: flex;
+    flex-direction: row;
+
 }
