@@ -26,24 +26,39 @@ class Header extends Component{
         this.setState({numOfItems : ((Number(localStorage.getItem('totalItems')))?Number(localStorage.getItem('totalItems')):0)})
     }
 
-    // cartQuick(bol){
-    //     if(bol){
-    //         const lSArr =localStorage.getItem('cart')?JSON.parse(localStorage.getItem('cart')):null;
-    //         const numOf = (window.localStorage.getItem('numOf'))?JSON.parse(window.localStorage.getItem('numOf')):[],
-
-    //         if(lSArr){
-    //             const temp = [];
-
-    //             this.setState({qvc : temp})
-    //         }
-    //         else{
-    //             this.setState({qvc : <h1 className="text-white">Your cart is empty</h1>})
-    //         }
-    //     }
-    //     else{
-    //         this.setState({qvc : ""})
-    //     }
-    //     }
+    cartQuick(bol){
+        if(bol){
+            const lSArr =localStorage.getItem('cart')?JSON.parse(localStorage.getItem('cart')):null;
+            const numOf = (window.localStorage.getItem('numOf'))?JSON.parse(window.localStorage.getItem('numOf')):[];
+            if(lSArr){
+                console.log(lSArr);
+                const temp = [];
+                for(let i=0; i<lSArr.length; i++){
+                    if(lSArr[i]!==null){
+                        temp.push(
+                            <div>
+                                <div className="d-flex" key={i}>
+                                    <img className="p-3" src={lSArr[i].urlImg[0]} height="100px" width="100px"></img>
+                                    <div className="text-center">
+                                        <h5 className="mt-4">{lSArr[i].name}</h5>
+                                        <span className="m-2">{`quantity:${numOf[i]}  price:${lSArr[i].price*numOf[i]}$`}</span>
+                                    </div>
+                                </div>
+                                {(i!==lSArr.length-1)?<hr/>:""}
+                            </div>
+                        )
+                    }
+                }
+                this.setState({qvc : temp})
+            }
+            else{
+                this.setState({qvc : <h1 className="text-white">Your cart is empty</h1>})
+            }
+        }
+        else{
+            this.setState({qvc : ""})
+        }
+        }
 
    render(){
     // setInterval(()=>this.changeNumOfItems(),500);
@@ -74,9 +89,11 @@ class Header extends Component{
                     <h3 className="text-white" style={{position:'relative',left:'-45%'}}>Experis-Sports</h3>
                 </div>
             </nav>
-            <ListItemLink to="/shopingchart/mycart" name={<div><span id="myBag" className="fs-5 m-1 text-danger">{((Number(localStorage.getItem('totalItems')))?Number(localStorage.getItem('totalItems')):0)}</span><i className="fas fa-shopping-bag fs-4"></i></div>}/> 
+            <ListItemLink to="/shopingchart/mycart" name={<div onMouseEnter={()=>this.cartQuick(true)} onMouseLeave={()=>this.cartQuick(false)}><span id="myBag" className="fs-5 m-1 text-danger">{((Number(localStorage.getItem('totalItems')))?Number(localStorage.getItem('totalItems')):0)}</span><i className="fas fa-shopping-bag fs-4"></i></div>}/> 
           </div>
-              {this.state.qvc} 
+          <div id="cartQuick">
+            {this.state.qvc}
+          </div> 
           </div>
       );
    }
