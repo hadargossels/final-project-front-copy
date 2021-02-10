@@ -3,13 +3,40 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import {ProductConsumer} from '../context';
 import PropTypes from 'prop-types'
+import RatingStars from './RatingStars'
+
 import './product.css';
+function setSale(p,s){
+
+            const setS = {
+                1: <div style={{color:"red",fontSize:"20px"}}>Sale {p}</div>,
+            }       
+    if(s){
+        return (setS[1]);
+    }
+   return;
+}
+function setPrice(p,s){
+
+            const setP = {
+                1: <span style={{textDecorationLine: 'line-through'}}>{(p/0.8).toFixed(2)}</span>,
+                2: <span >{p}</span>
+            }       
+
+    if(s){
+        return (setP[1]);
+    }
+    else{
+
+        return setP[2];
+    }
+}
+
 
 export default class Product extends Component {
+    
     render() {
-        const {id, title, img, price, inCart} =this.props.product;
-      
-        //console.log( img)
+        const {id, title, img, price, inCart,rating,sale} =this.props.product;
         return (
             <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
                 <div className="card">
@@ -33,28 +60,28 @@ export default class Product extends Component {
                     </button>
                     </div>)}
                     
-
                     </ProductConsumer>
 
                     {/* card Footer */}
-                    <div className="card-footer d-flex justify-content-between">
+                    <div className="card-footer d-flex justify-content-between ">
                         
                             
                         
-                           <p className="align-self-center mb-0">
+                           <p className="align-self-center mb-0" style={{fontSize:"20px"}}>
                                 {title}
-
-                                    <div className="rating">
-                                    <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-
-                                    </div>
-
-                              
-
+                                <div>
+                                {RatingStars(rating)}
+                                </div>
+                               
                            </p>
                             <h5 className="text-blue font-italic mb-0">
+                            
                                 <span className="mr-1">$</span>
-                                {price}
+                                {/* {price} */}
+                                 { setPrice(price,sale)}
+                                { setSale(price,sale)} 
+                                
+                                
                             </h5>         
                     </div>
                 </div>

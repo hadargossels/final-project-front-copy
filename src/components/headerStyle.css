@@ -6,7 +6,7 @@
 
 }
 
-.btn {		
+.btn-animation {		
 	 position: relative;	
 	/* padding: 1.4rem 4.2rem;
 	padding-right: 3.1rem; */
@@ -21,23 +21,23 @@
 	margin-right: 10%;
 }
 
-.btn:before, .btn:after {
+.btn-animation:before, .btn-animation:after {
 	content: '';
 	position: absolute;	
 	transition: inherit;
 	z-index: -1;
 }
 
-.btn:hover {
+.btn-animation:hover {
 	color: var(--def);
 	transition-delay: .5s;
 }
 
-.btn:hover:before {
+.btn-animation:hover:before {
 	transition-delay: 0s;
 }
 
-.btn:hover:after {
+.btn-animation:hover:after {
 	background: var(--inv);
 	transition-delay: .35s;
 }
@@ -240,4 +240,8 @@ body {
 		font-size: auto;
 	}
  
+}
+.clock{
+	margin-top: 7px;
+	font-size: 20px;
 }

@@ -1,3 +1,4 @@
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 import React, { Component } from 'react'
 import {storeProducts, detailProduct} from './data'
 const ProductContext = React.createContext();
@@ -26,7 +27,7 @@ class ProductProvider extends Component {
         this.state = {
             products:storeProducts,
             origProducts:storeProducts,
-            filtersArray : [{isEnabled:false, type:"helmet"}, {isEnabled:false, type:"bike"},{isEnabled:false, type:"cub"},{isEnabled:false, type:"scooter"}],
+            filtersArray : [{isEnabled:false, type:"helmet"}, {isEnabled:false, type:"bike"},{isEnabled:false, type:"cub"},{isEnabled:false, type:"scooter"},{isEnabled:false, type:"sale"}],
             detailProduct:detailProduct,
             cart: cart,
             modalOpen:false,
@@ -45,7 +46,6 @@ class ProductProvider extends Component {
             rows:10
             
         };
-        
       }
 
       areAnyFilterEnable = (filterArr) =>{
@@ -66,7 +66,9 @@ class ProductProvider extends Component {
         }
 
         filterArr.map((filterItem)=> {
-             if (filterItem.isEnabled&& filterItem.type == item.type){
+            if(filterItem.isEnabled&&filterItem.type == 'sale' && item.sale)
+                found = true;
+             if (filterItem.isEnabled&& filterItem.type == item.type ){
                 found = true;
              }
         })
@@ -74,15 +76,16 @@ class ProductProvider extends Component {
         return found;
       }
 
+     
+
       setFilter = (filterName) => {
-
         let arr = [...this.state.filtersArray];
-
-        for(let i=0; i< arr.length;i++){
-            if(arr[i].type == filterName) {
-                arr[i].isEnabled = !arr[i].isEnabled;
+        
+        arr.forEach(item => {console.log(item.sale)
+            if(item.type == filterName || item.type==filterName) {
+                item.isEnabled = !item.isEnabled;
             }
-        }        
+        });
            this.setState(
                {
                    filtersArray:arr, 
@@ -96,6 +99,7 @@ class ProductProvider extends Component {
     }
 
     componentDidMount(){
+        this.updatePrice();
         this.setProducts();
     }
     setProducts = () => {
@@ -220,20 +224,98 @@ class ProductProvider extends Component {
     };
 
     getProducts = (search)=> {
+        const temp =[];
+         
         return this.state.products.filter((item)=>{
             return item.title.toLowerCase().indexOf(search.toLowerCase())!= -1;
         });
+       
+        
     }
     getHomepageProducts = ()=> {
-        
+        this.state.products = [...this.state.origProducts];
         return this.state.products.filter((item)=>{
             return item.sale;
         });
     }
     
     
-    
-    
+   setPriceFilter = (rangePrice) => { //does not work (slider)
+
+        this.state.products = [...this.state.origProducts];
+        return this.state.products.filter((item)=>{
+            if(rangePrice[0]<item.price && rangePrice[1]>item.price) {
+                        return item;
+                    }
+        });
+      
+    }
+    priceHighToLow = (highOrLow) =>{
+        let newArr = this.state.products;
+
+        newArr  = newArr.sort((a,b) => {
+
+            let priceA = a.price;
+            let priceB = b.price;
+
+            // if (a.discount)
+            //     priceA = a.price*(1-a.discountPercentage);
+            
+            // if (b.discount)
+            //     priceB = b.price*(1-b.discountPercentage);
+            if(highOrLow ==='high')
+                return (priceA < priceB) ? 1 : ((priceB < priceA) ? -1 : 0)
+            else{
+                return (priceA > priceB) ? 1 : ((priceB > priceA) ? -1 : 0)
+
+            }
+
+        });
+
+        this.setState({products: newArr});
+
+      }
+
+
+      saleSort = () =>{
+        let newArr = [...this.state.products];
+
+        newArr = this.state.products.filter((item)=>{
+            return item.sale;
+        })
+        this.setState({products: newArr});
+
+      }
+
+      ratingSort = () =>{
+        let newArr = [...this.state.products];
+        let tempArr =[];
+       
+        newArr  = newArr.sort((a,b) => {
+
+            let ratingA = a.rating;
+            let ratingB = b.rating;
+
+            // if (a.discount)
+            //     priceA = a.price*(1-a.discountPercentage);
+            
+            // if (b.discount)
+            //     priceB = b.price*(1-b.discountPercentage);
+                return (ratingA < ratingB) ? 1 : ((ratingB < ratingA) ? -1 : 0)
+                
+      });
+        this.setState({products: newArr});
+    }
+
+
+    updatePrice =  () => {
+        let newArr = [...this.state.products];
+        for(let i=0;i<newArr.length;i++){
+            if(newArr[i].sale)
+                newArr[i].price = newArr[i].price- (newArr[i].price*0.2).toFixed(2);
+        }
+        this.setState({products:newArr})
+    }
     //  setBoardItemsFunction =() =>  {
     //                 let list = []
     //                 for(var i=pageNum1*10;i<(pageNum1+1)*10;i++) {
@@ -361,7 +443,13 @@ class ProductProvider extends Component {
                clearCart:this.clearCart,
                setFilter:this.setFilter,
                getProducts: this.getProducts,
-               getHomepageProducts:this.getHomepageProducts
+               getHomepageProducts:this.getHomepageProducts,
+               setPriceFilter:this.setPriceFilter,
+               priceHighToLow:this.priceHighToLow,
+               saleSort:this.saleSort,
+               ratingSort:this.ratingSort,
+               updatePrice:this.updatePrice,
+               setValue:this.setValue
             }}>
                 {this.props.children}
             </ProductContext.Provider>

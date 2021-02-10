@@ -1,6 +1,7 @@
-import React from 'react'
+import React,{useState} from 'react'
 
 export default function CartColumns() {
+    console.log(useState);
     return (
         <div className="container-fluid text-center d-none d-lg-block">
             <div className="row">

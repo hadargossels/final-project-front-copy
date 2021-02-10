@@ -8,27 +8,23 @@ const sideDrawer = props => {
         drawerClasses = ["side-drawer", "open"];
       }
 
-      function searchRefDrawer(){
-        console.log(callRef.current)
-
-      callRef.current.focus();
-        const node =this.callRef.current.value;
-      //  console.log(node);
-      //  window.location.href = "/" + node;
+      let searchRefDrawer=()=>{
+        const node = callRef.current.value;
+        window.location.href = "/search?q=" + node;
 
     }
   return (
     <nav className={drawerClasses.join(" ")}>
        
       <ul>
-                        <div className="input-group" >
-                            <input ref={callRef} type="text" className="form-control" placeholder="Search"/>
-                            <div className="input-group-append">
-                            <button className="btn btn-secondary" type="button" onClick={searchRefDrawer} style={{height:'100%'}}>
-                                <i className="fa fa-search"></i>
-                            </button>
-                            </div>
-                        </div>
+          <li className="input-group" >
+            <input ref={callRef} type="text" className="form-control" placeholder="Search"/>
+            <div className="input-group-append">
+              <button className="btn btn-secondary" type="button" onClick={searchRefDrawer} style={{height:'100%'}}>
+                <i className="fa fa-search"></i>
+              </button>
+            </div>
+          </li>
         <li>
           <a href="/login">Login</a>
         </li>

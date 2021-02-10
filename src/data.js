@@ -62,7 +62,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 3 
+      rating: 3 
     },
     {
       id: 2,
@@ -121,7 +121,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 2 
+      rating: 2 
     },
     {
       id: 3,
@@ -180,7 +180,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 4 
+      rating: 4 
     },
     {
       id: 4,
@@ -240,7 +240,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 5 
+      rating: 5 
 
     },
     {
@@ -300,7 +300,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 4 
+      rating: 4 
     },
     {
       id: 6,
@@ -359,7 +359,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 1 
+      rating: 1 
     },
     {
       id: 7,
@@ -418,7 +418,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 5 
+      rating: 5 
     },
     {
       id: 8,
@@ -477,7 +477,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 2 
+      rating: 2 
     },
     {
       
@@ -537,7 +537,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 4 
+      rating: 4 
     },
     {
       
@@ -597,7 +597,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 4 
+      rating: 4 
      } ,
       //scooters
     {
@@ -657,7 +657,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 3 
+      rating: 3 
     } ,
     {
       id: 12,
@@ -716,7 +716,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 3 
+      rating: 3 
     }  ,
     {
       id: 13,
@@ -775,7 +775,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 5 
+      rating: 5 
       }  ,
     {
       id: 14,
@@ -834,7 +834,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 2 
+      rating: 2 
       }  ,
       {
       id: 15,
@@ -893,7 +893,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 5 
+      rating: 5 
       },
       {
       id: 16,
@@ -952,7 +952,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 1 
+      rating: 1 
       },
       {
       id: 17,
@@ -1011,7 +1011,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 3 
+      rating: 3 
       },
       {
       id: 18,
@@ -1070,7 +1070,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 4 
+      rating: 4 
       },
       {
       id: 19,
@@ -1129,7 +1129,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 5 
+      rating: 5 
       },
       {
       id: 20,
@@ -1188,7 +1188,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 3 
+      rating: 3 
       },
       {
       id: 21,
@@ -1247,7 +1247,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 4 
+      rating: 4 
       },
       {
       id: 22,
@@ -1306,7 +1306,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 2 
+      rating: 2 
       },
       {
       id: 23,
@@ -1365,7 +1365,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 4 
+      rating: 4 
       },
       {
       id: 24,
@@ -1424,7 +1424,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 5 
+      rating: 5 
       },
       {
       id: 25,
@@ -1483,7 +1483,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 3 
+      rating: 3 
       },
       {
       id: 26,
@@ -1542,7 +1542,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 5
+      rating: 5
       },
       {
       id: 27,
@@ -1601,7 +1601,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 4 
+      rating: 4 
       },
       {
       id: 28,
@@ -1660,7 +1660,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 2 
+      rating: 2 
       },
       {
       id: 29,
@@ -1719,7 +1719,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 3 
+      rating: 3 
       },
       {
       id: 30,
@@ -1778,7 +1778,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 4 
+      rating: 4 
       },
       {
       id: 31,
@@ -1837,7 +1837,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 5 
+      rating: 5 
       },
       {
       id: 32,
@@ -1896,7 +1896,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 3 
+      rating: 3 
 
       //cub
       },
@@ -1957,7 +1957,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 1 
+      rating: 1 
       },
       {
       id: 34,
@@ -2016,7 +2016,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 4 
+      rating: 4 
       },
       {
       id: 35,
@@ -2075,7 +2075,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:true,
-      ratirng: 2 
+      rating: 2 
       },
       {
       id: 36,
@@ -2196,7 +2196,7 @@ export const storeProducts = [
       count: 0,
       total: 0,
       sale:false,
-      ratirng: 4 
+      rating: 4 
     }
     
     

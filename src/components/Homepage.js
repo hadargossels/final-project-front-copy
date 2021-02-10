@@ -11,8 +11,8 @@ export default class Homepage extends Component {
         return (
             <React.Fragment>
             <ProductConsumer>
-                {value=>{
-                    return <React.Fragment>
+                {value=>{ 
+                    return (<React.Fragment>
                         <div className="py-5">
                         <Title name="home" title="page"  />
                             <div className="container">
@@ -24,31 +24,25 @@ export default class Homepage extends Component {
                                       
                                         <Carousel.Item onClick={()=>
                                             value.handleDetail(product.id)}>
-                                        <div className="container text-center" >
-                             <Link to={'/details/' +product.id}>
-                                         <img src={product.img} alt="First slide" width="500px" height="500px"/>
-                                         
-                      
-                        </Link> 
-                                      {/*  <button onClick={
-                                            value.openModal(product.id)}></button> */}
-                                        <Carousel.Caption>
-                                          
-                                        <h3 className="text-uppercase font-weight-bold sale-carousel">sale</h3>
-
-                                        <p className="p-carousel">Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                                        </Carousel.Caption>
-                                        </div>
+                                            <div className="container text-center" >
+                                                <Link to={'/details/' +product.id}>
+                                                    <img src={product.img} alt="First slide" width="500px" height="500px"/>
+                                                </Link> 
+                                        {/*  <button onClick={
+                                                value.openModal(product.id)}></button> */}
+                                                <Carousel.Caption>  
+                                                    <h3 className="text-uppercase font-weight-bold sale-carousel">sale</h3>
+                                                    <p className="p-carousel">Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                                                </Carousel.Caption>
+                                            </div>
                                         </Carousel.Item>
                                     )} 
                                     </Carousel>
-
-                            </div>
-                           
+                            </div>                          
                         </div>
-                    </div>                                
+                    </div>                               
                         
-                        </React.Fragment>
+                    </React.Fragment>) 
                     }}
             </ProductConsumer>
             
