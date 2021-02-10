@@ -1,3 +1,4 @@
+import React, { Component } from 'react'
 import Routes from './components/routing/Routes'
 import {BrowserRouter as Router} from 'react-router-dom'
 
@@ -5,15 +6,15 @@ import {BrowserRouter as Router} from 'react-router-dom'
 import Footer from './components/Footer'
 import Header from './components/Header'
 
+export default class App extends Component {
 
-function App() {
-  return (
+  render() {
+    return (
       <Router>
             <Header/>
             <Routes/>
             <Footer/>
       </Router>
-  );
+    )
+  }
 }
-
-export default App;

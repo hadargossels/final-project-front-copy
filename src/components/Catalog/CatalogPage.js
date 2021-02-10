@@ -3,7 +3,6 @@ import Catalog from './Catalog';
 import './CatalogPage.css'
 import {objectsArr} from '../Product/data'
 import queryString from 'query-string'
-import PropTypes from 'prop-types'
 
 export default class CatalogPage extends Component {
     constructor(props){
@@ -15,7 +14,8 @@ export default class CatalogPage extends Component {
     render() {
         let objCatalog = [...objectsArr]
         let toSearch = (this.searchVal.q)
-        if (toSearch && typeof(toSearch) === "string"){
+
+        if (toSearch){
             toSearch = toSearch.toLowerCase()
             objCatalog = objCatalog.filter(gameObj =>(gameObj.name.toLowerCase().includes(toSearch)))
         }
@@ -33,12 +33,8 @@ export default class CatalogPage extends Component {
             <div className="container">
                 <p>{this.exampleProp}</p>
                 <h1 className="text-center py-3">Game Catalog</h1>
-                <Catalog arr={objCatalog} searchVal={toSearch}/>
+                <Catalog arr={objCatalog}/>
             </div>
         )
     }
-}
-
-CatalogPage.propTypes= {
-    searchVal: PropTypes.string,
 }

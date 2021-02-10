@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { Component } from 'react'
 import {Route,Switch} from 'react-router-dom'
-
 import Home from '../Home/Home'
 import AboutUs from '../About-Us/AboutUs'
 import Blog from '../Blog/Blog'
@@ -10,23 +9,19 @@ import Login from '../Login/Login'
 import SignUp from '../SignUp/SignUp'
 import ProductPage from '../Product/ProductPage'
 import NotFound from '../404/NotFound'
-import Dashboard from '../Dashboard/Dashboard'
+import Cart from '../Cart/Cart'
 
-const Routes = () => {
-    localStorage.setItem("user","connected")
-    localStorage.removeItem("user")
-    let secretLink = Login
-    if (localStorage.getItem("user") === "connected"){
-        secretLink = Dashboard
-    }
-    return (
-       
+
+export default class Routes extends Component {
+
+    render() {
+        return (
             <Switch>
                 <Route exact path="/" component={Home}/>
                 <Route path="/about" component={AboutUs}/>
                 <Route path="/blog" component={Blog}/>
+                <Route path="/cart" component= {Cart}/>
                 <Route path="/contact" component={ContactUs}/>
-                <Route path="/dashboard" component={secretLink}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/product/:name" component={ProductPage}/>
                 <Route path="/signup" component={SignUp}/>
@@ -34,8 +29,6 @@ const Routes = () => {
                 <Route path="/store/:search" component={CatalogPage}/>
                 <Route component={NotFound}/>
             </Switch>
-    
-    )
+        )
+    }
 }
-
-export default Routes

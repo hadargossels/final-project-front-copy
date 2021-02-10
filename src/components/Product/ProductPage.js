@@ -9,6 +9,7 @@ import Categories from './Categories'
 import './ProductPage.css'
 
 import {objectsArr} from './data'
+import CartButton from '../Catalog/CartButton/CartButton';
 
 class ProductPage extends Component{
     
@@ -42,8 +43,9 @@ class ProductPage extends Component{
                             <div className="col-md-6 col-sm-12">
                                 <button className="btn btn-danger my-3 btn-lg">Buy Now!</button>
                                 <br/>
-                                <button className="btn btn-outline-danger"><i className="fas fa-shopping-cart"></i> Add to Cart</button>
-                                <br/>
+                                {/* <button className="btn btn-outline-danger"><i className="fas fa-shopping-cart"></i> Add to Cart</button>
+                                <br/> */}
+                                <CartButton id={product.id} page="product"/>
                                 <button className="btn btn-outline-danger my-3"><i className="far fa-heart"></i> Add to Wishlist</button>
                             </div>
                         </div>
