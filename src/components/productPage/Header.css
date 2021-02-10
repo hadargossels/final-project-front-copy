@@ -1,3 +1,10 @@
 .myNav{
     margin-bottom: -25px;
   }
+
+  #cartQuick{
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    background-color: white;
+  }
