@@ -21,3 +21,17 @@ code {
 #inDiv{
   padding: 50px 0px;
 }
+.shoppingCartModal{
+  width: 90%;
+  max-width: 640px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  height: 100%;
+  height: 657px;
+  margin: 0px;
+}
+.contentCart{
+  height: 100%;
+  max-height: 657px;
+}

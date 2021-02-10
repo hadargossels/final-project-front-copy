@@ -6,7 +6,7 @@ import './storePage.css';
 import propTypes from 'prop-types'
 import querystring from 'query-string'
 
-import arrayAllProduct from '../../dataBase'
+import {arrayAllProduct} from '../../dataBase'
 
 
 
@@ -133,9 +133,10 @@ StorePage.defaultProps={
 
 
  function searchFromAllProduct(valSearch){
+   valSearch=valSearch.toLocaleLowerCase()
     let allProductArr=arrayAllProduct;
     allProductArr=allProductArr.filter((v)=>{
-      return v.headerProduct.indexOf(valSearch)!=-1||v.explanationproduct.indexOf(valSearch)!=-1||v.brandProduct.indexOf(valSearch)!=-1;
+      return v.headerProduct.toLocaleLowerCase().indexOf(valSearch)!=-1||v.explanationproduct.toLocaleLowerCase().indexOf(valSearch)!=-1||v.brandProduct.toLocaleLowerCase().indexOf(valSearch)!=-1;
     });
     return allProductArr;
  }

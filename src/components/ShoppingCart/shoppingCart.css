@@ -1,0 +1,65 @@
+.shoppingCartDiv{
+    padding:0px 10px; 
+    margin: 0px;
+}
+
+.cartSummary{
+    background-color: rgb(230, 225, 225);
+    border: 1 solid rgb(116, 115, 115);
+    border-radius: 10px;
+    padding: 20px;
+    
+}
+
+.cartSummaryDiv h3{
+    margin: 20px;
+}
+.productDiv h3{
+    margin: 20px;
+}
+.spanLeft{
+    font-size: 20px;
+    font-weight: bold;
+  
+}
+.spanrighet{
+    font-size: 20px;
+    margin-left: 20px;
+
+}
+.spansDiv{
+   margin: 10px;
+}
+.couponBtn{
+    color:white;
+    background: black;
+}
+
+.paymentBtn{
+    color:white;
+    background: salmon;
+    border-radius: 30px;
+    width: 100%;
+    font-size: 25px;
+    /* font-weight: bold; */
+    margin: 40px 0px;
+    border: none;
+    padding: 10px 0px;
+
+}
+.notDisplay{
+    display: none;
+}
+.Displaylabel{
+    display: block;
+}
+.labelCouponFailed{
+    color: red;
+    font-size: 18px;
+    margin-top: 5px;
+}
+.labelCouponAdd{
+    color:green;
+    font-size: 18px;
+    margin-top: 5px;
+}

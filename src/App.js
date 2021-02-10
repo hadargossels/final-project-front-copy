@@ -3,10 +3,11 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import Product from './components/Product/Product'
 import './App.css';
-import allProduct from './dataBase'
+import {arrayAllProduct,arrayShoppingCart} from './dataBase'
 
 let bestSellersArr=bestSellersArray();
 let salesArr=salesArray(); 
+
 
 export default class App extends Component {
   render() {
@@ -104,14 +105,14 @@ export default class App extends Component {
 
 function bestSellersArray(){
 
-  let bestSellersArr=[...allProduct];
+  let bestSellersArr=[...arrayAllProduct];
   bestSellersArr.sort((a,b)=>a.buyNum-b.buyNum);
   return bestSellersArr.slice(0,4);//the 4 besr seller product
 }
 
 function salesArray() { 
     
-  let salesArr=[...allProduct];
+  let salesArr=[...arrayAllProduct];
   salesArr=salesArr.filter((v)=>v.discountProduct!="none");
   return salesArr;
 

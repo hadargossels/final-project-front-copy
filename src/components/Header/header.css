@@ -90,6 +90,14 @@ header nav{
     padding: 0px!important;
    
 }
+.modalBtn{
+    color: white;
+    background: none;
+    border: none;
+}
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
 
 
 @media only screen and (max-width: 992px) {

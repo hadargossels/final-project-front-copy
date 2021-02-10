@@ -6,10 +6,9 @@ import './header.css';
 class Header extends Component{
    
    render(){
-      return(
-         
+      return(  
          <header>
-            <a className=" aLogo" href="#"><NavLink className="linkLogo" exact to="/"><img id="logoImg" src='/images/logo3.jpg'/></NavLink></a>
+            <a className=" aLogo" ><NavLink className="linkLogo" exact to="/"><img id="logoImg" src='/images/logo3.jpg'/></NavLink></a>
             <nav className="navbar navbar-expand-lg navbar-dark "> 
                <div className="container-fluid">
                  
@@ -19,16 +18,16 @@ class Header extends Component{
                   <div className="navBarMargin displaySmall">
                      <ul className="navbar-nav me-auto mb-2 mb-lg-0 navBarRighet">
                         <li className="nav-item">
-                        {/* <NavLink to="/cart" className="nav-link active"><i className="fas fa-shopping-cart"></i></NavLink> */}
-                           <a className="nav-link active" href="#"><i className="fas fa-shopping-cart"></i></a>
+                        <NavLink to="/cart" className="nav-link active" ><i className="fas fa-shopping-cart"></i></NavLink>
+                        {/* <a className="nav-link active" type="button" data-bs-toggle="modal"  data-bs-target={`#idShoppingCart`} ><i className="fas fa-shopping-cart"></i></a> */}
                         </li>
                         <li className="nav-item">
                            {/* <NavLink to="/wish" className="nav-link active"><i className="fas fa-heart"></i></NavLink> */}
-                           <a className="nav-link active" href="#"><i className="fas fa-heart"></i></a>
+                           <a className="nav-link active" ><i className="fas fa-heart"></i></a>
                         </li>
                         <li className="nav-item">
                              <NavLink exact to="/login" className="nav-link active"><i className="fas fa-user"></i></NavLink>
-                           {/* <a className="nav-link active" href="#"><i className="fas fa-user"></i></a> */}
+                           {/* <a className="nav-link active" ><i className="fas fa-user"></i></a> */}
                         </li> 
                      </ul>
                   </div>
@@ -38,7 +37,7 @@ class Header extends Component{
                            <NavLink exact to="/" className="nav-link active" aria-current="page" >Home</NavLink>
                         </li>
                         <li className="nav-item">
-                           <NavLink exact to="/store" className="nav-link active" href="#">Shop</NavLink>
+                           <NavLink exact to="/store" className="nav-link active" >Shop</NavLink>
                         </li>
                         <li className="nav-item">
                            <NavLink to="/about" className="nav-link active">About</NavLink>
@@ -56,16 +55,23 @@ class Header extends Component{
                   <div className="navBarMargin displayBig">
                      <ul className="navbar-nav me-auto mb-2 mb-lg-0 navBarRighet">
                         <li className="nav-item">
-                        {/* <NavLink to="/cart" className="nav-link active"><i className="fas fa-shopping-cart"></i></NavLink>*/}
-                           <a className="nav-link active" href="#"><i className="fas fa-shopping-cart"></i></a>
+                           {/* <NavLink to="/cart" className="nav-link active" ><i className="fas fa-shopping-cart" ></i></NavLink> */}
+                           <div class="dropdown">
+                              <NavLink to="/cart" className="nav-link active" id="dropdownMenuButton" aria-expanded="false" onMouseOver={this.dropdownCartOver}>
+                                 <i className="fas fa-shopping-cart" ></i>
+                              </NavLink>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                 
+                              </div>
+                           </div>
                         </li>
                         <li className="nav-item"> 
                            {/* <NavLink to="/wish" className="nav-link active"><i className="fas fa-heart"></i></NavLink> */}
-                           <a className="nav-link active" href="#"><i className="fas fa-heart heartIcon"></i></a>
+                           <a className="nav-link active" ><i className="fas fa-heart heartIcon"></i></a>
                         </li>
                         <li className="nav-item">
                               <NavLink exact to="/login" className="nav-link active"><i className="fas fa-user"></i></NavLink> 
-                          {/* <a className="nav-link active" href="#"><i className="fas fa-user"></i></a> */}
+                          {/* <a className="nav-link active" ><i className="fas fa-user"></i></a> */}
                         </li> 
                      </ul>
                   </div> 
@@ -84,29 +90,29 @@ export default Header;
          
 //             <nav className="navbar navbar-expand-lg navbar-dark"> 
 //                <div className="container-fluid">
-//                   <a className="navbar-brand" href="#"><img id="logoImg" src='images/logo3.jpg'/></a>
+//                   <a className="navbar-brand" ><img id="logoImg" src='images/logo3.jpg'/></a>
 //                   <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 //                      <span className="navbar-toggler-icon"></span>
 //                   </button>
 //                   <div className="collapse navbar-collapse navBarMargin" id="navbarSupportedContent">
 //                      <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 //                         <li className="nav-item">
-//                            <a className="nav-link active" aria-current="page" href="#">Home</a>
+//                            <a className="nav-link active" aria-current="page" >Home</a>
 //                         </li>
 //                         <li className="nav-item">
-//                            <a className="nav-link active" href="#">Link</a>
+//                            <a className="nav-link active" >Link</a>
 //                         </li>
 //                         <li className="nav-item">
-//                            <a className="nav-link active" href="#">Link</a>
+//                            <a className="nav-link active" >Link</a>
 //                         </li>
 //                         <li className="nav-item">
-//                            <a className="nav-link active" href="#"><i className="fas fa-shopping-cart"></i></a>
+//                            <a className="nav-link active" ><i className="fas fa-shopping-cart"></i></a>
 //                         </li>
 //                         <li className="nav-item">
-//                            <a className="nav-link active" href="#"><i className="fas fa-heart"></i></a>
+//                            <a className="nav-link active" ><i className="fas fa-heart"></i></a>
 //                         </li>
 //                         <li className="nav-item">
-//                            <a className="nav-link active" href="#"><i className="fas fa-user"></i></a>
+//                            <a className="nav-link active" ><i className="fas fa-user"></i></a>
 //                         </li>
                         
 //                      </ul>

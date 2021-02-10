@@ -33,7 +33,7 @@ footer{
 
 .containerFooter{
     width: 70%;
-    margin: 0 auto;
+    margin: 0 auto !important;
     padding: 100px 0px 0px 0px;
 
 }

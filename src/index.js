@@ -15,14 +15,31 @@ import ProductPage from './components/ProductPage/ProductPage'
 import StorePage from './components/StorePage/StorePage';
 import SignUp from './components/SignUp/SignUp'
 import ScrollToTop from './components/ScrollToTop/ScrollToTop'
-
-import allProduct from './dataBase'
+import ShoppingCart from './components/ShoppingCart/ShoppingCart'
+import {arrayAllProduct} from './dataBase'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import $ from 'jquery';
+import Popper from 'popper.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 
 let routing=(
 <Router>
     <div>
-        <Header/> 
+        <Header/>
+        {/* <div class="modal fade " id="idShoppingCart" tabIndex="-1" aria-labelledby="shoppingCartLabel" aria-hidden="true">
+               <div class="modal-dialog shoppingCartModal" >
+                  <div class="modal-content contentCart">
+                     <div class="modal-header">
+                     <h5 class="modal-title" id="shoppingCartLabel">My shopping cart</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                     </div>
+                     <div class="modal-body">
+                        <ShoppingCart/>
+                     </div>
+                  </div>
+               </div>
+            </div>  */}
         <div id="d">
             <div id="inDiv">
                 <Switch>
@@ -40,6 +57,7 @@ let routing=(
                     <Route exact path="/shop" component={StorePage}/> 
                     <Route exact path="/login" component={Login}/>
                     <Route  path="/login/signup" component={SignUp}/>
+                    <Route  path="/cart" component={ShoppingCart}/>
                     <Route  path="/product/:productName" component={ProductPage}/>
                     <Route component={NotFound}/>
                 </Switch>
@@ -57,7 +75,7 @@ ReactDOM.render( routing, document.getElementById('root'));
 
 function bestSellersStore(){
 
-    let bestSellersArr=[...allProduct];
+    let bestSellersArr=[...arrayAllProduct];
     bestSellersArr.sort((a,b)=>a.buyNum-b.buyNum);
     bestSellersArr=bestSellersArr.slice(0,4);//the 4 besr seller product
     return <StorePage arrProduct={bestSellersArr} categoryFilter={"Makeup"} categoryHeader={"Best Sellers"}/>
@@ -66,7 +84,7 @@ function bestSellersStore(){
 
 function categoryStore(category) { 
     
-    let categoryArr=[...allProduct];
+    let categoryArr=[...arrayAllProduct];
     categoryArr=categoryArr.filter((v)=>v.categoryProduct==category);
     return <StorePage arrProduct={categoryArr} categoryFilter={category} categoryHeader={category}/>
 
@@ -74,7 +92,7 @@ function categoryStore(category) {
 
  function salesStore() { 
     
-    let salesArr=[...allProduct];
+    let salesArr=[...arrayAllProduct];
     salesArr=salesArr.filter((v)=>v.discountProduct!="none");
     return <StorePage arrProduct={salesArr} categoryHeader={"Sales"}/>
 

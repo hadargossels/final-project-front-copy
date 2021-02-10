@@ -1,0 +1,42 @@
+
+.itemCartDiv{
+    border: 1px solid rgb(173, 170, 170);
+    border-radius: 10px;
+    margin: 10px !important;
+    padding: 15px 5px 15px 5px;
+}
+
+.imgDiv{
+    width: 100%;
+}
+.imgDiv img{
+    width: 100%;
+}
+.brandP{
+    font-size: 15px;
+    opacity: 0.8;
+}
+
+.amountInput{
+    width: 45px;
+}
+.sumP{
+    font-weight: bold;
+    font-size: 25px;
+    /* display: inline-block; */
+    margin: 40% 20px !important;
+}
+.sumIcon{
+    /* margin-bottom: 40%; */
+    /* display: inline-block; */
+    /* margin: 50% 20px !important; */
+    float:right;
+}
+.sumIcon i{
+    font-size: 20px;
+    color: red;
+}
+.sumDiv{
+    text-align: center;
+    /* justify-items: center; */
+}

@@ -4,18 +4,28 @@
     position: relative;
     padding: 0px;
     color: black;
-    position: relative;
   
 }
 .linkStyle{
     width: 270px;
-    margin: 20px 5px;
-    padding: 22px 0px 0 0;
+    /* margin: 20px 5px;
+    padding: 22px 0px 0 0; */
     text-decoration: none;
     position: relative;
 }
+.divMainProduct{
+    position: relative;
+    margin: 20px 5px;
+    padding: 22px 0px 0 0;
+    width: 270px;
+}
 
 .linkStyle:hover{
+    cursor: pointer;
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+    position: relative;
+}
+.divMainProduct:hover{
     cursor: pointer;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     position: relative;
@@ -51,9 +61,10 @@ a#headerProduct{
 }
 .loveIcon{
  position: absolute;
+ z-index: 1;
  top: 20px;
  left: 20px;
- 
+ font-size: 20px;
 }
 
 .loveIcon:hover{
@@ -76,8 +87,8 @@ a#headerProduct{
 }
 .quickBtn{
     position: absolute;
-    left: 30%;
-    top: -10px;
+    left: 35%;
+    top: 10px;
     color: white;
     background-color: black;
     border: none;
@@ -90,9 +101,7 @@ a#headerProduct{
     background-color: salmon;
     border: none;
  }
- .divMainProduct{
-     position: relative;
- }
+
  /* .modalll{
      z-index: 20;
  } */
