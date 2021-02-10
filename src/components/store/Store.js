@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './Store.css';
 import {NavLink} from 'react-router-dom'
+import bootstrap from 'bootstrap'
+import Header from '../header/Header'
 
  const product = [
   {src: "/img/souffle1.jpg",
@@ -161,15 +163,60 @@ class Store extends Component{
       results: [],
       filterDis: "flex",
       storeDis: "flex",
-      errorDis: "none"
+      errorDis: "none",
+      cart: JSON.parse(localStorage.getItem("cart")),
+      addMsg: ""
     }
     this.isChecked = this.isChecked.bind(this);
     this.filter = this.filter.bind(this);
     this.searchK = this.searchK.bind(this);
     this.search = this.search.bind(this);
+    this.addToCart = this.addToCart.bind(this);
     this.searchK()
     this.newFeatured()
       }
+
+      addMsg () {
+        setTimeout(()=>{this.setState({addMsg: "Item added to cart"})},5)
+        setTimeout(()=>{this.setState({addMsg: ""})},10000)
+      }
+
+    addToCart (e) {
+      
+      let itemId = e.target.id
+      let quantity = e.target.previousElementSibling.value
+      let cart = [];
+      if (this.state.cart !== null) {
+        cart = [...this.state.cart]
+      }
+      let src = e.target.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].src
+      src = src.substring(21)
+      let name = e.target.parentNode.parentNode.parentNode.parentNode.childNodes[1].innerText
+      let price = e.target.parentNode.parentNode.parentNode.parentNode.childNodes[2].childNodes[0].childNodes[1].innerText
+      price = price.substring(0, price.length-1)
+      let flag = true
+      if (cart.length > 0){
+         for (const element of cart) {
+            if (element.itemId === itemId) {
+               flag = false
+               let elQu = element.quantity
+               elQu = parseInt(elQu)
+               elQu = elQu + parseInt(quantity)
+               element.quantity = elQu
+            }
+         }
+      }
+      if (flag == true) {
+         let cartObj = {itemId: itemId, quantity: quantity, src: src, name: name, price: price}
+         cart.push(cartObj)
+      }
+      
+      setTimeout(()=>{this.setState({cart})
+      localStorage.setItem("cart",JSON.stringify(cart));
+      this.addMsg();
+    this.props.amount = this.state.cart.length},5);
+      
+    }
 
     newFeatured () {
       let path = this.props.location.pathname
@@ -372,30 +419,43 @@ class Store extends Component{
               </div>
               <div className='storeDisp' style={{display: this.state.storeDis}}>
               {this.state.display.map((v) =>
-              <div>
-                <div className='product' key={v.id} productid={v.id}>
+              <div key={"divkey"+v.id}>
+                <div className='product' productid={v.id}>
                     <NavLink exact to={"/Product/"+v.id} ><img src={v.src} alt='product' width='200px'/></NavLink><br/>
-                    <span className='prodName'>{v.name}</span><br/>
-                    <span className='price'>{v.price}$</span>
-                    <button className='fas fa-search-plus' data-bs-toggle="modal" data-bs-target={"#modal"+v.id}></button>
+                    <span className='prodName' style={{fontSize:"20px"}}>{v.name}</span><br/>
+                    <span className='price'>{v.price}$</span><br/>
+                    <button type="button" className='fas fa-search-plus' data-bs-toggle="modal" data-bs-target={"#modal"+v.id+""}></button>
+                </div>
+                <div className="modal fade" id={"modal"+v.id+""} tabIndex="-1" aria-labelledby={"exampleModalLabel"+v.id} aria-hidden="true">
+                  <div className="modal-dialog">
+                    <div className="modal-content">
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 className="modal-title" id={"exampleModalLabel"+v.id}>{v.name}</h5>
+                        <div className="modCon">
+                        <div className="modLeft">
+                          <img src={v.src} alt='product' width='200px'/>
+                          <span>{v.price}$</span>
+                        </div>
+                        <div className="modRight">
+                          <p>{v.description}</p>
+                          <div className='buy'>
+                            <select className='qt'>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                            </select>
+                            <button className='addcart' id={v.id} onClick={this.addToCart}>ADD TO CART</button>
+                          </div>
+                          <span className='addMsg'>{this.state.addMsg}</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="modal fade" id={"modal"+v.id} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="exampleModalLabel">{v.name}</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        {v.description}
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+                </div>
               </div>)}                  
               </div>
           </div>

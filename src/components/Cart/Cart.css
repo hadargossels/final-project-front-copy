@@ -1,0 +1,90 @@
+.cartCont {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    width: 80%;
+    justify-content: center;
+}
+
+table td {
+    padding: 15px;
+}
+
+.tableDiv table {
+    text-align: center;
+    font-size: 18px;
+}
+
+.checkOutTab td {
+    width: 120px;
+    text-align: center;
+}
+
+.tableDiv {
+    margin: 45px 0;
+}
+
+.delBtn {
+    background-color: white;
+    border: none;
+}
+
+.left {
+    text-align: left;
+    font-size: 18px;
+}
+
+.disNote {
+    padding-top: 0px;
+    font-size: 14px;
+}
+
+.disc {
+    padding-bottom: 0px;
+}
+
+
+.checkOut {
+    background-color: tan;
+    margin: 30px;
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+
+
+.right {
+    text-align: right;
+    font-weight: bold;
+}
+
+.ckotBtn {
+    border: none;
+    background-color: black;
+    color: white;
+    padding: 15px;
+}
+
+.Qbtn {
+    font-size: 14px;
+    padding: 7px;
+    border: none;
+    background-color: white;
+}
+
+#couponBtn {
+    border: none;
+    background-color: black;
+    color: white;
+    padding: 8px;
+    margin-left: 10px;
+}
+
+#couponText {
+    border: none;
+    padding: 8px;
+}

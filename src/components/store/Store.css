@@ -34,7 +34,7 @@
     flex-direction: column;
     padding: 15px;
     font-family: 'Yusei Magic', sans-serif;
-    height: 350px;
+    height: 400px;
     justify-content: flex-end;
 }
 
@@ -53,4 +53,30 @@
     border: none;
     background-color: white;
     font-size: 18px;
+}
+
+.modCon {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 25px;
+}
+
+.modal-title {
+    padding: 25px;
+}
+
+.modLeft {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-right: 25px;
+}
+
+.modal {
+    background-color: rgba(0,0,0,0.4)
+}
+
+.addMsg {
+    color: rgb(194, 78, 132);
 }

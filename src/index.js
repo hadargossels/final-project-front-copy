@@ -14,11 +14,19 @@ import Shipping from './components/shipping/Shipping'
 import Faq from './components/faq/Faq'
 import Product from './components/product/Product'
 import Login from './components/login/Login'
+import Cart from './components/Cart/Cart';
 
+let amount = 0;
+// const amountfunction = (amount) => {
+//   let cart = JSON.parse(localStorage.getItem("cart"))
+//   return amount = cart.length
+
+// } 
+console.log(amount)
 
 const router = (
   <Router>
-  <Header/>
+  <Header amount={amount}/>
   <Switch>
      <Route exact path="/" component={App}/>
      <Route path="/About" component={About}/>
@@ -31,6 +39,7 @@ const router = (
      <Route path="/Faq" component={Faq}/>
      <Route path="/Login" component={Login}/>
      <Route path="/Product/:productid" component={Product}/>
+     <Route exact path = "/Cart" component={Cart}/>
      <Route component={NotFound}/>
   </Switch>
   <Footer/>

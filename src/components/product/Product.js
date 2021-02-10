@@ -5,7 +5,7 @@ const product = [
    {
       src: "/img/souffle1.jpg",
       price: 10,
-      name: 'Product1',
+      name: 'Pen1',
       id: 1,
       gallery1: "/img/souffle1.jpg",
       gallery2: "/img/souffle_2.jpg",
@@ -21,7 +21,7 @@ const product = [
    {
       src: "/img/notebooks/noteb1.jpg",
       price: 15,
-      name: 'Product2',
+      name: 'Pencil1',
       id: 2,
       gallery1: "/img/notebooks/noteb1.jpg",
       gallery2: "/img/notebooks/noteb1.jpg",
@@ -37,7 +37,8 @@ const product = [
    {
       src: "/img/notebooks/noteb1.jpg",
       price: 6,
-      id: 3
+      id: 3,
+      name: 'notebook1',
    },
    {
       src: "/img/notebooks/noteb2.jpg",
@@ -46,7 +47,7 @@ const product = [
       color: 'purple',
       price: 23,
       priceRange: "21-30",
-      name: 'aa',
+      name: 'notebook2',
       id: 4
    },
    {
@@ -56,7 +57,7 @@ const product = [
       color: 'purple',
       price: 8,
       priceRange: "0-10",
-      name: 'aa',
+      name: 'notebook3',
       id: 5
    },
    {
@@ -66,7 +67,7 @@ const product = [
       color: 'blue',
       price: 9,
       priceRange: "0-10",
-      name: 'aa',
+      name: 'notebook4',
       id: 6
    },
    {
@@ -76,7 +77,7 @@ const product = [
       color: 'multi',
       price: 11,
       priceRange: "11-20",
-      name: 'aa',
+      name: 'notebook5',
       id: 7
    },
    {
@@ -86,7 +87,7 @@ const product = [
       color: 'yellow',
       price: 7,
       priceRange: "0-10",
-      name: 'aa',
+      name: 'notebook6',
       id: 8
    },
    {
@@ -96,7 +97,7 @@ const product = [
       color: 'red',
       price: 18,
       priceRange: "11-20",
-      name: 'aa',
+      name: 'notebook7',
       id: 9
    },
    {
@@ -106,7 +107,7 @@ const product = [
       color: 'yellow',
       price: 14,
       priceRange: "11-20",
-      name: 'aa',
+      name: 'notebook8',
       id: 10
    },
    {
@@ -116,13 +117,13 @@ const product = [
       color: 'yellow',
       price: 18,
       priceRange: "11-20",
-      name: 'aa',
+      name: 'notebook9',
       id: 11
    },
    {
       src: "/img/notebooks/noteb10.jpg",
       price: 18,
-      name: 'aa',
+      name: 'notebook10',
       id: 12
    }
 ]
@@ -134,10 +135,18 @@ class Product extends Component {
 
       this.state = {
       product: product,
-      i: 0
+      i: 0,
+      cart: JSON.parse(localStorage.getItem("cart")),
+      addMsg: ""
     }
     this.findIndex = this.findIndex.bind(this);
+    this.addToCart = this.addToCart.bind(this);
     this.findIndex();
+      }
+
+   addMsg () {
+      setTimeout(()=>{this.setState({addMsg: "Item added to cart"})},5)
+      setTimeout(()=>{this.setState({addMsg: ""})},10000)
       }
 
    findIndex () {
@@ -150,6 +159,43 @@ class Product extends Component {
       {this.setState({i:i})
    console.log(this.state.i)},100) 
    }
+
+   addToCart (e) {
+      let itemId = e.target.id
+      let quantity = e.target.previousElementSibling.value
+      console.log(this.state.cart)
+      let cart = [];
+      if (this.state.cart !== null) {
+        cart = [...this.state.cart]
+      }
+      let src = e.target.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].childNodes[0].src
+      src = src.substring(21)
+      let name = e.target.parentNode.parentNode.parentNode.parentNode.childNodes[1].childNodes[1].childNodes[0].innerText
+      let price = e.target.parentNode.parentNode.parentNode.parentNode.childNodes[1].childNodes[1].childNodes[5].innerText
+      price = price.substring(7, price.length-1)
+      let flag = true
+      if (cart.length > 0){
+         for (const element of cart) {
+            if (element.itemId === itemId) {
+               flag = false
+               let elQu = element.quantity
+               elQu = parseInt(elQu)
+               elQu = elQu + parseInt(quantity)
+               element.quantity = elQu
+            }
+         }
+      }
+      if (flag == true) {
+         let cartObj = {itemId: itemId, quantity: quantity, src: src, name: name, price: price}
+         cart.push(cartObj)
+      }
+      
+      
+      setTimeout(()=>{this.setState({cart})
+      localStorage.setItem("cart",JSON.stringify(cart));
+      this.addMsg()
+   },5)
+    }
    
    
    render() {
@@ -182,8 +228,9 @@ class Product extends Component {
                   <option value="6">6</option>
                   <option value="7">7</option>
                </select>
-               <button className='addcart'>ADD TO CART</button>
-            </div><br /><br />
+               <button className='addcart' onClick={this.addToCart} id={this.state.product[this.state.i].id}>ADD TO CART</button>
+            </div><br />
+            <span className='addMsg'>{this.state.addMsg}</span><br />
             <span>RELATED ITEMS</span>
             <div className='related'>
                <img src={this.state.product[this.state.i].related1} alt="product" />
