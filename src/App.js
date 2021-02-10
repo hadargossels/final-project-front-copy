@@ -33,6 +33,9 @@ import DashboardPage from "./pages/dashboard/dashboard.component";
 import AccountPage from "./pages/account/account.component";
 
 import SignInAndSignUpPage from "./pages/signin-signup/signin-signup.component";
+import CheckoutPage from "./pages/shopping-cart/shopping-cart.component";
+import CartListPage from "./pages/shopping-cart/shopping-cart.component";
+import ShoppingCartPage from "./pages/shopping-cart/shopping-cart.component";
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
@@ -81,6 +84,7 @@ class App extends React.Component {
           <Route path="/carriers" component={CarriersPage} />
           <Route path="/outdoor" component={OutdoorPage} />
           <Route path="/feeding" component={FeedingPage} />
+          <Route exact path="/shopping-cart" component={ShoppingCartPage} />
           <Route
             exact
             path="/signin"

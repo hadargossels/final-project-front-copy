@@ -1,7 +1,7 @@
 .cart-dropdown {
   position: absolute;
   width: 240px;
-  height: 340px;
+  height: 370px;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -12,14 +12,24 @@
   z-index: 5;
   overflow: auto !important;
 
+  .empty-message {
+    font-size: 18px;
+    margin: 50px;
+  }
+
   .cart-items {
     height: 240px;
     display: flex;
     flex-direction: column;
-    overflow: scroll;
+    // overflow: scroll;
+    overflow: auto !important;
   }
 
   button {
-    margin-top: auto;
+    margin-top: 5px;
+  }
+
+  .checkout-button {
+    margin-top: 5px;
   }
 }
