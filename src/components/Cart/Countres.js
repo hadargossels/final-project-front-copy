@@ -11,14 +11,16 @@ class Counters extends Component {
       counters,
       onRestart
     } = this.props;
+    // let counters=JSON.parse(localStorage.getItem("counters"))
     return (
       <div>
+
         <button
           className="btn btn-success m-2"
           onClick={onReset}
           disabled={counters.length === 0 ? "disabled" : ""}
         >
-            <i class="fas fa-sync-alt" aria-hidden="true"></i>
+            <i className="fas fa-sync-alt" aria-hidden="true"></i>
          
         </button>
         <button
@@ -39,6 +41,8 @@ class Counters extends Component {
           
           
         ))}
+        
+        
       </div>
     );
   }

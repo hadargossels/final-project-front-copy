@@ -2,7 +2,7 @@ import React from "react";
 
 // Stateless Functional Component
 
-const NavBar = ({ totalCounters }) => {
+const NavBar = ({ totalCounters,total }) => {
   return (
     <nav className="navbar navbar-light bg-light">
       <div className="navbar-brand">
@@ -11,6 +11,9 @@ const NavBar = ({ totalCounters }) => {
           {totalCounters}
         </span>
         Items
+      </div>
+      <div className="totalToPay">
+        Total :&nbsp; {total()}&nbsp;<i className="fas fa-shekel-sign shekel"></i>
       </div>
     </nav>
   );

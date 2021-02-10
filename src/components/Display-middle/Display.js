@@ -6,7 +6,8 @@ import Sortby from "./Sortby";
 import Category from "./Category";
 import data from "../../data2";
 import queryString from 'query-string'
-import Noresult from "../Noresult";
+import Messege from "./Messege";
+
 
 export default class Display extends Component {
   constructor(props) {
@@ -117,6 +118,7 @@ no=()=>{
 
       
       <div id="display">
+        {/* <Messege/> */}
         <div className="container">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-4 col-lg-2">

@@ -1,36 +1,51 @@
 import React, { Component } from "react";
 
 class Counter extends Component {
+  constructor(props){
+    super(props)
+    this.state={
+      total:0,
+    }
+  }
   render() {
+    
     return (
       <div>
-        <div className="row">
-          <div className="col-md-1">
-            <span style={{ fontSize: 24 }} className={this.getBadgeClasses()}>
-              {this.formatCount()}
-            </span>
+        <div className="row itemOnCart">
+          <div className="col-4">
+            <img className="imgOnCart" src={this.props.counter.src} />
           </div>
-          <div className="col-md-4">
-            <button
-              className="btn btn-secondary"
-              onClick={() => this.props.onIncrement(this.props.counter)}
-            >
-              <i className="fa fa-plus-circle" aria-hidden="true" />
-            </button>
-            <button
-              className="btn btn-info m-2"
-              onClick={() => this.props.onDecrement(this.props.counter)}
-              disabled={this.props.counter.value === 0 ? "disabled" : ""}
-            >
-              <i className="fa fa-minus-circle" aria-hidden="true" />
-            </button>
-            <button
-              className="btn btn-danger"
-              onClick={() => this.props.onDelete(this.props.counter.id)}
-            >
-                <i class="fas fa-trash-alt" aria-hidden="true"></i>
-              
-            </button>
+          <div className="col-8 ">
+            <div className="">
+              <div className="productNameCart"><span className="itemNamecart">{this.props.counter.name}</span></div><br/>
+              <div className="productNameCart">Price:<span className="itemPricecart">{this.props.counter.price}</span></div>
+            </div>
+            <div className="row-md-4 ">
+              <button
+                className="btn btn-secondary btnsCart"
+                onClick={() => this.props.onIncrement(this.props.counter)}
+              >
+                <i className="fa fa-plus-circle iconCart" aria-hidden="true" />
+              </button>
+              <span style={{ fontSize: 18 }} className={this.getBadgeClasses()}>
+                {this.formatCount()}
+              </span>
+              <button
+                className="btn btn-info m-2 btnsCart btnDec"
+                onClick={() => this.props.onDecrement(this.props.counter)}
+                disabled={this.props.counter.value === 0 ? "disabled" : ""}
+              >
+                <i className="fa fa-minus-circle iconCart" aria-hidden="true" />
+              </button>
+              <button
+                className="btn btn-danger btnsCart"
+                onClick={() => this.props.onDelete(this.props.counter.id)}
+              >
+                <i class="fas fa-trash-alt iconCart" aria-hidden="true"></i>
+              </button>
+
+            </div>
+              <div className="totalPrice">Total:&nbsp;{((this.formatCount()==='Zero')?0:this.formatCount())*this.props.counter.price}&nbsp;<i className="fas fa-shekel-sign shekel"></i></div>
           </div>
         </div>
       </div>
@@ -45,8 +60,20 @@ class Counter extends Component {
 
   formatCount = () => {
     const { value } = this.props.counter;
-    return value === 0 ? "Zero" : value;
+    // let total=value*this.props.counter.price
+    // this.setState({totat:total})
+    // localStorage.setItem("total", JSON.stringify(total))
+    console.log( "value",value)
+
+    console.log()
+    return value
   };
+  // componentDidMount = () => {
+  //   const total = JSON.parse(localStorage.getItem("total") || 0);
+  //   console.log("total",total)
+  //   this.setState({total:total});
+  // }
+
 }
 
 export default Counter;

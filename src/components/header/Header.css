@@ -23,8 +23,20 @@
 }
 .signinBtn{
     margin-right: 10px;
+    
+    
 }
-
+.numItems{
+    border: 1px solid grey;
+    border-radius: 10rem;
+    padding: 0.2rem;
+    background-color: indianred;
+}
+.btnCartIcon{
+    background-color:rgb(248, 239, 239);
+    color:black;
+    border: none;
+}
 @media screen and (max-width: 990px) {   
     .nav-item{
         text-align: center;

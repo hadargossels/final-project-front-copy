@@ -1,15 +1,34 @@
-import { Link, NavLink } from "react-router-dom";
-import "./Header.css";
 
+import { Link, NavLink } from "react-router-dom";
 import React, { Component } from 'react'
+
+import "./Header.css";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+
+import Button from 'react-bootstrap/Button';
+import Tooltip from 'react-bootstrap/Tooltip';
+import Popover from 'react-bootstrap/Popover';
+
+import Cart from "../Cart/Cart";
+
+
+
 
 export default class Header extends Component {
   constructor(props){
     super(props)
-  
+    this.state={
+      numItems:JSON.parse(localStorage.getItem("counters")).length || 0
+    }
 
   }
-
+  componentDidUpdate=()=>{
+    this.handleRestart()
+    
+  }
+  handleRestart = () => {
+    window.location.reload();
+  };
   render() {
     return (
       <div>
@@ -196,18 +215,35 @@ export default class Header extends Component {
                 </div>
 
             
-              {/* </li> */}
-              {/* <li> */}
+             
                 <Link to="/signup" className="navbar-brand" alt="Sign up">
                   <i className="fas fa-user-plus"></i>
                 </Link>
-              {/* </li> */}
-              {/* <li> */}
-                <Link to='/cart' className="navbar-brand" href="#">
-                  <i className="fas fa-shopping-cart"></i>
+            
+                {/* <Link to='/cart' className="navbar-brand" href="#">
+                <i className="fas fa-shopping-cart"></i>
                 </Link>
-              {/* </li> */}
-            {/* </ul> */}
+             */}
+               
+               {['bottom'].map((placement) => (
+    <OverlayTrigger
+      trigger='click'
+      key={placement}
+      placement={placement}
+      overlay={
+        <Popover id={`popover-positioned-${placement}`}>
+          <Popover.Title as="h3">{`Popover ${placement}`}</Popover.Title>
+          <Popover.Content>
+            <Cart/>
+            <NavLink style={{textDecoration: "none",color:"red",fontSize:"18"}} to="/cart">to Cart</NavLink>
+          </Popover.Content>
+        </Popover>
+      }
+    >
+      <Button className="btnCartIcon" variant="secondary"><i className="fas fa-shopping-cart"><span className="numItems">{this.state.numItems}</span></i></Button>
+    </OverlayTrigger>
+  ))}
+                   
             </div>
           </div>
         </div>

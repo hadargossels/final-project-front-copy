@@ -17,6 +17,8 @@ import Home from './components/Home/Home';
 import Cart from './components/Cart/Cart';
 import "bootstrap/dist/css/bootstrap.css";
 
+
+
 const routing = (
   <Router>  
     <div>
@@ -25,7 +27,8 @@ const routing = (
         <Route path="/signup" component={Signup}/>
         <Route  path="/login" component={Login}/>
         <Route  path="/blog" component={Blog}/>
-        <Route  path="/cart" component={Cart}/>
+        <Route  path="/cart/:item" component={Cart}/>
+        <Route exact path="/cart" component={Cart}/>
         <Route  path="/product/:productName" component={Product}/>
         <Route exact path="/store/" component={Display}/>
         <Route  path="/store/:search" component={Display}/>
