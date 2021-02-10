@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link,Route} from "react-router-dom";
 import Stars from './Stars';
+import './store.css';
 const ListItemLink = ({ name , urlImg ,index }) => (
     <Route path={"/product/"+index+"/"+name} children={({ match }) => (
       <li className={match ? 'active' : ''}><br/>
@@ -173,6 +174,7 @@ class WorkOutP extends Component{
             sUrl.push(i.urlImg[0]);
             sJson.push(Number(i.jsonPlace));
         };
+        this.props.searchHead("All products");
         this.setState({prices:sPrice});
         this.setState({name:sName});
         this.setState({urlImg:sUrl});
@@ -196,6 +198,7 @@ class WorkOutP extends Component{
                 sJson.push(iterator.jsonPlace);
             }
         }
+        this.props.searchHead(name);
         this.setState({prices:sPrice});
         this.setState({name:sName});
         this.setState({urlImg:sUrl});
@@ -210,11 +213,10 @@ class WorkOutP extends Component{
             let sStars=[]
             let sJson =[]
             const regex = new RegExp (`${this.props.search}*`,"gi")
-            console.log(this.props.search,this.myJson[1].name,regex.test(this.myJson[1].name));
+            // console.log(this.props.search,this.myJson[1].name,regex.test(this.myJson[1].name));
     
             for (const iterator of this.myJson) {
                 if(regex.test(iterator.name) || regex.test(iterator.type)){
-                    console.log("IM IN");
                     sPrice.push(iterator.price);
                     sName.push(iterator.name);
                     sUrl.push(iterator.urlImg[0]);

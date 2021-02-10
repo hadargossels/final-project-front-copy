@@ -10,7 +10,7 @@ import Blog from "./components/productPage/Blog";
 import Sign from "./components/productPage/Sign";
 // import ProductYoga from "./components/productPage/ProductYoga";
 import Home from "./components/productPage/Home";
-import shopingBag from "./components/productPage/shopingBag";
+import ShopingBag from "./components/productPage/shopingBag";
 
 
 
@@ -26,7 +26,7 @@ function App() {
               <Route path="/about" component={About} />
               <Route path="/blog" component={Blog} />
               <Route path="/login" component={Sign} />
-              <Route path="/shopingchart/:iJson" component={shopingBag} />
+              <Route path="/shopingchart/:iJson" component={ShopingBag} />
           </Router>
         <br/><br/><br/>
         <Footer/>

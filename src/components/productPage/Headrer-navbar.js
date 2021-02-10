@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Link,Route} from "react-router-dom";
+import "./Header.css"
 // import LinkFunction from "./LinkFunction";
 // import Middle from './Middle';
 // import Album from './Album';
@@ -15,13 +16,40 @@ class Header extends Component{
         super()
         this.searchRef = React.createRef();
         this.state = {
-            search : ""
+            search : "",
+            qvc : "",
+            numOfItems : ((Number(localStorage.getItem('totalItems')))?Number(localStorage.getItem('totalItems')):0)
         }
     }
 
+    changeNumOfItems(){
+        this.setState({numOfItems : ((Number(localStorage.getItem('totalItems')))?Number(localStorage.getItem('totalItems')):0)})
+    }
+
+    // cartQuick(bol){
+    //     if(bol){
+    //         const lSArr =localStorage.getItem('cart')?JSON.parse(localStorage.getItem('cart')):null;
+    //         const numOf = (window.localStorage.getItem('numOf'))?JSON.parse(window.localStorage.getItem('numOf')):[],
+
+    //         if(lSArr){
+    //             const temp = [];
+
+    //             this.setState({qvc : temp})
+    //         }
+    //         else{
+    //             this.setState({qvc : <h1 className="text-white">Your cart is empty</h1>})
+    //         }
+    //     }
+    //     else{
+    //         this.setState({qvc : ""})
+    //     }
+    //     }
+
    render(){
+    // setInterval(()=>this.changeNumOfItems(),500);
       return(
-          <div className="myNav">
+          <div>
+          <div className="myNav bg-dark">
             <div className="collapse" id="navbarToggleExternalContent">
                 <div className="bg-dark p-4 d-flex flex-column flex-md-row">
                     <h5 className="text-white h4">Menu</h5>
@@ -46,8 +74,10 @@ class Header extends Component{
                     <h3 className="text-white" style={{position:'relative',left:'-45%'}}>Experis-Sports</h3>
                 </div>
             </nav>
+            <ListItemLink to="/shopingchart/mycart" name={<div><span id="myBag" className="fs-5 m-1 text-danger">{((Number(localStorage.getItem('totalItems')))?Number(localStorage.getItem('totalItems')):0)}</span><i className="fas fa-shopping-bag fs-4"></i></div>}/> 
           </div>
-
+              {this.state.qvc} 
+          </div>
       );
    }
 

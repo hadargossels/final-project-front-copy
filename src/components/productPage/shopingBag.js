@@ -1,47 +1,65 @@
 import React ,{Component} from 'react'
 
-export default class shopingBag extends Component {
+export default class ShopingBag extends Component {
 
     constructor(props){
         super(props)
         // localStorage.clear();
         // console.log(this.props.match.params.iJson);
         this.myCart=localStorage.getItem('cart');
-        console.log(this.myCart);
-        this.myJson=require('./workOutP.json').data[Number(this.props.match.params.iJson)];
+        this.myCartNum=(window.localStorage.getItem('numOf'))?JSON.parse(window.localStorage.getItem('numOf')):[];
+        // console.log(this.myCart);
+        // console.log(this.myCartNum);
+        this.myJson=(this.props.match.params.iJson!='mycart')?require('./workOutP.json').data[Number(this.props.match.params.iJson)]:null;
+        console.log(this.myJson,Number(this.props.match.params.iJson));
         this.state= {
             totalItems : ((Number(localStorage.getItem('totalItems')))?Number(localStorage.getItem('totalItems')):0),
             totalPrice : ((Number(localStorage.getItem('totalPrice')))?Number(localStorage.getItem('totalPrice')):0),
             myArr: [],
-            numOfProductsArr:(window.localStorage.getItem('numOf'))?JSON.parse(window.localStorage.getItem('numOf')):[],
+            numOfProductsArr:[],
             isDiscount : false
         }
         this.myOnLoad();
     }
+    shouldComponentUpdate(){
+        document.querySelector('#myBag').innerHTML=""+((Number(localStorage.getItem('totalItems')))?Number(localStorage.getItem('totalItems')):0);
+        return true 
+    }
     myOnLoad(){
-        this.state.myArr = (this.myCart)?JSON.parse(this.myCart):[];
-        if(this.state.myArr.length>0){
-            if(this.state.myArr[this.state.myArr.length-1].jsonPlace!=this.props.match.params.iJson){
+        this.myCart = (this.myCart)?JSON.parse(this.myCart):[];
+        for(let i=0; i<this.myCart.length; i++){
+            if(this.myCart[i]!=null){
+                this.state.myArr.push(this.myCart[i]);
+                this.state.numOfProductsArr.push(this.myCartNum[i]);
+            }
+        }
+        localStorage.setItem('cart',JSON.stringify(this.state.myArr));
+        localStorage.setItem('numOf',JSON.stringify(this.state.numOfProductsArr))
+        if(this.myJson!=null){
+            if(this.state.myArr.length>0){
+                if(this.state.myArr[this.state.myArr.length-1].jsonPlace!=this.props.match.params.iJson){
+                    this.state.myArr.push(this.myJson);
+                    console.log(this.state.myArr);
+                    this.state.numOfProductsArr.push(1)
+                    localStorage.setItem('cart',JSON.stringify(this.state.myArr));
+                    localStorage.setItem('numOf',JSON.stringify(this.state.numOfProductsArr));
+                    this.state.totalItems+=1;
+                    this.state.totalPrice = this.state.totalPrice*1 + Number((this.myJson.onSale)?this.myJson.price*(9/10):this.myJson.price)
+                }
+            }
+            else{
                 this.state.myArr.push(this.myJson);
-                console.log(this.state.myArr);
+                // console.log(this.state.myArr);
                 this.state.numOfProductsArr.push(1)
                 localStorage.setItem('cart',JSON.stringify(this.state.myArr));
                 localStorage.setItem('numOf',JSON.stringify(this.state.numOfProductsArr));
                 this.state.totalItems+=1;
-                this.state.totalPrice = this.state.totalPrice*1 + Number((this.myJson.onSale)?this.myJson.price*(9/10):this.myJson.price)
+                this.state.totalPrice = Number( this.state.totalPrice*1 + (this.myJson.onSale)?this.myJson.price*(9/10):this.myJson.price)
             }
+            localStorage.setItem('totalItems',this.state.totalItems);
+            localStorage.setItem('totalPrice',this.state.totalPrice)
         }
-        else{
-            this.state.myArr.push(this.myJson);
-            console.log(this.state.myArr);
-            this.state.numOfProductsArr.push(1)
-            localStorage.setItem('cart',JSON.stringify(this.state.myArr));
-            localStorage.setItem('numOf',JSON.stringify(this.state.numOfProductsArr));
-            this.state.totalItems+=1;
-            this.state.totalPrice = Number( this.state.totalPrice*1 + (this.myJson.onSale)?this.myJson.price*(9/10):this.myJson.price)
-        }
-        localStorage.setItem('totalItems',this.state.totalItems);
-        localStorage.setItem('totalPrice',this.state.totalPrice)
+        this.props.history.push('/shopingchart/mycart');
     }
 
     changeNum(bol,i){
@@ -52,12 +70,14 @@ export default class shopingBag extends Component {
             tempArr[i]+=1;
             tempTotalItems++;
             tempTotalPrice=tempTotalPrice*1 +Number((this.state.myArr[i].onSale)?(this.state.myArr[i].price*(9/10)):Number(this.state.myArr[i].price));
+            // document.querySelector('#myBag').innerHTML=""+tempTotalItems;
         } 
         else{
             if(tempArr[i]!=0){
                 tempArr[i]-=1;
                 tempTotalItems--;
                 tempTotalPrice=tempTotalPrice*1 -Number((this.state.myArr[i].onSale)?(this.state.myArr[i].price*(9/10)):Number(this.state.myArr[i].price));
+                // document.querySelector('#myBag').innerHTML=""+tempTotalItems;
             }
         }
         localStorage.setItem('numOf',JSON.stringify(tempArr))
@@ -91,6 +111,7 @@ export default class shopingBag extends Component {
         localStorage.setItem('totalItems',tempTotalItems);
         localStorage.setItem('totalPrice',tempTotalPrice);
         localStorage.setItem('cart',JSON.stringify(tempArr));
+        // document.querySelector('#myBag').innerHTML=""+tempTotalItems;
         this.setState({
             myArr : tempArr,
             totalItems : tempTotalItems,
@@ -99,6 +120,9 @@ export default class shopingBag extends Component {
         })
     }
 
+    // mainCartUpdate(){
+    //      document.querySelector('#myBag').innerHTML=""+this.state.totalItems;
+    // }
 
     render(){
         let tempArr=[];
@@ -112,11 +136,16 @@ export default class shopingBag extends Component {
                         <button className="btn btn-dark" onClick={()=>this.changeNum(false,i)}>-</button>
                         <span className="m-2 fs-5">{this.state.numOfProductsArr[i]}</span>
                         <button className="btn btn-dark" onClick={()=>this.changeNum(true,i)}>+</button>
-                        <button className="btn btn-dark ms-5" onClick={()=>this.delItem(i)}><i class="fas fa-trash"></i></button><br/>
+                        <button className="btn btn-dark ms-5" onClick={()=>this.delItem(i)}><i className="fas fa-trash"></i></button><br/>
                         <hr/>
                     </div>
                 )
             }
+        }
+        if(tempArr.length===0){
+            tempArr.push(
+                <h1 className="text-danger texr-center">Your cart is empty!</h1>
+            )
         }
         return (
             <div className="container">
