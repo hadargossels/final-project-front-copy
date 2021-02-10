@@ -24,7 +24,6 @@ import 'mdbreact/dist/css/mdb.css';
 
 //protected route for registered users only
 function PrivateRoute({children,...rest}){
-  console.log(Auth.isAuthenticated)
   return(
     <Route {...rest} render={()=>{
     return Auth.authenticated===true

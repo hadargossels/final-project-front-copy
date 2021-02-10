@@ -13,13 +13,13 @@ export default function Login (props) {
                         props.history.push("/dashboard")
                     )
                 } 
-                style={{backgroundColor:"green"}}>Login</button><br/>
+                style={{backgroundColor:"green",margin:"0 auto"}}>Login</button><br/>
                 <button onClick={()=>
                     Auth.logout(()=>
                         props.history.push("/home")
                     )
                 } 
-                style={{backgroundColor:"red"}}>Logout</button><br/>
+                style={{backgroundColor:"red",margin:"0 auto"}}>Logout</button><br/>
             </div>
         )
     

@@ -1,14 +1,14 @@
 import React from 'react'
 import './Modal.css'
 export default function Modals(props) {
-  console.log(props)
+  
         return (
           <div>
           
           <button id="zoomIn" className="mx-auto" data-bs-toggle="modal" data-bs-target={`#id${props.id}`}><i className="fas fa-search-plus"></i></button>
 
 
-        <div className="modal fade" id={`id${props.id}`} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade" id={`id${props.id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">

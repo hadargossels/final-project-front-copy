@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './Catalog.css';
-import Product from '../Prod/Prod';
-import myProducts from './prod.json';
+import Prod from './Prod';
+import myProducts from '../../prod.json';
 
 export default class Catalog extends Component {
     constructor(props){
@@ -187,7 +187,7 @@ export default class Catalog extends Component {
                         <div className="container d-flex justify-content-center flex-wrap">
                             {
                                 this.state.Arr.map((prod) =>
-                                    <Product key={prod.Title} id={prod.id} rating={prod.Rating} price={prod.Price} title={prod.Title} image={prod.Image} />
+                                    <Prod key={prod.Title} id={prod.id} rating={prod.Rating} price={prod.Price} title={prod.Title} image={prod.Image} />
                                 )
                             }
                             {

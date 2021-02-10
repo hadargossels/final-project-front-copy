@@ -6,20 +6,20 @@ import T1 from '../../pictures/T1.png';
 import T1_scale2 from '../../pictures/T1_scale2.jpg';
 import T1_scale3 from '../../pictures/T1_scale3.jpg';
 import T1_scale4 from '../../pictures/T1_scale4.jpg';
-import myProducts from '../Catalog/prod.json';
+import myProducts from '../../prod.json';
 // import Cart from '../Cart/Cart';
-
+let arrProd = JSON.parse(localStorage.getItem('products')) || [];
 
 export default class Product extends Component {
    constructor(props){
       super(props)
       
+      
       let choosen=this.props.match.params.title;
       let result = myProducts.filter(function (pro) {
          return pro.Title === choosen;
      })[0].Image;
-      
-      
+
       this.state = {
           Image: result,
           Item:1
@@ -40,9 +40,11 @@ export default class Product extends Component {
   }
 
   addedToCart(){
-  
- }
-  
+      arrProd.push(this.state)
+      localStorage.setItem('products', JSON.stringify(arrProd))
+      alert("this product was added to cart")
+      window.location.reload()
+  }
 
    render() {
       
@@ -110,29 +112,12 @@ export default class Product extends Component {
                <br></br>
                <div className="shipping text-center">Shipping and return policies</div>
                <br></br>
-               <div>Country:</div>
-               <select className="form-select form-select-lg mb-3" aria-label="Default select example">
-                  <option >Israel</option>
-                  <option value="1">China</option>
-                  <option value="2">USA</option>
-                  <option value="3">Spain</option>
-                  <option value="4">Mexico</option>
-                  <option value="5">Italy</option>
-               </select>
                <div>ready to ship in:</div>
                <div style={{fontWeight:"bold"}}>3-5 bussiness days</div>
                <div>cost to ship:</div>
                <div style={{fontWeight:"bold"}}>$20</div>
                <br></br><br></br>
-               <button className="mx-auto d-block cursor buyBtn" 
-               
-               // onClick={
-            
-                  // <Cart product={this.state.Image} quantity={this.state.Item}>
-                  // alert("added to cart successfully");
-                  // }
-                  >
-               add to Cart</button>
+               <button onClick={this.addedToCart} className="mx-auto d-block cursor buyBtn" >add to Cart</button>
                <br></br>
                <button className="mx-auto d-block cursor buyBtn">Purchase Now</button>
                <br></br><br></br><br></br>

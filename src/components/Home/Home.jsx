@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import "./Home.css"
 import {Link} from "react-router-dom";
-import Carousela from "../Carousela/Carousela"
+import Carousela from "./Carousela"
 
 
 export default class Home extends Component {

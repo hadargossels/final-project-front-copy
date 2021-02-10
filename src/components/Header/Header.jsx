@@ -2,12 +2,20 @@ import React, {  Component } from 'react';
 import './Header.css';
 import {Link,NavLink} from "react-router-dom";
 import Logo from "../../pictures/bitcoinLogo.png";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import ShoppingCart from './ShoppingCart'
+import Popover from 'react-bootstrap/Popover'
+
+
+
+
 
 export default class Header extends Component{ 
 constructor(){
     super();
     this.state={
-        urlValue:""
+        urlValue:"",
+        arrProd:JSON.parse(localStorage.getItem('products')) || [],
     }
     this.callRef = React.createRef();
     this.setUrl=this.setUrl.bind(this);
@@ -16,10 +24,18 @@ constructor(){
     this.setState({urlValue: this.callRef.current.value})
     }
 
+
+
     render(){
+        
+        let cartItems
+        if(this.state.arrProd.length>0) 
+            cartItems=<div id="numItems">&nbsp;{this.state.arrProd.length}</div>
+
     return(
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
+                
                 <Link to="/home"><img className="navbar-brand" width="40px" height="50px" alt="..." src={Logo}></img></Link>
 
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,10 +50,30 @@ constructor(){
                             </div>
                         </div>
                     </li>
-                    <li className="nav-item">
+                    <li>
 
-                        <Link to="/cart"><div className="navbar-brand"><i className="fas fa-shopping-cart"></i></div></Link>
+                    <OverlayTrigger
+                    trigger="hover"
+                    key="bottom"
+                    placement="bottom"
+                    overlay={
+                        <Popover id="popover-positioned-bottom">
+                        <Popover.Title as="h3"><div className="text-center fw-bold">Your Cart</div></Popover.Title>
+                        <Popover.Content>
+                            <ShoppingCart/>
+                        </Popover.Content>
+                        </Popover>
+                    }
+                    >
+                    <Link to="/cart"><div className="navbar-brand" style={{margin:"1px"}}><i className="fas fa-shopping-cart"></i></div></Link>
+                    </OverlayTrigger>
                     </li>
+                    
+                    {cartItems}
+                        
+
+                    
+                        
                     <li className="nav-item">
                         <NavLink to="/home" style={{textDecoration: "none"}}><div className="nav-link">Home</div></NavLink>
                     </li>

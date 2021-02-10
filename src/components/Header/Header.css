@@ -27,3 +27,13 @@
   #searcBox{
     margin:auto auto;
   }
+
+  #numItems{
+    height:22px;
+    width:17px;
+    border-radius: 50%;
+    border:1px grey solid;
+    background-color: orange;
+    font-weight: bold;
+    font-size: 14px;
+  }
