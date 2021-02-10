@@ -74,7 +74,7 @@ export default class ProductsFilter extends Component {
   render(){
     return(
         <div>
-            {this.arr.map(elem => <li className="list-group-item"><input type="checkbox" onChange={(e) => this.state.filterCategories(e.target.value)} value={elem} ref={this.state.callRef}/> {elem}
+            {this.arr.map((elem, index) => <li key={index} className="list-group-item"><input type="checkbox" onChange={(e) => this.state.filterCategories(e.target.value)} value={elem} ref={this.state.callRef}/> {elem}
                 <span className="label label-success pull-right"> ({this.dict[elem]})</span>
             </li>)}
         </div>

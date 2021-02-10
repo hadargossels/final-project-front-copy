@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import './Header.css';
+import CartQuickView from '../CartQuickView/CartQuickView';
 
 export default class Header extends Component {
 
-  constructor() {
+  constructor(props) {
 
-    super();
+    super(props);
 
-    this.state = {url: ""};
+    this.state = {url: "", productsInCart: this.props.productsInCart, delProductCart: this.props.delProductCart, addProductCart: this.props.addProductCart , color: ""};
     this.callRefInp = React.createRef();
     this.callRefBtn = React.createRef();
 
     this.setUrl = this.setUrl.bind(this);
+
+    // if (window.location.href.includes("http://localhost:3000/cart"))
+    //   this.state.color = "white";
   };
 
   setUrl() {
@@ -38,7 +43,8 @@ export default class Header extends Component {
             <ul className="nav navbar-nav navbar-right pr-3">
               <li activeclassname="nav-item active"><NavLink to="/sign-in-up" className="nav-link">Sign in / Sign Up</NavLink></li>
               <li activeclassname="nav-item active"><NavLink to="/account" className="nav-link"><i className="fas fa-user-circle"></i></NavLink></li>
-              <li activeclassname="nav-item active"><NavLink to="/cart" className="nav-link"><i className="fas fa-shopping-cart"></i></NavLink></li>
+              <li activeclassname="nav-item active"><CartQuickView color={this.state.color} productsInCart={this.state.productsInCart} delProductCart={this.state.delProductCart} addProductCart={this.state.addProductCart}/></li>
+              <li activeclassname="nav-item active"><span className="cartCount">{Object.keys(this.state.productsInCart).length}</span></li>
           </ul>
           <form className="form-inline mt-2 mt-md-0" onSubmit={e => { e.preventDefault(); this.callRefBtn.current.click(); }}>
               <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" ref={this.callRefInp} onChange={this.setUrl}/>

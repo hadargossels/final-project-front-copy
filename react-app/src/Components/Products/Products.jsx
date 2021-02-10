@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Products.css';
-import ratingStars from '../../js/script';
+import ratingStars from '../../js/ratingStars';
 import ProductsList from '../ProductsList/ProductsList';
 import ProductsFilter from '../ProductsFilter/ProductsFilter';
 
@@ -9,16 +9,17 @@ const products = require('../../database/products.json');
 
 export default class Products extends Component {
 
-    constructor() {
+    constructor(props) {
 
-        super();
+        super(props);
         
         this.state = {prodsArr: products, displayArr: products, displayArrLen: products.length, searched: "",
                         numHardware: 0, numLaptops: 0, numPeripheral: 0, numSoftwares: 0,
                         filterArrRating: [], isStock: false, isSale: false,
                         filterArrCat: [], arrCat: [], filterArrSub: [], arrSub: [], filterArrType: [], arrType: [], filterArrBrand: [], arrBrand: [],
                         callRefHardware: React.createRef(), callRefLaptops: React.createRef(), callRefPeripheral: React.createRef(), callRefSoftwares: React.createRef(),
-                        callRefSub: React.createRef(), callRefType: React.createRef(), callRefBrand: React.createRef()};
+                        callRefSub: React.createRef(), callRefType: React.createRef(), callRefBrand: React.createRef(),
+                        addProductCart: this.props.addProductCart};
 
         this.lowPrice = this.lowPrice.bind(this);
         this.highPrice = this.highPrice.bind(this);
@@ -528,10 +529,10 @@ export default class Products extends Component {
                 <br/>
                 <div className="row">
 
-                    {   this.state.displayArrLen <= 0 ? <div className="col-md-4 text-center col-sm-6 col-xs-6 font-weight-bold">No Products</div> :
+                    {   this.state.displayArrLen <= 0 ? <div className="col-md-4 text-center col-sm-6 col-xs-6 font-weight-bold">No products for "{window.location.href.split("?q=")[1]}"</div> :
                             this.state.displayArr.map((prod, index) =>
                             <ProductsList 
-                                key={index} img={prod.img[0]} name={prod.name} title={prod.title} subtitle={prod.subtitle} price={prod.price} rating={prod.rating} stock={prod.stock} discount={prod.discount} discountPercentage={prod.discountPercentage}
+                                key={index} id={prod.id} img={prod.img[0]} name={prod.name} title={prod.title} subtitle={prod.subtitle} price={prod.price} rating={prod.rating} stock={prod.stock} discount={prod.discount} discountPercentage={prod.discountPercentage} addProductCart={this.state.addProductCart}
                             />)
                     }
         
