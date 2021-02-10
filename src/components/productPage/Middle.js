@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 // import {Link,Route} from "react-router-dom";
-import {match,params} from "react-router-dom";
+// import {match,params} from "react-router-dom";
+import {Link,Route} from "react-router-dom";
 import Stars from './Stars';
-import ChartBtn from './ChartBtn';
+// import ChartBtn from './ChartBtn';
+const ShopingLink = ({ to }) => (
+    <Route path={to} children={({ match }) => (
+      <li className={match ? 'active' : ''}>
+        <Link className="btn btn-dark" to={to}><i className="fas fa-shopping-bag"> Add to shoping bag</i></Link>
+      </li>
+    )}/>)
 
 class Middle extends Component{
     constructor(props){
@@ -60,7 +67,7 @@ class Middle extends Component{
                 <button className="btn btn-dark" onClick={()=>this.discount()}>get discount</button>
                 <input id="disC" type="text" placeholder="Enter coupon" />
                 <br/><br/>
-                <ChartBtn/> <br/><br/><br/>
+                <ShopingLink to={`/shopingchart/${this.props.match.params.num}`} /> <br/><br/><br/>
                 more options here
             </div>
         </div>

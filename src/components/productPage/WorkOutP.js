@@ -57,7 +57,7 @@ class WorkOutP extends Component{
                 this.state.urlImg.push(i.urlImg[0]);
                 this.state.jsonPlace.push(Number(i.jsonPlace));
             }
-            this.props.searchHead(this.props.search+ " product");
+            this.props.searchHead(this.props.search+ " products");
         }
     }
 
