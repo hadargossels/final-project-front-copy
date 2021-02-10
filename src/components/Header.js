@@ -55,8 +55,8 @@ class Header extends Component{
             <Link to={"/Catalog?q="+this.state.urlValue}><button id="serchBtn" className="btn btn-outline-success my-2 my-sm-0 " type="submit" onClick={this.setUrl}>חפש</button></Link>
            
            
-               <span className="navbar-text"><i className="fas fa-user"></i></span>
-               <span className="navbar-text"><i className="fas fa-shopping-cart"></i></span>
+            <span className="navbar-text"><i className="fas fa-user"></i></span>
+            <NavLink to="/Cart"><span className="navbar-text" href="#" onClick={this.resetUrl}><i className="fas fa-shopping-cart"></i></span></NavLink>
             
          </div>
          </nav>

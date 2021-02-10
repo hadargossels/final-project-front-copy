@@ -8,6 +8,7 @@ import Product from './components/Product';
 import Catalog from './components/Catalog';
 import Courses from './components/Courses';
 import Recipes from './components/Recipes';
+import Cart from './components/Cart';
 import Footer from "./components/Footer";
 import reportWebVitals from './reportWebVitals';
 import NotFound from './components/NotFound';
@@ -23,6 +24,7 @@ const router=(
       <Route path="/Catalog" exact component={Catalog}/>
       <Route path="/Courses" component={Courses}/>
       <Route path="/Recipes" component={Recipes}/>
+      <Route path="/Cart" component={Cart}/>
 
       <Route component={NotFound}/>
     </Switch>

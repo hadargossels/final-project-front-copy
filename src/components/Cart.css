@@ -1,0 +1,41 @@
+
+
+.myContainerCart{
+
+    max-width: 1200px;
+    margin: auto ;
+    margin-bottom: 150px;
+    min-height: 60vh;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(248,249,250);
+}
+
+.statusOrder{
+
+    padding-bottom: 60px;
+    padding-top: 60px;
+}
+
+.myRowCart{
+
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    direction: rtl;
+}
+
+.productList{
+
+    flex: 60%;
+    display: flex;
+    flex-direction: column;
+    margin: 0px 20px;
+
+}
+.orderSummary{
+    flex: 35%;
+    margin-left: 20px;
+}

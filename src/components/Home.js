@@ -16,21 +16,18 @@ export default class Home extends Component {
             newArr:[],
             bestRatingArr:[]
         }
-
-        this.newestProducts=this.newestProducts.bind(this)
-        this.bestRatingProduct=this.bestRatingProduct.bind(this)
+          this.slideMyslider=this.slideMyslider.bind(this)
+    }
+    componentDidMount(){
 
         this.bestRatingProduct()
         this.newestProducts()
     }
 
+
     newestProducts(){
 
-        let array=[]
-
-        for(let i=cakeArr.length-1;i<cakeArr.length-5;i--){
-            array.push(cakeArr[i])
-        }
+        let array=cakeArr.slice(0,5)
         this.setState({newArr:array})
     }
 
@@ -54,14 +51,45 @@ export default class Home extends Component {
             index=0
             maxRating=copyArr[0].stars
         }
-        console.log(maxArr)
         this.setState({bestRatingArr:maxArr})
+    }
+
+    slideMyslider(e){
+
+        let arr=[]
+        let element
+
+        if(e.parentNode.id=="newElementSlider")
+            arr=[...this.state.newArr]
+        else
+            arr=[...this.state.bestRatingArr]
+
+        if(e.innerHTML=="&lt;"){
+
+            element=arr.shift()
+            arr.push(element)
+        }else{
+            
+            element=arr.pop()
+            arr.unshift(element)
+        }
+        if(e.parentNode.id=="newElementSlider")
+            this.setState({newArr:arr})
+        
+        else
+            this.setState({bestRatingArr:arr})
+
     }
 
     render() {
         return (
             <div>
+
+                
+
+                
                 <div className="myContainer">
+                <div id="imageHpmePage"></div>
                     <div className="myRow" style={{marginBottom:"60px"}}>
                         <div className="textOnMe">
                             <h3>קצת עלי</h3>
@@ -78,11 +106,25 @@ export default class Home extends Component {
 
                     <div className="myRow" style={{marginBottom:"10px"}}><h2> החדשים שלנו </h2></div>
 
-                <div className="mySlider">
-                   <HomeElement/>
-                   <HomeElement/>
-                   <HomeElement/>
-                </div>
+                    <div id="newElementSlider" className="mySlider">
+                        <button className="btn btn-primary" style={{backgroundColor:"rgb(186, 140, 240)"}} onClick={(e)=>this.slideMyslider(e.target)}>&lt;</button>
+                        
+                        {this.state.newArr.slice(0,3).map((el,key)=>(
+                            <div className="elm"><HomeElement key={key} el={el} /></div>
+                        ))}
+                        
+                        <button className="btn btn-primary" style={{backgroundColor:"rgb(186, 140, 240)"}}onClick={(e)=>this.slideMyslider(e.target)} >&gt;</button>
+                    </div>
+
+                    <div className="myRow" style={{marginBottom:"10px",marginTop:"50px"}}><h2> המומלצים שלנו </h2></div>
+
+                    <div id="bestRatingElementSlider" className="mySlider">
+                        <button className="btn btn-primary" style={{backgroundColor:"rgb(186, 140, 240)"}} onClick={(e)=>this.slideMyslider(e.target)} >&lt;</button>
+                        {this.state.bestRatingArr.slice(0,3).map((el,key)=>(
+                            <div className="elm"><HomeElement key={key} el={el}/></div>
+                        ))}
+                        <button className="btn btn-primary" style={{backgroundColor:"rgb(186, 140, 240)"}} onClick={(e)=>this.slideMyslider(e.target)}>&gt;</button>
+                    </div>
 
                 
 

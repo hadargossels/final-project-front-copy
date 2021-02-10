@@ -19,10 +19,14 @@ class Product extends Component{
         this.state={
             prod:product[0],
             arrImage:[],
+            selectedPrice:"",
+            size:"",
+
          }
          this.state.priceSmallExists=this.priceSmallExists.bind(this)
          this.state.typeOfCake=this.typeOfCake.bind(this)
          this.state.makeArrayImage=this.makeArrayImage.bind(this)
+         this.setInLocalStorage=this.setInLocalStorage.bind(this)
     }
 
     componentDidMount(){
@@ -31,12 +35,13 @@ class Product extends Component{
     showPriceSmall(){
         let price=document.querySelector("#priceChoice")
         price.innerText=` ₪ ${this.state.prod.priceSmall}`
-        
+        this.setState({selectedPrice:this.state.prod.priceSmall,size:"קטן"})
 
     }   
     showPriceBig(){
         let price=document.querySelector("#priceChoice")
         price.innerText=` ₪ ${this.state.prod.priceBig}`
+        this.setState({selectedPrice:this.state.prod.priceBig,size:"גדול"})
     } 
 
     priceSmallExists(){
@@ -75,6 +80,40 @@ class Product extends Component{
         }
         this.setState({arrImage:arr})
     }
+    
+
+     async setInLocalStorage(){
+
+        if(this.state.prod.priceSmall && !this.state.selectedPrice){
+            let price=document.querySelector("#priceChoice")
+            price.innerText=` בחר גודל`
+            return
+
+        }
+        if(!this.state.prod.priceSmall){
+            await this.setState({selectedPrice:this.state.prod.priceBig}) 
+        }
+        let flag=false
+        let storage=JSON.parse(localStorage.getItem("cartStorage")||"[]")
+
+            for (const item of storage) {
+                if(item.id==this.state.prod.id && this.state.selectedPrice==item.price){
+                    item.count++
+                    flag=true
+                }
+            }
+
+
+            if(!flag){
+                if(this.state.size=="קטן")
+                    storage.push({id:this.state.prod.id,count:1,title:this.state.prod.title,img:this.state.prod.img2,price:this.state.selectedPrice,size:this.state.size})
+                else
+                    storage.push({id:this.state.prod.id,count:1,title:this.state.prod.title,img:this.state.prod.img,price:this.state.selectedPrice,size:this.state.size})
+            }
+        
+            localStorage.setItem("cartStorage",JSON.stringify(storage))
+    }
+
 
    render(){
     
@@ -149,7 +188,7 @@ class Product extends Component{
 
                             </div>
                             <div>
-                                <button type="button" className="btn btn-outline-danger">הוסף לסל<i className="fas fa-shopping-cart"></i></button>
+                                <button type="button" className="btn btn-outline-danger" onClick={this.setInLocalStorage}>הוסף לסל<i className="fas fa-shopping-cart"></i></button>
                             </div>
                             <textarea rows="6" cols="25"></textarea>
                   

@@ -2,11 +2,9 @@
 .myLogo{
 
     background-repeat: no-repeat;
-    background-size: 100%;
-    width: 100px;
-    min-width: 100px;
-    height: 100px;
-    min-height: 80px;
+    background-size: cover;
+    min-width: 70px;
+    min-height: 70px;
     float: right;    
     }
 
