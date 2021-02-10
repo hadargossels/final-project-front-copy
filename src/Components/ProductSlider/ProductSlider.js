@@ -3,7 +3,6 @@ import './ProductSlider.css';
 import data from '../../data.json';
 import formatPrice from '../utility/Price';
 import formatStars from '../utility/Stars';
-import { Link } from 'react-router-dom';
 import Modal from '../ProductQuickview/ProductQuickview.js';
 
 class ProductSlider extends Component {

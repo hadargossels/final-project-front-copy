@@ -1,8 +1,27 @@
 import React, { Component } from 'react';
 import './Header.css';
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import CartQuickView from '../CartQuickView/CartQuickView';
 
 class Header extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            show: false,
+        };
+        this.showModal = this.showModal.bind(this);
+        this.hideModal = this.hideModal.bind(this);
+    };
+        showProducts = () => {
+        console.log(this.state.products)
+    };
+    showModal = (e) => {
+        this.setState({ show: true });
+      };
+    
+      hideModal = () => {
+        this.setState({ show: false });
+      };
    render(){
       return(
         <nav className="relative flex flex-wrap items-center justify-between px-2 py-2 navbar-expand-lg bg-yellow-700 mb-3">
@@ -60,9 +79,12 @@ class Header extends Component{
                     </span>
                 </li>
                 <li className="nav-item">
-                    <span className="px-3 py-2 flex items-center text-lg uppercase leading-snug text-white hover:opacity-75">
-                        {/* <Link> */}
-                            <i className="fas fa-shopping-cart text-lg leading-none text-white hover:opacity-75" /> 
+                    <span className="px-3 py-2 flex items-center text-lg uppercase leading-snug text-white hover:opacity-75" onClick={this.showModal}>
+                        {/* <Link to="/shoppingCart"> */}
+                            <span className="text-xs font-semibold inline-block px-1 pt-1 uppercase rounded-full text-yellow-600 bg-yellow-200 uppercase last:mr-0 mr-1">
+                                {this.props.cartNum}
+                            </span>
+                            <i className="fas fa-shopping-cart text-lg leading-none text-white" /> 
                         {/* </Link> */}
                     </span>
                 </li>
@@ -76,6 +98,7 @@ class Header extends Component{
                 </ul>
                 </div>
             </div>
+            <CartQuickView show={this.state.show} handleClose={this.hideModal}/>
             </nav>
       );
    }

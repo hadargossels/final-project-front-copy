@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Footer.css';
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class Footer extends Component{
    render(){
@@ -23,17 +23,17 @@ class Footer extends Component{
                     <div className="flex lg:flex-grow items-center" id="example-navbar-info">
                       <ul className="flex flex-col lg:flex-row list-none">
                         <li className="nav-item">
-                          <a className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" href="https://twitter.com/" target="_blank">
+                          <a className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" href="https://twitter.com/" target="_blank" rel="noreferrer">
                             <i className="fab fa-twitter text-lg leading-lg text-white opacity-75"></i>
                           </a>
                         </li>
                         <li className="nav-item">
-                          <a className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" href="https://www.instagram.com/" target="_blank">
+                          <a className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" href="https://www.instagram.com/" target="_blank" rel="noreferrer">
                             <i className="fab fa-instagram text-lg leading-lg text-white opacity-75"></i>
                           </a>
                         </li>
                         <li className="nav-item">
-                          <a className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" href="https://www.facebook.com/" target="_blank">
+                          <a className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" href="https://www.facebook.com/" target="_blank" rel="noreferrer">
                             <i className="fab fa-facebook-square text-lg leading-lg text-white opacity-75"></i>
                           </a>
                         </li>

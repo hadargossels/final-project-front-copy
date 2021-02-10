@@ -6,8 +6,8 @@ import formatPrice from '../utility/Price';
 import formatPrecent from '../utility/Pecent';
 
 class ProductPage extends Component{
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             imgUrl: "https://via.placeholder.com/350x450",
             title: null,
@@ -21,13 +21,15 @@ class ProductPage extends Component{
             price: null,
             publicationDate: null,
             description: null,
-            ISBN10: null,
+            ISBN10: 0,
             ISBN13: null,
             author: null,
             artist: null,
             stars: null,
             originalPrice: null,
-            diff: null
+            diff: null,
+            shoppingCart: [],
+            cartMessage: null,
         };
     }
 
@@ -64,14 +66,27 @@ class ProductPage extends Component{
         })
     }
 
-    returnStars = () => {
-        return <i className="fas fa-star"></i>
+    addToStorage = (itemId) => {
+        let myCart = JSON.parse(localStorage.getItem('shoppingCart'));
+        if(myCart == null) {
+            myCart = [];
+        }
+        myCart.push(itemId);
+        let myList = Array.from(new Set(myCart));
+        let lengthList = myList.length
+        localStorage.setItem('shoppingCart',JSON.stringify(myList))
+        localStorage.setItem('shoppingLength',lengthList)
+        this.setState({
+            cartMessage: <h1 className="text-3xl text-yellow-300 text-center pb-5"><i className="fas fa-check-square"></i> Item added to cart!</h1>
+        })
+        setTimeout(() => {this.setState({cartMessage: null,})}, 10000);
     }
 
    render(){
       return(
           <main className="myYellow">
           <div className="mx-96 my-10">
+              {this.state.cartMessage}
               <div className="grid grid-cols-4 grid-rows-7 gap-3">
                 <div className="col-span-4 row-span-1">
                     <h1 className="text-4xl font-bold py-2 bg-yellow-700 text-center rounded text-white">
@@ -79,7 +94,7 @@ class ProductPage extends Component{
                     </h1>
                 </div>
                 <div className="col-span-1 row-span-3 place-self-center">
-                    <img src={this.state.imgUrl} className="border border-black" />
+                    <img src={this.state.imgUrl} className="border border-black" alt=""/>
                 </div>
                 <div className="col-span-2 row-span-3 bg-gray-300 p-9 border border-gray-200 rounded text-xl">
                     <p>
@@ -112,7 +127,9 @@ class ProductPage extends Component{
                         Worldwide delivery
                     </p>
                     <br/>
-                    <button className="bg-yellow-700 text-yellow-100 active:bg-yellow-700 font-medium uppercase text-lg px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 hover:bg-yellow-100 hover:text-yellow-600 active:bg-white" type="button" style={{ transition: "all .15s ease" }}>
+                    <button className="bg-yellow-700 text-yellow-100 active:bg-yellow-700 font-medium uppercase text-lg px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 hover:bg-yellow-100 hover:text-yellow-600 active:bg-white" type="button" style={{ transition: "all .15s ease" }} 
+                    onClick={() => {(this.addToStorage(this.state.ISBN10));(this.props.addToCart(true))}}
+                    >
                         <i className="fas fa-cart-arrow-down"></i> Add to Cart
                     </button>
                     <button className="text-yellow-700 bg-yellow-100 border border-solid border-yellow-700 hover:bg-yellow-700 hover:text-yellow-100 active:bg-yellow-700 font-medium uppercase text-lg px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style={{ transition: "all .15s ease" }}>
@@ -122,19 +139,19 @@ class ProductPage extends Component{
                 <div className="col-span-1 row-span-1">
                     <div className="grid grid-cols-5 grid-rows-1 gap-2">
                         <span className="col-span-1">
-                            <img src="https://via.placeholder.com/350x450" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
+                            <img src="https://via.placeholder.com/350x450" width="50" className="mx-auto border border-black" alt="" onClick={this.showEvent.bind(this)}/>
                         </span>
                         <span className="col-span-1">
-                            <img src="https://via.placeholder.com/350x450/0000FF" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
+                            <img src="https://via.placeholder.com/350x450/0000FF" alt="" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
                         </span>
                         <span className="col-span-1" href="">
-                            <img src="https://via.placeholder.com/350x450/FF0000" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
+                            <img src="https://via.placeholder.com/350x450/FF0000" alt="" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
                         </span>
                         <span className="col-span-1" href="">
-                            <img src="https://via.placeholder.com/350x450/008000" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
+                            <img src="https://via.placeholder.com/350x450/008000" alt="" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
                         </span>
                         <span className="col-span-1" href="">
-                            <img src="https://via.placeholder.com/350x450/000000" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
+                            <img src="https://via.placeholder.com/350x450/000000" alt="" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
                         </span>
                     </div>
                 </div>
@@ -191,9 +208,9 @@ class ProductPage extends Component{
                     <br/>
                     <div className="grid grid-cols-3 grid-rows-1 gap-2 text-sm px-2 py-3">
                         <p className="col-span-1">
-                            <a>
-                                <img src="https://via.placeholder.com/100x150" className="border border-black float-left mr-2" />
-                            </a>
+                            <span>
+                                <img src="https://via.placeholder.com/100x150" alt="" className="border border-black float-left mr-2" />
+                            </span>
                             <span className="font-medium text-yellow-400 text-lg">Lorem ipsum dolor sit amet</span>
                             <br/>
                             <span className="font-medium text-gray-200 text-base">$25</span>
@@ -205,9 +222,9 @@ class ProductPage extends Component{
                             <i className="far fa-star text-yellow-500"></i>
                         </p>
                         <p className="col-span-1">
-                            <a>
-                                <img src="https://via.placeholder.com/100x150" className="border border-black float-left mr-2" />
-                            </a>
+                            <span>
+                                <img src="https://via.placeholder.com/100x150" alt="" className="border border-black float-left mr-2" />
+                            </span>
                             <span className="font-medium text-yellow-400 text-lg">Lorem ipsum dolor sit amet</span>
                             <br/>
                             <span className="font-medium text-gray-200 text-base">$17</span>
@@ -219,9 +236,9 @@ class ProductPage extends Component{
                             <i className="fas fa-star text-yellow-500"></i>
                         </p>
                         <p className="col-span-1">
-                            <a>
-                                <img src="https://via.placeholder.com/100x150" className="border border-black float-left mr-2" />
-                            </a>
+                            <span>
+                                <img src="https://via.placeholder.com/100x150" alt="" className="border border-black float-left mr-2" />
+                            </span>
                             <span className="font-medium text-yellow-400 text-lg">Lorem ipsum dolor sit amet</span>
                             <br/>
                             <span className="font-medium text-gray-200 text-base">$37</span>

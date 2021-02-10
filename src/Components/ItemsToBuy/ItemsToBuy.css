@@ -1,0 +1,19 @@
+.item {
+    width: 50vw;
+    height: 190px;
+}
+
+.header {
+    width: 50vw;
+}
+
+.cartImage {
+    height: 150px;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+
+   opacity: 1;
+
+}

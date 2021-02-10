@@ -3,8 +3,30 @@ import data from '../../data.json';
 import { Link } from 'react-router-dom';
 import formatPrice from '../utility/Price';
 
-const Modal = ({ handleClose, show, title }) => {
+const CartQuickView = ({ handleClose, show, title }) => {
   const showHideClassName = show ? "modal modal-visible" : "modal-hidden";
+  let storageList = localStorage.getItem('shoppingCart');
+  let productList = [];
+  let itemSum = 0;
+  if (storageList) {
+    productList = data.products.filter((product) => {
+        if (storageList.includes(product.ISBN10)) {
+            return product
+        }
+    })
+  }
+
+  if (productList.length) {
+    productList.forEach((product) => {
+        itemSum += product.price
+    })
+  }
+console.log(itemSum)
+let itemNum = localStorage.getItem('shoppingLength');
+if (!itemNum) {
+    itemNum = 0;
+}
+console.log(itemNum)
   let obj;
   if(title != null) {
     obj = data.products.filter(product => product.title === title)
@@ -18,14 +40,14 @@ const Modal = ({ handleClose, show, title }) => {
 
   return (
     <div className={showHideClassName}>
-    <div className="justify-center items-center fixed inset-0 flex overflow-x-hidden overflow-y-auto z-50 outline-none focus:outline-none" onClick={handleClose}>
-    <div className="relative w-auto my-6 mx-auto max-w-3xl">
+    <div className="absolute right-10 top-12 flex overflow-x-hidden overflow-y-auto z-50 outline-none focus:outline-none" onClick={handleClose}>
+    <div className="relative w-full my-6 mx-auto max-w-3xl">
       {/*content*/}
       <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-yellow-50 outline-none focus:outline-none">
         {/*header*/}
         <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t">
-          <h3 className="text-3xl font-semibold text-yellow-700">
-            {obj.title}
+          <h3 className="text-2xl font-semibold text-yellow-700">
+            You have {itemNum} items in your cart
           </h3>
           <button className="p-1 ml-auto bg-transparent border-0 text-black opacity-95 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onClick={handleClose}>
             <span className="text-yellow-800 opacity-95 h-6 w-6 text-2xl block">
@@ -34,10 +56,18 @@ const Modal = ({ handleClose, show, title }) => {
           </button>
         </div>
         {/*body*/}
-        <div className="relative p-6 flex-auto">
-          <img src={obj.image} className="float-left pr-12" alt="" />
+        {productList.map((product) => {
+            return (
+                <div className="pb-2">
+                    <img src={product.image} className="cartImage float-left pr-5 h-1/3" alt="" />
+                    <p className="text-xl">{product.title}<br/>{formatPrice(product.price)}</p>
+                </div>
+            )
+        })}
+        {/* <div className="relative p-6 flex-auto">
+          <img src={obj.image} className="cartImage float-left pr-12 h-1/2" alt="" />
           <p className="my-4 text-gray-600 text-lg leading-relaxed">
-            {obj.description}
+              "hello"
           </p>
           <p className="text-xl">
             {formatPrice(obj.price)}
@@ -47,12 +77,16 @@ const Modal = ({ handleClose, show, title }) => {
             Buy now!
           </button>
           </p>
+        </div> */}
+        <hr/>
+        <div className="text-xl">
+            <span>Sum Total: {formatPrice(itemSum)}</span>
         </div>
         {/*footer*/}
         <div className="flex items-center justify-end p-6 border-t border-solid border-gray-300 rounded-b">
-          <Link to={"/item/" + obj.ISBN10}>
+          <Link to="/shoppingCart">
             <button className="bg-yellow-600 text-yellow-100 uppercase text-lg px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" style={{ transition: "all .15s ease" }}>
-              Read More
+              Go To Shopping Cart
             </button>
           </Link>
         </div>
@@ -64,4 +98,4 @@ const Modal = ({ handleClose, show, title }) => {
   );
 };
 
-export default Modal;
+export default CartQuickView;

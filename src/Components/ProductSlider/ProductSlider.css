@@ -95,10 +95,10 @@ p {
     display: block;
     /* opacity: 1; */
     visibility: visible;
-  }
+}
   
-  .modal-hidden {
+.modal-hidden {
     display: none;
     /* opacity: 0; */
     visibility: hidden;
-  }
+}

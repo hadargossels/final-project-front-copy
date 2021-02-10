@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import './Homepage.css';
 import ProductSlider from '../ProductSlider/ProductSlider';
 import HeaderSlider from '../HeaderSlider/HeaderSlider';
-import { ModalProvider, Modal, useModal, ModalTransition} from 'react-simple-hook-modal';
 import { Link } from 'react-router-dom';
 
 class Homepage extends Component {
     render () {
         return(    
-            <ModalProvider>
             <main className="othe pb-12">
                 <HeaderSlider />
                 <div>
@@ -30,7 +28,6 @@ class Homepage extends Component {
                     <ProductSlider slideId="top"/>
                 </div>
             </main>
-            </ModalProvider>
         )
     }
 }

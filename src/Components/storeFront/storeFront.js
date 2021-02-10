@@ -55,12 +55,12 @@ class StoreFront extends Component {
             if (!filteredProducts.length) {
                 this.setState({
                     format:event.target.value,
-                    products: data.products.filter(product => product.format == event.target.value)
+                    products: data.products.filter(product => product.format === event.target.value)
                 })
             } else {
                 this.setState({
                     format:event.target.value,
-                    products: products.filter(product => product.format == event.target.value)
+                    products: products.filter(product => product.format === event.target.value)
                 })
             }
         }
@@ -76,7 +76,7 @@ class StoreFront extends Component {
         } else {
             this.setState({
                 publisher:event.target.value,
-                products: products.filter(product => product.publisher == event.target.value)
+                products: products.filter(product => product.publisher === event.target.value)
             })
         }
     }
@@ -99,8 +99,13 @@ class StoreFront extends Component {
                         return -1
                     }
                 }
+                return true;
             })
         })
+    }
+
+    tryAddToCart = () => {
+        this.props.addToCart(true)
     }
 
     render () {
@@ -113,16 +118,16 @@ class StoreFront extends Component {
 
         let myUrl = window.location.href.split('catalogue/');
 
-        if(myUrl[1] == "new") {
-            catalogObj = catalogObj.filter(obj => (obj.new == "yes"))
+        if(myUrl[1] === "new") {
+            catalogObj = catalogObj.filter(obj => (obj.new === "yes"))
         };
 
-        if(myUrl[1] == "specials") {
-            catalogObj = catalogObj.filter(obj => (obj.special == "yes"))
+        if(myUrl[1] === "specials") {
+            catalogObj = catalogObj.filter(obj => (obj.special === "yes"))
         };
 
-        if(myUrl[1] == "top") {
-            catalogObj = catalogObj.filter(obj => (obj.top == "yes"))
+        if(myUrl[1] === "top") {
+            catalogObj = catalogObj.filter(obj => (obj.top === "yes"))
         };
 
         return(    
@@ -140,7 +145,10 @@ class StoreFront extends Component {
                     ></Filters>
                 </div>
                 <div className="itemsView">
-                    <ItemView products={catalogObj}></ItemView>
+                    <ItemView 
+                    products={catalogObj}
+                    addToCart={this.tryAddToCart}
+                    ></ItemView>
                     <br/>
                     <Pagination/>
                     <br/>

@@ -1,0 +1,14 @@
+.shoppingCart {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 86.4vh;
+}
+
+.items {
+    flex: 3 60rem;
+    align-items: baseline;
+}
+
+.checkout {
+    flex: 1 20rem;
+}
