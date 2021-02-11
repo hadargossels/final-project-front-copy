@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import CustomButton from "../custom-button/custom-button.component";
 import QuickView from "../quick-view/quick-view.component";
@@ -27,6 +27,8 @@ const CollectionItem = ({
     height: height,
   };
 
+  const [displayMessage, setDisplayMessage] = useState(false);
+
   const handelClick = (event) => {
     // console.log(event.target.id);
     history.push(`/product/${name.split(" ").join("-")}`);
@@ -34,6 +36,15 @@ const CollectionItem = ({
 
   const handleBtnClick = () => {
     // console.log([name, price, imageUrl]);
+  };
+
+  const handleCartBtnClick = () => {
+    addItem({ id, name, price, imageUrl });
+    setDisplayMessage(true);
+
+    setTimeout(() => {
+      setDisplayMessage(false);
+    }, 3000);
   };
 
   return (
@@ -75,20 +86,21 @@ const CollectionItem = ({
         />{" "}
       </div>
 
-      <div className="item-add" style={{ display: "none" }}>
+      <div
+        className="item-add"
+        style={{ display: displayMessage ? "block" : "none" }}
+      >
         {" "}
         <h4>Item was add to your shopping cart </h4>
       </div>
 
-      <CustomButton
-        onClick={() => addItem({ id, name, price, imageUrl })}
-        inverted
-      >
+      <CustomButton onClick={handleCartBtnClick} inverted>
         Add to cart
       </CustomButton>
 
       {source !== "main" && (
         <QuickView
+          // onClick={handelQuickViewClick}
           img={imageUrl}
           title={name}
           text="Glove For Cats Cat Grooming Silicone Pet Dog brush Glove De shedding Gentle Efficient Pet Grooming Glove Dog Bath Cat cleaning"
