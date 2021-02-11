@@ -4,6 +4,7 @@ export default class ShopingBag extends Component {
 
     constructor(props){
         super(props)
+        console.log(this.props);
         // localStorage.clear();
         // console.log(this.props.match.params.iJson);
         this.myCart=localStorage.getItem('cart');
