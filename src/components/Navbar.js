@@ -5,6 +5,8 @@ import "./headerStyle.css";
 import {ButtonContainer} from './Button';
 import SideMenu from './sideMenu/SideMenu';
 import Clock from 'react-live-clock'
+import {ProductConsumer} from '../context';
+
 export default class Navbar extends Component {
 
 
@@ -28,8 +30,12 @@ export default class Navbar extends Component {
  
           
         return (
+            
             <NavWrapper className="navbar navbar-expand-sm navbar-dark px-sm-5" >
+               
                 <SideMenu></SideMenu>
+
+                
                 <div className="big-menu">
                     <div style={{display:"flex", flexDirectio:"column"}}>
                     {/* 
@@ -71,12 +77,21 @@ export default class Navbar extends Component {
                         </div>
                     </div>
                     <Link to='/cart'>
+                   
                         <ButtonContainer>
-                            <span className="mr-2">
+                        
+                            <span className="mr-2" style={{color:"white"}}>
                             <i className="fas fa-cart-plus"/>
+                            Item: 
+                            <ProductConsumer>
+                                {value=>{ return(" "+ value.cart.length )}}
+                            </ProductConsumer>
+                            
                             </span>
-                            my cart
+                            
+                         
                         </ButtonContainer>
+                      
                     </Link> 
                         <Link to='/login'>
                             <span className = "btn-animation btn from-bottom" href="#news" >Login</span>
@@ -90,6 +105,7 @@ export default class Navbar extends Component {
                     </div>
                 </div>
             </NavWrapper>
+              
         )
     }
 }

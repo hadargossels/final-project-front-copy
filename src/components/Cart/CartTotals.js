@@ -10,7 +10,7 @@ export default function CartTotals({value , history}) {
                 <div className="row ">
                     <div className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8
                      text-capitalize text-end">
-                            <Link to="/">
+                            <Link to="/cart">
                                 <button type="button" className="btn btn-outline-danger text-uppercase mb-3
                                 px-5" style={{height:'30%' , color:'black'}} onClick={()=>clearCart()}>
                                         clear cart
@@ -34,15 +34,18 @@ export default function CartTotals({value , history}) {
                                 </span>
                                 <strong>${cartTotal}</strong>
                             </h5>
-                            <button type="button" className="btn text-uppercase mb-3
-                                px-5" style={{height:'30%' , color:'black'}} onClick={()=>Checkout({value}, {history})}>
+                            <Link to="/checkout" total={cartTotal} clearCart={clearCart} history={history} >
+                            <button type="button" className="btn btn-outline-primary text-uppercase mb-3
+                                px-5" style={{height:'30%' , color:'black'}}>
                                         checkout
+                                        
                                 </button>
-                            <Link to="/checkout">
+                            </Link>
+                            {/* <Link to="/checkout"> */}
                                 {/* <Checkout value={value} history={history}/> */}
 
                                 
-                            </Link>
+                            {/* </Link> */}
                            
                             {/* <PaypalButton total={cartTotal} clearCart={clearCart} history={history}/> */}
 

@@ -3,7 +3,6 @@ import Product from './Product'
 import Title from './Title'
 import {ProductConsumer} from '../context'
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
-import RangeSlider from 'react-bootstrap-range-slider';
 import 'jquery/dist/jquery.js';
 // import { Slider } from '@material-ui/core'
 import PriceSlider from './PriceSlider'
@@ -75,17 +74,6 @@ render() {
                                                 sale
                                                 </label>
                                             </div>
-
-
-
-
-
-
-
-
-
-
-
                                             <div class="dropdown">
                                                      <PriceSlider val={value}/> {/*does not work */}
                                                     <button class="btn btn-secondary dropdown-toggle" 
@@ -100,42 +88,12 @@ render() {
                                                     <input  className="dropdown-item btn" onClick={()=>{value.ratingSort()}} type="button" value="Rating" /> 
                                                     </div>
                                             </div>
- 
-
-
-
-
-
-
-
-
 
                                             </div>
                                             
                                         </div>
 
-                                        {/* <div className="d-flex justify-content-center text-uppercase">
-                                           
-                                            <div className="flex flex-direction:column  btn-lg">
-                                                                                     
-                                                <div class="dropdown">
-                                                     <PriceSlider val={value}/> does not work 
-                                                    <button class="btn btn-secondary dropdown-toggle" 
-                                                    style={{fontSize:"25px", color: " var(--lightBlue)",background: "var(--mainWhite)",borderColor:"var(--lightBlue)"}} 
-                                                    type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Sort By
-                                                    </button>
-                                                    
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style={ {background: "var(--mainWhite)",borderColor:"var(--lightBlue)"}}>
-                                                    <input className="dropdown-item btn" onClick={()=>{value.priceHighToLow("high")}} type="button" value="High price to low" /> 
-                                                    <input  className="dropdown-item btn" onClick={()=>{value.priceHighToLow("low")}} type="button" value="Low price to High" /> 
-                                                    <input  className="dropdown-item btn" onClick={()=>{value.ratingSort()}} type="button" value="Rating" /> 
-                                                    </div>
-                                                </div>
- 
-                                            </div>
-                                            
-                                        </div> */}
+                                       
                                     </div>
                                     <div className="col-10">
                                         <div className="row">
