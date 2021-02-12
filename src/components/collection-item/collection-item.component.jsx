@@ -29,6 +29,8 @@ const CollectionItem = ({
 
   const [displayMessage, setDisplayMessage] = useState(false);
 
+  const [displayModal, setDisplayModal] = useState(false);
+
   const handelClick = (event) => {
     // console.log(event.target.id);
     history.push(`/product/${name.split(" ").join("-")}`);
@@ -39,12 +41,26 @@ const CollectionItem = ({
   };
 
   const handleCartBtnClick = () => {
+    console.log(imageUrl);
+    console.log(price);
+
+    console.log(name);
+
+    console.log(id);
     addItem({ id, name, price, imageUrl });
     setDisplayMessage(true);
 
     setTimeout(() => {
       setDisplayMessage(false);
     }, 3000);
+  };
+
+  const handleDisplayModal = () => {
+    setDisplayModal(true);
+  };
+
+  const closeModal = () => {
+    setDisplayModal(false);
   };
 
   return (
@@ -98,7 +114,51 @@ const CollectionItem = ({
         Add to cart
       </CustomButton>
 
-      {source !== "main" && (
+      <div>
+        {/* Trigger/Open The Modal */}
+
+        <i id="myBtn" onClick={handleDisplayModal} class="fas fa-search"></i>
+
+        {/* <button >
+          Open Modal
+        </button> */}
+        {/* The Modal */}
+        <div
+          style={{ display: displayModal ? "block" : "none" }}
+          id="myModal"
+          className="modal"
+        >
+          {/* Modal content */}
+          <div className="modal-content">
+            <span onClick={closeModal} className="close">
+              ×
+            </span>
+            <img src={imageUrl} alt="modal" />
+            <div className="row">
+              <h3>{name}</h3>
+              <h4>{price}$</h4>{" "}
+            </div>
+            <p>
+              Glove For Cats Cat Grooming Silicone Pet Dog brush Glove De
+              shedding Gentle Efficient Pet Grooming Glove Dog Bath Cat cleaning
+            </p>
+
+            <button onClick={handelClick} class="btn btn-secondary">
+              Go to the product page
+            </button>
+            <button
+              onClick={handleCartBtnClick}
+              type="button"
+              class="btn btn-primary"
+            >
+              add to cart
+              <i class="fas fa-shopping-cart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* {source !== "main" && (
         <QuickView
           // onClick={handelQuickViewClick}
           img={imageUrl}
@@ -106,7 +166,7 @@ const CollectionItem = ({
           text="Glove For Cats Cat Grooming Silicone Pet Dog brush Glove De shedding Gentle Efficient Pet Grooming Glove Dog Bath Cat cleaning"
           price={price}
         />
-      )}
+      )} */}
     </div>
   );
 };

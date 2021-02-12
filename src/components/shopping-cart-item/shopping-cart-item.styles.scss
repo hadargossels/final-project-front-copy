@@ -21,7 +21,12 @@
   .price {
     width: 23%;
   }
-
+  .item-add {
+    color: green;
+  }
+  .item-remove {
+    color: red;
+  }
   .quantity {
     display: flex;
     .arrow {

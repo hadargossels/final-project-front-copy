@@ -1,0 +1,122 @@
+.checkout-page {
+  width: 55%;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px auto 0;
+
+  .checkout-header {
+    width: 100%;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid darkgrey;
+
+    .header-block {
+      text-transform: capitalize;
+      width: 23%;
+
+      &:last-child {
+        width: 8%;
+      }
+    }
+  }
+
+  .total {
+    margin-top: 30px;
+    margin-left: auto;
+    font-size: 36px;
+  }
+}
+
+.check-page {
+  background-color: #f8f9fa !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: left;
+  .name {
+    font-size: 14px;
+    margin-left: 12px;
+    margin-right: 20px;
+  }
+
+  .item-add {
+    h6 {
+      margin-top: 5px;
+      color: green;
+      font-size: 11px;
+    }
+  }
+
+  .item-remove {
+    h6 {
+      margin-top: 5px;
+
+      color: red;
+      font-size: 11px;
+    }
+  }
+
+  img {
+    width: 100px !important;
+    height: 70px !important;
+    padding-right: 0px;
+  }
+
+  .arrow {
+    font-size: 12px;
+  }
+
+  .value {
+    font-size: 12px;
+  }
+
+  .price {
+    font-size: 12px;
+  }
+
+  .remove-button {
+    color: #212529;
+    font-size: 12px;
+  }
+  p {
+    color: #212529;
+  }
+  span {
+    color: #212529;
+  }
+  strong {
+    color: #212529;
+  }
+  label {
+    color: black;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
+  .form-control {
+    background-color: #fff;
+  }
+  h6 {
+    color: black;
+  }
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    box-sizing: border-box;
+    padding: 0;
+  }
+
+  .invalid-feedback {
+    display: block;
+  }
+  .d-flex {
+    display: -ms-flexbox;
+    display: flex;
+  }
+}

@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import SHOP_DATA from "./../shop/shop.data";
 
 import "./product.styles.scss";
+import { connect } from "react-redux";
+import { addItem, removeItem } from "../../redux/cart/cart.actions";
+import { selectCartItems } from "./../../redux/cart/cart.selectors";
+import { selectCartTotal } from "./../../redux/cart/cart.selectors";
 
 function ProductPage(props) {
+  console.log("props :", props);
   const collections = SHOP_DATA;
   const productName = props.match.params.id.replaceAll("-", " ");
 
@@ -12,25 +17,61 @@ function ProductPage(props) {
   });
   console.log("arrOfArr :", arrOfArr);
   var price;
+  var imageUrl;
+  var id;
+  var name;
   var imgFound = false;
   for (let i = 0; i < arrOfArr.length && !imgFound; i++) {
     for (let j = 0; j < arrOfArr[i].length; j++) {
       if (arrOfArr[i][j].name === productName) {
-        console.log("hello");
         price = arrOfArr[i][j].price;
-        var img = arrOfArr[i][j].imageUrl;
+        imageUrl = arrOfArr[i][j].imageUrl;
+        name = arrOfArr[i][j].name;
+
+        id = arrOfArr[i][j].id;
+
         imgFound = true;
         break;
       }
     }
   }
 
-  const [mainImage, setMainImage] = useState(img);
+  const [mainImage, setMainImage] = useState(imageUrl);
+  const [counter, setCounter] = useState(0);
+  const [displayMessage, setDisplayMessage] = useState(false);
+  const [displayRemoveMessage, setDisplayRemoveMessage] = useState(false);
+  const handleCartBtnClick = () => {
+    setCounter(counter + 1);
+
+    setDisplayMessage(true);
+
+    setTimeout(() => {
+      setDisplayMessage(false);
+    }, 2000);
+
+    props.addItem({ id, name, price, imageUrl });
+    // setDisplayMessage(true);
+
+    // setTimeout(() => {
+    //   setDisplayMessage(false);
+    // }, 3000);
+  };
+
+  const handleDelete = () => {
+    if (counter >= 1) {
+      setCounter(counter - 1);
+
+      setDisplayRemoveMessage(true);
+
+      setTimeout(() => {
+        setDisplayRemoveMessage(false);
+      }, 2000);
+
+      props.removeItem({ id, name, price, imageUrl });
+    }
+  };
 
   const changeImage = (event) => {
-    console.log("clickeddd", event.target.src);
-    // var ls = document.getElementsByClassName("image_list")[0];
-    // console.log("ls :", ls);
     setMainImage(event.target.src);
   };
 
@@ -89,16 +130,20 @@ function ProductPage(props) {
               <div className="col-lg-2 order-lg-1 order-2">
                 <ul className="image_list">
                   <li data-image="https://i.ytimg.com/vi/MPV2METPeJU/maxresdefault.jpg">
-                    <img onClick={changeImage} src={img} alt="product image" />
+                    <img
+                      onClick={changeImage}
+                      src={imageUrl}
+                      alt="product image"
+                    />
                   </li>
-                  <li data-image={img}>
+                  <li data-image={imageUrl}>
                     <img
                       onClick={changeImage}
                       src="https://ae01.alicdn.com/kf/H1217f9616fc44491a89db3bc63270e6aC/Pet-Dog-Waterproof-Raincoat-Jumpsuit-Reflective-Rain-Coat-Sunscreen-Dog-Outdoor-Clothes-Jacket-for-Small-Dog.jpg"
                       alt
                     />
                   </li>
-                  <li data-image={img}>
+                  <li data-image={imageUrl}>
                     <img
                       onClick={changeImage}
                       src="https://ae01.alicdn.com/kf/Hedd97931c4654f0dbf99003fbca3ba1bu/Pet-Dog-Waterproof-Raincoat-Jumpsuit-Reflective-Rain-Coat-Sunscreen-Dog-Outdoor-Clothes-Jacket-for-Small-Dog.jpg"
@@ -189,7 +234,6 @@ function ProductPage(props) {
                       </span>
                     </span>
                   </div>
-
                   <hr className="singleline" />
                   <div className="order_info d-flex flex-row">
                     <form action="#"></form>
@@ -198,21 +242,22 @@ function ProductPage(props) {
                     <div className="col-xs-6" style={{ marginLeft: 13 }}>
                       <div className="product_quantity">
                         {" "}
-                        <span>QTY: </span>{" "}
+                        <span>QTY: {counter} </span>{" "}
                         <input
                           id="quantity_input"
                           type="text"
                           pattern="[0-9]*"
-                          defaultValue={1}
                         />
                         <div className="quantity_buttons">
                           <div
+                            onClick={handleCartBtnClick}
                             id="quantity_inc_button"
                             className="quantity_inc quantity_control"
                           >
                             <i className="fas fa-chevron-up" />
                           </div>
                           <div
+                            onClick={handleDelete}
                             id="quantity_dec_button"
                             className="quantity_dec quantity_control"
                           >
@@ -224,6 +269,7 @@ function ProductPage(props) {
                     <div className="col-xs-6">
                       {" "}
                       <button
+                        onClick={handleCartBtnClick}
                         type="button"
                         className="btn btn-primary shop-button"
                       >
@@ -239,6 +285,20 @@ function ProductPage(props) {
                         <i className="fa fa-heart" />
                       </div>
                     </div>
+                  </div>{" "}
+                  <div
+                    className="item-add"
+                    style={{ display: displayMessage ? "block" : "none" }}
+                  >
+                    {" "}
+                    <h6>Item was add to your shopping cart </h6>
+                  </div>
+                  <div
+                    className="item-remove"
+                    style={{ display: displayRemoveMessage ? "block" : "none" }}
+                  >
+                    {" "}
+                    <h6>Item was remove to your shopping cart </h6>
                   </div>
                 </div>
               </div>
@@ -264,7 +324,7 @@ function ProductPage(props) {
                   <div className="col-md-5 padding-0">
                     <div className="bbb_combo">
                       <div className="bbb_combo_image">
-                        <img className="bbb_combo_image" src={img} alt />
+                        <img className="bbb_combo_image" src={imageUrl} alt />
                       </div>
                       <div className="d-flex flex-row justify-content-start">
                         {" "}
@@ -302,7 +362,7 @@ function ProductPage(props) {
                   <div className="col-md-5 padding-0">
                     <div className="bbb_combo">
                       <div className="bbb_combo_image">
-                        <img className="bbb_combo_image" src={img} alt />
+                        <img className="bbb_combo_image" src={imageUrl} alt />
                       </div>
                       <div className="d-flex flex-row justify-content-start">
                         {" "}
@@ -382,7 +442,7 @@ function ProductPage(props) {
                   <div className="col-md-5 padding-0">
                     <div className="bbb_combo">
                       <div className="bbb_combo_image">
-                        <img className="bbb_combo_image" src={img} alt />
+                        <img className="bbb_combo_image" src={imageUrl} alt />
                       </div>
                       <div className="d-flex flex-row justify-content-start">
                         {" "}
@@ -417,7 +477,7 @@ function ProductPage(props) {
                   <div className="col-md-5 padding-0">
                     <div className="bbb_combo">
                       <div className="bbb_combo_image">
-                        <img className="bbb_combo_image" src={img} alt />
+                        <img className="bbb_combo_image" src={imageUrl} alt />
                       </div>
                       <div className="d-flex flex-row justify-content-start">
                         {" "}
@@ -478,6 +538,7 @@ function ProductPage(props) {
                       <div className="add-both-cart-button">
                         {" "}
                         <button
+                          onClick={handleCartBtnClick}
                           type="button"
                           className="btn btn-primary shop-button"
                         >
@@ -581,8 +642,19 @@ function ProductPage(props) {
 //   <div className="product">
 //   </div>
 // );
+const mapStateToProps = (state, ownProps) => {
+  return {
+    cartItems: selectCartItems(state),
+  };
+};
 
-export default ProductPage;
+const mapDispatchToProps = (dispatch) => ({
+  addItem: (item) => dispatch(addItem(item)),
+  removeItem: (item) => dispatch(removeItem(item)),
+});
+
+// export default ProductPage;
+export default connect(mapStateToProps, mapDispatchToProps)(ProductPage);
 
 // import React from "react";
 // import SHOP_DATA from "./../shop/shop.data";
@@ -635,7 +707,7 @@ export default ProductPage;
 //     return (
 //       // <div className="product-page">
 //       //   <h1>{productName} </h1>
-//       //   <img src={img} alt="product image" />
+//       //   <img src={imageUrl} alt="product image" />
 //       //   <p>{price}$</p>
 
 //       // </div>

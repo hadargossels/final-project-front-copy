@@ -1,0 +1,70 @@
+Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+sed do eiusmod tempor incididunt ut labore et dolore magna
+aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Duis aute irure dolor in reprehenderit in voluptate velit
+esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+occaecat cupidatat non proident, sunt in culpa qui officia
+deserunt mollit anim id est laborum.
+123
+323
+sss
+abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
+0123456789 _+-.,!@#$%^&*();\/|<>"'
+12345 -98.7 3.141 .6180 9,000 +42
+555.123.4567	+1-(800)-555-2468
+foo@demo.net	bar.ba@test.co.uk
+www.demo.com	http://foo.co.uk/
+https://marketplace.visualstudio.com/items?itemName=chrmarti.regex
+https://github.com/chrmarti/vscode-regex
+
+0542801819
+Gilad 
+
+253 N. Cherry St. 
+
+dd
+d
+ba
+123  
+  344 1323  
+
+  12345
+12345-6789
+12345 1234
+
+4111 1111 1111 1111 
+
+
+Credit Card Number format is : "nnnn nnnn nnnn nnnn"
+
+I tested four strings below with this pattern, but the temp3 string unexpectedly returns true.
+
+I don't know what's wrong. The regular expression I'm using should validate for four digits and one space exactly, but temp3 returns true despite not matching this pattern.
+
+String temp1 = " adfs 1111 2222 3333 4444 fadad";  // outer test
+String temp2 = "11 11 2222 3333 4444"; // inner test
+String temp3 = "11111 2222 3333 4444"; // inner test
+String temp4 = "1111 2a222 3333 4444"; // inner test
+
+public String chkContainCardno(String inputstr) {
+
+    Pattern p = Pattern.compile("[0-9]{4}\\s[0-9]{4}\\s[0-9]{4}\\s[0-9]{4}");
+    Matcher m = p.matcher(inputstr);
+
+    if (m.find()) {
+        return m.group(0);
+    } else {
+        return ErrMsg.Does_Not_Contain_Card_No;
+    }
+}
+[Test Result]
+
+53111013121111111
+temp1 : adfs 1111 2222 3333 4444 fadad : true 1111 2222 3333 4444
+
+temp2 : 11 11 2222 3333 4444 : false
+
+temp3 : 11111 2222 3333 4444 : true 1111 2222 3333 4444 <-- I don't understand
+
+temp4 : 1111 2a222 3333 4444 : false
