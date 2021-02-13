@@ -10,7 +10,7 @@ export default function ShoppingCart() {
                 {
                 arrProd.map((obj)=>{
 
-                    let x=myProducts.filter((prod)=>{
+                    let results=myProducts.filter((prod)=>{
                         return prod.Image===obj.Image
                     })[0];
                     
@@ -19,11 +19,11 @@ export default function ShoppingCart() {
                             <div class="container border ">
                                 <div class="row">
                                     <div class="col-5">
-                                        <img className="popImg" src={x.Image} alt="..."/>
+                                        <img className="popImg" src={results.Image} alt="..."/>
                                     </div>
                                     <div class="col-7">
-                                        <div><b>{x.Title}</b></div><br/>
-                                        <div className="text-start">{obj.Item} x ${x.Price}</div>
+                                        <div><b>{results.Title}</b></div><br/>
+                                        <div className="text-start">{obj.Item} x ${results.Price}</div>
                                     </div>
                             </div>
                         </div>

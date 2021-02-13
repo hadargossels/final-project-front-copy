@@ -53,7 +53,7 @@ constructor(){
                     <li>
 
                     <OverlayTrigger
-                    trigger="hover"
+                    trigger="focus hover"
                     key="bottom"
                     placement="bottom"
                     overlay={
@@ -71,35 +71,34 @@ constructor(){
                     
                     {cartItems}
                         
-
                     
                         
                     <li className="nav-item">
-                        <NavLink to="/home" style={{textDecoration: "none"}}><div className="nav-link">Home</div></NavLink>
+                        <div className="nav-link"><NavLink to="/home" activeStyle={{color: "orange"}}>Home</NavLink></div>
                     </li>
                     <li className="nav-item">
-                        <NavLink to="/login" style={{textDecoration: "none"}}><div className="nav-link">Login</div></NavLink>
+                        <div className="nav-link"><NavLink to="/login" activeStyle={{color: "orange"}}>Login</NavLink></div>
                     </li>
                     <li className="nav-item">
-                        <NavLink to="/register" style={{textDecoration: "none"}}><div className="nav-link">Register</div></NavLink>
+                        <div className="nav-link"><NavLink to="/register" activeStyle={{color: "orange"}}>Register</NavLink></div>
                     </li>
                     <li className="nav-item">
-                        <NavLink to="/" exact style={{textDecoration: "none"}}><div className="nav-link" >Store</div></NavLink>
+                        <div className="nav-link" ><NavLink to="/" exact activeStyle={{color: "orange"}}>Store</NavLink></div>
                     </li>
                     <li className="nav-item">
-                        <NavLink to="/contactUs" style={{textDecoration: "none"}}><div className="nav-link">Contact-Us</div></NavLink>
+                        <div className="nav-link"><NavLink to="/contactUs" activeStyle={{color: "orange"}}>Contact-Us</NavLink></div>
                     </li>
                     <li className="nav-item">
-                        <NavLink to="/info" style={{textDecoration: "none"}}><div className="nav-link">what is hardware wallet?</div></NavLink>
+                        <div className="nav-link"><NavLink to="/info" activeStyle={{color: "orange"}}>what is hardware wallet?</NavLink></div>
                     </li>
                 </ul>
             </div>
-            <NavLink to="/dashboard" style={{textDecoration: "none"}}><div className="nav-link">Dashboard</div></NavLink>        
+            <div className="nav-link"><NavLink to="/dashboard" activeStyle={{color: "orange"}}>Dashboard</NavLink> </div>      
           <form className="d-flex">
             <input id="searcBox" className="form-control me-2" type="search" placeholder="Search" ref={this.callRef} onChange={this.setUrl} value={this.state.urlValue} aria-label="Search"></input>
-            <Link to={"/?q="+this.state.urlValue}>
-            <button className="btn" type="submit" onClick={this.setUrl}>Search</button>
-            </Link>
+            
+            <button className="btn" type="submit" onClick={this.setUrl}><Link to={"/?q="+this.state.urlValue}>Search</Link></button>
+            
           </form>
         </div>
       </nav>

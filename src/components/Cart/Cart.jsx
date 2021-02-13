@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import './Cart.css'
 import Item from './Item'
 import myProducts from '../../prod.json'
+import {Link} from "react-router-dom"
+import CartEmpty from '../../pictures/cartEmpty.png'
 
 export default class Cart extends Component {
     constructor(){
@@ -27,13 +29,18 @@ export default class Cart extends Component {
 
     }
 
+
     render() {
-        
-        
-
-
         return (
             <div className="container-fluid">
+            {!this.state.arrProd.length ? (
+                <div className="container">
+                    <br/>
+                    <h1 className="text-center">No products have been added to cart</h1><br/>
+                    <img src={CartEmpty} alt="..." className="d-flex mx-auto"></img>
+                    <br/><br/>
+                </div>
+            ) : (
                 <div className="row">
                 <div className="col-9">
                 {
@@ -41,8 +48,7 @@ export default class Cart extends Component {
                         <Item key={card.Image} image={card.Image} item={card.Item}/>
                     )
                 }
-                <br/>
-                {!this.state.arrProd.length && <h1>No products have been added to cart</h1>}   
+                <br/>   
                 </div>
                 <div className="col-3">
                         <br/>
@@ -61,7 +67,7 @@ export default class Cart extends Component {
                     <br/><p style={{fontSize:"20px",fontWeight:"bold"}}>How you'll pay</p>
                     <div className="btn-group-vertical">
                     <p className="radioP">
-                        <input type="radio" name="name" id="r1" required />
+                        <input type="radio" name="name" id="r1" required defaultChecked/>
                         <label htmlFor="r1">
                             <span className="radioButtonGraph"></span>
                             <i className="fab fa-cc-mastercard" style={{color:"red"}}></i>
@@ -84,14 +90,22 @@ export default class Cart extends Component {
                             <i className="fab fa-bitcoin" style={{color:"orange"}}></i> (Recommended)
                         </label>
                         </p>
+                        <p className="radioP">
+                        <input type="radio" name="name" id="r4" required/>
+                        <label htmlFor="r4">
+                            <span className="radioButtonGraph"></span>
+                            Cash
+                        </label>
+                        </p>
                     </div>
                     <p>Item(s) total: <span className="text-end">${this.priceCalculation()} </span></p>
                     <p>Shipping: <span className="text-end">${this.shippingPrice()}</span></p>
                     <hr/>
-                    <p style={{fontWeight:"bold"}}>Total (2 items) <span className="text-end">${this.priceCalculation()+this.shippingPrice()}</span></p>
-                    <button id="checkoutBtn">Proceed to checkout</button>
+                    <p style={{fontWeight:"bold"}}>Total ({this.state.arrProd.length} items) <span className="text-end">${this.priceCalculation()+this.shippingPrice()}</span></p>
+                    <button id="checkoutBtn"><Link to='/checkout' style={{color:"white"}}>Proceed to checkout</Link>
+                    </button>
                     <br/>
-                    <input id="couponTxt" type="text" placeholder="Coupon Code"/>&nbsp;<i class="fas fa-tag"></i>
+                    <input id="couponTxt" type="text" placeholder="Coupon Code"/>&nbsp;<i className="fas fa-tag"></i>
                     <button id="couponBtn">activate coupon</button>
                     <br/>
                 </div>
@@ -99,6 +113,13 @@ export default class Cart extends Component {
 
             </div>
 
+
+
+
+            )}
+
+
+                
         </div>
         )
     }

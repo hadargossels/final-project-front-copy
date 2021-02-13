@@ -1,28 +1,34 @@
 import React, { Component } from 'react'
+import './Product.css'
+import {Link} from "react-router-dom"
+import T1 from '../../pictures/T1.png'
+import T1_scale2 from '../../pictures/T1_scale2.jpg'
+import T1_scale3 from '../../pictures/T1_scale3.jpg'
+import T1_scale4 from '../../pictures/T1_scale4.jpg'
+import myProducts from '../../prod.json'
+import Rating from '../Catalog/Rating'
 
-import './Product.css';
 
-import T1 from '../../pictures/T1.png';
-import T1_scale2 from '../../pictures/T1_scale2.jpg';
-import T1_scale3 from '../../pictures/T1_scale3.jpg';
-import T1_scale4 from '../../pictures/T1_scale4.jpg';
-import myProducts from '../../prod.json';
-// import Cart from '../Cart/Cart';
+
 let arrProd = JSON.parse(localStorage.getItem('products')) || [];
 
 export default class Product extends Component {
    constructor(props){
       super(props)
       
-      
       let choosen=this.props.match.params.title;
       let result = myProducts.filter(function (pro) {
          return pro.Title === choosen;
-     })[0].Image;
-
+     })[0];
+     
       this.state = {
-          Image: result,
-          Item:1
+          Image: result.Image,
+          Title: result.Title,
+          Desc:result.Description,
+          Price:result.Price,
+          Rating:result.Rating,
+          Item:1,
+          message:""
       }
       
       this.updateState = this.updateState.bind(this)
@@ -40,16 +46,22 @@ export default class Product extends Component {
   }
 
   addedToCart(){
-      arrProd.push(this.state)
-      localStorage.setItem('products', JSON.stringify(arrProd))
-      alert("this product was added to cart")
-      window.location.reload()
+   
+      if(arrProd.find((obj)=>obj.Image===this.state.Image)){
+         this.setState({message:"already"});
+        
+      }
+      else{
+         arrProd.push({Image:this.state.Image,Item:this.state.Item});
+         localStorage.setItem('products', JSON.stringify(arrProd));
+         this.setState({message:"added"});
+      }
+     
   }
 
    render() {
       
    return (
-      
       <div>
          <div className="container">
          <div className="row">
@@ -71,23 +83,18 @@ export default class Product extends Component {
             </div>
             <div className="col-4">
                <br></br><br></br>
-               <div>10,000 sales | <span><i className="fas fa-star"></i>
-               <i className="fas fa-star"></i>
-               <i className="fas fa-star"></i>
-               <i className="fas fa-star"></i>
-               <i className="fas fa-star"></i>
-               <i className="far fa-heart cursor"></i>
+               <div>10,000 sales | <span>
+               <Rating rating={this.state.Rating}/>
                </span></div>
                <br></br>
-               <div className="title">Whether you're new to Bitcoin or already a security expert,
-                  <b>Trezor Model One </b>is the #1 Bitcoin wallet choice for everybody.</div>
+               <div className="title"><b>{this.state.Title}</b></div>
                <br></br>
                <p>Description:</p>
-               <p>Supports more than 1000 coins, use without risk, secured, supported operating systems, and reinforce your accounts with U2F</p>
+               <p>{this.state.Desc}</p>
             
                <div><span className="seller">Best Seller</span>&#10003; in stock</div>
                <br></br>
-               <div className="price">$59.18</div>
+               <div className="price">${this.state.Price}</div>
                <span>Quantity:&nbsp; 
                <input onClick={this.updateState} type="button" className="btnQty" value="-"/>&nbsp; {this.state.Item} &nbsp;
                <input onClick={this.updateState} type="button" className="btnQty" value="+"/>
@@ -114,12 +121,35 @@ export default class Product extends Component {
                <br></br>
                <div>ready to ship in:</div>
                <div style={{fontWeight:"bold"}}>3-5 bussiness days</div>
-               <div>cost to ship:</div>
-               <div style={{fontWeight:"bold"}}>$20</div>
                <br></br><br></br>
-               <button onClick={this.addedToCart} className="mx-auto d-block cursor buyBtn" >add to Cart</button>
+               <button onClick={this.addedToCart} className="mx-auto d-block cursor buyBtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >add to Cart</button>
+               
+               <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title text-center" id="staticBackdropLabel">Message</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            {this.state.message==="already"? (
+                              <div>This product already found in cart</div>
+                              
+                            ):(
+                              <div>This product added to cart</div>
+                              
+                            )}
+                            
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
                <br></br>
-               <button className="mx-auto d-block cursor buyBtn">Purchase Now</button>
+               <Link to="/cart"><button className="mx-auto d-block cursor buyBtn">Go to cart</button></Link>
                <br></br><br></br><br></br>
             </div>
          </div>

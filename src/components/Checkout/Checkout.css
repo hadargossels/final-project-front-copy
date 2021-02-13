@@ -1,0 +1,25 @@
+.formChk{
+    margin:0 auto;
+    width:500px;
+}
+.lbl{
+    margin:0
+}
+
+.inp{
+    margin-bottom: 10px;
+    width:400px;
+}
+.txtArea{
+    resize: none;
+}
+
+.orderDetails{
+    border: 2px solid black;
+    padding:20px;
+    margin-top:40px;
+}
+
+.paymentBtn{
+    margin-left:400px;
+}
