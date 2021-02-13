@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 
 import "./shopping-cart-item.styles.scss";
 import { connect } from "react-redux";
+
+import { compose } from "redux";
 
 import {
   clearItemFromCart,
@@ -9,15 +12,31 @@ import {
   removeItem,
 } from "../../redux/cart/cart.actions";
 
-const ShoppingCartItem = ({ cartItem, clearItem, addItem, removeItem }) => {
-  const { imageUrl, price, name, quantity } = cartItem;
+const ShoppingCartItem = ({
+  cartItem,
+  clearItem,
+  addItem,
+  removeItem,
+  history,
+}) => {
+  const { imageUrl, price, name, quantity, id } = cartItem;
   // console.log("cartItem :", cartItem);
+
+  const handelClick = (event) => {
+    // console.log(event.target.id);
+    history.push(`/product/${name.split(" ").join("-")}`);
+  };
 
   const [displayMessage, setDisplayMessage] = useState(false);
   const [displayRemoveMessage, setDisplayRemoveMessage] = useState(false);
   return (
     <div className="checkout-item">
-      <div className="image-container">
+      <div
+        id={id}
+        name={name.split(" ").join("").toLowerCase()}
+        onClick={handelClick}
+        className="image-container"
+      >
         <img src={imageUrl} alt="item" />
       </div>
       <span className="name">
@@ -71,7 +90,7 @@ const ShoppingCartItem = ({ cartItem, clearItem, addItem, removeItem }) => {
           &#10095;
         </div>
       </span>
-      <span className="price">{price}</span>
+      <span className="price">${price}</span>
       <div
         onClick={() => {
           setDisplayRemoveMessage(true);
@@ -97,4 +116,9 @@ const mapDispatchToProps = (dispatch) => ({
   removeItem: (item) => dispatch(removeItem(item)),
 });
 
-export default connect(null, mapDispatchToProps)(ShoppingCartItem);
+// export default connect(null, mapDispatchToProps)(ShoppingCartItem);
+
+export default compose(
+  withRouter,
+  connect(null, mapDispatchToProps)
+)(ShoppingCartItem);

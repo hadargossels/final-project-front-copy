@@ -11,8 +11,10 @@ import { createStructuredSelector } from "reselect";
 import { selectCartItems } from "../../redux/cart/cart.selectors";
 import { selectCartTotal } from "../../redux/cart/cart.selectors";
 import ShoppingCartItem from "../../components/shopping-cart-item/shopping-cart-item.component";
+
 import CartItem from "./../../components/cart-item/cart-item.component";
-const CheckoutPage = ({ cartItems, total, itemCount }) => {
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
+const CheckoutPage = ({ cartItems, total, itemCount, currentUser }) => {
   const [validPhone, setValidPhone] = useState(false);
   const [promoValue, setPromoValue] = useState();
   const [validPromo, setValidPromo] = useState(false);
@@ -28,6 +30,11 @@ const CheckoutPage = ({ cartItems, total, itemCount }) => {
 
   const [validCountry, setValidCountry] = useState(false);
 
+  const [promoChange, setPromoChange] = useState(0);
+
+  const [deliveryChange, setDeliveryChange] = useState(0);
+  const [validShipping, setValidShipping] = useState(false);
+
   let promoCode = 123;
   const handlePromoChange = (event) => {
     setPromoValue(event.target.value);
@@ -35,14 +42,46 @@ const CheckoutPage = ({ cartItems, total, itemCount }) => {
   const handlePromoClick = (event) => {
     event.preventDefault();
     console.log(event.target.value);
-    Number(promoValue) === promoCode
-      ? setValidPromo(true)
-      : setValidPromo(false);
+    if (Number(promoValue) === promoCode) {
+      setValidPromo(true);
+      setPromoChange(-5);
+    } else {
+      setValidPromo(false);
+      setPromoChange(0);
+    }
   };
 
   const handleChange = (event) => {
     // console.log(event.target.value);
     setValidCountry(true);
+  };
+
+  const handleShippingChange = (event) => {
+    console.log(event.target.value);
+
+    switch (event.target.value) {
+      case "Standard: 20-30 days, free":
+        setDeliveryChange(0);
+        setValidShipping(true);
+
+        break;
+      case "Fast: 10-20 days, 5$":
+        setDeliveryChange(5);
+        setValidShipping(true);
+
+        break;
+      case "Super: 1-3 days, 10$":
+        setDeliveryChange(10);
+        setValidShipping(true);
+
+        break;
+
+      default:
+        setValidShipping(false);
+        setDeliveryChange(0);
+
+        break;
+    }
   };
 
   const patterns = {
@@ -125,7 +164,7 @@ const CheckoutPage = ({ cartItems, total, itemCount }) => {
             <h4 className="d-flex justify-content-between align-items-center mb-3">
               <span className="text-muted">Your cart</span>
               <span className="badge badge-secondary badge-pill">
-                {itemCount}
+                {itemCount} Items
               </span>
             </h4>
             <ul className="list-group mb-3">
@@ -134,6 +173,48 @@ const CheckoutPage = ({ cartItems, total, itemCount }) => {
                   <ShoppingCartItem key={cartItem.id} cartItem={cartItem} />
                 </li>
               ))}
+
+              <li className="list-group-item d-flex justify-content-between">
+                <span>Price</span>
+                <p
+                  style={{
+                    textDecoration: validPromo ? "line-through" : "none",
+                  }}
+                >
+                  {" "}
+                  US ${total}
+                </p>
+              </li>
+
+              {/* //////////////////start Shipping//////////////// */}
+              <select
+                onChange={handleShippingChange}
+                className="custom-select d-block w-100"
+                id="shipping"
+                required
+              >
+                <option value>Choose Shipping Method...</option>
+                <option name="Standard">Standard: 20-30 days, free</option>
+                <option name="Fast">Fast: 10-20 days, 5$</option>
+                <option name="Super">Super: 1-3 days, 10$</option>
+              </select>
+
+              {/* ///cheackicng ////// */}
+              <div
+                style={{ display: validShipping ? "none" : "block" }}
+                className="invalid-feedback"
+              >
+                Please choose shipping method.
+              </div>
+              <div
+                style={{ display: validShipping ? "block" : "none" }}
+                className="valid-feedback"
+              >
+                delivery charge {deliveryChange}$
+              </div>
+
+              {/* ///Endcheackicng ////// */}
+              {/* //////////////////// end Shipping /////////////////// */}
 
               <li
                 style={{ display: validPromo ? "block" : "none" }}
@@ -146,10 +227,25 @@ const CheckoutPage = ({ cartItems, total, itemCount }) => {
                 <span className="text-success">-$5</span>
               </li>
 
-              <li className="list-group-item d-flex justify-content-between">
-                <span>Total (USD)</span>
-                <strong> ${total}</strong>
-              </li>
+              {validShipping && (
+                <li className="list-group-item d-flex justify-content-between">
+                  <span>Total</span>
+                  <strong
+                    style={{
+                      textDecoration: validPromo ? "line-through" : "none",
+                    }}
+                  >
+                    {" "}
+                    US ${total + deliveryChange}
+                  </strong>
+                </li>
+              )}
+              {validPromo && (
+                <li className="list-group-item d-flex justify-content-between">
+                  <span>Total </span>
+                  <strong> US ${total + promoChange + deliveryChange}</strong>
+                </li>
+              )}
             </ul>
             <form className="card p-2">
               <div className="input-group">
@@ -165,7 +261,7 @@ const CheckoutPage = ({ cartItems, total, itemCount }) => {
                     onClick={handlePromoClick}
                     className="btn btn-secondary"
                   >
-                    Enter
+                    Promo Code
                   </button>
                 </div>{" "}
               </div>
@@ -537,37 +633,22 @@ const CheckoutPage = ({ cartItems, total, itemCount }) => {
                 className="btn btn-primary btn-lg btn-block"
                 type="submit"
               >
-                Continue to checkout
+                pay now
               </button>
+              <Link to="/shopping-cart">
+                <button type="button" class="btn btn-secondary">
+                  back to shopping cart
+                </button>
+              </Link>
+
+              <Link to="/store">
+                <button type="button" class="btn btn-warning">
+                  back to store
+                </button>
+              </Link>
             </form>
           </div>
         </div>
-      </div>
-      <div className="checkout-page">
-        <div className="checkout-header">
-          <div className="header-block">
-            <span>Product</span>
-          </div>
-          <div className="header-block">
-            <span>Description</span>
-          </div>
-          <div className="header-block">
-            <span>Product</span>
-          </div>
-          <div className="header-block">
-            <span>Quantity</span>
-          </div>
-          <div className="header-block">
-            <span>Price</span>
-          </div>
-          <div className="header-block">
-            <span>Remove</span>
-          </div>
-        </div>
-        {cartItems.map((cartItem) => (
-          <ShoppingCartItem key={cartItem.id} cartItem={cartItem} />
-        ))}
-        <span className="total">Total: ${total}</span>
       </div>
     </>
   );
@@ -578,4 +659,9 @@ const mapStateToProps = createStructuredSelector({
   total: selectCartTotal,
   itemCount: selectCartItemsCount,
 });
+
+// const mapDispatchToProps = (dispatch) => ({
+//   setTotalPrice: (total) => dispatch(setTotalPrice(total)),
+// });
+
 export default connect(mapStateToProps)(CheckoutPage);

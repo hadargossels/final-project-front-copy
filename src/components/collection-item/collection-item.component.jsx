@@ -41,12 +41,12 @@ const CollectionItem = ({
   };
 
   const handleCartBtnClick = () => {
-    console.log(imageUrl);
-    console.log(price);
+    // console.log(imageUrl);
+    // console.log(price);
 
-    console.log(name);
+    // console.log(name);
 
-    console.log(id);
+    // console.log(id);
     addItem({ id, name, price, imageUrl });
     setDisplayMessage(true);
 

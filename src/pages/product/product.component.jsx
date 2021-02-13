@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { addItem, removeItem } from "../../redux/cart/cart.actions";
 import { selectCartItems } from "./../../redux/cart/cart.selectors";
 import { selectCartTotal } from "./../../redux/cart/cart.selectors";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function ProductPage(props) {
   console.log("props :", props);
@@ -166,10 +167,14 @@ function ProductPage(props) {
                   <nav>
                     <ol className="breadcrumb">
                       <li className="breadcrumb-item">
-                        <a href="#">Home</a>
+                        <Link to="/">
+                          <a href="#">Home</a>
+                        </Link>
                       </li>
                       <li className="breadcrumb-item">
-                        <a href="#">Products</a>
+                        <Link to="/store">
+                          <a href="#">Store</a>
+                        </Link>
                       </li>
                       <li className="breadcrumb-item active">{productName} </li>
                     </ol>
@@ -275,12 +280,15 @@ function ProductPage(props) {
                       >
                         Add to Cart
                       </button>{" "}
-                      <button
-                        type="button"
-                        className="btn btn-success shop-button"
-                      >
-                        Buy Now
-                      </button>
+                      <Link to="/checkout">
+                        <button
+                          onClick={handleCartBtnClick}
+                          type="button"
+                          className="btn btn-success shop-button"
+                        >
+                          Buy Now
+                        </button>
+                      </Link>
                       <div className="product_fav">
                         <i className="fa fa-heart" />
                       </div>

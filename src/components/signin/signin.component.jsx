@@ -10,6 +10,8 @@ class SignIn extends React.Component {
     this.state = {
       email: "",
       password: "",
+      invalidUser: false,
+
       // info: [],
     };
   }
@@ -32,6 +34,7 @@ class SignIn extends React.Component {
       this.setState({ email: "", password: "" });
     } catch (error) {
       console.error(error);
+      this.setState({ invalidUser: true });
     }
   };
 
@@ -65,6 +68,15 @@ class SignIn extends React.Component {
             value={this.state.password}
             required
           />
+          {/* ///// start validation/////// */}
+          <p
+            style={{ display: this.state.invalidUser ? "block" : "none" }}
+            className="invalid"
+          >
+            Wrong Email or Password
+          </p>
+
+          {/* ///// end validation/////// */}
           <div className="buttons">
             <CustomButton type="submit">Sign In</CustomButton>
             <CustomButton onClick={signInWithGoogle} isGoogleSignIn>

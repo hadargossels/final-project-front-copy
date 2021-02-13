@@ -15,12 +15,10 @@ const HomePage = () => (
     <Directory />
     {/* <HeadingSlider /> */}
     <StoreBanner />
+    <ShopPage />
     <Slider title="Featured Product" />
-
     <ItemsGrid />
     <Discounts />
-
-    <ShopPage />
   </div>
 );
 

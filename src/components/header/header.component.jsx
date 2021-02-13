@@ -21,53 +21,66 @@ const activeStyle = {
 };
 
 const Header = ({ currentUser, hidden }) => (
-  <div className="header">
-    <NavLink className="logo-container" to="/">
-      <Logo className="logo" />
-    </NavLink>
-    <div className="options">
-      {/* <form class="example" action="/">
+  <>
+    <div className="header">
+      <NavLink className="logo-container" to="/">
+        <Logo className="logo" />
+      </NavLink>
+      <div className="options">
+        {/* <form class="example" action="/">
         <input type="text" placeholder="Search.." name="search2" />
         <button type="submit">
           <i className="fa fa-search"></i>
         </button>
       </form> */}
 
-      <SearchBar />
+        <SearchBar />
 
-      {/* <NavLink className="option" activeStyle={activeStyle} to="/shop">
+        {/* <NavLink className="option" activeStyle={activeStyle} to="/shop">
         COLLECTIONS
       </NavLink> */}
 
-      <NavLink className="option" activeStyle={activeStyle} to="/store">
-        STORE
-      </NavLink>
-
-      <NavLink className="option" activeStyle={activeStyle} to="/about">
-        ABOUT
-      </NavLink>
-
-      <NavLink className="option" activeStyle={activeStyle} to="/blog">
-        BLOG
-      </NavLink>
-
-      <NavLink className="option" activeStyle={activeStyle} to="/contact">
-        CONTACT
-      </NavLink>
-
-      {currentUser ? (
-        <div className="option" onClick={() => auth.signOut()}>
-          SIGN OUT
-        </div>
-      ) : (
-        <NavLink className="option" activeStyle={activeStyle} to="/signin">
-          SIGN IN
+        <NavLink className="option" activeStyle={activeStyle} to="/store">
+          STORE
         </NavLink>
-      )}
-      <CartIcon />
+
+        <NavLink className="option" activeStyle={activeStyle} to="/about">
+          ABOUT
+        </NavLink>
+
+        <NavLink className="option" activeStyle={activeStyle} to="/blog">
+          BLOG
+        </NavLink>
+
+        <NavLink className="option" activeStyle={activeStyle} to="/contact">
+          CONTACT
+        </NavLink>
+
+        {currentUser ? (
+          <div className="option" onClick={() => auth.signOut()}>
+            SIGN OUT
+          </div>
+        ) : (
+          <NavLink className="option" activeStyle={activeStyle} to="/signin">
+            SIGN IN
+          </NavLink>
+        )}
+
+        {currentUser && (
+          <NavLink
+            className="option"
+            activeStyle={activeStyle}
+            to="/shopping-cart"
+          >
+            {currentUser.displayName} Cart
+          </NavLink>
+        )}
+
+        <CartIcon />
+      </div>
+      {hidden ? null : <CartDropdown />}
     </div>
-    {hidden ? null : <CartDropdown />}
-  </div>
+  </>
 );
 
 // const mapStateToProps = createStructuredSelector({

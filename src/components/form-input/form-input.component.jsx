@@ -4,10 +4,8 @@ import "./form-input.styles.scss";
 
 const FormInput = ({
   handleChange,
-  handleKeyUp,
   label,
-  name,
-  value,
+
   ...otherProps
 }) => {
   //   const [validName, setValidName] = useState(false);
@@ -27,15 +25,19 @@ const FormInput = ({
         //   console.log("event :", event.target.attributes.name);
         //   return handleKeyUp(event.target.attributes.nam, event.target.value);
         // }}
-        onKeyUp={(event) =>
-          handleKeyUp(event.target.attributes.name, event.target.value)
-        }
+        // onKeyUp={(event) =>
+        //   handleKeyUp(event)
+        // }
         className="form-input"
         onChange={handleChange}
         {...otherProps}
       />
       {label ? (
-        <label className={`${value.length ? "shrink" : ""} form-input-label`}>
+        <label
+          className={`${
+            otherProps.value.length ? "shrink" : ""
+          } form-input-label`}
+        >
           {label}
         </label>
       ) : null}

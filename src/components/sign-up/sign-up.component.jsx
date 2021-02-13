@@ -17,22 +17,20 @@ class SignUp extends React.Component {
       password: "",
       confirmPassword: "",
       validName: false,
+      validEmail: false,
+      validPassword: false,
+      validConfirmPassword: false,
     };
   }
 
   handleSubmit = async (event) => {
     event.preventDefault();
 
-    const {
-      displayName,
-      email,
-      password,
-      confirmPassword,
-      validName,
-    } = this.state;
+    const { displayName, email, password, confirmPassword } = this.state;
 
     if (password !== confirmPassword) {
       alert("passwords don't match");
+
       return;
     }
 
@@ -50,34 +48,38 @@ class SignUp extends React.Component {
         password: "",
         confirmPassword: "",
         validName: false,
+        validEmail: false,
+        validPassword: false,
+        validConfirmPassword: false,
       });
     } catch (error) {
       console.error(error);
     }
   };
 
+  patterns = {
+    displayName: /(^[a-z ,.'-]{2,})+$/i,
+    email: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+    password: /^[0-9a-zA-Z]{6,}$/,
+    // confirmPassword: /(password)/,
+  };
+
   handleChange = (event) => {
     const { name, value } = event.target;
+    // console.log("value :", value);
+    // console.log("name :", name);
 
     this.setState({ [name]: value });
-  };
 
-  patterns = {
-    displayName: /(^[a-z ,.'-]{1,})+$/i,
-    email: /^\d{10,11}$/gim,
-    password: /(^[a-z ,.'-]{1,})+$/i,
-  };
-
-  handleKeyUp = (typeOfInput, cValue) => {
-    console.log("typeOfInput :", typeOfInput);
-    console.log("value :", cValue);
-    this.validate(cValue, this.patterns[typeOfInput], typeOfInput);
+    if (name !== "confirmPassword") {
+      this.validate(value, this.patterns[name], name);
+    }
   };
 
   validate = (cValue, regex, typeOfInput) => {
     let validationState = regex.test(cValue);
 
-    console.log(validationState);
+    // console.log(validationState);
 
     switch (typeOfInput) {
       case "displayName":
@@ -86,13 +88,17 @@ class SignUp extends React.Component {
           : this.setState({ validName: false });
         break;
 
-      // case "email":
-      //   validationState ? setValidEmail(true) : setValidEmail(false);
-      //   break;
+      case "email":
+        validationState
+          ? this.setState({ validEmail: true })
+          : this.setState({ validEmail: false });
+        break;
 
-      // case "password":
-      //   validationState ? setValidPassword(true) : setValidPassword(false);
-      //   break;
+      case "password":
+        validationState
+          ? this.setState({ validPassword: true })
+          : this.setState({ validPassword: false });
+        break;
 
       default:
         break;
@@ -106,7 +112,11 @@ class SignUp extends React.Component {
       password,
       confirmPassword,
       validName,
+      validEmail,
+      validPassword,
+      validConfirmPassword,
     } = this.state;
+
     return (
       <div className="sign-up">
         <h2 className="title">I do not have a account</h2>
@@ -117,10 +127,10 @@ class SignUp extends React.Component {
             name="displayName"
             value={displayName}
             handleChange={this.handleChange}
-            handleKeyUp={this.handleKeyUp}
             label="Display Name"
             required
           />
+          {/* ///// start validation/////// */}
           <p
             style={{ display: validName ? "none" : "block" }}
             className="invalid"
@@ -133,6 +143,7 @@ class SignUp extends React.Component {
           >
             valid
           </p>
+          {/* ///// end validation/////// */}
           <FormInput
             type="email"
             name="email"
@@ -141,6 +152,20 @@ class SignUp extends React.Component {
             label="Email"
             required
           />
+          {/* ///// start validation/////// */}
+          <p
+            style={{ display: validEmail ? "none" : "block" }}
+            className="invalid"
+          >
+            invalid
+          </p>
+          <p
+            style={{ display: validEmail ? "block" : "none" }}
+            className="valid"
+          >
+            valid
+          </p>
+          {/* ///// end validation/////// */}
           <FormInput
             type="password"
             name="password"
@@ -149,6 +174,20 @@ class SignUp extends React.Component {
             label="Password"
             required
           />
+          {/* ///// start validation/////// */}
+          <p
+            style={{ display: validPassword ? "none" : "block" }}
+            className="invalid"
+          >
+            invalid
+          </p>
+          <p
+            style={{ display: validPassword ? "block" : "none" }}
+            className="valid"
+          >
+            valid
+          </p>
+          {/* ///// end validation/////// */}
           <FormInput
             type="password"
             name="confirmPassword"
@@ -157,6 +196,30 @@ class SignUp extends React.Component {
             label="Confirm Password"
             required
           />
+          {/* ///// start validation/////// */}
+          <p
+            style={{
+              display:
+                confirmPassword !== password || !validPassword
+                  ? "block"
+                  : "none",
+            }}
+            className="invalid"
+          >
+            invalid
+          </p>
+          <p
+            style={{
+              display:
+                confirmPassword === password && validPassword
+                  ? "block"
+                  : "none",
+            }}
+            className="valid"
+          >
+            valid
+          </p>
+          {/* ///// end validation/////// */}
           <CustomButton type="submit">SIGN UP</CustomButton>
         </form>
       </div>
