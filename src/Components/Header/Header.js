@@ -80,12 +80,10 @@ class Header extends Component{
                 </li>
                 <li className="nav-item">
                     <span className="px-3 py-2 flex items-center text-lg uppercase leading-snug text-white hover:opacity-75" onClick={this.showModal}>
-                        {/* <Link to="/shoppingCart"> */}
                             <span className="text-xs font-semibold inline-block px-1 pt-1 uppercase rounded-full text-yellow-600 bg-yellow-200 uppercase last:mr-0 mr-1">
                                 {this.props.cartNum}
                             </span>
                             <i className="fas fa-shopping-cart text-lg leading-none text-white" /> 
-                        {/* </Link> */}
                     </span>
                 </li>
                 <li className="nav-item">

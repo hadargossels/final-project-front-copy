@@ -44,7 +44,7 @@ class ProductSlider extends Component {
                     <div className="slides">
                         {this.state.products.map( (product, index) => {
                             return (
-                                <div className="text-xl" id={`${this.props.slideId}-${index}`}>
+                                <div className="text-xl" id={`${this.props.slideId}-${index}`} key={product.ISBN10}>
                                     <img src={product.image} width="50px" alt="somepic" className="itemImage h-auto w-1/3 mx-auto mt-4" />
                                     <p className="mx-auto text-2xl text-yellow-700 cursor-pointer" onClick={this.showModal}>
                                             {product.title}

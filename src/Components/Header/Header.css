@@ -15,3 +15,66 @@
     /* opacity: 0; */
     visibility: hidden;
 }
+
+.cartImage {
+    height: 100px !important;
+    margin-right: 10px !important;
+    margin-left: 10px !important;
+    margin-top: 10px !important;
+}
+
+.productDeatils {
+    margin-top: 10px !important;
+}
+
+.totalSum {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    text-align: right;
+}
+
+.generalModal {
+    max-height: 500px;
+}
+
+.myModal {
+    overflow: overlay;
+}
+
+.myModal::-webkit-scrollbar-track {
+	background-color: transparent;
+    border-radius: 10px;
+    opacity: 0;
+    width: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.myModal::-webkit-scrollbar {
+	/* width: 5px; */
+    width: 20px;
+	background-color: transparent;
+    padding: 0;
+    margin: 0;
+    /* border-radius: 50%; */
+}
+
+/* .myModal::-webkit-scrollbar-thumb
+{
+	background-color: rgb(150, 101, 11);	
+    height: 20px;
+    border-radius: 15%;
+	background-image: -webkit-linear-gradient(45deg,
+	                                          rgba(255, 255, 255, .2) 25%,
+											  transparent 25%,
+											  transparent 50%,
+											  rgba(255, 255, 255, .2) 50%,
+											  rgba(255, 255, 255, .2) 75%,
+											  transparent 75%,
+											  transparent)
+} */
+
+/* .myModal::-webkit-scrollbar {
+    display: none;
+} */
