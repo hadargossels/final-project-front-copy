@@ -1,13 +1,13 @@
 .divProduct{
     text-align: center;
-    width: 270px;
+    width: 250px;
     position: relative;
     padding: 0px;
     color: black;
   
 }
 .linkStyle{
-    width: 270px;
+    width: 250px;
     /* margin: 20px 5px;
     padding: 22px 0px 0 0; */
     text-decoration: none;
@@ -15,9 +15,9 @@
 }
 .divMainProduct{
     position: relative;
-    margin: 20px 5px;
-    padding: 22px 0px 0 0;
-    width: 270px;
+    margin: 20px 3px;
+    padding: 22px 0px 0px 0px !important;
+    width: 250px !important;
 }
 
 .linkStyle:hover{

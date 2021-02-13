@@ -56,10 +56,9 @@ class ProductPage extends Component{
       }
       else{
          cartArr.push(productToAdd);
-         //נוסף מוצר חדש ולכן פה נעדכן את המספר מעל הסל להיות פלןס 1
       }
-      localStorage.setItem("cartArray",JSON.stringify(cartArr)) 
-      //להראןת את הtooltip
+      localStorage.setItem("cartArray",JSON.stringify(cartArr))
+      this.props.localStorageChange(true);
    }
    
 

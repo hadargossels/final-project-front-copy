@@ -57,7 +57,7 @@ class Product extends Component{
                     <div class="modal-dialog modal-dialog-centered" style={{maxWidth: "700px"}}>
                         <div class="modal-content" style={{padding:"50px"}}>
                             <div class="modal-body">
-                                <QuickView data={this.props.data} clearModal={this.clearModal}/>
+                                <QuickView data={this.props.data} clearModal={this.clearModal}  localStorageChange={this.props.localStorageChange}/>
                             </div>
                         </div>
                     </div>

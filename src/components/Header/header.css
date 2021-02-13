@@ -96,7 +96,61 @@ header nav{
     border: none;
 }
 .dropdown:hover .dropdown-menu {
-    display: block;
+    display: block !important;
+}
+.dropdown{
+    position:static !important;
+   
+}
+.dropdownContent{
+    right: 80px !important;
+    left: auto !important;
+    position: absolute !important;
+    top: 50px !important;
+    width: 350px;
+    /* max-height: 300px !important;
+    overflow-y: auto !important; */
+}
+.productsDiv{
+    max-height: 240px !important;
+    overflow-y: auto !important;
+}
+
+.navLinkStyle{
+    position: relative;
+}
+.numItemsSpan{
+    position: absolute;
+    left:18px;
+    top:5px;
+    color: red;
+    font-weight: bold;
+    border-radius: 50px;
+    width: 15px;
+    font-size: 15px;
+    text-align: center;
+}
+.dropdown:hover .numItemsSpan {
+    top:5px;
+    font-size: 15px;
+ 
+}
+.SubtotalDiv{
+    margin-left: 20px;
+}
+.SubtotalDiv .spanSubtotal{
+   font-weight: bold;
+}
+.paymentDropdownBtn{
+    color:white;
+    background: salmon;
+    border-radius: 30px;
+    width: 90%;
+    font-size: 20px;
+    /* font-weight: bold; */
+    margin: 25px 5% 15px 5%;
+    border: none;
+    padding: 10px 0px;
 }
 
 
@@ -115,5 +169,11 @@ header nav{
     header{
         max-height: 400px;
     }
-    
+    .dropdownContent{
+        top: 60px !important;
+    }
+    .numItemsSpan{
+        left:12px;
+        top:6px;
+    }
   }

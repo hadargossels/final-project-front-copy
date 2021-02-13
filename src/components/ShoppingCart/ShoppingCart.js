@@ -61,6 +61,7 @@ export default class ShoppingCart extends Component {
         existsProduct.amountProduct=newAmount;
         this.setState({productInCart:arrCart},this.updateSubtotal,()=>this.setState({total:this.calacTotal()}));
         localStorage.setItem("cartArray",JSON.stringify(arrCart))
+        this.props.localStorageChange();
     }
 
     deleteItem(headerOfProduct){
@@ -68,7 +69,8 @@ export default class ShoppingCart extends Component {
         let existsProductIndex=arrCart.findIndex((v)=>v.headerProduct==headerOfProduct);
         arrCart.splice(existsProductIndex,1);
         this.setState({productInCart:arrCart},this.updateSubtotal,()=>this.setState({total:this.calacTotal()}));
-        localStorage.setItem("cartArray",JSON.stringify(arrCart))
+        localStorage.setItem("cartArray",JSON.stringify(arrCart));
+        this.props.localStorageChange();
     }
     totalItems(){
         let sumItems=0;
@@ -95,7 +97,7 @@ export default class ShoppingCart extends Component {
         return (
             <div className="shoppingCartDiv row justify-content-center">
                 <div className="productDiv col-12 col-sm-7">
-                    <h3>Items in cart</h3>
+                    <h3 className="H3">Items in cart</h3>
                     {(this.state.productInCart!=null&&this.state.productInCart!=[])?(this.state.productInCart.map((productV,index)=>{
                         return <ItemCart key={index} data={productV} amountChanged={this.amountChanged} deleteItem={this.deleteItem}/>
                     })):"Empty cart"}

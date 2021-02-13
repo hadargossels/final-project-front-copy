@@ -32,6 +32,9 @@
     /* margin: 50% 20px !important; */
     float:right;
 }
+.sumIcon:hover{
+   cursor: pointer;
+}
 .sumIcon i{
     font-size: 20px;
     color: red;

@@ -1,0 +1,46 @@
+.productDropDownDiv{
+    /* width: 250px; */
+    /* height: 100px; */
+    width: 100%;
+}
+.imgDropDownDivDiv img{
+    width: 100%;
+    margin-top: 20px;
+}
+.detailsProductDiv .headerP{
+    font-weight: bold;
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+.detailsProductDiv .brandP{
+    font-size: 13px;
+    opacity: 0.7;
+    margin: 0px;
+}
+.detailsProductDiv .priceP{
+    font-size: 15px;
+    margin: 0px;
+}
+.detailsProductDiv .amontP{
+    font-size: 15px;
+    margin: 0px;
+}
+
+.sumDropDowP{
+    font-weight: bold;
+    font-size: 15px;
+}
+.sumDropDowIcon{
+    float:right;
+}
+.sumDropDowIcon:hover{
+   cursor: pointer;
+}
+.sumDropDowIcon i{
+    font-size: 17px !important;
+    color: red !important;
+}
+.sumDropDownDiv{
+    text-align: center;
+  
+}

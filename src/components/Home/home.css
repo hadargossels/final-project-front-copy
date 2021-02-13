@@ -1,0 +1,117 @@
+.homeDiv{
+    position: relative;
+    top: -50px;
+}
+
+.photoDiv{
+    /* display: flex;
+    flex-direction: column;
+    justify-content: flex-start; */
+    /* align-items: center; */
+    background-image: url('https://i.ytimg.com/vi/zCPF7xkg6PU/maxresdefault.jpg');
+    background-repeat: no-repeat;
+    background-position:center;
+    background-size: cover;
+    width: 100%;
+    height: 500px;
+}
+
+.photoDiv button{
+    background-color: black;
+    width:150px;
+    border: 1px solid white;
+    height: 50px;
+    margin: 10px 10px;
+    color: white;
+    position: relative;
+    top: 35%;
+    left: 70%;
+    font-size: 20px;
+}
+
+.photoDiv button:hover{
+    font-size: 22px;
+    border: 2px solid white;
+}
+
+.headerA{
+    font-size: 40px;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    margin: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+.headerA:hover{
+ color: salmon;
+}
+
+.Category{
+    position: relative;
+    background-repeat: no-repeat;
+    background-position:center;
+    background-size: cover;
+    height: 300px;
+    margin: 5px 5px 20px 5px;
+}
+.CategoryFace{
+    background-image: url('https://i.ytimg.com/vi/zCPF7xkg6PU/maxresdefault.jpg');  
+}
+.CategoryLips{
+    background-image: url('https://i.ytimg.com/vi/zCPF7xkg6PU/maxresdefault.jpg');  
+}
+.CategoryEyes{
+    background-image: url('https://i.ytimg.com/vi/zCPF7xkg6PU/maxresdefault.jpg');
+}
+
+.Category p{
+    font-size: 40px;
+    text-align: center;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+
+.CategoryA{
+    text-decoration: none;
+    color: black;
+    font-size: 40px;
+}
+.CategoryA:hover{
+
+    color: black;
+ 
+}
+.paddingDiv{
+    padding:0px 10px; 
+}
+
+/* .thirdProduct{
+    display: block;
+}
+.thirdProductToggle{
+    display: none;
+} */
+
+@media only screen and (max-width: 600px) {
+    .photoDiv button{
+        top: 35%;
+        left: 60%;
+        height: 30px;
+        width:100px;
+        font-size: 15px;
+    }
+    .photoDiv{
+        height: 300px;
+    }
+
+    
+    /* .thirdProduct{
+    
+        display: none;
+    }
+    .thirdProductToggle{
+        display: block;
+    } */
+  }

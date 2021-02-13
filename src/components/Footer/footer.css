@@ -58,7 +58,7 @@ footer{
 }
 
 .ma{
-    padding-left: 80px; 
+    padding-left: 80px !important; 
     height: 100px;
 }
 

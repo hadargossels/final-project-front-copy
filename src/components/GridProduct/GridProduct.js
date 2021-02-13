@@ -6,7 +6,7 @@ import Product from '../Product/Product.js'
     return(
         <div className="row justify-content-center divGridProduct">
          {props.arrProduct.map((element,key)=>{
-                return <Product data={element} key={key}/>})}
+                return <Product data={element} key={key}  localStorageChange={props.localStorageChange}/>})}
     
         </div>
     );

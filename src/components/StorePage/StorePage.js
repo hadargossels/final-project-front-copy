@@ -114,7 +114,7 @@ class StorePage extends Component{
             <ListCategory clickedCategory={this.clickedCategory} changedBrandFilter={this.changedBrandFilter}/>
            <div className="col-10">
                <HeaderCategory categoryHeader={this.state.categoryHeader} sortChoiced={this.sortChoiced}/>
-               {(this.state.arrProduct.length!=0)? <GridProduct arrProduct={this.state.arrProduct}/>:<div class="NoProductsDiv">No products</div>}
+               {(this.state.arrProduct.length!=0)? <GridProduct arrProduct={this.state.arrProduct} localStorageChange={this.props.localStorageChange}/>:<div class="NoProductsDiv">No products</div>}
               
            </div>
         </div>

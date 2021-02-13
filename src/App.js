@@ -1,119 +1,128 @@
- 
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
-import Product from './components/Product/Product'
-import './App.css';
-import {arrayAllProduct,arrayShoppingCart} from './dataBase'
 
-let bestSellersArr=bestSellersArray();
-let salesArr=salesArray(); 
+import React, { Component } from 'react';
+import './App.css';
+import {arrayAllProduct} from './dataBase'
+
+
+import Home from './components/Home/Home';
+import {Switch,Route,NavLink,BrowserRouter as Router, Link } from 'react-router-dom';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+import ContactUs from './components/ContactUs/ContactUs';
+import AboutUs from './components/AboutUs/AboutUs'
+import Policy from './components/Policy/Policy'
+import ShippingPolicy from './components/ShippingPolicy/ShippingPolicy'
+import NotFound from './components/NotFound/NotFound'
+import Login from "./components/Login/Login";
+import ProductPage from './components/ProductPage/ProductPage'
+import StorePage from './components/StorePage/StorePage';
+import SignUp from './components/SignUp/SignUp'
+import ScrollToTop from './components/ScrollToTop/ScrollToTop'
+import ShoppingCart from './components/ShoppingCart/ShoppingCart'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import $ from 'jquery';
+import Popper from 'popper.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
 
 
 export default class App extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      localStorageArray:JSON.parse(localStorage.getItem("cartArray")),
+      toggleDisplayDropdown:"DisplayNoneDropdown"
+    }
+    this.localStorageChange=this.localStorageChange.bind(this);
+    this.state.localStorageArray=JSON.parse(localStorage.getItem("cartArray"))==null?[]:JSON.parse(localStorage.getItem("cartArray"));
+  }
+
+  localStorageChange(boolDropdown){
+    this.setState({localStorageArray:JSON.parse(localStorage.getItem("cartArray"))==null?[]:JSON.parse(localStorage.getItem("cartArray"))});
+   if(boolDropdown==true)
+   {
+     this.setState({toggleDisplayDropdown:"DisplayBlockDropdown"})
+     setTimeout(()=>this.setState({toggleDisplayDropdown:"DisplayNoneDropdown"}),5000)
+    }
+  }
+  
   render() {
+    console.log(this.state.localStorageArray)
     return (
-      <div className="homeDiv">
-        <div className="photoDiv">
-          <NavLink to="/store"><button>SHOP</button></NavLink>
-        </div>
-      <div className="paddingDiv">
-        <div className="bestSellersDiv">
-         <NavLink className="headerA" to="/store/best_Sellers"><p className="bestSellersP">Best Sellers</p></NavLink>
-            <div id="carouselExampleCaptions" class="carousel carousel-dark slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <div className="itemDiv row justify-content-center">
-                       <Product data={bestSellersArr[0]}/>
-                        <Product data={bestSellersArr[1]}/>
-                        <Product data={bestSellersArr[2]}/>
-                    </div>
-                  </div>
-                  <div class="carousel-item">
-                  <div className="itemDiv row justify-content-center">
-                          {/*<Product data={bestSellersArr[3]}/>
-                           <Product data={bestSellersArr[4]}/>
-                          <Product data={bestSellersArr[5]}/> */}
-                          {/* <div className="col-3 thirdProductToggle"><Product data={bestSellersArr[2]}/></div> */}
-                        <Product data={bestSellersArr[3]}/>
-                          {/* <div className="col-3 thirdProduct"><Product data={bestSellersArr[1]}/></div>
-                          <div className="col-3 thirdProduct"><Product data={bestSellersArr[2]}/></div> */}
-                    </div>
-                  </div>
-                 
+      <Router>
+        <div>
+            <Header localStorageArr={this.state.localStorageArray} localStorageChange={this.localStorageChange} toggleDisplayDropdown={this.state.toggleDisplayDropdown}/>
+          
+            <div id="d">
+                <div id="inDiv">
+                    <Switch>
+                        <Route exact path="/" component={()=><Home localStorageChange={this.localStorageChange}/>}/>
+                        <Route  path="/contact" component={ContactUs}/>
+                        <Route  path="/about" component={AboutUs}/>
+                        <Route  path="/policy" component={Policy}/>
+                        <Route  path="/shipping-Policy" component={ShippingPolicy}/>
+                        <Route  exact path="/store" component={() => <StorePage categoryFilter={"Makeup"} localStorageChange={this.localStorageChange}/>}/>
+                        <Route  exact path="/store/best_Sellers" component={bestSellersStore}/>
+                        <Route  exact path="/store/category_face" component={()=>categoryStore("Face")}/>
+                        <Route  exact path="/store/category_lips" component={()=>categoryStore("Lips")}/>
+                        <Route  exact path="/store/category_eyes" component={()=>categoryStore("Eyes")}/>
+                        <Route  exact path="/store/sales" component={salesStore}/>
+                        {/* <Route exact path="/shop" component={()=><StorePage/> }/>   for search */}
+                        <Route exact path="/shop" render={(props) => <StorePage localStorageChange={this.localStorageChange} {...props} />}/> 
+                        <Route exact path="/login" component={Login}/>
+                        <Route  path="/login/signup" component={SignUp}/>
+                        <Route  path="/cart" component={()=><ShoppingCart localStorageChange={this.localStorageChange}/>}/>
+                        <Route  path="/product/:productName"  render={(props) => <ProductPage localStorageChange={this.localStorageChange} {...props} />}/>
+                        <Route component={NotFound}/>
+                    </Switch>
                 </div>
-                <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </a>
+                <Footer/>
             </div>
         </div>
-
-        <div className="CategoryProductDiv">
-          <NavLink className="headerA" to="/store"><p className="CategoryProductP">Category Product</p></NavLink>
-          <div className=" row justify-content-center">
-              <NavLink className="col-9 col-sm-5 col-md-4 CategoryA" to="/store/category_face"><div className=" Category CategoryFace"><p>Face</p></div></NavLink>
-              <NavLink className="col-9 col-sm-5 col-md-4 CategoryA"  to="/store/category_lips"><div className=" Category CategoryLips"><p>Lips</p></div></NavLink>
-              <NavLink className="col-9 col-sm-5 col-md-4 CategoryA" to="/store/category_eyes"><div className=" Category CategoryEyes"><p>Eyes</p></div></NavLink>
-          </div>
-        </div>
-
-
-        <div className="salesDiv">
-         <NavLink className="headerA" to="/store/sales"><p className="SalesP">Sales</p></NavLink>
-            <div id="carouselSalesCaptions" class="carousel carousel-dark slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <div className="itemDiv row justify-content-center">
-                        <Product data={salesArr[0]}/>
-                        <Product data={salesArr[1]}/>
-                        <Product data={salesArr[2]}/>
-                    </div>
-                  </div>
-                  <div class="carousel-item">
-                  <div className="itemDiv row justify-content-center">
-                          {/*<Product data={bestSellersArr[3]}/>
-                           <Product data={bestSellersArr[4]}/>
-                          <Product data={bestSellersArr[5]}/> */}
-                          {/* <div className="col-3 thirdProductToggle"><Product data={bestSellersArr[2]}/></div> */}
-                          <Product data={salesArr[0]}/>
-                          <Product data={salesArr[1]}/>
-                          <Product data={salesArr[2]}/>
-                    </div>
-                  </div>
-                 
-                </div>
-                <a class="carousel-control-prev" href="#carouselSalesCaptions" role="button" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselSalesCaptions" role="button" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </a>
-            </div>
-        </div>
-        </div>
-      </div>
+        <ScrollToTop />
+    </Router>
     )
   }
 }
 
 
-function bestSellersArray(){
+function bestSellersStore(){
 
-  let bestSellersArr=[...arrayAllProduct];
-  bestSellersArr.sort((a,b)=>a.buyNum-b.buyNum);
-  return bestSellersArr.slice(0,4);//the 4 besr seller product
+    let bestSellersArr=[...arrayAllProduct];
+    bestSellersArr.sort((a,b)=>a.buyNum-b.buyNum);
+    bestSellersArr=bestSellersArr.slice(0,4);//the 4 besr seller product
+    return <StorePage arrProduct={bestSellersArr} categoryFilter={"Makeup"} categoryHeader={"Best Sellers"} localStorageChange={this.localStorageChange}/>
+
 }
 
-function salesArray() { 
+function categoryStore(category) { 
     
-  let salesArr=[...arrayAllProduct];
-  salesArr=salesArr.filter((v)=>v.discountProduct!="none");
-  return salesArr;
+    let categoryArr=[...arrayAllProduct];
+    categoryArr=categoryArr.filter((v)=>v.categoryProduct==category);
+    return <StorePage arrProduct={categoryArr} categoryFilter={category} categoryHeader={category} localStorageChange={this.localStorageChange}/>
 
-}
+ }
+
+ function salesStore() { 
+    
+    let salesArr=[...arrayAllProduct];
+    salesArr=salesArr.filter((v)=>v.discountProduct!="none");
+    return <StorePage arrProduct={salesArr} categoryHeader={"Sales"} localStorageChange={this.localStorageChange}/>
+
+ }
+
+
+
+  {/* <div class="modal fade " id="idShoppingCart" tabIndex="-1" aria-labelledby="shoppingCartLabel" aria-hidden="true">
+               <div class="modal-dialog shoppingCartModal" >
+                  <div class="modal-content contentCart">
+                     <div class="modal-header">
+                     <h5 class="modal-title" id="shoppingCartLabel">My shopping cart</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                     </div>
+                     <div class="modal-body">
+                        <ShoppingCart/>
+                     </div>
+                  </div>
+               </div>
+            </div>  */}

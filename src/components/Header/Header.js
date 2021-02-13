@@ -1,10 +1,45 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import ProductDropDown from '../ProductDropDown/ProductDropDown';
 import './header.css';
 
 
 class Header extends Component{
+   constructor(props){
+      super(props)
+
+      this.calcSubtotal=this.calcSubtotal.bind(this);
+      this.totalItems=this.totalItems.bind(this);
+      this.deleteItem=this.deleteItem.bind(this);
+   }
+
+   deleteItem(headerOfProduct){
+      let arrCart=[...this.props.localStorageArr];
+      let existsProductIndex=arrCart.findIndex((v)=>v.headerProduct==headerOfProduct);
+      arrCart.splice(existsProductIndex,1);
+      localStorage.setItem("cartArray",JSON.stringify(arrCart));
+      this.props.localStorageChange();
+  }
    
+   calcSubtotal(){
+      let sum=0;
+      if(this.props.localStorageArr!=null)
+      { for(let item of this.props.localStorageArr) {
+          sum+=Number(item.discountProduct!="none"?item.discountProduct:item.priceProduct)*Number(item.amountProduct)
+           }
+      }
+      return sum;
+  }
+  totalItems(){
+   let sumItems=0;
+   if(this.props.localStorageArr!=null)
+   { for(let item of this.props.localStorageArr) {
+       sumItems+=Number(item.amountProduct)
+        }
+   }
+   return sumItems;
+}
+
    render(){
       return(  
          <header>
@@ -18,8 +53,20 @@ class Header extends Component{
                   <div className="navBarMargin displaySmall">
                      <ul className="navbar-nav me-auto mb-2 mb-lg-0 navBarRighet">
                         <li className="nav-item">
-                        <NavLink to="/cart" className="nav-link active" ><i className="fas fa-shopping-cart"></i></NavLink>
-                        {/* <a className="nav-link active" type="button" data-bs-toggle="modal"  data-bs-target={`#idShoppingCart`} ><i className="fas fa-shopping-cart"></i></a> */}
+                           <div class="dropdown">
+                              <NavLink to="/cart" className="nav-link active navLinkStyle" id="dropdownMenuButton" aria-expanded="false"/* onMouseOver={this.dropdownCartOver}*/>
+                                 <span className="numItemsSpan">{this.totalItems()}</span><i className="fas fa-shopping-cart" ></i>
+                              </NavLink>
+                              <div class={`dropdown-menu dropdownContent ${this.props.toggleDisplayDropdown}`} aria-labelledby="dropdownMenuButton">
+                                 <div className="productsDiv">
+                                    {this.props.localStorageArr.map((v,index)=>{
+                                    return <div><ProductDropDown data={v} key={index} deleteItem={this.deleteItem}/>  <hr/></div>
+                                    })}
+                                 </div>
+                                 <div className="SubtotalDiv"><span className="spanSubtotal">Subtotal: </span><span> {this.calcSubtotal()}₪</span></div>
+                                 <button className="paymentDropdownBtn">payment</button>
+                              </div>
+                           </div>
                         </li>
                         <li className="nav-item">
                            {/* <NavLink to="/wish" className="nav-link active"><i className="fas fa-heart"></i></NavLink> */}
@@ -55,13 +102,18 @@ class Header extends Component{
                   <div className="navBarMargin displayBig">
                      <ul className="navbar-nav me-auto mb-2 mb-lg-0 navBarRighet">
                         <li className="nav-item">
-                           {/* <NavLink to="/cart" className="nav-link active" ><i className="fas fa-shopping-cart" ></i></NavLink> */}
                            <div class="dropdown">
-                              <NavLink to="/cart" className="nav-link active" id="dropdownMenuButton" aria-expanded="false" onMouseOver={this.dropdownCartOver}>
-                                 <i className="fas fa-shopping-cart" ></i>
+                              <NavLink to="/cart" className="nav-link active navLinkStyle" id="dropdownMenuButton" aria-expanded="false"/* onMouseOver={this.dropdownCartOver}*/>
+                                 <span className="numItemsSpan">{this.totalItems()}</span><i className="fas fa-shopping-cart" ></i>
                               </NavLink>
-                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                 
+                              <div class={`dropdown-menu dropdownContent ${this.props.toggleDisplayDropdown}`} aria-labelledby="dropdownMenuButton">
+                                 <div className="productsDiv">
+                                    {this.props.localStorageArr.map((v,index)=>{
+                                      return <div><ProductDropDown data={v} key={index} deleteItem={this.deleteItem}/>  <hr/></div>
+                                    })}
+                                 </div>
+                                 <div className="SubtotalDiv"><span className="spanSubtotal">Subtotal: </span><span> {this.calcSubtotal()}₪</span></div>
+                                 <button className="paymentDropdownBtn">payment</button>
                               </div>
                            </div>
                         </li>
@@ -83,6 +135,7 @@ class Header extends Component{
    }
 }
 export default Header;
+
 
 
 
