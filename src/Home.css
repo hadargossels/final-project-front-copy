@@ -1,0 +1,31 @@
+#bedroom {
+    background-image: url("./img/bedroom.jpg");
+    background-position: center;
+}
+
+#bathroom {
+    background-image: url("./img/bathroom.jpg");
+    background-position: 50% 60%;
+}
+
+#living_room {
+    background-image: url("./img/living_room.jpg");
+    background-position: center;
+}
+
+.box {
+    height:300px;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+
+#major {
+    background-image: url("./img/main.jpg");
+    height: 500px;
+    position: 'relative';
+    background-repeat: no-repeat;
+    background-size: 'cover';
+    background-position: 50% 20%;
+}

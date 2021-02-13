@@ -4,6 +4,10 @@ import {Link} from 'react-router-dom';
 
 
 class Product extends Component {
+    componentDidMount() {
+        window.scrollTo(0, 0);
+    }
+    
     displayPrice = () => {
         if(this.props.productElement.discount !== 0){
             return (<div>
@@ -21,9 +25,9 @@ class Product extends Component {
     render() {
         return (
             <div className="col-xs-6 col-md-3">
-                <Link to={`/${this.props.productElement.url}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/${this.props.productElement.url}`} style={{ color: 'black', textDecoration: 'none' }}>
                     <div className="card text-center">
-                        <img className="card-img-top" src={this.props.productElement.images[0]} alt="Card image cap"></img>
+                        <img className="card-img-top" src={this.props.productElement.images[0]} alt={this.props.productElement.name}></img>
                         <div className="card-body py-0 px-0">
                             <p className="card-title">{this.props.productElement.name}</p>
                             {this.displayPrice()}

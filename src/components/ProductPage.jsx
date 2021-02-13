@@ -6,6 +6,10 @@ import Product from './Product.jsx';
 
 class ProductPage extends React.Component {
 
+    componentDidMount() {
+        window.scrollTo(0, 0);
+    }
+
     createStars = () => {
         let fiveStars = []
         for (let j = 0; j < 5; j++) {

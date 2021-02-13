@@ -13,7 +13,8 @@ const storeItems = [
         subcategory: "bedding",
         inStock: true,
         deliver: true,
-        favorite: false 
+        favorite: false,
+        display: true
     },
     {   id: 2, 
         name: "Wool blanket",
@@ -27,7 +28,8 @@ const storeItems = [
         subcategory: "blankets",
         inStock: true,
         deliver: true,
-        favorite: false
+        favorite: false,
+        display: true
     },
     {   id: 3, 
         name: "Bath towel",
@@ -41,7 +43,8 @@ const storeItems = [
         subcategory: "towels",
         inStock: true,
         deliver: true,
-        favorite: false
+        favorite: false,
+        display: true
     }, 
     {   id: 4, 
         name: "Storage for tea, coffee and sugar",
@@ -51,11 +54,42 @@ const storeItems = [
         price: 225,
         discount: 0.30,
         stars: 4,
-        category: "kitchen",
+        category: "living room",
         subcategory: "storage",
         inStock: true,
         deliver: true,
-        favorite: false
+        favorite: false,
+        display: true
+    },
+    {   id: 5, 
+        name: "Decorative pillow",
+        url: "Decorative_pillow",
+        description: "Square decorative pillow with geometric decorations",
+        images: [images.image5_1, images.image5_2],
+        price: 120,
+        discount: 0.30,
+        stars: 4,
+        category: "living room",
+        subcategory: "pillows",
+        inStock: true,
+        deliver: true,
+        favorite: false,
+        display: true
+    },
+    {   id: 6, 
+        name: "Bamboo lantern",
+        url: "Bamboo_lantern",
+        description: "Classic bamboo lantern",
+        images: [images.image6_1, images.image6_2],
+        price: 150,
+        discount: 0.30,
+        stars: 4,
+        category: "living room",
+        subcategory: "accessories",
+        inStock: true,
+        deliver: true,
+        favorite: false,
+        display: true
     }           
 ]
 
