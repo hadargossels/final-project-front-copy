@@ -15,13 +15,16 @@ import Faq from './components/faq/Faq'
 import Product from './components/product/Product'
 import Login from './components/login/Login'
 import Cart from './components/Cart/Cart';
+import Payment from './components/payment/Payment';
+import Newaccount from './components/newAccount/Newaccount';
+import PropTypes from 'prop-types';
 
 let amount = 0;
-// const amountfunction = (amount) => {
-//   let cart = JSON.parse(localStorage.getItem("cart"))
-//   return amount = cart.length
+const amountfunction = (amount) => {
+  let cart = JSON.parse(localStorage.getItem("cart"))
+  return amount = cart.length
 
-// } 
+} 
 console.log(amount)
 
 const router = (
@@ -40,6 +43,8 @@ const router = (
      <Route path="/Login" component={Login}/>
      <Route path="/Product/:productid" component={Product}/>
      <Route exact path = "/Cart" component={Cart}/>
+     <Route exact path = "/Payment" component={Payment}/>
+     <Route exact path = "/NewAccount" component={Newaccount}/>
      <Route component={NotFound}/>
   </Switch>
   <Footer/>

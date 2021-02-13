@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Header.css';
 import {NavLink} from 'react-router-dom'
+import Dropdown from '../dropdown/Dropdown';
 
 class Header extends Component{
    constructor(props) {
@@ -54,38 +55,7 @@ amount () {
                <div className="dropdown cartI">
                <NavLink exact to="/Cart"><button className="dropbtn" onMouseOver={()=>{this.total();this.amount()}}><div className='fas fa-shopping-cart'></div><div className='amount'>{this.state.amount}</div></button></NavLink>
                   <div className="dropdown-content">
-                  <table className='dropTable'>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Product</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {this.state.cart.map((v) => 
-                        <tr key={v.itemId}>
-                            <td><img src={v.src} alt='product' width='70px'/></td>
-                            <td>{v.name}</td>
-                            <td>{v.price}$</td>
-                            <td>{v.quantity}</td>
-                            <td>{(parseFloat(v.price) * parseFloat(v.quantity))}$</td>
-                        </tr>
-                    )}
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td className='goto' colSpan='3'><NavLink exact to="/Cart">Go to cart</NavLink></td>
-                            <td className="subtot">Subtotal</td>
-                            <td className="subtot">
-                                {this.state.total}$
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                  <Dropdown total={this.state.total}/>
                   </div>
                </div>
             <div className='logindiv'><NavLink exact to="/Login" className='logindiv'>Log In/Sign In</NavLink></div>

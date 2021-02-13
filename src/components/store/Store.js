@@ -165,7 +165,7 @@ class Store extends Component{
       storeDis: "flex",
       errorDis: "none",
       cart: JSON.parse(localStorage.getItem("cart")),
-      addMsg: ""
+      addMsg: "",
     }
     this.isChecked = this.isChecked.bind(this);
     this.filter = this.filter.bind(this);
@@ -213,8 +213,7 @@ class Store extends Component{
       
       setTimeout(()=>{this.setState({cart})
       localStorage.setItem("cart",JSON.stringify(cart));
-      this.addMsg();
-    this.props.amount = this.state.cart.length},5);
+      this.addMsg();},5);
       
     }
 
@@ -421,7 +420,7 @@ class Store extends Component{
               {this.state.display.map((v) =>
               <div key={"divkey"+v.id}>
                 <div className='product' productid={v.id}>
-                    <NavLink exact to={"/Product/"+v.id} ><img src={v.src} alt='product' width='200px'/></NavLink><br/>
+                    <NavLink exact to={"/Product/"+v.id} ><img src={v.src} alt='product' width='180px'/></NavLink><br/>
                     <span className='prodName' style={{fontSize:"20px"}}>{v.name}</span><br/>
                     <span className='price'>{v.price}$</span><br/>
                     <button type="button" className='fas fa-search-plus' data-bs-toggle="modal" data-bs-target={"#modal"+v.id+""}></button>

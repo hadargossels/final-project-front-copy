@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './Cart.css'
+import {NavLink} from 'react-router-dom'
 
 const myCoupon = {
     code: "VALENTINE",
@@ -191,7 +192,7 @@ export class Cart extends Component {
                                     <td className="right">{this.state.total + this.state.shipping + this.state.discount}$</td>
                                 </tr>
                                 <tr>
-                                <td colSpan="2" ><button className='ckotBtn'>CHECKOUT</button></td>
+                                <td colSpan="2" ><NavLink exact to="/Payment" ><button className='ckotBtn'>CHECKOUT</button></NavLink></td>
                                 </tr>
                             </tfoot>
                         </table>                        
