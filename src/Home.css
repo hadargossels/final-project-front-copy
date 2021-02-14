@@ -29,3 +29,12 @@
     background-size: 'cover';
     background-position: 50% 20%;
 }
+
+#sale {
+    background-image: url("./img/sale.jpg");
+    height: 400px;
+    position: 'relative';
+    background-repeat: no-repeat;
+    background-size: 'cover';
+    background-position: 70% 50%;
+}

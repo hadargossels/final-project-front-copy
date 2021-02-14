@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import storeItems from './StoreItems.jsx'
 import '../Home.css';
 import 'bootstrap/js/dist/carousel';
+import images from '../images.js';
 
 
 class Home extends React.Component {
@@ -66,7 +67,7 @@ class Home extends React.Component {
                     <div className="d-flex flex-column align-items-center justify-content-center" id="major">
                         <h1 className="mb-4">UP TO 30% OFF</h1>
                         <Link to="/store">
-                        <button type="button" className="btn btn-outline-secondary" style={{backgroundColor: `rgb(204, 204, 204, 0.8)`}}>SHOP</button>
+                            <button type="button" className="btn btn-outline-secondary" style={{backgroundColor: `rgb(204, 204, 204, 0.8)`}}>SHOP</button>
                         </Link>
                     </div>
                 </div>
@@ -97,11 +98,13 @@ class Home extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="d-flex flex-column align-items-center justify-content-center" style={{height: '400px', backgroundColor: '#E9967A', color:'white'}}>
-                    <h1>Sale Up to</h1>
-                    <h1>30%</h1>
-                    <Link to={{pathname: "/store/sale", onSale: true}} style={{color: 'white'}}>
-                    <h2>See Products</h2>
+                <div className="d-flex flex-column align-items-center justify-content-center" id="sale">
+                    <div style={{fontFamily: "'Brush Script MT', cursive", textAlign: "center"}}>
+                        <h1 style={{fontSize: "100px", color: "red"}}>Sale!</h1>
+                        <h1 style={{fontSize: "80px", color: "red"}}>Up to 30%</h1>
+                    </div>
+                    <Link to={{pathname: "/store/sale", onSale: true}} style={{color: 'white', textDecoration: 'none'}}>
+                        <h2 style={{fontSize: "70px"}}>See Products</h2>
                     </Link>
                 </div>
 
@@ -117,12 +120,3 @@ class Home extends React.Component {
     
 }
 export default Home;
-
-
-{/* <Link to="/">
-<div className="container">
-    <div className="row">
-        <img className="d-block mx-auto" src={images.logo} alt="Home Style logo"/>
-    </div>
-</div>
-</Link> */}

@@ -21,6 +21,11 @@ class Header extends React.Component {
         this.setState({searchInput: value});
     }
 
+    displaySumCart = () => {
+        if (this.props.qtySum > 0)
+            return <span className="text-center" style={{height: '20px', width: '20px', backgroundColor: '#333333', color:'white', borderRadius: '50%', display: 'inline-block'}}>{this.props.qtySum}</span>
+    }
+
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -50,8 +55,11 @@ class Header extends React.Component {
                         </li>
                     </ul>
                     <form className="form-inline my-2 my-lg-0">
-                        <Nav.Link href="#"><i className="fas fa-user"></i></Nav.Link>
-                        <Nav.Link href="#"><i className="fas fa-shopping-cart"></i></Nav.Link>
+                        <div className="mx-2">
+                            {this.displaySumCart()}           
+                            <Link to="/cart" className="mx-2"><i className="fas fa-shopping-cart"></i></Link>
+                            <Link to="#" className="mx-2"><i className="fas fa-user"></i></Link>
+                        </div>
                         <input className="form-control mr-sm-2" placeholder="Search" aria-label="Search" ref={this.searchInputRef} onChange={this.setSearchInput}></input >
                         <Link to={`/store?q=${this.state.searchInput}`} type="button" className="btn btn-outline-success my-2 my-sm-0">Search</Link>
                     </form>

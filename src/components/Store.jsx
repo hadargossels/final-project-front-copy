@@ -245,7 +245,8 @@ class Store extends Component {
     }
 
     getProductsElements = () => {
-        return this.state.store.filter(element => element.display).map(productElement => <Product key={productElement.id} productElement={productElement}/>)
+        return this.state.store.filter(element => element.display).map(productElement => 
+            <Product key={productElement.id} productElement={productElement}/>)
     }
 
     render() {

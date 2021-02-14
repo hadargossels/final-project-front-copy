@@ -1,4 +1,3 @@
-import logo from './img/logo.jpg';
 import main_image from './img/main.jpg';
 import bedroom_image from './img/bedroom.jpg';
 import bathroom_image from './img/bathroom.jpg';
@@ -22,7 +21,6 @@ import image6_2 from './img/image6_2.png';
 
 
 const images = {
-    logo: logo,
     main_image: main_image,
     bedroom_image: bedroom_image,
     bathroom_image: bathroom_image,

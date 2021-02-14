@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import {Carousel, Form, Button} from 'react-bootstrap';
 import storeItems from './StoreItems.jsx';
 import Product from './Product.jsx';
 
 
 class ProductPage extends React.Component {
+
+    constructor(props){
+        super(props);
+        this.qtyRef = createRef();
+    }
 
     componentDidMount() {
         window.scrollTo(0, 0);
@@ -69,6 +74,7 @@ class ProductPage extends React.Component {
         return storeItems.filter(element => element.category === this.props.product.category && element.id !== this.props.product.id);
     }
 
+
     render() {
         return (
             <div className="container py-5">
@@ -110,13 +116,13 @@ class ProductPage extends React.Component {
                         <Form>
                             <Form.Group controlId="qty" className="d-inline-flex">
                                 <Form.Label className="p-2">Qty:</Form.Label>
-                                <Form.Control as="select" className="p-2 col-sm-8">
+                                <Form.Control as="select" className="p-2 col-sm-8" ref={this.qtyRef}>
                                 {this.createQtyList()}
                                 </Form.Control>
                             </Form.Group>
                         </Form>
                         <div className="d-flex align-items-center">
-                            <Button variant="primary" className="px-5">Add to bag</Button>
+                            <Button variant="primary" className="px-5" onClick={() => this.props.onAddToCart(this.props.product, this.qtyRef.current.value)}>Add to bag</Button>
                             {this.isFavorite()}
                             
                         </div>
