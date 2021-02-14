@@ -5,7 +5,7 @@ import SignIn from "../../components/signin/signin.component";
 import "./signin-signup.styles.scss";
 
 const SignInAndSignUpPage = (props) => {
-  console.log("props :", props);
+  // console.log("props :", props);
 
   return (
     <>

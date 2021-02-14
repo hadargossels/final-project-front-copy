@@ -14,6 +14,7 @@ import ShoppingCartItem from "../../components/shopping-cart-item/shopping-cart-
 
 import CartItem from "./../../components/cart-item/cart-item.component";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import PayPal from "./../../components/paypal/paypal";
 const CheckoutPage = ({ cartItems, total, itemCount, currentUser }) => {
   const [validPhone, setValidPhone] = useState(false);
   const [promoValue, setPromoValue] = useState();
@@ -34,6 +35,25 @@ const CheckoutPage = ({ cartItems, total, itemCount, currentUser }) => {
 
   const [deliveryChange, setDeliveryChange] = useState(0);
   const [validShipping, setValidShipping] = useState(false);
+
+  const [checkout, setCheckOut] = useState(false);
+
+  const isAllValid = (event) => {
+    event.preventDefault();
+    validPhone &&
+    validFirstName &&
+    validLastName &&
+    validAddress &&
+    validZip &&
+    validCName &&
+    validExpiration &&
+    validCNumber &&
+    validCVV &&
+    validCountry &&
+    validShipping
+      ? console.log("yesss")
+      : console.log("nooo");
+  };
 
   let promoCode = 123;
   const handlePromoChange = (event) => {
@@ -629,12 +649,17 @@ const CheckoutPage = ({ cartItems, total, itemCount, currentUser }) => {
                 </div>
               </div>
               <hr className="mb-4" />
+
               <button
+                onClicked={isAllValid}
                 className="btn btn-primary btn-lg btn-block"
                 type="submit"
               >
                 pay now
               </button>
+
+              <PayPal totalPay={total + promoChange + deliveryChange} />
+
               <Link to="/shopping-cart">
                 <button type="button" class="btn btn-secondary">
                   back to shopping cart
@@ -646,6 +671,18 @@ const CheckoutPage = ({ cartItems, total, itemCount, currentUser }) => {
                   back to store
                 </button>
               </Link>
+              {/* 
+              {checkout ? (
+                <PayPal totalPay={total + promoChange + deliveryChange} />
+              ) : (
+                <button
+                  onClick={() => {
+                    setCheckOut(true);
+                  }}
+                >
+                  Checkout
+                </button>
+              )} */}
             </form>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import Map from "../../components/google-map/google-map.component";
 
 import "./contact.styles.scss";
 
@@ -134,6 +135,8 @@ const ContactPage = () => (
         </div>
       </div>
     </section>
+
+    <Map />
   </>
 );
 

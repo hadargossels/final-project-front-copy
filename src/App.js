@@ -37,6 +37,7 @@ import eCheckoutPage from "./pages/shopping-cart/shopping-cart.component";
 import CartListPage from "./pages/shopping-cart/shopping-cart.component";
 import ShoppingCartPage from "./pages/shopping-cart/shopping-cart.component";
 import CheckoutPage from "./pages/checkout/checkout.component";
+import Map from "./components/google-map/google-map.component";
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
@@ -114,7 +115,6 @@ class App extends React.Component {
           <Route path="/account" component={AccountPage} />
           <Route component={NotFoundPage} />
         </Switch>
-
         <Footer />
       </div>
     );

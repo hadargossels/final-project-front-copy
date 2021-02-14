@@ -17,12 +17,12 @@ foo@demo.net	bar.ba@test.co.uk
 www.demo.com	http://foo.co.uk/
 https://marketplace.visualstudio.com/items?itemName=chrmarti.regex
 https://github.com/chrmarti/vscode-regex
-
 0542801819
-Gilad 
+
+123
 
 253 N. Cherry St. 
-
+dfd fdfd
 dd
 d
 ba
@@ -33,7 +33,7 @@ ba
 12345-6789
 12345 1234
 
-4111 1111 1111 1111 
+4111 1111 1111 1111
 
 
 Credit Card Number format is : "nnnn nnnn nnnn nnnn"
@@ -60,7 +60,7 @@ public String chkContainCardno(String inputstr) {
 }
 [Test Result]
 
-53111013121111111
+5311101312111111
 temp1 : adfs 1111 2222 3333 4444 fadad : true 1111 2222 3333 4444
 
 temp2 : 11 11 2222 3333 4444 : false
@@ -68,3 +68,7 @@ temp2 : 11 11 2222 3333 4444 : false
 temp3 : 11111 2222 3333 4444 : true 1111 2222 3333 4444 <-- I don't understand
 
 temp4 : 1111 2a222 3333 4444 : false
+
+areax 14 
+
+3333
