@@ -143,6 +143,9 @@ export default class Product extends Component {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button onClick={()=>
+                              window.location.href='/cart'
+                           } data-bs-dismiss="modal" type="button" className="btn btn-warning" >Go to cart</button>
                         </div>
                         </div>
                     </div>

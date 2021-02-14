@@ -1,5 +1,7 @@
 import React from 'react'
 import './Modal.css'
+
+
 export default function Modals(props) {
   
         return (
@@ -20,7 +22,7 @@ export default function Modals(props) {
                 </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                <button type="button" className="btn btn-warning">add to cart</button>
+                
               </div>
             </div>
           </div>
