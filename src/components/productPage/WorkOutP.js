@@ -4,11 +4,9 @@ import Stars from './Stars';
 import './store.css';
 const ListItemLink = ({ name , urlImg ,index }) => (
     <Route path={"/product/"+index+"/"+name} children={({ match }) => (
-      <li className={match ? 'active' : ''}><br/>
         <Link className="btn text-white" to={"/product/"+index+"/"+name}><br/>
             <img key={name} src={urlImg} alt="..." width='80%' height="200rem"/><br/>
         </Link>
-      </li>
 )}/>)
 
 class WorkOutP extends Component{

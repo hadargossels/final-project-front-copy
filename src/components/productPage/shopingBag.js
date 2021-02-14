@@ -1,10 +1,14 @@
 import React ,{Component} from 'react'
-
+import {Link,Route} from "react-router-dom";
+const ListItemLink = ({ to, name }) => (
+    <Route path={to} children={({ match }) => (
+        <Link className="btn btn-dark m-2" to={to}>{name}</Link>
+    )}/>)
 export default class ShopingBag extends Component {
 
     constructor(props){
         super(props)
-        console.log(this.props);
+        // console.log(this.props);
         // localStorage.clear();
         // console.log(this.props.match.params.iJson);
         this.myCart=localStorage.getItem('cart');
@@ -22,10 +26,12 @@ export default class ShopingBag extends Component {
         }
         this.myOnLoad();
     }
+
     shouldComponentUpdate(){
         document.querySelector('#myBag').innerHTML=""+((Number(localStorage.getItem('totalItems')))?Number(localStorage.getItem('totalItems')):0);
         return true 
     }
+
     myOnLoad(){
         this.myCart = (this.myCart)?JSON.parse(this.myCart):[];
         for(let i=0; i<this.myCart.length; i++){
@@ -40,7 +46,7 @@ export default class ShopingBag extends Component {
             if(this.state.myArr.length>0){
                 if(this.state.myArr[this.state.myArr.length-1].jsonPlace!=this.props.match.params.iJson){
                     this.state.myArr.push(this.myJson);
-                    console.log(this.state.myArr);
+                    // console.log(this.state.myArr);
                     this.state.numOfProductsArr.push(1)
                     localStorage.setItem('cart',JSON.stringify(this.state.myArr));
                     localStorage.setItem('numOf',JSON.stringify(this.state.numOfProductsArr));
@@ -159,7 +165,8 @@ export default class ShopingBag extends Component {
                             <h4 className="text-danger">Total Price : {(this.state.isDiscount?this.state.totalPrice*(9/10):this.state.totalPrice).toFixed(2)}$</h4><br/>
                             <input id="disC" className="m-2" type="text" placeholder="Enter coupon" /><br/>
                             <button className="btn btn-dark m-2" onClick={()=>this.discount()}>get discount</button>
-                            <button className="btn btn-dark m-2">Cash out</button>
+                            <ListItemLink to="/cashOut" name="Cash out"/>
+                            {/* <button className="btn btn-dark m-2">Cash out</button> */}
                     </div>
                 </div>
             </div>

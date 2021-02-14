@@ -6,9 +6,7 @@ import Stars from './Stars';
 // import ChartBtn from './ChartBtn';
 const ShopingLink = ({ to }) => (
     <Route path={to} children={({ match }) => (
-      <li className={match ? 'active' : ''}>
         <Link className="btn btn-dark" to={to}><i className="fas fa-shopping-bag"> Add to shoping bag</i></Link>
-      </li>
     )}/>)
 
 class Middle extends Component{

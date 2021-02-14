@@ -4,19 +4,15 @@ import "./Home.css"
 
 const ListItemLink = ({ to, name }) => (
     <Route path={to} children={({ match }) => (
-      <li className={match ? 'active' : ''}>
         <Link className="btn btn-dark" to={to}>{name}</Link>
-      </li>
     )}/>);
 
 const ImgLink = ({ name , to ,src }) => (
   <Route path={to} children={({ match }) => (
-      <li className={match ? 'active' : ''}><br/>
       <Link className="btn text-white text-center" to={to}><br/>
           <img  className="rounded-pill" key={name} src={src} alt="..." width='200rem' height="200rem"/><br/>
           <h3>{name}</h3>
       </Link>
-      </li>
   )}/>);
 
 class Home extends Component{

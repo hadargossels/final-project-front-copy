@@ -11,6 +11,8 @@ import Sign from "./components/productPage/Sign";
 // import ProductYoga from "./components/productPage/ProductYoga";
 import Home from "./components/productPage/Home";
 import ShopingBag from "./components/productPage/shopingBag";
+import CashOut from "./components/productPage/cashOut/CashOut";
+import SignUp from "./components/productPage/signup/SignUp";
 
 
 
@@ -26,7 +28,9 @@ function App() {
               <Route path="/about" component={About} />
               <Route path="/blog" component={Blog} />
               <Route path="/login" component={Sign} />
+              <Route path="/signup" component={SignUp} />
               <Route path="/shopingchart/:iJson" component={ShopingBag} />
+              <Route path="/cashOut" component={CashOut}/>
           </Router>
         <br/><br/><br/>
         <Footer/>

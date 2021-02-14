@@ -6,9 +6,7 @@ import "./Header.css"
 // import Album from './Album';
 const ListItemLink = ({ to, name }) => (
     <Route path={to} children={({ match }) => (
-      <li className={match ? 'active' : ''}>
         <Link className="btn text-white" to={to}>{name}</Link>
-      </li>
     )}/>)
 
 class Header extends Component{
@@ -31,7 +29,7 @@ class Header extends Component{
             const lSArr =localStorage.getItem('cart')?JSON.parse(localStorage.getItem('cart')):null;
             const numOf = (window.localStorage.getItem('numOf'))?JSON.parse(window.localStorage.getItem('numOf')):[];
             if(lSArr){
-                console.log(lSArr);
+                // console.log(lSArr);
                 const temp = [];
                 for(let i=0; i<lSArr.length; i++){
                     if(lSArr[i]!==null){
@@ -74,6 +72,7 @@ class Header extends Component{
                     <ListItemLink to="/about" name="About Us"/>
                     <ListItemLink to="/blog" name="Blog"/>
                     <ListItemLink to="/login" name="Sign In"/>
+                    <ListItemLink to="/signup" name="Sign Up"/>
                     <div className="d-flex">
                         <input onChange={()=>this.searchInput()} ref={this.searchRef} className="ms-3" type="search" placeholder="Search" />
                         <ListItemLink to={`/store/${this.state.search}`} name="Search"/>
