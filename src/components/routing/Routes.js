@@ -10,6 +10,8 @@ import SignUp from '../SignUp/SignUp'
 import ProductPage from '../Product/ProductPage'
 import NotFound from '../404/NotFound'
 import Cart from '../Cart/Cart'
+import Checkout from '../Checkout/Checkout'
+import OrderConfirmed from '../Checkout/OrderConfirmed'
 
 
 export default class Routes extends Component {
@@ -20,7 +22,9 @@ export default class Routes extends Component {
                 <Route exact path="/" component={Home}/>
                 <Route path="/about" component={AboutUs}/>
                 <Route path="/blog" component={Blog}/>
+                <Route path="/checkout" component={Checkout}/>
                 <Route path="/cart" component= {Cart}/>
+                <Route path="/confirmed" component={OrderConfirmed}/>
                 <Route path="/contact" component={ContactUs}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/product/:name" component={ProductPage}/>

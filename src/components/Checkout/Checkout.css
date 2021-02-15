@@ -1,0 +1,20 @@
+.noDiscount{
+    display:none
+}
+
+td +td{
+    text-align: right;
+}
+
+th + td{
+    text-align: right;
+}
+
+.radiob{
+    height:20px;
+    width:20px;
+}
+
+/* .meh{
+    border-color: red;
+} */

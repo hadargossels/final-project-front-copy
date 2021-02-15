@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import {objectsArr} from '../Product/data'
+import {Link} from 'react-router-dom'
 import './CartTable.css'
 
 export default class CartTable extends Component {
     constructor(props){
         super(props)
         this.AllProducts = objectsArr
-        this.state = {productsArr:this.props.productsArr, priceBeforeShipping:0, discount:false}
+        this.state = {productsArr:this.props.productsArr, discount:localStorage.getItem("discount")}
         this.inputRef = React.createRef();
     }
 
@@ -55,13 +56,14 @@ export default class CartTable extends Component {
     
     applyDiscount(e){
         e.preventDefault()
-        if ((this.inputRef.current.value).toLowerCase() === "gal25")
+        if ((this.inputRef.current.value).toLowerCase() === "gal25"){
             this.setState({discount:0.75})
+            localStorage.setItem("discount",0.75)
+        }
     }
         
     render() {
         let priceOfAll = 0;
-        let shipping = 15;
 
         if (this.state.productsArr){
             return (
@@ -112,18 +114,19 @@ export default class CartTable extends Component {
                 <h3 className={`${this.props.page} ps-1 bg-primary py-1 text-light`}>Summary</h3>
                 <table className="table table-hover my-3">
                     <tbody>
+                    <tr className={this.state.discount? "text-danger" : "noDiscount"}>
+                                        <th>Total (before discount)</th>
+                                        <td>${priceOfAll.toFixed(2)}</td>
+                                    </tr>          
+                                    <tr className={this.state.discount? "text-success" : "noDiscount"}>
+                                        <th>Coupon Applied - You've saved</th>
+                                        <td>-${(priceOfAll*(this.state.discount?(1-this.state.discount):1)).toFixed(2)}</td>
+                                    </tr>
                         <tr >
                             <th>Total Before Shipping</th>
                             <td>${(priceOfAll*(this.state.discount?this.state.discount:1)).toFixed(2)}</td>
                         </tr>
-                        <tr>
-                            <th>Estimated Shipping Fee</th>
-                            <td>{priceOfAll*(this.state.discount?this.state.discount:1) >= 100 ?  "Free Shipping beyond $100USD!" :"$15.00"}</td>
-                        </tr>
-                        <tr>
-                            <th>Order Total</th>
-                            <td>${(priceOfAll*(this.state.discount?this.state.discount:1)+ (priceOfAll*(this.state.discount?this.state.discount:1)<100 ? shipping :0)).toFixed(2)}</td>
-                        </tr>
+
                     </tbody>
                 </table>
                 <div className={this.props.page}>
@@ -133,7 +136,8 @@ export default class CartTable extends Component {
                         <button className="btn btn-success">Apply Code</button>
                     </form>
                 </div>
-                <button className="float-end btn btn-lg btn-primary my-2">Proceed to Checkout</button>
+          
+                <button className="float-end btn btn-lg btn-primary my-2"><Link to="/checkout" style={{textDecoration:"none",color:'white'}}>Proceed to Checkout</Link></button>
 
             </div>
         </div>
