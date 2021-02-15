@@ -7,9 +7,9 @@ export default class Login extends Component {
     render() {
         return (
             <div className="wrapper">
-                <form className="form-signin">
+                <form className="form-signin"  action="/" >
                 <Title name="log" title="in" />
-                    <input type="text" className="form-control" name="username" placeholder="Email Address" required="" autofocus="" />
+                    <input type="text" className="form-control" name="username" placeholder="Email Address" required ="" autoFocus=""/>
                     <input type="password" className="form-control" name="password" placeholder="Password" required=""/> 
                     <div className="row">  
                         <div className="col-6">    
@@ -22,7 +22,9 @@ export default class Login extends Component {
                         </div>
                     </div>
                 </form>
+                
             </div>
+            
         )
     }
 }

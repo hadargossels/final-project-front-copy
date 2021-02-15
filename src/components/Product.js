@@ -77,9 +77,9 @@ export default class Product extends Component {
                             <h5 className="text-blue font-italic mb-0">
                             
                                 <span className="mr-1">$</span>
-                                {/* {price} */}
                                  { setPrice(price,sale)}
                                 { setSale(price,sale)} 
+                                
                                 
                                 
                             </h5>         
@@ -96,7 +96,9 @@ Product.propTypes ={
         img:PropTypes.string,
         title:PropTypes.string,
         price:PropTypes.number,
-        inCart:PropTypes.bool
+        inCart:PropTypes.bool,
+        rating:PropTypes.number,
+        sale:PropTypes.bool
     }).isRequired
 };
 const ProductWrapper = styled.div`

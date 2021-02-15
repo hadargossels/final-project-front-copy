@@ -2,12 +2,7 @@ import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 import React, { Component } from 'react'
 import {storeProducts, detailProduct} from './data'
 const ProductContext = React.createContext();
-// var pageNum1;
-// var sortOptions = [
-//     {label: 'Low to High', value: 'LH'},
-//     {label: 'High to Low', value: 'HL'},
-//     {label: 'Most Rated', value: 'MT'},
-// ];
+
 
 class ProductProvider extends Component {
     
@@ -16,14 +11,27 @@ class ProductProvider extends Component {
         let cartSubTotal = 0, cartTax = 0, cartTotal = 0;
         let cart = [];
         if (localStorage.cart != null) {
+
             cart = JSON.parse(localStorage.cart);
+
             let total = JSON.parse(localStorage.totals );
             cartSubTotal = total.cartSubTotal;
             cartTax = total.cartTax;
             cartTotal = total.cartTotal;
 
-        }
+            for(let i=0;i<storeProducts.length;i++){
+                
+                for(let j=0;j<cart.length;j++){
+                  
 
+                    if(storeProducts[i].id===cart[j].id){
+                        
+                        storeProducts[i].inCart = cart[j].inCart;     
+                    }
+                }
+            }
+        }
+       
         this.state = {
             products:storeProducts,
             origProducts:storeProducts,
@@ -81,7 +89,7 @@ class ProductProvider extends Component {
       setFilter = (filterName) => {
         let arr = [...this.state.filtersArray];
         
-        arr.forEach(item => {console.log(item.sale)
+        arr.forEach(item => {
             if(item.type == filterName || item.type==filterName) {
                 item.isEnabled = !item.isEnabled;
             }
@@ -316,6 +324,13 @@ class ProductProvider extends Component {
         }
         this.setState({products:newArr})
     }
+    updatePriceWithCoupon =  (val) => {
+        let tempPrice = this.state.cartTotal;
+        if(val=="12345"){
+            tempPrice = tempPrice-tempPrice*0.1;
+        }
+        this.setState({cartTotal:tempPrice})
+    }
     //  setBoardItemsFunction =() =>  {
     //                 let list = []
     //                 for(var i=pageNum1*10;i<(pageNum1+1)*10;i++) {
@@ -449,6 +464,7 @@ class ProductProvider extends Component {
                saleSort:this.saleSort,
                ratingSort:this.ratingSort,
                updatePrice:this.updatePrice,
+               updatePriceWithCoupon:this.updatePriceWithCoupon,
                setValue:this.setValue
             }}>
                 {this.props.children}

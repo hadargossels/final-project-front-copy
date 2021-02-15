@@ -1,22 +1,22 @@
 import React, { Component } from 'react'
 import Title from './Title'
 
-export default class LoginAndReg extends Component {
+export default class Register extends Component {
     render() {
         return (
             
             <div className="container">
                 <Title name="regi" title="ster"/>
 
-                    <form>
+                    <form action="/">
                         <div className="row">
                             <div className="form-group col-md-6">
-                            <label for="inputEmail4">Email</label>
-                            <input type="email" className="form-control" id="inputEmail4" placeholder="Email"/>
+                            <label for="inputEmail4" required>Email</label>
+                            <input type="email" className="form-control" id="inputEmail4" placeholder="Email" required/>
                             </div>
                             <div className="form-group col-md-6">
-                            <label for="inputPassword4">Password</label>
-                            <input type="password" className="form-control" id="inputPassword4" placeholder="Password"/>
+                            <label for="inputPassword4" required>Password</label>
+                            <input type="password" className="form-control" id="inputPassword4" placeholder="Password" required/>
                             </div>
                         </div>
                         <div className="form-group">
@@ -40,8 +40,8 @@ export default class LoginAndReg extends Component {
                             </select>
                             </div>
                             <div className="form-group col-md-2">
-                            <label for="inputZip">Zip</label>
-                            <input type="text" className="form-control" id="inputZip"/>
+                            <label for="inputZip" required>Zip</label>
+                            <input type="text" className="form-control" id="inputZip" required/>
                             </div>
                         </div>
                         <div className="form-group">

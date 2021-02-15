@@ -6,6 +6,8 @@ import {ButtonContainer} from './Button';
 import SideMenu from './sideMenu/SideMenu';
 import Clock from 'react-live-clock'
 import {ProductConsumer} from '../context';
+import CartDropdown from './CartDropdown'
+
 
 export default class Navbar extends Component {
 
@@ -47,23 +49,23 @@ export default class Navbar extends Component {
 
                     </Link>
                     
-                    <ul className="navbar-nav align-items-center">
+                    <ul  className="navbar-nav align-items-center">
                       
                         
                         <Link to='/'>
-                            <span className = "btn-animation btn from-top" href="#" >HOME</span>    
+                            <span style = {{color:"white"}} className = "btn-animation btn from-top" href="#" >HOME</span>    
                         </Link>
                         <Link to='/shop'>
-                            <span className = "btn-animation btn from-left" href="#shop" >SHOP</span>
+                            <span style = {{color:"white"}} className = "btn-animation btn from-left" href="#shop" >SHOP</span>
                         </Link>
                         <Link to='/services'>
-                            <span className = "btn-animation btn from-right" href="#services" >SERVICES</span>
+                            <span style = {{color:"white"}} className = "btn-animation btn from-right" href="#services" >SERVICES</span>
                         </Link>
                         <Link to='/about'>
-                            <span className = "btn-animation  btn from-center" href="#about" >ABOUT</span>
+                            <span style = {{color:"white"}} className = "btn-animation  btn from-center" href="#about" >ABOUT</span>
                         </Link>
                         <Link to='/news'>
-                            <span className = "btn-animation btn from-bottom" href="#news" >NEWS</span>
+                            <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >NEWS</span>
                         </Link>
                     </ul>
                     <div className="align-items-center" style={{marginLeft:"auto" ,marginTop:'auto', marginBottom:'auto'}}>
@@ -76,28 +78,15 @@ export default class Navbar extends Component {
                             </div>
                         </div>
                     </div>
-                    <Link to='/cart'>
-                   
-                        <ButtonContainer>
-                        
-                            <span className="mr-2" style={{color:"white"}}>
-                            <i className="fas fa-cart-plus"/>
-                            Item: 
                             <ProductConsumer>
-                                {value=>{ return(" "+ value.cart.length )}}
+                            {value=> <CartDropdown cartArrDropdown = {value.cart}/> }
                             </ProductConsumer>
-                            
-                            </span>
-                            
-                         
-                        </ButtonContainer>
-                      
-                    </Link> 
+                           
                         <Link to='/login'>
-                            <span className = "btn-animation btn from-bottom" href="#news" >Login</span>
+                            <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >Login</span>
                         </Link>
                         <Link to='/register'>
-                            <span className = "btn-animation btn from-bottom" href="#news" >Register</span>
+                            <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >Register</span>
                         </Link>
                         <div  className="clock">
                             <Clock format={'HH:mm'} ticking={true} timezone={'Israel'} style={{color:"white"}}/>

@@ -31,8 +31,6 @@ render() {
         <React.Fragment>
             <ProductConsumer>
                 {value=>{ 
-                    // {console.log(window.localStorage)}
-                    //          {if(window.location.pathname!='/shop')value.filtersArray.map(isEnabled => isEnabled.isEnabled=false)}//if leave th
                     return (<React.Fragment>
                         <div className="py-5" >
                         <Title name="our" title="products" />
@@ -46,43 +44,43 @@ render() {
                                             <p style={{color: 'var(--lightBlue)',fontSize:"25px"}}>Filters</p>
                                             <div className="form-check " >
                                                 <input onChange={()=>{value.setFilter('helmet')}} className="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
-                                                <label className="form-check-label" for="flexCheckDefault">
+                                                <label className="form-check-label" htmlFor="flexCheckDefault">
                                                     helmets
                                                 </label>
                                             </div>
                                             <div className="form-check">
                                                 <input onChange={()=>{value.setFilter('bike')}} className="form-check-input" type="checkbox" value="" id="flexCheckChecked"/>
-                                                <label className="form-check-label" for="flexCheckChecked">
+                                                <label className="form-check-label" htmlFor="flexCheckChecked">
                                                     bikes
                                                 </label>
                                             </div>
                                             <div className="form-check">
                                                 <input onChange={()=>{value.setFilter('cub')}} className="form-check-input" type="checkbox" value="" id="flexCheckChecked"/>
-                                                <label className="form-check-label" for="flexCheckChecked">
+                                                <label className="form-check-label" htmlFor="flexCheckChecked">
                                                 cubs
                                                 </label>
                                             </div>
                                             <div className="form-check">
                                                 <input onChange={()=>{value.setFilter("scooter")}} className="form-check-input" type="checkbox" value="" id="flexCheckChecked"/>
-                                                <label className="form-check-label" for="flexCheckChecked">
+                                                <label className="form-check-label" htmlFor="flexCheckChecked">
                                                 scooters
                                                 </label>
                                             </div>
                                             <div className="form-check">
                                                 <input onChange={()=>{value.setFilter("sale")}} className="form-check-input" type="checkbox" value="" id="flexCheckChecked"/>
-                                                <label className="form-check-label" for="flexCheckChecked">
+                                                <label className="form-check-label" htmlFor="flexCheckChecked">
                                                 sale
                                                 </label>
                                             </div>
-                                            <div class="dropdown">
+                                            <div className="dropdown">
                                                      <PriceSlider val={value}/> {/*does not work */}
-                                                    <button class="btn btn-secondary dropdown-toggle" 
+                                                    <button className="btn btn-secondary dropdown-toggle" 
                                                     style={{fontSize:"25px", color: " var(--lightBlue)",background: "var(--mainWhite)",borderColor:"var(--lightBlue)"}} 
                                                     type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         Sort By
                                                     </button>
                                                     
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style={ {background: "var(--mainWhite)",borderColor:"var(--lightBlue)"}}>
+                                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={ {background: "var(--mainWhite)",borderColor:"var(--lightBlue)"}}>
                                                     <input className="dropdown-item btn" onClick={()=>{value.priceHighToLow("high")}} type="button" value="High price to low" /> 
                                                     <input  className="dropdown-item btn" onClick={()=>{value.priceHighToLow("low")}} type="button" value="Low price to High" /> 
                                                     <input  className="dropdown-item btn" onClick={()=>{value.ratingSort()}} type="button" value="Rating" /> 

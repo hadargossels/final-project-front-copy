@@ -13,7 +13,8 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Timer from './components/Timer';
 import Checkout from './components/Cart/Checkout';
-
+import Services from './components/Services';
+import Succeeded from './components/Cart/Succeeded';
 import 'moment-timezone';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
@@ -28,7 +29,7 @@ class App extends Component{
 
         <Navbar/>
        {/* <Timer/> */}
-        <Switch>
+         <Switch>
           <Route exact path="/details/:id" component={Details}/>
           <Route exact path="/" component={Homepage}/>
           <Route exact path="/cart" component={Cart}/>
@@ -36,7 +37,10 @@ class App extends Component{
           <Route exact path="/register" component={Register}/>
           <Route exact path="/login" component={Login}/>
           <Route exact path="/checkout" component={Checkout}/>
+          <Route path="/services" component={Services}/>
+          <Route path="/Succeeded" component={Succeeded}/>
           <Route path="/search" component={ProductList}/>
+
           <Route component={Default}/>
 
 
