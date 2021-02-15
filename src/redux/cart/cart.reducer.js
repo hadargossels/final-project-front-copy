@@ -72,6 +72,12 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         cartItems: clearItemOutOfCart(state.cartItems, action.payload),
       };
 
+    case CartActionTypes.CLEAR_CART:
+      return {
+        ...state,
+        cartItems: (state.cartItems = []),
+      };
+
     // case CartActionTypes.setTotalPrice:
     //   return {
     //     ...state,

@@ -2,6 +2,8 @@ import React from "react";
 
 import "./order-confirmation.styles.scss";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { connect } from "react-redux";
+import { clearCart } from "../../redux/cart/cart.actions";
 
 const OrderConfirmation = (props) => (
   <>
@@ -62,11 +64,21 @@ const OrderConfirmation = (props) => (
                 <b>${props.total}</b>{" "}
               </div>
             </div>{" "}
-            <Link to="/order-tracking">
+            <Link
+              onClick={() => {
+                props.clearCart();
+              }}
+              to="/order-tracking"
+            >
               <button className="btn d-flex mx-auto"> Track your order </button>
             </Link>
           </div>{" "}
-          <Link to="/store">
+          <Link
+            onClick={() => {
+              props.clearCart();
+            }}
+            to="/store"
+          >
             <button type="button" class="btn btn-warning back">
               Back to store
             </button>
@@ -77,4 +89,8 @@ const OrderConfirmation = (props) => (
   </>
 );
 
-export default OrderConfirmation;
+const mapDispatchToProps = (dispatch) => ({
+  clearCart: () => dispatch(clearCart()),
+});
+
+export default connect(null, mapDispatchToProps)(OrderConfirmation);
