@@ -40,7 +40,7 @@ export class Dropdown extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                    {this.state.cart.map((v) => 
+                    {JSON.parse(localStorage.getItem("cart")).map((v) => 
                         <tr key={v.itemId}>
                             <td><img src={v.src} alt='product' width='70px'/></td>
                             <td>{v.name}</td>

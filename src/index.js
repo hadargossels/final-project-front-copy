@@ -19,6 +19,16 @@ import Payment from './components/payment/Payment';
 import Newaccount from './components/newAccount/Newaccount';
 import PropTypes from 'prop-types';
 
+function setLocalStorage () {
+  if (localStorage.getItem("cart") == undefined) {
+    localStorage.setItem("cart",JSON.stringify([]))
+  }
+  if (localStorage.getItem("user") == undefined) {
+    localStorage.setItem("user","")
+  }
+}
+setLocalStorage()
+
 let amount = 0;
 const amountfunction = (amount) => {
   let cart = JSON.parse(localStorage.getItem("cart"))

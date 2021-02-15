@@ -31,7 +31,9 @@ export class Login extends Component {
         for (const element of users) {
             if (element.email == email && element.password == password) {
                 
-                setTimeout(()=>{this.setState({success: "block",login: "none", username:element.username })},5)
+                setTimeout(()=>{this.setState({success: "block",login: "none", username:element.username })
+                localStorage.setItem("user",element.username)
+            window.location.reload()},5)
             }
             else if (element.email !== email) {
                 setTimeout(()=>{this.setState({emailMsg: "block"})},5)
@@ -44,7 +46,8 @@ export class Login extends Component {
     render() {
         return (
             <div>
-                <div style={{display: this.state.success}}>Hello, {this.state.username}</div>
+                <div style={{display: this.state.success}} className='hello'>Hello, {this.state.username}<br/>
+                <NavLink exact to="/"><button>Back to homepage</button></NavLink></div>
                 <div className="login" style={{display: this.state.login}}>
                     <h1 style={{display: this.props.visibilty}}>LOGIN</h1>
                     <form action="" onSubmit={(e)=>{this.validate(e)}}>

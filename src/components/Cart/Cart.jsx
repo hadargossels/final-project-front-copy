@@ -108,6 +108,26 @@ export class Cart extends Component {
         
     }
 
+    shippingCost (e) {
+        let shipping = 10;
+        if (e.target.value === 'standard') {
+            shipping = 10
+        }
+        else if (e.target.value === 'express'){
+            shipping = 20
+        }
+        else if (e.target.value === 'nextday'){
+            shipping = 30
+        }
+
+        setTimeout(()=>{this.setState({shipping})},5)
+    }
+
+    totalPay () {
+        let total = this.state.total + this.state.shipping + this.state.discount
+        localStorage.setItem("total",JSON.stringify(total))
+    }
+
     render() {
         return (
             <div>
@@ -161,6 +181,16 @@ export class Cart extends Component {
                                     <td className="right">{this.state.total}$</td>
                                 </tr>
                                 <tr>
+                                    <td colSpan="2">
+                                    <label htmlFor="delivery">Choose shipping method:</label><br/>
+                                    <select name="delivery" id="delivery" required onChange={(e)=>{this.shippingCost(e)}}>
+                                    <option value="standard">Standard delivery: 10$</option>
+                                    <option value="express">Express delivery: 20$</option>
+                                    <option value="nextday">Next day delivery: 30$</option>
+                                    </select>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td  className="left">Shipping:</td>
                                     <td className="right">{this.state.shipping}$</td>
                                 </tr>
@@ -192,7 +222,7 @@ export class Cart extends Component {
                                     <td className="right">{this.state.total + this.state.shipping + this.state.discount}$</td>
                                 </tr>
                                 <tr>
-                                <td colSpan="2" ><NavLink exact to="/Payment" ><button className='ckotBtn'>CHECKOUT</button></NavLink></td>
+                                <td colSpan="2" ><NavLink exact to="/Payment" ><button className='ckotBtn' onClick={()=>{this.totalPay()}}>CHECKOUT</button></NavLink></td>
                                 </tr>
                             </tfoot>
                         </table>                        

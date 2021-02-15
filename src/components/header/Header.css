@@ -23,7 +23,7 @@
 }
 
 #search {
-    margin: 20px 0px auto 45px;
+    margin: auto 10px auto 45px;
     width: 250px;
     height: 35px;
 }
@@ -32,6 +32,7 @@
     margin: auto 45px;
     color: #adadad;
 }
+
 
 .login {
     text-decoration: none;
@@ -45,7 +46,7 @@
 
 .cartI {
     justify-content: center;
-    margin: auto 20px;
+    margin: auto 0px;
 }
 
 .logo {
@@ -68,7 +69,6 @@
 .dropbtn {
     background-color: #64495c;
     color: white;
-    padding: 16px;
     font-size: 28px;
     border: none;
     display: flex;
@@ -136,3 +136,12 @@ padding: 5px;}
         padding: 5px;
         font-family: var(--bs-font-sans-serif);
     }
+.fa-user {
+    color: white;
+    font-size: 30px;
+}
+
+a, a:hover {
+    text-decoration: none;
+    color: white;
+}

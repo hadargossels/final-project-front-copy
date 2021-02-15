@@ -47,19 +47,26 @@ amount () {
                <NavLink exact to="/Blog" activeStyle={{color:"white"}}><button className='navbtn'>Blog</button></NavLink>
                <NavLink exact to="/Contact" activeStyle={{color:"white"}}><button className='navbtn'>Contact</button></NavLink>
             </div>
-            <form action="/Store">
+            <form action="/Store" className='searchform'>
             <input type="text" id="search" name="q" placeholder="Search"></input>
             <input type="submit" id="subSer" className="fas fa-search serBtn" value=""></input>
             </form>
-            <div className='logo'></div>
+
+            <div className='logindiv'>
                <div className="dropdown cartI">
-               <NavLink exact to="/Cart"><button className="dropbtn" onMouseOver={()=>{this.total();this.amount()}}><div className='fas fa-shopping-cart'></div><div className='amount'>{this.state.amount}</div></button></NavLink>
+                  <NavLink exact to="/Cart"><button className="dropbtn" onMouseOver={()=>{this.total();this.amount()}}><div className='fas fa-shopping-cart'></div><div className='amount'>{JSON.parse(localStorage.getItem("cart")).length}</div></button></NavLink>
                   <div className="dropdown-content">
-                  <Dropdown total={this.state.total}/>
+                  <Dropdown total={this.state.total} cart={this.state.cart}/>
                   </div>
                </div>
-            <div className='logindiv'><NavLink exact to="/Login" className='logindiv'>Log In/Sign In</NavLink></div>
-            
+               <div className="dropdown cartI">
+                  <NavLink exact to="/Cart"><button className="dropbtn" onMouseOver={()=>{this.total();this.amount()}}><div className='fas fa-heart'></div></button></NavLink>
+                  <div className="dropdown-content">
+                  <Dropdown total={this.state.total} cart={JSON.parse(localStorage.getItem("cart"))}/>
+                  </div>
+               </div>
+            <NavLink exact to="/Login" className='fas fa-user'></NavLink>
+            </div>
          </div>
       );
    }
