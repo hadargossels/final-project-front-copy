@@ -5,8 +5,7 @@ html{
 
 body{
 
-background-image: url(/images/logo.jpeg);
-background-size: 100%;
-font-family: sans-serif;
+    background-color: rgb(227,175,188);
+    font-family: sans-serif;
 
 }

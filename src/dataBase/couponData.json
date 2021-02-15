@@ -1,0 +1,17 @@
+
+
+[
+    {
+    "id":1,
+    "serialNumber": "1234",
+    "discountPercentage": 10,
+    "used":false
+    },
+    {
+    "id":2,
+    "serialNumber": "1234567",
+    "discountPercentage": 20,
+    "used":false
+    }
+
+]

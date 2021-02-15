@@ -4,18 +4,30 @@
 
     max-width: 1200px;
     margin: auto ;
-    margin-bottom: 150px;
-    min-height: 60vh;
+    margin-bottom: 0px;
+    min-height: 80vh;
     position: relative;
     align-items: center;
     justify-content: center;
-    background-color: rgb(248,249,250);
+    background-color: rgb(227,226,222);
 }
 
 .statusOrder{
 
     padding-bottom: 60px;
     padding-top: 60px;
+}
+.btnRow{
+    direction: rtl;
+    margin: 0px 20px;
+
+}
+.btnRow button{
+
+    padding: 10px 30px;
+    margin-left: 20px;
+    border-radius: 10px;
+    color: white;
 }
 
 .myRowCart{
@@ -38,4 +50,60 @@
 .orderSummary{
     flex: 35%;
     margin-left: 20px;
+}
+.orderSummary li{
+
+    margin-bottom: 15px;
+    border-bottom: rgb(90, 89, 89) solid 1.5px;
+}
+.emptyCart{
+
+    background-image: url(/src/empty-cart.png);
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position: center;
+    position: relative;
+    min-height: 300px;
+    background-size: 30%;
+    
+}
+.emptyCart h3{
+
+    position: absolute;
+    top: 10%;
+    right: 20%;
+
+}
+
+@media only screen and (max-width: 1250px) {
+
+
+.orderSummary{
+    margin-top: 30px;
+    border-top: rgb(93,0,29) solid 6px;
+}
+.myContainerCart{
+    margin: 0px 100px;
+}
+
+}
+
+@media only screen and (max-width: 600px) {
+
+    .myContainerCart{
+        margin: 0px;
+    }
+    .btnRow button{
+
+        padding: 10px 30px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        color: white;
+        width: 200px;
+    }
+    .emptyCart{
+        background-size: 50%;
+    }
 }

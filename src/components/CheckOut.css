@@ -1,0 +1,203 @@
+
+
+.myContainerCart{
+
+    max-width: 1200px;
+    margin: auto ;
+    margin-bottom: 0px;
+    min-height: 80vh;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(227,226,222);
+}
+.btnRow{
+    direction: rtl;
+    margin: 0px 20px;
+
+}
+.btnRow button{
+
+    padding: 10px 30px;
+    margin-left: 20px;
+    border-radius: 10px;
+    color: white;
+}
+
+.myRowCart{
+
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    direction: rtl;
+    
+}
+
+#myForm{
+
+    flex: 60%;
+    display: flex;
+    flex-direction: column;
+    margin: 0px 20px;
+    width: 100%;
+}
+#myForm input{
+
+    font-size: 23px;
+}
+
+
+.chechoutList{
+
+    flex: 35%;
+    margin-left: 20px;
+}
+
+/* ////////////////    chechbox   ////////////////// */
+#Conditions{
+
+    position: relative;
+    cursor: pointer;
+    font-size: 22px;
+    display: block;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding-right: 35px;
+  margin-bottom: 12px;
+
+}
+#Conditions input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+#Conditions .checkmark{
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    position: absolute;
+    border: black solid 1.2px;
+}
+
+#Conditions:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  #Conditions input:checked ~ .checkmark {
+    background-color: #2196F3;
+  }
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  #Conditions input:checked ~ .checkmark:after {
+    display: block;
+  }
+  #Conditions .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  /* ////////////////    chechbox   end ////////////////// */
+
+
+
+
+  /*/////////////////// payment   //////////////////////////*/
+
+
+  .payment-info {
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.product-details {
+    padding: 22px
+}
+
+
+.p-about {
+    font-size: 22px
+}
+
+.table-shadow {
+    -webkit-box-shadow: 5px 5px 15px -2px rgba(0, 0, 0, 0.42);
+    box-shadow: 5px 5px 15px -2px rgba(0, 0, 0, 0.42)
+}
+
+.type {
+    font-weight: 400;
+    font-size: 22px
+}
+
+label.radio {
+    cursor: pointer;
+    margin: 10px;
+
+}
+
+label.radio input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    pointer-events: none
+}
+
+label.radio span {
+    padding: 1px 12px;
+    border: 2px solid #ada9a9;
+    display: inline-block;
+    color: #8f37aa;
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-size: 32px;
+    font-weight: 300
+}
+
+label.radio input:checked+span {
+    border-color: rgb(0, 0, 0);
+    background-color: rgb(135, 135, 138);
+    color: rgb(0, 0, 0);
+}
+
+.credit-card-label {
+    font-size: 22px;
+    font-weight: normal;
+}
+
+.line {
+    border-bottom: 1px solid rgb(102, 102, 221)
+}
+
+.items {
+    -webkit-box-shadow: 5px 5px 4px -1px rgba(0, 0, 0, 0.25);
+    box-shadow: 5px 5px 4px -1px rgba(0, 0, 0, 0.08)
+}
+
+.spec {
+    font-size: 11px
+}
+
+  /*/////////////////// payment end  //////////////////////////*/
+
+  .vlidMassege{
+      font-size: 18px;
+  }

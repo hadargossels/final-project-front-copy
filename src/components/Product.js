@@ -1,5 +1,7 @@
 
 import React, { Component } from 'react';
+import { Link,NavLink } from 'react-router-dom';
+
 import Header from "./Header";
 import './Product.css';
 import Rating from './Rating';
@@ -10,6 +12,8 @@ const productArr= require("../dataBase/productsData.json")
 class Product extends Component{
     constructor(props){
         super(props)
+
+        this.popRef = React.createRef()
         
 
         const product=productArr.filter((item)=>{
@@ -21,12 +25,14 @@ class Product extends Component{
             arrImage:[],
             selectedPrice:"",
             size:"",
+            counter:1,
 
          }
          this.state.priceSmallExists=this.priceSmallExists.bind(this)
          this.state.typeOfCake=this.typeOfCake.bind(this)
          this.state.makeArrayImage=this.makeArrayImage.bind(this)
          this.setInLocalStorage=this.setInLocalStorage.bind(this)
+         this.popUp=this.popUp.bind(this)
     }
 
     componentDidMount(){
@@ -69,6 +75,7 @@ class Product extends Component{
         
     }
 
+//////////////////    array of image to the slider     //////////////////////////////
     makeArrayImage(){
 
         let count=2
@@ -81,6 +88,7 @@ class Product extends Component{
         this.setState({arrImage:arr})
     }
     
+//////////////////////      add product to the cart     ///////////////////////////////////
 
      async setInLocalStorage(){
 
@@ -98,7 +106,7 @@ class Product extends Component{
 
             for (const item of storage) {
                 if(item.id==this.state.prod.id && this.state.selectedPrice==item.price){
-                    item.count++
+                    item.count=item.count+this.state.counter
                     flag=true
                 }
             }
@@ -106,13 +114,40 @@ class Product extends Component{
 
             if(!flag){
                 if(this.state.size=="קטן")
-                    storage.push({id:this.state.prod.id,count:1,title:this.state.prod.title,img:this.state.prod.img2,price:this.state.selectedPrice,size:this.state.size})
+                    storage.push({id:this.state.prod.id,count:this.state.counter,title:this.state.prod.title,img:this.state.prod.img2,price:this.state.selectedPrice,size:this.state.size})
                 else
-                    storage.push({id:this.state.prod.id,count:1,title:this.state.prod.title,img:this.state.prod.img,price:this.state.selectedPrice,size:this.state.size})
+                    storage.push({id:this.state.prod.id,count:this.state.counter,title:this.state.prod.title,img:this.state.prod.img,price:this.state.selectedPrice,size:this.state.size})
             }
         
             localStorage.setItem("cartStorage",JSON.stringify(storage))
+            this.popUp()
     }
+
+    popUp() {
+        var popup = this.popRef.current
+        popup.classList.toggle("show");
+        setTimeout(() => {
+            popup.classList.toggle("show");
+        }, 2000);
+      }
+//////////////////////      add product to the cart   end  ///////////////////////////////////
+//////////////////////      counter     ///////////////////////////////////
+quantity(e){
+
+    let count=this.state.counter
+    console.log(count)
+    
+    if(e.value=="+"){
+        count++
+    }
+    if(e.value=="-" && (count>1)){
+        count--
+    }
+    console.log(count)
+
+    this.setState({counter:count})
+}
+//////////////////////      counter end     ///////////////////////////////////
 
 
    render(){
@@ -152,6 +187,17 @@ class Product extends Component{
                             <span className="visually-hidden">Next</span>
                         </a>
                         </span>}
+
+                        
+                        <div>
+                            <NavLink to="/Catalog"  href="#" ><button type="button" id="btnShop" style={{backgroundColor:"rgb(155,23,80)"}}> <b>חזרה לחנות</b></button></NavLink>
+                            
+                            <div class="btn-group mr-2 ms-5" role="group" aria-label="First group" >
+                                <button type="button" class="btn btn-warning mt-2 mb-2 fs-4" value="-" onClick={(e)=>this.quantity(e.target)}>-</button>
+                                <div  class="zero mt-2 mb-2 ps-3 pe-3 pt-2 fs-4 pt-2" style={{backgroundColor:"white"}}>{this.state.counter}</div>
+                                <button  type="button" class="btn btn-success mt-2 mb-2" value="+" onClick={(e)=>this.quantity(e.target)}>+</button>
+                            </div>
+                        </div>
                     </div>
            
 
@@ -188,7 +234,8 @@ class Product extends Component{
 
                             </div>
                             <div>
-                                <button type="button" className="btn btn-outline-danger" onClick={this.setInLocalStorage}>הוסף לסל<i className="fas fa-shopping-cart"></i></button>
+                                <button type="button" className="btn btn-outline-danger popup" onClick={this.setInLocalStorage}>
+                                    הוסף לעגלה<i className="fas fa-shopping-cart"></i><span class="popuptext" ref={this.popRef} id="myPopup">המוצר הוסף לעגלה!</span></button>
                             </div>
                             <textarea rows="6" cols="25"></textarea>
                   

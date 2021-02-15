@@ -87,10 +87,10 @@ export default class ItemCart extends Component {
                                         <h5 class="mb-2 text-muted text-uppercase ">{this.state.item.size}</h5>
                                     </div>
                                     <div>
-                                    <div class="btn-group mr-2" role="group" aria-label="First group" >
-                                            <button type="button" class="btn btn-warning m-2 fs-4" value="-" onClick={(e)=>this.quantity(e.target)}>-</button>
-                                            <div  class="zero m-2 fs-4 pt-2" >{this.state.item.count}</div>
-                                            <button  type="button" class="btn btn-success m-2" value="+" onClick={(e)=>this.quantity(e.target)}>+</button>
+                                        <div class="btn-group mr-2" role="group" aria-label="First group" >
+                                            <button type="button" class="btn btn-warning mt-2 mb-2 fs-4" value="-" onClick={(e)=>this.quantity(e.target)}>-</button>
+                                            <div  class="zero mt-2 mb-2 ps-3 pe-3 pt-2 fs-4 pt-2" style={{backgroundColor:"white"}}>{this.state.item.count}</div>
+                                            <button  type="button" class="btn btn-success mt-2 mb-2" value="+" onClick={(e)=>this.quantity(e.target)}>+</button>
                                         </div>
                                        
                                     </div>

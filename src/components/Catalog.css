@@ -57,9 +57,7 @@
     background-color: red;
 
 }
-.myBox:hover {
-    color: rgb(250,156,184);
-  }
+
 .details{
     margin: 0px 12px;
     padding: 12px;
@@ -72,7 +70,10 @@
 }
 .myBox:hover{
 
-    transform: scale(1.1)
+    transform: scale(1.1);
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+
 }
 
 @media only screen and (max-width: 1000px) {

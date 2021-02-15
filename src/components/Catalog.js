@@ -4,8 +4,6 @@ import { Link,NavLink } from 'react-router-dom';
 import querystring from "query-string";
 import './Catalog.css';
 import SortBar from "./Sortbar";
-import Header from "./Header";
-
 
 
 const cakeArr= require("../dataBase/productsData.json")
