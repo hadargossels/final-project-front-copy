@@ -4,8 +4,11 @@
 
 #cartQuick {
   position: absolute;
-  top: 10%;
-  left: 5%;
+  top: 7%;
+  right: 10%;
   background-color: white;
   border: solid black;
+}
+#isUserLogin {
+  float: right;
 }

@@ -85,14 +85,17 @@ class Header extends Component{
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                     </button>
-                    <h3 className="text-white" style={{position:'relative',left:'-45%'}}>Experis-Sports</h3>
+                    <h3 className="text-white pt-1" style={{position:'relative'}}>Experis-Sports</h3>
+                    <div id="isUserLogin" className="d-flex">
+                        <ListItemLink to="/shopingchart/mycart" name={<div onMouseEnter={()=>this.cartQuick(true)} onMouseLeave={()=>this.cartQuick(false)}><span id="myBag" className="fs-5 m-1 text-danger">{((Number(localStorage.getItem('totalItems')))?Number(localStorage.getItem('totalItems')):0)}</span><i className="fas fa-shopping-bag fs-4"></i></div>}/> 
+                        {localStorage.getItem('login')=='true'?(<span className="text-danger fs-5 pt-1">Hi {localStorage.getItem('userName')}</span>):""}
+                    </div>
                 </div>
             </nav>
-            <ListItemLink to="/shopingchart/mycart" name={<div onMouseEnter={()=>this.cartQuick(true)} onMouseLeave={()=>this.cartQuick(false)}><span id="myBag" className="fs-5 m-1 text-danger">{((Number(localStorage.getItem('totalItems')))?Number(localStorage.getItem('totalItems')):0)}</span><i className="fas fa-shopping-bag fs-4"></i></div>}/> 
           </div>
           <div id="cartQuick" className="rounded-3">
             {this.state.qvc}
-          </div> 
+          </div>
           </div>
       );
    }
