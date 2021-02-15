@@ -53,7 +53,7 @@ constructor(){
                     <li>
 
                     <OverlayTrigger
-                    trigger="focus hover"
+                    trigger="focus"
                     key="bottom"
                     placement="bottom"
                     overlay={

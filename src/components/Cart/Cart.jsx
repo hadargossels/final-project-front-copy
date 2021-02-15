@@ -12,9 +12,9 @@ export default class Cart extends Component {
             arrProd:JSON.parse(localStorage.getItem('products')) || [],
             country:"Israel"
         }
-
+     
     }
-   
+    
     priceCalculation(){
         let totalsum=0;
         for(let i=0;i<this.state.arrProd.length;i++)
@@ -28,9 +28,9 @@ export default class Cart extends Component {
             return 0
 
     }
-
-
+   
     render() {
+        
         return (
             <div className="container-fluid">
             {!this.state.arrProd.length ? (
@@ -65,7 +65,7 @@ export default class Cart extends Component {
                     <br/>
                     <div id="checkout" className="container-fluid">
                     <br/><p style={{fontSize:"20px",fontWeight:"bold"}}>How you'll pay</p>
-                    <div className="btn-group-vertical">
+                    <form className="btn-group-vertical">
                     <p className="radioP">
                         <input type="radio" name="name" id="r1" required defaultChecked/>
                         <label htmlFor="r1">
@@ -97,13 +97,13 @@ export default class Cart extends Component {
                             Cash
                         </label>
                         </p>
-                    </div>
+                    </form>
                     <p>Item(s) total: <span className="text-end">${this.priceCalculation()} </span></p>
                     <p>Shipping: <span className="text-end">${this.shippingPrice()}</span></p>
                     <hr/>
                     <p style={{fontWeight:"bold"}}>Total ({this.state.arrProd.length} items) <span className="text-end">${this.priceCalculation()+this.shippingPrice()}</span></p>
-                    <button id="checkoutBtn"><Link to='/checkout' style={{color:"white"}}>Proceed to checkout</Link>
-                    </button>
+                    <Link to='/checkout/' ><button id="checkoutBtn" style={{color:"white"}}>Proceed to checkout
+                    </button></Link>
                     <br/>
                     <input id="couponTxt" type="text" placeholder="Coupon Code"/>&nbsp;<i className="fas fa-tag"></i>
                     <button id="couponBtn">activate coupon</button>
