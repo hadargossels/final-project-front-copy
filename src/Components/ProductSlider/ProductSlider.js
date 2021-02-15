@@ -19,9 +19,6 @@ class ProductSlider extends Component {
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
     };
-        showProducts = () => {
-        console.log(this.state.products)
-    };
     showModal = (e) => {
         this.setState({ show: true, myTitle:e.target.textContent });
       };

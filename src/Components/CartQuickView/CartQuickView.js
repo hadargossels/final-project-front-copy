@@ -13,7 +13,7 @@ const CartQuickView = ({ handleClose, show }) => {
         if (storageList.includes(product.ISBN10)) {
             return product
         }
-        return true;
+        return false;
     })
   }
 
@@ -22,7 +22,6 @@ const CartQuickView = ({ handleClose, show }) => {
         itemSum += product.price
     })
   }
-console.log(itemSum)
 let itemNum = localStorage.getItem('shoppingLength');
 if (!itemNum) {
     itemNum = 0;

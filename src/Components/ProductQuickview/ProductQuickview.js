@@ -9,11 +9,9 @@ const Modal = ({ handleClose, show, title }) => {
   if(title != null) {
     obj = data.products.filter(product => product.title === title)
     obj = obj[0];
-    console.log(obj.title)
   } else {
     obj = data.products.filter(product => product.title === "Lorem ipsum dolor: sit amet consectetur")
     obj = obj[0];
-    console.log(obj.title)
   }
 
   return (

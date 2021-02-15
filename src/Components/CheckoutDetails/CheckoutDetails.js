@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './CheckoutDetails.css';
 import formatPrice from '../utility/Price'
 import formatPrecent from '../utility/Pecent'
+import { Link } from "react-router-dom";
 
 class CheckoutDetails extends Component {
     constructor() {
@@ -31,20 +32,19 @@ class CheckoutDetails extends Component {
         if (this.state.discount !== 0) {
             let discount = (total/100) * 15;
             newTotal = total - discount
-            console.log(newTotal)
+
         } else {
             newTotal = total;
         }   
         if (newTotal !== this.state.totalPrice) {
             this.setState({
                 totalPrice: newTotal,
-            }, () => {console.log(this.state.totalPrice)})
+            },)
         }
     }
 
     getCoupon = (event) => {
         let couponText = event.target.value
-        console.log(couponText)
         this.setState({
             coupon: couponText,
         })
@@ -57,6 +57,7 @@ class CheckoutDetails extends Component {
                 couponNotice: <p className="pl-3">Discount: %15</p>,
                 discount: 5,
             }, () => {this.updatePrice()})
+            localStorage.setItem('coupon',15);
         } else {
             this.setState({
                 couponNotice: <p className="pl-3 text-red-500">INVALID COUPON</p>,
@@ -91,9 +92,11 @@ class CheckoutDetails extends Component {
                 <p className="pl-3 py-5">Total sum: <span>{formatPrice(this.state.totalPrice)}</span></p>
                 <hr className="mx-6 border-yellow-800"/>
                 <p className="pl-3">
-                    <button className="bg-yellow-800 border border-yellow-800 hover:bg-yellow-100 hover:text-yellow-800 text-white active:bg-yellow-800 uppercase text-2xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-2 mt-2">
-                        Checkout
-                    </button>
+                    <Link to="/checkout">
+                        <button className="bg-yellow-800 border border-yellow-800 hover:bg-yellow-100 hover:text-yellow-800 text-white active:bg-yellow-800 uppercase text-2xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-2 mt-2">
+                            Checkout
+                        </button>
+                    </Link>
                 </p>
             </div>
         </div>

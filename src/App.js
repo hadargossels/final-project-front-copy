@@ -11,6 +11,8 @@ import Login from './Components/Login/Login';
 import SignUp from './Components/SignUp/SignUp';
 import ContactUs from './Components/ContactUs/ContactUs';
 import ShoppingCart from './Components/shoppingCart/ShoppingCart';
+import Checkout from './Components/Checkout/Checkout'
+import data from './data.json'
 import { Switch, Route } from 'react-router-dom';
 
 class App extends Component {
@@ -26,7 +28,18 @@ class App extends Component {
     this.setState({
       productNum: localStorage.getItem('shoppingLength'),
       productList: JSON.parse(localStorage.getItem('shoppingCart'))
+    },() => {this.addSum()})
+  }
+
+  addSum =() => {
+    let products = [...this.state.productList];
+    let sumPrice = 0;
+    data.products.forEach((product) => {
+      if(products.includes(product.ISBN10)) {
+        sumPrice += product.price;
+      }
     })
+    localStorage.setItem('finalPrice',sumPrice);
   }
 
   render () {
@@ -47,6 +60,7 @@ class App extends Component {
             <Route path="/login" component={Login} />
             <Route path="/sign-up" component={SignUp} />
             <Route path="/contact-us" component={ContactUs} />
+            <Route path="/checkout" component={Checkout} />
           </Switch>
         <Footer />
       </div>
