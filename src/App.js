@@ -38,6 +38,7 @@ import CartListPage from "./pages/shopping-cart/shopping-cart.component";
 import ShoppingCartPage from "./pages/shopping-cart/shopping-cart.component";
 import CheckoutPage from "./pages/checkout/checkout.component";
 import Map from "./components/google-map/google-map.component";
+import TrackingPage from "./pages/tracking/tracking.component";
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
@@ -113,6 +114,7 @@ class App extends React.Component {
           <Route path="/signout" component={SignOutPage} />
           <Route path="/dashboard" component={DashboardPage} />
           <Route path="/account" component={AccountPage} />
+          <Route path="/order-tracking" component={TrackingPage} />
           <Route component={NotFoundPage} />
         </Switch>
         <Footer />

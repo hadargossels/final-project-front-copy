@@ -1,4 +1,4 @@
-.checkout-page {
+.shopping-cart {
   width: 55%;
   min-height: 90vh;
   display: flex;
@@ -31,5 +31,8 @@
 
   .btn-primary {
     margin-left: 14px;
+  }
+  img {
+    cursor: pointer;
   }
 }
