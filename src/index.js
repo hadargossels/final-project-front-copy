@@ -16,6 +16,10 @@ import Product from './components/Product/Product';
 import Home from './components/Home/Home';
 import Cart from './components/Cart/Cart';
 import "bootstrap/dist/css/bootstrap.css";
+import Cartpage from './components/Cart/Cartpage';
+import Payment from './components/PaymentPage/Payment';
+import Paymentdetails from './components/Paymentdetails/Paymentdetails';
+import Paypal from './components/Paymentdetails/Paypal';
 
 
 
@@ -28,13 +32,16 @@ const routing = (
         <Route  path="/login" component={Login}/>
         <Route  path="/blog" component={Blog}/>
         <Route  path="/cart/:item" component={Cart}/>
-        <Route exact path="/cart" component={Cart}/>
+        <Route exact path="/cart" component={Cartpage}/>
         <Route  path="/product/:productName" component={Product}/>
         <Route exact path="/store/" component={Display}/>
         <Route  path="/store/:search" component={Display}/>
         <Route exact path="/" component={Home}/>
         <Route  path="/about" component={About}/>
         <Route  path="/contact" component={Contact}/>
+        <Route path="/payment" component={Payment}/>
+        <Route path="/paypal" component={Paypal}/>
+        <Route path="/paymentdetails" component={Paymentdetails}/>
         <Route component={NotFound}/>
       </Switch>
       <Footer/>

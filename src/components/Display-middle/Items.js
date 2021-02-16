@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import data from '../../data2'
 import Cart from "../Cart/Cart";
+import Header from "../header/Header";
 import Product from "../Product/Product";
 
 export default class Items extends Component {
@@ -28,35 +29,29 @@ export default class Items extends Component {
     let storge = JSON.parse(localStorage.getItem("counters") || "[]");
     
       let name = this.props.name
-      console.log("nameee",name)
-      console.log("storge",storge)
      let product=data.filter(item=>item.name===name)
      
       product=product[0]
       let found =storge.filter(item=>item.name===name)
-      console.log("found",found)
-      if(found.length!==0) return
+      if(found.length!==0){
+        this.props.msgIsInCart()
+        return
+      } 
       let aa=[...storge]
       aa.push({id:product.id,value:1,name:product.name,price:product.price,src:product.src})
       localStorage.setItem("counters", JSON.stringify(aa));
-      console.log("aa",aa)
-      let msg=document.querySelector("#message")
-      msg.style.display=""
-      setTimeout(()=>{
-        msg.style.display="none" 
-      },3000)
-      window.location.reload(false);
-    //   let total =JSON.parse(localStorage.getItem("total") || 0);
-    //  total+= +product.price
-    //  localStorage.setItem("total", JSON.stringify(total))
+      this.props.changeMsg()
+      // {<Header msg={this.changeMsg}/>}
+      // let msg=document.querySelector("#message")
+      // msg.style.display=""
+      // setTimeout(()=>{
+      //   msg.style.display="none" 
+      // },10000)
 
-      // this.setState({total:total})
-      // let totalStorge=+this.state.total
-      //   totalStorge+=+counter.price
-      //   this.setState({total:totalStorge})
-      //   localStorage.setItem("total", JSON.stringify(totalStorge))
-    
+      // window.location.reload(false);
+
   }
+ 
   render() {
     let arr = [];
     let len = this.props.stars;
@@ -80,7 +75,6 @@ export default class Items extends Component {
 }
     return (
       <div>
-        <span id="message" style={{display:"none",zIndex:"2",color:"green",position:"relative"}}>One product Add to cart</span>
 
         <div className="card border border-danger carditem">
           <Link

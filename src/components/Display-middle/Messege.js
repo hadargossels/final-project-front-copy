@@ -4,7 +4,7 @@ export default class Messege extends Component {
     render() {
         return (
             <div>
-                <h1>one product add to Cart</h1>
+                <h1>One product Add to cart</h1>
             </div>
         )
     }

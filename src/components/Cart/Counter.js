@@ -12,17 +12,17 @@ class Counter extends Component {
     return (
       <div>
         <div className="row itemOnCart">
-          <div className="col-4">
+          <div className="col-4" style={{height:"130px"}}>
             <img className="imgOnCart" src={this.props.counter.src} />
           </div>
-          <div className="col-8 ">
+          <div className="col-8 " style={{height:"130px"}}>
             <div className="">
               <div className="productNameCart"><span className="itemNamecart">{this.props.counter.name}</span></div><br/>
               <div className="productNameCart">Price:<span className="itemPricecart">{this.props.counter.price}</span></div>
             </div>
-            <div className="row-md-4 ">
+            <div className="row-md-4 " style={{width:"9rem",position:"relative",left:"-1rem"}}>
               <button
-                className="btn btn-secondary btnsCart"
+                className="btn btnsCart"
                 onClick={() => this.props.onIncrement(this.props.counter)}
               >
                 <i className="fa fa-plus-circle iconCart" aria-hidden="true" />
@@ -31,7 +31,7 @@ class Counter extends Component {
                 {this.formatCount()}
               </span>
               <button
-                className="btn btn-info m-2 btnsCart btnDec"
+                className="btn btnsCart btnDec"
                 onClick={() => this.props.onDecrement(this.props.counter)}
                 disabled={this.props.counter.value === 0 ? "disabled" : ""}
               >
@@ -45,7 +45,8 @@ class Counter extends Component {
               </button>
 
             </div>
-              <div className="totalPrice">Total:&nbsp;{((this.formatCount()==='Zero')?0:this.formatCount())*this.props.counter.price}&nbsp;<i className="fas fa-shekel-sign shekel"></i></div>
+              <div className="totalPrice" style={{}}>Total:&nbsp;{((this.formatCount()==='Zero')?0:this.formatCount())*this.props.counter.price}&nbsp;<i className="fas fa-shekel-sign shekel"></i></div>
+              <span id={`priceAfterCoupon${this.props.counter.id}`}></span>
           </div>
         </div>
       </div>
@@ -63,9 +64,7 @@ class Counter extends Component {
     // let total=value*this.props.counter.price
     // this.setState({totat:total})
     // localStorage.setItem("total", JSON.stringify(total))
-    console.log( "value",value)
-
-    console.log()
+    
     return value
   };
   // componentDidMount = () => {

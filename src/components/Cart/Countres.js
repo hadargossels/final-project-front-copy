@@ -2,6 +2,13 @@ import React, { Component } from "react";
 import Counter from "./Counter";
 
 class Counters extends Component {
+  constructor(props){
+    super(props)
+
+  }
+  clearAll=()=>{
+    // localStorage.setItem("counters",[])
+  }
   render() {
     const {
       onReset,
@@ -30,6 +37,8 @@ class Counters extends Component {
         >
           <i className="fa fa-recycle" aria-hidden="true" />
         </button>
+        {/* <button className="btn btn-danger m-2" onClick={this.clearAll()}>Clear all</button> */}
+
         {counters.map(counter => (
           <Counter
             key={counter.id}

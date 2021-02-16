@@ -2,16 +2,13 @@ import React, { Component } from 'react'
 import NavBar from "./NavBar";
 import Counters from "./Countres";
 import './Cart.css'
-import queryString from 'query-string'
 import data from '../../data2'
 
 export default class Cart extends Component {
     constructor(props){
         super(props)
         this.state={
-            counters: [
-            
-            ],
+            counters: [],
             item:(this.props.match)?this.props.match.params.item:"",
             total:0,
             
@@ -20,25 +17,20 @@ export default class Cart extends Component {
     }
     componentDidMount = () => {
       const storge = JSON.parse(localStorage.getItem("counters") || "[]");
-      console.log(storge)
+
       this.setState({counters:storge});
-      // const total =JSON.parse(localStorage.getItem("totals") || 0);
-      // this.setState({total:total})
-      
     };
     componentDidUpdate=()=>{
       localStorage.setItem("counters", JSON.stringify(this.state.counters))
       this.totalToPay()
+     
+
     }
     componentWillUnmount = () => {
       
-    //  localStorage.setItem("counters", JSON.stringify(this.state.counters));
     };
     addItemToCart=()=>{
-      // if(JSON.parse(localStorage.getItem("counters"))){
-      //   let storge=JSON.parse(localStorage.getItem("counters"))
-      //   // this.setState.counters({counters:storge})
-      // }
+     
       if(this.state.item){
       let name = this.state.item
       
@@ -63,7 +55,7 @@ export default class Cart extends Component {
         counters[index] = { ...counters[index] };
         counters[index].value++;
         this.setState({ counters });
-
+        this.handleRestart()
         // let total=JSON.parse(localStorage.getItem("total"))
         // total+=+counter.price
         // localStorage.setItem("total", JSON.stringify(total))
@@ -84,6 +76,7 @@ export default class Cart extends Component {
         counters[index] = { ...counters[index] };
         counters[index].value--;
         this.setState({ counters });
+        this.handleRestart()
       };
     
       handleReset = () => {
@@ -99,6 +92,7 @@ export default class Cart extends Component {
         console.log("counters",counters)
         this.setState({ counters:counters});
         localStorage.setItem("counters", JSON.stringify(counters));
+        this.handleRestart()
       };
     
       handleRestart = () => {
@@ -119,6 +113,7 @@ export default class Cart extends Component {
             // return +total.price*+total.value+((+item.price)*(+item.value))
         // })
         console.log("totalhere11",total1)
+        localStorage.setItem("total",total1)
         return total1
       }
         
@@ -132,6 +127,7 @@ export default class Cart extends Component {
  
                 <NavBar total={this.totalToPay}
           totalCounters={this.state.counters.filter(c => c.value > 0).length}
+          
         />
         <main className="container">
           <Counters
@@ -145,7 +141,6 @@ export default class Cart extends Component {
           />
          
         </main>
-        <button className="btn btn-success" style={{marginLeft:"5rem",marginTop:"2rem"}}>Continue to checkout</button>
             </div>
         )
     }

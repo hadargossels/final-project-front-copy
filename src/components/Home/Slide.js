@@ -39,13 +39,37 @@ export default class Slide extends Component {
           src={this.state.sortItem[i].src}
           subcategory={this.state.sortItem[i].subcategory}
           categoryimg={this.props.categoryimg}
+          id={this.state.sortItem[i].id}
+          changeMsg={this.changeMsg}
+          msgIsInCart={this.msgIsInCart}
           key={i}
         />
       );
     }
-console.log(arr)
+
     return arr;
   }
+  changeMsg(){
+    console.log("props",this.props)
+    
+    let msg=document.querySelector("#message")
+    
+      msg.style.display=""
+   
+    setTimeout(()=>{
+      msg.style.display="none" 
+    },10000)
+}
+msgIsInCart(){
+  console.log("props",this.props)
+  let msg2=document.querySelector("#message2")
+  
+    msg2.style.display=""
+ 
+  setTimeout(()=>{
+    msg2.style.display="none" 
+  },10000)
+}
   render() {
     return (
       <div>
@@ -94,6 +118,10 @@ console.log(arr)
             <span className="visually-hidden">Next</span>
           </a>
         </div>
+        <span id="message" style={{display:"none",zIndex:"2",color:"green",position:"absolute",width:"auto",margin:"2rem 0 0 20rem",fontSize:"1.2rem",backgroundColor:"ivory",fontWeight:"bolder"}}>One product Add to cart</span>
+        
+        <span id="message2" style={{display:"none",zIndex:"2",color:"red",position:"absolute",width:"auto",margin:"2rem 0 0 20rem",fontSize:"1.2rem",backgroundColor:"ivory",fontWeight:"bolder"}}>This product is already in the cart</span>
+
       </div>
     );
   }

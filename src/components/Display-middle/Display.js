@@ -60,7 +60,25 @@ export default class Display extends Component {
     category = category.filter((item) => item.category === type);
     this.setState({ ItemsDet: category });
   };
-
+  changeMsg(){
+    
+      let msg=document.querySelector("#message")
+      
+        msg.style.display=""
+     
+      setTimeout(()=>{
+        msg.style.display="none" 
+      },10000)
+  }
+  msgIsInCart(){
+    let msg2=document.querySelector("#message2")
+    
+      msg2.style.display=""
+   
+    setTimeout(()=>{
+      msg2.style.display="none" 
+    },10000)
+  }
   update = () => {
     const page = this.state.page;
     const limit = this.state.limit;
@@ -68,6 +86,8 @@ export default class Display extends Component {
       (img, key) => (
         <div className="col-md-6 col-lg-4 col-xl-3 mb-2 item" key={key}>
           <Items
+          changeMsg={this.changeMsg}
+          msgIsInCart={this.msgIsInCart}
             openProduct={this.openProduct}
             src={img.src}
             name={img.name}
@@ -118,7 +138,10 @@ no=()=>{
 
       
       <div id="display">
-        {/* <Messege/> */}
+        <span id="message" style={{display:"none",zIndex:"2",color:"green",position:"absolute",width:"auto",margin:"2rem 0 0 20rem",fontSize:"1.2rem",backgroundColor:"ivory",fontWeight:"bolder"}}>One product Add to cart</span>
+        
+        <span id="message2" style={{display:"none",zIndex:"2",color:"red",position:"absolute",width:"auto",margin:"2rem 0 0 20rem",fontSize:"1.2rem",backgroundColor:"ivory",fontWeight:"bolder"}}>This product is already in the cart</span>
+
         <div className="container">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-4 col-lg-2">
