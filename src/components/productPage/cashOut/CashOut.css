@@ -145,3 +145,7 @@ html {
   width: 100%;
   object-fit: cover;
 }
+
+.myPlaceHolder::placeholder {
+  color: red;
+}

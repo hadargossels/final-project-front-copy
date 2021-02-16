@@ -9,14 +9,12 @@ export default class ShopingBag extends Component {
     constructor(props){
         super(props)
         // console.log(this.props);
-        // localStorage.clear();
         // console.log(this.props.match.params.iJson);
         this.myCart=localStorage.getItem('cart');
         this.myCartNum=(window.localStorage.getItem('numOf'))?JSON.parse(window.localStorage.getItem('numOf')):[];
         // console.log(this.myCart);
         // console.log(this.myCartNum);
         this.myJson=(this.props.match.params.iJson!='mycart')?require('./workOutP.json').data[Number(this.props.match.params.iJson)]:null;
-        console.log(this.myJson,Number(this.props.match.params.iJson));
         this.state= {
             totalItems : ((Number(localStorage.getItem('totalItems')))?Number(localStorage.getItem('totalItems')):0),
             totalPrice : ((Number(localStorage.getItem('totalPrice')))?Number(localStorage.getItem('totalPrice')):0),
@@ -98,8 +96,9 @@ export default class ShopingBag extends Component {
     }
 
     discount(){
-        if(document.querySelector('#disC').value==='123'){
+        if(document.querySelector('#disC').value==='123' && localStorage.getItem('coupon')!=="on"){
             this.setState({isDiscount : true});
+            localStorage.setItem('coupon','on')
         }
         else
             window.alert('Wrong coupon');

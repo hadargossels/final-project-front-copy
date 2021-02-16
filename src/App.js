@@ -13,6 +13,7 @@ import Home from "./components/productPage/Home";
 import ShopingBag from "./components/productPage/shopingBag";
 import CashOut from "./components/productPage/cashOut/CashOut";
 import SignUp from "./components/productPage/signup/SignUp";
+import PaymentConfirm from "./components/productPage/paymentConfirm/PaymentConfirm";
 
 
 
@@ -31,6 +32,7 @@ function App() {
               <Route path="/signup" component={SignUp} />
               <Route path="/shopingchart/:iJson" component={ShopingBag} />
               <Route path="/cashOut" component={CashOut}/>
+              <Route path="/paymentconfirm" component={PaymentConfirm}/>
           </Router>
         <br/><br/><br/>
         <Footer/>

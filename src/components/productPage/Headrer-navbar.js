@@ -34,8 +34,8 @@ class Header extends Component{
                 for(let i=0; i<lSArr.length; i++){
                     if(lSArr[i]!==null){
                         temp.push(
-                            <div>
-                                <div className="d-flex" key={i}>
+                            <div  key={lSArr[i].name}>
+                                <div className="d-flex">
                                     <img className="p-3" src={lSArr[i].urlImg[0]} height="100px" width="100px"></img>
                                     <div className="text-center">
                                         <h5 className="mt-4">{lSArr[i].name}</h5>
