@@ -8,7 +8,7 @@ export default class NotFound extends Component {
     render() {
         return (
             <div>
-                <div className="myContainer">
+                <div className="myContainerNotFound">
                     <h1>העמוד לא נמצא מצטערים על אי הנעימות</h1>
                 </div>
             </div>

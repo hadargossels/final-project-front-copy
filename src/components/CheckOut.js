@@ -163,6 +163,7 @@ export default class CheckOut extends Component {
         const cardMassege=this.cardMassegeRef.current
 
         /////////////    check email   ///////////
+
         let array=mailInput.value.split("@");
 
         if((mailInput.value.includes("@")) && (array.length==2)&&(array[1].includes("."))){
@@ -270,7 +271,7 @@ export default class CheckOut extends Component {
                                         
                     <div id="myForm">
                         <hr style={{height:"5px"}}></hr>
-                        <form className="formToOrder m-5 fs-4 ">
+                        <form className="formToOrder m-5 fs-4 " method="POST" onSubmit={e=>{ e.preventDefault();}}>
                             <h3>פרטי חיוב:</h3>
                             <div class="form-group row ">
                                 <div className="col">
@@ -388,7 +389,7 @@ export default class CheckOut extends Component {
                             </label>
                             <br/>
 
-                            <input type="button" id="submitbtn" value="Submit" className="btn btn-primary"onClick={this.inputValid}/>
+                            <input type="Submit" id="submitbtn" value="שלח" className="btn btn-primary pe-4 ps-4" onClick={this.inputValid}/>
                         </form>
                     </div>
                     
@@ -427,7 +428,7 @@ export default class CheckOut extends Component {
                                     <span>{this.state.shipping}₪</span>
                                 </li>
 
-                                    {(this.state.discount) ? <li className="d-flex justify-content-between align-items-center px-0 mb-2">הנחת קופון<span>{this.state.discount}₪</span></li> :<span></span>}
+                                    {(this.state.discount) ? <li className="d-flex justify-content-between align-items-center px-0 mb-2">הנחת קופון<span>{this.state.discount}₪-</span></li> :<span></span>}
                                 
                                 <li className="d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                                     <div>

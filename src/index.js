@@ -8,6 +8,7 @@ import Product from './components/Product';
 import Catalog from './components/Catalog';
 import Courses from './components/Courses';
 import Recipes from './components/Recipes';
+import Contact from './components/Contact';
 import Cart from './components/Cart';
 import CheckOut from './components/CheckOut';
 import Footer from "./components/Footer";
@@ -27,6 +28,7 @@ const router=(
       <Route path="/Catalog" exact component={Catalog}/>
       <Route path="/Courses" component={Courses}/>
       <Route path="/Recipes" component={Recipes}/>
+      <Route path="/Contact" component={Contact}/>
       <Route path="/Cart" component={Cart}/>
       <Route path="/Checkout" component={CheckOut} />
       <Route component={NotFound}/>

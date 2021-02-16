@@ -1,0 +1,115 @@
+
+.myContainerContact{
+
+    max-width: 1200px;
+    margin: auto ;
+    margin-bottom: 0px;
+    min-height: 80vh;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: rgb(227,226,222);
+    padding-top: 20px;
+}
+
+
+.myContainerContact h1{
+
+   margin-bottom: 30px;
+}
+.myRowContact{
+
+    margin-top: 20px;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.contactInfo{
+
+    flex: 45%;
+    padding: 40px;
+    text-align: right;
+
+}
+.contact_options{
+
+    background-color: white;
+    border-radius: 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+
+}
+.contact_options i{
+
+    color: rgb(114, 83, 114);
+    font-size: 100px;
+    flex: 30%;
+    
+}
+.contact_options_info{
+    
+    flex: 60%;
+
+}
+.formContact{
+
+    flex: 100%;
+    direction: rtl;
+    
+}
+.formContact input{
+
+    font-size: 23px;
+    border-radius: 20px;
+    border: solid 1.2px;
+    min-width: 180px;
+}
+
+.formContact textarea {
+
+    font-size: 23px;
+    resize: none;
+    border-radius: 20px;
+    border: solid 1.2px;
+    min-width: 150px;
+    padding: 20px;
+ }
+ 
+ .vlidMassege{
+    font-size: 18px;
+}
+
+
+
+
+
+
+
+@media only screen and (max-width: 603px) {
+
+    #lname{
+        margin-top: 30px;
+    }
+
+}
+@media only screen and (max-width: 450px) {
+
+    .contact_options i{
+        font-size: 50px;
+        flex: 100%;        
+    }
+    .contactInfo{
+        padding: 10px;
+
+    }
+    .formContact{
+        margin: 10px !important;
+    }
+    
+
+}

@@ -9,7 +9,7 @@ export default class Courses extends Component {
     render() {
         return (
             <div>
-                <div className="myContainer">
+                <div className="myContainerCourses">
                     <h1>Courses</h1>
                 </div>
             </div>

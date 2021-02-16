@@ -76,6 +76,7 @@ export default class Cart extends Component {
 
         localStorage.removeItem("cartStorage")
         this.setState({arrItems:[]})
+        this.calculator()
     }
 
 
@@ -167,7 +168,8 @@ export default class Cart extends Component {
                                     </li>
                                 </ul>
 
-                                <NavLink to="/checkout"><button type="button" className="btn btn-primary btn-block waves-effect waves-light mb-4" onClick={this.swichCartCheckOut}>מעבר לתשלום</button></NavLink>
+                                {this.state.temporaryAmount ? <NavLink to="/checkout"><button type="button" className="btn btn-primary btn-block waves-effect waves-light mb-4" onClick={this.swichCartCheckOut}>מעבר לתשלום</button></NavLink>:<div></div>}
+                                
 
                             </div>
                         
