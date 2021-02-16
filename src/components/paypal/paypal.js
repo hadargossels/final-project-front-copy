@@ -26,10 +26,13 @@ export default function PayPal(props) {
         onApprove: async (data, actions) => {
           const order = await actions.order.capture();
           console.log(order);
+          localStorage.setItem("Order", "correct");
+          alert("Payment ha");
         },
 
         onError: (err) => {
           console.log(err);
+          localStorage.setItem("Order", "error");
         },
       })
       .render(paypal.current);

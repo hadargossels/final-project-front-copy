@@ -13,7 +13,7 @@ const SortingBtn = (props) => {
   const [title, setTitle] = useState("Sort by");
 
   return (
-    <div className="dropdown">
+    <div className="dropdown sorting-btn">
       <button
         className="btn btn-secondary dropdown-toggle"
         type="button"

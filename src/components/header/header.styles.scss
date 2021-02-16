@@ -1,65 +1,67 @@
-.header {
-  height: 100px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 25px;
-  background-color: rgba(2, 2, 2, 0.562);
-
-  a {
-    color: #ffffff;
-    font-size: 25px;
-  }
-
-  .logo-container {
-    height: 100%;
-    width: 70px;
-    padding: 25px;
-  }
-
-  .options {
-    width: 50%;
-    height: 100%;
+.header-component {
+  .header {
+    height: 100px;
+    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    color: white;
-    font-size: 25px;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    background-color: rgba(2, 2, 2, 0.562);
 
-    .option {
-      padding: 10px 15px;
-      cursor: pointer;
+    a {
+      color: #ffffff;
+      font-size: 25px;
+    }
+
+    .logo-container {
+      height: 100%;
+      width: 70px;
+      padding: 25px;
+    }
+
+    .options {
+      width: 50%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      color: white;
+      font-size: 25px;
+
+      .option {
+        padding: 10px 15px;
+        cursor: pointer;
+      }
     }
   }
-}
 
-form.example input[type="text"] {
-  padding: 10px;
-  font-size: 17px;
-  border: 1px solid grey;
-  float: left;
-  width: 80%;
-  background: #f1f1f1;
-}
+  form.example input[type="text"] {
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 80%;
+    background: #f1f1f1;
+  }
 
-form.example button {
-  float: left;
-  width: 20%;
-  padding: 10px;
-  background: #f7a116;
-  color: white;
-  font-size: 17px;
-  border: 1px solid grey;
-  border-left: none;
-  cursor: pointer;
-}
+  form.example button {
+    float: left;
+    width: 20%;
+    padding: 10px;
+    background: #f7a116;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+  }
 
-form.example button:hover {
-  background: #c09d69;
-}
+  form.example button:hover {
+    background: #c09d69;
+  }
 
-form.example::after {
-  content: "";
-  clear: both;
-  display: table;
+  form.example::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
 }

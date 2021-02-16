@@ -30,7 +30,7 @@ const ShoppingCartItem = ({
   const [displayMessage, setDisplayMessage] = useState(false);
   const [displayRemoveMessage, setDisplayRemoveMessage] = useState(false);
   return (
-    <div className="checkout-item">
+    <div className="shopping-cart-item">
       <div
         id={id}
         name={name.split(" ").join("").toLowerCase()}

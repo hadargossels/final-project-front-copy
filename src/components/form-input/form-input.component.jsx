@@ -18,31 +18,32 @@ const FormInput = ({
   //   };
 
   return (
-    <div className="group">
-      <input
-        name="displayName"
-        // onKeyUp={(event) => {
-        //   console.log("event :", event.target.attributes.name);
-        //   return handleKeyUp(event.target.attributes.nam, event.target.value);
-        // }}
-        // onKeyUp={(event) =>
-        //   handleKeyUp(event)
-        // }
-        className="form-input"
-        onChange={handleChange}
-        {...otherProps}
-      />
-      {label ? (
-        <label
-          className={`${
-            otherProps.value.length ? "shrink" : ""
-          } form-input-label`}
-        >
-          {label}
-        </label>
-      ) : null}
+    <div className="form-input-component">
+      <div className="group">
+        <input
+          name="displayName"
+          // onKeyUp={(event) => {
+          //   console.log("event :", event.target.attributes.name);
+          //   return handleKeyUp(event.target.attributes.nam, event.target.value);
+          // }}
+          // onKeyUp={(event) =>
+          //   handleKeyUp(event)
+          // }
+          className="form-input"
+          onChange={handleChange}
+          {...otherProps}
+        />
+        {label ? (
+          <label
+            className={`${
+              otherProps.value.length ? "shrink" : ""
+            } form-input-label`}
+          >
+            {label}
+          </label>
+        ) : null}
 
-      {/* 
+        {/* 
       <p style={{ display: validEmail ? "none" : "block" }} className="invalid">
         invalid
       </p>
@@ -62,6 +63,7 @@ const FormInput = ({
       >
         valid
       </p> */}
+      </div>
     </div>
   );
 };

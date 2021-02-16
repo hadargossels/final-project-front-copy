@@ -5,7 +5,7 @@ import "./items-grid.styles.scss";
 
 const ItemsGrid = () => (
   <>
-    <div>
+    <div className="item-grid-component">
       <link
         rel="stylesheet"
         href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"

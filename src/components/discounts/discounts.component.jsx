@@ -5,7 +5,7 @@ import "./discounts.styles.scss";
 
 const Discounts = () => (
   <>
-    <div>
+    <div className="discounts-page">
       <div className="container mydiv">
         <div className="row">
           <div className="col-md-4">

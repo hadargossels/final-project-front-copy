@@ -26,7 +26,7 @@ class SearchBar extends Component {
     console.log("filteredItems :", filteredItems);
 
     return (
-      <form class="example" action="/store">
+      <form class="example search-bar " action="/store">
         <input
           onChange={this.handleChange}
           type="text"

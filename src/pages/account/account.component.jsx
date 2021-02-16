@@ -5,7 +5,7 @@ import "./account.styles.scss";
 const AccountPage = () => (
   <>
     <h1>Account Page</h1>
-    <div className="container">
+    <div className="container account">
       <div className="frame">
         <div className="nav">
           <ul className="links">

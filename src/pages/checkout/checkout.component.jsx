@@ -677,7 +677,7 @@ const CheckoutPage = ({ cartItems, total, itemCount, currentUser }) => {
                   </div>
                 )}
                 {/* ///Endcheackicng ////// */}
-                <div className="paypal-btn">
+                <div onClick={isAllValid} className="paypal-btn">
                   <PayPal totalPay={total + promoChange + deliveryChange} />
                 </div>
                 <Link to="/shopping-cart">

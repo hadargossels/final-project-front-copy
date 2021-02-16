@@ -5,7 +5,7 @@ import "./dashboard.styles.scss";
 const DashboardPage = () => (
   <>
     <h1>Dashboard Page</h1>
-    <div className="container">
+    <div className="container dashboard-page">
       <div className="frame">
         <div className="nav">
           <ul className="links">

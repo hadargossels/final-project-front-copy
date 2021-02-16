@@ -1,5 +1,10 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  Redirect,
+  BrowserRouter as Router,
+} from "react-router-dom";
 
 import { connect } from "react-redux";
 
@@ -42,6 +47,8 @@ import TrackingPage from "./pages/tracking/tracking.component";
 import { createStructuredSelector } from "reselect";
 
 import { selectCurrentUser } from "./redux/user/user.selector";
+import ScrollToTop from "./components/scroll-to-top/scroll-to-top.component";
+
 class App extends React.Component {
   unsubscribeFromAuth = null;
 
@@ -69,7 +76,9 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <Router>
+        <ScrollToTop />
+
         <Header />
         <Switch>
           <Route exact path="/" component={HomePage} />
@@ -120,7 +129,7 @@ class App extends React.Component {
           <Route component={NotFoundPage} />
         </Switch>
         <Footer />
-      </div>
+      </Router>
     );
   }
 }

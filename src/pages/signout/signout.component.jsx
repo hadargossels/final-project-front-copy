@@ -4,7 +4,7 @@ import "./signout.styles.scss";
 
 const SignOutPage = () => (
   <>
-    <div className="container">
+    <div className="container signout">
       <div className="frame">
         <div className="nav">
           <ul className="links">

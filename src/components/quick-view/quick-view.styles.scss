@@ -1,16 +1,18 @@
-.quick-view-img {
-  width: 200px !important;
-  height: 200px !important ;
-}
+.quick-view-component {
+  .quick-view-img {
+    width: 200px !important;
+    height: 200px !important ;
+  }
 
-.modal-dialog {
-  z-index: 50;
-}
+  .modal-dialog {
+    z-index: 50;
+  }
 
-.quick-view {
-  color: rgb(10, 10, 10) !important;
-}
+  .quick-view {
+    color: rgb(10, 10, 10) !important;
+  }
 
-.quick-text {
-  color: rgb(10, 10, 10) !important;
+  .quick-text {
+    color: rgb(10, 10, 10) !important;
+  }
 }

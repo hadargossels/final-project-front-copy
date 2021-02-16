@@ -4,7 +4,7 @@ import "./blog.styles.scss";
 
 const BlogPage = () => (
   <>
-    <div className="blog-single gray-bg">
+    <div className="blog-single gray-bg blog-page">
       <div className="container">
         <div className="row align-items-start">
           <div className="col-lg-8 m-15px-tb">
