@@ -4,15 +4,31 @@ import FinalDetails from '../FinalDetails/FinalDetails';
 import './Checkout.css';
 
 class Checkout extends Component {
+  constructor() {
+    super();
+    this.state = {
+      delivery: null,
+    }
+  }
+
+  setDelivery = (val) => {
+    this.setState({
+      delivery: val,
+    },() => {this.props.addToOrder("delivery",this.state.delivery)})
+  }
+
+  setOrder = (name1,val) => {
+    this.props.addToOrder(name1,val)
+  }
 
   render () {
     return (
     <main className="Checkout text-center">
         <div className="forms">
-            <FirstForm />
+            <FirstForm delivery={this.state.delivery} addToOrder={this.setOrder}/>
         </div>
         <div className="checkoutDetails">
-            <FinalDetails/>
+            <FinalDetails setDelivery={this.setDelivery}/>
         </div>
     </main>
     )
