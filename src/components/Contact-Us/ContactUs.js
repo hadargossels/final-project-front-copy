@@ -64,55 +64,51 @@ export default class ContactUs extends Component {
 
     render() {
         return (
-            <div className="py-5 text-center container">
+            <div className="py-5 text-center">
                 {this.state.validMsg ? <Redirect to="/msgsent"/> : ""}
-                <div className="bg-success py-3">
-                    <h2 className="py-2">map part WIP</h2>
-                    <Map/>
-               </div>
-               <div className="py-3">
-               <h2 className="py-2">Contact Us</h2> 
-               <div className="row">
-                   <div className="col-md-4">
-                       <h5 className="text-primary">Address</h5>
-                       <span>96 Arlozorov St.</span><br/>
-                       <span>Tel Aviv, Israel 6264718</span>
-                   </div>
-                   <div className="col-md-4 py-2">
-                       <h5 className="text-primary">Working Hours</h5>
-                       <span>Sunday-Thursday: 10:00-20:00</span><br/>
-                       <span>Friday: 10:00-15:00</span><br/>
-                       <span>Saturday: 19:00-22:00</span>
-                   </div>
-                   <div className="col-md-4">
-                       <h5 className="text-primary">Contact Info</h5>
-                       <span>Phone: 03-666-6666</span><br/>
-                       <span>Email: placeholder@placeholder.com</span>
-                   </div>
-               </div>
-               <div className="py-3">
-                   <h2 className="py-2">Leave us a message</h2>
-                   <form className="container">
-                       <div className="row g-3 justify-content-center">
-                           <div className="col-md-5">
-                               <input type="text" className={`form-control my-2 ${this.state.currentMsg[0].valid}`} id="name" onChange={(e)=>this.updateMsg(e)} value={this.state.currentMsg.name} placeholder="Name"/>
-                               <div className="invalid-feedback">Please fill your name.</div>
-                           </div>
-                           <div className="col-md-5">
-                               <input type="text" className={`form-control my-2 ${this.state.currentMsg[1].valid}`} id="email" onChange={(e)=>this.updateMsg(e)} placeholder="Email"/>
-                               <div className="invalid-feedback">Invalid email.</div>
-                           </div>
-                           <div className="col-md-10">
-                               <textarea rows="4" maxLength="500" className={`form-control my-2 ${this.state.currentMsg[2].valid}`} id="msg" onChange={(e)=>this.updateMsg(e)} placeholder="Message"></textarea>
-                               <div className="invalid-feedback">Please enter a message.</div>
-                           </div>
-                           <div className="col-md-6">
-                               <button onClick={(e)=>this.addMsg(e)} className="btn btn-lg btn-primary">Send your message!</button>
-                           </div>
-                       </div>
-                   </form>
-
-               </div>
+                <Map/>
+                <div className="py-3 container">
+                   <h2 className="py-2">Contact Us</h2> 
+                   <div className="row">
+                        <div className="col-md-4">
+                            <h5 className="text-primary">Address</h5>
+                            <span>96 Arlozorov St.</span><br/>
+                            <span>Tel Aviv, Israel 6264718</span>
+                        </div>
+                        <div className="col-md-4 py-2">
+                            <h5 className="text-primary">Working Hours</h5>
+                            <span>Sunday-Thursday: 10:00-20:00</span><br/>
+                            <span>Friday: 10:00-15:00</span><br/>
+                            <span>Saturday: 19:00-22:00</span>
+                        </div>
+                        <div className="col-md-4">
+                            <h5 className="text-primary">Contact Info</h5>
+                            <span>Phone: 03-666-6666</span><br/>
+                            <span>Email: placeholder@placeholder.com</span>
+                        </div>
+                    </div>
+                    <div className="py-3">
+                        <h2 className="py-2">Leave us a message</h2>
+                        <form className="container">
+                            <div className="row g-3 justify-content-center">
+                                <div className="col-md-5">
+                                    <input type="text" className={`form-control my-2 ${this.state.currentMsg[0].valid}`} id="name" onChange={(e)=>this.updateMsg(e)} value={this.state.currentMsg.name} placeholder="Name"/>
+                                    <div className="invalid-feedback">Please fill your name.</div>
+                                </div>
+                                <div className="col-md-5">
+                                    <input type="text" className={`form-control my-2 ${this.state.currentMsg[1].valid}`} id="email" onChange={(e)=>this.updateMsg(e)} placeholder="Email"/>
+                                    <div className="invalid-feedback">Invalid email.</div>
+                                </div>
+                                <div className="col-md-10">
+                                    <textarea rows="4" maxLength="500" className={`form-control my-2 ${this.state.currentMsg[2].valid}`} id="msg" onChange={(e)=>this.updateMsg(e)} placeholder="Message"></textarea>
+                                    <div className="invalid-feedback">Please enter a message.</div>
+                                </div>
+                                <div className="col-md-6">
+                                    <button onClick={(e)=>this.addMsg(e)} className="btn btn-lg btn-primary">Send your message!</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                </div>
             </div>
         )

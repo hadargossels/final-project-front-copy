@@ -55,7 +55,7 @@ export default class Map extends Component {
                 <MyGoogleMap
                     loadingElement= {<div>Loading...</div>}
                     containerElement={<div style={{height: '100%'}} className="map"></div>}
-                    mapElement={<div style={{height:"400px"}} className="inner-map"></div>}
+                    mapElement={<div style={{height:"300px"}} className="inner-map"></div>}
                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVtHhDa2ErB1UuzEc1t3dXozBGaSHiQZk&v=3.exp&libraries=geometry,drawing,places"
                     show = {this.state.show}
                     selectMarker = {this.selectMarker}
