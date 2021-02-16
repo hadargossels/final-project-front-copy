@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './shoppingCart.css'
 import ItemCart from '../ItemCart/ItemCart'
+import { NavLink } from 'react-router-dom';
 
 export default class ShoppingCart extends Component {
     constructor(props){
@@ -117,7 +118,7 @@ export default class ShoppingCart extends Component {
                         <input ref={this.couponInput} type="text" placeholder="Enter a coupon"/><br/>
                         <label className={`labelCouponFailed ${this.state.couponLabelFailed}`}>Coupon code does not exist</label>
                         <label className={`labelCouponAdd ${this.state.couponLabelAdd}`}>Successfully added coupon code</label>
-                        <button className="paymentBtn">payment</button>
+                        <NavLink exact className="navlink" to="/checkout"><button className="paymentBtn">payment</button></NavLink>
                     </div>
                 </div>
                 

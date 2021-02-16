@@ -64,7 +64,7 @@ class Header extends Component{
                                     })}
                                  </div>
                                  <div className="SubtotalDiv"><span className="spanSubtotal">Subtotal: </span><span> {this.calcSubtotal()}₪</span></div>
-                                 <button className="paymentDropdownBtn">payment</button>
+                                 <NavLink className="navlink" exact to="/checkout"><button className="paymentDropdownBtn">payment</button></NavLink>
                               </div>
                            </div>
                         </li>
@@ -113,7 +113,7 @@ class Header extends Component{
                                     })}
                                  </div>
                                  <div className="SubtotalDiv"><span className="spanSubtotal">Subtotal: </span><span> {this.calcSubtotal()}₪</span></div>
-                                 <button className="paymentDropdownBtn">payment</button>
+                                 <NavLink exact className="navlink" to="/checkout"><button className="paymentDropdownBtn">payment</button></NavLink>
                               </div>
                            </div>
                         </li>

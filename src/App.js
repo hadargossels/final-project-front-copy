@@ -23,6 +23,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import $ from 'jquery';
 import Popper from 'popper.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import CheckoutPage from './components/CheckoutPage/CheckoutPage';
+import PaymentPage from './components/PaymentPage/PaymentPage';
+import CreditCardPage from './components/CreditCardPage/CreditCardPage';
+import OrderNumber from './components/OrderNumber/OrderNumber';
 
 
 
@@ -47,7 +51,6 @@ export default class App extends Component {
   }
   
   render() {
-    console.log(this.state.localStorageArray)
     return (
       <Router>
         <div>
@@ -73,6 +76,11 @@ export default class App extends Component {
                         <Route  path="/login/signup" component={SignUp}/>
                         <Route  path="/cart" component={()=><ShoppingCart localStorageChange={this.localStorageChange}/>}/>
                         <Route  path="/product/:productName"  render={(props) => <ProductPage localStorageChange={this.localStorageChange} {...props} />}/>
+                        <Route exact  path="/checkout" component={CheckoutPage}/>
+                        <Route exact  path="/checkout/payment"  render={(props) => <PaymentPage localStorageArr={this.state.localStorageArray} localStorageChange={this.localStorageChange} {...props}/>}/>
+                        <Route exact  path="/checkout/payment/credit_Card" component={CreditCardPage}/>
+                        {/* <Route exact  path="/checkout/payment/paypal" component={}/> */}
+                        <Route exact  path="/checkout/payment/order_number" component={OrderNumber}/>
                         <Route component={NotFound}/>
                     </Switch>
                 </div>

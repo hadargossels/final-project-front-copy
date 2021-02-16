@@ -1,0 +1,126 @@
+.paymentPageDiv{
+    padding-bottom: 20px;
+
+}
+
+.inputPay{
+    width: 100%;
+    height: 45px;
+
+}
+.payDiv{
+    margin: 10px 0px;
+}
+.ShippingDiv{
+    padding:5px 40px;
+}
+.h4Pay{
+    margin-bottom: 20px;
+}
+.labels{
+    font-size: 17px !important;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.redLabel{
+    color:red;
+}
+.hideLabelPay{
+    display: none;
+}
+.showLabel{
+    display: block;
+}
+.payDiv textarea{
+    width: 100%;
+}
+.imgCard{
+    width: 40px;
+}
+.cardItemDiv{
+    margin: 10px 0px ;
+}
+.cardItemDiv label{
+    margin-left: 5px;
+}
+.sumOrderDiv{
+    padding:5px 40px;
+    /* padding:5px 45px 5px 15px; */
+}
+.borderDiv{
+    border: 1px solid gray;
+    padding:20px 0px 20px 30px;
+    /* margin: 0px 50px; */
+}
+
+.OrderSummaryDiv{
+    margin-top: 30px;
+}
+.hrStyle{
+    margin-top: 0px;
+}
+
+.itemsDiv{
+    max-height: 235px;
+    overflow-y: auto ;
+    /* margin-top: 20px; */
+    /* margin-bottom: 20px; */
+}
+.CartSummary{
+    margin-top: 20px;
+}
+
+.SpanLeft{
+    font-size: 20px;
+    font-weight: bold;
+  
+}
+.Spanrighet{
+    font-size: 20px;
+    margin-left: 20px;
+
+}
+.SpansDiv{
+   margin: 10px;
+}
+.CouponBtn{
+    color:white;
+    background: black;
+}
+
+.PaymentBtn{
+    color:white;
+    background: salmon;
+    border-radius: 30px;
+    width: 90%;
+    font-size: 25px;
+    /* font-weight: bold; */
+    margin: 40px 0px;
+    border: none;
+    padding: 10px 0px;
+
+}
+.notDisplay{
+    display: none;
+}
+.Displaylabel{
+    display: block;
+}
+.LabelCouponFailed{
+    color: red;
+    font-size: 18px;
+    margin-top: 5px;
+}
+.LabelCouponAdd{
+    color:green;
+    font-size: 18px;
+    margin-top: 5px;
+}
+.FreeShippingP{
+    text-align: center;
+    color: white;
+    background-color: black;
+    font-size: 15px;
+    padding: 5px;
+}

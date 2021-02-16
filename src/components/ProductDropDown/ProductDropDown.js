@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import propTypes from 'prop-types'
 import './productDropDown.css'
 
 export default class ProductDropDown extends Component {
@@ -20,12 +21,16 @@ export default class ProductDropDown extends Component {
 
                 </div>
                 <div className="sumDropDownDiv  col-2">
-                    <p className="sumDropDowIcon" onClick={()=>this.props.deleteItem(this.props.data.headerProduct)}><i class="far fa-trash-alt"></i></p>
+                    <p className={`sumDropDowIcon ${this.props.displayTrash}`} onClick={()=>this.props.deleteItem(this.props.data.headerProduct)}><i class="far fa-trash-alt"></i></p>
                     <p className="sumDropDowP">{((this.props.data.discountProduct)=="none"?this.props.data.priceProduct:this.props.data.discountProduct)*this.props.data.amountProduct}₪</p>
                 </div>
                 
             </div>
         )}
+    }
+
+    ProductDropDown.defaultProps={
+        displayTrash:""
     }
 
 
