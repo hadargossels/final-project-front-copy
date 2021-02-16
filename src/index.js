@@ -19,7 +19,8 @@ import Auth from './Auth'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
-
+import AboutUs from './components/AboutUs/AboutUs';
+import Success from './components/Success/Success';
 
 //protected route for registered users only
 function PrivateRoute({children,...rest}){
@@ -49,6 +50,8 @@ ReactDOM.render(
           <Route path="/product/:title" component={Product}></Route>
           <Route exact path="/info" component={Info}></Route>
           <Route exact path="/checkout" component={Checkout}></Route>
+          <Route exact path="/success" component={Success}></Route>
+          <Route exact path="/aboutUs" component={AboutUs}></Route>
           <Route component={PageNotFound}></Route>
       </Switch>
     <Footer/>

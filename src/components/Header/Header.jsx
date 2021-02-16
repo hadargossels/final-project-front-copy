@@ -74,30 +74,33 @@ constructor(){
                     
                         
                     <li className="nav-item">
-                        <div className="nav-link"><NavLink to="/home" activeStyle={{color: "orange"}}>Home</NavLink></div>
+                        <div className="nav-link"><NavLink to="/home" style={{color:"black"}} activeStyle={{color: "orange"}}>Home</NavLink></div>
                     </li>
                     <li className="nav-item">
-                        <div className="nav-link"><NavLink to="/login" activeStyle={{color: "orange"}}>Login</NavLink></div>
+                        <div className="nav-link"><NavLink to="/login" style={{color:"black"}} activeStyle={{color: "orange"}}>Login</NavLink></div>
                     </li>
                     <li className="nav-item">
-                        <div className="nav-link"><NavLink to="/register" activeStyle={{color: "orange"}}>Register</NavLink></div>
+                        <div className="nav-link"><NavLink to="/register" style={{color:"black"}} activeStyle={{color: "orange"}}>Register</NavLink></div>
                     </li>
                     <li className="nav-item">
-                        <div className="nav-link" ><NavLink to="/" exact activeStyle={{color: "orange"}}>Store</NavLink></div>
+                        <div className="nav-link" ><NavLink to="/" style={{color:"black"}} exact activeStyle={{color: "orange"}}>Store</NavLink></div>
                     </li>
                     <li className="nav-item">
-                        <div className="nav-link"><NavLink to="/contactUs" activeStyle={{color: "orange"}}>Contact-Us</NavLink></div>
+                        <div className="nav-link"><NavLink to="/contactUs" style={{color:"black"}} activeStyle={{color: "orange"}}>Contact-Us</NavLink></div>
                     </li>
                     <li className="nav-item">
-                        <div className="nav-link"><NavLink to="/info" activeStyle={{color: "orange"}}>what is hardware wallet?</NavLink></div>
+                        <div className="nav-link"><NavLink to="/aboutUs" style={{color:"black"}} activeStyle={{color: "orange"}}>About-Us</NavLink></div>
+                    </li>
+                    <li className="nav-item">
+                        <div className="nav-link"><NavLink to="/info" style={{color:"black"}} activeStyle={{color: "orange"}}>what is hardware wallet?</NavLink></div>
                     </li>
                 </ul>
             </div>
-            <div className="nav-link"><NavLink to="/dashboard" activeStyle={{color: "orange"}}>Dashboard</NavLink> </div>      
+            <div className="nav-link"><NavLink to="/dashboard" style={{color:"black"}} activeStyle={{color: "orange"}}>Dashboard</NavLink> </div>      
           <form className="d-flex">
             <input id="searcBox" className="form-control me-2" type="search" placeholder="Search" ref={this.callRef} onChange={this.setUrl} value={this.state.urlValue} aria-label="Search"></input>
             
-            <button className="btn" type="submit" onClick={this.setUrl}><Link to={"/?q="+this.state.urlValue}>Search</Link></button>
+            <button className="btn" type="submit" onClick={this.setUrl}><Link to={"/?q="+this.state.urlValue} style={{color:"black"}}>Search</Link></button>
             
           </form>
         </div>

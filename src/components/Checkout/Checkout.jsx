@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './Checkout.css'
 import myProducts from '../../prod.json'
-
 let arrProd=JSON.parse(localStorage.getItem('products')) || [];
 
 export default class Checkout extends Component {
@@ -14,8 +13,6 @@ export default class Checkout extends Component {
         messageCity:"",
         messageHouseNum:""
     }
-
-    // this.onValueChange = this.onValueChange.bind(this);
 
     this.shipmentRef=React.createRef();
     this.streetAddRef = React.createRef();
@@ -48,40 +45,60 @@ export default class Checkout extends Component {
         let city=new RegExp('^[A-Z]{1}[a-z ]+$','gm');
         let street=new RegExp('^[A-Z]{1}[a-z ]+$','gm');
 
+        let flag1=0
+        let flag2=0
+        let flag3=0
+        let flag4=0
+
+
         if(name.test(fullName.value)){
             fullName.style.border="green 2px solid";
             this.setState({messageName:""});  
+            flag1=1
         }else
         {
             fullName.style.border="red 2px solid";
             this.setState({messageName:"The name should be as in your ID card"});    
+            flag1=0
         }
         if(street.test(streetadd.value)){
             streetadd.style.border="green 2px solid";
-            this.setState({messageStreet:""});  
+            this.setState({messageStreet:""});
+            flag2=1  
         }else
         {
             streetadd.style.border="red 2px solid";
             this.setState({messageStreet:"The street name should be as in your ID"});    
+            flag2=0
         }
             
         if(city.test(cityName.value)){
             cityName.style.border="green 2px solid";
             this.setState({messageCity:""});  
+            flag3=1
         }else
         {
             cityName.style.border="red 2px solid";
             this.setState({messageCity:"The city name should be as in your ID"});    
+            flag3=0
         }
         if(houseNum.test(houseNumber.value)){
             houseNumber.style.border="green 2px solid";
-            this.setState({messageHouseNum:""});  
+            this.setState({messageCity:""}); 
+            flag4=1 
         }else
         {
             houseNumber.style.border="red 2px solid";
             this.setState({messageHouseNum:"The house number should contain up to 3 digits"});    
+            flag4=0 
         }
-        
+      
+
+        if(flag1===1 &&
+            flag2===1 &&
+            flag3===1 &&
+            flag4===1)
+                window.location.href='/success'
     }
 
     
@@ -205,29 +222,15 @@ export default class Checkout extends Component {
                             <div>{this.state.messageStreet}</div>
                             <div>{this.state.messageHouseNum}</div>
                             <div>{this.state.messageCity}</div>
-                            
-                            <div>{(this.state.messageCity==="" &&
-                                    this.state.messageStreet==="" &&
-                                    this.state.messageHouseNum==="" &&
-                                    this.state.messageCity===""
-                                    )? (
-                                "Thank you, you recieved an email with all order details"
-                                   
-                              ):(
-                                "Please check again"
-                                
-                              )}
-                            </div>
 
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>  
                         </div>
                         </div>
                     </div>
                 </div>
-                        
+                
                 <br/>
                 </div>
       
