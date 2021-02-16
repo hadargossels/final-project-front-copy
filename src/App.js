@@ -38,11 +38,9 @@ import DashboardPage from "./pages/dashboard/dashboard.component";
 import AccountPage from "./pages/account/account.component";
 
 import SignInAndSignUpPage from "./pages/signin-signup/signin-signup.component";
-import eCheckoutPage from "./pages/shopping-cart/shopping-cart.component";
-import CartListPage from "./pages/shopping-cart/shopping-cart.component";
+
 import ShoppingCartPage from "./pages/shopping-cart/shopping-cart.component";
 import CheckoutPage from "./pages/checkout/checkout.component";
-import Map from "./components/google-map/google-map.component";
 import TrackingPage from "./pages/tracking/tracking.component";
 import { createStructuredSelector } from "reselect";
 

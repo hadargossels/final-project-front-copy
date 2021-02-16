@@ -6,6 +6,7 @@ import ReactPlayer from "react-player";
 const AboutPage = () => (
   <>
     <div className="about-page">
+      <h1>Our Team</h1>
       <main role="main">
         {/* Marketing messaging and featurettes
 ================================================== */}

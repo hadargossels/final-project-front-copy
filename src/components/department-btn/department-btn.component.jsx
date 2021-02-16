@@ -16,14 +16,14 @@ state= [clothing, Collers]
 ///////////////////////////////////
 const DepartmentsBtn = (props) => (
   <div
-    class="btn-group-toggle"
+    className="btn-group-toggle"
     data-toggle="buttons"
     onClick={(event) => {
       props.handleClick(event.target.innerText.toLowerCase());
     }}
   >
     <label class="btn btn-secondary active">
-      <input type="checkbox" autocomplete="off" /> {props.title}
+      <input type="checkbox" autoComplete="off" /> {props.title}
     </label>
   </div>
 );
