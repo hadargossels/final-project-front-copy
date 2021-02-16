@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 class CheckoutDetails extends Component {
     constructor() {
       super();
-      this.couponRef = React.createRef();
       this.state = {
         productList: [],
         productNum: 0,
@@ -73,23 +72,45 @@ class CheckoutDetails extends Component {
                 <h1 className="bg-yellow-700 m-0 pt-1 pl-3 text-white text-3xl rounded-t-sm">
                     Shipment Details
                 </h1>
-                <p className="pl-3 pt-5">Items: <span>{formatPrice(this.props.totalProductsSum)}</span></p>
-                <p className="pl-3">Taxes: <span>{formatPrecent(this.state.taxRate,null)}</span></p>
+                <p className="pl-3 pt-5">
+                    Items: 
+                    <span>
+                        {formatPrice(this.props.totalProductsSum)}
+                    </span>
+                </p>
+                <p className="pl-3">
+                    Taxes: 
+                    <span>
+                        {formatPrecent(this.state.taxRate,null)}
+                    </span>
+                </p>
                 {this.state.couponNotice}
                 <hr className="mt-5 mb-5 border-yellow-800"/>
                 <label htmlFor="coupon" className="pl-3">Enter Coupon:</label>
                 <br/>
                 <span className="pl-3">
-                    <input type="text" id="coupon" onChange={(event) => {this.getCoupon(event)}} ref={this.couponRef}/>
+                    <input 
+                        type="text" 
+                        id="coupon" 
+                        onChange={(event) => {this.getCoupon(event)}} 
+                    />
                 </span>
                 <br/>
                 <p className="pl-3 pb-5">
-                    <button className="bg-yellow-600 text-white active:bg-yellow-600 uppercase text-xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-2 mt-2" onClick={() => {this.checkCoupon()}}> 
+                    <button 
+                        className="bg-yellow-600 text-white active:bg-yellow-600 uppercase text-xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-2 mt-2" 
+                        onClick={() => {this.checkCoupon()}}
+                    > 
                         Enter
                     </button>  
                 </p>
                 <hr className="mx-6 border-yellow-800"/>
-                <p className="pl-3 py-5">Total sum: <span>{formatPrice(this.state.totalPrice)}</span></p>
+                <p className="pl-3 py-5">
+                    Total sum: 
+                    <span>
+                        {formatPrice(this.state.totalPrice)}
+                    </span>
+                </p>
                 <hr className="mx-6 border-yellow-800"/>
                 <p className="pl-3">
                     <Link to="/checkout">

@@ -22,14 +22,18 @@ const CartQuickView = ({ handleClose, show }) => {
         itemSum += product.price
     })
   }
-let itemNum = localStorage.getItem('shoppingLength');
-if (!itemNum) {
-    itemNum = 0;
-}
+  
+  let itemNum = localStorage.getItem('shoppingLength');
+  if (!itemNum) {
+      itemNum = 0;
+  }
 
   return (
     <div className={showHideClassName}>
-    <div className="myModal absolute right-52 top-12 flex overflow-x-hidden overflow-y-auto z-50 outline-none focus:outline-none pr-2" onClick={handleClose}>
+    <div 
+      className="myModal absolute right-52 top-12 flex overflow-x-hidden overflow-y-auto z-50 outline-none focus:outline-none pr-2" 
+      onClick={handleClose}
+    >
     <div className="generalModal relative w-full mt-6 mx-auto max-w-3xl pr-2">
       {/*content*/}
       <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-yellow-50 outline-none focus:outline-none">
@@ -38,7 +42,10 @@ if (!itemNum) {
           <h3 className="text-2xl font-semibold text-yellow-700">
             Your Cart
           </h3>
-          <button className="p-1 ml-auto bg-transparent border-0 text-black opacity-95 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onClick={handleClose}>
+          <button 
+            className="p-1 ml-auto bg-transparent border-0 text-black opacity-95 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" 
+            onClick={handleClose}
+          >
             <span className="text-yellow-800 opacity-95 h-6 w-6 text-2xl block">
               ×
             </span>
@@ -47,27 +54,53 @@ if (!itemNum) {
         {/*body*/}
         {productList.map((product) => {
             return (
-                <div className="pb-2 mr-5" key={product.ISBN13}>
-                    <img src={product.image} className="cartImage float-left" alt="" />
-                    <p className="productDeatils text-2xl text-yellow-700">{product.title}<br/><span className="text-black">{formatPrice(product.price)}</span></p>
+                <div 
+                  className="pb-2 mr-5" 
+                  key={product.ISBN13}
+                >
+                    <img 
+                      src={product.image} 
+                      className="cartImage float-left" 
+                      alt="" 
+                    />
+                    <p className="productDeatils text-2xl text-yellow-700">
+                      {product.title}
+                      <br/>
+                      <span className="text-black">
+                        {formatPrice(product.price)}
+                      </span>
+                    </p>
                 </div>
             )
         })}
         <hr/>
         <div className="totalSum text-2xl">
-            <span><span className="font-medium">Sum Total: </span> {formatPrice(itemSum)}</span>
+            <span>
+              <span className="font-medium">
+                Sum Total: 
+              </span> 
+              {formatPrice(itemSum)}
+            </span>
         </div>
         {/*footer*/}
         <div className="flex items-center justify-end px-5 pt-5 border-t border-solid border-gray-300 rounded-b">        
             <Link to="/shoppingCart">
-            <button className="bg-yellow-600 text-yellow-100 uppercase text-lg px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" style={{ transition: "all .15s ease" }}>
+            <button 
+              className="bg-yellow-600 text-yellow-100 uppercase text-lg px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" 
+              type="button" 
+              style={{ transition: "all .15s ease" }}
+            >
               Go To Shopping Cart
             </button>
           </Link>
         </div>
         <div className="flex items-center justify-end px-5 pb-5 rounded-b">        
-            <Link to="/shoppingCart">
-            <button className="bg-yellow-800 text-yellow-100 uppercase text-lg px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" style={{ transition: "all .15s ease" }}>
+            <Link to="/checkout">
+            <button 
+              className="bg-yellow-800 text-yellow-100 uppercase text-lg px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" 
+              type="button" 
+              style={{ transition: "all .15s ease" }}
+            >
               Go To Checkout
             </button>
           </Link>
@@ -75,7 +108,8 @@ if (!itemNum) {
       </div>
     </div>
   </div>
-  <div className="opacity-10 fixed inset-0 z-40"></div>
+  <div className="opacity-10 fixed inset-0 z-40">
+  </div>
   </div >
   );
 };

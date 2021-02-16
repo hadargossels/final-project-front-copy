@@ -10,7 +10,11 @@ class Filters extends Component {
             <div className="filterLanguage mx-4">
                 Language 
                 <br/>
-                <select className="border border-gray-300" value={this.props.language} onChange={this.props.filterLanguage}>
+                <select 
+                    className="border border-gray-300" 
+                    value={this.props.language} 
+                    onChange={this.props.filterLanguage}
+                >
                     <option value="">Any</option>
                     <option value="English">English</option>
                     <option value="Japanese">Japanese</option>
@@ -21,22 +25,50 @@ class Filters extends Component {
                 <p>
                     Format:
                 </p>
-                <input type="radio" id="any" name="format" value="" onClick={this.props.filterFormat}/>
+                <input 
+                    type="radio" 
+                    id="any" 
+                    name="format" 
+                    value="" 
+                    onClick={this.props.filterFormat}
+                />
                 <label htmlFor="any">Any</label>
                 <br/>
-                <input type="radio" id="paperback" name="format" value="Paperback" onClick={this.props.filterFormat}/>
+                <input 
+                    type="radio" 
+                    id="paperback" 
+                    name="format" 
+                    value="Paperback" 
+                    onClick={this.props.filterFormat}
+                />
                 <label htmlFor="paperback">Paperback</label>
                 <br/>
-                <input type="radio" id="hardcover" name="format" value="Hardcover" onClick={this.props.filterFormat}/>
+                <input 
+                    type="radio" 
+                    id="hardcover" 
+                    name="format" 
+                    value="Hardcover" 
+                    onClick={this.props.filterFormat}
+                />
                 <label htmlFor="hardcover">Hardcover</label>
                 <br/>
-                <input type="radio" id="single" name="format" value="Single Issue" onClick={this.props.filterFormat}/>
+                <input 
+                    type="radio" 
+                    id="single" 
+                    name="format" 
+                    value="Single Issue" 
+                    onClick={this.props.filterFormat}
+                />
                 <label htmlFor="single">Single Issue</label>
             </div>
             <div className="filterPublisher mx-4">
                 Publisher 
                 <br/>
-                <select className="border border-gray-300" value={this.props.publisher} onChange={this.props.filterPublisher}>
+                <select 
+                    className="border border-gray-300" 
+                    value={this.props.publisher} 
+                    onChange={this.props.filterPublisher}
+                >
                     <option value="">Any</option>
                     <option value="Marvel Comics">Marvel Comics</option>
                     <option value="DC Comics">DC Comics</option>
@@ -51,7 +83,11 @@ class Filters extends Component {
             <div className="priceSort mx-4">
                 Order
                 <br/>
-                <select className="border border-gray-300" value={this.props.sort} onChange={this.props.sortPrices}>
+                <select 
+                    className="border border-gray-300" 
+                    value={this.props.sort} 
+                    onChange={this.props.sortPrices}
+                >
                 <option value="">Any</option>
                 <option value="lowest">Lowest to Highest</option> 
                 <option value="highest">Highest to Lowest</option> 

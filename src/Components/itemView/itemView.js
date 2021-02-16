@@ -23,9 +23,17 @@ class ItemView extends Component {
         localStorage.setItem('shoppingCart',JSON.stringify(myList))
         localStorage.setItem('shoppingLength',lengthList)
         this.setState({
-            addCartMessage: <h1 className="text-3xl text-yellow-300 text-center pb-5 pt-5"><i className="fas fa-check-square"></i> Item added to cart!</h1>
+            addCartMessage: 
+                <h1 className="text-3xl text-yellow-300 text-center pb-5 pt-5">
+                    <i className="fas fa-check-square"></i> 
+                    Item added to cart!
+                </h1>
         })
-        setTimeout(() => {this.setState({addCartMessage: null,})}, 10000);
+        setTimeout(() => {
+            this.setState({
+                addCartMessage: null
+            })
+        }, 10000);
     }
 
   render () {
@@ -52,12 +60,24 @@ class ItemView extends Component {
                                     {formatPrice(product.price)}
                                 </div>
                                 <div className="item-buttons">
-                                    <button className="button primary bg-yellow-600 text-yellow-100 border hover:border-yellow-600 hover:bg-yellow-100 hover:text-yellow-600 active:bg-yellow-600 font-bold uppercase text-sm px-2 py-1 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1" type="button" style={{ transition: "all .15s ease" }}
-                                    onClick={() => {(this.addToStorage(product.ISBN10));(this.props.addToCart(true))}}
+                                    <button 
+                                        className="button primary bg-yellow-600 text-yellow-100 border hover:border-yellow-600 hover:bg-yellow-100 hover:text-yellow-600 active:bg-yellow-600 font-bold uppercase text-sm px-2 py-1 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1" 
+                                        type="button" 
+                                        style={{ transition: "all .15s ease" }}
+                                        onClick={() => {
+                                            (this.addToStorage(product.ISBN10));
+                                            (this.props.addToCart(true))
+                                        }}
                                     >
                                         <i className="fas fa-cart-arrow-down"></i>
                                     </button>
-                                    <button className="bg-yellow-100 text-yellow-600 border border-yellow-600 hover:border-yellow-100 hover:bg-yellow-600 hover:text-yellow-100 active:bg-yellow-600 font-bold uppercase text-sm px-2 py-1 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1" type="button" style={{ transition: "all .15s ease" }}>
+                                    <button 
+                                        className="bg-yellow-100 text-yellow-600 border border-yellow-600 hover:border-yellow-100 hover:bg-yellow-600 hover:text-yellow-100 active:bg-yellow-600 font-bold uppercase text-sm px-2 py-1 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1" 
+                                        type="button" 
+                                        style={{ 
+                                            transition: "all .15s ease" 
+                                        }}
+                                    >
                                         <i className="fas fa-heart"></i>
                                     </button>
                                 </div>

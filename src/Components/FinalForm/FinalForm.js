@@ -17,9 +17,17 @@ class FinalForm extends Component {
 
     let offers;
     if (this.props.offers !== "none") {
-        offers = <p><i className="far fa-check-circle"/>You will receive news and special offers in your email</p>
+        offers = 
+            <p>
+                <i className="far fa-check-circle"/>
+                You will receive news and special offers in your email
+            </p>
     } else {
-        offers = <p><i className="far fa-times-circle text-black"/> You will NOT receive news and special offers in your email</p>
+        offers = 
+            <p>
+                <i className="far fa-times-circle text-black"/> 
+                You will NOT receive news and special offers in your email
+            </p>
     }
 
     let notes;
@@ -125,7 +133,9 @@ class FinalForm extends Component {
             <hr className="border-yellow-800 my-6"/>
             <div className="placeOrder text-right">
                 <Link to="/confirmation">
-                    <button className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 hover:bg-yellow-100 hover:text-yellow-800 border border-yellow-800">Place Order</button>
+                    <button className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 hover:bg-yellow-100 hover:text-yellow-800 border border-yellow-800">
+                        Place Order
+                    </button>
                 </Link>
             </div>
         </div>

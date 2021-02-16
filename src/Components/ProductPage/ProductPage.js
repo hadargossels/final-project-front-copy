@@ -77,9 +77,17 @@ class ProductPage extends Component{
         localStorage.setItem('shoppingCart',JSON.stringify(myList))
         localStorage.setItem('shoppingLength',lengthList)
         this.setState({
-            cartMessage: <h1 className="text-3xl text-yellow-300 text-center pb-5"><i className="fas fa-check-square"></i> Item added to cart!</h1>
+            cartMessage: 
+                <h1 className="text-3xl text-yellow-300 text-center pb-5">
+                    <i className="fas fa-check-square"></i> 
+                    Item added to cart!
+                </h1>
         })
-        setTimeout(() => {this.setState({cartMessage: null,})}, 10000);
+        setTimeout(() => {
+            this.setState({
+                cartMessage: null
+            })
+        }, 10000);
     }
 
    render(){
@@ -116,8 +124,12 @@ class ProductPage extends Component{
                 </div>
                 <div className="col-span-1 row-span-3 text-center p-9">
                     <p>
-                        <span className="text-2xl text-gray-400 line-through italic">{formatPrice(this.state.originalPrice)}</span> 
-                        <span className="text-5xl text-yellow-500">{formatPrice(this.state.price)}</span>
+                        <span className="text-2xl text-gray-400 line-through italic">
+                            {formatPrice(this.state.originalPrice)}
+                        </span> 
+                        <span className="text-5xl text-yellow-500">
+                            {formatPrice(this.state.price)}
+                        </span>
                     </p>
                     <p className="text-xl text-gray-400 italic">
                         You save {formatPrecent(this.state.originalPrice,this.state.diff)}!
@@ -127,31 +139,71 @@ class ProductPage extends Component{
                         Worldwide delivery
                     </p>
                     <br/>
-                    <button className="bg-yellow-700 text-yellow-100 active:bg-yellow-700 font-medium uppercase text-lg px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 hover:bg-yellow-100 hover:text-yellow-600 active:bg-white" type="button" style={{ transition: "all .15s ease" }} 
-                    onClick={() => {(this.addToStorage(this.state.ISBN10));(this.props.addToCart(true))}}
+                    <button 
+                        className="bg-yellow-700 text-yellow-100 active:bg-yellow-700 font-medium uppercase text-lg px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 hover:bg-yellow-100 hover:text-yellow-600 active:bg-white" 
+                        type="button" 
+                        style={{ transition: "all .15s ease" }} 
+                        onClick={() => {
+                            (this.addToStorage(this.state.ISBN10));
+                            (this.props.addToCart(true))
+                        }}
                     >
                         <i className="fas fa-cart-arrow-down"></i> Add to Cart
                     </button>
-                    <button className="text-yellow-700 bg-yellow-100 border border-solid border-yellow-700 hover:bg-yellow-700 hover:text-yellow-100 active:bg-yellow-700 font-medium uppercase text-lg px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style={{ transition: "all .15s ease" }}>
+                    <button 
+                        className="text-yellow-700 bg-yellow-100 border border-solid border-yellow-700 hover:bg-yellow-700 hover:text-yellow-100 active:bg-yellow-700 font-medium uppercase text-lg px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1" 
+                        type="button" 
+                        style={{ transition: "all .15s ease" }}
+                    >
                         <i className="far fa-heart"></i> Add to Wishlist
                     </button>
                 </div>
                 <div className="col-span-1 row-span-1">
                     <div className="grid grid-cols-5 grid-rows-1 gap-2">
                         <span className="col-span-1">
-                            <img src="https://via.placeholder.com/350x450" width="50" className="mx-auto border border-black" alt="" onClick={this.showEvent.bind(this)}/>
+                            <img 
+                                src="https://via.placeholder.com/350x450" 
+                                width="50" 
+                                className="mx-auto border border-black" 
+                                alt="" 
+                                onClick={this.showEvent.bind(this)}
+                            />
                         </span>
                         <span className="col-span-1">
-                            <img src="https://via.placeholder.com/350x450/0000FF" alt="" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
+                            <img 
+                                src="https://via.placeholder.com/350x450/0000FF" 
+                                alt="" 
+                                width="50" 
+                                className="mx-auto border border-black" 
+                                onClick={this.showEvent.bind(this)}
+                            />
                         </span>
                         <span className="col-span-1" href="">
-                            <img src="https://via.placeholder.com/350x450/FF0000" alt="" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
+                            <img 
+                                src="https://via.placeholder.com/350x450/FF0000" 
+                                alt="" 
+                                width="50" 
+                                className="mx-auto border border-black" 
+                                onClick={this.showEvent.bind(this)}
+                            />
                         </span>
                         <span className="col-span-1" href="">
-                            <img src="https://via.placeholder.com/350x450/008000" alt="" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
+                            <img 
+                                src="https://via.placeholder.com/350x450/008000" 
+                                alt="" 
+                                width="50" 
+                                className="mx-auto border border-black" 
+                                onClick={this.showEvent.bind(this)}
+                            />
                         </span>
                         <span className="col-span-1" href="">
-                            <img src="https://via.placeholder.com/350x450/000000" alt="" width="50" className="mx-auto border border-black" onClick={this.showEvent.bind(this)}/>
+                            <img 
+                                src="https://via.placeholder.com/350x450/000000" 
+                                alt="" 
+                                width="50" 
+                                className="mx-auto border border-black" 
+                                onClick={this.showEvent.bind(this)}
+                            />
                         </span>
                     </div>
                 </div>

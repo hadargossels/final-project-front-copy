@@ -25,7 +25,10 @@ class Checkout extends Component {
     return (
     <main className="Checkout text-center">
         <div className="forms">
-            <FirstForm delivery={this.state.delivery} addToOrder={this.setOrder}/>
+            <FirstForm 
+              delivery={this.state.delivery} 
+              addToOrder={this.setOrder}
+            />
         </div>
         <div className="checkoutDetails">
             <FinalDetails setDelivery={this.setDelivery}/>

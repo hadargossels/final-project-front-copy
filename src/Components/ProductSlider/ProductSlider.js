@@ -31,12 +31,16 @@ class ProductSlider extends Component {
             <div>
                 <div className="slider mx-auto my-10">
 
-                    <a href={`#${this.props.slideId}-0`} className="text-2xl bg-yellow-100 text-yellow-700 border-4 border-yellow-700 focus:border-opacity-0 hover:border-opacity-0">&laquo;</a>
+                    <a href={`#${this.props.slideId}-0`} className="text-2xl bg-yellow-100 text-yellow-700 border-4 border-yellow-700 focus:border-opacity-0 hover:border-opacity-0">
+                        &laquo;
+                    </a>
                     <a href="#slide-2" className="opacity-0">2</a>
                     <a href="#slide-3" className="opacity-0">3</a>
                     <a href="#slide-4" className="opacity-0">4</a>
                     <a href="#slide-4" className="opacity-0">5</a>
-                    <a href={`#${this.props.slideId}-5`} className="text-2xl bg-yellow-100 text-yellow-700 border-4 border-yellow-700 focus:border-opacity-0 hover:border-opacity-0">&raquo;</a>
+                    <a href={`#${this.props.slideId}-5`} className="text-2xl bg-yellow-100 text-yellow-700 border-4 border-yellow-700 focus:border-opacity-0 hover:border-opacity-0">
+                        &raquo;
+                    </a>
 
                     <div className="slides">
                         {this.state.products.map( (product, index) => {
@@ -44,7 +48,7 @@ class ProductSlider extends Component {
                                 <div className="text-xl" id={`${this.props.slideId}-${index}`} key={product.ISBN10}>
                                     <img src={product.image} width="50px" alt="somepic" className="itemImage h-auto w-1/3 mx-auto mt-4" />
                                     <p className="mx-auto text-2xl text-yellow-700 cursor-pointer" onClick={this.showModal}>
-                                            {product.title}
+                                        {product.title}
                                     </p>
                                     <p>
                                         {formatPrice(product.price)}

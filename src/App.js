@@ -131,13 +131,15 @@ class App extends Component {
   }
 
   addSum =() => {
-    let products = [...this.state.productList];
     let sumPrice = 0;
-    data.products.forEach((product) => {
-      if(products.includes(product.ISBN10)) {
-        sumPrice += product.price;
-      }
-    })
+    if (this.state.productList) {
+      let products = [...this.state.productList];
+      data.products.forEach((product) => {
+        if(products.includes(product.ISBN10)) {
+          sumPrice += product.price;
+        }
+      })
+    }
     localStorage.setItem('finalPrice',sumPrice);
   }
 
@@ -154,30 +156,37 @@ class App extends Component {
             <Route path="/catalogue/:search" render={(matchProps) => (<StoreFront {...matchProps} {...this.props} addToCart={this.addToCart} />)} />
             <Route path="/item/:itemISBN" render={(matchProps) => (<ProductPage {...matchProps} {...this.props} addToCart={this.addToCart} />)} />
             <Route path="/about-us" component={AboutUs} />
-            <Route path="/shoppingCart" render={(matchProps) => (<ShoppingCart {...matchProps} {...this.props} cartContent={this.state.productList} addToCart={this.addToCart} />)} />
+            <Route path="/shoppingCart" render={(matchProps) => (
+              <ShoppingCart {...matchProps} {...this.props} 
+                cartContent={this.state.productList} 
+                addToCart={this.addToCart} 
+              />)}
+            />
             <Route path="/blog" component={Blog} />
             <Route path="/login" component={Login} />
             <Route path="/sign-up" component={SignUp} />
             <Route path="/contact-us" component={ContactUs} />
-            <Route path="/confirmation" component={Confirmation} />
+            <Route path="/confirmation" render={(matchProps) => (<Confirmation {...matchProps} {...this.props} addToCart={this.addToCart} />)} />
             <Route path="/checkout" render={(matchProps) => (<Checkout {...matchProps} {...this.props} addToOrder={this.addToOrder} />)} />
-            <Route path="/finalstage" render={(matchProps) => (<FinalForm {...matchProps} {...this.props}
-             fullName={this.state.fullName} 
-             phoneNum={this.state.phoneNum}
-             email={this.state.email}
-             offers={this.state.offers}
-             firstName={this.state.firstName}
-             lastName={this.state.lastName}
-             fullAd={this.state.fullAd}
-             zipCode={this.state.zipCode}
-             city={this.state.city}
-             notes={this.state.notes}
-             payment={this.state.payment}
-             cardNum={this.state.cardNum}
-             security={this.state.security}
-             expDate={this.state.expDate}
-             delivery={this.state.delivery}
-            />)} />
+            <Route path="/finalstage" render={(matchProps) => (
+              <FinalForm {...matchProps} {...this.props}
+                fullName={this.state.fullName} 
+                phoneNum={this.state.phoneNum}
+                email={this.state.email}
+                offers={this.state.offers}
+                firstName={this.state.firstName}
+                lastName={this.state.lastName}
+                fullAd={this.state.fullAd}
+                zipCode={this.state.zipCode}
+                city={this.state.city}
+                notes={this.state.notes}
+                payment={this.state.payment}
+                cardNum={this.state.cardNum}
+                security={this.state.security}
+                expDate={this.state.expDate}
+                delivery={this.state.delivery}
+              />)} 
+            />
           </Switch>
         <Footer />
       </div>

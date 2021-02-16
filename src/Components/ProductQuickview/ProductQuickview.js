@@ -41,7 +41,12 @@ const Modal = ({ handleClose, show, title }) => {
             {formatPrice(obj.price)}
           </p>
           <p>
-          <button className="bg-yellow-100 text-yellow-600 background-transparent uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 rounded" type="button" style={{ transition: "all .15s ease" }} onClick={handleClose}>
+          <button 
+            className="bg-yellow-100 text-yellow-600 background-transparent uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 rounded" 
+            type="button" 
+            style={{ transition: "all .15s ease" }} 
+            onClick={handleClose}
+          >
             Buy now!
           </button>
           </p>
@@ -49,7 +54,11 @@ const Modal = ({ handleClose, show, title }) => {
         {/*footer*/}
         <div className="flex items-center justify-end p-6 border-t border-solid border-gray-300 rounded-b">
           <Link to={"/item/" + obj.ISBN10}>
-            <button className="bg-yellow-600 text-yellow-100 uppercase text-lg px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" style={{ transition: "all .15s ease" }}>
+            <button 
+              className="bg-yellow-600 text-yellow-100 uppercase text-lg px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" 
+              type="button" 
+              style={{ transition: "all .15s ease" }}
+            >
               Read More
             </button>
           </Link>

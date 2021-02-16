@@ -10,7 +10,9 @@ class Confirmation extends Component {
     }
 
     componentDidMount = () => {
-        localStorage.clear();
+        localStorage.setItem('shoppingCart',(JSON.stringify([])));
+        localStorage.setItem('shoppingLength',0);
+        this.props.addToCart()
     }
 
   render () {

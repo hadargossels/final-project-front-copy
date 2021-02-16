@@ -13,11 +13,15 @@ class Header extends Component{
         this.hideModal = this.hideModal.bind(this);
     };
     showModal = (e) => {
-        this.setState({ show: true });
+        this.setState({ 
+            show: true 
+        });
       };
     
       hideModal = () => {
-        this.setState({ show: false });
+        this.setState({ 
+            show: false 
+        });
       };
    render(){
       return(
@@ -27,13 +31,19 @@ class Header extends Component{
                     <span className="text-3xl leading-relaxed inline-block mr-4 py-1 whitespace-no-wrap uppercase text-white">
                         FunnyBooks.com
                     </span>
-                <button className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none" type="button">
+                <button 
+                    className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none" 
+                    type="button"
+                >
                     <span className="block relative w-6 h-px rounded-sm bg-white"></span>
                     <span className="block relative w-6 h-px rounded-sm bg-white mt-1"></span>
                     <span className="block relative w-6 h-px rounded-sm bg-white mt-1"></span>
                 </button>
                 </div>
-                <div className="lg:flex flex-grow items-center" id="example-navbar-warning">
+                <div 
+                    className="lg:flex flex-grow items-center" 
+                    id="example-navbar-warning"
+                >
                 <ul className="flex flex-col lg:flex-row list-none mr-auto">
                     <li className="nav-item">
                     <span className="px-3 py-2 flex items-center text-sm uppercase leading-snug text-white hover:opacity-75">
@@ -60,10 +70,18 @@ class Header extends Component{
                 <div className="relative flex w-1/2 sm:w-7/12 md:w-5/12 px-4 flex-wrap items-stretch lg:ml-auto">
                     <form action='/catalogue/'>
                         <div className="flex">
-                        <button type="submit" className="font-normal leading-snug flex text-center white-space-no-wrap border border-solid border-yellow-500 rounded-full text-sm bg-yellow-100 items-center rounded-r-none pl-2 py-1 text-yellow-800 border-r-0 placeholder-yellow-300">
+                        <button 
+                            type="submit" 
+                            className="font-normal leading-snug flex text-center white-space-no-wrap border border-solid border-yellow-500 rounded-full text-sm bg-yellow-100 items-center rounded-r-none pl-2 py-1 text-yellow-800 border-r-0 placeholder-yellow-300"
+                        >
                             <i className="fas fa-search"></i>
                         </button>
-                        <input name="q" type="search" className="px-2 py-1 h-8 border border-solid  border-yellow-600 rounded-full text-sm leading-snug text-yellow-700 bg-yellow-100 shadow-none outline-none focus:outline-none w-full font-normal rounded-l-none flex-1 border-l-0 placeholder-yellow-600" placeholder="Search" />
+                        <input 
+                            name="q" 
+                            type="search" 
+                            className="px-2 py-1 h-8 border border-solid  border-yellow-600 rounded-full text-sm leading-snug text-yellow-700 bg-yellow-100 shadow-none outline-none focus:outline-none w-full font-normal rounded-l-none flex-1 border-l-0 placeholder-yellow-600" 
+                            placeholder="Search" 
+                        />
                         </div>
                     </form>
                 </div>
@@ -71,12 +89,18 @@ class Header extends Component{
                 <li className="nav-item">
                     <span className="px-3 py-2 flex items-center text-sm uppercase leading-snug text-white hover:opacity-75">
                         <Link to="/login">
-                            <i className="fas fa-user-check text-sm leading-xs text-white hover:opacity-75" /> <span className="ml-2 text-lg">Sign In/Sign Up</span>
+                            <i className="fas fa-user-check text-sm leading-xs text-white hover:opacity-75" /> 
+                            <span className="ml-2 text-lg">
+                                Sign In/Sign Up
+                            </span>
                         </Link>
                     </span>
                 </li>
                 <li className="nav-item">
-                    <span className="px-3 py-2 flex items-center text-lg uppercase leading-snug text-white hover:opacity-75" onClick={this.showModal}>
+                    <span 
+                        className="px-3 py-2 flex items-center text-lg uppercase leading-snug text-white hover:opacity-75" 
+                        onClick={this.showModal}
+                    >
                             <span className="text-xs font-semibold inline-block px-1 pt-1 uppercase rounded-full text-yellow-600 bg-yellow-200 uppercase last:mr-0 mr-1">
                                 {this.props.cartNum}
                             </span>

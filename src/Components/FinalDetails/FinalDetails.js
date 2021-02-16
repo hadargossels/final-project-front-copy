@@ -19,7 +19,8 @@ class FinalDetails extends Component {
     componentDidMount = () => {
         let addOn = (this.state.totalProductsSum/100) * this.state.taxRate;
         let finalPrice = Number(this.state.totalProductsSum) + addOn;
-        if (this.state.coupon !== "none") {
+        console.log(this.state.coupon)
+        if (this.state.coupon !== "None") {
             let couponAdd = (finalPrice/100) * 15
             finalPrice -= couponAdd;
         }
@@ -79,22 +80,63 @@ class FinalDetails extends Component {
                         {formatPrice(Number(this.state.totalProductsSum))}
                     </span>
                 </p>
-                <p className="pl-3">Taxes: <span>{formatPrecent(this.state.taxRate,null)}</span></p>
-                <p className="pl-3">Coupon: <span>{this.state.coupon}</span></p>
-                <p className="pl-3">Delivery: <span>{this.state.delivery}</span></p>
+                <p className="pl-3">
+                    Taxes: 
+                    <span>
+                        {formatPrecent(this.state.taxRate,null)}
+                    </span>
+                </p>
+                <p className="pl-3">
+                    Coupon: 
+                    <span>
+                        {this.state.coupon}
+                    </span>
+                </p>
+                <p className="pl-3">
+                    Delivery: 
+                    <span>
+                        {this.state.delivery}
+                    </span>
+                </p>
                 <hr className="mx-6 border-yellow-800"/>
                 <h1>Choose a delivery method:</h1>
-                <input type="radio" id="dropoff" name="delivery" value="dropoff" required onChange={(event) => {this.validateDelivery(event)}}/>
+                <input 
+                    type="radio" 
+                    id="dropoff" 
+                    name="delivery" 
+                    value="dropoff" 
+                    required 
+                    onChange={(event) => {this.validateDelivery(event)}}
+                />
                 <label htmlFor="dropoff">Dropoff Point - Two Weeks - 10$</label>
                 <br/>
-                <input type="radio" id="mail" name="delivery" value="mail" required onChange={(event) => {this.validateDelivery(event)}}/>
+                <input 
+                    type="radio" 
+                    id="mail" 
+                    name="delivery" 
+                    value="mail" 
+                    required 
+                    onChange={(event) => {this.validateDelivery(event)}}
+                />
                 <label htmlFor="mail">Standard Mail Delivery - One to Two Weeks - 15$</label>
                 <br/>
-                <input type="radio" id="special" name="delivery" value="special" required onChange={(event) => {this.validateDelivery(event)}}/>
+                <input 
+                    type="radio" 
+                    id="special" 
+                    name="delivery" 
+                    value="special" 
+                    required 
+                    onChange={(event) => {this.validateDelivery(event)}}
+                />
                 <label htmlFor="special">Personal Home Delivery - Five Days - 25$</label>
                 {notice}
                 <hr className="mx-6 border-yellow-800"/>
-                <p className="pl-3 py-5">Total sum: <span>{formatPrice(Number(this.state.priceWithDelivery))}</span></p>
+                <p className="pl-3 py-5">
+                    Total sum: 
+                    <span>
+                        {formatPrice(Number(this.state.priceWithDelivery))}
+                    </span>
+                </p>
             </div>
         </div>
         )

@@ -14,13 +14,23 @@ class Login extends Component {
                         </p>
                         <p className="pb-4">
                         <label htmlFor="password">Password:&nbsp;&nbsp;&nbsp;</label>
-                        <input type="password" id="password" name="password"/>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password"
+                        />
                         </p>
-                        <input type="submit" value="Enter" className="text-yellow-800 my-4 bg-yellow-400 text-white active:bg-yellow-400 font-bold uppercase text-lg px-4 py-2 rounded shadow-md hover:shadow-none outline-none focus:outline-none"/>
+                        <input 
+                            type="submit" 
+                            value="Enter" 
+                            className="text-yellow-800 my-4 bg-yellow-400 text-white active:bg-yellow-400 font-bold uppercase text-lg px-4 py-2 rounded shadow-md hover:shadow-none outline-none focus:outline-none"
+                        />
                     </form>
                     <p className="my-6 pb-1.5">
                         New?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <button className="shadow bg-yellow-700 text-white active:bg-yellow-700 font-bold uppercase text-lg px-4 py-2 rounded shadow-lg hover:shadow-none outline-none focus:outline-none my-4 display-inline text-yellow-100">Sign Up Now!</button>
+                        <button className="shadow bg-yellow-700 text-white active:bg-yellow-700 font-bold uppercase text-lg px-4 py-2 rounded shadow-lg hover:shadow-none outline-none focus:outline-none my-4 display-inline text-yellow-100">
+                            Sign Up Now!
+                        </button>
                     </p>
                 </div>
             </main>

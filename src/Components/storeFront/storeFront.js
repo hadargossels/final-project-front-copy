@@ -133,22 +133,25 @@ class StoreFront extends Component {
         return(    
             <main className="storeFront">
                 <div className="filters">
-                    <Filters count={this.state.products.length}
-                    language={this.state.language}
-                    format={this.state.format}
-                    publisher={this.state.publisher}
-                    sort={this.state.sort}
-                    filterLanguage={this.filterLanguage}
-                    filterFormat={this.filterFormat}
-                    filterPublisher={this.filterPublisher}
-                    sortPrices={this.sortPrices}
-                    ></Filters>
+                    <Filters 
+                        count={this.state.products.length}
+                        language={this.state.language}
+                        format={this.state.format}
+                        publisher={this.state.publisher}
+                        sort={this.state.sort}
+                        filterLanguage={this.filterLanguage}
+                        filterFormat={this.filterFormat}
+                        filterPublisher={this.filterPublisher}
+                        sortPrices={this.sortPrices}
+                    >
+                    </Filters>
                 </div>
                 <div className="itemsView">
                     <ItemView 
-                    products={catalogObj}
-                    addToCart={this.tryAddToCart}
-                    ></ItemView>
+                        products={catalogObj}
+                        addToCart={this.tryAddToCart}
+                    >
+                    </ItemView>
                     <br/>
                     <Pagination/>
                     <br/>

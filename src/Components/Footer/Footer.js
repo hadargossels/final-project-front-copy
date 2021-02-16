@@ -14,7 +14,10 @@ class Footer extends Component{
                       <span className="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-white">
                         © All rights reserved 
                       </span>
-                      <button className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none" type="button">
+                      <button 
+                        className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none" 
+                        type="button"
+                      >
                         <span className="block relative w-6 h-px rounded-sm bg-white"></span>
                         <span className="block relative w-6 h-px rounded-sm bg-white mt-1"></span>
                         <span className="block relative w-6 h-px rounded-sm bg-white mt-1"></span>
@@ -23,24 +26,42 @@ class Footer extends Component{
                     <div className="flex lg:flex-grow items-center" id="example-navbar-info">
                       <ul className="flex flex-col lg:flex-row list-none">
                         <li className="nav-item">
-                          <a className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" href="https://twitter.com/" target="_blank" rel="noreferrer">
+                          <a 
+                            className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" 
+                            href="https://twitter.com/" 
+                            target="_blank" 
+                            rel="noreferrer"
+                          >
                             <i className="fab fa-twitter text-lg leading-lg text-white opacity-75"></i>
                           </a>
                         </li>
                         <li className="nav-item">
-                          <a className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" href="https://www.instagram.com/" target="_blank" rel="noreferrer">
+                          <a 
+                            className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" 
+                            href="https://www.instagram.com/" 
+                            target="_blank" 
+                            rel="noreferrer"
+                          >
                             <i className="fab fa-instagram text-lg leading-lg text-white opacity-75"></i>
                           </a>
                         </li>
                         <li className="nav-item">
-                          <a className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" href="https://www.facebook.com/" target="_blank" rel="noreferrer">
+                          <a 
+                            className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" 
+                            href="https://www.facebook.com/" 
+                            target="_blank" 
+                            rel="noreferrer"
+                          >
                             <i className="fab fa-facebook-square text-lg leading-lg text-white opacity-75"></i>
                           </a>
                         </li>
                       </ul>
                       <ul className="flex flex-col lg:flex-row list-none ml-auto">
                         <li className="nav-item">
-                          <span className="px-1 py-2 flex items-center text-base uppercase font-bold leading-snug text-white hover:opacity-75" href="#pablo">
+                          <span 
+                            className="px-1 py-2 flex items-center text-base uppercase font-bold leading-snug text-white hover:opacity-75" 
+                            href="#pablo"
+                          >
                             <Link to="/about-us">
                               About Us
                             </Link>

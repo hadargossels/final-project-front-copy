@@ -49,12 +49,22 @@ class FirstForm extends Component {
                 res = validation.test(exp)
                 if (!res) {
                     event.target.style.border =  "5px solid red"
-                    this.setState({errorMessage: <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> Name can only contain letters and spaces!</h1>})
-                    setTimeout(() => {event.target.style.border =  "0"; this.setState({errorMessage:null})}, 10000);
+                    this.setState({
+                        errorMessage: 
+                            <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> 
+                                Name can only contain letters and spaces!
+                            </h1>
+                    })
+                    setTimeout(() => {
+                        event.target.style.border =  "0"; 
+                        this.setState({errorMessage:null})
+                    }, 10000);
                 } else {
                     this.setState({
                         fullName: event.target.value
-                    },() => {this.props.addToOrder("fullName",this.state.fullName)})
+                    },() => {
+                        this.props.addToOrder("fullName",this.state.fullName)
+                    })
                 }
                 break;
             case "phoneNum":
@@ -63,12 +73,22 @@ class FirstForm extends Component {
                 res = validation.test(exp)
                 if (!res) {
                     event.target.style.border =  "5px solid red"
-                    this.setState({errorMessage: <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> Phone number can only contain 9 or 10 digits in the specified format!</h1>})
-                    setTimeout(() => {event.target.style.border =  "0"; this.setState({errorMessage:null})}, 10000);
+                    this.setState({
+                        errorMessage: 
+                            <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> 
+                                Phone number can only contain 9 or 10 digits in the specified format!
+                            </h1>
+                    })
+                    setTimeout(() => {
+                        event.target.style.border =  "0"; 
+                        this.setState({errorMessage:null})
+                    }, 10000);
                 } else {
                     this.setState({
                         phoneNum: event.target.value
-                    },() => {this.props.addToOrder("phoneNum",this.state.phoneNum)})
+                    },() => {
+                        this.props.addToOrder("phoneNum",this.state.phoneNum)
+                    })
                 }
                 break;
             case "email":
@@ -77,23 +97,37 @@ class FirstForm extends Component {
                 res = validation.test(exp)
                 if (!res) {
                     event.target.style.border =  "5px solid red"
-                    this.setState({errorMessage: <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> Pleaese enter a valid email address!</h1>})
-                    setTimeout(() => {event.target.style.border =  "0"; this.setState({errorMessage:null})}, 10000);
+                    this.setState({
+                        errorMessage: 
+                            <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> 
+                                Pleaese enter a valid email address!
+                            </h1>
+                    })
+                    setTimeout(() => {
+                        event.target.style.border =  "0"; 
+                        this.setState({errorMessage:null})
+                    }, 10000);
                 } else {
                     this.setState({
                         email: event.target.value
-                    },() => {this.props.addToOrder("email",this.state.email)})
+                    },() => {
+                        this.props.addToOrder("email",this.state.email)
+                    })
                 }
                 break;
             case "ads":
                 if (this.state.offers === "none") {
                     this.setState({
                         offers: "yes"
-                    },() => {this.props.addToOrder("offers",this.state.offers)})
+                    },() => {
+                        this.props.addToOrder("offers",this.state.offers)
+                    })
                 } else {
                     this.setState({
                         offers: "none"
-                    },() => {this.props.addToOrder("offers",this.state.offers)})
+                    },() => {
+                        this.props.addToOrder("offers",this.state.offers)
+                    })
                 }
                 break;
             case "firstName":
@@ -102,12 +136,22 @@ class FirstForm extends Component {
                 res = validation.test(exp)
                 if (!res) {
                     event.target.style.border =  "5px solid red"
-                    this.setState({errorMessage: <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> Names can only contain letters and spaces!</h1>})
-                    setTimeout(() => {event.target.style.border =  "0"; this.setState({errorMessage:null})}, 10000);
+                    this.setState({
+                        errorMessage: 
+                            <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> 
+                                Names can only contain letters and spaces!
+                            </h1>
+                    })
+                    setTimeout(() => {
+                        event.target.style.border =  "0"; 
+                        this.setState({errorMessage:null})
+                    }, 10000);
                 } else {
                     this.setState({
                         firstName: event.target.value
-                    },() => {this.props.addToOrder("firstName",this.state.firstName)})
+                    },() => {
+                        this.props.addToOrder("firstName",this.state.firstName)
+                    })
                 }
                 break;
             case "lastName":
@@ -116,24 +160,44 @@ class FirstForm extends Component {
                 res = validation.test(exp)
                 if (!res) {
                     event.target.style.border =  "5px solid red"
-                    this.setState({errorMessage: <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> Names can only contain letters and spaces!</h1>})
-                    setTimeout(() => {event.target.style.border =  "0"; this.setState({errorMessage:null})}, 10000);
+                    this.setState({
+                        errorMessage: 
+                            <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> 
+                                Names can only contain letters and spaces!
+                            </h1>
+                    })
+                    setTimeout(() => {
+                        event.target.style.border =  "0"; 
+                        this.setState({errorMessage:null})
+                    }, 10000);
                 } else {
                     this.setState({
                         lastName: event.target.value
-                    },() => {this.props.addToOrder("lastName",this.state.lastName)})
+                    },() => {
+                        this.props.addToOrder("lastName",this.state.lastName)
+                    })
                 }
                 break;
             case "fullAddress":
                 exp = event.target.value
                 if (exp === "") {
                     event.target.style.border =  "5px solid red"
-                    this.setState({errorMessage: <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> Please enter a valid address!</h1>})
-                    setTimeout(() => {event.target.style.border =  "0"; this.setState({errorMessage:null})}, 10000);
+                    this.setState({
+                        errorMessage: 
+                            <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> 
+                                Please enter a valid address!
+                            </h1>
+                    })
+                    setTimeout(() => {
+                        event.target.style.border =  "0"; 
+                        this.setState({errorMessage:null})
+                    }, 10000);
                 } else {
                     this.setState({
                         fullAd: event.target.value
-                    },() => {this.props.addToOrder("fullAd",this.state.fullAd)})
+                    },() => {
+                        this.props.addToOrder("fullAd",this.state.fullAd)
+                    })
                 }
                 break;
             case "zipCode":
@@ -142,12 +206,22 @@ class FirstForm extends Component {
                 res = validation.test(exp)
                 if (!res) {
                     event.target.style.border =  "5px solid red"
-                    this.setState({errorMessage: <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> A zip code can only contain 5 digits!</h1>})
-                    setTimeout(() => {event.target.style.border =  "0"; this.setState({errorMessage:null})}, 10000);
+                    this.setState({
+                        errorMessage: 
+                            <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> 
+                                A zip code can only contain 5 digits!
+                            </h1>
+                        })
+                    setTimeout(() => {
+                        event.target.style.border =  "0"; 
+                        this.setState({errorMessage:null})
+                    }, 10000);
                 } else {
                     this.setState({
                         zipCode: event.target.value
-                    },() => {this.props.addToOrder("zipCode",this.state.zipCode)})
+                    },() => {
+                        this.props.addToOrder("zipCode",this.state.zipCode)
+                    })
                 }
                 break;
             case "city":
@@ -156,12 +230,22 @@ class FirstForm extends Component {
                 res = validation.test(exp)
                 if (!res) {
                     event.target.style.border =  "5px solid red"
-                    this.setState({errorMessage: <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> City names can only contain letters and spaces!</h1>})
-                    setTimeout(() => {event.target.style.border =  "0"; this.setState({errorMessage:null})}, 10000);
+                    this.setState({
+                        errorMessage: 
+                            <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> 
+                                City names can only contain letters and spaces!
+                            </h1>
+                    })
+                    setTimeout(() => {
+                        event.target.style.border =  "0"; 
+                        this.setState({errorMessage:null})
+                    }, 10000);
                 } else {
                     this.setState({
                         city: event.target.value
-                    },() => {this.props.addToOrder("city",this.state.city)})
+                    },() => {
+                        this.props.addToOrder("city",this.state.city)
+                    })
                 }
                 break;
             case "notes":
@@ -169,32 +253,42 @@ class FirstForm extends Component {
                 if (exp !== "") {
                     this.setState({
                         notes: exp,
-                    },() => {this.props.addToOrder("notes",this.state.notes)})
+                    },() => {
+                        this.props.addToOrder("notes",this.state.notes)
+                    })
                 } else {
                     this.setState({
                         notes: "none"
-                    },() => {this.props.addToOrder("notes",this.state.notes)})
+                    },() => {
+                        this.props.addToOrder("notes",this.state.notes)
+                    })
                 }
                 break;
             case "cash":
                 if (this.state.payment !== "cash") {
                     this.setState({
                         payment: "cash"
-                    },() => {this.props.addToOrder("payment",this.state.payment)})
+                    },() => {
+                        this.props.addToOrder("payment",this.state.payment)
+                    })
                 }
                 break;
             case "credit":
                 if (this.state.payment !== "credit") {
                     this.setState({
                         payment: "credit"
-                    },() => {this.props.addToOrder("payment",this.state.payment)})
+                    },() => {
+                        this.props.addToOrder("payment",this.state.payment)
+                    })
                 }
                 break;
             case "paypal":
                 if (this.state.payment !== "paypal") {
                     this.setState({
                         payment: "paypal"
-                    },() => {this.props.addToOrder("payment",this.state.payment)})
+                    },() => {
+                        this.props.addToOrder("payment",this.state.payment)
+                    })
                 }
                 break;
             case "cardNum":
@@ -203,12 +297,22 @@ class FirstForm extends Component {
                 res = validation.test(exp)
                 if (!res) {
                     event.target.style.border =  "5px solid red"
-                    this.setState({errorMessage: <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> Please enter a valid credit card number in the specified format!</h1>})
-                    setTimeout(() => {event.target.style.border =  "0"; this.setState({errorMessage:null})}, 10000);
+                    this.setState({
+                        errorMessage: 
+                            <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> 
+                                Please enter a valid credit card number in the specified format!
+                            </h1>
+                    })
+                    setTimeout(() => {
+                        event.target.style.border =  "0"; 
+                        this.setState({errorMessage:null})
+                    }, 10000);
                 } else {
                     this.setState({
                         cardNum: event.target.value
-                    },() => {this.props.addToOrder("cardNum",this.state.cardNum)})
+                    },() => {
+                        this.props.addToOrder("cardNum",this.state.cardNum)
+                    })
                 }
                 break;
             case "security":
@@ -217,19 +321,31 @@ class FirstForm extends Component {
                 res = validation.test(exp)
                 if (!res) {
                     event.target.style.border =  "5px solid red"
-                    this.setState({errorMessage: <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> Security code includes 3 digits only!</h1>})
-                    setTimeout(() => {event.target.style.border =  "0"; this.setState({errorMessage:null})}, 10000);
+                    this.setState({
+                        errorMessage: 
+                            <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> 
+                                Security code includes 3 digits only!
+                            </h1>
+                    })
+                    setTimeout(() => {
+                        event.target.style.border =  "0"; 
+                        this.setState({errorMessage:null})
+                    }, 10000);
                 } else {
                     this.setState({
                         security: event.target.value
-                    },() => {this.props.addToOrder("security",this.state.security)})
+                    },() => {
+                        this.props.addToOrder("security",this.state.security)
+                    })
                 }
                 break;
             case "expDate":
                 exp = event.target.value
                 this.setState({
                     expDate: exp,
-                },() => {this.props.addToOrder("expDate",this.state.expDate)})
+                },() => {
+                    this.props.addToOrder("expDate",this.state.expDate)
+                })
                 break;
             default: 
                 break;
@@ -268,14 +384,31 @@ class FirstForm extends Component {
             <div className="mb-2">
                 <div className="mb-2">
                     <label htmlFor="cardNum">Credit Card Number: </label>
-                    <input type="text" id="cardNum" placeholder="XXXXX-XXXX-XXXX-XXXX" onBlur={(event) => {this.validateContent(event)}}/>
+                    <input 
+                        type="text" 
+                        id="cardNum" 
+                        placeholder="XXXXX-XXXX-XXXX-XXXX" 
+                        onBlur={(event) => {this.validateContent(event)}}
+                    />
                 </div>
                 <div className="mb-2">
                     <label htmlFor="security">Security Code: </label>
-                    <input type="text" id="security" className="w-16" onBlur={(event) => {this.validateContent(event)}}/>
+                    <input 
+                        type="text" 
+                        id="security" 
+                        className="w-16" 
+                        onBlur={(event) => {this.validateContent(event)}}
+                    />
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <label htmlFor="expDate">Expiration Date: </label>
-                    <input type="month" id="expDate" className="w-36 text-lg" onBlur={(event) => {this.validateContent(event)}} min={thisDate} defaultValue={thisDate}/>
+                    <input 
+                        type="month" 
+                        id="expDate" 
+                        className="w-36 text-lg" 
+                        onBlur={(event) => {this.validateContent(event)}} 
+                        min={thisDate} 
+                        defaultValue={thisDate}
+                    />
                 </div>
             </div>
         )
@@ -283,31 +416,79 @@ class FirstForm extends Component {
 
     let basicsBtn;
     if (this.state.fullName !== null && this.state.phoneNum !== null && this.state.email !== null) {
-        basicsBtn = <input type="submit" value="PROCEED" className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 hover:bg-yellow-100 hover:text-yellow-800 border border-yellow-800"/>
+        basicsBtn = 
+            <input 
+                type="submit" 
+                value="PROCEED" 
+                className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 hover:bg-yellow-100 hover:text-yellow-800 border border-yellow-800"
+            />
     } else {
-        basicsBtn = <input type="submit" value="PROCEED" className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 border border-yellow-800 opacity-50" disabled/>
+        basicsBtn = 
+            <input 
+                type="submit" 
+                value="PROCEED" 
+                className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 border border-yellow-800 opacity-50" 
+                disabled
+            />
     }
 
     let addressBtn;
     if (this.state.firstName !== null && this.state.lastName !== null && this.state.fullAd !== null && this.state.zipCode !== null && this.state.city !== null) {
-        addressBtn = <input type="submit" value="PROCEED" className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 hover:bg-yellow-100 hover:text-yellow-800 border border-yellow-800"/>
+        addressBtn = 
+            <input 
+                type="submit" 
+                value="PROCEED" 
+                className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 hover:bg-yellow-100 hover:text-yellow-800 border border-yellow-800"
+            />
     } else {
-        addressBtn = <input type="submit" value="PROCEED" className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 border border-yellow-800 opacity-50" disabled/>
+        addressBtn = 
+            <input 
+                type="submit" 
+                value="PROCEED" 
+                className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 border border-yellow-800 opacity-50" 
+                disabled
+            />
     }
 
     let finalBtn;
     if (this.state.payment !== null && this.props.delivery !== null) {
         if (this.state.payment === "credit") {
             if (this.state.cardNum !== null && this.state.expDate !== null && this.state.security !== null) {
-                finalBtn = <Link to="/finalstage"><input type="submit" value="ORDER" className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 hover:bg-yellow-100 hover:text-yellow-800 border border-yellow-800"/></Link>
+                finalBtn = 
+                    <Link to="/finalstage">
+                        <input 
+                            type="submit" 
+                            value="ORDER" 
+                            className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 hover:bg-yellow-100 hover:text-yellow-800 border border-yellow-800"
+                        />
+                    </Link>
             } else {
-                finalBtn = <input type="submit" value="ORDER" className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 border border-yellow-800 opacity-50" disabled/>
+                finalBtn = 
+                    <input 
+                        type="submit" 
+                        value="ORDER" 
+                        className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 border border-yellow-800 opacity-50" 
+                        disabled
+                    />
             }
         } else {
-            finalBtn = <Link to="/finalstage"><input type="submit" value="ORDER" className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 hover:bg-yellow-100 hover:text-yellow-800 border border-yellow-800"/></Link>
+            finalBtn = 
+                <Link to="/finalstage">
+                    <input 
+                        type="submit" 
+                        value="ORDER" 
+                        className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 hover:bg-yellow-100 hover:text-yellow-800 border border-yellow-800"
+                    />
+                </Link>
         }
     } else {
-        finalBtn = <input type="submit" value="ORDER" className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 border border-yellow-800 opacity-50" disabled/>
+        finalBtn = 
+            <input 
+                type="submit" 
+                value="ORDER" 
+                className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 border border-yellow-800 opacity-50" 
+                disabled
+            />
     }
 
     let page;
@@ -320,18 +501,41 @@ class FirstForm extends Component {
                     <form onSubmit={this.handleSubmit} className="mb-6">
                         <div className="mb-2">
                             <label htmlFor="fullName">Full Name: </label>
-                            <input type="text" id="fullName" required onBlur={(event) => {this.validateContent(event)}}/>
+                            <input 
+                                type="text" 
+                                id="fullName" 
+                                required 
+                                onBlur={(event) => {this.validateContent(event)}}
+                            />
                         </div>
                         <div className="mb-2">
                             <label htmlFor="phoneNum">Phone Number: </label>
-                            <input type="tel" id="phoneNum" placeholder="XXX-XXXXXXX" pattern="[0-9]{2,3}-[0-9]{7}" required className="pl-2" onBlur={(event) => {this.validateContent(event)}}/>
+                            <input 
+                                type="tel" 
+                                id="phoneNum" 
+                                placeholder="XXX-XXXXXXX" 
+                                pattern="[0-9]{2,3}-[0-9]{7}" 
+                                required 
+                                className="pl-2" 
+                                onBlur={(event) => {this.validateContent(event)}}
+                            />
                         </div>
                         <div className="mb-2">
                             <label htmlFor="email">Email: </label>
-                            <input type="email" id="email" required onBlur={(event) => {this.validateContent(event)}}/>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                required 
+                                onBlur={(event) => {this.validateContent(event)}}
+                            />
                         </div>
                         <div className="mb-2">
-                            <input type="checkbox" id="ads" value="ads" onChange={(event) => {this.validateContent(event)}}/>
+                            <input 
+                                type="checkbox" 
+                                id="ads" 
+                                value="ads" 
+                                onChange={(event) => {this.validateContent(event)}}
+                            />
                             <label htmlFor="ads">I would like to recieve news and special offers in my email</label>
                         </div>
                         {basicsBtn}
@@ -347,25 +551,60 @@ class FirstForm extends Component {
                     <form onSubmit={this.handleSubmit} className="mb-6">
                         <div className="mb-2">
                             <label htmlFor="firstName">First Name: </label>
-                            <input type="text" id="firstName" className="w-44" defaultValue="" required onBlur={(event) => {this.validateContent(event)}}/>
+                            <input 
+                                type="text" 
+                                id="firstName" 
+                                className="w-44" 
+                                defaultValue="" 
+                                required onBlur={(event) => {this.validateContent(event)}}
+                            />
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <label htmlFor="lastName">Last Name: </label>
-                            <input type="text" id="lastName" className="w-44" required onBlur={(event) => {this.validateContent(event)}}/>
+                            <input 
+                                type="text" 
+                                id="lastName" 
+                                className="w-44" 
+                                required 
+                                onBlur={(event) => {this.validateContent(event)}}
+                            />
                         </div>
                         <div className="mb-2">
                             <label htmlFor="fullAddress">Full Address: </label>
-                            <input type="text" id="fullAddress" className="w-96" required onBlur={(event) => {this.validateContent(event)}}/>
+                            <input 
+                                type="text" 
+                                id="fullAddress" 
+                                className="w-96" 
+                                required 
+                                onBlur={(event) => {this.validateContent(event)}}
+                            />
                         </div>
                         <div className="mb-2">
                             <label htmlFor="zipCode">Zip Code: </label>
-                            <input type="text" id="zipCode" className="w-32" required onBlur={(event) => {this.validateContent(event)}}/>
+                            <input 
+                                type="text" 
+                                id="zipCode" 
+                                className="w-32" 
+                                required 
+                                onBlur={(event) => {this.validateContent(event)}}
+                            />
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <label htmlFor="city">City: </label>
-                            <input type="text" id="city" className="w-32" required onBlur={(event) => {this.validateContent(event)}}/>
+                            <input 
+                                type="text" 
+                                id="city" 
+                                className="w-32" 
+                                required 
+                                onBlur={(event) => {this.validateContent(event)}}
+                            />
                         </div>
                         <div className="mb-2">
                             <label htmlFor="notes">Notes: </label>
-                            <input type="textarea" id="notes" className="h-16" onBlur={(event) => {this.validateContent(event)}}/>
+                            <input 
+                                type="textarea" 
+                                id="notes" 
+                                className="h-16" 
+                                onBlur={(event) => {this.validateContent(event)}}
+                            />
                         </div>
                         {addressBtn}
                     </form>
@@ -380,13 +619,34 @@ class FirstForm extends Component {
                     <form onSubmit={this.handleSubmit} className="mb-6">
                         <div className="mb-2">
                             <h1>Choose a payment method: </h1>
-                            <input type="radio" id="cash" name="payment" value="cash" required onChange={(event) => {this.validateContent(event)}}/>
+                            <input 
+                                type="radio" 
+                                id="cash" 
+                                name="payment" 
+                                value="cash" 
+                                required 
+                                onChange={(event) => {this.validateContent(event)}}
+                            />
                             <label htmlFor="cash">Cash</label>
                             <br />
-                            <input type="radio" id="credit" name="payment" value="credit" required onChange={(event) => {this.validateContent(event)}}/>
+                            <input 
+                                type="radio" 
+                                id="credit" 
+                                name="payment" 
+                                value="credit" 
+                                required 
+                                onChange={(event) => {this.validateContent(event)}}
+                            />
                             <label htmlFor="credit">Credit Card</label>
                             <br/>
-                            <input type="radio" id="paypal" name="payment" value="paypal" required onChange={(event) => {this.validateContent(event)}}/>
+                            <input 
+                                type="radio" 
+                                id="paypal" 
+                                name="payment" 
+                                value="paypal" 
+                                required 
+                                onChange={(event) => {this.validateContent(event)}}
+                            />
                             <label htmlFor="paypal">PayPal</label>
                         </div>
                         {payment}
@@ -408,10 +668,19 @@ class FirstForm extends Component {
                             <label htmlFor="password">Password: </label>
                             <input type="password" id="password"/>
                         </div>
-                        <input type="submit" value="ENTER" className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 hover:bg-yellow-100 hover:text-yellow-800 border border-yellow-800"/>
+                        <input 
+                            type="submit" 
+                            value="ENTER" 
+                            className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 hover:bg-yellow-100 hover:text-yellow-800 border border-yellow-800"
+                        />
                     </form>
                     <h1>Not a memebr?</h1>
-                    <button className="shadow-lg mb-4 bg-yellow-100 rounded px-4 py-2 hover:shadow-none text-yellow-800" onClick={() => {this.changePageForward()}}>Procceed as a Guest</button>
+                    <button 
+                        className="shadow-lg mb-4 bg-yellow-100 rounded px-4 py-2 hover:shadow-none text-yellow-800" 
+                        onClick={() => {this.changePageForward()}}
+                    >
+                        Procceed as a Guest
+                    </button>
                 </div> 
             )
             break;
