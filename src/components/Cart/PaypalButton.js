@@ -28,7 +28,7 @@ export default class PaypalButton extends React.Component {
  
         const onError = (err) => {
             // The main Paypal's script cannot be loaded or somethings block the loading of that script!
-            console.log("Error!", err);
+            alert("Error!", err);
             // Because the Paypal's main script is loaded asynchronously from "https://www.paypalobjects.com/api/checkout.js"
             // => sometimes it may take about 0.5 second for everything to get set, or for the button to appear
         }
