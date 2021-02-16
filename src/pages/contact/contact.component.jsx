@@ -14,8 +14,8 @@ const ContactPage = () => {
   const [invalidForm, setInvalidForm] = useState(false);
 
   const patterns = {
-    name: /(^[a-z ,.'-]{2,})+$/i,
-    email: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+    name: /(^[ a-z ,.'-]{2,})+$/i,
+    email: /^\w+@[ a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
 
     subject: /(^.{5,})+$/i,
     message: /(^.{5,})+$/i,
