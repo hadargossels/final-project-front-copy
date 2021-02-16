@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, createRef} from 'react';
 import ReactDOM from 'react-dom';
 import {Route, BrowserRouter as Router, Switch} from 'react-router-dom';
 import './App.css';
@@ -6,7 +6,8 @@ import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import Store from './components/Store.jsx';
 import Home from './components/Home.jsx';
-import ShoppingCart from './components/ShoppingCart.jsx'
+import ShoppingCart from './components/ShoppingCart.jsx';
+import Payment from './components/Payment.jsx';
 import ProductPage from './components/ProductPage.jsx';
 import PageNotFound from './components/PageNotFound.jsx';
 import storeItems from './components/StoreItems.jsx';
@@ -23,8 +24,8 @@ class App extends Component {
 
     this.state = {
       cartProducts: cartProducts,
+      tax: 0.17
     }
-    console.log(this.state.cartProducts.reduce(((accumulate, currentValue) => accumulate+currentValue.quantity), 0));
   }
 
   componentDidUpdate() {
@@ -32,6 +33,10 @@ class App extends Component {
   }
   
   handleAddToCart = (product, qty) => {
+    document.getElementsByClassName("alert")[0].style.display='block';
+    window.setTimeout(function() {
+      document.getElementsByClassName("alert")[0].remove();
+    }, 10000);
     const cartProducts = this.state.cartProducts;
 
     let productsFound = cartProducts.filter(element => element.id == product.id)
@@ -46,6 +51,7 @@ class App extends Component {
     }
     
     this.setState({cartProducts});
+    // alert("The product was successfully added to the shopping cart")
   }
 
   handleQtyChange = (product, qty) => {
@@ -63,11 +69,19 @@ class App extends Component {
     this.setState({cartProducts});
   }
 
+  calculateSumQtyCart = () => {
+    return this.state.cartProducts.reduce((accumulator, currentValue) => accumulator + parseInt(currentValue.quantity), 0)
+  }
+
   render() {
     return (
+      <>   
       <Router>
-        <Header qtySum={ this.state.cartProducts.reduce(((accumulate, currentValue) => accumulate+currentValue.quantity), 0)}></Header>
-        
+        <Header qtySum={this.calculateSumQtyCart()}></Header>
+        <div className="alert alert-success" role="alert"  style={{display:'none'}}>
+          <button type="button" className="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          The product was successfully added to the shopping cart
+        </div>
         <Switch>
             <Route exact path="/" component={Home}/>
             {/* <Route path="/about" component={About}/>*/}
@@ -76,7 +90,10 @@ class App extends Component {
               cartProducts={this.state.cartProducts} 
               onQtyChange={this.handleQtyChange}
               onDeleteCartProduct={this.handleDeleteCartProduct}
+              tax={this.state.tax}
             /></Route>
+            <Route path="/payment" component={Payment} />
+            
 
             { storeItems.map(product => 
                 <Route path={`/${product.url}`} component={() => 
@@ -93,6 +110,7 @@ class App extends Component {
         <Footer></Footer>
 
       </Router>
+      </>
     );
   }
   

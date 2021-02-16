@@ -31,10 +31,10 @@ class CartProduct extends React.Component {
         return (
             <div className="card mb-3" style={{maxWidth: "750px"}}>
                 <div className="row g-0">
-                    <div className="col-md-2">
+                    <div className="col-2">
                         <img src={this.props.cartProduct.images[0]} alt="..." style={{maxHeight:"100%", maxWidth:"100%"}}></img>
                     </div>
-                    <div className="col-md-10">
+                    <div className="col-10">
                         <div className="card-body">
                             <div className="d-flex justify-content-between border-bottom">
                                 <h5 className="card-title">{this.props.cartProduct.name}</h5>
@@ -43,11 +43,11 @@ class CartProduct extends React.Component {
                                         style={{maxHeight:'25px', maxWidth:'25px'}}
                                     ><i className="fas fa-times" style={{fontSize: '15px'}}></i></button>
                             </div>
-                            <div className="row">
-                                <div className="col-12 col-md-4">
-                                    <p className="card-text">price: <del>${this.props.cartProduct.price}</del> {this.getActualPrice()}</p>
+                            <div className="row mt-2">
+                                <div className="col-6 col-md-4">
+                                    <p className="card-text">price: <del>${this.props.cartProduct.price}</del> ${(this.getActualPrice()).toLocaleString()}</p>
                                 </div>
-                                <div className="col-12 col-md-4">
+                                <div className="col-6 col-md-4">
                                     <form>
                                         <label htmlFor="qtyCart" className="card-text mr-1">qty: </label>
                                         <select name="qtyCart" ref={this.qtyRef} onChange={() => this.props.onQtyChange(this.props.cartProduct, this.qtyRef.current.value)}>
@@ -55,8 +55,8 @@ class CartProduct extends React.Component {
                                         </select>
                                     </form>
                                 </div>
-                                <div className="col-12 col-md-4">
-                                    <p className="card-text">${this.props.cartProduct.quantity * this.getActualPrice()}</p>
+                                <div className="col-6 col-md-4">
+                                    <p className="card-text">Total: ${(this.props.cartProduct.quantity * this.getActualPrice()).toLocaleString()}</p>
                                 </div>
                             </div>
                         </div>
