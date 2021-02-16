@@ -10,12 +10,12 @@ export default class ProductsList extends Component {
 
         super(props);
 
-        this.state = {addNotify: "", status: "", price: "", newPrice: "", quntity: 1};
+        this.state = {addNotify: "", status: "", price: "", newPrice: "", quantity: 1};
         
-        this.setQuntity = this.setQuntity.bind(this);
+        this.setQuantity = this.setQuantity.bind(this);
 
         if (this.props.stock) {
-            this.state.addNotify = <button className="btn btn-outline-primary" onClick={() => this.props.addProductCart(this.props.id, this.state.quntity)}>Add To <i className="fas fa-shopping-cart"></i></button>;
+            this.state.addNotify = <button className="btn btn-outline-primary" onClick={() => this.props.addProductCart(this.props.id, this.state.quantity)}>Add To <i className="fas fa-shopping-cart"></i></button>;
             this.state.status = <span className="text-success">In Stock</span>;
         }
     
@@ -35,9 +35,35 @@ export default class ProductsList extends Component {
         }
     };
 
-    setQuntity (quntity) {
+    setQuantity (quantity) {
 
-        this.setState({quntity});
+        this.setState({quantity});
+    }
+
+    componentDidUpdate(prevProps) {
+
+        if (this.props !== prevProps) {
+            
+            if (this.props.stock) {
+                this.setState({addNotify: <button className="btn btn-outline-primary" onClick={() => this.props.addProductCart(this.props.id, this.state.quantity)}>Add To <i className="fas fa-shopping-cart"></i></button>});
+                this.setState({status: <span className="text-success">In Stock</span>});
+            }
+        
+            else {
+                this.setState({addNotify: <a href="#" className="btn btn-outline-danger" role="button">Notify Me</a>});
+                this.setState({status: <span className="text-danger">Out of Stock</span>});
+            }
+        
+            if (this.props.discount) {
+                this.setState({price: <p style={{textDecoration: "line-through"}}>Price: ₪{this.props.price.toFixed(2)}</p>});
+                this.setState({newPrice: <p className="text-danger" style={{fontSize: "x-large"}}><strong>Discount: ₪{(this.props.price*(1-this.props.discountPercentage)).toFixed(2)}</strong></p>});
+            } 
+        
+            else {
+                this.setState({price: <p style={{fontSize: "x-large"}}><strong>Price: ₪{this.props.price.toFixed(2)}</strong></p>});
+                this.setState({newPrice: <p style={{visibility: "hidden"}}>.</p>});
+            }
+        }
     }
 
     render(){
@@ -58,7 +84,7 @@ export default class ProductsList extends Component {
                             <p>Status:&emsp;{this.state.status}</p>
                             <p>
                                 {this.state.addNotify}&nbsp;<Link to={"/shop/"+this.props.name}><span className="btn btn-outline-success" role="button">More Details</span></Link>
-                                &nbsp;<ProductsQuickView title={this.props.title} img={this.props.img} name={this.props.name} subtitle={this.props.subtitle} price={this.state.price} newPrice={this.state.newPrice} rating={<p>Ratings:&emsp;{ratingStars(this.props.rating)}</p>} status={this.state.status} addNotify={this.state.addNotify} moreDetails={<Link to={"/shop/"+this.props.name}><span className="btn btn-outline-success" role="button">More Details</span></Link>} setQuntity={this.setQuntity}/>
+                                &nbsp;<ProductsQuickView title={this.props.title} img={this.props.img} name={this.props.name} subtitle={this.props.subtitle} price={this.state.price} newPrice={this.state.newPrice} rating={<p>Ratings:&emsp;{ratingStars(this.props.rating)}</p>} status={this.state.status} addNotify={this.state.addNotify} moreDetails={<Link to={"/shop/"+this.props.name}><span className="btn btn-outline-success" role="button">More Details</span></Link>} setQuantity={this.setQuantity}/>
                             </p>
                         </div>
                 </div>

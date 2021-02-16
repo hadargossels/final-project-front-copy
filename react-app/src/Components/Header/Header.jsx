@@ -17,6 +17,9 @@ export default class Header extends Component {
 
     // if (window.location.href.includes("http://localhost:3000/cart"))
     //   this.state.color = "white";
+    
+    // else
+    //   this.state.color = "";
   };
 
   setUrl() {

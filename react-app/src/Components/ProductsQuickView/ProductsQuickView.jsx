@@ -31,7 +31,7 @@ export default function ProductsQuickView(props) {
               {props.newPrice}
               {props.rating}
               {props.status}
-              &emsp;{props.status.props.children === "In Stock" ? <select ref={callRef} onChange={() => props.setQuntity(parseInt(callRef.current.value))} ><option>1</option><option>2</option><option>3</option><option>4</option></select> : null}
+              &emsp;{props.status.props.children === "In Stock" ? <select ref={callRef} onChange={() => props.setQuantity(parseInt(callRef.current.value))} ><option>1</option><option>2</option><option>3</option><option>4</option></select> : null}
               </Modal.Body>
           <Modal.Footer>
             {props.addNotify}
