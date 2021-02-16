@@ -9,14 +9,16 @@ const ContactPage = () => {
   const [validSubject, setValidSubject] = useState(false);
   const [validMessage, setValidMessage] = useState(false);
 
-  const [validForm, setValidForm] = useState(true);
+  const [validForm, setValidForm] = useState(false);
+
+  const [invalidForm, setInvalidForm] = useState(false);
 
   const patterns = {
     name: /(^[a-z ,.'-]{2,})+$/i,
     email: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
 
-    subject: /(^[\w ,.'-]{2,})+$/i,
-    message: /(^[\w ,.'-]{2,})+$/i,
+    subject: /(^.{5,})+$/i,
+    message: /(^.{5,})+$/i,
   };
 
   const handleKey = (event) => {
@@ -47,62 +49,28 @@ const ContactPage = () => {
         validationState ? setValidMessage(true) : setValidMessage(false);
         break;
 
-      // case "lastName":
-      //   validationState ? setValidLastName(true) : setValidLastName(false);
-      //   break;
-
-      // case "phone":
-      //   validationState ? setValidPhone(true) : setValidPhone(false);
-      //   break;
-
-      // case "address":
-      //   validationState ? setValidAddress(true) : setValidAddress(false);
-      //   break;
-
-      // case "zip":
-      //   validationState ? setValidZip(true) : setValidZip(false);
-      //   break;
-
-      // case "cName":
-      //   validationState ? setValidCName(true) : setValidCName(false);
-      //   break;
-      // case "cNumber":
-      //   validationState ? setValidCNumber(true) : setValidCNumber(false);
-      //   break;
-
-      // case "expiration":
-      //   validationState ? setExpiration(true) : setExpiration(false);
-      //   break;
-
-      // case "cvv":
-      //   validationState ? setValidCVV(true) : setValidCVV(false);
-      //   break;
-
       default:
         break;
     }
   }
 
-  // const isAllValid = (event) => {
-  //   event.preventDefault();
-  //   validPhone &&
-  //   validFirstName &&
-  //   validLastName &&
-  //   validAddress &&
-  //   validZip &&
-  //   validCName &&
-  //   validExpiration &&
-  //   validCNumber &&
-  //   validCVV &&
-  //   validCountry &&
-  //   validShipping
-  //     ? setValidPayment(true)
-  //     : setNotValidClick(true);
+  const handleBtnClick = (event) => {
+    event.preventDefault();
 
-  //   setTimeout(() => {
-  //     setNotValidClick(false);
-  //   }, 3000);
-  // };
+    if (validName && validEmail && validSubject && validMessage) {
+      setValidForm(true);
+
+      setTimeout(() => {
+        setValidForm(false);
+      }, 3000);
+    } else {
+      setInvalidForm(true);
+
+      setTimeout(() => {
+        setInvalidForm(false);
+      }, 3000);
+    }
+  };
 
   return (
     <>
@@ -203,7 +171,7 @@ const ContactPage = () => {
                   {validEmail ? (
                     <p className="valid">valid</p>
                   ) : (
-                    <p className="invalid">Please enter a valid Name.</p>
+                    <p className="invalid">Please enter a valid email.</p>
                   )}
                   {/* ///Endcheackicng ////// */}{" "}
                 </div>
@@ -223,7 +191,7 @@ const ContactPage = () => {
                   {validSubject ? (
                     <p className="valid">valid</p>
                   ) : (
-                    <p className="invalid">Please enter a valid Name.</p>
+                    <p className="invalid">Please enter a valid subject.</p>
                   )}
                   {/* ///Endcheackicng ////// */}{" "}
                 </div>
@@ -246,26 +214,38 @@ const ContactPage = () => {
                   {validMessage ? (
                     <p className="valid">valid</p>
                   ) : (
-                    <p className="invalid">Please enter a valid Name.</p>
+                    <p className="invalid">Please enter a valid message.</p>
                   )}
                   {/* ///Endcheackicng ////// */}{" "}
                 </div>
                 {/* Form Submit */}
-                <div className="form-submit mt-5">
+                <div className="form-submit">
                   <button
-                    className="btn btn-common"
-                    type="submit"
+                    onClick={handleBtnClick}
+                    className="btn btn-dark"
+                    // type="submit"
                     id="form-submit"
                   >
                     <i className="material-icons mdi mdi-message-outline" />{" "}
                     Send Message
                   </button>
+
                   <div id="msgSubmit" className="h3 text-center hidden" />
                   <div className="clearfix" />
                   {/* ///cheackicng ////// */}
 
-                  {!validForm && (
-                    <p className="invalid">Please enter a valid Name.</p>
+                  {validForm && (
+                    <p className="valid">
+                      {" "}
+                      Thank you for contact us, we will back to you soon.
+                    </p>
+                  )}
+
+                  {invalidForm && (
+                    <p className="invalid">
+                      {" "}
+                      Please enter correctly all the required fields.
+                    </p>
                   )}
 
                   {/* ///Endcheackicng ////// */}
