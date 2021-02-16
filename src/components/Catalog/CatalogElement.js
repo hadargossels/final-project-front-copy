@@ -46,9 +46,7 @@ const CatalogElement = ({ id, img, name, rating, platforms, price, discount ,img
                       <h4>{name}</h4>
                       <CatalogPrice discount={discount} price={price}/>
                       <p>{platforms}</p>
-                      <button className="btn btn-lg btn-outline-primary w-100" type="button">
-                        <i className="fas fa-shopping-cart"></i>
-                    </button>
+                      <CartButton page="quickview" id={id}/>
                       <button className="mt-2 btn-lg btn btn-outline-danger w-100" type="button">
                         <i className="far fa-heart"></i>
                       </button>

@@ -20,11 +20,11 @@ class ProductPage extends Component{
             <div className = "container-fluid pt-4 m-auto px-2">
                 <div className="row mx-md-5 mx-0">
 
-                    <div className="gallery col-5 col-md-4 ps-0 pe-2">
-                        <Gallery mainImg={product.imgNarrow}/>
+                    <div className="gallery  col-md-5 ps-0 pe-2">
+                        <Gallery mainImg={product.imgNarrow} wideImg={product.img}/>
                     </div>
 
-                    <div className="px-0 col-7 col-md-7 mx-0">
+                    <div className="px-0  col-md-7 mx-0">
                         <h1 className="text-center">{product.name}</h1>
                         <Stock stock={product.stock}/>   
                         
@@ -35,18 +35,14 @@ class ProductPage extends Component{
                                 </div> 
                                 
                                 <Price price={product.price} discount={product.discount}/>
-                                <p>This item ships to Israel. Arrives: March 9 - 16</p>
                                 <Platforms platforms={product.platforms}/>
                                 
                             </div>
 
                             <div className="col-md-6 col-sm-12">
-                                <button className="btn btn-danger my-3 btn-lg">Buy Now!</button>
-                                <br/>
-                                {/* <button className="btn btn-outline-danger"><i className="fas fa-shopping-cart"></i> Add to Cart</button>
-                                <br/> */}
+                                <CartButton id={product.id} page="buyNow"/>
                                 <CartButton id={product.id} page="product"/>
-                                <button className="btn btn-outline-danger my-3"><i className="far fa-heart"></i> Add to Wishlist</button>
+                                <button className="btn btn-outline-danger my-3 productBtn"><i className="far fa-heart"></i> Add to Wishlist</button>
                             </div>
                         </div>
                         

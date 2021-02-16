@@ -90,16 +90,16 @@ export default class CartTable extends Component {
                                         return(
                                             <tr key={key}>
                                                 <td className="smallImg"> <img src={obj.imgSmall} className="img-fluid" alt=""/></td>
-                                                <td>{obj.name}</td>
-                                                <td>${finalPrice}</td>
+                                                <td className="text-start">{obj.name}</td>
+                                                <td className="text-start">${finalPrice}</td>
                                                 <td >
-                                                <div className="d-flex flex-wrap">
-                                                    <input type="button" className={`btn btn-danger btn-sm minus ${this.props.page}`} value="-" onClick={(e)=>this.changeCount(e, obj.id)}/>
-                                                    <span className="text-center px-1">{product.count}</span>
-                                                    <input type="button" className={`btn btn-success btn-sm ${this.props.page}`} value="+" onClick={(e)=>this.changeCount(e, obj.id)}/>
+                                                    <div className="d-flex flex-wrap">
+                                                        <input type="button" className={`btn btn-danger btn-sm minus ${this.props.page}`} value="-" onClick={(e)=>this.changeCount(e, obj.id)}/>
+                                                        <span className="text-center px-1">{product.count}</span>
+                                                        <input type="button" className={`btn btn-success btn-sm ${this.props.page}`} value="+" onClick={(e)=>this.changeCount(e, obj.id)}/>
                                                     </div>
                                                 </td>
-                                                <td className="smallImg">${totalPrice}</td>
+                                                <td className="smallImg text-start">${totalPrice}</td>
                                                 <td><i type="button" onClick={(e)=>this.deleteItem(e,obj.id)} className="far fa-trash-alt text-danger"></i></td>
                                             </tr>
                                         )
