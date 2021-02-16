@@ -13,6 +13,7 @@ class Header extends Component{
     constructor(){
         super()
         this.searchRef = React.createRef();
+        this.qvRef = React.createRef();
         this.state = {
             search : "",
             qvc : "",
@@ -36,8 +37,8 @@ class Header extends Component{
                         temp.push(
                             <div  key={lSArr[i].name}>
                                 <div className="d-flex">
-                                    <img className="p-3" src={lSArr[i].urlImg[0]} height="100px" width="100px"></img>
-                                    <div className="text-center">
+                                    <img className="p-2" src={lSArr[i].urlImg[0]} height="100px" width="100px"></img>
+                                    <div className="text-center p-2">
                                         <h5 className="mt-4">{lSArr[i].name}</h5>
                                         <span className="m-2">{`quantity:${numOf[i]}  price:${lSArr[i].price*numOf[i]}$`}</span>
                                     </div>
@@ -52,9 +53,11 @@ class Header extends Component{
             else{
                 this.setState({qvc : <h1 className="text-white">Your cart is empty</h1>})
             }
+            this.qvRef.current.classList.add('cartBorder')
         }
         else{
             this.setState({qvc : ""})
+            this.qvRef.current.classList.remove('cartBorder')
         }
         }
 
@@ -93,7 +96,7 @@ class Header extends Component{
                 </div>
             </nav>
           </div>
-          <div id="cartQuick" className="rounded-3">
+          <div ref={this.qvRef} className="rounded-3 cartQuick">
             {this.state.qvc}
           </div>
           </div>

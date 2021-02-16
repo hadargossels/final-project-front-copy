@@ -2,13 +2,16 @@
   margin-bottom: -25px;
 }
 
-#cartQuick {
+.cartQuick {
   position: absolute;
   top: 7%;
   right: 10%;
   background-color: white;
-  border: solid black;
 }
 #isUserLogin {
   float: right;
+}
+
+.cartBorder {
+  border: solid black;
 }
