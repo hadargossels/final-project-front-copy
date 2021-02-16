@@ -6,7 +6,7 @@ import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/modal';
 import '../Header.css';
 import $ from 'jquery';
-import ShoppingCart from './ShoppingCart.jsx';
+import CartProduct from './CartProduct.jsx';
 
 class Header extends React.Component {
     constructor(){
@@ -32,22 +32,28 @@ class Header extends React.Component {
 
     setCartModal = () => {
         return (
-            <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="modalLongTitle" aria-hidden="true">
+            <div class="modal fade" id="cartModal" ref={this.modalRef} tabindex="-1" role="dialog" aria-labelledby="modalLongTitle" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalLongTitle">Shopping Cart</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Full shopping cart</button>
-                        <button type="button" class="btn btn-primary">Payment</button>
-                    </div>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLongTitle">Shopping Cart</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {this.props.cartProducts.map(cartProduct => 
+                            <CartProduct 
+                                key={cartProduct.id} 
+                                cartProduct={cartProduct} 
+                                onQtyChange={this.props.onQtyChange}
+                                onDeleteCartProduct={this.props.onDeleteCartProduct}
+                            />)}
+                        </div>
+                        <div class="modal-footer"> 
+                            <Link to="/cart"><button type="button" class="btn btn-primary" onClick={$(this.modalRef.current).modal('hide')}>Full shopping cart</button></Link>
+                            <Link to="/payment"><button type="button" class="btn btn-primary" onClick={$(this.modalRef.current).modal('hide')}>Check-Out</button></Link>
+                        </div>
                     </div>
                 </div>
             </div>

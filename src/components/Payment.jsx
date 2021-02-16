@@ -8,6 +8,10 @@ class Payment extends React.Component {
     render() {
         return (
             <>
+                <h3>Check-Out</h3>
+                <div className="row">
+                    <div className="col"></div>
+                </div>
             </>
         )
     }

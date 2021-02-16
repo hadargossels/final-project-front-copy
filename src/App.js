@@ -77,7 +77,13 @@ class App extends Component {
     return (
       <>   
       <Router>
-        <Header qtySum={this.calculateSumQtyCart()}></Header>
+        <Header 
+          qtySum={this.calculateSumQtyCart()} 
+          cartProducts={this.state.cartProducts} 
+          // onQtyChange={this.handleQtyChange}
+          // onDeleteCartProduct={this.handleDeleteCartProduct}
+          // tax={this.state.tax}
+        ></Header>
         <div className="alert alert-success" role="alert"  style={{display:'none'}}>
           <button type="button" className="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           The product was successfully added to the shopping cart

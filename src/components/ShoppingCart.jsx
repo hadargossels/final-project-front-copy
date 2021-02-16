@@ -2,6 +2,7 @@ import React, { createRef } from 'react';
 import {Link} from 'react-router-dom';
 import CartProduct from './CartProduct.jsx';
 
+
 class ShoppingCart extends React.Component {
     constructor(props) {
         super(props);
@@ -16,10 +17,6 @@ class ShoppingCart extends React.Component {
             cupons: {"1234A": 0.15, "5555B": 0.2, "5678C": 0.3},
             myDiscount: 0
         }
-    }
-
-    componentDidUpdate(){
-        console.log("component");
     }
 
     getSubTotalAmount = () => {
@@ -65,19 +62,20 @@ class ShoppingCart extends React.Component {
 
     ActivateCoupon = (e) => {
         e.preventDefault();
+        let cuponConfirmed = false
         Object.keys(this.state.cupons).forEach(element => {
             if (element == this.cuponInputRef.current.value){
+                cuponConfirmed = true;
                 let myDiscount = this.state.cupons[element];
                 this.setState({myDiscount});
                 this.cuponDiscountRef.current.style.display = "block";
                 this.totalAmountRef.current.style.textDecorationLine = "line-through";
                 this.amountAfterCupon.current.style.display = "block";
             }
-            else{
-                alert("Coupon code is invalid")
-            }  
         });
-        
+        if (!cuponConfirmed){
+            alert("Coupon code is invalid")
+        }   
     }
 
     getTotalAmount = () => {
