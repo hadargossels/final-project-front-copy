@@ -39,7 +39,9 @@ import ShoppingCartPage from "./pages/shopping-cart/shopping-cart.component";
 import CheckoutPage from "./pages/checkout/checkout.component";
 import Map from "./components/google-map/google-map.component";
 import TrackingPage from "./pages/tracking/tracking.component";
+import { createStructuredSelector } from "reselect";
 
+import { selectCurrentUser } from "./redux/user/user.selector";
 class App extends React.Component {
   unsubscribeFromAuth = null;
 
@@ -123,9 +125,13 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser,
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
 });
+
+// const mapStateToProps = ({ user }) => ({
+//   currentUser: user.currentUser,
+// });
 
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
