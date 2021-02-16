@@ -12,6 +12,7 @@ import NotFound from '../404/NotFound'
 import Cart from '../Cart/Cart'
 import Checkout from '../Checkout/Checkout'
 import OrderConfirmed from '../Checkout/OrderConfirmed'
+import MsgSent from '../Contact-Us/MsgSent'
 
 
 export default class Routes extends Component {
@@ -27,6 +28,7 @@ export default class Routes extends Component {
                 <Route path="/confirmed" component={OrderConfirmed}/>
                 <Route path="/contact" component={ContactUs}/>
                 <Route path="/login" component={Login}/>
+                <Route path="/msgsent" component={MsgSent}/>
                 <Route path="/product/:name" component={ProductPage}/>
                 <Route path="/signup" component={SignUp}/>
                 <Route exact path="/store/" component={CatalogPage}/>

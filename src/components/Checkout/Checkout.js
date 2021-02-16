@@ -90,7 +90,6 @@ export default class Checkout extends Component {
                     field.valid = "is-valid"
                 else
                     field.valid = "is-invalid"
-                    
                 break;
             }
         }  
@@ -99,7 +98,7 @@ export default class Checkout extends Component {
 
     applyDiscount(e){
         e.preventDefault()
-        if ((this.inputRef.current.value).toLowerCase() === "gal25"){
+        if ((this.discountRef.current.value).toLowerCase() === "gal25"){
             this.setState({discount:0.75})
             localStorage.setItem("discount",0.75)
         }
@@ -212,7 +211,7 @@ export default class Checkout extends Component {
                                     </div>
                                     <div className="col-12">
                                         <div className="form-floating">
-                                            <textarea id="notes" onChange={(e)=>this.updateShippingFields(e,"notes")} className="form-control" style={{height: "100px"}}></textarea>
+                                            <textarea maxLength="200" id="notes" onChange={(e)=>this.updateShippingFields(e,"notes")} className="form-control" style={{height: "100px"}}></textarea>
                                             <label htmlFor="notes">Additional Notes</label>
                                         </div>
                                     </div>
