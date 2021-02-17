@@ -14,6 +14,7 @@ import Login from './components/Login';
 import Timer from './components/Timer';
 import Checkout from './components/Cart/Checkout';
 import About from './components/About';
+import Blog from './components/Blog';
 import Contact from './components/Contact';
 import Succeeded from './components/Cart/Succeeded';
 import 'moment-timezone';
@@ -39,6 +40,7 @@ class App extends Component{
           <Route exact path="/login" component={Login}/>
           <Route exact path="/checkout" component={Checkout}/>
           <Route path="/about" component={About}/>
+          <Route path="/Blog" component={Blog}/>
           <Route path="/Succeeded" component={Succeeded}/>
           <Route path="/contact" component={Contact}/>
           <Route path="/search" component={ProductList}/>

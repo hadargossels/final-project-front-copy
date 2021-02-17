@@ -64,6 +64,9 @@ export default class Navbar extends Component {
                         <Link to='/about'>
                             <span style = {{color:"white"}} className = "btn-animation  btn from-center" href="#about" >ABOUT</span>
                         </Link>
+                        <Link to='/blog'>
+                            <span style = {{color:"white"}} className = "btn-animation  btn from-center" href="#about" >BLOG</span>
+                        </Link>
                     </ul>
                     <div className="align-items-center" style={{marginLeft:"auto" ,marginTop:'auto', marginBottom:'auto'}}>
                         <div className="input-group" >
