@@ -6,8 +6,6 @@ function CreateArea(props) {
     content: "",
   });
 
-  // const [counter, setCounter] = useState(1);
-
   // validation
 
   const [validName, setValidName] = useState(false);
@@ -59,14 +57,6 @@ function CreateArea(props) {
     event.preventDefault();
 
     checkingIfFormValid();
-
-    // let date = new Date().toLocaleString();
-    // props.onAdd(note, date);
-    // setNote({
-    //   title: "",
-    //   content: "",
-    // });
-    // setCounter(counter + 1);
   };
 
   // validate
@@ -77,8 +67,7 @@ function CreateArea(props) {
 
       setValidForm(true);
 
-      let date = new Date();
-      props.onAdd(note, date);
+      props.onAdd(note);
       setNote({
         title: "",
         content: "",

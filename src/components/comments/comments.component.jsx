@@ -7,13 +7,15 @@ import Note from "./note.component";
 const Comments = () => {
   const [notes, setNotes] = useState([]);
   const [count, setCount] = useState(0);
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState([]);
 
-  function addNote(newNote, NewDate) {
+  function addNote(newNote) {
     // setCounter(counter);
     // counter = counter + 1;
     // let currentDate = new Date().toLocaleString();
-    setDate(NewDate.toLocaleString());
+    const newDate = [...date, new Date().toLocaleString()];
+    // console.log(newDate);
+    setDate(newDate);
     setCount(count + 1);
     setNotes((prevNotes) => {
       return [...prevNotes, newNote];
@@ -42,7 +44,7 @@ const Comments = () => {
                       id={index}
                       title={noteItem.title}
                       content={noteItem.content}
-                      date={date}
+                      date={date[index]}
                       // onDelete={deleteNote}
                     />
                   );
