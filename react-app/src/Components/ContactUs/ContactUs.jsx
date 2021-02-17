@@ -14,7 +14,8 @@ const MyGoogleMap = withScriptjs(
                     <InfoWindow onCloseClick={() => props.onToggleOpen()}>
                         <div style={{textAlign: "center"}}>
                             <br/><img src="/images/logos/logo.png" alt="LIEL'S"/>
-                            <h4><br/><i>&nbsp;Yigal Alon St 90, Tel Aviv-Yafo, Israel&ensp;</i></h4>
+                            <h6><br/><i>&nbsp;Yigal Alon St 90, Tel Aviv-Yafo, Israel&ensp;</i></h6>
+                            <h6><i>Telephone: +972-3-0000000</i></h6>
                         </div>
                     </InfoWindow>
                 : null
@@ -62,7 +63,8 @@ export default class ContactUs extends Component {
 
                     <h2 style={{textAlign: "center"}}>DROP YOUR MESSAGE</h2>
 
-                    <br/><p style={{textAlign: "center"}}><i>Yigal Alon St 90, Tel Aviv-Yafo, Israel</i></p><br/>
+                    <br/><p style={{textAlign: "center"}}><i>Yigal Alon St 90, Tel Aviv-Yafo, Israel</i></p>
+                    <p style={{textAlign: "center"}}><i>Telephone: +972-3-0000000</i></p><br/>
                     
                     <form className="row main_contact" method="POST" id="contact_message" onSubmit={e => { e.preventDefault(); }}>
 

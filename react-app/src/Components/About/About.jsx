@@ -2,7 +2,7 @@ export default function About() {
     return(
        <div className="lead" style={{textAlign: "center"}}>
 
-           <br/><br/><br/>
+           <br/><br/><br/><br/>
 
            <h1>About</h1><br/>
            <img src="/images/about/about.png" alt="about" width="500px"/><br/><br/>
@@ -16,7 +16,7 @@ export default function About() {
                    <br/>
                    <li>It's a computer e-commerce shop - hardware, laptops, peripheral, softwares</li>
                    <br/>
-                   <li>This web application was built in React and Node.js</li>
+                   <li>This web application was built in React and Node.js and designed with Bootstrap</li>
                </ul>
            </div>
 
