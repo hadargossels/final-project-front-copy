@@ -13,6 +13,7 @@ import Cart from '../Cart/Cart'
 import Checkout from '../Checkout/Checkout'
 import OrderConfirmed from '../Checkout/OrderConfirmed'
 import MsgSent from '../Contact-Us/MsgSent'
+import BlogPost from '../Blog/BlogPost/BlogPost'
 
 
 export default class Routes extends Component {
@@ -23,6 +24,7 @@ export default class Routes extends Component {
                 <Route exact path="/" component={Home}/>
                 <Route path="/about" component={AboutUs}/>
                 <Route path="/blog" component={Blog}/>
+                <Route path="/blogpost/:title" component={BlogPost}/>
                 <Route path="/checkout" component={Checkout}/>
                 <Route path="/cart" component= {Cart}/>
                 <Route path="/confirmed" component={OrderConfirmed}/>

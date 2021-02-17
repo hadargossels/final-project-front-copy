@@ -30,14 +30,14 @@ export default class CartButton extends Component {
     }
 
     cartMsg(){
-        if (this.props.page !== "buyNow")
+        if (this.props.page !== "buyNow"){
             this.setState({msg:"added to cart!"})
+            setTimeout(() => {
+                this.setState({msg:""})
+            }, 2000);
+        }
         else
             this.setState({buyNow:true})
-            
-        setTimeout(() => {
-            this.setState({msg:""})
-        }, 2000);
     }
 
     render() {
