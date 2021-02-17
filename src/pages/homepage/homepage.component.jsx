@@ -15,10 +15,10 @@ const HomePage = () => (
     <Directory />
     {/* <HeadingSlider /> */}
     <StoreBanner />
-    <ShopPage />
+    {/* <ShopPage /> */}
     <Slider title="Featured Product" />
     <ItemsGrid />
-    <Discounts />
+    {/* <Discounts /> */}
   </div>
 );
 

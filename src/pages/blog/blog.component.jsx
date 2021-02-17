@@ -1,4 +1,5 @@
 import React from "react";
+import Comments from "../../components/comments/comments.component";
 
 import "./blog.styles.scss";
 
@@ -11,7 +12,7 @@ const BlogPage = () => (
             <article className="article">
               <div className="article-img">
                 <img
-                  src="https://cdn.pixabay.com/photo/2017/11/22/16/04/pug-2970825_960_720.png"
+                  src="https://cdn.pixabay.com/photo/2017/09/25/13/12/dog-2785074_960_720.jpg"
                   title
                   alt
                 />
@@ -31,7 +32,7 @@ const BlogPage = () => (
                   </div>
                   <div className="media-body">
                     <label>doggy dog</label>
-                    <span>4 FEB 2021</span>
+                    <span>{new Date().toLocaleString()}</span>
                   </div>
                 </div>
               </div>
@@ -66,7 +67,7 @@ const BlogPage = () => (
                   </p>
                   <p className="blockquote-footer">
                     Someone famous in{" "}
-                    <cite title="Source Title">Dick Grayson</cite>
+                    <cite title="Source Title">Gilad Dekel</cite>
                   </p>
                 </blockquote>
                 <p>
@@ -81,16 +82,16 @@ const BlogPage = () => (
                 </p>
               </div>
               <div className="nav tag-cloud">
-                <a href="#">Design</a>
+                <a href="#">dog clothing </a>
                 <a href="#">Development</a>
                 <a href="#">Travel</a>
-                <a href="#">Web Design</a>
-                <a href="#">Marketing</a>
+                <a href="#">dog owners love dog</a>
+                <a href="#">dog clothing </a>
                 <a href="#">Research</a>
-                <a href="#">Managment</a>
+                <a href="#">dog collers</a>
               </div>
             </article>
-            <div className="contact-form article-comment">
+            {/* <div className="contact-form article-comment">
               <h4>Leave a Reply</h4>
               <form id="contact-form" method="POST">
                 <div className="row">
@@ -137,7 +138,7 @@ const BlogPage = () => (
                   </div>
                 </div>
               </form>
-            </div>
+            </div> */}
           </div>
           <div className="col-lg-4 m-15px-tb blog-aside">
             {/* Author */}
@@ -149,7 +150,7 @@ const BlogPage = () => (
                 <div className="media align-items-center">
                   <div className="avatar">
                     <img
-                      src="https://cdn.pixabay.com/photo/2017/11/22/16/04/pug-2970825_960_720.png"
+                      src="https://cdn.pixabay.com/photo/2016/02/26/16/32/bulldog-1224267_960_720.jpg"
                       title
                       alt
                     />
@@ -162,9 +163,9 @@ const BlogPage = () => (
                   </div>
                 </div>
                 <p>
-                  I design and develop services for customers of all sizes,
-                  specializing in creating stylish, modern websites, web
-                  services and online stores
+                  I love dog and develop services for dog owners of all sizes,
+                  specializing in creating stylish, modern dog owners sites, dog
+                  owners services and online stores
                 </p>
               </div>
             </div>
@@ -204,7 +205,7 @@ const BlogPage = () => (
                   <div className="lpa-right">
                     <a href="#">
                       <img
-                        src="https://cdn.pixabay.com/photo/2017/11/22/16/04/pug-2970825_960_720.png"
+                        src="https://cdn.pixabay.com/photo/2016/07/15/15/55/dachshund-1519374_960_720.jpg"
                         title
                         alt
                       />
@@ -232,7 +233,7 @@ const BlogPage = () => (
                   <div className="lpa-right">
                     <a href="#">
                       <img
-                        src="https://cdn.pixabay.com/photo/2017/11/22/16/04/pug-2970825_960_720.png"
+                        src="https://cdn.pixabay.com/photo/2018/05/07/10/48/husky-3380548_960_720.jpg"
                         title
                         alt
                       />
@@ -260,7 +261,7 @@ const BlogPage = () => (
                   <div className="lpa-right">
                     <a href="#">
                       <img
-                        src="https://cdn.pixabay.com/photo/2017/11/22/16/04/pug-2970825_960_720.png"
+                        src="https://cdn.pixabay.com/photo/2016/02/19/11/53/pug-1210025_960_720.jpg"
                         title
                         alt
                       />
@@ -277,13 +278,13 @@ const BlogPage = () => (
               </div>
               <div className="widget-body">
                 <div className="nav tag-cloud">
-                  <a href="#">Design</a>
-                  <a href="#">Development</a>
+                  <a href="#">Clothing</a>
+                  <a href="#">Collars</a>
                   <a href="#">Travel</a>
-                  <a href="#">Web Design</a>
-                  <a href="#">Marketing</a>
+                  <a href="#">Toys</a>
+                  <a href="#">Houses</a>
                   <a href="#">Research</a>
-                  <a href="#">Managment</a>
+                  <a href="#">dog collers</a>
                 </div>
               </div>
             </div>
@@ -292,6 +293,8 @@ const BlogPage = () => (
         </div>
       </div>
     </div>
+
+    <Comments />
   </>
 );
 
