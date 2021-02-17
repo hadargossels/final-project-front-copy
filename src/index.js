@@ -8,6 +8,7 @@ import Product from './components/Product';
 import Catalog from './components/Catalog';
 import Courses from './components/Courses';
 import Recipes from './components/Recipes';
+import RecipeProduct from './components/RecipeProduct';
 import Contact from './components/Contact';
 import Cart from './components/Cart';
 import CheckOut from './components/CheckOut';
@@ -27,7 +28,8 @@ const router=(
       <Route path="/Catalog/:ProductName" component={Product}/>
       <Route path="/Catalog" exact component={Catalog}/>
       <Route path="/Courses" component={Courses}/>
-      <Route path="/Recipes" component={Recipes}/>
+      <Route path="/Recipes" exact component={Recipes}/>
+      <Route path="/Recipes/:RecipeName" component={RecipeProduct}/>
       <Route path="/Contact" component={Contact}/>
       <Route path="/Cart" component={Cart}/>
       <Route path="/Checkout" component={CheckOut} />

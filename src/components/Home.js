@@ -72,17 +72,16 @@ export default class Home extends Component {
 
         let arr=[]
         let element
-        console.log(e.parentNode.id)
         if(e.parentNode.id=="newElementSlider")
             arr=[...this.state.newArr]
-        else
+        else if(e.parentNode.id=="bestRatingElementSlider")
             arr=[...this.state.bestRatingArr]
 
         if(e.innerHTML=='<i class="fas fa-arrow-left"></i>'){
 
             element=arr.shift()
             arr.push(element)
-        }else{
+        }else {
             
             element=arr.pop()
             arr.unshift(element)
@@ -90,7 +89,7 @@ export default class Home extends Component {
         if(e.parentNode.id=="newElementSlider")
             this.setState({newArr:arr})
         
-        else
+        else if(e.parentNode.id=="bestRatingElementSlider")
             this.setState({bestRatingArr:arr})
 
     }
@@ -127,23 +126,23 @@ export default class Home extends Component {
                         <div className="myRow" style={{marginBottom:"10px"}}><h2> החדשים שלנו </h2></div>
 
                         <div id="newElementSlider" className="mySlider">
-                            <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)}><i class="fas fa-arrow-left"></i></button>
+                            <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)}><i class="fas fa-arrow-left" onClick={(e)=>this.slideMyslider(e.target.parentNode)}></i></button>
                             
                             {this.state.newArr.slice(0,x).map((el,key)=>(
-                                <div className="elm" key={key*10}><HomeElement  el={el} /></div>
+                                <div className="elm" key={key*10}><HomeElement el={el} /></div>
                             ))}
                             
-                            <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)} ><i class="fas fa-arrow-right"></i></button>
+                            <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)} ><i class="fas fa-arrow-right" onClick={(e)=>this.slideMyslider(e.target.parentNode)}></i></button>
                         </div>
 
                         <div className="myRow" style={{marginBottom:"10px",marginTop:"50px"}}><h2> המומלצים שלנו </h2></div>
 
                         <div id="bestRatingElementSlider" className="mySlider">
-                            <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)} ><i class="fas fa-arrow-left"></i></button>
+                            <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)} ><i class="fas fa-arrow-left" onClick={(e)=>this.slideMyslider(e.target.parentNode)}></i></button>
                             {this.state.bestRatingArr.slice(0,x).map((el,key)=>(
                                 <div className="elm" key={key}><HomeElement  el={el}/></div>
                             ))}
-                            <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)}><i class="fas fa-arrow-right"></i></button>
+                            <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)}><i class="fas fa-arrow-right" onClick={(e)=>this.slideMyslider(e.target.parentNode)}></i></button>
                         </div>
 
                     
