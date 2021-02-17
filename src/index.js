@@ -21,7 +21,8 @@ import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import AboutUs from './components/AboutUs/AboutUs';
 import Success from './components/Success/Success';
-
+import Blog from './components/Blog/Blog';
+import BlogPage from './components/Blog/BlogPage';
 //protected route for registered users only
 function PrivateRoute({children,...rest}){
   return(
@@ -52,6 +53,8 @@ ReactDOM.render(
           <Route exact path="/checkout" component={Checkout}></Route>
           <Route exact path="/success" component={Success}></Route>
           <Route exact path="/aboutUs" component={AboutUs}></Route>
+          <Route exact path="/blog" component={Blog}></Route>
+          <Route exact path="/blogPage/:id" component={BlogPage}></Route>
           <Route component={PageNotFound}></Route>
       </Switch>
     <Footer/>

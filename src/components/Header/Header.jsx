@@ -92,6 +92,9 @@ constructor(){
                         <div className="nav-link"><NavLink to="/aboutUs" style={{color:"black"}} activeStyle={{color: "orange"}}>About-Us</NavLink></div>
                     </li>
                     <li className="nav-item">
+                        <div className="nav-link"><NavLink to="/blog" style={{color:"black"}} activeStyle={{color: "orange"}}>Blog</NavLink></div>
+                    </li>
+                    <li className="nav-item">
                         <div className="nav-link"><NavLink to="/info" style={{color:"black"}} activeStyle={{color: "orange"}}>what is hardware wallet?</NavLink></div>
                     </li>
                 </ul>

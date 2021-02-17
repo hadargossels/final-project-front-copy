@@ -1,6 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component} from 'react'
 import './Checkout.css'
 import myProducts from '../../prod.json'
+import Paypal from './PayPal'
+
 let arrProd=JSON.parse(localStorage.getItem('products')) || [];
 
 export default class Checkout extends Component {
@@ -103,6 +105,7 @@ export default class Checkout extends Component {
 
     
     render() {
+       
         return (
             <div>
                 <div className="container-fluid">
@@ -136,7 +139,9 @@ export default class Checkout extends Component {
                     </div>
                     <h2 className="text-center ">Enter your payment details</h2>
                     <div className="text-center"> The payment that was choosen is:</div>
-                    <br/><input type="button" className="paymentBtn" value="Go to payment processor"></input>
+                    <br/>
+                    
+                    <Paypal/>
                     
                 </form>
                 </div>

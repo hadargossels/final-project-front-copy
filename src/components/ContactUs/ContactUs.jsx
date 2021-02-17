@@ -10,7 +10,6 @@ import {
   } from "react-google-maps";
 import Store from '../../pictures/Bitcoin-Store.png';
 
- 
 
 export default class ContactUs extends Component {
     constructor(props) {
@@ -55,7 +54,7 @@ export default class ContactUs extends Component {
               <div>
                 <span className="text-center"><i className="fab fa-bitcoin" style={{color:"orange",fontSize:"20px"}}></i>Yoni Token, </span>  
                 <span><b>Yigal Alon 90</b></span><br/>
-                <img alt="..." src={Store} style={{width:"105px",height:"75px", marginLeft:"30px"}}/>
+                <a href="http://localhost:3000/home"><img alt="..." src={Store} style={{width:"105px",height:"75px", marginLeft:"30px"}}/></a>
               </div>
             </InfoWindow>
           )}
@@ -64,7 +63,6 @@ export default class ContactUs extends Component {
             )
         )
     )
-
 
     render() {
         const MyGoogleMap= this.Google;
