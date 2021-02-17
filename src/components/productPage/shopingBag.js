@@ -154,7 +154,7 @@ export default class ShopingBag extends Component {
             )
         }
         return (
-            <div className="container">
+            <div className="container pt-4">
                 <div className="row">
                     <div className="col-md-9 col-sm-12">
                         {tempArr}
