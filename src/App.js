@@ -16,6 +16,7 @@ import data from './data.json'
 import { Switch, Route } from 'react-router-dom';
 import FinalForm from './Components/FinalForm/FinalForm';
 import Confirmation from './Components/Confirmation/Confirmation';
+import BlogPost from './Components/BlogPost/BlogPost';
 
 class App extends Component {
   constructor(props) {
@@ -156,6 +157,7 @@ class App extends Component {
             <Route path="/catalogue/:search" render={(matchProps) => (<StoreFront {...matchProps} {...this.props} addToCart={this.addToCart} />)} />
             <Route path="/item/:itemISBN" render={(matchProps) => (<ProductPage {...matchProps} {...this.props} addToCart={this.addToCart} />)} />
             <Route path="/about-us" component={AboutUs} />
+            <Route path="/blogpost/:postName" component={BlogPost} />
             <Route path="/shoppingCart" render={(matchProps) => (
               <ShoppingCart {...matchProps} {...this.props} 
                 cartContent={this.state.productList} 
