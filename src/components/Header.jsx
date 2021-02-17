@@ -1,16 +1,15 @@
 import React, { createRef } from 'react';
-import ReactDOM from 'react-dom';
 import {Link} from 'react-router-dom';
-import {Nav} from 'react-bootstrap';
 import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/modal';
 import '../Header.css';
 import $ from 'jquery';
 import CartProduct from './CartProduct.jsx';
 
+
 class Header extends React.Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.searchInputRef = createRef();
         this.modalRef = createRef();
 
@@ -32,16 +31,16 @@ class Header extends React.Component {
 
     setCartModal = () => {
         return (
-            <div class="modal fade" id="cartModal" ref={this.modalRef} tabindex="-1" role="dialog" aria-labelledby="modalLongTitle" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalLongTitle">Shopping Cart</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div className="modal fade" id="cartModal" ref={this.modalRef} tabIndex="-1" role="dialog" aria-labelledby="modalLongTitle" aria-hidden="true">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="modalLongTitle">Shopping Cart</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                             {this.props.cartProducts.map(cartProduct => 
                             <CartProduct 
                                 key={cartProduct.id} 
@@ -50,9 +49,9 @@ class Header extends React.Component {
                                 onDeleteCartProduct={this.props.onDeleteCartProduct}
                             />)}
                         </div>
-                        <div class="modal-footer"> 
-                            <Link to="/cart"><button type="button" class="btn btn-primary" onClick={$(this.modalRef.current).modal('hide')}>Full shopping cart</button></Link>
-                            <Link to="/payment"><button type="button" class="btn btn-primary" onClick={$(this.modalRef.current).modal('hide')}>Check-Out</button></Link>
+                        <div className="modal-footer"> 
+                            <Link to="/cart"><button type="button" className="btn btn-primary" onClick={() => $(this.modalRef.current).modal('hide')}>Full shopping cart</button></Link>
+                            <Link to="/payment"><button type="button" className="btn btn-primary" onClick={() => $(this.modalRef.current).modal('hide')}>Check-Out</button></Link>
                         </div>
                     </div>
                 </div>
@@ -89,7 +88,7 @@ class Header extends React.Component {
 
                             </li>
                         </ul>
-                        <form className="form-inline my-2 my-lg-0">
+                        <form className="form-inline my-2 my-lg-0" onSubmit={(e) => e.preventDefault()}>
                             <div className="mx-2">
                                 {this.displaySumCart()}           
                                 <button type="button" className="mx-2 button-icon" style={{border: 'none'}} data-toggle="modal" data-target="#cartModal">
@@ -110,22 +109,4 @@ class Header extends React.Component {
     }
     
 }
-export default Header;
-
-{/* <Navbar bg="light" expand="lg">
-<Navbar.Brand href="/">HomeStyle</Navbar.Brand>
-<Navbar.Toggle aria-controls="basic-navbar-nav" />
-<Navbar.Collapse id="basic-navbar-nav">
-    <Nav className="mr-auto">
-        <Link to="/about">About</Link>
-        <Link to="/store" className="mx-3">Store</Link>
-        <Link to="/blog">Blog</Link>
-    </Nav>
-    <Form inline>
-        <Nav.Link href="#home"><i className="fas fa-user"></i></Nav.Link>
-        <Nav.Link href="#home"><i className="fas fa-shopping-cart"></i></Nav.Link>
-        <FormControl type="text" placeholder="Search" className="mr-sm-2" inputRef={this.searchInputRef}/>
-        <Link to={`/store?q="${this.inputRef}"`} onClick={this.test} type="button" className="btn btn-outline-success my-2 my-sm-0">Search</Link>
-    </Form>
-</Navbar.Collapse>
-</Navbar>  */}         
+export default Header;      

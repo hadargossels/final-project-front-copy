@@ -1,10 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Link} from 'react-router-dom';
 import storeItems from './StoreItems.jsx'
 import '../Home.css';
 import 'bootstrap/js/dist/carousel';
-import images from '../images.js';
 
 
 class Home extends React.Component {

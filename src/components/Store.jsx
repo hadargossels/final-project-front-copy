@@ -1,5 +1,4 @@
 import React, { Component, createRef} from 'react';
-import ReactDOM from 'react-dom';
 import Product from './Product.jsx';
 import storeItems from './StoreItems.jsx'
 
@@ -186,10 +185,7 @@ class Store extends Component {
 
     componentRefresh() {
         const urlParams = new URLSearchParams(this.props.location.search);
-        console.log(urlParams)
-        console.log(this.props)
         if (urlParams.get('q') !== null) {
-            console.log("QUERY!");
             this.state.store.forEach(element => {
                 if (element.name.toLowerCase().includes(urlParams.get('q').toLowerCase())) 
                     element.display = true;
@@ -200,7 +196,6 @@ class Store extends Component {
         }
         // setting the category (if exists) to be true
         else if (this.props.location.category != null) {
-            console.log("CATEGORY!");
             const category = this.state.category
             const elements = document.getElementsByClassName("form-check-input");
 

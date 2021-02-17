@@ -14,8 +14,8 @@ class CartProduct extends React.Component {
     createQtyList = () => {
         const qtyList = [];
         for(let i=1; i<=10; i++){
-            if (this.props.cartProduct.quantity == i)
-                qtyList.push(<option key={i} value={i} selected>{i}</option>);
+            if (this.props.cartProduct.quantity === i)
+                qtyList.push(<option key={i} value={i}>{i}</option>);
             else
                 qtyList.push(<option key={i} value={i}>{i}</option>);
         }
@@ -50,7 +50,7 @@ class CartProduct extends React.Component {
                                 <div className="col-6 col-md-4">
                                     <form>
                                         <label htmlFor="qtyCart" className="card-text mr-1">qty: </label>
-                                        <select name="qtyCart" ref={this.qtyRef} onChange={() => this.props.onQtyChange(this.props.cartProduct, this.qtyRef.current.value)}>
+                                        <select name="qtyCart" defaultValue={this.props.cartProduct.quantity} ref={this.qtyRef} onChange={() => this.props.onQtyChange(this.props.cartProduct, this.qtyRef.current.value)}>
                                             {this.createQtyList()}
                                         </select>
                                     </form>

@@ -12,6 +12,10 @@
 
 }
 
+#cuponInput{
+  display: inline !important;
+}
+
 
 /* .App {
   text-align: center;

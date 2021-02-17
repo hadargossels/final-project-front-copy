@@ -1,5 +1,4 @@
-import React, {Component, createRef} from 'react';
-import ReactDOM from 'react-dom';
+import React, {Component} from 'react';
 import {Route, BrowserRouter as Router, Switch} from 'react-router-dom';
 import './App.css';
 import Header from './components/Header.jsx';
@@ -39,10 +38,10 @@ class App extends Component {
     }, 10000);
     const cartProducts = this.state.cartProducts;
 
-    let productsFound = cartProducts.filter(element => element.id == product.id)
+    let productsFound = cartProducts.filter(element => element.id === product.id)
     if (productsFound.length > 0){
       cartProducts.forEach((element) => {
-        if(element.id == product.id)
+        if(element.id === product.id)
           element.quantity = parseInt(element.quantity) + parseInt(qty);
       })
     }
@@ -57,7 +56,7 @@ class App extends Component {
   handleQtyChange = (product, qty) => {
     const cartProducts = this.state.cartProducts;
     cartProducts.forEach(element => {
-      if(element.id == product.id)
+      if(element.id === product.id)
         element.quantity = parseInt(qty);
     });
     this.setState({cartProducts});
@@ -71,6 +70,12 @@ class App extends Component {
 
   calculateSumQtyCart = () => {
     return this.state.cartProducts.reduce((accumulator, currentValue) => accumulator + parseInt(currentValue.quantity), 0)
+  }
+
+  getSubTotalAmount = () => {
+    let totalAmount = this.state.cartProducts.reduce((accumulator, currentValue) => 
+    accumulator + (currentValue.price * (1-currentValue.discount) * currentValue.quantity), 0);
+    return totalAmount;
   }
 
   render() {
@@ -92,13 +97,21 @@ class App extends Component {
             <Route exact path="/" component={Home}/>
             {/* <Route path="/about" component={About}/>*/}
             <Route path="/store" component={Store}/>
-            <Route path="/cart"><ShoppingCart 
-              cartProducts={this.state.cartProducts} 
-              onQtyChange={this.handleQtyChange}
-              onDeleteCartProduct={this.handleDeleteCartProduct}
-              tax={this.state.tax}
-            /></Route>
-            <Route path="/payment" component={Payment} />
+            <Route path="/cart">
+              <ShoppingCart 
+                cartProducts={this.state.cartProducts} 
+                onQtyChange={this.handleQtyChange}
+                onDeleteCartProduct={this.handleDeleteCartProduct}
+                getSubTotalAmount={this.getSubTotalAmount}
+                tax={this.state.tax}/>
+            </Route>
+            <Route path="/payment">
+              <Payment
+                cartProducts={this.state.cartProducts}
+                getSubTotalAmount={this.getSubTotalAmount}
+                tax={this.state.tax} >
+              </Payment>
+            </Route> 
             
 
             { storeItems.map(product => 
