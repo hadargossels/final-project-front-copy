@@ -18,7 +18,7 @@ export default class BlogElement extends Component {
                 <div className="px-2">
                     <div className="py-3 text-secondary fw-bold">
                         <span className=" border-bottom  border-2 border-danger">{post.date}</span>
-                        <span className="float-end"><i className="fas fa-comment-alt"></i> {this.state.comments? this.state.comments : "0"}</span>
+                        <span className="float-end"><i className="fas fa-comment-alt"></i> {JSON.parse(localStorage.getItem(`comments${post.id}`))? JSON.parse(localStorage.getItem(`comments${post.id}`)).length : "0"}</span>
                     </div>
                     <h3 className="catalog-title">
                         {post.title.length < 45 ? post.title : post.title.slice(0, 46) + "..."}

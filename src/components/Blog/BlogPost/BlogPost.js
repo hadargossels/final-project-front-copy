@@ -54,7 +54,7 @@ export default class BlogPost extends Component {
                         
                         <div className="d-flex">
                             <span className="p-2"><i className="far fa-calendar-alt"> {post.date}</i></span>
-                            <span className="p-2"><i className="fas fa-comment-alt"></i> {this.comments? this.comments : "0"}</span>
+                            <span className="p-2"><i className="fas fa-comment-alt"></i> {JSON.parse(localStorage.getItem(`comments${post.id}`))? JSON.parse(localStorage.getItem(`comments${post.id}`)).length : "0"}</span>
                         </div>
                         <div className="my-3" style={{whiteSpace:"pre-line"}}>{(post.blogtext)}</div>
                         <img src={post.bottomContent} alt="" className={`${post.bottomType === "picture"? "" : "d-none"} mx-auto d-block img-fluid img-thumbnail`}/>
@@ -65,7 +65,7 @@ export default class BlogPost extends Component {
                 {/* comments section */}
                 <div className="my-2 row justify-content-center border border-warning py-3" style={{backgroundColor:"#FFF5EE"}}>
                     <h4 className="text-danger">Comments</h4>
-                    
+
                    {JSON.parse(localStorage.getItem(`comments${post.id}`)) ? JSON.parse(localStorage.getItem(`comments${post.id}`)).map((element) => (
                         <div key={element.id} className="my-2 col-10 border px-0">
                         <div className="px-2 text-light" style={{backgroundColor:"#D2691E"}}>
