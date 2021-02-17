@@ -13,7 +13,8 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Timer from './components/Timer';
 import Checkout from './components/Cart/Checkout';
-import Services from './components/Services';
+import About from './components/About';
+import Contact from './components/Contact';
 import Succeeded from './components/Cart/Succeeded';
 import 'moment-timezone';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
@@ -37,8 +38,9 @@ class App extends Component{
           <Route exact path="/register" component={Register}/>
           <Route exact path="/login" component={Login}/>
           <Route exact path="/checkout" component={Checkout}/>
-          <Route path="/services" component={Services}/>
+          <Route path="/about" component={About}/>
           <Route path="/Succeeded" component={Succeeded}/>
+          <Route path="/contact" component={Contact}/>
           <Route path="/search" component={ProductList}/>
 
           <Route component={Default}/>

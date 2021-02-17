@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom';
 import React, { Component } from 'react';
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 import PayPal from "./PayPal";
+import Title from '../Title'
 
 let targetId="" ,shippingSelect;
 let filldsArray=[];
@@ -192,8 +193,12 @@ render() {
     const { country, region } = this.state;
 
     return (
+
     <div className="container bg-white">
+                <Title name="check" title="out"  />
+
         <div className=" d-flex justify-content-center pb-5">
+
             <div className=" col-md-7 ml-1">
                 <div className="py-4 d-flex flex-row">
                     <h4><span></span><b>First</b><b style={{color:"#5383d3"}}>Motor</b></h4>
@@ -268,7 +273,7 @@ render() {
                                 </div>
                                 <div className="col-11 p-0">
                                     <p>I want to receive updates to my email.</p>
-                                    <textarea maxlength="50" style={{resize: "none"}} rows="4" cols="50" placeholder="Add a special request for delivery"></textarea>
+                                    <textarea maxLength="50" style={{resize: "none"}} rows="4" cols="50" placeholder="Add a special request for delivery"></textarea>
 
                                 </div> 
                             </div>
@@ -350,51 +355,13 @@ render() {
                                     </div>
                                 </div>
                             </div>
-                        
-                    
-                        {/* <p> This is an estimate for the portion of your order (not covered by insurance) due today . once insurance finalizes their review refunds and/or balances will reconcile automatically. </p>
-                        <hr/>
-                      */}
-                        {/* <div class="pt-2"> */}
-                            {/* <form className="pb-3"> */}
-                                {/* <div className="rounded border mb-2 " >
-                                    <div className="row  justify-content-left pt-3">
-                                        <div className="col-1">
-                                            <input className=" text-left" type="radio" name="radio1" id="r1" defaultChecked/>
-                                        </div>
-                                        <div className="col-11">
-                                        <p>   
-                                            <i className="fa fa-cc-visa text-primary "></i>Visa Debit Card************3456
-                                        </p>
-                                        </div> 
-                                    </div>
-                                    
-                                </div> */}
-                            
-                           {/*     <div className="rounded border " >
-                                    <div className="row  justify-content-left pt-3">
-                                        <div className="col-1">
-                                            <input className=" text-left" type="radio" name="radio1" id="r1" defaultChecked/>
-                                        </div>
-                                        <div className="col-11">
-                                        <p>   
-                                            <i className="fa fa-cc-visa text-primary "></i>Visa Debit Card************3456
-                                        </p>
-                                        </div> 
-                                    </div>
-                                    
-                                </div>
-                            </form>
-                           
-                        </div> */}
-
-                       
+         
                     </div>                   
             </div>
 
 
 
-                    <div className="col-sm-3 col-md-4 offset-md-1 mobile">
+                    <div className="col-sm-3 col-md-4 offset-md-1 bg-light mobile">
                                     <div className="py-4 d-flex justify-content-end">
                                         <h6><a href="/cart">Cancel and return to website</a></h6>
                                     </div>
@@ -421,40 +388,41 @@ render() {
                                                             this.setNewTotalShippment(e, value.cartTotal) }}/>          
                                                     </div>
                                                     <hr/>
-                                                    <div>
-                                                    <form className="form-control" action="">
-                                                       
-                                                        <p>Shipping:</p>
+                                                    <div className="bg-light">
+                                                        <form className="form-control" action="">
                                                         
-                                                        <div className="row">
-                                                            <div className="col-1  m-0 p-0">
-                                                                <input type="radio" id="registeredAddress" name="shipping" 
-                                                                 onClick={(e) => {
-                                                                    this.setNewTotalShippment(e, value.cartTotal) }}/>
+                                                            <p>Shipping:</p>
+                                                            
+                                                            <div className="row">
+                                                                <div className="col-1  m-0 p-0">
+                                                                    <input type="radio" id="registeredAddress" name="shipping" 
+                                                                    onClick={(e) => {
+                                                                        this.setNewTotalShippment(e, value.cartTotal) }}/>
+                                                                </div>
+                                                                <div className="col-11  m-0 p-0" >
+                                                                    <label htmlFor="registeredAddress">To registered address in this form +$20</label><br/>
+                                                                </div>
                                                             </div>
-                                                            <div className="col-11  m-0 p-0" >
-                                                                <label htmlFor="registeredAddress">To registered address in this form +$20</label><br/>
+                                                            <br/>
+                                                            <div className="row">
+                                                                <div className="col-1  m-0 p-0">
+                                                                    <input type="radio" id="postOffice" name="shipping"
+                                                                    onClick={(e) => {
+                                                                        this.setNewTotalShippment(e, value.cartTotal) }}/>
+                                                                    
+                                                                </div>
+                                                                <div className="col-11  m-0 p-0">
+                                                                    <label htmlFor="postOffice">Self-pickup from the post office +$10</label><br/>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <br/>
-                                                        <div className="row">
-                                                            <div className="col-1  m-0 p-0">
-                                                                <input type="radio" id="postOffice" name="shipping"
-                                                                onClick={(e) => {
-                                                                    this.setNewTotalShippment(e, value.cartTotal) }}/>
-                                                                   
+                                                            <div className="border-top px-4 mx-3"></div>
+                                                            <div className="p-2 d-flex pt-3">
+                                                                <div className="col-8"><b>Total Price</b></div>
+                                                                <div className="ml-auto"><b className="green">${this.state.priceAfterCoupon}</b></div>
                                                             </div>
-                                                            <div className="col-11  m-0 p-0">
-                                                                <label htmlFor="postOffice">Self-pickup from the post office +$10</label><br/>
-                                                            </div>
-                                                        </div>
-                                                    </form>  
+                                                        </form>  
                                                     </div>   
-                                                    <div className="border-top px-4 mx-3"></div>
-                                                    <div className="p-2 d-flex pt-3">
-                                                        <div className="col-8"><b>Total Price</b></div>
-                                                        <div className="ml-auto"><b className="green">${this.state.priceAfterCoupon}</b></div>
-                                                    </div>
+                                                    
                                                 </div>
                                             </React.Fragment>
 

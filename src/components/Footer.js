@@ -16,11 +16,11 @@ class Footer extends Component{
             ·
                 <a href="shop">Shop</a>
             ·
-                <a href="services">Services</a>
+				<a href="contact">Contact</a>
             ·
                 <a href="about">About</a>
-            ·
-                <a href="news">News</a>
+            
+                
 
             </p>
     

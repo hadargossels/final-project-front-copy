@@ -8,6 +8,10 @@ import {ProductProvider} from './context'
 import 'bootstrap/dist/css/bootstrap.css'; // or include from a CDN
 import 'react-bootstrap-country-select/dist/react-bootstrap-country-select.css';
 import "antd/dist/antd.css"
+
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'bootstrap-css-only/css/bootstrap.min.css';
+// import 'mdbreact/dist/css/mdb.css';
 ReactDOM.render(
   <ProductProvider>
 

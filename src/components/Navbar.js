@@ -58,14 +58,11 @@ export default class Navbar extends Component {
                         <Link to='/shop'>
                             <span style = {{color:"white"}} className = "btn-animation btn from-left" href="#shop" >SHOP</span>
                         </Link>
-                        <Link to='/services'>
-                            <span style = {{color:"white"}} className = "btn-animation btn from-right" href="#services" >SERVICES</span>
+                        <Link to='/contact'>
+                            <span style = {{color:"white"}} className = "btn-animation btn from-right" href="#services" >CONTACT</span>
                         </Link>
                         <Link to='/about'>
                             <span style = {{color:"white"}} className = "btn-animation  btn from-center" href="#about" >ABOUT</span>
-                        </Link>
-                        <Link to='/news'>
-                            <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >NEWS</span>
                         </Link>
                     </ul>
                     <div className="align-items-center" style={{marginLeft:"auto" ,marginTop:'auto', marginBottom:'auto'}}>

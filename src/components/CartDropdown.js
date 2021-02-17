@@ -38,7 +38,6 @@ export default function CartDropdown(props) {
                         <span style={{color:"black"}}>Go To Cart </span>
                         <i className="fa fa-shopping-cart" aria-hidden="true" ></i>
                     </Link>
-                    <span className="badge badge-pill badge-danger">3</span>
 			    </div>
                 <div className="col-lg-6 col-sm-6 col-6 total-section text-right">
                     <p>Total Price: 
