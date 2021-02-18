@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './blog.css'
 
 class Blog extends Component{
 
@@ -7,6 +8,7 @@ class Blog extends Component{
         super();
         this.myArticoleHead = ["Why weight training is incredible for your health","Benefits of yoga","Eating Right","Our new bench-press"]
         this.myArticolBody = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Elit duis tristique sollicitudin nibh sit amet commodo. Arcu cursus euismod quis viverra. Sit amet mattis vulputate enim nulla. Ultrices sagittis orci a scelerisque. Quis commodo odio aenean sed adipiscing diam. Tempor orci dapibus ultrices in iaculis nunc. Ac ut consequat semper viverra. Enim neque volutpat ac tincidunt vitae semper quis lectus nulla. Nisl suscipit adipiscing bibendum est ultricies integer. Id velit ut tortor pretium viverra suspendisse potenti. Netus et malesuada fames ac. Ultrices dui sapien eget mi proin sed. Elit sed vulputate mi sit amet. Eros in cursus turpis massa tincidunt. Diam maecenas ultricies mi eget mauris pharetra et ultrices. Dictum at tempor commodo ullamcorper a lacus. Sagittis vitae et leo duis ut diam quam nulla porttitor."
+        this.myArticolsBody= [this.myArticolBody,this.myArticolBody+this.myArticolBody,this.myArticolBody+this.myArticolBody.slice(0,223),this.myArticolBody+this.myArticolBody.slice(0,143)]
         this.state={
             index : 0,
             myComments : localStorage.getItem('comments')? JSON.parse(localStorage.getItem('comments')) : [[],[],[],[]]
@@ -40,7 +42,7 @@ class Blog extends Component{
         for(let i=0; i<this.state.myComments[this.state.index].length; i+=2){
             comments.push(
                 <div className="myComments p-2 border border-info">
-                    <h6 className="text-danger">{this.state.myComments[this.state.index][i]}</h6>
+                    <h6 className="text-danger"><img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="30" height="30"/> {this.state.myComments[this.state.index][i]}</h6>
                     <p>{this.state.myComments[this.state.index][i+1]}</p>
                 </div>
             )
@@ -98,7 +100,7 @@ class Blog extends Component{
                 <div className="row">
                     <div className="col-sm-12 col-md-8 text-center">
                         <h2>{this.myArticoleHead[this.state.index]}</h2>
-                        <p>{this.myArticolBody}</p>
+                        <p>{this.myArticolsBody[this.state.index]}</p>
                     </div>
                     <div className="col-sm-0 col-md-1"></div>
                     <div className="col-sm-12 col-md-3">
