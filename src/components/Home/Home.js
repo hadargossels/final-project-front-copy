@@ -44,7 +44,7 @@ export default class Home extends Component {
             <span className="visually-hidden">Next</span>
           </a>
         </div>
-        <div className="categories">
+        <div className="categories" style={{marginTop:"5rem"}}>
         
           <div className="divCate">
           <Link to="/store/new"><span className="spantext">New</span></Link>
@@ -60,27 +60,27 @@ export default class Home extends Component {
           </div>
           
         </div>
-        <div className="bestseller">
-        <NavLink style={{ textDecoration:"none"}} to="/store/best sellers"><h2 className="titleH2">BEST SELLERS</h2></NavLink>
+        <div className="bestseller" style={{textAlign:"center",marginTop:"10rem"}}>
+        <NavLink style={{ textDecoration:"none"}} to="/store/best sellers"><h2 style={{marginBottom:"2rem"}} className="titleH2">BEST SELLERS</h2></NavLink>
           <div className="row" >
                <Slide category="BEST SELLERS" id="0" nameItem="slide0" categoryimg="/images/bastSeller.png"/>
           </div>
         </div>
-        <div className="bestseller">
-        <NavLink style={{ textDecoration:"none"}} to="/store/sales"><h2 className="titleH2">Sales</h2></NavLink>
+        <div className="bestseller" style={{textAlign:"center",marginTop:"10rem"}}>
+        <NavLink style={{ textDecoration:"none"}} to="/store/sales"><h2 style={{marginBottom:"2rem"}} className="titleH2">Sales</h2></NavLink>
           <div className="row" >
                <Slide category="sales" id="1" nameItem="slide1" categoryimg="/images/sale.webp"/>
           </div>
         </div>
 
-        <div className="bestseller">
-        <NavLink style={{ textDecoration:"none"}} to="/store/new"><h2 className="titleH2">New</h2></NavLink>
+        <div className="bestseller" style={{textAlign:"center",marginTop:"10rem"}}>
+        <NavLink style={{ textDecoration:"none"}} to="/store/new"><h2 style={{marginBottom:"2rem"}} className="titleH2">New</h2></NavLink>
           <div className="row d-flex" >
                <Slide category="New" id="2"  nameItem="slide2" categoryimg="/images/new.webp"/>
           </div>
         </div>
-        <div className="bestseller ">
-        <NavLink style={{ textDecoration:"none"}} to="/store/featured product"><h2 className="titleH2">Featured Product</h2></NavLink>
+        <div className="bestseller" style={{textAlign:"center",marginTop:"10rem",marginBottom:"10rem"}}>
+        <NavLink style={{ textDecoration:"none"}} to="/store/featured product"><h2 className="titleH2" style={{marginBottom:"2rem"}}>Featured Product</h2></NavLink>
           <div className="row d-flex" >
            <Slide category="Featured Product" id="3" nameItem="slide3" categoryimg="/images/feature.png"/>
           </div>

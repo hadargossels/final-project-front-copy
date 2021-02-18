@@ -68,8 +68,6 @@ export default class Payment extends Component {
     setTimeout(() => {
       this.callRef.current.click();
     }, 0);
-    
-    // if (e) this.setState({ allCorrect: true });
   }
   selectDelivery(e) {
     console.log(e.id);

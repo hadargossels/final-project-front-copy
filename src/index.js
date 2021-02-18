@@ -20,6 +20,7 @@ import Cartpage from './components/Cart/Cartpage';
 import Payment from './components/PaymentPage/Payment';
 import Paymentdetails from './components/Paymentdetails/Paymentdetails';
 import Paypal from './components/Paymentdetails/Paypal';
+import Oneblog from './components/Blog/Oneblog';
 
 
 
@@ -30,7 +31,8 @@ const routing = (
       <Switch>
         <Route path="/signup" component={Signup}/>
         <Route  path="/login" component={Login}/>
-        <Route  path="/blog" component={Blog}/>
+        <Route exact path="/blog" component={Blog}/>
+        <Route  path="/blog/:nameblog" component={Oneblog}/>
         <Route  path="/cart/:item" component={Cart}/>
         <Route exact path="/cart" component={Cartpage}/>
         <Route  path="/product/:productName" component={Product}/>

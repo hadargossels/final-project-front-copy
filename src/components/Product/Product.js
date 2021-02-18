@@ -16,6 +16,9 @@ export default class Product extends Component {
 
     this.changeImg = this.changeImg.bind(this);
   }
+  componentDidMount(){
+    window.scrollTo(0,0)
+  }
   
   changeImg(img) {
     
@@ -43,7 +46,8 @@ export default class Product extends Component {
   }
   render() {
     // window.location.reload();
-   
+    window.scrollTo(0,0)
+
     let nameP = this.props.match.params;
     
     let currentItem = this.state.origItem.filter(

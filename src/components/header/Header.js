@@ -38,13 +38,13 @@ export default class Header extends Component {
         >
           <div className="container-fluid">
             <a className="navbar-brand" href="#">
-              <img
+            <Link to='/'><img
                 src="/images/logo1.png"
                 width="100"
                 height="24"
                 alt=""
                 className="d-inline-block align-top logoimg"
-              />
+              /></Link>
             </a>
             <button
               className="navbar-toggler"
