@@ -78,9 +78,9 @@ export default class App extends Component {
                         <Route  path="/product/:productName"  render={(props) => <ProductPage localStorageChange={this.localStorageChange} {...props} />}/>
                         <Route exact  path="/checkout" component={CheckoutPage}/>
                         <Route exact  path="/checkout/payment"  render={(props) => <PaymentPage localStorageArr={this.state.localStorageArray} localStorageChange={this.localStorageChange} {...props}/>}/>
-                        <Route exact  path="/checkout/payment/credit_Card" component={CreditCardPage}/>
+                        {/* <Route exact  path="/checkout/payment/credit_Card" component={CreditCardPage}/> */}
                         {/* <Route exact  path="/checkout/payment/paypal" component={}/> */}
-                        <Route exact  path="/checkout/payment/order_number" component={OrderNumber}/>
+                        {/* <Route exact  path="/checkout/payment/order_number" component={OrderNumber}/> */}
                         <Route component={NotFound}/>
                     </Switch>
                 </div>

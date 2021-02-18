@@ -15,7 +15,6 @@ export default class PaymentPage extends Component {
         //refs
         this.CouponInput=React.createRef();
         this.paypalRef=React.createRef();
-        this.payCardRef=React.createRef();
         this.nameLabelRef=React.createRef();
         this.nameInputRef=React.createRef();
         this.lastNameLabelRef=React.createRef();
@@ -142,8 +141,9 @@ export default class PaymentPage extends Component {
      
         if(flag)
         {
-            let card=(this.paypalRef.current.checked)?"paypal":"credit_Card";
-            this.props.history.push(`/checkout/payment/${card}`)
+            // let card=(this.paypalRef.current.checked)?"paypal":"credit_Card";
+            // this.props.history.push(`/checkout/payment/${card}`)
+
         }
         else
             window.scrollTo(0, 0);
@@ -211,7 +211,7 @@ export default class PaymentPage extends Component {
 
                 <div className="sumOrderDiv col-12 col-md-5 ">
                     <div className="borderDiv">
-                        <h4 className="h4Pay">Payment Method</h4>
+                        {/* <h4 className="h4Pay">Payment Method</h4>
                         <div>
                             <div className="cardItemDiv">
                                 <input ref={this.payCardRef} type="radio" id="CreditCard" name="PayMethod" value="card" checked/>
@@ -221,7 +221,7 @@ export default class PaymentPage extends Component {
                                 <input  ref={this.paypalRef} type="radio" id="PayPal" name="PayMethod" value="PayPal"/>
                                 <label for="PayPal"> <img src="https://www.guilty.co.il/images/paypal-logo.png" className="imgCard"/> PayPal</label>
                             </div>    
-                        </div>
+                        </div> */}
                        
                         <div className="OrderSummaryDiv">
                             <h4 className="h4Pay">Order Summary</h4>
@@ -245,6 +245,7 @@ export default class PaymentPage extends Component {
                                 <label className={`LabelCouponFailed ${this.state.couponLabelFailed}`}>Coupon code does not exist</label>
                                 <label className={`LabelCouponAdd ${this.state.couponLabelAdd}`}>Successfully added coupon code</label>
                                 <button className="PaymentBtn" onClick={this.payBtnClicked.bind(this)}>Place Order</button>
+                           {/* paypal */}
                             </div>
 
                         </div>

@@ -11,8 +11,9 @@ export default class OrderNumber extends Component {
         return (
             <div className="OrderNumberDiv">
                 <h3>Order successfully placed</h3>
-                <p>The order number is <span>{this.randomOrderNumber}</span></p>
-                
+                <p>We have recived your order</p>
+                <p>Your transaction number: <span>{this.randomOrderNumber}</span></p>
+                <p>You will receive a email with your transaction number</p>
             </div>
         )
     }
