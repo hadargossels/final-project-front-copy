@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Header.css';
 import {NavLink} from 'react-router-dom'
 import Dropdown from '../dropdown/Dropdown';
+import WishList from '../WishList/WishList';
 
 class Header extends Component{
    constructor(props) {
@@ -60,9 +61,9 @@ amount () {
                   </div>
                </div>
                <div className="dropdown cartI">
-                  <NavLink exact to="/Cart"><button className="dropbtn" onMouseOver={()=>{this.total();this.amount()}}><div className='fas fa-heart'></div></button></NavLink>
+                  <NavLink exact to="/WishList"><button className="dropbtn"><div className='fas fa-heart'></div></button></NavLink>
                   <div className="dropdown-content">
-                  <Dropdown total={this.state.total} cart={JSON.parse(localStorage.getItem("cart"))}/>
+                  <WishList/>
                   </div>
                </div>
             <NavLink exact to="/Login" className='fas fa-user'></NavLink>

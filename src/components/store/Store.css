@@ -80,3 +80,9 @@
 .addMsg {
     color: rgb(194, 78, 132);
 }
+
+.addWish {
+    border: none;
+    background-color: white;
+    font-size: 24px;
+}

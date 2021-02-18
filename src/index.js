@@ -18,6 +18,11 @@ import Cart from './components/Cart/Cart';
 import Payment from './components/payment/Payment';
 import Newaccount from './components/newAccount/Newaccount';
 import PropTypes from 'prop-types';
+import WishList from './components/WishList/WishList';
+import Post from './components/Post/Post';
+
+localStorage.setItem("orderErr","")
+localStorage.setItem("orderId","")
 
 function setLocalStorage () {
   if (localStorage.getItem("cart") == undefined) {
@@ -25,6 +30,9 @@ function setLocalStorage () {
   }
   if (localStorage.getItem("user") == undefined) {
     localStorage.setItem("user","")
+  }
+  if (localStorage.getItem("wishList") == undefined) {
+    localStorage.setItem("wishList",JSON.stringify([]))
   }
 }
 setLocalStorage()
@@ -55,6 +63,8 @@ const router = (
      <Route exact path = "/Cart" component={Cart}/>
      <Route exact path = "/Payment" component={Payment}/>
      <Route exact path = "/NewAccount" component={Newaccount}/>
+     <Route exact path = "/WishList" component={WishList}/>
+     <Route exact path = "/Post/:postId" component={Post}/>
      <Route component={NotFound}/>
   </Switch>
   <Footer/>

@@ -41,7 +41,7 @@ export class Cart extends Component {
         let discountVis = 'block'
         let valid = "Valid coupon"
         let validColor = "green"
-        let discount = -1 * (this.state.total / 100 * myCoupon.discountPrecent)
+        let discount = -1 * (this.state.total / 100 * myCoupon.discountPrecent).toFixed(2)
         if (input === couponCode) {
             setTimeout(()=>{this.setState({discountMsg, discount, discountVis,valid,validColor})},5)
         }

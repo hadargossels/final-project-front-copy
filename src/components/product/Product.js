@@ -156,8 +156,7 @@ class Product extends Component {
          {i = element.id - 1; }
       }
       setTimeout(()=>
-      {this.setState({i:i})
-   console.log(this.state.i)},100) 
+      {this.setState({i:i})},100) 
    }
 
    addToCart (e) {

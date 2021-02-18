@@ -1,0 +1,17 @@
+.newacc {
+    padding: 45px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    width: 50%;
+}
+
+.subBtnNew {
+    text-align: center;
+}
+
+.newacc input {
+    width: 300px
+}

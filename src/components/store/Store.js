@@ -166,12 +166,14 @@ class Store extends Component{
       errorDis: "none",
       cart: JSON.parse(localStorage.getItem("cart")),
       addMsg: "",
+      wishList: JSON.parse(localStorage.getItem("wishList")),
     }
     this.isChecked = this.isChecked.bind(this);
     this.filter = this.filter.bind(this);
     this.searchK = this.searchK.bind(this);
     this.search = this.search.bind(this);
     this.addToCart = this.addToCart.bind(this);
+    this.addToWish = this.addToWish.bind(this);
     this.searchK()
     this.newFeatured()
       }
@@ -214,6 +216,36 @@ class Store extends Component{
       setTimeout(()=>{this.setState({cart})
       localStorage.setItem("cart",JSON.stringify(cart));
       this.addMsg();},5);
+      
+    }
+
+    addToWish (e) {
+      if (e.target.style.color !== 'red') {
+      e.target.style.color = 'red'
+      let itemId = e.target.id
+      let src = e.target.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].src
+      src = src.substring(21)
+      let price = e.target.parentNode.parentNode.parentNode.parentNode.childNodes[2].childNodes[0].childNodes[1].innerText
+      price = price.substring(0, price.length-1)
+      let name = e.target.parentNode.parentNode.parentNode.parentNode.childNodes[1].innerText
+      let wishList = JSON.parse(localStorage.getItem("wishList"))
+
+      let wishListObj = {itemId: itemId, src: src, name: name, price: price}
+      wishList.push(wishListObj)
+      setTimeout(()=>{this.setState({wishList})
+      localStorage.setItem("wishList",JSON.stringify(wishList));},5);
+      }
+
+      else {
+        e.target.style.color = 'black'
+        let itemId = e.target.id
+        let wishList = JSON.parse(localStorage.getItem("wishList"))
+        wishList = wishList.filter((v)=> {return v.itemId !== itemId})
+        setTimeout(()=>{this.setState({wishList})
+      localStorage.setItem("wishList",JSON.stringify(wishList));},5);
+      }
+      
+      
       
     }
 
@@ -448,6 +480,7 @@ class Store extends Component{
                                 <option value="7">7</option>
                             </select>
                             <button className='addcart' id={v.id} onClick={this.addToCart}>ADD TO CART</button>
+                            <button className='fas fa-heart addWish' id={v.id} onClick={this.addToWish}></button>
                           </div>
                           <span className='addMsg'>{this.state.addMsg}</span>
                         </div>

@@ -1,0 +1,38 @@
+.payCont {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 30px;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.payBtn {
+    border: none;
+    background-color: black;
+    color: white;
+    padding: 5px;
+    width: 250px;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.payBtn:disabled {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.shippingI {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    /* margin: 0 auto; */
+    justify-content: center;
+}
+
+.summery {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-right: 50px;
+}

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import './Fail.css'
 
-orderErr = localStorage.getItem("orderErr")
+let orderErr = localStorage.getItem("orderErr")
 
 export class Fail extends Component {
     render() {
         return (
-            <div>
+            <div className='fail'>
                 Order has failed!<br/>
                 Error: {orderErr}
             </div>
