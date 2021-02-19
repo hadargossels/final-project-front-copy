@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import "./headerStyle.css";
-import {ButtonContainer} from './Button';
 import SideMenu from './sideMenu/SideMenu';
 import Clock from 'react-live-clock'
 import {ProductConsumer} from '../context';
@@ -22,7 +21,7 @@ export default class Navbar extends Component {
       
       searchRef(){
 
-         // this.callRef.current.focus();
+         this.callRef.current.focus();
         const node =this.callRef.current.value;
         window.location.href = "/search?q=" + node;
         

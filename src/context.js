@@ -51,14 +51,15 @@ class ProductProvider extends Component {
             sortValue:'HL',
             pageNum:0,
             first:0,
-            rows:10
+            rows:10,
+            posts: [[{postsAndCommentsArr:"", like:0,}],[{postsAndCommentsArr:"",like:0}],[{postsAndCommentsArr:"",like:0}],
+                    [{postsAndCommentsArr:"",like:0}],[{postsAndCommentsArr:"",like:0}],[{postsAndCommentsArr:"",like:0}]]
             
         };
       }
 
       areAnyFilterEnable = (filterArr) =>{
         let found= false;
-
         filterArr.map((filterItem)=> {
             if (filterItem.isEnabled){
                 found= true;
@@ -303,12 +304,6 @@ class ProductProvider extends Component {
 
             let ratingA = a.rating;
             let ratingB = b.rating;
-
-            // if (a.discount)
-            //     priceA = a.price*(1-a.discountPercentage);
-            
-            // if (b.discount)
-            //     priceB = b.price*(1-b.discountPercentage);
                 return (ratingA < ratingB) ? 1 : ((ratingB < ratingA) ? -1 : 0)
                 
       });
@@ -330,6 +325,13 @@ class ProductProvider extends Component {
             tempPrice = tempPrice-tempPrice*0.1;
         }
         this.setState({cartTotal:tempPrice})
+    }
+    loadComments = () =>{
+        return this.state.posts[0].postsAndCommentsArr
+        // for(let i=0;i<this.state.posts[0].postsAndCommentsArr.length;i++){
+
+        // }
+        // this.state.posts[0];
     }
     //  setBoardItemsFunction =() =>  {
     //                 let list = []
@@ -465,6 +467,7 @@ class ProductProvider extends Component {
                ratingSort:this.ratingSort,
                updatePrice:this.updatePrice,
                updatePriceWithCoupon:this.updatePriceWithCoupon,
+               loadComments:this.loadComments,
                setValue:this.setValue
             }}>
                 {this.props.children}

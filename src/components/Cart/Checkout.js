@@ -287,12 +287,6 @@ render() {
                                     <div className="modal-content">
                                         <div className="modal-body">
                                             <div className="card-title mx-auto"> Payment</div>
-                                            {/* <div className="navCheckout">
-                                                <ul className="mx-auto">
-                                                    <li><a href="#">Account</a></li>
-                                                    <li className="active"><a href="#">Payment</a></li>
-                                                </ul>
-                                            </div> */}
                                              <span id="card-header">Choose Paypal or Credit card:</span>
                                              <div className="row row-1 pt-3">
 
@@ -322,30 +316,7 @@ render() {
 
                                             }
                                             </ProductConsumer>
-                                                {/* <div className="row row-1">
-                                                    <div className="col-2"><img className="img-fluid" src="https://img.icons8.com/color/48/000000/mastercard-logo.png" /></div>
-                                                    <div className="col-7"> <input type="text" placeholder="**** **** **** 3193"/> </div>
-                                                    <div className="col-3 d-flex justify-content-center"> <a href="#">Remove card</a> </div>
-                                                </div>
-                                                <div className="row row-1">
-                                                    <div className="col-2"><img className="img-fluid" src="https://img.icons8.com/color/48/000000/visa.png" /></div>
-                                                    <div className="col-7"> <input type="text" placeholder="**** **** **** 4296"/> </div>
-                                                    <div className="col-3 d-flex justify-content-center"> <a href="#">Remove card</a> </div>
-                                                </div> <span id="card-header">Add new card:</span>
-                                                <div className="row-1">
-                                                    <div className="row row-2"> <span id="card-inner">Card holder name</span> </div>
-                                                    <div className="row row-2"> <input type="text" placeholder="Bojan Viner"/> </div>
-                                                </div>
-                                                <div className="row three">
-                                                    <div className="col-7">
-                                                        <div className="row-1">
-                                                            <div className="row row-2"> <span id="card-inner">Card number</span> </div>
-                                                            <div className="row row-2"> <input type="text" placeholder="5134-5264-4"/> </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-2"> <input type="text" placeholder="Exp. date"/> </div>
-                                                    <div className="col-2"> <input type="text" placeholder="CVV"/> </div>
-                                                </div> <button className="btnCredit d-flex mx-auto"><b>Add card</b></button> */}
+                                             
                                            </div>
                                         </div>
                                         <div className="modal-footer">

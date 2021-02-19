@@ -40,7 +40,20 @@ render() {
                                         <div className="d-flex justify-content-center text-uppercase">
                                            
                                             <div className="flex flex-direction:column btn-lg" style={{marginLeft:"100px"}}>
-                                                
+                                            <div className="dropdown ">
+                                                    {/* <PriceSlider val={value}/> does not work */}
+                                                    <button className="btn btn-secondary dropdown-toggle mr-2 mb-5" 
+                                                    style={{fontSize:"25px", color: " var(--lightBlue)",background: "var(--mainWhite)",borderColor:"var(--lightBlue)"}} 
+                                                    type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Sort By
+                                                    </button>
+                                                    
+                                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={ {background: "var(--mainWhite)",borderColor:"var(--lightBlue)"}}>
+                                                    <input className="dropdown-item btn" onClick={()=>{value.priceHighToLow("high")}} type="button" value="High price to low" /> 
+                                                    <input  className="dropdown-item btn" onClick={()=>{value.priceHighToLow("low")}} type="button" value="Low price to High" /> 
+                                                    <input  className="dropdown-item btn" onClick={()=>{value.ratingSort()}} type="button" value="Rating" /> 
+                                                    </div>
+                                            </div>
                                             <p style={{color: 'var(--lightBlue)',fontSize:"25px"}}>Filters</p>
                                             <div className="form-check " >
                                                 <input onChange={()=>{value.setFilter('helmet')}} className="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
@@ -72,20 +85,7 @@ render() {
                                                 sale
                                                 </label>
                                             </div>
-                                            <div className="dropdown">
-                                                     <PriceSlider val={value}/> {/*does not work */}
-                                                    <button className="btn btn-secondary dropdown-toggle" 
-                                                    style={{fontSize:"25px", color: " var(--lightBlue)",background: "var(--mainWhite)",borderColor:"var(--lightBlue)"}} 
-                                                    type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Sort By
-                                                    </button>
-                                                    
-                                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={ {background: "var(--mainWhite)",borderColor:"var(--lightBlue)"}}>
-                                                    <input className="dropdown-item btn" onClick={()=>{value.priceHighToLow("high")}} type="button" value="High price to low" /> 
-                                                    <input  className="dropdown-item btn" onClick={()=>{value.priceHighToLow("low")}} type="button" value="Low price to High" /> 
-                                                    <input  className="dropdown-item btn" onClick={()=>{value.ratingSort()}} type="button" value="Rating" /> 
-                                                    </div>
-                                            </div>
+                                           
 
                                             </div>
                                             
