@@ -19,7 +19,7 @@ export default class Blog extends Component{
         this.postsTarget = this.postsTarget.bind(this);
         this.state = {
             posts: [
-            [{postsAndCommentsArr:"first comment",like:0,id:"1"},{postsAndCommentsArr:"second comment",like:0,id:"2"},{postsAndCommentsArr:"theard comment",like:0,id:"3"}],
+            [{postsAndCommentsArr:"first comment",like:0,id:"1"},{postsAndCommentsArr:"second comment",like:1,id:"2"},{postsAndCommentsArr:"theard comment",like:2,id:"3"}],
             [{postsAndCommentsArr:"first comment",like:0,id:"1"}],
             [{postsAndCommentsArr:"first comment",like:0,id:"1"}],
             [{postsAndCommentsArr:"first comment",like:0,id:"1"}],
@@ -33,31 +33,43 @@ export default class Blog extends Component{
         let tempPost = [...this.state.posts];
         switch (likeOfComment) {
             case 'post1':
+                console.log(e.target.id)
                 tempPost[0][e.target.id].like++;
                 e.target.innerHTML=`Like ${tempPost[0][e.target.id].like}&nbsp;&nbsp;`
+
                 break;
             case 'post2':
+                console.log("post2")
+
                 tempPost[1][e.target.id].like++;
                 e.target.innerHTML=`Like ${tempPost[1][e.target.id].like}&nbsp;&nbsp;`
                 break;
             case 'post3':
+                console.log("post3")
+
                 tempPost[2][e.target.id].like++;
                 e.target.innerHTML=`Like ${tempPost[2][e.target.id].like}&nbsp;&nbsp;`
                 break;
             case 'post4':
+                console.log("post4")
+
                 tempPost[3][e.target.id].like++;
                 e.target.innerHTML=`Like ${tempPost[3][e.target.id].like}&nbsp;&nbsp;`
                 break;
             case 'post5':
+                console.log("post4")
+
                 tempPost[4][e.target.id].like++;
                 e.target.innerHTML=`Like ${tempPost[4][e.target.id].like}&nbsp;&nbsp;`
                 break;
             case 'post6':
+                console.log("post6")
+
                 tempPost[5][e.target.id].like++;
                 e.target.innerHTML=`Like ${tempPost[5][e.target.id].like}&nbsp;&nbsp;`
                 break;                    
-        
         }
+
         this.setState({posts: tempPost});
 
     }
@@ -115,7 +127,7 @@ export default class Blog extends Component{
     }
         render() {
             let date = new Date();
-            let likeIndex1=0,likeIndex2=0,likeIndex3=0,likeIndex4=0,likeIndex5=0,likeIndex6=0,temp=0;
+            let likeIndex1=0,likeIndex2=0,likeIndex3=0,likeIndex4=0,likeIndex5=0,likeIndex6=0;
             return (
             <MDBCard className="my-5 px-5 pb-5">
             <MDBCardBody>
@@ -182,8 +194,7 @@ export default class Blog extends Component{
                                                                             <span style={{fontSize:"10px",cursor: "pointer"}} id={likeIndex1++}
                                                                                 onClick={(e)=>  {
                                                                                     this.addLike(e);
-                                                                                    temp = e.target.id
-                                                                                    }}>Like {this.state.posts[0][temp].like}&nbsp;&nbsp;
+                                                                                    }}>Like {post.like}&nbsp;&nbsp;
                                                                                     </span>
                                                                             <span className="comment-text">{post.postsAndCommentsArr} </span>
                                                                        
@@ -280,8 +291,7 @@ export default class Blog extends Component{
                                                                             <span style={{fontSize:"10px",cursor: "pointer"}} id={likeIndex2++}
                                                                                 onClick={(e)=>  {
                                                                                     this.addLike(e);
-                                                                                    temp = e.target.id
-                                                                                    }}>Like {this.state.posts[1][temp].like}&nbsp;&nbsp;
+                                                                                    }}>Like {post.like}&nbsp;&nbsp;
                                                                                     </span>
                                                                             <span className="comment-text">{post.postsAndCommentsArr} </span>
                                                                        
@@ -373,8 +383,7 @@ export default class Blog extends Component{
                                                                             <span style={{fontSize:"10px",cursor: "pointer"}} id={likeIndex3++}
                                                                                 onClick={(e)=>  {
                                                                                     this.addLike(e);
-                                                                                    temp = e.target.id
-                                                                                    }}>Like {this.state.posts[2][temp].like}&nbsp;&nbsp;
+                                                                                    }}>Like {post.like}&nbsp;&nbsp;
                                                                                     </span>
                                                                             <span className="comment-text">{post.postsAndCommentsArr} </span>
                                                                        
@@ -467,8 +476,7 @@ export default class Blog extends Component{
                                                                             <span style={{fontSize:"10px",cursor: "pointer"}} id={likeIndex4++}
                                                                                 onClick={(e)=>  {
                                                                                     this.addLike(e);
-                                                                                    temp = e.target.id
-                                                                                    }}>Like {this.state.posts[3][temp].like}&nbsp;&nbsp;
+                                                                                    }}>Like {post.like}&nbsp;&nbsp;
                                                                                     </span>
                                                                             <span className="comment-text">{post.postsAndCommentsArr} </span>
                                                                        
@@ -560,8 +568,7 @@ export default class Blog extends Component{
                                                                             <span style={{fontSize:"10px",cursor: "pointer"}} id={likeIndex5++}
                                                                                 onClick={(e)=>  {
                                                                                     this.addLike(e);
-                                                                                    temp = e.target.id
-                                                                                    }}>Like {this.state.posts[4][temp].like}&nbsp;&nbsp;
+                                                                                    }}>Like {post.like}&nbsp;&nbsp;
                                                                                     </span>
                                                                             <span className="comment-text">{post.postsAndCommentsArr} </span>
                                                                        
@@ -656,8 +663,7 @@ export default class Blog extends Component{
                                                                             <span style={{fontSize:"10px",cursor: "pointer"}} id={likeIndex6++}
                                                                                 onClick={(e)=>  {
                                                                                     this.addLike(e);
-                                                                                    temp = e.target.id
-                                                                                    }}>Like {this.state.posts[5][temp].like}&nbsp;&nbsp;
+                                                                                    }}>Like {post.like}&nbsp;&nbsp;
                                                                                     </span>
                                                                             <span className="comment-text">{post.postsAndCommentsArr} </span>
                                                                     </>

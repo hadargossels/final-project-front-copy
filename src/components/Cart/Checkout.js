@@ -292,7 +292,6 @@ render() {
 
                                             <ProductConsumer>
                                             {value => { if(value.cartTotal!=0){
-                                                console.log(shippingSelect,this.state.filldsArray,country,region) 
                                                 if(shippingSelect!==undefined && country!=='' && region!==''
                                                     && this.state.filldsArray[0].isFilled 
                                                     && this.state.filldsArray[1].isFilled
