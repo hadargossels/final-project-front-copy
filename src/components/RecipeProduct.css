@@ -134,5 +134,38 @@
     flex-wrap: wrap;
     background-color: white;
     border-radius: 10px;
+    padding: 10px;
+
+}
+.detailMassege{
+
+    text-align: right;
+    flex: 15%;
+}
+.theMassege{
+
+    text-align: right;
+    flex: 60%;
+}
+
+
+
+@media only screen and (max-width: 500px) {
+
+
+    .detailMassege{
+
+        padding-bottom: 10px;
+    }
+    .theMassege{
+
+        border-top: black solid 2px;
+        padding-top: 20px;
+        padding-bottom: 10px;
+    }
+    .myContainerRecipesProduct{
+        padding: 10px;
+    }
+
 
 }

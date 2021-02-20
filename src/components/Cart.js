@@ -55,7 +55,6 @@ export default class Cart extends Component {
         let ship
         let sumOfItem=0
         let storage=JSON.parse(localStorage.getItem("cartStorage")||"[]")
-
         for (const iterator of storage) {
             sumOfItem+=iterator.count*iterator.price
         }
@@ -90,32 +89,34 @@ export default class Cart extends Component {
 
                     <div className="statusOrder">
 
-                        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
+                    <div class="container p-0">
+                            <div class="card">
                             
-                            <div class="collapse navbar-collapse " id="navbarTogglerDemo03">
-                                <ul class="navbar-nav mr-auto mt-2 mt-lg-0 fs-3">
-                                    <li class="nav-item active">
-                                        <a class="nav-link" href="#">עגלת קניות <span class="sr-only">(current)</span></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <span><i class="fas fa-chevron-left"></i></span>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">פרטי ההזמנה</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <span><i class="fas fa-chevron-left"></i></span>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link disabled" href="#">הזמנה הושלמה</a>
-                                    </li>
-                                </ul>
-                            
+                                <div class="card-body">
+                                    <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                                    <div class="step completed m-0">
+                                        <div class="step-icon-wrap">
+                                        <div class="step-icon "><i class="pe-7s-cart "></i></div>
+                                        </div>
+                                        <h4 class="step-title fs-5">עגלת קניות</h4>
+                                    </div>
+                                    <div class="step m-0">
+                                        <div class="step-icon-wrap">
+                                        <div class="step-icon"><i class="pe-7s-config"></i></div>
+                                        </div>
+                                        <h4 class="step-title fs-5">פרטי ההזמנה</h4>
+                                    </div>
+                                    <div class="step m-0">
+                                        <div class="step-icon-wrap">
+                                        <div class="step-icon"><i class="pe-7s-medal"></i></div>
+                                        </div>
+                                        <h4 class="step-title fs-5">ההזמנה הושלמה</h4>
+                                    </div>
+                                
+                                    </div>
+                                </div>
                             </div>
-                        </nav>
+                    </div>
 
                     </div>
 

@@ -21,6 +21,15 @@ export default class ItemCart extends Component {
     componentDidMount(){
         this.calculateTotalItem()
     }
+    async componentDidUpdate(prevProps){
+        
+        if(prevProps !== this.props){
+          await this.setState({item:this.props.el})
+            this.calculateTotalItem()
+        }
+            
+    }
+    
 
     quantity(e){
 
@@ -55,9 +64,8 @@ export default class ItemCart extends Component {
 
 
     calculateTotalItem(){
-
+        
         let tot=this.state.item.price*this.state.item.count
-
         this.setState({totalItem:tot})
     }
 

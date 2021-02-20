@@ -1,25 +1,30 @@
+import React, { Component } from 'react';
+import {useState} from 'react';
+import PaypalButton from './PaypalButton';
 
-import React,{useRef,useEffect} from 'react'
 
-export default function Paypal() {
+function Paypal(props) {
+    const [checkout, setCheckOut] = useState(false) 
 
-    const paypal=useRef()
+    return(
+        <div id="paypal-button-container">
+            {checkout ? (
+                <PaypalButton numberItem={props.numberItem} total={props.total}/>
+            ) :(
+                <button
+                className='btn btn-success'
+                    onClick={()=> {
+                    setCheckOut(true)
+                  }}>
+                      Checkout on Paypal/Credit Card
+                      </button>
+                      
+            )}
 
-    useEffect(()=>{
-        window.paypal.Buttons({
-            createOrder:(data,actions,err)=>{
-                    return actions.order.create({
+                </div>
 
-                        
-                    })
-            }
-        }).render(paypal.current)
 
-    },[])
-
-    return (
-        <div>
-            <div ref={Paypal}></div>
-        </div>
     )
+
 }
+export default Paypal;

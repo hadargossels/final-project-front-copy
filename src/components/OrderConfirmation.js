@@ -10,7 +10,6 @@ export default class OrderConfirmation extends Component {
 
     constructor(props){
         super(props)
-
     }
 
 
@@ -42,7 +41,7 @@ export default class OrderConfirmation extends Component {
                                                             <tr >
                                                             <td style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize:" 18px", fontWeight: "400", lineHeight: "24px"}}> <NavLink to="/Catalog" href="#" target="_blank" style={{color: "#ffffff", textDecoration: "none"}}><img src="https://img.icons8.com/color/48/000000/small-business.png" width="40" height="33" style={{display: "block", border: "0px",marginRight:"20px"}} /></NavLink> </td>
                                                                 <td style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "18px", fontWeight: "400"}}>
-                                                                    <p style={{fontSize: "24px", fontWeight: "600", margin: "0", color: "#ffffff"}}><a href="#" target="_blank" style={{color: "#ffffff", textDecoration: "none"}}>לחנות &nbsp;</a></p>
+                                                                    <p style={{fontSize: "24px", fontWeight: "600", margin: "0", color: "#ffffff"}}><NavLink to="/Catalog" href="#" target="_blank" style={{color: "#ffffff", textDecoration: "none"}}>לחנות &nbsp;</NavLink></p>
                                                                 </td>
                                                                 
                                                             </tr>
@@ -74,17 +73,18 @@ export default class OrderConfirmation extends Component {
                                                             <td width="25%" align="right" bgcolor="#eeeeee" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "20px", fontWeight: "800", lineHeight: "24px", padding: "10px"}}> 2345678 </td>
                                                         </tr>
                                                         <tr>
-                                                            <td width="75%" align="right" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "400", lineHeight: "24px", padding:"15px 10px 5px 10px"}}> Purchased Item (1) </td>
-                                                            <td width="25%" align="right" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "400", lineHeight: "24px", padding: "15px 10px 5px 10px"}}> $100.00 </td>
+                                                            <td width="75%" align="right" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "400", lineHeight: "24px", padding:"15px 10px 5px 10px"}}>מספר פריטים ({this.props.numberItem}) </td>
+                                                            <td width="25%" align="right" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "400", lineHeight: "24px", padding: "15px 10px 5px 10px"}}> {this.props.sumItem}₪ </td>
                                                         </tr>
                                                         <tr>
-                                                            <td width="75%" align="right" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "400", lineHeight: "24px, padding: 5px 10px"}}> Shipping + Handling </td>
-                                                            <td width="25%" align="right" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "400", lineHeight: "24px, padding: 5px 10px"}}> $10.00 </td>
+                                                            <td width="75%" align="right" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "400", lineHeight: "24px", padding: "5px 10px"}}> משלוח </td>
+                                                            <td width="25%" align="right" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "400", lineHeight: "24px", padding: "5px 10px"}}> {this.props.shipping}₪ </td>
                                                         </tr>
+                                                        {(this.props.discountBool)&& 
                                                         <tr>
-                                                            <td width="75%" align="right" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "400", lineHeight: "24px", padding: "5px 10px"}}> Sales Tax </td>
-                                                            <td width="25%" align="right" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "400", lineHeight: "24px", padding: "5px 10px"}}> $5.00 </td>
-                                                        </tr>
+                                                            <td width="75%" align="right" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "400", lineHeight: "24px", padding: "5px 10px"}}>  הנחה: </td>
+                                                            <td width="25%" align="right" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "400", lineHeight: "24px", padding: "5px 10px",color:"green"}}> {this.props.discount}₪- </td>
+                                                        </tr>}
                                                     </table>
                                                 </td>
                                             </tr>
@@ -92,8 +92,8 @@ export default class OrderConfirmation extends Component {
                                                 <td align="left" style={{paddingTop: "20px"}}>
                                                     <table cellSpacing="0" cellPadding="0" border="0" width="100%" style={{direction:"rtl"}}>
                                                         <tr>
-                                                            <td width="75%" align="right" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "800", lineHeight: "24px", padding: "10px", borderTop: "3px solid #eeeeee", borderBottom: "3px solid #eeeeee"}}> TOTAL </td>
-                                                            <td width="25%" align="right" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "800", lineHeight: "24px", padding: "10px", borderTop: "3px solid #eeeeee", borderBottom: "3px solid #eeeeee"}}> $115.00 </td>
+                                                            <td width="75%" align="right" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "800", lineHeight: "24px", padding: "10px", borderTop: "3px solid #eeeeee", borderBottom: "3px solid #eeeeee"}}> סה"כ </td>
+                                                            <td width="25%" align="right" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "800", lineHeight: "24px", padding: "10px", borderTop: "3px solid #eeeeee", borderBottom: "3px solid #eeeeee"}}> {this.props.total}₪ </td>
                                                         </tr>
                                                     </table>
                                                 </td>
@@ -109,9 +109,9 @@ export default class OrderConfirmation extends Component {
                                                     <div style={{display:"inline-block", maxWidth:"50%", minWidth:"240px", verticalAlign:"top", width:"100%"}}>
                                                         <table align="right" border="0" cellPadding="0" cellSpacing="0" width="100%" style={{maxWidth:"300px"}}>
                                                             <tr>
-                                                                <td align="right" valign="top" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "400", lineHeight: "24px"}}>
-                                                                    <p style={{fontWeight: "800"}}>Delivery Address</p>
-                                                                    <p>675 Massachusetts Avenue<br/>11th Floor<br/>Cambridge, MA 02139</p>
+                                                                <td align="right" valign="top" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "18px", fontWeight: "400", lineHeight: "24px"}}>
+                                                                    <p style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "22px", fontWeight: "800", lineHeight: "3px", padding: "10px 0px"}}>פרטי משלוח:</p>
+                                                                    <p>{this.props.userDetail.city} , {this.props.userDetail.address} <br/>{this.props.userDetail.houseType}</p>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -119,9 +119,9 @@ export default class OrderConfirmation extends Component {
                                                     <div style={{display:"inline-block", maxWidth:"50%", minWidth:"240px", verticalAlign:"top", width:"100%"}}>
                                                         <table align="right" border="0" cellPadding="0" cellSpacing="0" width="100%" style={{maxWidth:"300px"}}>
                                                             <tr>
-                                                                <td align="right" valign="top" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "400", lineHeight: "24px"}}>
-                                                                    <p style={{fontWeight: "800"}}>Estimated Delivery Date</p>
-                                                                    <p>January 1st, 2016</p>
+                                                                <td align="right" valign="top" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "18px", fontWeight: "400", lineHeight: "24px"}}>
+                                                                    <p style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "22px", fontWeight: "800", lineHeight: "3px", padding: "10px 0px"}}>פרטי המזמין:</p>
+                                                                    <p>{this.props.userDetail.fname} {this.props.userDetail.lname} <br/> מספר פלאפון: {this.props.userDetail.phone} <br/> דוא"ל: {this.props.userDetail.email} </p>
                                                                 </td>
                                                             </tr>
                                                         </table>

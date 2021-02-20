@@ -128,6 +128,8 @@ export default class RecipeProduct extends Component {
             let m = today.getMinutes();
             if(m<10)
                 m="0"+m
+            if(hh<10)
+                hh="0"+hh
             let hour= hh+ ':' +m
             
             today = dd + '/' + mm + '/' + yyyy;

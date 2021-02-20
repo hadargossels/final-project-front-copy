@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import { Link,NavLink } from 'react-router-dom';
 import './CheckOut.css';
 import OrderConfirmation from './OrderConfirmation';
+import Paypal from './Paypal';
+
 
 const coupons= require("../dataBase/couponData.json")
 
@@ -22,6 +24,8 @@ export default class CheckOut extends Component {
             couponUsed:false,
             discount:"",
             validForm:"",
+            detailUser:"",
+            cardType:"",
         }
         this.couponRef = React.createRef()
         this.couponMessageRef= React.createRef()
@@ -36,14 +40,21 @@ export default class CheckOut extends Component {
         this.phoneMassegeRef= React.createRef()
         this.validityRef=React.createRef()
         this.validityMassegeRef=React.createRef()
-        this.cardInputRef=React.createRef()
         this.cardMassegeRef=React.createRef()
+        this.cityRef=React.createRef()
+        this.cityMessageRef=React.createRef()
+        this.addressRef=React.createRef()
+        this.addressMessageRef=React.createRef()
+        this.houseTypeRef=React.createRef()
+        this.zipRef=React.createRef()
+        this.cardDetails=React.createRef()
+        this.termsInputRef=React.createRef()
+        this.termsMassegeRef=React.createRef()
         
 
         this.calculator=this.calculator.bind(this)
         this.checkCoupon=this.checkCoupon.bind(this)
         this.inputValid=this.inputValid.bind(this)
-
     }
 
 
@@ -51,9 +62,14 @@ export default class CheckOut extends Component {
 
         this.mailMassegeRef.current.style.display="none"
         this.userMassegeRef.current.style.display="none"
+        this.cityMessageRef.current.style.display="none"
+        this.addressMessageRef.current.style.display="none"
         this.phoneMassegeRef.current.style.display="none"
         this.validityMassegeRef.current.style.display="none"
         this.cardMassegeRef.current.style.display="none"
+        this.cardDetails.current.style.display="none"
+        this.termsMassegeRef.current.style.display="none"
+
         this.loadItemsFromLocalStorage()
         this.calculator()
     }
@@ -153,14 +169,24 @@ export default class CheckOut extends Component {
         const lnameInput= this.userLnameRef.current
         const userMassage= this.userMassegeRef.current
 
+        const cityInput = this.cityRef.current
+        const cityMassege =this.cityMessageRef.current
+
+        const addressInput =this.addressRef.current
+        const addressMessage =this.addressMessageRef.current
+
         const phoneInput= this.phoneInputRef.current
         const phoneMassage= this.phoneMassegeRef.current
+
+        const zipInput= this.zipRef.current
+
+        const cardMassege= this.cardMassegeRef.current
 
         const validityInput= this.validityRef.current
         const validityMassege= this.validityMassegeRef.current
 
-        const cardInput=this.cardInputRef.current
-        const cardMassege=this.cardMassegeRef.current
+        const termInput= this.termsInputRef.current
+        const termMessage= this.termsMassegeRef.current
 
         /////////////    check email   ///////////
 
@@ -187,6 +213,24 @@ export default class CheckOut extends Component {
             else
                 userMassage.style.display="none"
 
+        /////////////    check city   ///////////
+
+        if(cityInput.value.length<2){
+            flag=false
+            cityMassege.style.display="inline"
+        }
+        else
+            cityMassege.style.display="none"
+
+        /////////////    check address   ///////////
+
+        if(addressInput.value.length<2){
+            flag=false
+            addressMessage.style.display="inline"
+        }
+        else
+            addressMessage.style.display="none"
+
         /////////////    check phone   ///////////
            
         if(phoneInput.value[0] !=0 || phoneInput.value[1]!=5 || phoneInput.value.length!==10){
@@ -196,25 +240,66 @@ export default class CheckOut extends Component {
         else
             phoneMassage.style.display="none"
 
-        /////////////    check validity   ///////////
+       
+        /////////////    chose type of payment   ///////////
 
-        if(validityInput.value.includes("/") && validityInput.value.length===5){
-
-            let arr=validityInput.value.split("/")
-            if(Number.isInteger(arr[0]*1) && Number.isInteger(arr[1]*1))
-                validityMassege.style.display="none"
-            else{
-                flag=false
-                validityMassege.style.display="inline"
-            }
-        
+        if(!this.state.cardType){
+            cardMassege.style.display="inline"
+            flag=false
         }else{
-            validityMassege.style.display="inline"
+            cardMassege.style.display="none"
+        }
+
+        /////////////    check card detail   ///////////
+
+        if(this.state.cardType==="mastercard" || this.state.cardType==="visa" || this.state.cardType==="amex"){
+
+            /////////////    check validity   ///////////
+
+            if(validityInput.value.includes("/") && validityInput.value.length===5){
+
+                let arr=validityInput.value.split("/")
+                if(Number.isInteger(arr[0]*1) && Number.isInteger(arr[1]*1))
+                    validityMassege.style.display="none"
+                else{
+                    flag=false
+                    validityMassege.style.display="inline"
+                }
+
+            }else{
+                validityMassege.style.display="inline"
+                flag=false
+            }
+            
+
+        }else if(this.state.cardType==="paypal"){
+            if(!(localStorage.getItem("order")==="correct"))
+            flag=false
+        }else{
             flag=false
         }
-            
-        /////////////    chose type of payment   ///////////
-        /////////////    chose type of payment end  ///////////
+
+        /////////////    check term   ///////////
+
+        if(!termInput.checked){
+            termMessage.style.display="inline"
+            flag=false
+        }else{
+            termMessage.style.display="none"
+        }
+
+
+
+
+        if(flag){
+
+            let userDetail={fname:fnameInput.value,lname:lnameInput.value,email:mailInput.value,city:cityInput.value,address:addressInput.value,houseType:this.houseTypeRef.current.value,zip:zipInput.value,phone:phoneInput.value}
+            localStorage.setItem("userDetails",JSON.stringify(userDetail))
+            this.setState({detailUser:userDetail})
+
+        }
+
+
         this.setState({validForm:flag})
     }
        
@@ -222,6 +307,17 @@ export default class CheckOut extends Component {
     
     valiNumber(e) {
         e.value=e.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+        }
+
+        cardType(e){
+
+            this.setState({cardType:e})
+
+                if(e==="mastercard" || e==="visa" || e==="amex")
+                    this.cardDetails.current.style.display="inline"
+                else 
+                    this.cardDetails.current.style.display="none"
+
         }
       
 
@@ -233,33 +329,34 @@ export default class CheckOut extends Component {
                 
                 <div className="statusOrder">
 
-                    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
-                        
-                        <div className="collapse navbar-collapse " id="navbarTogglerDemo03">
-                            <ul className="navbar-nav mr-auto mt-2 mt-lg-0 fs-3">
-                                <li className="nav-item">
-                                    <a className="nav-link" href="#">עגלת קניות </a>
-                                </li>
-                                <li className="nav-item">
-                                    <span><i className="fas fa-chevron-left"></i></span>
-                                </li>
-                                <li className="nav-item active">
-                                    <a className="nav-link" href="#">פרטי ההזמנה<span className="sr-only">(current)</span></a>
-                                </li>
-                                <li className="nav-item">
-                                    <span><i className="fas fa-chevron-left"></i></span>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link disabled" href="#">הזמנה הושלמה</a>
-                                </li>
-                            </ul>
-                        
-                        </div>
-                    </nav>
-
+                    <div class="container p-0">
+                            <div class="card">
+                            
+                                <div class="card-body">
+                                    <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                                    <div class="step completed m-0">
+                                        <div class="step-icon-wrap">
+                                        <div class="step-icon "><i class="pe-7s-cart "></i></div>
+                                        </div>
+                                        <h4 class="step-title fs-5">עגלת קניות</h4>
+                                    </div>
+                                    <div class="step completed m-0">
+                                        <div class="step-icon-wrap">
+                                        <div class="step-icon"><i class="pe-7s-config"></i></div>
+                                        </div>
+                                        <h4 class="step-title fs-5">פרטי ההזמנה</h4>
+                                    </div>
+                                    <div class="step m-0">
+                                        <div class="step-icon-wrap">
+                                        <div class="step-icon"><i class="pe-7s-medal"></i></div>
+                                        </div>
+                                        <h4 class="step-title fs-5">ההזמנה הושלמה</h4>
+                                    </div>
+                                
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
                 </div>
 
                 <div className="btnRow mb-3">
@@ -271,7 +368,7 @@ export default class CheckOut extends Component {
                                         
                     <div id="myForm">
                         <hr style={{height:"5px"}}></hr>
-                        <form className="formToOrder m-5 fs-4 " method="POST" onSubmit={e=>{ e.preventDefault();}}>
+                        <div className="formToOrder m-5 fs-4">
                             <h3>פרטי חיוב:</h3>
                             <div class="form-group row ">
                                 <div className="col">
@@ -290,7 +387,7 @@ export default class CheckOut extends Component {
                                 </div>
                                 <p id="usercheck" style={{color: "red"}} className="vlidMassege" ref={this.userMassegeRef}>
                                         **חובה למלא שם פרטי ושם משפחה תיקניים  
-                                    </p>
+                                </p>
                             </div>
 
                             <div className="form-group">
@@ -298,11 +395,7 @@ export default class CheckOut extends Component {
                                     מייל:  *
                                 </label>
                                 <input type="email" name="email" id="email" required className="form-control" ref={this.mailRef}/>
-                                <small id="emailvalid" className="form-text
-                                        text-muted invalid-feedback">
-                                        ** חובה למלא מייל תקין
-                                </small>
-                                <p id="usercheck" style={{color: "red"}} ref={this.mailMassegeRef} className="vlidMassege">
+                                <p id="mailcheck" style={{color: "red"}} ref={this.mailMassegeRef} className="vlidMassege">
                                         **חובה למלא מייל תקין  
                                 </p>
                             </div>
@@ -311,11 +404,8 @@ export default class CheckOut extends Component {
                                 <label htmlFor="city">
                                     עיר:  *
                                 </label>
-                                <input type="city" name="city" id="city" required className="form-control"/>
-                                <small id="city" className="form-text
-                                        text-muted invalid-feedback">
-                                        ** חובה למלא את שם העיר
-                                </small>
+                                <input type="city" name="city" id="city" required className="form-control" ref={this.cityRef}/>
+                                <p id="citycheck" style={{color: "red"}} ref={this.cityMessageRef} className="vlidMassege">**חובה למלא את שם העיר </p>
                             </div>
 
                             <div className="form-group row">
@@ -324,18 +414,15 @@ export default class CheckOut extends Component {
                                     <label htmlFor="address">
                                         כתובת:  *
                                     </label>
-                                    <input type="address" name="address" id="address" required className="form-control" placeholder="מספר בית ושם רחוב"/>
-                                    <small id="address" className="form-text
-                                            text-muted invalid-feedback" >
-                                            ** חובה למלא כתובת
-                                    </small>
+                                    <input type="address" name="address" id="address" required className="form-control" placeholder="מספר בית ושם רחוב" ref={this.addressRef}/>
+                                    <p id="addresscheck" style={{color: "red"}} ref={this.addressMessageRef} className="vlidMassege">** חובה למלא כתובת </p>
                                 </div>
                                 
                                 <div className="col">
                                     <label htmlFor="typeAddress">
                                         
                                     </label>
-                                    <input type="text" name="typeAddress" id="typeAddress" className="form-control" placeholder="דירה/בית פרטי/יח' דיור..."/>
+                                    <input type="text" name="typeAddress" id="typeAddress" className="form-control" placeholder="דירה/בית פרטי/יח' דיור..." ref={this.houseTypeRef}/>
                                 </div>
                             </div>
                         
@@ -343,7 +430,7 @@ export default class CheckOut extends Component {
                                 <label htmlFor="zip">
                                     מיקוד:
                                 </label>
-                                <input type="zip" name="zip" id="zip" className="form-control" maxLength="7" onChange={(e)=>this.valiNumber(e.target)}/>
+                                <input type="zip" name="zip" id="zip" className="form-control" maxLength="7" onChange={(e)=>this.valiNumber(e.target)} ref={this.zipRef}/>
                             </div>
 
                             <div className="form-group ">
@@ -364,18 +451,25 @@ export default class CheckOut extends Component {
                             <div class="col-md-12">
                                 <div class="payment-info">
                                     <span class="type d-block mt-3 mb-1"> סוג כרטיס / פייפל</span>
-                                    <label class="radio"> <input type="radio" name="card" value="mastercard" ref={this.cardInputRef}/> <span><img width="50" src="https://img.icons8.com/color/48/000000/mastercard.png" /></span> </label>
-                                    <label class="radio"> <input type="radio" name="card" value="vise"/> <span><img width="50" src="https://img.icons8.com/officel/48/000000/visa.png" /></span> </label>
-                                    <label class="radio"> <input type="radio" name="card" value="amex"/> <span><img width="50" src="https://img.icons8.com/ultraviolet/48/000000/amex.png" /></span> </label>
-                                    <label class="radio"> <input type="radio" name="card" value="paypal"/> <span><img width="50" src="https://img.icons8.com/officel/48/000000/paypal.png" /></span> </label>
-                                    <p id="usercheck" style={{color: "red"}} className="vlidMassege" ref={this.cardMassegeRef}> ** נא לבחור אמצעי תשלום  </p>
-                                    <div><label class="credit-card-label">שם בעל הכרטיס:</label><input type="text" class="form-control credit-inputs" placeholder="ישראל ישראלי" required/></div>
-                                    <div><label class="credit-card-label">מספר כרטיס: </label><input type="text" class="form-control credit-inputs" placeholder="0000 0000 0000 0000" required onChange={(e)=>this.valiNumber(e.target)}/></div>
-                                    <div class="row ">
-                                        <div class="col-md-6"><label class="credit-card-label">תוקף הכרטיס:</label><input type="text" class="form-control credit-inputs" placeholder="12/24" required maxLength="5"ref={this.validityRef}/></div>
-                                        <div class="col-md-6"><label class="credit-card-label">CVV:</label><input type="text" class="form-control credit-inputs" placeholder="342" required maxLength="3" onChange={(e)=>this.valiNumber(e.target)}/></div>
-                                        <p id="usercheck" style={{color: "red"}} className="vlidMassege" ref={this.validityMassegeRef}> **  תוקף הכרטיס חייב להכיל  /  </p>
+                                    <label class="radio"> <input type="radio" name="card" value="mastercard" onClick={(e)=>this.cardType(e.target.value)}/> <span><img width="50" src="https://img.icons8.com/color/48/000000/mastercard.png" /></span> </label>
+                                    <label class="radio"> <input type="radio" name="card" value="visa" onClick={(e)=>this.cardType(e.target.value)}/> <span><img width="50" src="https://img.icons8.com/officel/48/000000/visa.png" /></span> </label>
+                                    <label class="radio"> <input type="radio" name="card" value="amex" onClick={(e)=>this.cardType(e.target.value)}/> <span><img width="50" src="https://img.icons8.com/ultraviolet/48/000000/amex.png" /></span> </label>
+                                    <label class="radio"> <input type="radio" name="card" value="paypal" onClick={(e)=>this.cardType(e.target.value)}/> <span><img width="50" src="https://img.icons8.com/officel/48/000000/paypal.png" /></span> </label>
+                                    <br/> <p id="usercheck" style={{color: "red"}} className="vlidMassege" ref={this.cardMassegeRef}> ** נא לבחור אמצעי תשלום  </p>
+
+                                    
+                                    <div ref={this.cardDetails}>
+                                        <div><label class="credit-card-label">שם בעל הכרטיס:</label><input type="text" class="form-control credit-inputs" placeholder="ישראל ישראלי" required/></div>
+                                        <div><label class="credit-card-label">מספר כרטיס: </label><input type="text" class="form-control credit-inputs" placeholder="0000 0000 0000 0000" required onChange={(e)=>this.valiNumber(e.target)}/></div>
+                                        <div class="row ">
+                                            <div class="col-md-6"><label class="credit-card-label">תוקף הכרטיס:</label><input type="text" class="form-control credit-inputs" placeholder="12/24" required maxLength="5"ref={this.validityRef}/></div>
+                                            <div class="col-md-6"><label class="credit-card-label">CVV:</label><input type="text" class="form-control credit-inputs" placeholder="342" required maxLength="3" onChange={(e)=>this.valiNumber(e.target)}/></div>
+                                            <p id="usercheck" style={{color: "red"}} className="vlidMassege" ref={this.validityMassegeRef}> **  תוקף הכרטיס חייב להכיל  /  </p>
+                                        </div>
                                     </div>
+
+                                    {(this.state.cardType==="paypal")&& <Paypal numberItem={this.state.arrItems.length} total={this.state.total}/>}
+
                                     <hr class="line"/>
                                     <div class="d-flex justify-content-between information"><span>סה"כ לתשלום:</span><span>{this.state.total}₪</span></div>
                                 </div>
@@ -384,13 +478,14 @@ export default class CheckOut extends Component {
 
 
                             <label id="Conditions" className="containerCheckBox">קראתי ואני מסכים לתנאי השימוש *
-                                <input type="checkbox" required className="form-control"/>
-                                <span className="checkmark"></span>
+                                <input type="checkbox" required className="form-control" ref={this.termsInputRef}/>
+                                <span className="checkmark"></span><br/>
+                                <p id="termscheck" style={{color: "red"}} className="vlidMassege" ref={this.termsMassegeRef}> ** חובה לאשר את התקנון שלא קיים  </p>
                             </label>
                             <br/>
 
-                            <input type="Submit" id="submitbtn" value="שלח" className="btn btn-primary pe-4 ps-4" onClick={this.inputValid}/>
-                        </form>
+                            <button id="submitbtn" className="btn btn-primary pe-4 ps-4" onClick={this.inputValid}>שלח</button>
+                        </div>
                     </div>
                     
                         
@@ -456,9 +551,7 @@ export default class CheckOut extends Component {
 
                 </div>
 
-            </div>: <OrderConfirmation/>}
-
-            
+            </div>: <OrderConfirmation userDetail={this.state.detailUser} numberItem={this.state.arrItems.length} sumItem={this.state.temporaryAmount} shipping={this.state.shipping} total={this.state.total} discountBool={this.state.couponUsed} discount={this.state.discount}/>}
         </div>
         )
     }

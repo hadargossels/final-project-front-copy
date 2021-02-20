@@ -133,7 +133,6 @@ class Product extends Component{
 quantity(e){
 
     let count=this.state.counter
-    console.log(count)
     
     if(e.value=="+"){
         count++
@@ -141,8 +140,6 @@ quantity(e){
     if(e.value=="-" && (count>1)){
         count--
     }
-    console.log(count)
-
     this.setState({counter:count})
 }
 //////////////////////      counter end     ///////////////////////////////////
