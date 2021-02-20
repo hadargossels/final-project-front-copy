@@ -2,41 +2,32 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 
 import CollectionItem from "../collection-item/collection-item.component";
+
 import "./collection-preview.styles.scss";
 
-const CollectionPreview = ({
-  title,
-  items,
-  history,
-  linkUrl,
-  match,
-  routeName,
-}) => (
+const CollectionPreview = ({ title, items, history, routeName }) => (
   <div className="collection-preview">
     <h1
       className="title"
-      onClick={() => history.push(`${routeName.toLowerCase()}`)}
+      onClick={() => history.push(`/shop/${routeName.toLowerCase()}`)}
     >
       {title.toUpperCase()}
-    </h1>
-
+    </h1>{" "}
     <div className="preview">
       {items
-        .filter((item, index) => index < 4)
-        .map(({ id, ...otherItemProps }) => (
-          <CollectionItem source="main" {...otherItemProps} />
+        .filter((item, idx) => idx < 4)
+        .map((item) => (
+          <CollectionItem key={item.id} item={item} />
         ))}
     </div>
     <button
       type="button"
       class="btn btn-warning"
-      onClick={() => history.push(`${routeName.toLowerCase()}`)}
+      onClick={() => history.push(`/shop/${routeName.toLowerCase()}`)}
     >
       See More...
     </button>
   </div>
 );
-
-// export default CollectionPreview;
 
 export default withRouter(CollectionPreview);

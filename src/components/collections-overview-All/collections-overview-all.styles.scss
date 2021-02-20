@@ -1,0 +1,27 @@
+.collections-overview {
+  display: flex;
+  flex-direction: column;
+  .upper-store-content {
+    display: flex;
+    flex-wrap: wrap;
+    //   justify-content: space-between;
+    .sorting-btn {
+      margin-left: auto;
+    }
+    .department-btn {
+      margin: 0px 10px;
+    }
+
+    .checked {
+      color: #fff;
+      background-color: #545b62;
+      border-color: #4e555b;
+    }
+
+    .unchecked {
+      color: #fff;
+      background-color: #6c757d;
+      border-color: #6c757d;
+    }
+  }
+}

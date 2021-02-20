@@ -1,34 +1,33 @@
 import React, { Component } from "react";
-import STORE_DATA from "../../pages/shop/store.data";
 
 import "./search-bar.styles.scss";
 
 class SearchBar extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      items: STORE_DATA,
-      searchField: "",
-    };
+    // this.state = {
+    //   items: STORE_DATA,
+    //   searchField: "",
+    // };
   }
 
-  handleChange = (event) => {
-    this.setState({
-      searchField: event.target.value,
-    });
-  };
+  // handleChange = (event) => {
+  //   this.setState({
+  //     searchField: event.target.value,
+  //   });
+  // };
 
   render() {
-    const { items, searchField } = this.state;
-    const filteredItems = items.filter((item) =>
-      item.name.toLowerCase().includes(searchField.toLowerCase())
-    );
-    console.log("filteredItems :", filteredItems);
+    // const { items, searchField } = this.state;
+    // const filteredItems = items.filter((item) =>
+    //   item.name.toLowerCase().includes(searchField.toLowerCase())
+    // );
+    // console.log("filteredItems :", filteredItems);
 
     return (
-      <form class="example search-bar " action="/store">
+      <form class="example search-bar " action="/shop">
         <input
-          onChange={this.handleChange}
+          // onChange={this.handleChange}
           type="text"
           placeholder="Search.."
           name="q"

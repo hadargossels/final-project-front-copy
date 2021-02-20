@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SHOP_DATA from "./../shop/shop.data";
+// import SHOP_DATA from "./../shop/shop.data";
 
 import "./product.styles.scss";
 import { connect } from "react-redux";
@@ -7,13 +7,18 @@ import { addItem, removeItem } from "../../redux/cart/cart.actions";
 import { selectCartItems } from "./../../redux/cart/cart.selectors";
 import { selectCartTotal } from "./../../redux/cart/cart.selectors";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { selectCollectionsForPreview } from "../../redux/shop/shop.selectors";
+import { createStructuredSelector } from "reselect";
 
 function ProductPage(props) {
   console.log("props :", props);
-  const collections = SHOP_DATA;
+  // const collections = SHOP_DATA;
+
+  const [collectionsDisplay, setCollections] = useState(props.collections);
+
   const productName = props.match.params.id.replaceAll("-", " ");
 
-  var arrOfArr = collections.map((collection) => {
+  var arrOfArr = collectionsDisplay.map((collection) => {
     return collection.items;
   });
   // console.log("arrOfArr :", arrOfArr);
@@ -670,11 +675,18 @@ function ProductPage(props) {
 //   <div className="product">
 //   </div>
 // );
-const mapStateToProps = (state, ownProps) => {
-  return {
-    cartItems: selectCartItems(state),
-  };
-};
+// const mapStateToProps = (state, ownProps) => {
+//   return {
+//     cartItems: selectCartItems(state),
+//     collectionsDisplay: selectCollectionsForPreview,
+//   };
+// };
+
+const mapStateToProps = createStructuredSelector({
+  // cartItems: selectCartItems,
+
+  collections: selectCollectionsForPreview,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   addItem: (item) => dispatch(addItem(item)),

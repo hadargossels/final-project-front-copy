@@ -22,7 +22,7 @@ const DepartmentsBtn = (props) => (
       props.handleClick(event.target.innerText.toLowerCase());
     }}
   >
-    <label class="btn btn-secondary active">
+    <label class="btn btn-secondary ">
       <input type="checkbox" autoComplete="off" /> {props.title}
     </label>
   </div>

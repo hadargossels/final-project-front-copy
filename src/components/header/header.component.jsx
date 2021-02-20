@@ -10,11 +10,11 @@ import { auth } from "../../firebase/firebase.utils";
 import "./header.styles.scss";
 
 import { ReactComponent as Logo } from "../../assets/pug.svg";
-import SearchBar from "../search-bar/search-bar.component";
 import CartIcon from "../cart-icon/cart-icon.component";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import { selectCartHidden } from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selector";
+import SearchBar from "./../search-bar/search-bar.component";
 
 const activeStyle = {
   color: "#f7a116",
@@ -41,8 +41,8 @@ const Header = ({ currentUser, hidden }) => (
         COLLECTIONS
       </NavLink> */}
 
-          <NavLink className="option" activeStyle={activeStyle} to="/store">
-            STORE
+          <NavLink className="option" activeStyle={activeStyle} to="/shop">
+            Shop
           </NavLink>
 
           <NavLink className="option" activeStyle={activeStyle} to="/about">

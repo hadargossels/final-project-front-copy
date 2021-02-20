@@ -6,29 +6,22 @@ import {
   BrowserRouter as Router,
 } from "react-router-dom";
 
-import { connect } from "react-redux";
-
 import "./App.css";
-import Header from "./components/header/header.component.jsx";
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+
+import { connect } from "react-redux";
 import { setCurrentUser } from "./redux/user/user.actions";
+import { selectCurrentUser } from "./redux/user/user.selector";
+
+import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+
+import Header from "./components/header/header.component.jsx";
 
 import HomePage from "./pages/homepage/homepage.component";
-import ShopPage from "./pages/shop/shop.component.jsx";
-import ClothingPage from "./pages/shop/clothing/clothing.component.jsx";
-import CollarsPage from "./pages/shop/collars/collars.component.jsx";
-import GroomingPage from "./pages/shop/grooming/grooming.component.jsx";
-import TrainingPage from "./pages/shop/training/training.component.jsx";
-import ToysPage from "./pages/shop/toys/toys.component.jsx";
-import CarriersPage from "./pages/shop/carriers/carriers.component.jsx";
-import OutdoorPage from "./pages/shop/outdoor/outdoor.component.jsx";
-import FeedingPage from "./pages/shop/feeding/feeding.component.jsx";
-
-import NotFoundPage from "./pages/shop/notfound/notfound.component.jsx";
 
 import Footer from "./components/Footer/Footer";
-import StorePage from "./pages/shop/store/store.component";
-import FurniturePage from "./pages/shop/furniture/furniture.component.jsx";
+
+import ShopPage from "./pages/shop/shop.component.jsx";
+
 import ContactPage from "./pages/contact/contact.component";
 import AboutPage from "./pages/about/about.component";
 import BlogPage from "./pages/blog/blog.component";
@@ -44,8 +37,9 @@ import CheckoutPage from "./pages/checkout/checkout.component";
 import TrackingPage from "./pages/tracking/tracking.component";
 import { createStructuredSelector } from "reselect";
 
-import { selectCurrentUser } from "./redux/user/user.selector";
 import ScrollToTop from "./components/scroll-to-top/scroll-to-top.component";
+import NotFoundPage from "./pages/notfound/notfound.component";
+import CollectionPage from "./pages/collection/collection.component";
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
@@ -66,8 +60,13 @@ class App extends React.Component {
       }
 
       setCurrentUser(userAuth);
+      // addCollectionAndDocuments(
+      //   "collections",
+      //   collectionsArray.map(({ title, items }) => ({ title, items }))
+      // );
     });
   }
+
   componentWillUnmount() {
     this.unsubscribeFromAuth();
   }
@@ -82,20 +81,11 @@ class App extends React.Component {
           <Route exact path="/" component={HomePage} />
           <Route path="/product/:id" component={ProductPage} />
           <Route path="/shop" component={ShopPage} />
-          <Route path="/store" component={StorePage} />
+          <Route path="/store" component={ShopPage} />
           <Route path="/collections" component={ShopPage} />
           <Route path="/about" component={AboutPage} />
           <Route path="/blog" component={BlogPage} />
           <Route path="/contact" component={ContactPage} />
-          <Route path="/clothing" component={ClothingPage} />
-          <Route path="/collars" component={CollarsPage} />
-          <Route path="/grooming" component={GroomingPage} />
-          <Route path="/training" component={TrainingPage} />
-          <Route path="/toys" component={ToysPage} />
-          <Route path="/furniture" component={FurniturePage} />
-          <Route path="/carriers" component={CarriersPage} />
-          <Route path="/outdoor" component={OutdoorPage} />
-          <Route path="/feeding" component={FeedingPage} />
           <Route exact path="/shopping-cart" component={ShoppingCartPage} />
           {/* <Route exact path="/checkout" component={CheckoutPage} /> */}
           <Route
