@@ -1,0 +1,9 @@
+.payment-form input:valid {
+    border-color: green;
+}
+
+@media (min-width: 1200px) {
+    .articlePage .container{
+        max-width: 1000px;
+    }
+}

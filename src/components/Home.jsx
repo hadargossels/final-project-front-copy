@@ -69,28 +69,27 @@ class Home extends React.Component {
                         </Link>
                     </div>
                 </div>
-                <div className="container-fluid pt-3" style={{height: '400px'}}>
+                <div className="container-fluid py-4">
                     <div className="row text-center categories">
-                        
                         <div className="col-12 col-md-4">
-                            <Link to={{pathname: "/store/bedroom", category: "bedroom"}} style={{color: 'black', textDecoration: 'none'}}>
+                            <Link to="/store/bedroom" style={{color: 'black', textDecoration: 'none'}}>
                                 <div className="ml-5 box" id="bedroom">
-                                    <h1 className="pt-3">BEDROOM</h1>
+                                    <h1 className="display-4 pt-3" style={{fontWeight: "400", fontSize: "40px"}}>BEDROOM</h1>
                                 </div>
                             </Link>
                         </div>
                         
                         <div className="col-12 col-md-4">
-                            <Link to={{pathname: "/store/bathroom", category: "bathroom"}} style={{color: 'black', textDecoration: 'none'}}>
+                            <Link to="/store/bathroom" style={{color: 'black', textDecoration: 'none'}}>
                                 <div className="box" id="bathroom">
-                                    <h1 className="pt-3">BATHROOM</h1>
+                                    <h1 className="display-4 pt-3" style={{fontWeight: "400", fontSize: "40px"}}>BATHROOM</h1>
                                 </div>
                             </Link>
                         </div>
                         <div className="col-12 col-md-4">
-                            <Link to={{pathname: "/store/livingroom", category: "living room"}} style={{color: 'black', textDecoration: 'none'}}>
+                            <Link to="/store/livingroom" style={{color: 'black', textDecoration: 'none'}}>
                                 <div className="mr-5 box" id="living_room">
-                                    <h1 className="pt-3">LIVING ROOM</h1>
+                                    <h1 className="display-4 pt-3" style={{fontWeight: "400", fontSize: "40px"}}>LIVING ROOM</h1>
                                 </div>
                             </Link>
                         </div>
@@ -102,13 +101,13 @@ class Home extends React.Component {
                         <h1 style={{fontSize: "80px", color: "red"}}>Up to 30%</h1>
                     </div>
                     <Link to={{pathname: "/store/sale", onSale: true}} style={{color: 'white', textDecoration: 'none'}}>
-                        <h2 style={{fontSize: "70px"}}>See Products</h2>
+                        <h1 className="display-3" style={{fontWeight: "400"}}>See Products</h1>
                     </Link>
                 </div>
 
 
                 <div className="container-fluid text-center py-4">
-                    <h1>Best Sellers</h1>
+                    <h1 className="display-4" style={{fontWeight: "350", fontSize: "50px", margin:"0"}}>Best Sellers</h1>
                     {this.bestSellersCarousel()}
                 </div>
 

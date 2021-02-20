@@ -1,0 +1,17 @@
+#blog {
+    background-image: url("../img/blog.jpg");
+    height: 300px;
+    position: 'relative';
+    background-repeat: no-repeat;
+    background-size: 'cover';
+    background-position: 50% 70%;
+}
+
+/* #articles .container-lg {
+    max-width: 1000px !important;
+} */
+
+.something {
+    background-color: blue;
+    height: 300px;
+}

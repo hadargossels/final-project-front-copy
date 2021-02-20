@@ -26,7 +26,7 @@ class Header extends React.Component {
 
     displaySumCart = () => {
         if (this.props.qtySum > 0)
-            return <span className="mx-2 text-center" style={{height: '20px', width: '20px', backgroundColor: '#333333', color:'white', borderRadius: '50%', display: 'inline-block'}}>{this.props.qtySum}</span>
+            return <span className="mx-2 text-center" style={{height: '25px', width: '25px', backgroundColor: '#333333', color:'white', borderRadius: '50%', display: 'inline-block'}}>{this.props.qtySum}</span>
     }
 
     setCartModal = () => {
@@ -92,13 +92,13 @@ class Header extends React.Component {
                             <div className="mx-2">
                                 {this.displaySumCart()}           
                                 <button type="button" className="mx-2 button-icon" style={{border: 'none'}} data-toggle="modal" data-target="#cartModal">
-                                    <i className="fas fa-shopping-cart" style={{color: 'blue'}}></i>
+                                    <i className="fas fa-shopping-cart" style={{color: 'dodgerblue'}}></i>
                                 </button>
 
-                                <Link to="#" className="mx-2"><i className="fas fa-user"></i></Link>
+                                <Link to="#" className="mx-2"><i className="fas fa-user" style={{color: 'dodgerblue'}}></i></Link>
                             </div>
                             <input className="form-control mr-sm-2" placeholder="Search" aria-label="Search" ref={this.searchInputRef} onChange={this.setSearchInput}></input >
-                            <Link to={`/store?q=${this.state.searchInput}`} type="button" className="btn btn-outline-success my-2 my-sm-0">Search</Link>
+                            <Link to={`/store?q=${this.state.searchInput}`} type="button" className="btn btn-outline-dark my-2 my-sm-0">Search</Link>
                         </form>
                     </div>
                 </nav>

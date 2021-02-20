@@ -2,6 +2,11 @@ import main_image from './img/main.jpg';
 import bedroom_image from './img/bedroom.jpg';
 import bathroom_image from './img/bathroom.jpg';
 import livingroom_image from './img/living_room.jpg';
+import visalogo from './img/visalogo.png';
+import mastercardlogo from './img/mastercardlogo.png';
+import americanexpresslogo from './img/americanexpresslogo.png';
+import paypallogo from './img/paypallogo.png';
+import about_image from './img/about.jpg';
 import image1_1 from './img/sheets1.png';
 import image1_2 from './img/sheets1.png';
 import image1_3 from './img/sheets1.png';
@@ -25,6 +30,11 @@ const images = {
     bedroom_image: bedroom_image,
     bathroom_image: bathroom_image,
     livingroom_image: livingroom_image,
+    mastercardlogo: mastercardlogo,
+    americanexpresslogo: americanexpresslogo,
+    paypallogo: paypallogo,
+    visalogo: visalogo,
+    about_image: about_image,
     image1_1: image1_1,
     image1_2: image1_2,
     image1_3: image1_3,

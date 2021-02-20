@@ -1,4 +1,5 @@
 import React, { Component, createRef} from 'react';
+import {Link} from 'react-router-dom';
 import Product from './Product.jsx';
 import storeItems from './StoreItems.jsx'
 
@@ -99,7 +100,7 @@ class Store extends Component {
         
         if (this.onSaleRef.current.checked){
             storeItems.forEach(element => {
-                element.display = element.discount > 0;
+                element.display &= element.discount > 0;
             })
         }
         
@@ -145,6 +146,10 @@ class Store extends Component {
         this.setState({category: category, valuePriceSelect: 0});  // TODO: bug - price
     }
 
+    getActualPrice = (product) => {
+        return product.price * (1 - product.discount);
+    }
+
     changeSort = (event) => {
         this.setState({valueSortSelect: event.target.value});
         const sortedStore = this.state.store;
@@ -152,14 +157,14 @@ class Store extends Component {
         switch (event.target.value){
             case 'low': {
                 sortedStore.sort(function (a, b) {
-                    return a.actualPrice - b.actualPrice;
-                  });
+                    return a.price * (1 - a.discount) - b.price * (1 - b.discount);
+                });
                 break;
             }
             case 'high': {
                 sortedStore.sort(function (a, b) {
-                    return b.actualPrice - a.actualPrice;
-                  });
+                    return b.price * (1 - b.discount) - a.price * (1 - a.discount);
+                });
                 break;
             }
             default: {
@@ -183,58 +188,64 @@ class Store extends Component {
         return subCategories;
     }
 
-    componentRefresh() {
-        const urlParams = new URLSearchParams(this.props.location.search);
-        if (urlParams.get('q') !== null) {
-            this.state.store.forEach(element => {
-                if (element.name.toLowerCase().includes(urlParams.get('q').toLowerCase())) 
-                    element.display = true;
-                else
-                    element.display = false;
-            });
-            this.props.location.search = null;
-        }
+    getAllCategoriesUrl = () => {
+        let categories = [];
+        this.state.category.forEach(categoryItem => {
+            categories.push(categoryItem.name.replace(/\s/g, ''))
+        });
+        return categories;
+    }
+
+    handleStoreCategories() {    
+        // set sale reference if the location.onSale exists   
+        this.onSaleRef.current.checked |= this.props.location.onSale != null;
+
+        const category = this.state.category
+        const elements = document.getElementsByClassName("form-check-input");
         // setting the category (if exists) to be true
-        else if (this.props.location.category != null) {
-            const category = this.state.category
-            const elements = document.getElementsByClassName("form-check-input");
-
-            Array.from(elements).forEach(element => {
-                if (element.value === this.props.location.category) {
+        let transformedPath = this.props.location.pathname.split('/')
+        if (transformedPath.length > 2 && this.getAllCategoriesUrl().includes(transformedPath[2])) {
+            Array.from(elements).forEach(element => {   
+                if (element.value.replace(/\s/g, '') === transformedPath[2]) {
                     element.checked = true;
-
                     category.forEach(categoryItem => {
-                        if (categoryItem.name === element.value)
-                            categoryItem.isChecked = true;
-                        else {
-                            categoryItem.isChecked = false;
-                        }
+                        categoryItem.isChecked = categoryItem.name === element.value;
                     })
                 }
                 else {
                     element.checked = false;
                 }
             });
-            this.props.location.category = null;            
 
-            this.displayFilteredItems();
         }
-        //display products on sale
-        else if (this.props.location.onSale != null) {
-            this.onSaleRef.current.checked = true;
-            this.displayFilteredItems();
+
+        this.displayFilteredItems();
+    }
+
+    handleSearch() {
+        const urlParams = new URLSearchParams(this.props.location.search);
+        if (urlParams.get('q')) {
+            this.state.store.forEach(element => {
+                element.display = element.name.toLowerCase().includes(urlParams.get('q').toLowerCase());
+            });
         }
     }
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        this.componentRefresh();
+        this.handleStoreCategories();
+        this.handleSearch();
         this.setState({store: this.state.store});
     }
 
     componentDidUpdate(prevProps, prevState) {
-        this.componentRefresh();
-        if (this.props.location.search !== prevProps.location.search) {
+        if (this.props.location.pathname.toLowerCase() !== prevProps.location.pathname.toLowerCase()) {
+            this.handleStoreCategories();
+            this.setState({store: this.state.store});
+        }
+        
+        if (this.props.location.search.toLowerCase() !== prevProps.location.search.toLowerCase()) {
+            this.handleSearch();
             this.setState({store: this.state.store});
         }
     }
@@ -294,8 +305,8 @@ class Store extends Component {
                         <output> {this.state.valuePriceSelect}</output>
 
                         <div className="mt-3">
-                            <input className="btn btn-outline-primary btn-sm" type="button" value="Apply" onClick={this.applyFilter}></input>
-                            <input className="btn btn-outline-primary btn-sm mx-2" type="button" value="Reset" onClick={this.resetFilter}></input>
+                            <Link to="/store" className="btn btn-outline-primary btn-sm" type="button" onClick={this.applyFilter}>Apply</Link>
+                            <Link to="/store" className="btn btn-outline-primary btn-sm mx-2" type="button" onClick={this.resetFilter}>Reset</Link>
                         </div>
                         
                     </div>

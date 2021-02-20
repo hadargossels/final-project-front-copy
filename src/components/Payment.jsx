@@ -3,6 +3,8 @@ import '../payment.css';
 import OrderSummary from './OrderSummary.jsx';
 import 'bootstrap/js/dist/collapse';
 import $ from 'jquery';
+import images from '../images.js';
+import PayPalBtn from './PayPalBtn'
 
 
 class Payment extends React.Component {
@@ -20,6 +22,17 @@ class Payment extends React.Component {
         this.apartmentNumberRef = createRef();
         this.selectDelivery = createRef();
         this.cityRef = createRef();
+        this.paymentDetailsRef = createRef();
+
+        this.creditCardRef = createRef();
+        this.creditCardDetailsRef = createRef();
+        this.paypalDetailsRef = createRef();
+        this.paypalRef = createRef();
+        this.cardNumberRef = createRef();
+        this.expirationDateRef = createRef();
+        this.cvcRef = createRef();
+        this.cardOwnerIdRef = createRef();
+
         this.state = {
             deliveryAmount: 0,
             messageFullName: '',
@@ -71,8 +84,16 @@ class Payment extends React.Component {
         }
     }
 
+    getMyCoupon = () => {
+        let myCupon = JSON.parse(localStorage.getItem('myCupon'));
+        if (myCupon === null)
+            myCupon = {code: '', discount: 0};
+        return myCupon;
+    }
+
     getTotalAmountAfterDelivery = () => {
-        return (this.props.getSubTotalAmount() * (1 +this.props.tax)) * (1) + this.state.deliveryAmount;
+        let myCupon = this.getMyCoupon();
+        return (this.props.getSubTotalAmount() * (1 +this.props.tax)) * (1 - myCupon.discount) + this.state.deliveryAmount;
     }
 
     submitCostumerDetails = (event) => {
@@ -82,8 +103,10 @@ class Payment extends React.Component {
                                 emailPattern: "Please provide a valid email",
                                 phonePattern: "Please provide a valid phone number"                           
                                 };
-
+        const phonePattrern = /^0\d{2}-?\d{3}-?\d{4}/;
+        const emailPattern = /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/;
         let correctInputs = true;
+
         if (this.fullNameRef.current.validity.valueMissing){
             this.fullNameRef.current.style.borderColor = 'red';
             correctInputs = false;
@@ -94,7 +117,6 @@ class Payment extends React.Component {
             this.fullNameRef.current.style.borderColor = 'green';
         }
         
-        const phonePattrern = /^0\d{2}-\d{3}-\d{4}/;
         if (this.phoneRef.current.validity.valueMissing) {
             this.phoneRef.current.style.borderColor = 'red';
             correctInputs = false;
@@ -110,7 +132,6 @@ class Payment extends React.Component {
             this.phoneRef.current.style.borderColor = 'green';
         }
         
-        const emailPattern = /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/;
         if (!this.emailRef.current.value){
             this.emailRef.current.style.borderColor = 'red';
             correctInputs = false;
@@ -139,7 +160,6 @@ class Payment extends React.Component {
                                 emailPattern: "Please provide a valid email",
                                 phonePattern: "Please provide a valid phone number"                           
                                 };
-
         let correctInputs = true;
         
         if (this.firstNameRef.current.validity.valueMissing){
@@ -197,6 +217,27 @@ class Payment extends React.Component {
         }  
     }
 
+    submitPaymentDetails = () => {
+        console.log('TODO submitPaymentDetails');
+    }
+
+    setPaymentMethod = () => {
+        if(this.paypalRef.current.checked) {
+            $(this.creditCardDetailsRef.current).collapse('hide');
+            $(this.paypalDetailsRef.current).collapse('show');
+        }
+        else if (this.creditCardRef.current.checked) {
+            $(this.creditCardDetailsRef.current).collapse('show');
+            $(this.paypalDetailsRef.current).collapse('hide');
+        }
+    }
+
+    paymentHandler = (details, data) => {
+        /** Here you can call your backend API
+          endpoint and update the database */
+        console.log(details, data);
+    }
+
     render() {
         return (
             <div className="container">
@@ -206,7 +247,7 @@ class Payment extends React.Component {
                        
                             <div className="col-12 col-md-10 border-bottom" style={{borderColor: '#d9d9d9'}}>
                                 <button className="btn btn-light btn-block text-left" type="button" data-toggle="collapse" data-target="#costumerDetails" aria-expanded="false" aria-controls="collapseExample">
-                                    Costumer details
+                                    Costumer Details
                                 </button>
                                 <div className="collapse mb-2" id="costumerDetails" ref={this.costumerDetailsRef}>
                                     <form>
@@ -242,7 +283,7 @@ class Payment extends React.Component {
 
                             <div className="col-12 col-md-10 mt-4 border-bottom" style={{borderColor: '#d9d9d9'}}>
                                 <button className="btn btn-light btn-block text-left" type="button" data-toggle="collapse" data-target="#RecipientDetails" aria-expanded="false" aria-controls="collapseExample">
-                                    Recipient details
+                                    Recipient Details
                                 </button>
                                 <div className="collapse mb-2" id="RecipientDetails"  ref={this.recipientDetails}>
                                     <form>
@@ -310,6 +351,71 @@ class Payment extends React.Component {
                                     </select>
                                 </div>
                             </div>
+
+                            {/* Payment Form */}
+                            <div className="col-12 col-md-10 border-bottom" style={{borderColor: '#d9d9d9'}}>
+                                <button className="btn btn-light btn-block text-left" type="button" data-toggle="collapse" data-target="#paymentDetails" aria-expanded="false" aria-controls="collapseExample">
+                                    Payment Details
+                                </button>
+                                <div className="collapse mb-2" id="paymentDetails" ref={this.paymentDetailsRef}>
+                                    <form>
+                                        <div className="form-group mt-2 payment-form">
+
+                                            <label className="mr-3" htmlFor="paymentMethod">Payment Method:</label>
+                                            <div className="form-check form-check-inline">
+                                                <input className="form-check-input" type="radio" name="inlineRadioOptions" ref={this.creditCardRef} onClick={this.setPaymentMethod} id="inlineRadio1"/>
+                                                <img className="mx-2" src={images.visalogo} alt="..." style={{maxHeight:"35px", maxWidth:"35px"}}></img>
+                                                <img className="mx-2" src={images.mastercardlogo} alt="..." style={{maxHeight:"35px", maxWidth:"35px"}}></img>
+                                                <img className="mx-2" src={images.americanexpresslogo} alt="..." style={{maxHeight:"35px", maxWidth:"35px"}}></img>
+                                            </div>
+                                            <div className="form-check form-check-inline">
+                                                <input className="form-check-input" type="radio" name="inlineRadioOptions" ref={this.paypalRef} onClick={this.setPaymentMethod} id="inlineRadio2"/>
+                                                <img className="mx-2" src={images.paypallogo} alt="..." style={{maxHeight:"35px", maxWidth:"35px"}}></img>
+                                            </div>
+                                            <div className="invalidMassege text-danger">
+                                                {this.state.messagePaymentMethod}
+                                            </div>
+
+                                            <div className="collapse mb-2" id="creditCardDetails" ref={this.creditCardDetailsRef}>
+                                                <label htmlFor="cardNumber">Card Number:</label>
+                                                <input type="text" className="form-control" ref={this.cardNumberRef} placeholder="Valid Card Number" required></input>
+                                                <div className="invalidMassege text-danger">
+                                                    {this.state.messageCardNumber}
+                                                </div>
+                                                
+                                                <div className="form row">
+                                                    <div className="col-6">
+                                                        <label htmlFor="expirationDate">Expiration Date:</label>
+                                                        <input type="text" className="form-control" ref={this.expirationDateRef} placeholder="MM/YY" required></input>
+                                                        <div className="invalidMassege text-danger">
+                                                            {this.state.messageExpirationDate}
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-6">
+                                                        <label htmlFor="cvCode">CV Code:</label>
+                                                        <input type="text" className="form-control" ref={this.cvcRef} placeholder="CVC" required></input>
+                                                        <div className="invalidMassege text-danger">
+                                                            {this.state.messageCVCode}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <label htmlFor="cardOwner">Card Owner ID</label>
+                                                <input type="text" className="form-control" ref={this.cardOwnerIdRef} placeholder="Card Owner ID" required></input>
+                                                <div className="invalidMassege text-danger">
+                                                    {this.state.messageCardNumber}
+                                                </div>
+                                            </div>
+
+                                            <div className="collapse mb-2" id="paypalDetails" ref={this.paypalDetailsRef}>
+                                                <PayPalBtn amount = {1} currency = {'USD'} onSuccess={this.paymentHandler}/>
+                                            </div>
+                                 
+                                            <button type="submit" className="btn btn-primary btn-sm mt-2" onClick={this.submitPaymentDetails}>Next</button>
+                                        </div>
+                                    </form> 
+                                </div>
+                            </div> 
                         
                             <div className="col-12 col-md-10 mt-2">
                                 <button type="submit" className="btn btn-primary">Payment</button> 

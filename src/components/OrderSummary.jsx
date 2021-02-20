@@ -10,7 +10,7 @@ class OrderSummary extends Component {
       this.amountAfterCupon = createRef();
       this.state = {
         cupons: {'': 0, "1234A": 0.15, "5555B": 0.2, "5678C": 0.3},
-        couponCode: ''
+        myCupon: {}
       }
     }
 
@@ -18,12 +18,16 @@ class OrderSummary extends Component {
         return this.props.getSubTotalAmount() * (1 +this.props.tax);
     }
 
-    ActivateCoupon = (e) => {
+    onActivateCoupon = (e) => {
         e.preventDefault();
+        this.activateCoupon();
+    }
 
+    activateCoupon = () => {
         if (!this.cuponInputRef.current.value) {
-            this.setState({couponCode: ''});
-            localStorage.setItem('couponCode', '');
+            let myCupon = {code: '', discount: 0}
+            this.setState({myCupon});
+            localStorage.setItem('myCupon', JSON.stringify(myCupon));
             this.cuponDiscountRef.current.style.display = "none";
             this.totalAmountRef.current.style.textDecorationLine = "none";
             this.amountAfterCupon.current.style.display = "none";
@@ -33,8 +37,9 @@ class OrderSummary extends Component {
             Object.keys(this.state.cupons).forEach(element => {
                 if (element === this.cuponInputRef.current.value){
                     cuponConfirmed = true;
-                    this.setState({couponCode: element});
-                    localStorage.setItem('couponCode', element);
+                    let myCupon = {code: element, discount: this.state.cupons[element]}
+                    this.setState({myCupon});
+                    localStorage.setItem('myCupon', JSON.stringify(myCupon));
                     this.cuponDiscountRef.current.style.display = "block";
                     this.totalAmountRef.current.style.textDecorationLine = "line-through";
                     this.amountAfterCupon.current.style.display = "block";
@@ -46,9 +51,20 @@ class OrderSummary extends Component {
         }
     }
 
+    getMyCoupon = () => {
+        let myCupon = JSON.parse(localStorage.getItem('myCupon'));
+        if (myCupon === null)
+            myCupon = {code: '', discount: 0};
+        return myCupon;
+    }
+
+    componentDidMount() {
+        this.activateCoupon();
+    }
+
     render() {
-        let couponCode = localStorage.getItem('couponCode');
-        let myDiscount = this.state.cupons[couponCode];
+        let myCupon = this.getMyCoupon();
+        
         return (
         <>
             <h4 className="border-bottom pb-2">Order Summary</h4>
@@ -57,13 +73,13 @@ class OrderSummary extends Component {
             <form>
                 <div className="form-group">
                     <label htmlFor="cupon">Cupon-code:</label>
-                    <input type="text" className="form-control d-inline" id="cuponInput" ref={this.cuponInputRef} defaultValue={couponCode}></input>
-                    <button type="submit" className="btn btn-outline-primary btn-sm d-inline" onClick={this.ActivateCoupon}>Activate coupon</button>
+                    <input type="text" className="form-control d-inline" id="cuponInput" ref={this.cuponInputRef} defaultValue={myCupon.code}></input>
+                    <button type="submit" className="btn btn-outline-primary btn-sm d-inline" onClick={this.onActivateCoupon}>Activate coupon</button>
                 </div>
             </form>
-            <div className="text-success" ref={this.cuponDiscountRef} style={{display:'none'}}>{myDiscount * 100}% discount</div>
+            <div className="text-success" ref={this.cuponDiscountRef} style={{display:'none'}}>{myCupon.discount * 100}% discount</div>
             <p className="mt-1"><b>Total:</b> <span className="text-success" ref={this.totalAmountRef}>${(this.getTotalAmount()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span></p>
-            <p className="text-success" ref={this.amountAfterCupon} style={{display:'none'}}>${(this.getTotalAmount() * (1 - myDiscount)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>            
+            <p className="text-success" ref={this.amountAfterCupon} style={{display:'none'}}>${(this.getTotalAmount() * (1 - myCupon.discount)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>            
         </>
         )
     }

@@ -31,7 +31,8 @@
 }
 
 #sale {
-    background-image: url("./img/sale.jpg");
+    /* background-image: url("./img/sale.jpg"); */
+    background-color: #f7ded4;
     height: 400px;
     position: 'relative';
     background-repeat: no-repeat;

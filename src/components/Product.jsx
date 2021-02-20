@@ -23,9 +23,9 @@ class Product extends Component {
 
     render() {
         return (
-            <div className="col-xs-6 col-md-3">
+            <div className="col-xs-6 col-md-3 pb-2">
                 <Link to={`/${this.props.productElement.url}`} style={{ color: 'black', textDecoration: 'none' }}>
-                    <div className="card text-center">
+                    <div className="card text-center" style={{height: '100%'}}>
                         <img className="card-img-top" src={this.props.productElement.images[0]} alt={this.props.productElement.name}></img>
                         <div className="card-body py-0 px-0">
                             <p className="card-title">{this.props.productElement.name}</p>

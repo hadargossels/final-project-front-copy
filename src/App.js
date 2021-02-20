@@ -10,6 +10,11 @@ import Payment from './components/Payment.jsx';
 import ProductPage from './components/ProductPage.jsx';
 import PageNotFound from './components/PageNotFound.jsx';
 import storeItems from './components/StoreItems.jsx';
+import Contact from './components/Contact.jsx';
+import About from './components/About.jsx';
+import Blog from './components/Blog.jsx';
+import ArticlePage from './components/ArticlePage.jsx';
+import articles from './data/articles.json';
 
 
 class App extends Component {
@@ -94,36 +99,41 @@ class App extends Component {
           The product was successfully added to the shopping cart
         </div>
         <Switch>
-            <Route exact path="/" component={Home}/>
-            {/* <Route path="/about" component={About}/>*/}
-            <Route path="/store" component={Store}/>
-            <Route path="/cart">
-              <ShoppingCart 
-                cartProducts={this.state.cartProducts} 
-                onQtyChange={this.handleQtyChange}
-                onDeleteCartProduct={this.handleDeleteCartProduct}
-                getSubTotalAmount={this.getSubTotalAmount}
-                tax={this.state.tax}/>
-            </Route>
-            <Route path="/payment">
-              <Payment
-                cartProducts={this.state.cartProducts}
-                getSubTotalAmount={this.getSubTotalAmount}
-                tax={this.state.tax} >
-              </Payment>
-            </Route> 
-            
+          <Route exact path="/" component={Home}/>
+          <Route path="/store" component={Store}/>
+          <Route path="/contact"> <Contact /> </Route>
+          <Route path="/about"> <About /> </Route>
+          <Route path="/blog"> <Blog /> </Route>
+          <Route path="/cart">
+            <ShoppingCart 
+              cartProducts={this.state.cartProducts} 
+              onQtyChange={this.handleQtyChange}
+              onDeleteCartProduct={this.handleDeleteCartProduct}
+              getSubTotalAmount={this.getSubTotalAmount}
+              tax={this.state.tax}/>
+          </Route>
+          <Route path="/payment">
+            <Payment
+              cartProducts={this.state.cartProducts}
+              getSubTotalAmount={this.getSubTotalAmount}
+              tax={this.state.tax} >
+            </Payment>
+          </Route> 
+          
+          {storeItems.map(product => 
+            <Route path={`/${product.url}`} component={() => 
+              <ProductPage product={product} onAddToCart={this.handleAddToCart}/>
+            } key={product.id}/>
+          )}
 
-            { storeItems.map(product => 
-                <Route path={`/${product.url}`} component={() => 
-                  <ProductPage product={product} onAddToCart={this.handleAddToCart}/>
-                } key={product.id}/>
-            )}
-            
-            {/* <Route path="/blog" component={Blog}/>*/}
-            {/* <Route path="/contact"> <Contact /> </Route>}
-            {<Route path="/info"> <Info /> </Route> */}
-            <Route path="*" component={PageNotFound}/>
+          {articles.map(article => 
+            <Route path={`/article-${article.id}`} key={article.id}>
+              <ArticlePage article={article}></ArticlePage>
+            </Route>
+          )}
+          
+          
+          <Route path="*" component={PageNotFound}/>
         </Switch>
 
         <Footer></Footer>

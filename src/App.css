@@ -16,6 +16,10 @@
   display: inline !important;
 }
 
+button.gm-ui-hover-effect {
+  visibility: hidden;
+}
+
 
 /* .App {
   text-align: center;
