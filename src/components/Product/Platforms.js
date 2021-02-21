@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
 class Platforms extends Component{
-    render(props){
-
+    render(){
         return(    
             <div>
                 <span className="fw-bold">Platforms:</span>

@@ -1,18 +1,25 @@
 import React, { Component } from 'react'
+import axios from 'axios'
+import queryString from 'query-string'
+
 import Catalog from './Catalog';
 import './CatalogPage.css'
-import {objectsArr} from '../Product/data'
-import queryString from 'query-string'
 
 export default class CatalogPage extends Component {
     constructor(props){
         super(props)
         this.searchVal = queryString.parse(props.location.search)
         this.filterBtn = props.match.params.search
+        this.state= {allProducts:""}
+    }
+    componentDidMount(){
+        axios.get("http://localhost:3000/objectsArr").then(allProducts =>{
+            this.setState({allProducts:allProducts.data})
+        })
     }
 
     render() {
-        let objCatalog = [...objectsArr]
+        let objCatalog = [...this.state.allProducts]
         let toSearch = (this.searchVal.q)
 
         if (toSearch){
@@ -30,10 +37,14 @@ export default class CatalogPage extends Component {
         }
 
         return (
-            <div className="container">
-                <p>{this.exampleProp}</p>
-                <h1 className="text-center py-3">Game Catalog</h1>
-                <Catalog arr={objCatalog}/>
+            <div>
+                {!this.state.allProducts? <div>loading</div> :
+                    <div className="container">
+                        <p>{this.exampleProp}</p>
+                        <h1 className="text-center py-3">Game Catalog</h1>
+                        <Catalog arr={objCatalog}/>
+                    </div>
+                }
             </div>
         )
     }

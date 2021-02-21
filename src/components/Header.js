@@ -8,7 +8,6 @@ class Header extends Component{
       this.state = {itemsInCart: JSON.parse(localStorage.getItem("productsArr")) ? JSON.parse(localStorage.getItem("productsArr")).length : 0}
    }
 
-
     render(){
       const noDeco = {textDecoration:"none"}
        return(

@@ -1,22 +1,28 @@
 import React, { Component } from 'react'
-import {users} from './Users.json'
 import {Redirect} from 'react-router-dom'
+import axios from 'axios'
 
 export default class Login extends Component {
     constructor(){
         super()
-        this.state = {loggedIn: localStorage.getItem("login")}
+        this.state = {loggedIn: localStorage.getItem("login"), userList:[]}
         this.userRef = React.createRef();
         this.passRef = React.createRef();
+    }
+
+    componentDidMount(){
+        axios.get("http://localhost:3000/users").then(response=>{
+            this.setState({userList:response.data})
+        })
     }
 
     checkUser(e){
         e.preventDefault()
         let inputUsername = this.userRef.current.value
         let inputPassword = this.passRef.current.value
-        for (let user of users){
+        for (let user of this.state.userList){
             if (user.username === inputUsername && user.password === inputPassword){
-                localStorage.setItem("login",user.id)
+                localStorage.setItem("login",user.username)
                 this.setState({loggedIn:true})
                 break;
             }

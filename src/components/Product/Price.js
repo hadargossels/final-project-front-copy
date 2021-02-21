@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 class Price extends Component{
     constructor(props){
         super(props);
@@ -7,7 +6,6 @@ class Price extends Component{
         this.discount = this.props.discount
     }
     render(){
-        
         if (this.discount){
             return(
                 <div className="text-start py-3">

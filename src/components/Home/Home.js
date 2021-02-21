@@ -1,20 +1,25 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import "./Home.css";
-import { objectsArr } from "../Product/data";
+import axios from "axios";
+
 import CatalogElement from "../Catalog/CatalogElement";
+import "./Home.css";
 
 
 const imgArr = [
 {src:'/img/home/slider2.jpg',alt:'',h:'First slide label',p:'Nulla vitae elit libero, a pharetra augue mollisinterdum.',color:'btn-primary'},
 {src:'/img/home/slider1.jpg',alt:'',h:'Second slide label',p:'Vitae elit libero, a pharetra augue mollisinterdum.',color:'btn-danger'},
-
 ]
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {bestSellers: objectsArr.filter((el) => el.bestseller)};
+    this.state = {bestSellers: ""};
+  }
+  componentDidMount(){
+    axios.get("http://localhost:3000/objectsArr").then(response=>{
+      this.setState({bestSellers:response.data.filter((el) => el.bestseller)})
+    })
   }
 
   clickHandler = ({ target: { innerHTML } }) => {
@@ -85,24 +90,26 @@ export default class Home extends Component {
         </div>
 
         {/* bottom-slider-BestSellers */}
-        <div className="py-5 container-fluid btmSlider">
-            <h1 className="text-danger">Our Best-Sellers</h1>
-          <div className="row">
-            <div className="col d-flex justify-content-center">
-              <button className="btn btn-primary" onClick={this.clickHandler}>&lt;</button>
-            </div>
-            <div className="col-9">
-              <div className="row">
-                {this.state.bestSellers.slice(0, 3).map(({ ...rest }, key) => (
-                  <CatalogElement {...rest} key={key} />
-                ))}
+        {!this.state.bestSellers? <div>loading...</div> : 
+          <div className="py-5 container-fluid btmSlider">
+              <h1 className="text-danger">Our Best-Sellers</h1>
+            <div className="row">
+              <div className="col d-flex justify-content-center">
+                <button className="btn btn-primary" onClick={this.clickHandler}>&lt;</button>
+              </div>
+              <div className="col-9">
+                <div className="row">
+                  {this.state.bestSellers.slice(0, 3).map(({ ...rest }, key) => (
+                    <CatalogElement {...rest} key={key} />
+                  ))}
+                </div>
+              </div>
+              <div className="col d-flex justify-content-center">
+                <button className="btn btn-primary" onClick={this.clickHandler}>&gt;</button>
               </div>
             </div>
-            <div className="col d-flex justify-content-center">
-              <button className="btn btn-primary" onClick={this.clickHandler}>&gt;</button>
-            </div>
           </div>
-        </div>
+        }
       </div>
     );
   }

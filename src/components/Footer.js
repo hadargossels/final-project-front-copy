@@ -1,15 +1,13 @@
-import React, { Component } from 'react';
-import {Link} from 'react-router-dom'
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
-class Footer extends Component{
-    render(){
-       return(
-         <div className="bg-dark">
-
-         <div className="container text-primary">
-           <div className="row py-3  text-center text-lg-start" >
-
-            <div className = "col-12 col-lg-4 pb-4">
+class Footer extends Component {
+  render() {
+    return (
+      <div className="bg-dark">
+        <div className="container text-primary">
+          <div className="row py-3  text-center text-lg-start">
+            <div className="col-12 col-lg-4 pb-4">
               <p className="h5 text-light py-2 pb-3">Stay in touch!</p>
               <a href="https://mail.google.com/mail/u/0/#inbox">
                 <i className="far fa-envelope fa-2x me-2"></i>
@@ -27,18 +25,27 @@ class Footer extends Component{
 
             <div className="col-12 col-lg-4  pb-4">
               <p className="h5 text-light list-style-none py-2">Quick Links</p>
-              <p ><Link to="/about" style={{textDecoration:"none"}}>About</Link></p>
-              <p ><Link to="/contact" style={{textDecoration:"none"}}>Contact</Link></p>
+              <p>
+                <Link to="/about" style={{ textDecoration: "none" }}>
+                  About
+                </Link>
+              </p>
+              <p>
+                <Link to="/contact" style={{ textDecoration: "none" }}>
+                  Contact
+                </Link>
+              </p>
             </div>
 
             <div className="col-12 col-lg-4  pb-4">
               <p className="h5 text-light list-style-none py-2">Copyright</p>
-              <p className=" mb-0">© 2021 PenguinGames All Rights Reserved</p></div>
-           </div>
-         </div>
-         </div>
-       );
-    }
- }
+              <p className=" mb-0">© 2021 PenguinGames All Rights Reserved</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 
- export default Footer;
+export default Footer;

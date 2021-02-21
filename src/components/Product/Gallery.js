@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './Gallery.css'
 class Gallery extends Component{
     render(){
-
        return(
             <div className = "px-2"> 
                 <img className="img-fluid rounded galleryImg" src={this.props.mainImg} alt=""/>

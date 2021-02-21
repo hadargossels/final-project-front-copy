@@ -1,14 +1,19 @@
 import React, { Component } from 'react'
-import {objectsArr} from '../Product/data'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
 import './CartTable.css'
 
 export default class CartTable extends Component {
     constructor(props){
         super(props)
-        this.AllProducts = objectsArr
-        this.state = {productsArr:this.props.productsArr, discount:localStorage.getItem("discount")}
-        this.inputRef = React.createRef();
+        this.state = {allProducts:[],productsArr:this.props.productsArr, discount:localStorage.getItem("discount")}
+        this.discountRef = React.createRef();
+    }
+
+    componentDidMount(){
+        axios.get("http://localhost:3000/objectsArr").then(allProducts =>{
+            this.setState({allProducts:allProducts.data})
+        })
     }
 
     changeCount(e, objId){
@@ -56,7 +61,7 @@ export default class CartTable extends Component {
     
     applyDiscount(e){
         e.preventDefault()
-        if ((this.inputRef.current.value).toLowerCase() === "gal25"){
+        if ((this.discountRef.current.value).toLowerCase() === "gal25"){
             this.setState({discount:0.75})
             localStorage.setItem("discount",0.75)
         }
@@ -68,81 +73,85 @@ export default class CartTable extends Component {
         if (this.state.productsArr){
             return (
                 <div className="container mb-5">
-                    <table className="table table-hover my-3">
-                        <thead>
-                            <tr>
-                                <th className="smallImg">Item</th><th></th><th>Price</th><th>Qty</th><th className="smallImg">Subtotal</th><th></th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {this.state.productsArr.map((product,key)=>{
-                                if (key === 0){
-                                    priceOfAll = 0
-                                }
-                                for (let obj of this.AllProducts){
-                                    if (obj.id === product.id){
-
-                                        let finalPrice = (obj.discount ? obj.discount : obj.price).toFixed(2)
-                                        let totalPrice = (finalPrice * product.count).toFixed(2)
-                                        priceOfAll+= Number(totalPrice)
-                                        
-                                        return(
-                                            <tr key={key}>
-                                                <td className="smallImg"> <img src={obj.imgSmall} className="img-fluid" alt=""/></td>
-                                                <td className="text-start">{obj.name}</td>
-                                                <td className="text-start">${finalPrice}</td>
-                                                <td >
-                                                    <div className="d-flex flex-wrap">
-                                                        <input type="button" className={`btn btn-danger btn-sm minus ${this.props.page}`} value="-" onClick={(e)=>this.changeCount(e, obj.id)}/>
-                                                        <span className="text-center px-1">{product.count}</span>
-                                                        <input type="button" className={`btn btn-success btn-sm ${this.props.page}`} value="+" onClick={(e)=>this.changeCount(e, obj.id)}/>
-                                                    </div>
-                                                </td>
-                                                <td className="smallImg text-start">${totalPrice}</td>
-                                                <td><i type="button" onClick={(e)=>this.deleteItem(e,obj.id)} className="far fa-trash-alt text-danger"></i></td>
-                                            </tr>
-                                        )
-                                    }
-                                }
-                                return null;
-                            })}
-                        </tbody>
-                    </table>
-            <button className={` ${this.props.page} btn btn-danger`} id="emptyAll" onClick={(e)=>this.deleteItem(e)}>Empty Cart</button>
-            <div className="my-2">
-                <h3 className={`${this.props.page} ps-1 bg-primary py-1 text-light`}>Summary</h3>
-                <table className="table table-hover my-3">
-                    <tbody>
-                    <tr className={this.state.discount? "text-danger" : "noDiscount"}>
-                                        <th>Total (before discount)</th>
-                                        <td>${priceOfAll.toFixed(2)}</td>
-                                    </tr>          
-                                    <tr className={this.state.discount? "text-success" : "noDiscount"}>
-                                        <th>Coupon Applied - You've saved</th>
-                                        <td>-${(priceOfAll*(this.state.discount?(1-this.state.discount):1)).toFixed(2)}</td>
+                    {!this.state.allProducts? <div>loading...</div>:
+                        <div>
+                            <table className="table table-hover my-3">
+                                <thead>
+                                    <tr>
+                                        <th className="smallImg">Item</th>
+                                        <th></th>
+                                        <th>Price</th>
+                                        <th>Qty</th>
+                                        <th className="smallImg">Subtotal</th>
+                                        <th></th>
                                     </tr>
-                        <tr >
-                            <th>Total Before Shipping</th>
-                            <td>${(priceOfAll*(this.state.discount?this.state.discount:1)).toFixed(2)}</td>
-                        </tr>
+                                </thead>
 
-                    </tbody>
-                </table>
-                <div className={this.props.page}>
-                    <h6>Apply Discount Code</h6>
-                    <form onSubmit={(e)=>this.applyDiscount(e)}>
-                        <input className="me-1" ref={this.inputRef} type="text"/>
-                        <button className="btn btn-success">Apply Code</button>
-                    </form>
+                                <tbody>
+                                    {this.state.productsArr.map((product,key)=>{
+                                        if (key === 0){
+                                            priceOfAll = 0
+                                        }
+                                        for (let obj of this.state.allProducts){
+                                            if (obj.id === product.id){
+
+                                                let finalPrice = (obj.discount ? obj.discount : obj.price).toFixed(2)
+                                                let totalPrice = (finalPrice * product.count).toFixed(2)
+                                                priceOfAll+= Number(totalPrice)
+                                                
+                                                return(
+                                                    <tr key={key}>
+                                                        <td className="smallImg"> <img src={obj.imgSmall} className="img-fluid" alt=""/></td>
+                                                        <td className="text-start">{obj.name}</td>
+                                                        <td className="text-start">${finalPrice}</td>
+                                                        <td >
+                                                            <div className="d-flex flex-wrap">
+                                                                <input type="button" className={`btn btn-danger btn-sm minus ${this.props.page}`} value="-" onClick={(e)=>this.changeCount(e, obj.id)}/>
+                                                                <span className="text-center px-1">{product.count}</span>
+                                                                <input type="button" className={`btn btn-success btn-sm ${this.props.page}`} value="+" onClick={(e)=>this.changeCount(e, obj.id)}/>
+                                                            </div>
+                                                        </td>
+                                                        <td className="smallImg text-start">${totalPrice}</td>
+                                                        <td><i type="button" onClick={(e)=>this.deleteItem(e,obj.id)} className="far fa-trash-alt text-danger"></i></td>
+                                                    </tr>
+                                                )
+                                            }
+                                        }
+                                        return null;
+                                    })}
+                                </tbody>
+                            </table>
+                            <button className={` ${this.props.page} btn btn-danger`} id="emptyAll" onClick={(e)=>this.deleteItem(e)}>Empty Cart</button>
+                            <div className="my-2">
+                                <h3 className={`${this.props.page} ps-1 bg-primary py-1 text-light`}>Summary</h3>
+                                <table className="table table-hover my-3">
+                                    <tbody>
+                                        <tr className={this.state.discount? "text-danger" : "noDiscount"}>
+                                            <th>Total (before discount)</th>
+                                            <td>${priceOfAll.toFixed(2)}</td>
+                                        </tr>          
+                                        <tr className={this.state.discount? "text-success" : "noDiscount"}>
+                                            <th>Coupon Applied - You've saved</th>
+                                            <td>-${(priceOfAll*(this.state.discount?(1-this.state.discount):1)).toFixed(2)}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total Before Shipping</th>
+                                            <td>${(priceOfAll*(this.state.discount?this.state.discount:1)).toFixed(2)}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div className={this.props.page}>
+                                    <h6>Apply Discount Code</h6>
+                                    <form onSubmit={(e)=>this.applyDiscount(e)}>
+                                        <input className="me-1" ref={this.discountRef} type="text"/>
+                                        <button className="btn btn-success">Apply Code</button>
+                                    </form>
+                                </div>
+                                <button className="float-end btn btn-lg btn-primary my-2"><Link to="/checkout" style={{textDecoration:"none",color:'white'}}>Proceed to Checkout</Link></button>
+
+                            </div>
+                        </div>}
                 </div>
-          
-                <button className="float-end btn btn-lg btn-primary my-2"><Link to="/checkout" style={{textDecoration:"none",color:'white'}}>Proceed to Checkout</Link></button>
-
-            </div>
-        </div>
-
-                
             )}
             return null;
     }

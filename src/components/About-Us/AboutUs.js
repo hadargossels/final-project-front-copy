@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import ReactPlayer from "react-player"
 
-
 const MyPlayer = () => {
     return (
         <ReactPlayer

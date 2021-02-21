@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import {lowToHigh,highToLow,ratingOrder,alphabetOrder} from "../../functions/compareFuncs.js";
+import {lowToHigh, highToLow, ratingOrder, alphabetOrder} from "../../functions/compareFuncs.js";
 import CatalogElement from "./CatalogElement";
-
 import "./Catalog.css";
 
 export default class Catalog extends Component {

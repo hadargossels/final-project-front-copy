@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import postList from "../postList.json";
 import { Link } from "react-router-dom";
 import './BlogElement.css'
 
@@ -9,7 +8,8 @@ export default class BlogElement extends Component {
     this.state = { comments: localStorage.getItem("comments") };
   }
   render() {
-    const post = postList.posts.find(({ id }) => id === this.props.id);
+    const post = this.props.post
+
     return (
       <div className="col-lg-3 col-md-5 px-0 text-start border border-2 m-2 bordered border-secondary rounded">
           <div className="">

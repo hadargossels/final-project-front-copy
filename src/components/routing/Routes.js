@@ -1,20 +1,20 @@
 import React, { Component } from 'react'
 import {Route,Switch} from 'react-router-dom'
+
 import Home from '../Home/Home'
 import AboutUs from '../About-Us/AboutUs'
 import Blog from '../Blog/Blog'
+import BlogPost from '../Blog/BlogPost/BlogPost'
+import Cart from '../Cart/Cart'
 import CatalogPage from '../Catalog/CatalogPage';
+import Checkout from '../Checkout/Checkout'
 import ContactUs from '../Contact-Us/ContactUs'
 import Login from '../Login/Login'
-import SignUp from '../SignUp/SignUp'
-import ProductPage from '../Product/ProductPage'
-import NotFound from '../404/NotFound'
-import Cart from '../Cart/Cart'
-import Checkout from '../Checkout/Checkout'
-import OrderConfirmed from '../Checkout/OrderConfirmed'
 import MsgSent from '../Contact-Us/MsgSent'
-import BlogPost from '../Blog/BlogPost/BlogPost'
-
+import NotFound from '../404/NotFound'
+import OrderConfirmed from '../Checkout/OrderConfirmed'
+import ProductPage from '../Product/ProductPage'
+import SignUp from '../SignUp/SignUp'
 
 export default class Routes extends Component {
 
