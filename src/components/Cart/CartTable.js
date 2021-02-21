@@ -78,7 +78,7 @@ export default class CartTable extends Component {
                             <table className="table table-hover my-3">
                                 <thead>
                                     <tr>
-                                        <th className="smallImg">Item</th>
+                                        <th style={{width:"131px"}} className="smallImg">Item</th>
                                         <th></th>
                                         <th>Price</th>
                                         <th>Qty</th>
