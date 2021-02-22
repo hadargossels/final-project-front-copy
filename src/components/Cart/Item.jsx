@@ -1,7 +1,6 @@
 import React from 'react'
 import './Item.css'
-import myProducts from '../../prod.json'
-
+import myProducts from '../../prod.json';
 
 
 export default function Cards(props) {
@@ -37,7 +36,7 @@ export default function Cards(props) {
         localStorage.setItem("products", JSON.stringify(arrProd));
         window.location.reload()
     };
-
+    
         return (
             <div className="container-fluid border mt-3" style={{borderRadius:"30px"}}>
                 <div className="row">

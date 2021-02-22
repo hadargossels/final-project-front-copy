@@ -1,36 +1,45 @@
 import React, { Component } from 'react'
 import './Cart.css'
 import Item from './Item'
-import myProducts from '../../prod.json'
 import {Link} from "react-router-dom"
 import CartEmpty from '../../pictures/cartEmpty.png'
-
+import axios from 'axios'
 export default class Cart extends Component {
     constructor(){
         super()
         this.state={
             arrProd:JSON.parse(localStorage.getItem('products')) || [],
-            country:"Israel"
+            country:"Israel",
+            myProducts:[]
         }
      
     }
-    
+    componentDidMount(){
+        let that=this
+        axios.get('http://localhost:3000/prod')
+        .then(function (response) {
+          that.setState({myProducts:response.data})
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    }
+
     priceCalculation(){
         let totalsum=0;
         for(let i=0;i<this.state.arrProd.length;i++)
-            for(let j=0;j<myProducts.length;j++)
-                if(this.state.arrProd[i].Image===myProducts[j].Image)
-                    totalsum+=myProducts[j].Price*this.state.arrProd[i].Item
+            for(let j=0;j<this.state.myProducts.length;j++)
+                if(this.state.arrProd[i].Image===this.state.myProducts[j].Image)
+                    totalsum+=this.state.myProducts[j].Price*this.state.arrProd[i].Item
     return totalsum
+
     }
     shippingPrice(){
         if(this.state.country==="Israel")
             return 0
-
     }
    
     render() {
-        
         return (
             <div className="container-fluid">
             {!this.state.arrProd.length ? (

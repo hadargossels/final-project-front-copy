@@ -16,17 +16,17 @@ export default function ShoppingCart() {
                     
                         return(
 
-                            <div class="container border ">
-                                <div class="row">
-                                    <div class="col-5">
+                            <div className="border">
+                                <div className="row">
+                                    <div className="col-5">
                                         <img className="popImg" src={results.Image} alt="..."/>
                                     </div>
-                                    <div class="col-7">
+                                    <div className="col-7">
                                         <div><b>{results.Title}</b></div><br/>
                                         <div className="text-start">{obj.Item} x ${results.Price}</div>
                                     </div>
+                                </div>
                             </div>
-                        </div>
 
                         )
                     })

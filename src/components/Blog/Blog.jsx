@@ -1,17 +1,36 @@
-import React, { Component } from 'react'
-import Blogs from '../../blogs.json'
+import React, { } from 'react'
 import Card from './Card'
+import axios from 'axios'
+import { Component } from 'react';
 
-export default class Blog extends Component {
+export default class Blog extends Component{
+    constructor(){
+        super()
+        this.state={
+            blogs:[]
+        }
+    }
+    componentDidMount(){
 
-    render() {
-        let arrBlog=Blogs
-        
+        let that=this
+
+        axios.get('http://localhost:3000/blogs')
+        .then(function (response) {
+            
+          that.setState({blogs:response.data})
+          
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    }
+     
+       render(){
         return (
             <div>
                 <br/><h1 className="text-center"><span style={{color:"orange"}}>/</span> <b>Latest News</b><span style={{color:"orange"}}>/</span></h1>
                 <div className="container d-flex flex-wrap">
-                { arrBlog.map((obj)=>
+                { this.state.blogs.map((obj)=>
                     <Card key={obj.id} id={obj.id} title={obj.Title} image={obj.Image} subject={obj.Subject} />
                 )
                 }
@@ -20,4 +39,5 @@ export default class Blog extends Component {
             </div>
         )
     }
+
 }

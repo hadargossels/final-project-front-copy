@@ -1,47 +1,69 @@
 import React, { Component } from 'react'
 import './Catalog.css';
 import Prod from './Prod';
-import myProducts from '../../prod.json';
+import axios from 'axios'
 
 export default class Catalog extends Component {
     constructor(props){
         super(props)
-
-        this.Products= myProducts;
         
+
         this.state = {
-            Arr:this.Products,
-            hardware:true,
-            accessories:true,
-            maximumP:1000,
-            minimumP:0,
-            maximumR:5,
-            minimumR:0,
-            priceBTC:""
+            Products:[],
+            priceBTC:"",
+            allProducts:[]
         }
         
         this.updateState = this.updateState.bind(this)
         this.updateStateSearch = this.updateStateSearch.bind(this)
 
-        this.inputRef=React.createRef()
+        this.price0=React.createRef()
+        this.price1=React.createRef()
+        this.price2=React.createRef()
+        this.price3=React.createRef()
+        this.price4=React.createRef()
+        this.price5=React.createRef()
+        this.rate0=React.createRef()
+        this.rate1=React.createRef()
+        this.rate2=React.createRef()
+        this.rate3=React.createRef()
+        this.rate4=React.createRef()
+        this.typeRef1=React.createRef()
+        this.typeRef2=React.createRef()
+        this.typeRef3=React.createRef()
+
         this.cbRef=null
         this.setCbRef=element =>{
             this.cbRef=element
         }
     }
+
     componentDidUpdate(prevProps) {       
         if (this.props.location.search !== prevProps.location.search) {
-            let myArr =[...this.Products]
+            let myArr =[...this.state.allProducts]
             this.cbRef.value=window.location.search.slice(3)
             myArr = myArr.filter((prod) => {
                 return (prod.Title.toLowerCase().includes(this.cbRef.value.toLowerCase()))     
             });
             myArr.sort(function(a,b){
                 return b.Price-a.Price})
-            this.setState({ Arr: myArr })
+            this.setState({ Products: myArr })
       }
     }
     componentDidMount(){
+
+        let self=this
+
+        axios.get('http://localhost:3000/prod')
+        .then(function (response) {
+            
+          self.setState({Products:response.data})
+          self.setState({allProducts:response.data})
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+
         fetch("https://api.coincap.io/v2/assets")
         .then(res => res.json())
         .then(
@@ -54,19 +76,19 @@ export default class Catalog extends Component {
           }
         )
         if(this.cbRef){
-            let myArr =[...this.Products]
+            let myArr =[...this.state.allProducts]
             this.cbRef.value=window.location.search.slice(3)
             myArr = myArr.filter((prod) => {
                 return (prod.Title.toLowerCase().includes(this.cbRef.value.toLowerCase()))     
             });
             myArr.sort(function(a,b){
                 return b.Price-a.Price})
-            this.setState({ Arr: myArr })
+            this.setState({ Products: myArr })
         }
     }
     
     updateStateSearch(e){
-        let myArr =[...this.Products]
+        let myArr =[...this.state.allProducts]
         //check by search bar
         if(e.target.id === "search")
         myArr = myArr.filter((prod) => {
@@ -74,68 +96,60 @@ export default class Catalog extends Component {
                 || prod.Description.toLowerCase().includes(e.target.value.toLowerCase())
             )     
         });
-        this.setState({ Arr: myArr })
+        this.setState({ Products: myArr })
     }
     updateState(e){
-        let myArr =[...this.Products]
-        //check if hardware
-        if (e.target.id === "hardware" && e.target.checked)
-            myArr=[...this.Products]
-        else if(e.target.id === "hardware" && e.target.checked)
-            this.setState({hardware: true,accessories: false })
-        else
-            this.setState({accessories: true,hardware: false })
-
-        let minimum=this.state.minimumP
-        let maximum=this.state.maximumP
-        if (e.target.value === "10"){
-            minimum= 0
-            maximum= 10
-        }
-        if (e.target.value === "20")
-        {
-            minimum= 10
-            maximum= 20
-        }
-        if (e.target.value === "30")
-        {
-            minimum= 20
-            maximum= 30
-        }
-        if (e.target.value === "50")
-        {
-            minimum= 30
-            maximum= 50
-        }
-        if (e.target.value === "100")
-        {
-            minimum= 50
-            maximum= 100
-        }
-        if (e.target.value === "1000")
-        {
-            minimum= 100
-            maximum= 1000
-        }
         
+        let myArr =[...this.state.allProducts]
+
+        let arrPrice=[]
+        if (this.price0.current.checked) arrPrice.push([0,10])
+        if (this.price1.current.checked) arrPrice.push([10,20])
+        if (this.price2.current.checked) arrPrice.push([20,30])
+        if (this.price3.current.checked) arrPrice.push([30,50])
+        if (this.price4.current.checked) arrPrice.push([50,100])
+        if (this.price5.current.checked) arrPrice.push([100,1000])
+
+        let arrRate=[]
+        if (this.rate0.current.checked) arrRate.push(4)
+        if (this.rate1.current.checked) arrRate.push(3)
+        if (this.rate2.current.checked) arrRate.push(2)
+        if (this.rate3.current.checked) arrRate.push(1)
+        if (this.rate4.current.checked) arrRate.push(0)
+
         
-            myArr = myArr.filter((prod) => {
-                return (prod.Price <maximum
-                        && prod.Price>minimum
-                )
-            });
+       let arrNew=[]
+       for (let i=0;i<myArr.length;i++)
+            for(let j=0;j<arrPrice.length;j++)
+                if(myArr[i].Price>arrPrice[j][0]&& myArr[i].Price<arrPrice[j][1] && !arrNew.includes(myArr[i]) )
+                    arrNew.push(myArr[i])
+        
 
+        for (let i=0;i<myArr.length;i++)
+            for(let j=0;j<arrRate.length;j++)
+                if(myArr[i].Rating>arrRate[j] && !arrNew.includes(myArr[i]))
+                    arrNew.push(myArr[i])
+        
+        for (let i=0;i<myArr.length;i++)
+            if(this.typeRef2.current.checked && myArr[i].Hardware===true && !arrNew.includes(myArr[i]))
+                arrNew.push(myArr[i])
 
-        myArr.sort(function(a,b){
+        for (let i=0;i<myArr.length;i++)
+            if(this.typeRef3.current.checked && myArr[i].Accessories===true && !arrNew.includes(myArr[i]))
+                arrNew.push(myArr[i])
+     
+        if(this.typeRef1.current.checked)
+            arrNew=[...this.state.allProducts]
+        
+        arrNew.sort(function(a,b){
             return a.Price-b.Price})
         
-        this.setState({ Arr: myArr })
+        this.setState({ Products: arrNew })
     }
  
-    
 
     render() {
-    
+
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -149,77 +163,138 @@ export default class Catalog extends Component {
                             </form>
                         </div>
                         <br/>
-                        <div className="container">
-                        <div className="row">
-                            <p id="all" onClick={this.updateState} className="col-6 cursor ware h6">All</p>
-                            <p className="col-6 text-end">{this.Products.length}</p>
-                            <p id="hardware" onClick={this.updateState} className="col-6 cursor ware h6">Hardware wallet</p>
-                            <p className="col-6 text-end">{this.Products.filter((obj)=>{return obj.Hardware===true}).length}</p>
-                            <p id="accessories" onClick={this.updateState} className="col-6 cursor ware h6">Accessories</p>
-                            <p className="col-6 text-end">{this.Products.filter((obj)=>{return obj.Hardware===false}).length}</p>
+                        <div className="container" onChange={this.updateState}>
+                            <div className="row">
+                            <div className="form-check col-6">
+                            <input className="form-check-input" ref={this.typeRef1} type="checkbox" value="all" id="flexCheckDefault"/>
+                            <label className="form-check-label" htmlFor="flexCheckDefault">
+                                All
+                            </label>
+                            </div>
+                            <p className="col-6 text-end">{this.state.allProducts.length}</p>
+                            <div className="form-check col-6">
+                            <input className="form-check-input" ref={this.typeRef2} type="checkbox" value="hardware" id="flexCheckDefault" />
+                            <label className="form-check-label" htmlFor="flexCheckDefault">
+                                Hardware wallet
+                            </label>
+                            </div>
+                            <p className="col-6 text-end">{this.state.allProducts.filter((obj)=>{return obj.Hardware===true}).length}</p>
+
+                            <div className="form-check col-6">
+                            <input className="form-check-input" ref={this.typeRef3} type="checkbox" name="accessories" id="flexCheckDefault" />
+                            <label className="form-check-label" htmlFor="flexCheckDefault">
+                                Accessories
+                            </label>
+                            </div>
+                            <p className="col-6 text-end">{this.state.allProducts.filter((obj)=>{return obj.Hardware===false}).length}</p>
+
+                            </div>
                         </div>
-                        </div>
+
                         <br/>
+
                         <h4 className="text-center"><b>Price</b></h4>
                         <div className="container" onChange={this.updateState}>
-                                <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="10" id="flexCheckDefault"/>
+                            <div className="row">
+                                <div className="form-check col-10">
+                                <input className="form-check-input" type="checkbox" value="10" ref={this.price0} id="flexCheckDefault"/>
                                 <label className="form-check-label" htmlFor="flexCheckDefault">
                                     under $10
                                 </label>
                                 </div>
-                                <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="20" id="flexCheckChecked"/>
+                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.Price<10}).length}</p>
+                                <div className="form-check col-10">
+                                <input className="form-check-input" type="checkbox" value="20" ref={this.price1} id="flexCheckChecked"/>
                                 <label className="form-check-label" htmlFor="flexCheckChecked">
                                     $10 to $20
                                 </label>
                                 </div>
-                                <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="30" id="flexCheckChecked"/>
+                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.Price>=10 && obj.Price<20}).length}</p>
+                                <div className="form-check col-10">
+                                <input className="form-check-input" type="checkbox" value="30" ref={this.price2} id="flexCheckChecked"/>
                                 <label className="form-check-label" htmlFor="flexCheckChecked">
                                     $20 to $30
                                 </label>
                                 </div>
-                                <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="50" id="flexCheckChecked"/>
+                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.Price>=20 && obj.Price<30}).length}</p>
+                                <div className="form-check col-10">
+                                <input className="form-check-input" type="checkbox" value="50" ref={this.price3} id="flexCheckChecked"/>
                                 <label className="form-check-label" htmlFor="flexCheckChecked">
                                     $30 to $50
                                 </label>
                                 </div>
-                                <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="100" id="flexCheckChecked"/>
+                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.Price>=30 && obj.Price<50}).length}</p>
+                                <div className="form-check col-10">
+                                <input className="form-check-input" type="checkbox" value="100" ref={this.price4} id="flexCheckChecked"/>
                                 <label className="form-check-label" htmlFor="flexCheckChecked">
                                     $50 to $100
                                 </label>
                                 </div>
-                                <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="1000" id="flexCheckChecked"/>
+                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.Price>=50 && obj.Price<100}).length}</p>
+                                <div className="form-check col-10">
+                                <input className="form-check-input" type="checkbox" value="1000" ref={this.price5} id="flexCheckChecked"/>
                                 <label className="form-check-label" htmlFor="flexCheckChecked">
                                      $100 &#38; above
                                 </label>
                                 </div>
+                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.Price>=100}).length}</p>
+                                </div>
                         </div>
                         <br/>
                         <h4 className="text-center"><b>Avg. customer review</b></h4>
-                        <div className="container">
-                            <div id="rating1" onClick={this.updateState} className="cursor rate"><span className="stars">★★★★</span><span className="starsNot">★</span> &#38; up</div>
-                            <div id="rating2" onClick={this.updateState} className="cursor rate"><span className="stars">★★★</span><span className="starsNot">★★</span> &#38; up</div>
-                            <div id="rating3" onClick={this.updateState} className="cursor rate"><span className="stars">★★</span><span className="starsNot">★★★</span> &#38; up</div>
-                            <div id="rating4" onClick={this.updateState} className="cursor rate"><span className="stars">★</span><span className="starsNot">★★★★</span> &#38; up</div>
-                            <div id="rating5" onClick={this.updateState} className="cursor rate"><span className="stars"></span><span className="starsNot">★★★★★</span> &#38; up</div>
+                        <div className="container" onChange={this.updateState}>
+                            <div className="row">
+                                <div className="form-check col-10">
+                                <input className="form-check-input" type="checkbox" value="1" ref={this.rate0} id="flexCheckDefault"/>
+                                <label className="form-check-label" htmlFor="flexCheckDefault">
+                                <span className="stars">★★★★</span><span className="starsNot">★</span> &#38; up
+                                </label>
+                                </div>
+                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.Rating>=4}).length}</p>
+
+                                <div className="form-check col-10">
+                                <input className="form-check-input" type="checkbox" value="2" ref={this.rate1} id="flexCheckChecked"/>
+                                <label className="form-check-label" htmlFor="flexCheckChecked">
+                                    <span className="stars">★★★</span><span className="starsNot">★★</span> &#38; up
+                                </label>
+                                </div>
+                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.Rating>=3}).length}</p>
+                                <div className="form-check col-10">
+                                <input className="form-check-input" type="checkbox" value="3" ref={this.rate2} id="flexCheckChecked"/>
+                                <label className="form-check-label" htmlFor="flexCheckChecked">
+                                <span className="stars">★★</span><span className="starsNot">★★★</span> &#38; up
+                                </label>
+                                </div>
+                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.Rating>=2}).length}</p>
+                                <div className="form-check col-10">
+                                <input className="form-check-input" type="checkbox" value="4" ref={this.rate3} id="flexCheckChecked"/>
+                                <label className="form-check-label" htmlFor="flexCheckChecked">
+                                <span className="stars">★</span><span className="starsNot">★★★★</span> &#38; up
+                                </label>
+                                </div>
+                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.Rating>=1}).length}</p>
+                                <div className="form-check col-10">
+                                <input className="form-check-input" type="checkbox" value="5" ref={this.rate4} id="flexCheckChecked"/>
+                                <label className="form-check-label" htmlFor="flexCheckChecked">
+                                <span className="stars"></span><span className="starsNot">★★★★★</span> &#38; up
+                                </label>
+                                </div>
+                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.Rating>=0}).length}</p>
+                                </div>
                         </div>
+                    
                      </div>
 
                     <div className="col-9">
                         <br/>
                         <div className="container d-flex justify-content-center flex-wrap">
                             {
-                                this.state.Arr.map((prod) =>
-                                    <Prod key={prod.Title} priceBTC={this.state.priceBTC} id={prod.id} rating={prod.Rating} price={prod.Price} title={prod.Title} image={prod.Image} />
+                                this.state.Products.map((prod) =>
+                                    <Prod key={prod.Title} priceBTC={this.state.priceBTC} id={prod.id} rating={prod.Rating} price={prod.Price} title={prod.Title} image={prod.Image} desc={prod.Description}/>
                                 )
                             }
                             {
-                                !this.state.Arr.length && <h1>No products to be shown</h1>
+                                !this.state.Products.length && <h1>No products to be shown</h1>
                             }
                         </div>
                     </div>

@@ -53,13 +53,13 @@ constructor(){
                     <li>
 
                     <OverlayTrigger
-                    trigger="focus"
+                    trigger={['hover', 'focus']}
                     key="bottom"
                     placement="bottom"
                     overlay={
                         <Popover id="popover-positioned-bottom">
                         <Popover.Title as="h3"><div className="text-center fw-bold">Your Cart</div></Popover.Title>
-                        <Popover.Content>
+                        <Popover.Content >
                             <ShoppingCart/>
                         </Popover.Content>
                         </Popover>

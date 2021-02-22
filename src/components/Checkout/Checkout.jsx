@@ -1,8 +1,7 @@
 import React, { Component} from 'react'
 import './Checkout.css'
-import myProducts from '../../prod.json'
 import Paypal from './PayPal'
-
+import axios from 'axios'
 let arrProd=JSON.parse(localStorage.getItem('products')) || [];
 
 export default class Checkout extends Component {
@@ -13,14 +12,27 @@ export default class Checkout extends Component {
         messageName:"",
         messageStreet:"",
         messageCity:"",
-        messageHouseNum:""
+        messageHouseNum:"",
+        myProducts:[]
     }
-
+    
     this.shipmentRef=React.createRef();
     this.streetAddRef = React.createRef();
     this.fullNameRef = React.createRef();
     this.houseNumberRef = React.createRef();
     this.cityNameRef = React.createRef();
+}
+
+
+componentDidMount(){
+    let that=this
+    axios.get('http://localhost:3000/prod')
+    .then(function (response) {
+      that.setState({myProducts:response.data})
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
 }
     onChangeValue(event) {
 
@@ -31,9 +43,9 @@ export default class Checkout extends Component {
     priceCalculation(){
         let totalsum=0;
         for(let i=0;i<arrProd.length;i++)
-            for(let j=0;j<myProducts.length;j++)
-                if(arrProd[i].Image===myProducts[j].Image)
-                    totalsum+=myProducts[j].Price*arrProd[i].Item
+            for(let j=0;j<this.state.myProducts.length;j++)
+                if(arrProd[i].Image===this.state.myProducts[j].Image)
+                    totalsum+=this.state.myProducts[j].Price*arrProd[i].Item
         return totalsum
     }
     placeOrder(e){
@@ -105,7 +117,7 @@ export default class Checkout extends Component {
 
     
     render() {
-       
+        console.log(this.state.myProducts)
         return (
             <div>
                 <div className="container-fluid">
@@ -150,10 +162,10 @@ export default class Checkout extends Component {
                 <div className="orderDetails">
                 <h4>Order details</h4>
                     <div>
-                        {
+                        {this.state.myProducts.length>0 &&
                         arrProd.map((obj)=>{
                            
-                            let results=myProducts.filter((prod)=>{
+                            let results=this.state.myProducts.filter((prod)=>{
                                 return prod.Image===obj.Image
                             })[0];
                             
