@@ -40,6 +40,7 @@ import { createStructuredSelector } from "reselect";
 import ScrollToTop from "./components/scroll-to-top/scroll-to-top.component";
 import NotFoundPage from "./pages/notfound/notfound.component";
 import CollectionPage from "./pages/collection/collection.component";
+import BlogPreviewPage from "./pages/blog-preview/blog-preview.component";
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
@@ -85,6 +86,7 @@ class App extends React.Component {
           <Route path="/collections" component={ShopPage} />
           <Route path="/about" component={AboutPage} />
           <Route path="/blog" component={BlogPage} />
+          <Route path="/blog-preview" component={BlogPreviewPage} />
           <Route path="/contact" component={ContactPage} />
           <Route exact path="/shopping-cart" component={ShoppingCartPage} />
           {/* <Route exact path="/checkout" component={CheckoutPage} /> */}
