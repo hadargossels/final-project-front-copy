@@ -1,4 +1,4 @@
-import images from '../images';
+import images from '../data/images.js';
 
 const storeItems = [
     {   id: 1, 

@@ -1,6 +1,8 @@
 import React, {Component, createRef} from 'react';
-import '../css/articlePage.css';
+import axios from 'axios';
 import ArticleComment from './ArticleComment';
+import '../css/articlePage.css';
+
 
 class ArticlePage extends Component {
     constructor(props){
@@ -17,13 +19,25 @@ class ArticlePage extends Component {
     }
 
     componentDidMount() {
-        let articleComments = JSON.parse(localStorage.getItem('article-comments'));
-        if (articleComments){
-            if (articleComments[`${this.props.article.id}`]){
-                let comments = articleComments[`${this.props.article.id}`]
-                this.setState({comments});
-            }  
+        axios.get('http://localhost:3000/articles_comments').then( response => {
+            const comments = response.data.filter(element => element.articleId === this.props.article.id);
+            this.setState({ comments });
+        })
+    }
+
+    createArticleBody(){
+        let articleBody = []
+        let paragraphs = this.props.article.detail.split('\n');
+        let imgURL = this.props.article.img;
+
+        for(let i = 0; i < paragraphs.length; i++) {
+            if(i === Math.floor(paragraphs.length / 2)){
+                articleBody.push(<div className="text-center my-5" key='image'><img src={imgURL} alt="articleBody"></img></div>)
+            }
+            articleBody.push(<p key={i}>{paragraphs[i]}</p>);
         }
+        
+        return articleBody;
     }
 
     submitContact = (event) => {
@@ -71,7 +85,6 @@ class ArticlePage extends Component {
             this.notesRef.current.style.borderColor = 'green';
         }
     
-        // console.log(this.notesRef.current)
         if (correctInputs) {
             let newDate = new Date();
             let day = newDate.getDate();
@@ -83,32 +96,12 @@ class ArticlePage extends Component {
 
             this.setState(prevState => ({
                 comments: [...prevState.comments, newComment]
-            }))
-
-            let articleComments = JSON.parse(localStorage.getItem('article-comments'));
-            if (articleComments){
-                if (articleComments[`${this.props.article.id}`]){
-                    let comments = articleComments[`${this.props.article.id}`]
-                    comments.push(newComment);
-                    articleComments[`${this.props.article.id}`] = comments;
-                    localStorage.setItem('article-comments', JSON.stringify(articleComments));
-                }
-                else{
-                    articleComments[`${this.props.article.id}`] = newComment;
-                    localStorage.setItem('article-comments', JSON.stringify(articleComments));
-                }  
-            }
-            else{
-                let articleComments = {};
-                let comments = [];
-                comments.push(newComment);
-                articleComments[`${this.props.article.id}`] = comments;
-                localStorage.setItem('article-comments', JSON.stringify(articleComments));
-            }
-
-        }
-        else {
-            
+            }), () => {
+                axios.post(`http://localhost:3000/articles_comments`, { ...newComment, articleId: this.props.article.id })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            })
         }
     }
 
@@ -117,17 +110,19 @@ class ArticlePage extends Component {
             <div className="articlePage">
                 <div className="container text-justify">
                     <h1 className="display-4 mb-5 mt-3">{this.props.article.title}</h1>
-                    <img src={this.props.article.img} alt="Image" style={{height:"300px", width:"300px", float: "right", margin: "0 0 10px 30px", border: "1px solid #000000"}}></img>
-                    {this.props.article.detail.split('\n').map((item, key) => {return <p key={key}>{item}</p>})}
+                    {/* <img src={this.props.article.img} alt="Image" style={{height:"300px", width:"300px", float: "right", margin: "0 0 10px 30px", border: "1px solid #000000"}}></img> */}
+                    {/* <p style={{whiteSpace: "pre-line"}}>{this.props.article.detail}</p> */}
+                    {this.createArticleBody()}
                 </div>
 
                 <div className="container-fluid d-flex justify-content-center" style={{backgroundColor: "#f2f2f2"}}>
                     <div className="container">
                         {/* <div className="d-flex flex-column justify-content-center align-items-center"> */}
                             <h4>Comments</h4>
-                            {this.state.comments.map(comment => 
+                            {this.state.comments.map((comment, index) => 
                                 <ArticleComment
                                     comment={comment}
+                                    key={index}
                                 ></ArticleComment>
                             )}
                             
@@ -136,35 +131,33 @@ class ArticlePage extends Component {
                 </div>
 
                 <div className="container-fluid mt-4 py-5 d-flex justify-content-center" style={{backgroundColor: "#f2f2f2"}}>
-                    <div style={{width: "800px"}}>
-                        <div className="d-flex flex-column justify-content-center align-items-center">
-                            <h4>Leave a comment</h4>
-                            <form style={{width: "80%"}}>
-                                <label htmlFor="fullName">Full name: </label>
-                                <input type="text" className="form-control" ref={this.fullNameRef} required></input>
-                                <div className="invalidMassege text-danger">
-                                    {this.state.messageFullName}
-                                </div>
+                    <div className="d-flex flex-column justify-content-center align-items-center" style={{width: "800px"}}>
+                        <h4>Leave a comment</h4>
+                        <form style={{width: "80%"}}>
+                            <label htmlFor="fullName">Full name: </label>
+                            <input type="text" className="form-control" ref={this.fullNameRef} required></input>
+                            <div className="invalidMassege text-danger">
+                                {this.state.messageFullName}
+                            </div>
 
-                                <label htmlFor="email">Email: </label>
-                                <input type="mail" className="form-control" ref={this.emailRef} required></input>
-                                <div className="invalidMassege text-danger">
-                                    {this.state.messageEmail}
-                                </div>
+                            <label htmlFor="email">Email: </label>
+                            <input type="mail" className="form-control" ref={this.emailRef} required></input>
+                            <div className="invalidMassege text-danger">
+                                {this.state.messageEmail}
+                            </div>
 
-                                <label htmlFor="notes">Comment: </label>
-                                <textarea className="form-control" ref={this.notesRef} rows="3" required></textarea>
-                                <div className="invalidMassege text-danger">
-                                    {this.state.messageNotes}
-                                </div>
+                            <label htmlFor="notes">Comment: </label>
+                            <textarea className="form-control" ref={this.notesRef} rows="3" required></textarea>
+                            <div className="invalidMassege text-danger">
+                                {this.state.messageNotes}
+                            </div>
 
-                                <div className="d-flex justify-content-center mt-3">
-                                <button type="submit" className="btn btn-primary align-middle" onClick={this.submitContact}>Submit</button>
-                                </div>
-                                
-                            </form>
-                        </div> 
-                    </div>
+                            <div className="d-flex justify-content-center mt-3">
+                            <button type="submit" className="btn btn-primary align-middle" onClick={this.submitContact}>Submit</button>
+                            </div>
+                            
+                        </form>
+                    </div> 
                 </div>
             </div>
         );

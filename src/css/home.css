@@ -1,15 +1,15 @@
 #bedroom {
-    background-image: url("./img/bedroom.jpg");
+    background-image: url("../data/images/bedroom.jpg");
     background-position: center;
 }
 
 #bathroom {
-    background-image: url("./img/bathroom.jpg");
+    background-image: url("../data/images/bathroom.jpg");
     background-position: 50% 60%;
 }
 
 #living_room {
-    background-image: url("./img/living_room.jpg");
+    background-image: url("../data/images/living_room.jpg");
     background-position: center;
 }
 
@@ -22,7 +22,7 @@
 }
 
 #major {
-    background-image: url("./img/main.jpg");
+    background-image: url("../data/images/main.jpg");
     height: 500px;
     position: 'relative';
     background-repeat: no-repeat;
@@ -31,7 +31,7 @@
 }
 
 #sale {
-    /* background-image: url("./img/sale.jpg"); */
+    /* background-image: url("../data/images/sale.jpg"); */
     background-color: #f7ded4;
     height: 400px;
     position: 'relative';

@@ -1,5 +1,5 @@
 #blog {
-    background-image: url("../img/blog.jpg");
+    background-image: url("../data/images/blog.jpg");
     height: 300px;
     position: 'relative';
     background-repeat: no-repeat;
@@ -11,7 +11,3 @@
     max-width: 1000px !important;
 } */
 
-.something {
-    background-color: blue;
-    height: 300px;
-}

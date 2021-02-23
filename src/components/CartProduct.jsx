@@ -13,11 +13,8 @@ class CartProduct extends React.Component {
 
     createQtyList = () => {
         const qtyList = [];
-        for(let i=1; i<=10; i++){
-            if (this.props.cartProduct.quantity === i)
-                qtyList.push(<option key={i} value={i}>{i}</option>);
-            else
-                qtyList.push(<option key={i} value={i}>{i}</option>);
+        for(let i=1; i<=10; i++) {
+            qtyList.push(<option key={i} value={i}>{i}</option>);
         }
         return qtyList;
     }

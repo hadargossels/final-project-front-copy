@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import storeItems from './StoreItems.jsx'
-import '../Home.css';
+import '../css/home.css';
 import 'bootstrap/js/dist/carousel';
 
 

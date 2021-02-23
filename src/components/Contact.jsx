@@ -83,7 +83,6 @@ class Contact extends Component {
             this.notesRef.current.style.borderColor = 'green';
         }
     
-        // console.log(this.notesRef.current)
         if (correctInputs) {
 
         }
@@ -143,7 +142,7 @@ class Contact extends Component {
                             </div>
 
                             <label for="notes">Comment: </label>
-                            <textarea class="form-control" ref={this.notesRef} rows="3" required></textarea>
+                            <textarea className="form-control" ref={this.notesRef} rows="3" required></textarea>
                             <div className="invalidMassege text-danger">
                                 {this.state.messageNotes}
                             </div>
@@ -154,9 +153,7 @@ class Contact extends Component {
                             
                         </form>
                     </div>
-                </div>
-                
-                
+                </div> 
             </div>
             </>
         ) 

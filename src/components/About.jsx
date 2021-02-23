@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import ReactPlayer from "react-player";
 import Gallery from 'react-photo-gallery';
-import '../about.css';
 import photos from '../data/gallery_images.json';
+import '../css/about.css';
+
 
 class About extends Component {
 
     render() {
-        
         return (
             <>
                 <div className="container-fluid">

@@ -1,10 +1,23 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
-import articles from '../data/articles.json';
 import Article from './Article';
+import axios from 'axios';
 import '../css/blog.css';
 
 class Blog extends Component {
+    constructor(props) {
+        super(props);
+     
+        this.state = {
+          articles: [],
+        };
+    }
+
+    componentDidMount() {
+        axios.get('http://localhost:3000/articles').then( response => {
+            this.setState({ articles: response.data })
+        })
+    }
+
     render() {
         return (
             <div>
@@ -16,17 +29,12 @@ class Blog extends Component {
                 
                 <div className="d-flex flex-column align-items-center justify-content-center my-5" id="articles">
                     <div className="container-lg py-3" id="container-articles">
-                        {articles.map(article => 
-                            <Article
-                                key={article.id}
-                                article={article}
-                            ></Article>
+                        
+                        {this.state.articles.map(article => 
+                            <Article key={article.id} article={article}/>
                         )}
+
                     </div>
-                </div>
-
-                <div className="something">
-
                 </div>
                 
                 

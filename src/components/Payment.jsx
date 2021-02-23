@@ -1,9 +1,9 @@
 import React, { createRef } from 'react';
-import '../payment.css';
+import '../css/payment.css';
 import OrderSummary from './OrderSummary.jsx';
 import 'bootstrap/js/dist/collapse';
 import $ from 'jquery';
-import images from '../images.js';
+import images from '../data/images.js';
 import PayPalBtn from './PayPalBtn'
 
 
@@ -44,7 +44,6 @@ class Payment extends React.Component {
             messageHomeNumber: '',
             messageApartmentNumber: '',
             messageCity: ''
-            
         }
     }
 
@@ -85,15 +84,15 @@ class Payment extends React.Component {
     }
 
     getMyCoupon = () => {
-        let myCupon = JSON.parse(localStorage.getItem('myCupon'));
-        if (myCupon === null)
-            myCupon = {code: '', discount: 0};
-        return myCupon;
+        let myCoupon = JSON.parse(localStorage.getItem('myCoupon'));
+        if (myCoupon === null)
+        myCoupon = {code: '', discount: 0};
+        return myCoupon;
     }
 
     getTotalAmountAfterDelivery = () => {
-        let myCupon = this.getMyCoupon();
-        return (this.props.getSubTotalAmount() * (1 +this.props.tax)) * (1 - myCupon.discount) + this.state.deliveryAmount;
+        let myCoupon = this.getMyCoupon();
+        return (this.props.getSubTotalAmount() * (1 +this.props.tax)) * (1 - myCoupon.discount) + this.state.deliveryAmount;
     }
 
     submitCostumerDetails = (event) => {
