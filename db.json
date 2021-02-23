@@ -1,7 +1,7 @@
 {
   "posts": [
     {
-      "id": "01",
+      "id": "1",
       "title": "Forage your way through these post-apocalyptic games",
       "date": "11/13/2020",
       "img": "/img/blog/post1.jpg",
@@ -10,7 +10,7 @@
       "bottomContent": "/img/blog/bottom/bottom1.jpg"
     },
     {
-      "id": "02",
+      "id": "2",
       "title": "Snap & share holiday AR greeting cards with Animal Crossing: Pocket Camp",
       "date": "11/20/2020",
       "img": "/img/blog/post2.jpg",
@@ -19,14 +19,14 @@
       "bottomContent": "/img/blog/bottom/bottom2.jpg"
     },
     {
-      "id": "03",
+      "id": "3",
       "title": "Return to a world of charming horror in Little Nightmares",
       "date": "11/25/2020",
       "img": "/img/blog/post3.jpg",
       "blogtext": "Sed a molestie purus, ut congue nisi. Nulla et fermentum tortor, vitae fermentum augue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus pretium, ipsum nec mattis euismod, erat nisi maximus libero, quis ornare nisl elit at nisi. Proin elementum viverra ipsum eget efficitur. Maecenas id nulla interdum, lobortis magna at, varius mi. Morbi ac dictum dolor. Aliquam fringilla sagittis aliquet. Donec fermentum elit in fermentum tristique. Phasellus malesuada lobortis leo, vel lacinia ex dictum non.\n\nInteger at dapibus lorem. Proin ultrices est est, eu consectetur nulla malesuada consectetur. Vivamus et sem a dolor varius placerat pharetra eu ex. Suspendisse finibus ac eros vel gravida. Phasellus sit amet enim porttitor, auctor nisl ut, euismod nisl. Ut in placerat magna. Vivamus feugiat interdum maximus. Nam euismod ligula turpis, nec ornare dolor ultricies non. Sed sit amet egestas dui. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\n\nNullam eget fermentum tortor, a efficitur sem. Etiam et odio eget tellus aliquam dapibus. Sed vestibulum risus lorem, in sagittis ligula dignissim et. Nam eget sodales velit, nec tristique risus. Maecenas malesuada orci quam, vel gravida est tristique sit amet. In hac habitasse platea dictumst. Maecenas sodales porta nulla. Sed ut laoreet diam, a faucibus ipsum. Curabitur nec mi at felis ullamcorper rhoncus.\n\nuspendisse ullamcorper suscipit justo at sodales. Nunc at mauris dapibus, accumsan magna sed, maximus ipsum. Donec vulputate dignissim condimentum. Nulla id neque faucibus, tincidunt orci at, efficitur ipsum. Aliquam blandit augue nec gravida placerat. Vestibulum dui ligula, congue eu mollis sed, posuere quis nulla. Suspendisse venenatis sapien ut sagittis mattis. Nullam pharetra, sapien ac sollicitudin aliquet, ex eros dictum mi, eget semper ante tellus sit amet enim. Donec congue felis auctor tincidunt interdum. Integer in felis justo. Pellentesque vulputate varius tempor.\n\nPellentesque et nisl vel dolor rhoncus condimentum ac sed libero. Fusce porta quis augue a congue. Fusce tristique est id ante pulvinar, tristique placerat tellus dapibus. Quisque molestie ligula at ligula vehicula rhoncus. Phasellus feugiat vulputate efficitur. Fusce quis orci bibendum, scelerisque erat aliquet, condimentum nibh. Quisque ut convallis leo. Vivamus luctus lectus sed nisi rhoncus sagittis. Sed varius lectus ut arcu venenatis, in auctor eros tincidunt."
     },
     {
-      "id": "04",
+      "id": "4",
       "title": "New Game Trial! Nintendo Switch Online members can play Overcooked! 2 for a limited time",
       "date": "11/29/2020",
       "img": "/img/blog/post4.jpg",
@@ -35,7 +35,7 @@
       "bottomContent": "/img/blog/bottom/bottom4.jpg"
     },
     {
-      "id": "05",
+      "id": "5",
       "title": "Lorem ipsum dolor sit amet. Nulla et fermentum tortor, vitae fermentum augue",
       "date": "12/14/2020",
       "img": "/img/blog/post5.jpg",
@@ -44,7 +44,7 @@
       "bottomContent": "/img/blog/bottom/bottom2.jpg"
     },
     {
-      "id": "06",
+      "id": "6",
       "title": "Nulla et fermentum tortor, vitae fermentum augue",
       "date": "12/16/2020",
       "img": "/img/blog/post6.jpg",
@@ -53,7 +53,7 @@
       "bottomContent": "/img/blog/bottom/bottom1.jpg"
     },
     {
-      "id": "07",
+      "id": "7",
       "title": "Phasellus sit amet enim porttitor, auctor nisl ut, euismod nisl.",
       "date": "12/26/2020",
       "img": "/img/blog/post7.jpg",
@@ -62,7 +62,7 @@
       "bottomContent": "/img/blog/bottom/bottom3.jpg"
     },
     {
-      "id": "08",
+      "id": "8",
       "title": "Proin elementum viverra ipsum eget efficitur. Maecenas id nulla interdum, lobortis magna at.",
       "date": "01/22/2021",
       "img": "/img/blog/post8.jpg",
@@ -71,9 +71,9 @@
       "bottomContent": "/img/blog/bottom/bottom1.jpg"
     },
     {
-      "id": "09",
+      "id": "9",
       "title": "Lula et fermentum tortor, vitae fermentum augue",
-      "date": "01/23/2020",
+      "date": "01/23/2021",
       "img": "/img/blog/post5.jpg",
       "blogtext": "Lula et fermentum tortor, vitae fermentum augue.\n\nNullam eget fermentum tortor, a efficitur sem. Etiam et odio eget tellus aliquam dapibus. Sed vestibulum risus lorem, in sagittis ligula dignissim et. Nam eget sodales velit, nec tristique risus. Maecenas malesuada orci quam, vel gravida est tristique sit amet. In hac habitasse platea dictumst.  Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus pretium, ipsum nec mattis euismod, erat nisi maximus libero, quis ornare nisl elit at nisi. Proin elementum viverra ipsum eget efficitur. Maecenas id nulla interdum, lobortis magna at, varius mi. Morbi ac dictum dolor. Aliquam fringilla sagittis aliquet. Donec fermentum elit in fermentum tristique. Phasellus malesuada lobortis leo, vel lacinia ex dictum non.\n\nNullam eget fermentum tortor, a efficitur sem. Etiam et odio eget tellus aliquam dapibus. Sed vestibulum risus lorem, in sagittis ligula dignissim et. Nam eget sodales velit, nec tristique risus. Maecenas malesuada orci quam, vel gravida est tristique sit amet. In hac habitasse platea dictumst. Maecenas sodales porta nulla. Sed ut laoreet diam, a faucibus ipsum. Curabitur nec mi at felis ullamcorper rhoncus.",
       "bottomType": "picture",
@@ -92,6 +92,24 @@
         "username": "Gal", 
         "password": "10987gal"
     }
+    ],
+
+    "coupons":[
+      {
+        "id": 1,
+        "code": "gal25",
+        "couponDiscount": 75
+      },
+      {
+        "id": 2,
+        "code": "goomba4ever",
+        "couponDiscount": 50
+      },
+      {
+        "id": 3,
+        "code": "gottagofast",
+        "couponDiscount": 70
+      }
     ],
 
     "objectsArr":[

@@ -24,8 +24,10 @@ export default class BlogPost extends Component {
         let currentArr = JSON.parse(localStorage.getItem(`comments${post.id}`))
         let now = new Date()
         let nowDate = now.toDateString()
-        let nowTime = now.getHours() + ":" + now.getMinutes() +":"+ now.getSeconds() 
-        let commentObj = {id: 0, date:(nowDate + " at " + nowTime), user:this.currentUser, comment:this.state.currentComment};
+        let nowTime =   (now.getHours() < 10 ? "0"+now.getHours() : now.getHours()) + ":" +
+                        (now.getMinutes() < 10 ? "0"+now.getMinutes() : now.getMinutes()) +":"+
+                        (now.getSeconds() < 10 ? "0"+now.getSeconds() : now.getSeconds())
+        let commentObj = {id: 0, date:(nowDate + " at " + nowTime), user:this.state.currentUser, comment:this.state.currentComment};
 
         if (!currentArr){
             localStorage.setItem(`comments${post.id}`,JSON.stringify([commentObj]))

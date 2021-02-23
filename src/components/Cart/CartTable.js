@@ -6,14 +6,18 @@ import './CartTable.css'
 export default class CartTable extends Component {
     constructor(props){
         super(props)
-        this.state = {allProducts:[],productsArr:this.props.productsArr, discount:localStorage.getItem("discount")}
+        this.state = {allCoupons:"",allProducts:[],productsArr:this.props.productsArr, discount:localStorage.getItem("discount")}
         this.discountRef = React.createRef();
     }
 
     componentDidMount(){
+        axios.get("http://localhost:3000/coupons").then(allCoupons =>{
+            this.setState({allCoupons:allCoupons.data})
+        })
         axios.get("http://localhost:3000/objectsArr").then(allProducts =>{
             this.setState({allProducts:allProducts.data})
         })
+
     }
 
     changeCount(e, objId){
@@ -61,9 +65,13 @@ export default class CartTable extends Component {
     
     applyDiscount(e){
         e.preventDefault()
-        if ((this.discountRef.current.value).toLowerCase() === "gal25"){
-            this.setState({discount:0.75})
-            localStorage.setItem("discount",0.75)
+        let coupons = this.state.allCoupons
+        for (let coupon of coupons){
+            if ((this.discountRef.current.value).toLowerCase() === coupon.code.toLowerCase()){
+                let discounted = coupon.couponDiscount / 100
+                this.setState({discount: discounted})
+                localStorage.setItem("discount",discounted)
+            }
         }
     }
         

@@ -2,11 +2,14 @@ import React, { Component } from 'react'
 import {Link, Redirect} from 'react-router-dom'
 import axios from 'axios'
 import './Checkout.css'
+import {EmptyCart} from '../Cart/EmptyCart'
 
+let priceOfAll
 export default class Checkout extends Component {
     constructor(props){
         super(props)
         this.state = {
+            allCoupons:"",
             allProducts:"",
             discount:localStorage.getItem("discount"),
             productsArr:JSON.parse(localStorage.getItem("productsArr")),
@@ -14,7 +17,6 @@ export default class Checkout extends Component {
             loggedIn: localStorage.getItem("login"),
             billingFields: [{id:"fname", value:"", valid:""}, {id:"lname", value:"", valid:""}, {id:"phone", value:"", valid:""}, {id:"email", value:"",valid:""}],
             shippingFields: [{id:"fname2", value:"", valid:""},{id:"lname2", value:"", valid:""},{id:"add1", value:"", valid:""},{id:"add2", value:"", valid:""},{id:"city", value:"", valid:""}, {id:"notes", value:""}],
-            paymentMethod:{value:null,valid:""},
             allOk:false
         }
         this.discountRef = React.createRef();
@@ -23,6 +25,9 @@ export default class Checkout extends Component {
     }
 
     componentDidMount(){
+        axios.get("http://localhost:3000/coupons").then(allCoupons =>{
+            this.setState({allCoupons:allCoupons.data})
+        })
         axios.get("http://localhost:3000/objectsArr").then(response=>{
             this.setState({allProducts:response.data})
         })
@@ -55,18 +60,20 @@ export default class Checkout extends Component {
                     case "phone":
                         let mobilePattern = /^\(?([0-9]{3})\)?[-]?([0-9]{3})[-]?([0-9]{4})$/;
                         let homePattern = /^\(?([0-9]{2})\)?[-]?([0-9]{3})[-]?([0-9]{4})$/;
-                            if (e.target.value.match(mobilePattern) || e.target.value.match(homePattern))
-                                field.valid = "is-valid"
-                            else
-                                field.valid = "is-invalid"
-                            break;
-                        case "email":
-                            let mailPattern = new RegExp(/^\w+@\w+(\.[A-z]+){1,2}$/);
-                            if (e.target.value.match(mailPattern))
-                                field.valid = "is-valid"
-                            else
-                                field.valid = "is-invalid"
-                            break;
+                        if (e.target.value.match(mobilePattern) || e.target.value.match(homePattern))
+                            field.valid = "is-valid"
+                        else
+                            field.valid = "is-invalid"
+                        break;
+
+                    case "email":
+                        let mailPattern = new RegExp(/^\w+@\w+(\.[A-z]+){1,2}$/);
+                        if (e.target.value.match(mailPattern))
+                            field.valid = "is-valid"
+                        else
+                            field.valid = "is-invalid"
+                        break;
+
                     default:
                         break;
                     }
@@ -103,9 +110,13 @@ export default class Checkout extends Component {
 
     applyDiscount(e){
         e.preventDefault()
-        if ((this.discountRef.current.value).toLowerCase() === "gal25"){
-            this.setState({discount:0.75})
-            localStorage.setItem("discount",0.75)
+        let coupons = this.state.allCoupons
+        for (let coupon of coupons){
+            if ((this.discountRef.current.value).toLowerCase() === coupon.code.toLowerCase()){
+                let discount = coupon.couponDiscount / 100
+                this.setState({discount})
+                localStorage.setItem("discount",discount)
+            }
         }
     }
 
@@ -120,41 +131,42 @@ export default class Checkout extends Component {
 
     checkAll(){
         let allOk = true;
-        let newBillingFields = [...this.state.billingFields]
-        let newShippingFields = [...this.state.shippingFields]
-        let paymentMethod = {...this.state.paymentMethod}
-
-        for (let field of newBillingFields){
+        let billingFields = [...this.state.billingFields]
+        let shippingFields = [...this.state.shippingFields]
+        
+        for (let field of billingFields){
             if (field.valid !== "is-valid"){
                 field.valid = "is-invalid"
                 allOk=false;
             }
-            
         }
-
-        for (let field of newShippingFields){
+        
+        for (let field of shippingFields){
             if (field.valid !== "is-valid" && field.id !== "notes"){
                 field.valid = "is-invalid"
                 allOk=false;
             }
-                
         }
-
-        if (paymentMethod.valid !== "is-valid"){
-            paymentMethod.valid = "is-invalid"
-            allOk=false
-        }
-
-        this.setState({billingFields:newBillingFields, shippingFields:newShippingFields, paymentMethod, allOk})
+        
+        this.setState({billingFields, shippingFields, allOk})
+        localStorage.setItem("totalPrice",(priceOfAll * (this.state.discount ? this.state.discount : 1 ) + (priceOfAll*(this.state.discount?this.state.discount:1) < 100 ? this.state.shipping : 0)).toFixed(2))
     }
 
     render() {
-        let priceOfAll = 0;
+        
+        priceOfAll = 0;
+        let coupon = this.state.discount
+        let billing = this.state.billingFields
+        let shipping = this.state.shippingFields
        
         return (
             <div className="py-5">
                 {this.state.loggedIn? "": <Redirect to="/login"/>}
-                {this.state.allOk? <Redirect to="/confirmed"/> : ""}
+                {this.state.allOk? <Redirect to="/payment"/> : ""}
+                {!this.state.productsArr? <EmptyCart/>:
+                
+                <div>
+                    
                 <h1 className="text-center">Checkout</h1>
                 {!this.state.allProducts? <div>loading...</div>:
                     <div className="container">
@@ -165,22 +177,22 @@ export default class Checkout extends Component {
                                     <div className="row g-3">
                                         <div className="col-md-6">
                                             <label htmlFor="fname" className="fw-bold form-label">First name<span className="text-danger">*</span></label>
-                                            <input name="fname" value={this.state.billingFields[0].value} onChange={(e)=>this.updateBillingFields(e,"fname")} id="fname" type="text" className={`form-control ${this.state.billingFields[0].valid}`}/>
+                                            <input name="fname" value={billing[0].value} onChange={(e)=>this.updateBillingFields(e,"fname")} id="fname" type="text" className={`form-control ${billing[0].valid}`}/>
                                             <div className="invalid-feedback">Please fill your first name.</div>
                                         </div>
                                         <div className="col-md-6">
                                             <label htmlFor="lname" className="fw-bold form-label">Last name<span className="text-danger">*</span></label>
-                                            <input onChange={(e)=>this.updateBillingFields(e,"lname")} id="lname" type="text" className={`form-control ${this.state.billingFields[1].valid}`} />
+                                            <input onChange={(e)=>this.updateBillingFields(e,"lname")} id="lname" type="text" className={`form-control ${billing[1].valid}`} />
                                             <div className="invalid-feedback">Please fill your last name.</div>
                                         </div>
                                         <div className="col-12">
                                             <label htmlFor="phone" className="fw-bold form-label">Phone Number<span className="text-danger">*</span></label>
-                                            <input onChange={(e)=>this.updateBillingFields(e,"phone")} id="phone" type="text" className={`form-control ${this.state.billingFields[2].valid}`}/>
+                                            <input onChange={(e)=>this.updateBillingFields(e,"phone")} id="phone" type="text" className={`form-control ${billing[2].valid}`}/>
                                             <div className="invalid-feedback">Invalid phone number.</div>
                                         </div>
                                         <div className="col-12">
                                             <label htmlFor="email" className="fw-bold form-label">Email Address<span className="text-danger">*</span></label>
-                                            <input onChange={(e)=>this.updateBillingFields(e,"email")} id="email" type="text" className={`form-control ${this.state.billingFields[3].valid}`}/>
+                                            <input onChange={(e)=>this.updateBillingFields(e,"email")} id="email" type="text" className={`form-control ${billing[3].valid}`}/>
                                             <div className="invalid-feedback">Invalid email address.</div>
                                         </div>
                                         <div className="col-12 form-check">
@@ -192,27 +204,27 @@ export default class Checkout extends Component {
                                     <div className="row g-3">
                                         <div className="col-md-6">
                                             <label htmlFor="fname2" className="fw-bold form-label">First name<span className="text-danger">*</span></label>
-                                            <input id="fname2" onChange={(e)=>this.updateShippingFields(e,"fname2")} type="text" className={`form-control ${this.state.shippingFields[0].valid}`}/>
+                                            <input id="fname2" onChange={(e)=>this.updateShippingFields(e,"fname2")} type="text" className={`form-control ${shipping[0].valid}`}/>
                                             <div className="invalid-feedback">Please fill the recepient's first name.</div>
                                         </div>
                                         <div className="col-md-6">
                                             <label htmlFor="lname2" className="fw-bold form-label">Last name<span className="text-danger">*</span></label>
-                                            <input id="lname2" onChange={(e)=>this.updateShippingFields(e,"lname2")}  className={`form-control ${this.state.shippingFields[1].valid}`} type="text"/>
+                                            <input id="lname2" onChange={(e)=>this.updateShippingFields(e,"lname2")}  className={`form-control ${shipping[1].valid}`} type="text"/>
                                             <div className="invalid-feedback">Please fill the recepient's last name.</div>
                                         </div>
                                         <div className="col-12">
                                             <label htmlFor="add1" className="fw-bold form-label">Address<span className="text-danger">*</span></label>
-                                            <input id="add1" onChange={(e)=>this.updateShippingFields(e,"add1")} className={`form-control ${this.state.shippingFields[2].valid}`} placeholder="123 Main St" type="text"/>
+                                            <input id="add1" onChange={(e)=>this.updateShippingFields(e,"add1")} className={`form-control ${shipping[2].valid}`} placeholder="123 Main St" type="text"/>
                                             <div className="invalid-feedback">Please fill the recepient's address.</div>
                                         </div>
                                         <div className="col-12">
                                             <label htmlFor="add2" className="fw-bold form-label">Address 2<span className="text-danger">*</span></label>
-                                            <input id="add2" onChange={(e)=>this.updateShippingFields(e,"add2")} className={`form-control ${this.state.shippingFields[3].valid}`} placeholder="Apartment, studio, or floor" type="text"/>
+                                            <input id="add2" onChange={(e)=>this.updateShippingFields(e,"add2")} className={`form-control ${shipping[3].valid}`} placeholder="Apartment, studio, or floor" type="text"/>
                                             <div className="invalid-feedback">Please fill the recepient's address.</div>
                                         </div>
                                         <div className="col-12">
                                             <label htmlFor="city" className="fw-bold form-label">City<span className="text-danger">*</span></label>
-                                            <input id="city" onChange={(e)=>this.updateShippingFields(e,"city")} className={`form-control ${this.state.shippingFields[4].valid}`} type="text"/>
+                                            <input id="city" onChange={(e)=>this.updateShippingFields(e,"city")} className={`form-control ${shipping[4].valid}`} type="text"/>
                                             <div className="invalid-feedback">Please fill the recepient's city.</div>
                                         </div>
                                         <div className="col-12">
@@ -253,57 +265,39 @@ export default class Checkout extends Component {
                                                 }
                                                 return null;
                                             })}
-                                            <tr className={this.state.discount? "text-danger" : "noDiscount"}>
+                                            <tr className={coupon? "text-danger" : "noDiscount"}>
                                                 <th>Total (before discount)</th>
                                                 <td>${priceOfAll.toFixed(2)}</td>
                                             </tr>          
-                                            <tr className={this.state.discount? "text-success" : "noDiscount"}>
+                                            <tr className={coupon? "text-success" : "noDiscount"}>
                                                 <th>Coupon Applied - You've saved</th>
-                                                <td>-${(priceOfAll*(this.state.discount?(1-this.state.discount):1)).toFixed(2)}</td>
+                                                <td>-${(priceOfAll*(coupon?(1-coupon):1)).toFixed(2)}</td>
                                             </tr>
                                             <tr>
                                                 <th>Total before shipping</th>
-                                                <td>${(priceOfAll*(this.state.discount?this.state.discount:1)).toFixed(2)}</td>
+                                                <td>${(priceOfAll*(coupon?coupon:1)).toFixed(2)}</td>
                                             </tr>
                                             <tr>
                                                 <th>Shipping method</th>
                                                 <td>
                                                     <select className="form-select" onChange={(e)=>this.shippingFee(e)}>
                                                         <option value="0">Pick-up  - $0</option>
-                                                        <option value="5">Unregistered mail  - $5</option>
-                                                        <option value="10">Registered mail  - $10</option>
-                                                        <option value="20">Delivery  - $20</option>
+                                                        <option value="5">Unregistered mail - $5</option>
+                                                        <option value="10">Registered mail - $10</option>
+                                                        <option value="20">Delivery - $20</option>
                                                     </select>
                                                     <span className="form-text">Free shipping for deals over 100$</span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th>Total including shipping</th>
-                                                <td className={`fw-bold ${priceOfAll*(this.state.discount?this.state.discount:1) < 100? "" : "noDiscount"}`}>${(priceOfAll*(this.state.discount ? this.state.discount : 1) + this.state.shipping).toFixed(2)}</td>
-                                                <td className={`fw-bold ${priceOfAll*(this.state.discount?this.state.discount:1) > 100? "" : "noDiscount"}`}>${(priceOfAll*(this.state.discount ? this.state.discount : 1)).toFixed(2)}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Payment method</th>
-                                                <td className="text-start">
-                                                    <form>
-                                                            <div className="form-check">
-                                                                <input onClick={(e)=>this.changePayment(e)} value="paypal" className={`form-check-input radiob ${this.state.paymentMethod.valid}`} type="radio" name="flexRadioDefault" id="paypal"/>
-                                                                <label className="form-check-label" htmlFor="paypal">
-                                                                    <i className="fab fa-cc-paypal fa-3x text-secondary"></i> Paypal
-                                                                </label>
-                                                            </div>
-                                                            <div className="form-check">
-                                                                <input onClick={(e)=>this.changePayment(e)} value="cash"  className={`form-check-input radiob ${this.state.paymentMethod.valid}`} type="radio" name="flexRadioDefault" id="cash"/>
-                                                                <label className="form-check-label text-start" htmlFor="cash">
-                                                                    <i className="fas fa-money-bill-wave-alt text-secondary fa-3x"></i> Cash
-                                                                </label>
-                                                                <div className="invalid-feedback">Please choose a payment method.</div>
-
-                                                            </div>
-                                                            
-                                                    </form>
+                                                <td className="fw-bold">$
+                                                    <span>
+                                                    {(priceOfAll * (coupon ? coupon : 1) + (priceOfAll*(coupon?coupon:1) < 100 ? this.state.shipping : 0)).toFixed(2)}
+                                                    </span>
                                                 </td>
                                             </tr>
+                                           
                                         </tbody>
                                     </table> 
                                     <div className="row justify-content-center">
@@ -323,6 +317,7 @@ export default class Checkout extends Component {
                                 </div>
                         </div>
                     </div>}
+                </div>}
             </div>
         )
     }

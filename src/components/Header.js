@@ -41,44 +41,28 @@ class Header extends Component{
                      <li className="nav-item">
                         <NavLink style={noDeco} className="nav-link" exact to="/login">Sign-in</NavLink>
                      </li>
-
                      <li className="nav-item">
                         <NavLink style={noDeco} className="nav-link" exact to="/signup">Register</NavLink>
                      </li>
                   </ul>
-                  <button type="button" className="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+
+                  <div className="dropdown">
+                     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         View Cart
                      </button>
+                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <CartTable page="quickView" productsArr={JSON.parse(localStorage.getItem("productsArr"))}/>
+                     </div>
+                  </div>
                </div>
                
-
                <ul className="navbar-nav navbar-right py-1">
-                  
                   <form className="d-flex" action="/store/">
-
                      <input name="q" className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
                      <button className="btn btn-outline-light" type="submit">Search</button>
                   </form>
-            </ul>
-         </div>
-
-         <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div className="modal-dialog">
-               <div className="modal-content">
-                  <div className="modal-header">
-                  <h5 className="modal-title" id="exampleModalLabel">Your Cart</h5>
-                  
-                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div className="modal-body">
-                  <CartTable page="quickView" productsArr={JSON.parse(localStorage.getItem("productsArr"))}/>
-                  </div>
-                  <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  </div>
-               </div>
+               </ul>
             </div>
-         </div>
       </nav>
        );
     }

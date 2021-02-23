@@ -5,7 +5,7 @@ import axios from 'axios'
 export default class Login extends Component {
     constructor(){
         super()
-        this.state = {loggedIn: localStorage.getItem("login"), userList:[]}
+        this.state = {loggedIn: localStorage.getItem("login"), userList:[], loginMsg:""}
         this.userRef = React.createRef();
         this.passRef = React.createRef();
     }
@@ -27,6 +27,9 @@ export default class Login extends Component {
                 break;
             }
         }
+        if (!this.state.loggedIn){
+            this.setState({loginMsg:"Invalid username\\password"})
+        }
     }
 
     render() {
@@ -41,7 +44,9 @@ export default class Login extends Component {
                     <label className="form-label" htmlFor="pass">Password</label>
                     <input ref={this.passRef} className="form-control" id="pass" type="password"/>
                     <button className="btn btn-primary">Sign in</button>
+                    <div className="text-center text-danger">{this.state.loginMsg}</div>
                 </form>
+               
 
                 </div>
             </div>

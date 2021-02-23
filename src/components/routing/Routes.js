@@ -15,6 +15,7 @@ import NotFound from '../404/NotFound'
 import OrderConfirmed from '../Checkout/OrderConfirmed'
 import ProductPage from '../Product/ProductPage'
 import SignUp from '../SignUp/SignUp'
+import Payment from '../Checkout/PayPal/Payment'
 
 export default class Routes extends Component {
 
@@ -31,6 +32,7 @@ export default class Routes extends Component {
                 <Route path="/contact" component={ContactUs}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/msgsent" component={MsgSent}/>
+                <Route path="/payment" component={Payment}/>
                 <Route path="/product/:name" component={ProductPage}/>
                 <Route path="/signup" component={SignUp}/>
                 <Route exact path="/store/" component={CatalogPage}/>

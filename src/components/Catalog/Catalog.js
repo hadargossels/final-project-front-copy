@@ -49,7 +49,7 @@ export default class Catalog extends Component {
   };
 
   checkIfLast(){
-    let lastPage = (0 | (this.state.displayArr.length / this.state.limit + 1))
+    let lastPage = Math.ceil(this.state.displayArr.length / this.state.limit)
     let currentPage = (this.state.page)
     if (lastPage !== currentPage)
       currentPage +=1
@@ -101,16 +101,16 @@ export default class Catalog extends Component {
           {/* page navigation */}
           <nav aria-label="Page navigation example">
             <ul className="pagination justify-content-center">
-              <li className="page-item" onClick={(e) => {
-                  this.setState((state) => ({page: !(state.page - 1) || state.page - 1}));
+              <li className="page-item" onClick={() => {
+                  this.setState({page: (this.state.page - 1 ? this.state.page-1 : this.state.page)});
                 }}>
                 <span className="page-link">Previous</span>
               </li>
               
-              {Array(0 | (this.state.displayArr.length / this.state.limit + 1))
+              {Array(Math.ceil(this.state.displayArr.length / this.state.limit ))
                 .fill(0)
                 .map((_, index) => (
-                  <li key={index} className="page-item" onClick={() => this.setState({ page: index + 1 })}>
+                  <li key={index} className={`page-item ${this.state.page === index + 1 ? "page-item active": ""}`} onClick={() => this.setState({ page: index + 1 })}>
                     <span className="page-link">{index + 1}</span>
                   </li>
                 ))}

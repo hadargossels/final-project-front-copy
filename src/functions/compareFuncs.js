@@ -39,3 +39,9 @@ export function alphabetOrder(a,b){
     }
     return comparison;
 }
+
+export function newestDate(a,b){
+    let a_date = new Date(a.date)
+    let b_date = new Date(b.date)
+    return (b_date-a_date)
+}

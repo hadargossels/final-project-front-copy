@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import BlogElement from './BlogElement/BlogElement'
+import {newestDate} from '../../functions/compareFuncs'
 
 export default class Blog extends Component {
     constructor(){
@@ -15,14 +16,14 @@ export default class Blog extends Component {
     }
 
     render() {
-        let sorted2 = this.state.posts.sort(function(a,b){return b.id - a.id})
+        let sorted = this.state.posts.sort(newestDate)
         return (
             <div className="py-5 text-center">
                 <h1 className="text-danger">Our Blog</h1>
-              {!sorted2? "Loading...": 
+              {!sorted? "Loading...": 
                     <div className="container col-11">
                         <div className="row justify-content-center">
-                            {sorted2.map((element)=>{
+                            {sorted.map((element)=>{
                                 return <BlogElement post={element} key={element.id}/>
                             })}
                         </div>
