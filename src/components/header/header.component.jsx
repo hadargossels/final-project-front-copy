@@ -16,11 +16,13 @@ import { selectCartHidden } from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selector";
 import SearchBar from "./../search-bar/search-bar.component";
 
+import { signOutStart } from "../../redux/user/user.actions";
+
 const activeStyle = {
   color: "#f7a116",
 };
 
-const Header = ({ currentUser, hidden }) => (
+const Header = ({ currentUser, hidden, signOutStart }) => (
   <>
     <div className="header-component">
       <div className="header">
@@ -58,7 +60,7 @@ const Header = ({ currentUser, hidden }) => (
           </NavLink>
 
           {currentUser ? (
-            <div className="option" onClick={() => auth.signOut()}>
+            <div className="option" onClick={signOutStart}>
               SIGN OUT
             </div>
           ) : (
@@ -90,12 +92,8 @@ const mapStateToProps = createStructuredSelector({
   hidden: selectCartHidden,
 });
 
-// const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
-//   currentUser,
-//   hidden,
-// });
+const mapDispatchToProps = (dispatch) => ({
+  signOutStart: () => dispatch(signOutStart()),
+});
 
-// currentUser: state.user.currentUser,
-// hidden : state.cart.hidden,
-
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

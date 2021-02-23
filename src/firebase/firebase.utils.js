@@ -1,10 +1,8 @@
 import firebase from "firebase/app";
-
 import "firebase/firestore";
-
 import "firebase/auth";
 
-import "firebase/database";
+// import "firebase/database";
 
 const config = {
   apiKey: "AIzaSyCWoQa6kXdCKNaOveQ8eSrwt0rgKwS08CM",
@@ -16,6 +14,7 @@ const config = {
   measurementId: "G-N8LSB8GGRK",
   databaseUrl: "https://dog-store-db-default-rtdb.firebaseio.com",
 };
+
 firebase.initializeApp(config);
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
@@ -48,12 +47,10 @@ export const addCollectionAndDocuments = async (
   objectsToAdd
 ) => {
   const collectionRef = firestore.collection(collectionKey);
-  // console.log("collectionRef:", collectionRef);
 
   const batch = firestore.batch();
   objectsToAdd.forEach((obj) => {
     const newDocRef = collectionRef.doc();
-    // console.log("newDocRef :", newDocRef);
     batch.set(newDocRef, obj);
   });
 
@@ -72,20 +69,26 @@ export const convertCollectionsSnapshotToMap = (collections) => {
     };
   });
 
-  // console.log("transformedCollection :", transformedCollection);
-
   return transformedCollection.reduce((accumulator, collection) => {
-    //                     clothing
     accumulator[collection.title.toLowerCase()] = collection;
     return accumulator;
   }, {});
 };
 
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject);
+  });
+};
+
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: "select_account" });
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: "select_account" });
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
 export default firebase;

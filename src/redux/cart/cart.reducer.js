@@ -75,7 +75,7 @@ const cartReducer = (state = INITIAL_STATE, action) => {
     case CartActionTypes.CLEAR_CART:
       return {
         ...state,
-        cartItems: (state.cartItems = []),
+        cartItems: [],
       };
 
     // case CartActionTypes.setTotalPrice:
