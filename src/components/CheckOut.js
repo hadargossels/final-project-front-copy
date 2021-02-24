@@ -1,12 +1,14 @@
 
 import React, { Component } from 'react'
-import { Link,NavLink } from 'react-router-dom';
+import {NavLink } from 'react-router-dom';
 import './CheckOut.css';
 import OrderConfirmation from './OrderConfirmation';
 import Paypal from './Paypal';
+import axios from 'axios'
 
 
-const coupons= require("../dataBase/couponData.json")
+let coupons=[]
+// const coupons= require("../dataBase/couponData.json")
 
 
 export default class CheckOut extends Component {
@@ -24,6 +26,7 @@ export default class CheckOut extends Component {
             couponUsed:false,
             discount:"",
             validForm:"",
+            validPay:"",
             detailUser:"",
             cardType:"",
         }
@@ -55,6 +58,7 @@ export default class CheckOut extends Component {
         this.calculator=this.calculator.bind(this)
         this.checkCoupon=this.checkCoupon.bind(this)
         this.inputValid=this.inputValid.bind(this)
+        this.validPayment = this.validPayment.bind(this)
     }
 
 
@@ -65,13 +69,15 @@ export default class CheckOut extends Component {
         this.cityMessageRef.current.style.display="none"
         this.addressMessageRef.current.style.display="none"
         this.phoneMassegeRef.current.style.display="none"
-        this.validityMassegeRef.current.style.display="none"
-        this.cardMassegeRef.current.style.display="none"
-        this.cardDetails.current.style.display="none"
         this.termsMassegeRef.current.style.display="none"
 
         this.loadItemsFromLocalStorage()
         this.calculator()
+
+        axios.get("http://localhost:3000/coupons").then(
+            (response)=>{coupons=response.data}
+        ).catch(()=>{coupons= require("../dataBase/couponData.json")
+        })
     }
 
     loadItemsFromLocalStorage(){
@@ -112,21 +118,24 @@ export default class CheckOut extends Component {
         let tot
         const totBefore=this.totBeforeCouponRef.current
 
-        for (const item of coupons) {
-            if(item.serialNumber===coupon.value){
-                await this.setState({couponCurrect:item})
-                flag=true
+        if(coupons[0]){
+            for (const item of coupons) {
+                if(item.serialNumber===coupon.value){
+                    await this.setState({couponCurrect:item})
+                    flag=true
+                }
             }
         }
+        
         
         if(flag){
             couponMessage.innerHTML=`הקופון הוזן בהצלחה קיבלת ${this.state.couponCurrect.discountPercentage}%  הנחה`
             couponMessage.style.color="green"
 
-            calculateDisc=this.state.total*(1-this.state.couponCurrect.discountPercentage/100)
+            calculateDisc= Math.floor(this.state.total*(1-this.state.couponCurrect.discountPercentage/100)) 
             tot=this.state.total
             totBefore.innerHTML=`${tot}₪`
-            let disc=(this.state.couponCurrect.discountPercentage/100)*this.state.total
+            let disc=Math.floor((this.state.couponCurrect.discountPercentage/100)*this.state.total)
             
             this.setState({discount:disc})
             this.setState({totalBeforeCoupon:tot})
@@ -135,7 +144,7 @@ export default class CheckOut extends Component {
 
 
         }else{
-
+            this.setState({discount:""})
             this.setState({couponCurrect:""})
 
             if(this.state.couponUsed){
@@ -156,9 +165,9 @@ export default class CheckOut extends Component {
 
     }
 
-    ////////////////////////////////////////////////////////       valid        /////////////////////////////////
+    ////////////////////////////////////////////////////////       valid Form       /////////////////////////////////
 
-    inputValid(){
+    async inputValid(){
 
         let flag=true
 
@@ -180,10 +189,6 @@ export default class CheckOut extends Component {
 
         const zipInput= this.zipRef.current
 
-        const cardMassege= this.cardMassegeRef.current
-
-        const validityInput= this.validityRef.current
-        const validityMassege= this.validityMassegeRef.current
 
         const termInput= this.termsInputRef.current
         const termMessage= this.termsMassegeRef.current
@@ -241,6 +246,44 @@ export default class CheckOut extends Component {
             phoneMassage.style.display="none"
 
        
+        
+        /////////////    check term   ///////////
+
+        if(!termInput.checked){
+            termMessage.style.display="inline"
+            flag=false
+        }else{
+            termMessage.style.display="none"
+        }
+
+        if(flag){
+
+            let userDetail={fname:fnameInput.value,lname:lnameInput.value,email:mailInput.value,city:cityInput.value,address:addressInput.value,houseType:this.houseTypeRef.current.value,zip:zipInput.value,phone:phoneInput.value}
+            localStorage.setItem("userDetails",JSON.stringify(userDetail))
+            this.setState({detailUser:userDetail})
+        }
+
+        await this.setState({validForm:flag})
+
+        if(flag){
+            this.validityMassegeRef.current.style.display="none"
+            this.cardMassegeRef.current.style.display="none"
+            this.cardDetails.current.style.display="none"
+        }
+    }
+
+
+    //////////////////////// valid Pay    ///////////////////////////////////
+       
+    validPayment(){
+
+        let flag=true
+        const cardMassege= this.cardMassegeRef.current
+
+        const validityInput= this.validityRef.current
+        const validityMassege= this.validityMassegeRef.current
+
+
         /////////////    chose type of payment   ///////////
 
         if(!this.state.cardType){
@@ -250,7 +293,7 @@ export default class CheckOut extends Component {
             cardMassege.style.display="none"
         }
 
-        /////////////    check card detail   ///////////
+
 
         if(this.state.cardType==="mastercard" || this.state.cardType==="visa" || this.state.cardType==="amex"){
 
@@ -279,31 +322,8 @@ export default class CheckOut extends Component {
             flag=false
         }
 
-        /////////////    check term   ///////////
-
-        if(!termInput.checked){
-            termMessage.style.display="inline"
-            flag=false
-        }else{
-            termMessage.style.display="none"
-        }
-
-
-
-
-        if(flag){
-
-            let userDetail={fname:fnameInput.value,lname:lnameInput.value,email:mailInput.value,city:cityInput.value,address:addressInput.value,houseType:this.houseTypeRef.current.value,zip:zipInput.value,phone:phoneInput.value}
-            localStorage.setItem("userDetails",JSON.stringify(userDetail))
-            this.setState({detailUser:userDetail})
-
-        }
-
-
-        this.setState({validForm:flag})
+        this.setState({validPay:flag})
     }
-       
-
     
     valiNumber(e) {
         e.value=e.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
@@ -313,10 +333,10 @@ export default class CheckOut extends Component {
 
             this.setState({cardType:e})
 
-                if(e==="mastercard" || e==="visa" || e==="amex")
-                    this.cardDetails.current.style.display="inline"
-                else 
-                    this.cardDetails.current.style.display="none"
+            if(e==="mastercard" || e==="visa" || e==="amex")
+                this.cardDetails.current.style.display="inline"
+            else 
+                this.cardDetails.current.style.display="none"
 
         }
       
@@ -325,32 +345,32 @@ export default class CheckOut extends Component {
     render() {
         return (
             <div>
-                {(!this.state.validForm)? <div className="myContainerCart">
+                {(!this.state.validPay)? <div className="myContainerCart">
                 
                 <div className="statusOrder">
 
-                    <div class="container p-0">
-                            <div class="card">
+                    <div className="container p-0">
+                            <div className="card">
                             
-                                <div class="card-body">
-                                    <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
-                                    <div class="step completed m-0">
-                                        <div class="step-icon-wrap">
-                                        <div class="step-icon "><i class="pe-7s-cart "></i></div>
+                                <div className="card-body">
+                                    <div className="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                                    <div className="step completed m-0">
+                                        <div className="step-icon-wrap">
+                                        <div className="step-icon "><i className="pe-7s-cart "></i></div>
                                         </div>
-                                        <h4 class="step-title fs-5">עגלת קניות</h4>
+                                        <h4 className="step-title fs-5">עגלת קניות</h4>
                                     </div>
-                                    <div class="step completed m-0">
-                                        <div class="step-icon-wrap">
-                                        <div class="step-icon"><i class="pe-7s-config"></i></div>
+                                    <div className="step completed m-0">
+                                        <div className="step-icon-wrap">
+                                        <div className="step-icon"><i className="pe-7s-config"></i></div>
                                         </div>
-                                        <h4 class="step-title fs-5">פרטי ההזמנה</h4>
+                                        <h4 className="step-title fs-5">פרטי ההזמנה</h4>
                                     </div>
-                                    <div class="step m-0">
-                                        <div class="step-icon-wrap">
-                                        <div class="step-icon"><i class="pe-7s-medal"></i></div>
+                                    <div className="step m-0">
+                                        <div className="step-icon-wrap">
+                                        <div className="step-icon"><i className="pe-7s-medal"></i></div>
                                         </div>
-                                        <h4 class="step-title fs-5">ההזמנה הושלמה</h4>
+                                        <h4 className="step-title fs-5">ההזמנה הושלמה</h4>
                                     </div>
                                 
                                     </div>
@@ -369,8 +389,8 @@ export default class CheckOut extends Component {
                     <div id="myForm">
                         <hr style={{height:"5px"}}></hr>
                         <div className="formToOrder m-5 fs-4">
-                            <h3>פרטי חיוב:</h3>
-                            <div class="form-group row ">
+                            <h3>פרטי משלוח:</h3>
+                            <div className="form-group row ">
                                 <div className="col">
                                     <label htmlFor="fname">
                                         שם פרטי:  *
@@ -415,7 +435,6 @@ export default class CheckOut extends Component {
                                         כתובת:  *
                                     </label>
                                     <input type="address" name="address" id="address" required className="form-control" placeholder="מספר בית ושם רחוב" ref={this.addressRef}/>
-                                    <p id="addresscheck" style={{color: "red"}} ref={this.addressMessageRef} className="vlidMassege">** חובה למלא כתובת </p>
                                 </div>
                                 
                                 <div className="col">
@@ -424,6 +443,7 @@ export default class CheckOut extends Component {
                                     </label>
                                     <input type="text" name="typeAddress" id="typeAddress" className="form-control" placeholder="דירה/בית פרטי/יח' דיור..." ref={this.houseTypeRef}/>
                                 </div>
+                                <p id="addresscheck" style={{color: "red"}} ref={this.addressMessageRef} className="vlidMassege">** חובה למלא כתובת </p>
                             </div>
                         
                             <div className="col">
@@ -441,50 +461,50 @@ export default class CheckOut extends Component {
                                 <p id="usercheck" style={{color: "red"}} ref={this.phoneMassegeRef} className="vlidMassege">
                                     **חובה למלא מספר פלאפון תקין  
                                 </p>
+
+                                <br/>
+                                <label id="Conditions" className="containerCheckBox">קראתי ואני מסכים לתנאי השימוש *
+                                    <input type="checkbox" required className="form-control" ref={this.termsInputRef}/>
+                                    <span className="checkmark"></span><br/>
+                                    <p id="termscheck" style={{color: "red"}} className="vlidMassege" ref={this.termsMassegeRef}> ** חובה לאשר את התקנון שלא קיים  </p>
+                                </label>
+                
+                                <button id="submitbtn" className="btn btn-primary pe-4 ps-4" onClick={this.inputValid}>שלח</button>
                             </div>
 
-                            <br/>
                             <hr/>
-
+                            {(this.state.validForm)? <div>
                             <h3> אמצעי תשלום:</h3>
 
-                            <div class="col-md-12">
-                                <div class="payment-info">
-                                    <span class="type d-block mt-3 mb-1"> סוג כרטיס / פייפל</span>
-                                    <label class="radio"> <input type="radio" name="card" value="mastercard" onClick={(e)=>this.cardType(e.target.value)}/> <span><img width="50" src="https://img.icons8.com/color/48/000000/mastercard.png" /></span> </label>
-                                    <label class="radio"> <input type="radio" name="card" value="visa" onClick={(e)=>this.cardType(e.target.value)}/> <span><img width="50" src="https://img.icons8.com/officel/48/000000/visa.png" /></span> </label>
-                                    <label class="radio"> <input type="radio" name="card" value="amex" onClick={(e)=>this.cardType(e.target.value)}/> <span><img width="50" src="https://img.icons8.com/ultraviolet/48/000000/amex.png" /></span> </label>
-                                    <label class="radio"> <input type="radio" name="card" value="paypal" onClick={(e)=>this.cardType(e.target.value)}/> <span><img width="50" src="https://img.icons8.com/officel/48/000000/paypal.png" /></span> </label>
+                            <div className="col-md-12">
+                                <div className="payment-info">
+                                    <span className="type d-block mt-3 mb-1"> סוג כרטיס / פייפל</span>
+                                    <label className="radio"> <input type="radio" name="card" value="mastercard" onClick={(e)=>this.cardType(e.target.value)}/> <span><img width="50" src="https://img.icons8.com/color/48/000000/mastercard.png" /></span> </label>
+                                    <label className="radio"> <input type="radio" name="card" value="visa" onClick={(e)=>this.cardType(e.target.value)}/> <span><img width="50" src="https://img.icons8.com/officel/48/000000/visa.png" /></span> </label>
+                                    <label className="radio"> <input type="radio" name="card" value="amex" onClick={(e)=>this.cardType(e.target.value)}/> <span><img width="50" src="https://img.icons8.com/ultraviolet/48/000000/amex.png" /></span> </label>
+                                    <label className="radio"> <input type="radio" name="card" value="paypal" onClick={(e)=>this.cardType(e.target.value)}/> <span><img width="50" src="https://img.icons8.com/officel/48/000000/paypal.png" /></span> </label>
                                     <br/> <p id="usercheck" style={{color: "red"}} className="vlidMassege" ref={this.cardMassegeRef}> ** נא לבחור אמצעי תשלום  </p>
 
                                     
                                     <div ref={this.cardDetails}>
-                                        <div><label class="credit-card-label">שם בעל הכרטיס:</label><input type="text" class="form-control credit-inputs" placeholder="ישראל ישראלי" required/></div>
-                                        <div><label class="credit-card-label">מספר כרטיס: </label><input type="text" class="form-control credit-inputs" placeholder="0000 0000 0000 0000" required onChange={(e)=>this.valiNumber(e.target)}/></div>
-                                        <div class="row ">
-                                            <div class="col-md-6"><label class="credit-card-label">תוקף הכרטיס:</label><input type="text" class="form-control credit-inputs" placeholder="12/24" required maxLength="5"ref={this.validityRef}/></div>
-                                            <div class="col-md-6"><label class="credit-card-label">CVV:</label><input type="text" class="form-control credit-inputs" placeholder="342" required maxLength="3" onChange={(e)=>this.valiNumber(e.target)}/></div>
+                                        <div><label className="credit-card-label">שם בעל הכרטיס:</label><input type="text" className="form-control credit-inputs" placeholder="ישראל ישראלי" required/></div>
+                                        <div><label className="credit-card-label">מספר כרטיס: </label><input type="text" className="form-control credit-inputs" placeholder="0000 0000 0000 0000" required onChange={(e)=>this.valiNumber(e.target)}/></div>
+                                        <div className="row ">
+                                            <div className="col-md-6"><label className="credit-card-label">תוקף הכרטיס:</label><input type="text" className="form-control credit-inputs" placeholder="12/24" required maxLength="5"ref={this.validityRef}/></div>
+                                            <div className="col-md-6"><label className="credit-card-label">CVV:</label><input type="text" className="form-control credit-inputs" placeholder="342" required maxLength="3" onChange={(e)=>this.valiNumber(e.target)}/></div>
                                             <p id="usercheck" style={{color: "red"}} className="vlidMassege" ref={this.validityMassegeRef}> **  תוקף הכרטיס חייב להכיל  /  </p>
                                         </div>
                                     </div>
 
                                     {(this.state.cardType==="paypal")&& <Paypal numberItem={this.state.arrItems.length} total={this.state.total}/>}
 
-                                    <hr class="line"/>
-                                    <div class="d-flex justify-content-between information"><span>סה"כ לתשלום:</span><span>{this.state.total}₪</span></div>
+                                    <hr className="line"/>
+                                    <div className="d-flex justify-content-between information"><span>סה"כ לתשלום:</span><span>{this.state.total}₪</span></div>
                                 </div>
                             </div>
 
-
-
-                            <label id="Conditions" className="containerCheckBox">קראתי ואני מסכים לתנאי השימוש *
-                                <input type="checkbox" required className="form-control" ref={this.termsInputRef}/>
-                                <span className="checkmark"></span><br/>
-                                <p id="termscheck" style={{color: "red"}} className="vlidMassege" ref={this.termsMassegeRef}> ** חובה לאשר את התקנון שלא קיים  </p>
-                            </label>
-                            <br/>
-
-                            <button id="submitbtn" className="btn btn-primary pe-4 ps-4" onClick={this.inputValid}>שלח</button>
+                            <button id="submitbtn" className="btn btn-primary pe-4 ps-4" onClick={this.validPayment}>שלם</button>
+                            </div>:<div></div>}
                         </div>
                     </div>
                     

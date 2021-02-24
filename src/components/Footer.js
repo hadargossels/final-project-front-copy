@@ -7,8 +7,8 @@ function Footer(){
 
         <div>
            <i className="fab fa-facebook"></i>
-           <i class="fab fa-instagram"></i>
-           <i class="fab fa-whatsapp"></i>
+           <i className="fab fa-instagram"></i>
+           <i className="fab fa-whatsapp"></i>
        </div>
 
        <p style={{"fontSize":"15px"}}> © 2021 Designed by <span style={{"color":"red"}}>RazBotner</span></p>

@@ -1,13 +1,15 @@
 
 import React, { Component } from 'react'
-import { Link,NavLink } from 'react-router-dom';
+import {NavLink } from 'react-router-dom';
 
-import Header from './Header';
 import './Home.css';
 import HomeElement from './HomeElement';
+import axios from 'axios'
 
+let cakeArr=[]
 
-const cakeArr= require("../dataBase/productsData.json")
+// const cakeArr= require("../dataBase/productsData.json")
+
 
 let x=3
 
@@ -30,10 +32,17 @@ export default class Home extends Component {
         this.setState({ width: window.innerWidth, height: window.innerHeight });
       };
       componentDidMount() {
+
         window.addEventListener('resize', this.updateDimensions);
-        this.bestRatingProduct()
-        this.newestProducts()
+        
+        axios.get("http://localhost:3000/products").then(
+            (response) => {cakeArr=response.data})
+        .then(() => {this.bestRatingProduct(); this.newestProducts()})
+        .catch(()=>{cakeArr= require("../dataBase/productsData.json")
+        })
       }
+
+
       componentWillUnmount() {
         window.removeEventListener('resize', this.updateDimensions);
       }
@@ -108,7 +117,7 @@ export default class Home extends Component {
             <div>
 
                 <div className="myContainer">
-                    <div id="imageHpmePage"> <NavLink to="/Catalog" className="nav-link" href="#" ><button type="button" class="" > <b>לחנות</b></button></NavLink></div>
+                    <div id="imageHpmePage"> <NavLink to="/Catalog" className="nav-link" href="#" ><button type="button" > <b>לחנות</b></button></NavLink></div>
                         <div className="myRow" style={{marginBottom:"60px"}}>
                             <div className="textOnMe">
                                 <h3>קצת עלי</h3>
@@ -126,23 +135,23 @@ export default class Home extends Component {
                         <div className="myRow" style={{marginBottom:"10px"}}><h2> החדשים שלנו </h2></div>
 
                         <div id="newElementSlider" className="mySlider">
-                            <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)}><i class="fas fa-arrow-left" onClick={(e)=>this.slideMyslider(e.target.parentNode)}></i></button>
+                            <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)}><i className="fas fa-arrow-left" onClick={(e)=>this.slideMyslider(e.target.parentNode)}></i></button>
                             
                             {this.state.newArr.slice(0,x).map((el,key)=>(
                                 <div className="elm" key={key*10}><HomeElement el={el} /></div>
                             ))}
                             
-                            <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)} ><i class="fas fa-arrow-right" onClick={(e)=>this.slideMyslider(e.target.parentNode)}></i></button>
+                            <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)} ><i className="fas fa-arrow-right" onClick={(e)=>this.slideMyslider(e.target.parentNode)}></i></button>
                         </div>
 
                         <div className="myRow" style={{marginBottom:"10px",marginTop:"50px"}}><h2> המומלצים שלנו </h2></div>
 
                         <div id="bestRatingElementSlider" className="mySlider">
-                            <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)} ><i class="fas fa-arrow-left" onClick={(e)=>this.slideMyslider(e.target.parentNode)}></i></button>
+                            <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)} ><i className="fas fa-arrow-left" onClick={(e)=>this.slideMyslider(e.target.parentNode)}></i></button>
                             {this.state.bestRatingArr.slice(0,x).map((el,key)=>(
                                 <div className="elm" key={key}><HomeElement  el={el}/></div>
                             ))}
-                            <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)}><i class="fas fa-arrow-right" onClick={(e)=>this.slideMyslider(e.target.parentNode)}></i></button>
+                            <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)}><i className="fas fa-arrow-right" onClick={(e)=>this.slideMyslider(e.target.parentNode)}></i></button>
                         </div>
 
                     

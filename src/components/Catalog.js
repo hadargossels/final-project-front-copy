@@ -1,21 +1,23 @@
 
 import React, { Component } from 'react';
-import { Link,NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import querystring from "query-string";
 import './Catalog.css';
 import SortBar from "./Sortbar";
 
 
-const cakeArr= require("../dataBase/productsData.json")
+let cakeArr
+let updateCakeArr
+// const cakeArr= require("../dataBase/productsData.json")
 
-const updateCakeArr=[...cakeArr.reverse()]
+// const updateCakeArr=[...cakeArr.reverse()]
 
 class Catalog extends Component {
 
    constructor(props){
       super(props)
       this.state={
-         Arr: [...updateCakeArr],
+         Arr: [],
          filterArr: [],
          sortSelected:"",
          priceMin:"",
@@ -28,6 +30,19 @@ class Catalog extends Component {
       this.filteringPrice=this.filteringPrice.bind(this)
       this.price=this.price.bind(this)
       this.filterSearch=this.filterSearch.bind(this)
+   }
+
+   componentDidMount(){
+      fetch("http://localhost:3000/products").then(
+         (data)=>{return data.json()}
+      ).then((products)=>{
+            let updateproducts=[...products.reverse()]
+            this.setState({Arr:updateproducts})
+            cakeArr=products
+      }).catch(()=>{cakeArr= require("../dataBase/productsData.json")
+            updateCakeArr=[...cakeArr.reverse()]
+            this.setState({Arr:updateCakeArr})
+      })
    }
    
    componentDidUpdate(prevProps){

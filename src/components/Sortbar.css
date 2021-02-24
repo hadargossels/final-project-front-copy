@@ -18,6 +18,25 @@
     flex-direction: row;
     flex-wrap: wrap;
 }
+.activeBtn{
+
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    background-color: rgb(250,156,184);
+    border-radius: 9px;
+    display: none;
+    margin: 12px 0px;
+
+}
+.activeBtn i{
+
+    margin: 0px 10px;
+}
+.activeBtn:active , .activeBtn:visited , .activeBtn:link , .activeBtn:hover{
+    color: white;
+}
 
 .sortBar select{
 
@@ -191,6 +210,10 @@
         width: 100%;
         border-left: rgb(94, 93, 93) solid 2px;
 
+    }
+    .activeBtn{
+
+        display: inline;
     }
 
 }

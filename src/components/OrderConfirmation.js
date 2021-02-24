@@ -1,7 +1,7 @@
 
 
 import React, { Component } from 'react'
-import { Link,NavLink } from 'react-router-dom';
+import {NavLink } from 'react-router-dom';
 
 import './OrderConfirmation.css'
 
@@ -11,8 +11,6 @@ export default class OrderConfirmation extends Component {
     constructor(props){
         super(props)
     }
-
-
 
     render() {
         return (

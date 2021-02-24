@@ -30,7 +30,7 @@
     border-radius: 10px;
     display: none;
     position: relative;
-    top: -280px;
+    top: -150px;
 
 }
 .myBox{
@@ -113,5 +113,8 @@
 @media only screen and (max-width: 500px) {
     .myBox{
         width: 70%;
+    }
+    .details{
+        font-size: 12px;
     }
 }

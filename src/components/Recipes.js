@@ -1,10 +1,12 @@
 
 import React, { Component } from 'react'
 import ReactPlayer from 'react-player'
-import { Link,NavLink } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import './Recipes.css';
+import axios from 'axios'
 
-const recipesArr= require("../dataBase/recipesData.json")
+
+// const recipesArr= require("../dataBase/recipesData.json")
 
 export default class Recipes extends Component {
 
@@ -14,11 +16,17 @@ export default class Recipes extends Component {
 
         this.state={
             
-            arr:[...recipesArr]
+            arr:[]
         }
     }
 
+    componentDidMount(){
 
+        axios.get("http://localhost:3000/recipes").then(
+            (response)=>{this.setState({arr:response.data}) }
+        ).catch(()=>{let recipesArr= require("../dataBase/recipesData.json");this.setState({arr:recipesArr})
+        })
+    }
 
     render() {
         return (

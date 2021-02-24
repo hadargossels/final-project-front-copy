@@ -13,6 +13,9 @@
     direction: rtl;
 
 }
+.userIcon{
+    cursor: pointer;
+}
 .navbar-text i{
     font-size: 35px;
     color:rgb(250, 156, 184);
@@ -23,7 +26,16 @@
     min-width: 150px;
 
 }
-#serchIdBtn{
+/* #serchIdBtn{
   
 
+}
+#userIcon{
+
+    position: relative;    
+} */
+#hello{
+    position: relative;
+    display: inline-block;
+    font-size: 15px;
 }

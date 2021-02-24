@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react'
-import { Link,NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import './Cart.css'
 import ItemCart from './ItemCart';
@@ -89,28 +89,28 @@ export default class Cart extends Component {
 
                     <div className="statusOrder">
 
-                    <div class="container p-0">
-                            <div class="card">
+                    <div className="container p-0">
+                            <div className="card">
                             
-                                <div class="card-body">
-                                    <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
-                                    <div class="step completed m-0">
-                                        <div class="step-icon-wrap">
-                                        <div class="step-icon "><i class="pe-7s-cart "></i></div>
+                                <div className="card-body">
+                                    <div className="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                                    <div className="step completed m-0">
+                                        <div className="step-icon-wrap">
+                                        <div className="step-icon "><i className="pe-7s-cart "></i></div>
                                         </div>
-                                        <h4 class="step-title fs-5">עגלת קניות</h4>
+                                        <h4 className="step-title fs-5">עגלת קניות</h4>
                                     </div>
-                                    <div class="step m-0">
-                                        <div class="step-icon-wrap">
-                                        <div class="step-icon"><i class="pe-7s-config"></i></div>
+                                    <div className="step m-0">
+                                        <div className="step-icon-wrap">
+                                        <div className="step-icon"><i className="pe-7s-config"></i></div>
                                         </div>
-                                        <h4 class="step-title fs-5">פרטי ההזמנה</h4>
+                                        <h4 className="step-title fs-5">פרטי ההזמנה</h4>
                                     </div>
-                                    <div class="step m-0">
-                                        <div class="step-icon-wrap">
-                                        <div class="step-icon"><i class="pe-7s-medal"></i></div>
+                                    <div className="step m-0">
+                                        <div className="step-icon-wrap">
+                                        <div className="step-icon"><i className="pe-7s-medal"></i></div>
                                         </div>
-                                        <h4 class="step-title fs-5">ההזמנה הושלמה</h4>
+                                        <h4 className="step-title fs-5">ההזמנה הושלמה</h4>
                                     </div>
                                 
                                     </div>

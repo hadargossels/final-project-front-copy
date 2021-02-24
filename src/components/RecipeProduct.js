@@ -2,21 +2,19 @@
 
 import React, { Component } from 'react'
 import './RecipeProduct.css';
+import axios from 'axios'
 
 
-const recipesArr= require("../dataBase/recipesData.json")
+
+// const recipesArr= require("../dataBase/recipesData.json")
 
 export default class RecipeProduct extends Component {
 
     constructor(props){
         super(props)
-
-        const recipeTemp=recipesArr.filter((item)=>{
-            return (item["title"]==this.props.match.params.RecipeName)
-        })
         
         this.state={
-            recipe:recipeTemp[0],
+            recipe:"",
             validForm:"",
             counter:1,
             arrayOfMassege:[],
@@ -35,6 +33,25 @@ export default class RecipeProduct extends Component {
     }
 
     componentDidMount(){
+        
+        axios.get("http://localhost:3000/recipes").then(
+            (response)=>{let recipesArr=response.data; return recipesArr})
+            .then((recipesArr)=>{
+                const recipeTemp=recipesArr.filter((item)=>{
+                    return (item["title"]==this.props.match.params.RecipeName)
+                })
+                return recipeTemp
+            }).then((recipeTemp)=>{this.setState({recipe:recipeTemp[0]})})
+
+        .catch(()=>{
+
+            let recipesArr= require("../dataBase/recipesData.json")
+            const recipeTemp=recipesArr.filter((item)=>{
+                    return (item["title"]==this.props.match.params.RecipeName)
+                })
+            this.setState({recipe:recipeTemp[0]})
+        })
+
 
         this.textMassegeRef.current.style.visibility="hidden"
         this.mailMassegeRef.current.style.visibility="hidden"
@@ -178,7 +195,7 @@ export default class RecipeProduct extends Component {
                 <div className="myRowText">
                     <div className="fs-4 colText">
                         <h3 className="mb-3">מרכיבים:</h3>
-                        {this.state.recipe.ingredients.map((el, key) => (
+                        {this.state.recipe && this.state.recipe.ingredients.map((el, key) => (
                                 <p key={key} >{el}</p>
                             ))}
                     </div>
@@ -194,12 +211,12 @@ export default class RecipeProduct extends Component {
                 <h3>🙂 מוזמנים לשתף איך יצא לכם</h3>
                         
                             
-                        <div class="topnav m-5" >
-                            <a href="#home" class="active" onClick={()=>this.myFunction()}>לחץ כאן להוספת תגובה</a>
+                        <div className="topnav m-5" >
+                            <a href="#" className="active" onClick={()=>this.myFunction()}>לחץ כאן להוספת תגובה</a>
 
                             <div className="formRecipe fs-4 mb-3" id="myLinks">
                                 
-                                    <div class="form-group row ">
+                                    <div className="form-group row ">
                                         <div className="col">
                                             <input type="text" name="fname" id="fname" required className="form-control"  placeholder="שם פרטי *" ref={this.userFnameRef}/>
                                         </div>

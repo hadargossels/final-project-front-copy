@@ -1,0 +1,277 @@
+
+{
+    "coupons":[
+        {
+        "id":1,
+        "serialNumber": "1234",
+        "discountPercentage": 10,
+        "used":false
+        },
+        {
+        "id":2,
+        "serialNumber": "1234567",
+        "discountPercentage": 20,
+        "used":false
+        }
+    
+    ],
+
+    "products":[
+        { "img": "/images/cake1-1.jpeg",
+          "img2": "/images/cake1-2.jpeg",
+          "img3": "/images/cake1-3.jpeg",
+          "alt": "PHOTO",
+          "id": 1,
+          "description":"בצק פריך ממולא בקרם פטיסייר ופירות העונה",
+          "title": "טארט פירות העונה",
+          "priceSmall": 30,
+          "priceBig": 140,
+          "milk": true ,
+          "parve": false ,
+          "fruit": true,
+          "glutenFree": false,
+          "shugerFree": false,
+          "stars": 5,
+          "new":false
+        },
+    
+    
+        { "img": "/images/cake2-1.jpeg",
+          "img2": "/images/cake2-2.jpeg",
+          "img3": "/images/cake2-3.jpeg",
+          "alt": "PHOTO",
+          "id": 2,
+          "description":"עוגת פיסטוק, קרם פיסטוק ופירות יער",
+          "title": "פיסטוק-פירות יער",
+          "priceSmall": 35,
+          "priceBig": 180, "milk": true ,
+          "parve": false ,
+          "fruit": true,
+          "glutenFree": false,
+          "shugerFree": false,
+          "stars": 4,
+          "new":false
+        },
+    
+    
+        { "img": "/images/cake3-1.jpeg",
+          "img2": "/images/cake3-2.jpeg",
+          "alt": "PHOTO",
+          "id": 3,
+          "description":"עוגת אגוזי לוז, קרם מסקרפונה וקרמל מלוח",
+          "title": "לוזיק- עוגת אגוזי לוז",
+          "priceSmall": 30,
+          "priceBig": 130,
+          "milk": true ,
+          "parve": false ,
+          "fruit": false,
+          "glutenFree": false,
+          "shugerFree": false,
+          "stars": 3,
+          "new":false
+        }, 
+    
+    
+        { "img": "/images/cake4-1.jpeg",
+          "img2": "/images/cake4-2.jpeg",
+          "alt": "PHOTO",
+          "id": 4,
+          "description":"עוגת גבינה קרמית עם תחתית ספקולוס(עוגית תבלינים) וקולי מנגו",
+          "title": "עוגת גבינה קרמית",
+          "priceSmall": "",
+          "priceBig": 160,
+          "milk": true ,
+          "parve": false ,
+          "fruit": true,
+          "glutenFree": false,
+          "shugerFree": false,
+          "stars": 3 ,
+          "new":false
+        },
+    
+    
+        { "img": "/images/cake5-1.jpeg",
+          "alt": "PHOTO",
+          "id": 5,
+          "description":"בצק פריך במילוי קרם לימון מפנק ומרנג צרוב",
+          "title": "פאי לימון",
+          "priceSmall": "",
+          "priceBig": 120,
+          "milk": true ,
+          "parve": false ,
+          "fruit": true,
+          "glutenFree": true,
+          "shugerFree": false,
+          "stars": 4 ,
+          "new":false
+            
+        },
+    
+    
+        { "img": "/images/cake6-1.jpeg",
+          "img2": "/images/cake6-2.jpeg",
+           "alt": "PHOTO",
+           "id": 6,
+           "description":"עוגות שמרים בטעמים נוטלה או קינמון",
+           "title": "עוגות שמרים",
+           "priceSmall": "",
+           "priceBig": 50,
+           "milk": true ,
+           "parve": true ,
+           "fruit": false,
+           "glutenFree": false,
+           "shugerFree": false,
+           "stars": 5,
+           "new":true
+        },
+    
+    
+        { "img": "/images/cake7-1.jpeg",
+          "alt": "PHOTO",
+          "id": 7,
+          "description":"במגוון קרמים וציפויים",
+          "title": "פחזניות ואקלרים",
+          "priceSmall": "",
+          "priceBig": 15,
+          "milk": true ,
+          "parve": false ,
+          "fruit": true,
+          "glutenFree": false,
+          "shugerFree": true,
+          "stars": 2,
+          "new":true
+        },
+    
+    
+        { "img": "/images/cake8-1.jpeg",
+          "alt": "PHOTO",
+          "id": 8,
+          "description":"מקרונים במגוון טעמים מנגו/תות/אפרסק",
+          "title": "מקרונים",
+          "priceSmall": "",
+          "priceBig": 20,
+          "milk": true ,
+          "parve": false ,
+          "fruit": true,
+          "glutenFree": true,
+          "shugerFree": false,
+          "stars": 3,
+          "new":true 
+        },
+    
+    
+        { "img": "/images/cake9-1.jpeg",
+          "alt": "PHOTO",
+          "id": 9,
+          "description":"חלות טריות ומתוקות נאפות בשישי בבוקר",
+          "title": "חלות שבת",
+          "priceSmall": "",
+          "priceBig": 10,
+          "milk": false ,
+          "parve": true ,
+          "fruit": false,
+          "glutenFree": false,
+          "shugerFree": true,
+          "stars": 5 ,
+          "new":true
+        }
+    ],
+
+    "recipes":[
+        {
+          "id": 1,
+          "img": "/images/recipes/hotChocolate2.jpg",
+          "alt": "PHOTO",
+          "title": "מילקשייק של אלופים",
+          "date":"4.3.20",
+          "description":"בצק פריך ממולא בקרם פטיסייר ופירות העונה",
+          "ingredients": ["כפית תמצית וניל","רבע כוס חלב","כוס קמח","אבקת אפייה שקית","2 כפות סוכר חום","2 כפות קקאו","2 ביצים לארג","גביע יוגורט"],
+          "preparation":"מערבבים יחד את כל היבשים, מוסיפים את כל שאר המצרכים מערבבים בעזרת מטרפה . השתמשתי בכף שמן זית אחת בלבד לכל הפנקייקים. ( יצאו בערך 10 בינוניים) בשביל שיהיה עניין וקישוט מעל עירבבתי יוגורט וכף סילאן יחד. מחכה לשמוע איך יצא לכם 🙂"
+        },
+    
+    
+        {
+            "id": 2,
+            "img": "/images/recipes/alpajores.jpg",
+            "alt": "PHOTO",
+            "title": "אלפחורס",
+            "date":"1.3.20",
+            "description":"בצק פריך ממולא בקרם פטיסייר ופירות העונה",
+            "ingredients": ["כפית תמצית וניל","רבע כוס חלב","כוס קמח","אבקת אפייה שקית","2 כפות סוכר חום","2 כפות קקאו","2 ביצים לארג","גביע יוגורט"],
+            "preparation":"מערבבים יחד את כל היבשים, מוסיפים את כל שאר המצרכים מערבבים בעזרת מטרפה . השתמשתי בכף שמן זית אחת בלבד לכל הפנקייקים. ( יצאו בערך 10 בינוניים) בשביל שיהיה עניין וקישוט מעל עירבבתי יוגורט וכף סילאן יחד. מחכה לשמוע איך יצא לכם 🙂"
+          },
+          {
+            "id": 3,
+            "img": "/images/recipes/cookies.jpg",
+            "alt": "PHOTO",
+            "title": "עוגיות שוקולד ציפס",
+            "date":"1.4.20",
+            "description":"בצק פריך ממולא בקרם פטיסייר ופירות העונה",
+            "ingredients": ["כפית תמצית וניל","רבע כוס חלב","כוס קמח","אבקת אפייה שקית","2 כפות סוכר חום","2 כפות קקאו","2 ביצים לארג","גביע יוגורט"],
+            "preparation":"מערבבים יחד את כל היבשים, מוסיפים את כל שאר המצרכים מערבבים בעזרת מטרפה . השתמשתי בכף שמן זית אחת בלבד לכל הפנקייקים. ( יצאו בערך 10 בינוניים) בשביל שיהיה עניין וקישוט מעל עירבבתי יוגורט וכף סילאן יחד. מחכה לשמוע איך יצא לכם 🙂"
+          },
+          {
+            "id": 4,
+            "img": "/images/recipes/hotChocolate.jpg",
+            "alt": "PHOTO",
+            "title": " שוקו חם לחורף קר",
+            "date":"1.1.21",
+            "description":"בצק פריך ממולא בקרם פטיסייר ופירות העונה",
+            "ingredients": ["כפית תמצית וניל","רבע כוס חלב","כוס קמח","אבקת אפייה שקית","2 כפות סוכר חום","2 כפות קקאו","2 ביצים לארג","גביע יוגורט"],
+            "preparation":"מערבבים יחד את כל היבשים, מוסיפים את כל שאר המצרכים מערבבים בעזרת מטרפה . השתמשתי בכף שמן זית אחת בלבד לכל הפנקייקים. ( יצאו בערך 10 בינוניים) בשביל שיהיה עניין וקישוט מעל עירבבתי יוגורט וכף סילאן יחד. מחכה לשמוע איך יצא לכם 🙂"
+          },
+          {
+            "id": 5,
+            "img": "/images/recipes/pancake.jpg",
+            "alt": "PHOTO",
+            "title": "פנקייק מהסרטים ",
+            "date":"18.2.21",
+            "description":"בצק פריך ממולא בקרם פטיסייר ופירות העונה",
+            "ingredients": ["כפית תמצית וניל","רבע כוס חלב","כוס קמח","אבקת אפייה שקית","2 כפות סוכר חום","2 כפות קקאו","2 ביצים לארג","גביע יוגורט"],
+            "preparation":"מערבבים יחד את כל היבשים, מוסיפים את כל שאר המצרכים מערבבים בעזרת מטרפה . השתמשתי בכף שמן זית אחת בלבד לכל הפנקייקים. ( יצאו בערך 10 בינוניים) בשביל שיהיה עניין וקישוט מעל עירבבתי יוגורט וכף סילאן יחד. מחכה לשמוע איך יצא לכם 🙂"
+          },
+          {
+            "id": 6,
+            "img": "/images/recipes/cake3.jpg",
+            "alt": "PHOTO",
+            "title": "עוגה שילדים אוהבים",
+            "date":"2.2.20",
+            "description":"בצק פריך ממולא בקרם פטיסייר ופירות העונה",
+            "ingredients": ["כפית תמצית וניל","רבע כוס חלב","כוס קמח","אבקת אפייה שקית","2 כפות סוכר חום","2 כפות קקאו","2 ביצים לארג","גביע יוגורט"],
+            "preparation":"מערבבים יחד את כל היבשים, מוסיפים את כל שאר המצרכים מערבבים בעזרת מטרפה . השתמשתי בכף שמן זית אחת בלבד לכל הפנקייקים. ( יצאו בערך 10 בינוניים) בשביל שיהיה עניין וקישוט מעל עירבבתי יוגורט וכף סילאן יחד. מחכה לשמוע איך יצא לכם 🙂"
+          },
+          {
+            "id": 7,
+            "img": "/images/recipes/cake1.jpg",
+            "alt": "PHOTO",
+            "title": "עוגת קיפוד ",
+            "date":"4.9.20",
+            "description":"בצק פריך ממולא בקרם פטיסייר ופירות העונה",
+            "ingredients": ["כפית תמצית וניל","רבע כוס חלב","כוס קמח","אבקת אפייה שקית","2 כפות סוכר חום","2 כפות קקאו","2 ביצים לארג","גביע יוגורט"],
+            "preparation":"מערבבים יחד את כל היבשים, מוסיפים את כל שאר המצרכים מערבבים בעזרת מטרפה . השתמשתי בכף שמן זית אחת בלבד לכל הפנקייקים. ( יצאו בערך 10 בינוניים) בשביל שיהיה עניין וקישוט מעל עירבבתי יוגורט וכף סילאן יחד. מחכה לשמוע איך יצא לכם 🙂"
+          },
+          {
+            "id": 8,
+            "img": "/images/recipes/cake2.jpg",
+            "alt": "PHOTO",
+            "title": "עוגת תותים ",
+            "date":"22.5.20",
+            "description":"בצק פריך ממולא בקרם פטיסייר ופירות העונה",
+            "ingredients": ["כפית תמצית וניל","רבע כוס חלב","כוס קמח","אבקת אפייה שקית","2 כפות סוכר חום","2 כפות קקאו","2 ביצים לארג","גביע יוגורט"],
+            "preparation":"מערבבים יחד את כל היבשים, מוסיפים את כל שאר המצרכים מערבבים בעזרת מטרפה . השתמשתי בכף שמן זית אחת בלבד לכל הפנקייקים. ( יצאו בערך 10 בינוניים) בשביל שיהיה עניין וקישוט מעל עירבבתי יוגורט וכף סילאן יחד. מחכה לשמוע איך יצא לכם 🙂"
+          },
+          {
+            "id": 9,
+            "img": "/images/recipes/ozenAman.jpg",
+            "alt": "PHOTO",
+            "title": "אוזני אמן",
+            "date":"12.12.20",
+            "description":"בצק פריך ממולא בקרם פטיסייר ופירות העונה",
+            "ingredients": ["כפית תמצית וניל","רבע כוס חלב","כוס קמח","אבקת אפייה שקית","2 כפות סוכר חום","2 כפות קקאו","2 ביצים לארג","גביע יוגורט"],
+            "preparation":"מערבבים יחד את כל היבשים, מוסיפים את כל שאר המצרכים מערבבים בעזרת מטרפה . השתמשתי בכף שמן זית אחת בלבד לכל הפנקייקים. ( יצאו בערך 10 בינוניים) בשביל שיהיה עניין וקישוט מעל עירבבתי יוגורט וכף סילאן יחד. מחכה לשמוע איך יצא לכם 🙂"
+          }
+    ]
+    
+
+
+}

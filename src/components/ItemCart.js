@@ -77,42 +77,42 @@ export default class ItemCart extends Component {
                 <div className="itemCart">
 
 
-                    <div class="row mb-4">
-                            <div class="col-md-5 col-lg-3 col-xl-3">
-                                <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
+                    <div className="row mb-4">
+                            <div className="col-md-5 col-lg-3 col-xl-3">
+                                <div className="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
 
-                                    <img class="img-fluid w-100" style={{maxHeight:"180px",maxWidth:"270px"}}
+                                    <img className="img-fluid w-100" style={{maxHeight:"180px",maxWidth:"270px"}}
                                     src={this.props.el.img} alt="Sample"/>
                                     
                                 </div>
                             </div>
-                            <div class="col-md-7 col-lg-9 col-xl-9">
+                            <div className="col-md-7 col-lg-9 col-xl-9">
                                 <div>
-                                    <div class="d-flex justify-content-between">
+                                    <div className="d-flex justify-content-between">
                                     <div>
                                         <h4>{this.props.el.title}</h4>
-                                        <h5 class="mb-2 text-muted text-uppercase ">₪{this.state.item.price} :מחיר</h5>
-                                        <h5 class="mb-2 text-muted text-uppercase ">{this.state.item.size}</h5>
+                                        <h5 className="mb-2 text-muted text-uppercase ">₪{this.state.item.price} :מחיר</h5>
+                                        <h5 className="mb-2 text-muted text-uppercase ">{this.state.item.size}</h5>
                                     </div>
                                     <div>
-                                        <div class="btn-group mr-2" role="group" aria-label="First group" >
-                                            <button type="button" class="btn btn-warning mt-2 mb-2 fs-4" value="-" onClick={(e)=>this.quantity(e.target)}>-</button>
-                                            <div  class="zero mt-2 mb-2 ps-3 pe-3 pt-2 fs-4 pt-2" style={{backgroundColor:"white"}}>{this.state.item.count}</div>
-                                            <button  type="button" class="btn btn-success mt-2 mb-2" value="+" onClick={(e)=>this.quantity(e.target)}>+</button>
+                                        <div className="btn-group mr-2" role="group" aria-label="First group" >
+                                            <button type="button" className="btn btn-warning mt-2 mb-2 fs-4" value="-" onClick={(e)=>this.quantity(e.target)}>-</button>
+                                            <div  className="zero mt-2 mb-2 ps-3 pe-3 pt-2 fs-4 pt-2" style={{backgroundColor:"white"}}>{this.state.item.count}</div>
+                                            <button  type="button" className="btn btn-success mt-2 mb-2" value="+" onClick={(e)=>this.quantity(e.target)}>+</button>
                                         </div>
                                        
                                     </div>
                                     </div>
-                                    <div class="d-flex justify-content-between align-items-center">
+                                    <div className="d-flex justify-content-between align-items-center">
                                         
-                                        <button  type="button" class="btn btn-danger m-2" onClick={()=>this.props.removeItem(this.props.el)}><i class="fas fa-trash-alt mr-1"></i></button>
+                                        <button  type="button" className="btn btn-danger m-2" onClick={()=>this.props.removeItem(this.props.el)}><i className="fas fa-trash-alt mr-1"></i></button>
                                         
-                                        <p class="m-3 fs-3"><span><strong>₪{this.state.totalItem}</strong></span></p>
+                                        <p className="m-3 fs-3"><span><strong>₪{this.state.totalItem}</strong></span></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <hr class="mb-4"/>
+                        <hr className="mb-4"/>
 
 
                 </div>

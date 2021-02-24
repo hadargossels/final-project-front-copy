@@ -1,29 +1,27 @@
 
 import React, { Component } from 'react';
-import { Link,NavLink } from 'react-router-dom';
+import {NavLink } from 'react-router-dom';
 import './Product.css';
 import Rating from './Rating';
+import axios from 'axios'
 
 
-const productArr= require("../dataBase/productsData.json")
+//const productArr= require("../dataBase/productsData.json")
 
 class Product extends Component{
     constructor(props){
         super(props)
 
         this.popRef = React.createRef()
+        this.priceChoiceRef= React.createRef()
         
-
-        const product=productArr.filter((item)=>{
-            return (item["title"]==this.props.match.params.ProductName)
-        })
-
         this.state={
-            prod:product[0],
+            prod:"",
             arrImage:[],
             selectedPrice:"",
             size:"",
             counter:1,
+            priceSmall:"",
 
          }
          this.state.priceSmallExists=this.priceSmallExists.bind(this)
@@ -34,31 +32,52 @@ class Product extends Component{
     }
 
     componentDidMount(){
-        this.makeArrayImage()
+
+        axios.get("http://localhost:3000/products")
+        .then((response)=>{let productArr=response.data
+        
+            const product=productArr.filter((item)=>{
+                return (item["title"]==this.props.match.params.ProductName)
+            })
+            this.setState({prod:product[0]})
+        
+        }).then(()=>{this.priceSmallExists();this.makeArrayImage()})
+        .catch(()=>{
+            const productArr= require("../dataBase/productsData.json")
+
+            const product=productArr.filter((item)=>{
+                return (item["title"]==this.props.match.params.ProductName)
+            })
+            this.setState({prod:product[0]})
+        })
+
     }
     showPriceSmall(){
-        let price=document.querySelector("#priceChoice")
+        
+        const price = this.priceChoiceRef.current
         price.innerText=` ₪ ${this.state.prod.priceSmall}`
         this.setState({selectedPrice:this.state.prod.priceSmall,size:"קטן"})
 
     }   
     showPriceBig(){
-        let price=document.querySelector("#priceChoice")
+        const price = this.priceChoiceRef.current
         price.innerText=` ₪ ${this.state.prod.priceBig}`
         this.setState({selectedPrice:this.state.prod.priceBig,size:"גדול"})
     } 
 
     priceSmallExists(){
 
+        const price = this.priceChoiceRef.current
+
         if(this.state.prod.priceSmall){
-            return `מחיר: ${this.state.prod.priceBig}₪ גדול  /${this.state.prod.priceSmall}₪  קטן `
+            document.querySelector("#btns").style.display="inline"
+            this.setState({priceSmall:`מחיר: ${this.state.prod.priceBig}₪ גדול  /${this.state.prod.priceSmall}₪  קטן `}) 
+            
         }else{
-            setTimeout(()=>{let price=document.querySelector("#priceChoice")
+            
             price.innerText=` ₪ ${this.state.prod.priceBig}`
             document.querySelector("#btns").style.display="none"
-                },2)
-             
-            return `  מחיר:  ${this.state.prod.priceBig}₪`
+            this.setState({ priceSmall:`  מחיר:  ${this.state.prod.priceBig}₪`})
         }
         
     }
@@ -91,7 +110,7 @@ class Product extends Component{
      async setInLocalStorage(){
 
         if(this.state.prod.priceSmall && !this.state.selectedPrice){
-            let price=document.querySelector("#priceChoice")
+            const price = this.priceChoiceRef.current
             price.innerText=` בחר גודל`
             return
 
@@ -157,13 +176,13 @@ quantity(e){
                
                         <div className="carousel-inner img-size">
                 
-                            <div className="carousel-item active">
+                            <div className="carousel-item active" data-bs-interval="3000">
                             <div className="container">
                                 <img src={this.state.prod.img} className="d-block w-100 img-size" alt="cake"></img>
                                 </div>
                             </div>
                             {this.state.arrImage.map((el, key) => (
-                            <div key={key} className="carousel-item" >
+                            <div key={key} className="carousel-item" data-bs-interval="3000">
                                 <div className="container">
                                     <img src={el} className="d-block w-100 img-size" alt="cake"></img>
                                 </div>
@@ -174,11 +193,11 @@ quantity(e){
                         
                         {this.state.arrImage[0]&&<span>
                         <a className="carousel-control-prev" href="#carouselExampleFade" role="button" data-bs-slide="prev">
-                            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span className="carousel-control-prev-icon bg-dark rounded-circle " aria-hidden="true"></span>
                             <span className="visually-hidden">Previous</span>
                         </a>
                         <a className="carousel-control-next" href="#carouselExampleFade" role="button" data-bs-slide="next">
-                            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span className="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
                             <span className="visually-hidden">Next</span>
                         </a>
                         </span>}
@@ -187,10 +206,10 @@ quantity(e){
                         <div>
                             <NavLink to="/Catalog"  href="#" ><button type="button" id="btnShop" style={{backgroundColor:"rgb(155,23,80)"}}> <b>חזרה לחנות</b></button></NavLink>
                             
-                            <div class="btn-group mr-2 ms-5" role="group" aria-label="First group" >
-                                <button type="button" class="btn btn-warning mt-2 mb-2 fs-4" value="-" onClick={(e)=>this.quantity(e.target)}>-</button>
-                                <div  class="zero mt-2 mb-2 ps-3 pe-3 pt-2 fs-4 pt-2" style={{backgroundColor:"white"}}>{this.state.counter}</div>
-                                <button  type="button" class="btn btn-success mt-2 mb-2" value="+" onClick={(e)=>this.quantity(e.target)}>+</button>
+                            <div className="btn-group mr-2 ms-5" role="group" aria-label="First group" >
+                                <button type="button" className="btn btn-warning mt-2 mb-2 fs-4" value="-" onClick={(e)=>this.quantity(e.target)}>-</button>
+                                <div  className="zero mt-2 mb-2 ps-3 pe-3 pt-2 fs-4 pt-2" style={{backgroundColor:"white"}}>{this.state.counter}</div>
+                                <button  type="button" className="btn btn-success mt-2 mb-2" value="+" onClick={(e)=>this.quantity(e.target)}>+</button>
                             </div>
                         </div>
                     </div>
@@ -207,7 +226,7 @@ quantity(e){
 
                             <ul>
                                 <li className="card-text" style={{"margin":"1px"}}>{this.state.prod.description}</li>
-                                <li id="priceText" className="card-text" style={{"margin":"1px"} }>{this.priceSmallExists()}</li>
+                                <li id="priceText" className="card-text" style={{"margin":"1px"} }>{this.state.priceSmall}</li>
                                 <li className="card-text" style={{"margin":"1px"}}>{this.typeOfCake()}</li>
                                 <li className="card-text" style={{"margin":"1px"}}>את המוצר ניתן להזמין מראש בלבד</li>
                                 <li className="card-text" style={{"margin":"1px"}}>הערות ושינויים ניתן להוסיף בתיבת הטקסט</li>
@@ -216,7 +235,7 @@ quantity(e){
                         </div>
                     
                         <div className="card-body" style={{"position":"relative"}}>
-                            <div className="btn-group" role="group" aria-label="Basic radio toggle button group" id="btns" style={{"direction":"ltr"}}>
+                            <div className="btn-group" role="group" aria-label="Basic radio toggle button group" id="btns" style={{"direction":"ltr",display: "none"}}>
 
                                 <input onClick={()=>this.showPriceBig()} type="radio" className="btn-check" name="btnradio" id="btnradio1" autoComplete="off"></input>
                                 <label className="btn btn-outline-danger" htmlFor="btnradio1">גדול</label>
@@ -225,12 +244,12 @@ quantity(e){
                                 <label className="btn btn-outline-danger" htmlFor="btnradio2">קטן</label>
 
                             </div>
-                            <div id="priceChoice">
+                            <div id="priceChoice" ref={this.priceChoiceRef}>
 
                             </div>
                             <div>
                                 <button type="button" className="btn btn-outline-danger popup" onClick={this.setInLocalStorage}>
-                                    הוסף לעגלה<i className="fas fa-shopping-cart"></i><span class="popuptext" ref={this.popRef} id="myPopup">המוצר הוסף לעגלה!</span></button>
+                                    הוסף לעגלה<i className="fas fa-shopping-cart"></i><span className="popuptext" ref={this.popRef} id="myPopup">המוצר הוסף לעגלה!</span></button>
                             </div>
                             <textarea rows="6" cols="25"></textarea>
                   

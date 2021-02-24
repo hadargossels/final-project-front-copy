@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-hook/window-size": "^3.0.7",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.3",
     "@testing-library/user-event": "^12.6.2",
+    "axios": "^0.21.1",
+    "faker": "^5.4.0",
+    "firebase": "^8.2.9",
     "google-map-react": "^2.1.9",
     "query-string": "^6.13.8",
     "react": "^17.0.1",
@@ -20,7 +24,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "json-server-db": "json-server --watch db.json -p 3000",
+    "json-server-faker": "json-server --watch faker.js -p 3002",
+    "json-server": "json-server --watch db.json"
   },
   "eslintConfig": {
     "extends": [
@@ -39,5 +46,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "json-server": "^0.16.3"
   }
 }

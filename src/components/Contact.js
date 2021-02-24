@@ -175,7 +175,7 @@ export default class Contact extends Component {
                                 <h4><strong> כתובת </strong></h4>
                                 <p>היקינטון 34, רחובות</p>
                             </div>
-                            <i class="fas fa-home"></i>
+                            <i className="fas fa-home"></i>
                         </div>
 
                         <div className="contact_options">
@@ -183,7 +183,7 @@ export default class Contact extends Component {
                                 <h4><strong> פלאפון ליצירת קשר </strong></h4>
                                 <p>052-4284203 (ניתן לחייג או לשלוח הודעת ווצאפ)</p>
                             </div>
-                            <i class="fas fa-phone"></i>
+                            <i className="fas fa-phone"></i>
                         </div>
 
                         <div className="contact_options">
@@ -191,7 +191,7 @@ export default class Contact extends Component {
                                 <h4><strong> מייל ליצירת קשר </strong></h4>
                                 <p> razbotner@hotmail.com</p>
                             </div>
-                            <i class="far fa-envelope"></i>
+                            <i className="far fa-envelope"></i>
                         </div>
 
                         <div className="contact_options ">
@@ -202,7 +202,7 @@ export default class Contact extends Component {
 
                             <form className="formContact m-5 fs-4 ">
                                 
-                                <div class="form-group row ">
+                                <div className="form-group row ">
                                     <div className="col">
                                         <input type="text" name="fname" id="fname" required className="form-control"  placeholder="שם פרטי *" ref={this.userFnameRef}/>
                                     </div>
