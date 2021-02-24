@@ -67,9 +67,10 @@ export default class Product extends Component {
                     
                            <p className="align-self-center mb-0" style={{fontSize:"20px"}}>
                                 {title}
-                                <div>
+                                <br/>
+                                <span>
                                 {RatingStars(rating)}
-                                </div>
+                                </span>
                                
                            </p>
                             <h5 className="text-blue font-italic mb-0">

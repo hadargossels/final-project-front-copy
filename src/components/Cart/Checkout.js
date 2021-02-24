@@ -1,14 +1,12 @@
-import PaypalButton from './PaypalButton'
 import {ProductConsumer} from '../../context';
 import "./checkout.css";
-import {Link} from 'react-router-dom';
 import React, { Component } from 'react';
-import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
+import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import PayPal from "./PayPal";
 import Title from '../Title'
+import axios from 'axios';
 
 let targetId="" ,shippingSelect;
-let filldsArray=[];
 
     export default class Checkout extends  Component{
         constructor (props) {
@@ -22,6 +20,7 @@ let filldsArray=[];
             this.state = { 
                 country: '',
                 region: '' ,
+                coupons:[],
                 priceAfterCoupon:<ProductConsumer>{value =>value.cartTotal}</ProductConsumer>,
                 filldsArray : [{filld:"name",isFilled:false},
                 {filld:"lastName",isFilled:false},
@@ -30,10 +29,18 @@ let filldsArray=[];
                 {filld:"city",isFilled:false},
                 {filld:"address",isFilled:false},
                 {filld:"potalCode",isFilled:false},]
+
             };
      
           }
-
+          componentDidMount(){
+                axios.get("http://localhost:3002/coupons")
+                .then(
+                    (response)=>{this.setState({coupons:response.data})}
+                    );
+                
+                }
+            
           selectCountry (val) {
             this.setState({ country: val });
           }
@@ -57,6 +64,7 @@ let filldsArray=[];
                 this.setState({priceAfterCoupon: (parseFloat(cartTotal)+10).toFixed(2)});
               }
               if(event.target.id==="inputCoupon" && targetId === "registeredAddress"){
+                  console.log(this.state.coupons);
                 if(event.target.value==="12345"){
                     shippingSelect={priceAfterCoupon: (parseFloat(cartTotal)+20-(parseFloat(cartTotal)+20)*0.1).toFixed(2) }
                     this.setState({priceAfterCoupon: (parseFloat(cartTotal)+20-(parseFloat(cartTotal)+20)*0.1).toFixed(2) });
@@ -190,6 +198,7 @@ let filldsArray=[];
         
 
 render() {
+    
     const { country, region } = this.state;
 
     return (
@@ -264,7 +273,6 @@ render() {
                         </div>  
                     </div>
                 </form>
-                {/* <hr/> */}
                     <div className="pt-2">
                         <div className=" mb-2 " >
                             <div className="row  justify-content-left pt-3">

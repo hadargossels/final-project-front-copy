@@ -18,8 +18,9 @@ import Blog from './components/Blog';
 import Contact from './components/Contact';
 import Succeeded from './components/Cart/Succeeded';
 import 'moment-timezone';
+import { AuthProvider } from "./components/AuthContext"
+import ForgotPassword from "./components/ForgotPassword"
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-
 class App extends Component{
 
  
@@ -31,25 +32,31 @@ class App extends Component{
 
         <Navbar/>
        {/* <Timer/> */}
-         <Switch>
-          <Route exact path="/details/:id" component={Details}/>
-          <Route exact path="/" component={Homepage}/>
-          <Route exact path="/cart" component={Cart}/>
-          <Route exact path="/shop" component={ProductList}/>
-          <Route exact path="/register" component={Register}/>
-          <Route exact path="/login" component={Login}/>
-          <Route exact path="/checkout" component={Checkout}/>
-          <Route path="/about" component={About}/>
-          <Route path="/Blog" component={Blog}/>
-          <Route path="/Succeeded" component={Succeeded}/>
-          <Route path="/contact" component={Contact}/>
-          <Route path="/search" component={ProductList}/>
+        
+         {/* <ProtectedRoute exact path="/app" component={AppLayout} /> */}
+         <AuthProvider>
+          <Switch>
+              <Route exact path="/details/:id" component={Details}/>
+              <Route exact path="/" component={Homepage}/>
+              <Route exact path="/cart" component={Cart}/>
+              <Route exact path="/shop" component={ProductList}/>
+              <Route exact path="/checkout" component={Checkout}/>
+              <Route path="/about" component={About}/>
+              <Route path="/Blog" component={Blog}/>
+              <Route path="/Succeeded" component={Succeeded}/>
+              <Route path="/contact" component={Contact}/>
+              <Route path="/search" component={ProductList}/>
+              <Route path="/forgot-password" component={ForgotPassword}/>
+              <Route exact path="/login" component={Login}/>
+              <Route exact path="/register" component={Register}/>
+              <Route component={Default}/>
+            </Switch>
+          </AuthProvider>
+         
 
-          <Route component={Default}/>
 
 
 
-        </Switch>
         <Modal/>
         <Footer/>
       </Router>

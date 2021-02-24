@@ -1,40 +1,47 @@
 import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 import React, { Component } from 'react'
-import {storeProducts, detailProduct} from './data'
+import {  detailProduct} from './data'
+// import faker from  'faker';
+// import {storeProducts, detailProduct} from '../db.json'
+// import axios from axios
 const ProductContext = React.createContext();
 
-
+// const storeProducts= []
+const axios = require('axios').default;
+let cartSubTotal = 0, cartTax = 0, cartTotal = 0;
+        let cart = [];
+        let storeProducts =[];
 class ProductProvider extends Component {
     
     constructor(props) {
         super(props);
-        let cartSubTotal = 0, cartTax = 0, cartTotal = 0;
-        let cart = [];
-        if (localStorage.cart != null) {
+        
+        // storeProducts ;
+        // if (localStorage.cart != null) {
 
-            cart = JSON.parse(localStorage.cart);
+        //     cart = JSON.parse(localStorage.cart);
 
-            let total = JSON.parse(localStorage.totals );
-            cartSubTotal = total.cartSubTotal;
-            cartTax = total.cartTax;
-            cartTotal = total.cartTotal;
+        //     let total = JSON.parse(localStorage.totals);
+        //     cartSubTotal = total.cartSubTotal;
+        //     cartTax = total.cartTax;
+        //     cartTotal = total.cartTotal;
 
-            for(let i=0;i<storeProducts.length;i++){
+        //     for(let i=0;i<storeProducts.length;i++){
                 
-                for(let j=0;j<cart.length;j++){
+        //         for(let j=0;j<cart.length;j++){
                   
 
-                    if(storeProducts[i].id===cart[j].id){
+        //             if(storeProducts[i].id===cart[j].id){
                         
-                        storeProducts[i].inCart = cart[j].inCart;     
-                    }
-                }
-            }
-        }
-       
+        //                 storeProducts[i].inCart = cart[j].inCart;     
+        //             }
+        //         }
+        //     }
+        // }
+        
         this.state = {
-            products:storeProducts,
-            origProducts:storeProducts,
+            products:[],
+            origProducts:[],
             filtersArray : [{isEnabled:false, type:"helmet"}, {isEnabled:false, type:"bike"},{isEnabled:false, type:"cub"},{isEnabled:false, type:"scooter"},{isEnabled:false, type:"sale"}],
             detailProduct:detailProduct,
             cart: cart,
@@ -56,6 +63,7 @@ class ProductProvider extends Component {
                     [{postsAndCommentsArr:"",like:0}],[{postsAndCommentsArr:"",like:0}],[{postsAndCommentsArr:"",like:0}]]
             
         };
+       
       }
 
       areAnyFilterEnable = (filterArr) =>{
@@ -108,8 +116,43 @@ class ProductProvider extends Component {
     }
 
     componentDidMount(){
+        this.dbLoad();
         this.updatePrice();
         this.setProducts();
+    }
+    dbLoad = () =>{
+        axios.get("http://localhost:3000/storeProducts").then(
+            
+            (response)=>{
+                this.setState({products:response.data,origProducts:response.data})
+                 if (localStorage.cart.length !== 2) {
+                    storeProducts = [...this.state.origProducts];
+                    cart = JSON.parse(localStorage.cart);
+                    let total = JSON.parse(localStorage.totals);
+                    cartSubTotal = total.cartSubTotal;
+                    cartTax = total.cartTax;
+                    cartTotal = total.cartTotal;
+                    this.setState({cart , cartSubTotal,cartTax,cartTotal});
+
+                    for(let i=0;i<storeProducts.length;i++){
+                        
+                         for(let j=0;j<cart.length;j++){
+                          
+
+                            if(storeProducts[i].id===cart[j].id){
+                                
+                                 storeProducts[i].inCart = cart[j].inCart;    
+
+                            }
+                         }
+                     }
+                     this.setState({products:storeProducts,origProducts:storeProducts})
+
+               }
+            }
+        ).catch(()=>{console.log("error")
+        })
+
     }
     setProducts = () => {
         let tempProducts = [];
@@ -212,10 +255,10 @@ class ProductProvider extends Component {
     };
     addTotals =() =>{
         let subTotal =0;
-        this.state.cart.map(item =>{return(subTotal +=item.total)})
+        this.state.cart.map(item =>{return(subTotal +=item.total*1)})
         const tempTax = subTotal *0.17;
         const tax = parseFloat(tempTax.toFixed(2))
-        const total = (subTotal +tax).toFixed(2);
+        const total = parseFloat(subTotal*1 +tax.toFixed(2)*1).toFixed(2);
 
         localStorage.totals = JSON.stringify({
             cartSubTotal: subTotal,
@@ -266,12 +309,6 @@ class ProductProvider extends Component {
 
             let priceA = a.price;
             let priceB = b.price;
-
-            // if (a.discount)
-            //     priceA = a.price*(1-a.discountPercentage);
-            
-            // if (b.discount)
-            //     priceB = b.price*(1-b.discountPercentage);
             if(highOrLow ==='high')
                 return (priceA < priceB) ? 1 : ((priceB < priceA) ? -1 : 0)
             else{
@@ -298,7 +335,6 @@ class ProductProvider extends Component {
 
       ratingSort = () =>{
         let newArr = [...this.state.products];
-        let tempArr =[];
        
         newArr  = newArr.sort((a,b) => {
 
@@ -468,6 +504,7 @@ class ProductProvider extends Component {
                updatePrice:this.updatePrice,
                updatePriceWithCoupon:this.updatePriceWithCoupon,
                loadComments:this.loadComments,
+               dbLoad:this.dbLoad,
                setValue:this.setValue
             }}>
                 {this.props.children}

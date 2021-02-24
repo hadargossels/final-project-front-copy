@@ -6,6 +6,8 @@ import SideMenu from './sideMenu/SideMenu';
 import Clock from 'react-live-clock'
 import {ProductConsumer} from '../context';
 import CartDropdown from './CartDropdown'
+import Dashboard from './Dashboard'
+import { auth } from "../firebase"
 
 
 export default class Navbar extends Component {
@@ -16,7 +18,9 @@ export default class Navbar extends Component {
         super(props);
         this.callRef = React.createRef();
         this.searchRef = this.searchRef.bind(this);
-
+        this.state ={
+            email:null
+        } 
       }
       
       searchRef(){
@@ -26,10 +30,21 @@ export default class Navbar extends Component {
         window.location.href = "/search?q=" + node;
         
 }
+    componentDidMount() {
 
+        auth.onAuthStateChanged((user) => {
+
+            if (user)
+            this.setState({email: user.email});
+            else
+            this.setState({email:"welcome visitor"})
+        })
+    }
+    logout() {
+        return auth.signOut()
+      }
     render() {
- 
-          
+       
         return (
             
             <NavWrapper className="navbar navbar-expand-sm navbar-dark px-sm-5" >
@@ -80,12 +95,17 @@ export default class Navbar extends Component {
                             <ProductConsumer>
                             {value=> <CartDropdown cartArrDropdown = {value.cart}/> }
                             </ProductConsumer>
-                           
+                       <span style={{color:"white",marginTop:"0.5%"}}>{this.state.email} </span>  
                         <Link to='/login'>
-                            <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >Login</span>
+                        <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >Login</span>
                         </Link>
                         <Link to='/register'>
                             <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >Register</span>
+                        </Link>
+                        <Link to='/'>
+                            <span style ={{color:"white"}} className = "btn-animation btn from-bottom" href="#news" 
+                            onClick={() => {
+                                this.logout() }}>Logout</span>
                         </Link>
                         <div  className="clock">
                             <Clock format={'HH:mm'} ticking={true} timezone={'Israel'} style={{color:"white"}}/>
