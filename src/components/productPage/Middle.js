@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // import {match,params} from "react-router-dom";
 import {Link,Route} from "react-router-dom";
 import Stars from './Stars';
+import axios from 'axios'
 // import ChartBtn from './ChartBtn';
 const ShopingLink = ({ to }) => (
     <Route path={to} children={({ match }) => (
@@ -13,17 +14,36 @@ class Middle extends Component{
     constructor(props){
         super(props);
         this.myJson=require('./workOutP.json').data[Number(this.props.match.params.num)];
+        // this.myJson=[];
         this.state={
-            imgSrc:this.myJson.urlImg,
-            title:this.myJson.name,
+            imgSrc:"",
+            title :'',
             about:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
             imgid:0,
+            price:"",
+            rateStars:""
+        }
+        // this.state={
+        //     imgSrc:this.myJson.urlImg,
+        //     title:this.myJson.name,
+        //     about:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        //     imgid:0,
+        //     price:this.myJson.price,
+        //     rateStars:this.myJson.stars
+        // }
+    }
+
+    async componentDidMount(){
+        // this.myJson = await axios.get('http://localhost:3000/data').then(res=>res);
+        // this.myJson = this.myJson.data[Number(this.props.match.params.num)];
+        // console.log(this.myJson);
+        this.setState({
+            imgSrc:this.myJson.urlImg,
+            title:this.myJson.name,
             price:this.myJson.price,
             rateStars:this.myJson.stars
-        }
+        })
     }
-    
-
 
     changePic(l){
         this.setState({imgid:l});

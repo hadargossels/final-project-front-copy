@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Link,Route} from "react-router-dom";
+import {auth} from '../../firebase';
 
 const ListItemLink = ({ to, name }) => (
     <Route path={to} children={({ match }) => (
@@ -9,7 +10,7 @@ const ListItemLink = ({ to, name }) => (
 class Sign extends Component{
     constructor(){
         super();
-        this.userName = React.createRef();
+        this.useremail = React.createRef();
         this.userPassword = React.createRef();
     }
 
@@ -26,7 +27,7 @@ class Sign extends Component{
         >
             <h1 className="pt-5">Login</h1>
             <div>
-                <input ref={this.userName} name="userName" type="name" className="m-4" placeholder="user name" required/><br/>
+                <input ref={this.useremail} name="userName" type="email" className="m-4" placeholder="email" required/><br/>
                 <input ref={this.userPassword} name="password" type="password" className="m-4" placeholder="password" required/><br/>
                 <input type="button" onClick={()=>this.userLogin()} className="btn btn-dark" value="Login"/><br/><br/>
             </div>
@@ -37,14 +38,24 @@ class Sign extends Component{
     }
 
     userLogin(){
-        const userName= localStorage.getItem("userName");
-        const password = localStorage.getItem('userPassword');
-        console.log(userName,password);
-        if(this.userName.current.value == userName && this.userPassword.current.value == password){
-            localStorage.setItem('login',true)
-            alert(`Welcome back ${userName}`)
-            this.props.history.push('/');
-        }
+        // const userName= localStorage.getItem("userName");
+        // const password = localStorage.getItem('userPassword');
+        auth.signInWithEmailAndPassword(this.useremail.current.value,this.userPassword.current.value)
+        .then((userCredential) => {
+            // Signed in
+            var user = userCredential.user;
+            // ...
+            this.props.history.push('/personal')
+        })
+        .catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+    });
+        // if(this.userName.current.value == userName && this.userPassword.current.value == password){
+        //     localStorage.setItem('login',true)
+        //     alert(`Welcome back ${userName}`)
+        //     this.props.history.push('/');
+        // }
     }
 
 }

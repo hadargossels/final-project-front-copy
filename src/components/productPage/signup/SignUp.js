@@ -1,6 +1,7 @@
 import React, { Component} from 'react'
 import {Link,Route} from "react-router-dom";
 import '../signup/signup.css'
+import {auth} from '../../../firebase'
 
 const ListItemLink = ({ to, name }) => (
     <Route path={to} children={({ match }) => (
@@ -56,7 +57,7 @@ export default class SignUp extends Component {
                 alert('Password needs to be more than five chars')
                 passwordVal= false;
         }
-        if(this.userName.current.value.length>5){
+        if(this.userName.current.value.length>2){
             userVal= true;
         }
         else{
@@ -69,7 +70,18 @@ export default class SignUp extends Component {
             localStorage.setItem("userEmail",this.userEmail.current.value);
             localStorage.setItem("userPassword",this.userPassword.current.value);
             alert("Success Welcom to Experis sports")
-            this.props.history.push('/');
+            auth.createUserWithEmailAndPassword(this.userEmail.current.value, this.userPassword.current.value)
+            .then((userCredential) => {
+                // Signed in 
+                var user = userCredential.user;
+                // ...
+                this.props.history.push('/login');
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // ..
+            });
         }
     }
 }

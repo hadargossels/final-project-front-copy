@@ -1,0 +1,151 @@
+{
+  "products": [
+    {
+      "name": "Bench Press",
+      "urlImg": [
+        "/images/benchPress.jpg",
+        "/images/benchPress2.jpg",
+        "/images/benchPress.jpg",
+        "/images/benchPress2.jpg",
+        "/images/benchPress.jpg"
+      ],
+      "price": "187",
+      "stars": "4",
+      "id": "0",
+      "type": "workOut",
+      "onSale": true
+    },
+    {
+      "name": "Pull up bar",
+      "urlImg": [
+        "/images/pullupbar.jpg",
+        "/images/pullupbar2.jpg",
+        "/images/pUpB3.jpg",
+        "/images/pullupbar.jpg",
+        "/images/pullupbar2.jpg"
+      ],
+      "price": "52",
+      "stars": "3",
+      "id": "1",
+      "type": "workOut",
+      "onSale": false
+    },
+    {
+      "name": "FUEL Weighted Vest",
+      "urlImg": [
+        "/images/FUEL-Weighted-Vest.jpg",
+        "/images/fWVback.jpg",
+        "/images/FUEL-Weighted-Vest.jpg",
+        "/images/fWVback.jpg",
+        "/images/FUEL-Weighted-Vest.jpg"
+      ],
+      "price": "90",
+      "stars": "5",
+      "id": "2",
+      "type": "workOut",
+      "onSale": false
+    },
+    {
+      "name": "Kettlebell weights 5kg",
+      "urlImg": [
+        "/images/kattlebell5kg.jpg",
+        "/images/kattlebell5kg2.jpg",
+        "/images/kattlebell5kg.jpg",
+        "/images/kattlebell5kg2.jpg",
+        "/images/kattlebell5kg.jpg"
+      ],
+      "price": "35",
+      "stars": "4",
+      "id": "3",
+      "type": "weights",
+      "onSale": false
+    },
+    {
+      "name": "Yoga mat",
+      "urlImg": [
+        "/images/yogaMattress.jpg",
+        "/images/yogaMattress2.jpg",
+        "/images/yogaMattress3.jpg",
+        "/images/yogaMattress4.jpg",
+        "/images/yogaMattress.jpg"
+      ],
+      "price": "30",
+      "stars": "3",
+      "id": "4",
+      "type": "yoga",
+      "onSale": true
+    },
+    {
+      "name": "Yoga wheel",
+      "urlImg": [
+        "/images/yoga-wheel.jpg",
+        "/images/yoga-wheel2.jpg",
+        "/images/yoga-wheel-3.jpg",
+        "/images/yoga-wheel.jpg",
+        "/images/yoga-wheel2.jpg"
+      ],
+      "price": "19",
+      "stars": "5",
+      "id": "5",
+      "type": "yoga",
+      "onSale": false
+    },
+    {
+      "name": "Yoga block",
+      "urlImg": [
+        "/images/yoga-block.jpg",
+        "/images/yoga-block2.jpg",
+        "/images/yoga-block3.jpg",
+        "/images/yoga-block.jpg",
+        "/images/yoga-block2.jpg"
+      ],
+      "price": "10",
+      "stars": "4",
+      "id": "6",
+      "type": "yoga",
+      "onSale": false
+    },
+    {
+      "name": "Nike shaker",
+      "urlImg": [
+        "/images/bottles/nike-training-hypercharge-shaker-bottle-07l.jpg",
+        "/images/bottles/nike-bottle.jpg",
+        "/images/bottles/nike-training-hypercharge-shaker-bottle-07l.jpg",
+        "/images/bottles/nike-bottle.jpg"
+      ],
+      "price": "27",
+      "stars": "5",
+      "id": "7",
+      "type": "bottle",
+      "onSale": false
+    },
+    {
+      "name": "Nike water bottle",
+      "urlImg": [
+        "/images/bottles/nike-water-bottle.jpg",
+        "/images/bottles/nike-water-bottle2.jpg",
+        "/images/bottles/nike-water-bottle3.jpg",
+        "/images/bottles/nike-water-bottle.jpg"
+      ],
+      "price": "22",
+      "stars": "4",
+      "id": "8",
+      "type": "bottle",
+      "onSale": false
+    },
+    {
+      "name": "Adidas water bottle 600ml",
+      "urlImg": [
+        "/images/bottles/adidas-steel-bottle-1-l.jpg",
+        "/images/bottles/adidas-steel-bottle-600-ml.jpg",
+        "/images/bottles/adidas-steel-bottle-600-ml-2.jpg",
+        "/images/bottles/adidas-steel-bottle-1-l.jpg"
+      ],
+      "price": "19",
+      "stars": "4",
+      "id": "9",
+      "type": "bottle",
+      "onSale": false
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link,Route} from "react-router-dom";
 import "./Header.css"
+import {auth} from '../../firebase'
 // import LinkFunction from "./LinkFunction";
 // import Middle from './Middle';
 // import Album from './Album';
@@ -17,7 +18,9 @@ class Header extends Component{
         this.state = {
             search : "",
             qvc : "",
-            numOfItems : ((Number(localStorage.getItem('totalItems')))?Number(localStorage.getItem('totalItems')):0)
+            numOfItems : ((Number(localStorage.getItem('totalItems')))?Number(localStorage.getItem('totalItems')):0),
+            isUser : "",
+            isAlreadyUser : false 
         }
     }
 
@@ -62,7 +65,12 @@ class Header extends Component{
         }
 
    render(){
-    // setInterval(()=>this.changeNumOfItems(),500);
+
+        auth.onAuthStateChanged(user=> {
+            if (user && !this.state.isAlreadyUser) {
+                this.myIsUser();
+            }
+        });
       return(
           <div>
           <div className="myNav bg-dark">
@@ -88,10 +96,10 @@ class Header extends Component{
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                     </button>
-                    <h3 className="text-white pt-1" style={{position:'relative'}}>Experis-Sports</h3>
+                    {/* <h3 className="text-white pt-1" style={{position:'relative'}}>Experis-Sports</h3> */}
                     <div id="isUserLogin" className="d-flex">
+                        {this.state.isUser}
                         <ListItemLink to="/shopingchart/mycart" name={<div onMouseEnter={()=>this.cartQuick(true)} onMouseLeave={()=>this.cartQuick(false)}><span id="myBag" className="fs-5 m-1 text-danger">{((Number(localStorage.getItem('totalItems')))?Number(localStorage.getItem('totalItems')):0)}</span><i className="fas fa-shopping-bag fs-4"></i></div>}/> 
-                        {localStorage.getItem('login')=='true'?(<span className="text-danger fs-5 pt-1">Hi {localStorage.getItem('userName')}</span>):""}
                     </div>
                 </div>
             </nav>
@@ -101,6 +109,27 @@ class Header extends Component{
           </div>
           </div>
       );
+   }
+
+   myLogOut(){
+    console.log(auth);
+    auth.signOut().then(() => {
+        // Sign-out successful.
+        // window.location.reload();
+        this.setState({
+            isAlreadyUser : false,
+            isUser : ""
+        })
+      }).catch((error) => {
+        // An error happened.
+      });
+   }
+
+   myIsUser(){
+       this.setState({
+           isUser :  <span className="text-danger fs-5 pt-2">Hi {localStorage.getItem('userName')}(<button onClick={()=>this.myLogOut()} className="btn btn-dark">logout</button>)</span>,
+           isAlreadyUser : true
+       })
    }
 
    searchInput(){

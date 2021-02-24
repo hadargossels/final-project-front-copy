@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import '../cashOut/CashOut.css'
+import {auth} from '../../../firebase'
 
 export default class CashOut extends Component {
 
@@ -68,9 +69,11 @@ export default class CashOut extends Component {
         }
 
     render() {
-        if (localStorage.getItem('login')!='true'){
-            this.props.history.push('/login');
-        }
+        auth.onAuthStateChanged(user=> {
+            if (!user) {
+                this.props.history.push('/login');
+            }
+          });
         return (
                 <div className="container-fluid">
                 <div className="row justify-content-center">

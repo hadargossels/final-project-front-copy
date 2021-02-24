@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Link,Route} from "react-router-dom";
 import Stars from './Stars';
 import './store.css';
+import axios from 'axios'
 const ListItemLink = ({ name , urlImg ,index }) => (
     <Route path={"/product/"+index+"/"+name} children={({ match }) => (
         <Link className="btn text-white" to={"/product/"+index+"/"+name}><br/>
@@ -10,10 +11,11 @@ const ListItemLink = ({ name , urlImg ,index }) => (
 )}/>)
 
 class WorkOutP extends Component{
-    constructor(props){
+     constructor(props){
         super(props);
         this.pType = ["yoga","weights"];
         this.myJson = require('./workOutP.json').data;
+        this.myNewJason=[] ;
         this.state ={
             // searchUrl: 
             urlImg :[],
@@ -28,10 +30,13 @@ class WorkOutP extends Component{
         this.deState();
     }
 
-    deState(){
+    async deState(){
+        // this.myNewJason = await axios.get('http://localhost:3000/data');
+        // this.myNewJason = this.myNewJason.data;
+        // console.log(this.myNewJason);
+        // this.myJson=this.myNewJason;
         if(this.props.search!="all"){
             const regex = new RegExp (`${this.props.search}`,"gi")
-            console.log(regex);
             for (const i of this.myJson) {
                 if(regex.test(i.name) || regex.test(i.type)){
                     this.state.name.push(i.name);

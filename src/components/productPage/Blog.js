@@ -41,7 +41,7 @@ class Blog extends Component{
         let comments=[];
         for(let i=0; i<this.state.myComments[this.state.index].length; i+=2){
             comments.push(
-                <div className="myComments p-2 border border-info">
+                <div className="myComments p-2 border border-dark">
                     <h6 className="text-danger"><img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="30" height="30"/> {this.state.myComments[this.state.index][i]}</h6>
                     <p>{this.state.myComments[this.state.index][i+1]}</p>
                 </div>
@@ -105,8 +105,8 @@ class Blog extends Component{
                     <div className="col-sm-0 col-md-1"></div>
                     <div className="col-sm-12 col-md-3">
                         <h4 className="">comments</h4>
-                        <input className="w-100" ref={this.commentNameRef} type="text" placeholder="Name"/><br/>
-                        <textarea className="w-100" ref={this.commentTextRef}  type="text" placeholder="Your comment" rows="3" width="100%"/><br/>
+                        <input className="w-100 mb-2" ref={this.commentNameRef} type="text" placeholder="Name"/><br/>
+                        <textarea className="w-100 rounded-3" ref={this.commentTextRef}  type="text" placeholder="Your comment" rows="3" width="100%"/><br/>
                         <input className="btn btn-dark mb-2" type="button" value="Add comment" onClick={()=>this.addComment()} /><br/>
                         {comments}
                     </div>
