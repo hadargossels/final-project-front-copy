@@ -23,6 +23,8 @@ import AboutUs from './components/AboutUs/AboutUs';
 import Success from './components/Success/Success';
 import Blog from './components/Blog/Blog';
 import BlogPage from './components/Blog/BlogPage';
+
+
 //protected route for registered users only
 function PrivateRoute({children,...rest}){
   return(
@@ -31,7 +33,6 @@ function PrivateRoute({children,...rest}){
     ?children
     :<Redirect to="/login" />
     }}/>
-
   )
 }
 
@@ -39,6 +40,7 @@ ReactDOM.render(
 
     <div>
     <Router>
+      {/* <AuthProvider> */}
     <Header/>
       <Switch>  
           <PrivateRoute exact path="/dashboard"> <Dashboard /></PrivateRoute>
@@ -47,7 +49,9 @@ ReactDOM.render(
           <Route exact path="/home" component={Home}></Route>
           <Route exact path="/contactUs" component={ContactUs}></Route>
           <Route exact path="/login" component={Login}></Route>
+          
           <Route exact path="/register" component={Register}></Route>
+
           <Route path="/product/:title" component={Product}></Route>
           <Route exact path="/info" component={Info}></Route>
           <Route exact path="/checkout" component={Checkout}></Route>
@@ -58,6 +62,7 @@ ReactDOM.render(
           <Route component={PageNotFound}></Route>
       </Switch>
     <Footer/>
+    {/* </AuthProvider> */}
     </Router>
     
     </div>,
