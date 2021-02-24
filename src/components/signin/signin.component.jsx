@@ -6,6 +6,7 @@ import "./signin.styles.scss";
 import { connect } from "react-redux";
 
 import {
+  facebookSignInStart,
   googleSignInStart,
   emailSignInStart,
 } from "../../redux/user/user.actions";
@@ -54,7 +55,7 @@ class SignIn extends React.Component {
   // };
 
   render() {
-    const { googleSignInStart } = this.props;
+    const { googleSignInStart, facebookSignInStart } = this.props;
 
     return (
       <div className="sign-in">
@@ -97,6 +98,14 @@ class SignIn extends React.Component {
             >
               Sign In with Google
             </CustomButton>
+
+            <CustomButton
+              type="button"
+              onClick={facebookSignInStart}
+              isGoogleSignIn
+            >
+              Sign In with Facebook
+            </CustomButton>
           </div>
         </form>
       </div>
@@ -105,7 +114,10 @@ class SignIn extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  facebookSignInStart: () => dispatch(facebookSignInStart()),
+
   googleSignInStart: () => dispatch(googleSignInStart()),
+
   emailSignInStart: (email, password) =>
     dispatch(emailSignInStart({ email, password })),
 });
