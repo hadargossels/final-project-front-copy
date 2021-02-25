@@ -1,55 +1,78 @@
-import React, { Component } from 'react'
-import {Redirect} from 'react-router-dom'
-import axios from 'axios'
+import React, {useRef, useState} from 'react'
+import {Link, Redirect, useHistory} from 'react-router-dom'
+import {Form, Button, Card, Alert, Container} from 'react-bootstrap'
+import {useAuth} from '../../contexts/AuthContext'
+import firebase, {auth} from '../../firebase'
 
-export default class Login extends Component {
-    constructor(){
-        super()
-        this.state = {loggedIn: localStorage.getItem("login"), userList:[], loginMsg:""}
-        this.userRef = React.createRef();
-        this.passRef = React.createRef();
-    }
+export default function Login() {
+    const emailRef = useRef()
+    const passwordRef = useRef()
+    const {login} = useAuth()
+    const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
+    const history = useHistory()
 
-    componentDidMount(){
-        axios.get("http://localhost:3000/users").then(response=>{
-            this.setState({userList:response.data})
-        })
-    }
-
-    checkUser(e){
+    //trying google
+    const provider = new firebase.auth.GoogleAuthProvider()
+    provider.setCustomParameters({prompt: 'select_account'})
+    const signInWithGoogle = () => auth.signInWithPopup(provider);
+    const handleGoogle = async (e) => {
         e.preventDefault()
-        let inputUsername = this.userRef.current.value
-        let inputPassword = this.passRef.current.value
-        for (let user of this.state.userList){
-            if (user.username === inputUsername && user.password === inputPassword){
-                localStorage.setItem("login",user.username)
-                this.setState({loggedIn:true})
-                break;
-            }
-        }
-        if (!this.state.loggedIn){
-            this.setState({loginMsg:"Invalid username\\password"})
-        }
+
+        setLoading(true)
+        await signInWithGoogle();
+        localStorage.setItem("login",auth.currentUser.email)
+        history.push("/dashboard")
+        setLoading(false)
     }
 
-    render() {
-        return (
-            <div className="py-5 container">
-                {this.state.loggedIn ? <Redirect to="/checkout"/>:""}
-                <h1 className="text-center">Login</h1>
-                <div className="row justify-content-center">
-                <form className="mx-5 col-6" onSubmit = {(e) => this.checkUser(e)}>
-                    <label className="form-label" htmlFor="username">Username</label>
-                    <input ref={this.userRef} className="form-control" id="username" type="text"/>
-                    <label className="form-label" htmlFor="pass">Password</label>
-                    <input ref={this.passRef} className="form-control" id="pass" type="password"/>
-                    <button className="btn btn-primary">Sign in</button>
-                    <div className="text-center text-danger">{this.state.loginMsg}</div>
-                </form>
-               
+    async function handleSubmit(e) {
+        e.preventDefault()
 
+        try{
+            setError("")
+            setLoading(true)
+            await login(emailRef.current.value, passwordRef.current.value)
+            localStorage.setItem("login",auth.currentUser.email)
+            history.push("/dashboard")
+        } catch {
+            setError("Failed to sign in")
+        }
+        setLoading(false)
+    }
+
+    return (
+        <Container className="d-flex align-items-center justify-content-center py-5">
+            {localStorage.getItem("login") && <Redirect to="/dashboard"/>}
+            <div className="w-100" style={{maxWidth:"400px"}}>
+                <Card>
+                    <Card.Body>
+                        <h2 className="text-center mb-4">Log-in</h2>
+                        {error && <Alert variant="danger">{error}</Alert>}
+                        <Form onSubmit={handleSubmit}>
+                            <Form.Group id="email">
+                                <Form.Label>Email</Form.Label>
+                                <Form.Control type="email" ref={emailRef} required/>
+                            </Form.Group>
+                            <Form.Group id="password">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control type="password" ref={passwordRef} required/>
+                            </Form.Group>
+                            <Button disabled={loading} className="w-100 my-2" type="submit">Log-in</Button>
+                            <Button disabled={loading} onClick={handleGoogle} className=" w-100 my-2 btn-danger">
+                                <i className="fab fa-google-plus-g px-1"></i>
+                                <span className="px-1">Log-in with google</span>
+                            </Button>
+                        </Form>
+                        <div className="w-100 text-center mt-3">
+                            <Link to="/forgot-password">Forgot password?</Link>
+                        </div>
+                    </Card.Body>
+                </Card>
+                <div className="w-100 text-center mt-2">
+                    Don't have an account yet? <Link to="/signup">Sign up</Link>
                 </div>
             </div>
-        )
-    }
+        </Container>
+    )
 }

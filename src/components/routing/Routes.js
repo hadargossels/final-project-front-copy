@@ -16,29 +16,38 @@ import OrderConfirmed from '../Checkout/OrderConfirmed'
 import ProductPage from '../Product/ProductPage'
 import SignUp from '../SignUp/SignUp'
 import Payment from '../Checkout/PayPal/Payment'
+import { AuthProvider } from '../../contexts/AuthContext';
+import PrivateRoute from './PrivateRoute'
+import Dashboard from '../Dashboard/Dashboard'
+import ForgotPassword from '../ForgotPassword'
+
 
 export default class Routes extends Component {
 
     render() {
         return (
-            <Switch>
-                <Route exact path="/" component={Home}/>
-                <Route path="/about" component={AboutUs}/>
-                <Route path="/blog" component={Blog}/>
-                <Route path="/blogpost/:title" component={BlogPost}/>
-                <Route path="/checkout" component={Checkout}/>
-                <Route path="/cart" component= {Cart}/>
-                <Route path="/confirmed" component={OrderConfirmed}/>
-                <Route path="/contact" component={ContactUs}/>
-                <Route path="/login" component={Login}/>
-                <Route path="/msgsent" component={MsgSent}/>
-                <Route path="/payment" component={Payment}/>
-                <Route path="/product/:name" component={ProductPage}/>
-                <Route path="/signup" component={SignUp}/>
-                <Route exact path="/store/" component={CatalogPage}/>
-                <Route path="/store/:search" component={CatalogPage}/>
-                <Route component={NotFound}/>
-            </Switch>
+            <AuthProvider>
+                <Switch>
+                    <Route exact path="/" component={Home}/>
+                    <Route path="/about" component={AboutUs}/>
+                    <Route path="/blog" component={Blog}/>
+                    <Route path="/blogpost/:title" component={BlogPost}/>
+                    <Route path="/checkout" component={Checkout}/>
+                    <Route path="/cart" component= {Cart}/>
+                    <Route path="/confirmed" component={OrderConfirmed}/>
+                    <Route path="/contact" component={ContactUs}/>
+                    <Route path="/msgsent" component={MsgSent}/>
+                    <Route path="/payment" component={Payment}/>
+                    <Route path="/product/:name" component={ProductPage}/>
+                    <Route exact path="/store/" component={CatalogPage}/>
+                    <Route path="/store/:search" component={CatalogPage}/>
+                    <Route path="/login" component={Login}/>
+                    <Route path="/signup" component={SignUp}/>
+                    <PrivateRoute path="/dashboard" component={Dashboard}/>
+                    <Route path="/forgot-password" component={ForgotPassword}/>
+                    <Route component={NotFound}/>
+                </Switch>
+            </AuthProvider>
         )
     }
 }

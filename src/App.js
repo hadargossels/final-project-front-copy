@@ -6,16 +6,14 @@ import {BrowserRouter as Router} from 'react-router-dom'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import ScrollToTop from './components/ScrollToTop/ScrollToTop'
-
 export default class App extends Component {
-
   render() {
     return (
       <Router>
         <ScrollToTop/>
-            <Header/>
-            <Routes/>
-            <Footer/>
+        <Header/>
+        <Routes/>
+        <Footer/>
       </Router>
     )
   }

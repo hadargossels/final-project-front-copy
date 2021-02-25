@@ -2,7 +2,6 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import emptySVG from './svg/empty-cart.svg'
 
-
 export const EmptyCart = (props) => {
     if (!props.empty){
     return (
