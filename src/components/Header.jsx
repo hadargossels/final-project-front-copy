@@ -135,7 +135,7 @@ class Header extends React.Component {
                                     </div>
                                     <div className="dropdown-menu" aria-labelledby="loginNavbarDropdown" style={{width: "170px"}}>
                                         {/* <button type="button" className="btn btn-light" data-toggle="modal" data-target="#signUpModal">Sign up</button>| */}
-                                        <button type="button" className="btn btn-light"><Link to="/register">Register</Link></button>|
+                                        <button type="button" className="btn btn-light"><Link to="/login">Login</Link></button>|
                                         <button type="button" className="btn btn-light" onClick={this.props.onSignOut}><Link to="#">Log out</Link></button>
                                     </div>
                                 </div>

@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Route, BrowserRouter as Router, Switch} from 'react-router-dom';
+import { AuthProvider } from "./context/AuthContext"
 import './css/app.css';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
-import Register from './components/Register.jsx';
 import Store from './components/Store.jsx';
 import Home from './components/Home.jsx';
 import ShoppingCart from './components/ShoppingCart.jsx';
@@ -16,6 +16,11 @@ import About from './components/About.jsx';
 import Blog from './components/Blog.jsx';
 import ArticlePage from './components/ArticlePage.jsx';
 import articles from './data/articles.json';
+import SignUp from './components/authentication/SignUp';
+import Login from './components/authentication/Login';
+import ForgotPassword from './components/authentication/ForgotPassword';
+import PrivateRoute from './components/authentication/PrivateRoute';
+import UpdateProfile from './components/authentication/UpdateProfile';
 
 
 class App extends Component {
@@ -104,64 +109,69 @@ class App extends Component {
   render() {
     return (
         <Router>
-          <Header
-            user = {this.state.user} 
-            onSignOut = {this.handleSignOut}
-            qtySum = {this.calculateSumQtyCart()} 
-            cartProducts = {this.state.cartProducts} 
-            onQtyChange = {this.handleQtyChange}
-            onDeleteCartProduct = {this.handleDeleteCartProduct}
-          ></Header>
-          <div className="alert alert-success" role="alert"  style={{display:'none'}}>
-            <button type="button" className="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            The product was successfully added to the shopping cart
-          </div>
-          
-          <Switch>
-            <Route exact path="/" component={Home}/>
-            <Route path="/store" component={Store}/>
-            <Route path="/contact"> <Contact /> </Route>
-            <Route path="/about"> <About /> </Route>
-            <Route path="/blog"> <Blog /> </Route>
-            <Route path="/register"> 
-              <Register 
-                onSignUp= {this.handleAddUser}
-              /> 
-            </Route>
-            <Route path="/cart">
-              <ShoppingCart 
-                cartProducts={this.state.cartProducts} 
-                onQtyChange={this.handleQtyChange}
-                onDeleteCartProduct={this.handleDeleteCartProduct}
-                getSubTotalAmount={this.getSubTotalAmount}
-                tax={this.state.tax}/>
-            </Route>
-            <Route path="/payment">
-              <Payment
-                cartProducts={this.state.cartProducts}
-                getSubTotalAmount={this.getSubTotalAmount}
-                tax={this.state.tax} >
-              </Payment>
-            </Route> 
+          <AuthProvider>
+            <Header
+              user = {this.state.user} 
+              onSignOut = {this.handleSignOut}
+              qtySum = {this.calculateSumQtyCart()} 
+              cartProducts = {this.state.cartProducts} 
+              onQtyChange = {this.handleQtyChange}
+              onDeleteCartProduct = {this.handleDeleteCartProduct}
+            ></Header>
+            <div className="alert alert-success" role="alert"  style={{display:'none'}}>
+              <button type="button" className="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              The product was successfully added to the shopping cart
+            </div>
             
-            {storeItems.map(product => 
-              <Route path={`/${product.url}`} component={() => 
-                <ProductPage product={product} onAddToCart={this.handleAddToCart}/>
-              } key={product.id}/>
-            )}
-
-            {articles.map(article => 
-              <Route path={`/article-${article.id}`} key={article.id}>
-                <ArticlePage article={article}></ArticlePage>
+            <Switch>
+              <Route exact path="/" component={Home}/>
+              <Route path="/signup" component={SignUp} />
+              <Route path="/login" component={Login} />
+              <Route path="/forgot-password" component={ForgotPassword} />
+              <Route path="/update-profile" component={UpdateProfile} />
+              <Route path="/store" component={Store}/>
+              <Route path="/contact"> <Contact /> </Route>
+              <Route path="/about"> <About /> </Route>
+              <Route path="/blog"> <Blog /> </Route>
+              {/* <Route path="/register"> 
+                <Register 
+                  onSignUp= {this.handleAddUser}
+                /> 
+              </Route> */}
+              <Route path="/cart">
+                <ShoppingCart 
+                  cartProducts={this.state.cartProducts} 
+                  onQtyChange={this.handleQtyChange}
+                  onDeleteCartProduct={this.handleDeleteCartProduct}
+                  getSubTotalAmount={this.getSubTotalAmount}
+                  tax={this.state.tax}/>
               </Route>
-            )}
-            
-            
-            <Route path="*" component={PageNotFound}/>
-          </Switch>
+              <Route path="/payment">
+                <Payment
+                  cartProducts={this.state.cartProducts}
+                  getSubTotalAmount={this.getSubTotalAmount}
+                  tax={this.state.tax} >
+                </Payment>
+              </Route> 
+              
+              {storeItems.map(product => 
+                <Route path={`/${product.url}`} component={() => 
+                  <ProductPage product={product} onAddToCart={this.handleAddToCart}/>
+                } key={product.id}/>
+              )}
 
-          <Footer></Footer>
+              {articles.map(article => 
+                <Route path={`/article-${article.id}`} key={article.id}>
+                  <ArticlePage article={article}></ArticlePage>
+                </Route>
+              )}
+              
+              
+              <Route path="*" component={PageNotFound}/>
+            </Switch>
 
+            <Footer></Footer>
+          </AuthProvider>
         </Router>
     );
   }

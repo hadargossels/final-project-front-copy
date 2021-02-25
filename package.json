@@ -16,6 +16,7 @@
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
     "react-dom": "^17.0.1",
+    "react-firebaseui": "^4.1.0",
     "react-google-maps": "^9.4.5",
     "react-image-gallery": "^1.0.8",
     "react-month-picker": "^2.2.0",
