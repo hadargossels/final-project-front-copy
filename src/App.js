@@ -12,11 +12,14 @@ import SignUp from './Components/SignUp/SignUp';
 import ContactUs from './Components/ContactUs/ContactUs';
 import ShoppingCart from './Components/shoppingCart/ShoppingCart';
 import Checkout from './Components/Checkout/Checkout'
-import data from './data.json'
+// import data from './data.json'
 import { Switch, Route } from 'react-router-dom';
 import FinalForm from './Components/FinalForm/FinalForm';
 import Confirmation from './Components/Confirmation/Confirmation';
 import BlogPost from './Components/BlogPost/BlogPost';
+import axios from 'axios';
+import {ProtectedRoute} from './protectedRoute';
+import LoginPage from './Components/LoginPage/LoginPage';
 
 class App extends Component {
   constructor(props) {
@@ -135,13 +138,28 @@ class App extends Component {
     let sumPrice = 0;
     if (this.state.productList) {
       let products = [...this.state.productList];
-      data.products.forEach((product) => {
-        if(products.includes(product.ISBN10)) {
-          sumPrice += product.price;
-        }
+
+      axios.get('http://localhost:3000/products')
+      .then(function(response) {
+        response.data.forEach((product) => {
+          if(products.includes(product.ISBN10)) {
+            console.log("finding price")
+            sumPrice += Number(product.price);
+            localStorage.setItem('finalPrice',sumPrice);
+          }
+        })
       })
+      .catch( function(error) {
+          console.log(error)
+      })
+
+      // data.products.forEach((product) => {
+      //   if(products.includes(product.ISBN10)) {
+      //     sumPrice += product.price;
+      //   }
+      // })
+
     }
-    localStorage.setItem('finalPrice',sumPrice);
   }
 
   render () {
@@ -150,6 +168,7 @@ class App extends Component {
         <Header cartNum={this.state.productNum}/>
           <Switch>
             <Route path="/" exact component={Homepage} />
+            <ProtectedRoute exact path="/signindone" component={LoginPage} />
             <Route path="/catalogue/" render={(matchProps) => (<StoreFront {...matchProps} {...this.props} addToCart={this.addToCart} />)} />
             <Route path="/catalogue/new" render={(matchProps) => (<StoreFront {...matchProps} {...this.props} addToCart={this.addToCart} />)} />
             <Route path="/catalogue/specials" render={(matchProps) => (<StoreFront {...matchProps} {...this.props} addToCart={this.addToCart} />)} />

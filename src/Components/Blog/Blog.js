@@ -1,15 +1,32 @@
 import React, { Component } from 'react';
 import './Blog.css';
-import blogposts from '../../blogposts.json'
+// import blogposts from '../../blogposts.json'
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class Blog extends Component {
     constructor(){
         super();
         this.state = {
-            posts: blogposts.posts,
+            // posts: blogposts.posts,
+            posts: null,
         }
     }
+
+    componentDidMount = () => {
+        let self = this
+
+        axios.get('http://localhost:3000/posts')
+        .then(function(response) {
+            self.setState({
+                posts: response.data,
+            })
+        })
+        .catch( function(error) {
+            console.log(error)
+        })
+    }
+
     render () {
         return(    
             <main className="Blog">
@@ -17,7 +34,7 @@ class Blog extends Component {
                     <h1>News, Updates, Events and More!</h1>
                 </div>
                 <div className="blogBody">
-                    {this.state.posts.map(post => (
+                    {this.state.posts && this.state.posts.map(post => (
                         <div key={post._id} className="blogpost w-1/2 mx-auto py-1 text-xl mb-5">
                             <div className="datePart w-32 bg-yellow-800 text-yellow-100 rounded-t-lg text-center py-1 shadow-inner">
                                 {post.date}

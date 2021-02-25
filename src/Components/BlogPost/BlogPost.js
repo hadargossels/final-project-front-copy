@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './BlogPost.css';
-import blogposts from '../../blogposts.json'
+// import blogposts from '../../blogposts.json'
+import axios from 'axios';
 
 class BlogPost extends Component {
     constructor(){
@@ -18,18 +19,40 @@ class BlogPost extends Component {
 
     componentDidMount = () => {
         let MyPost = this.props.match.params.postName;
-        let myPosts = blogposts.posts.filter(post => post.postName === MyPost)
-        let mainPost = myPosts[0]
-        let postComments = mainPost.comments
-        this.setState({
-            post: mainPost,
-            comments: postComments,
-            content: mainPost.content,
-            title: mainPost.title,
-            date: mainPost.date,
-            postImage: mainPost.postImage,
-            video: mainPost.video,
+
+        let self = this
+
+        axios.get('http://localhost:3000/posts')
+        .then(function(response) {
+            let myPosts = response.data.filter(post => post.postName === MyPost)
+            let mainPost = myPosts[0]
+            let postComments = mainPost.comments
+            self.setState({
+                post: mainPost,
+                comments: postComments,
+                content: mainPost.content,
+                title: mainPost.title,
+                date: mainPost.date,
+                postImage: mainPost.postImage,
+                video: mainPost.video,
+            })
         })
+        .catch( function(error) {
+            console.log(error)
+        })
+
+        // let myPosts = blogposts.posts.filter(post => post.postName === MyPost)
+        // let mainPost = myPosts[0]
+        // let postComments = mainPost.comments
+        // this.setState({
+        //     post: mainPost,
+        //     comments: postComments,
+        //     content: mainPost.content,
+        //     title: mainPost.title,
+        //     date: mainPost.date,
+        //     postImage: mainPost.postImage,
+        //     video: mainPost.video,
+        // })
     }
 
     render () {
@@ -51,7 +74,7 @@ class BlogPost extends Component {
                         <div className="theContent pt-4 px-4 mb-3">
                             {this.state.postImage && 
                                 <div>
-                                    <img src={this.state.postImage} className="float-left mr-4 my-3"/>
+                                    <img src={this.state.postImage} className="float-left mr-4 my-3" alt="postImage"/>
                                 </div>
                             }
                             {this.state.content && 
@@ -70,6 +93,7 @@ class BlogPost extends Component {
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                                     allowfullscree
                                     className="my-10 mx-auto"
+                                    title="postVideo"
                                 ></iframe>
                             </div>
                         }
@@ -91,7 +115,7 @@ class BlogPost extends Component {
                                     <div className="w-1/2">
                                         <p className="float-right mr-48">{comment.date}</p>
                                         <p>
-                                            <img src={comment.userIcon} className="float-left mr-2"/>
+                                            <img src={comment.userIcon} className="float-left mr-2" alt={comment.user}/>
                                             <span>{comment.user}</span>
                                         </p>
                                     </div>

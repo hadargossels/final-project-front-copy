@@ -1,32 +1,47 @@
 import React from "react";
-import data from '../../data.json';
+// import data from '../../data.json';
 import { Link } from 'react-router-dom';
 import formatPrice from '../utility/Price';
 
-const CartQuickView = ({ handleClose, show }) => {
+const CartQuickView = ({ handleClose, show, productList, itemNum, itemSum }) => {
   const showHideClassName = show ? "modal modal-visible" : "modal-hidden";
-  let storageList = localStorage.getItem('shoppingCart');
-  let productList = [];
-  let itemSum = 0;
-  if (storageList) {
-    productList = data.products.filter((product) => {
-        if (storageList.includes(product.ISBN10)) {
-            return product
-        }
-        return false;
-    })
-  }
+  // let storageList = localStorage.getItem('shoppingCart');
+  // let productList = [];
+  // let itemSum = 0;
+  // if (storageList) {
 
-  if (productList.length) {
-    productList.forEach((product) => {
-        itemSum += product.price
-    })
-  }
+    // axios.get('http://localhost:3000/products')
+    // .then(function(response) {
+    //   productList = response.products.filter((product) => {
+    //     if (storageList.includes(product.ISBN10)) {
+    //         return product
+    //     }
+    //     return false;
+    //   })
+    // })
+    // .catch( function(error) {
+    //     console.log(error)
+    // })
+
+  //   productList = data.products.filter((product) => {
+  //       if (storageList.includes(product.ISBN10)) {
+  //           return product
+  //       }
+  //       return false;
+  //   })
+
+  // }
+
+  // if (productList.length) {
+  //   productList.forEach((product) => {
+  //       itemSum += product.price
+  //   })
+  // }
   
-  let itemNum = localStorage.getItem('shoppingLength');
-  if (!itemNum) {
-      itemNum = 0;
-  }
+  // let itemNum = localStorage.getItem('shoppingLength');
+  // if (!itemNum) {
+  //     itemNum = 0;
+  // }
 
   return (
     <div className={showHideClassName}>

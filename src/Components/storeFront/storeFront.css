@@ -1,6 +1,7 @@
 .storeFront {
     display: flex;
     flex-wrap: wrap;
+    min-height: 86.4vh;
 }
 
 .itemsView {

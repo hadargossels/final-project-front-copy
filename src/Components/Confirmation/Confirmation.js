@@ -12,6 +12,8 @@ class Confirmation extends Component {
     componentDidMount = () => {
         localStorage.setItem('shoppingCart',(JSON.stringify([])));
         localStorage.setItem('shoppingLength',0);
+        localStorage.setItem('finalPrice',0);
+        localStorage.setItem('coupon',0);
         this.props.addToCart()
     }
 

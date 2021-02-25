@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import './ProductSlider.css';
-import data from '../../data.json';
+// import data from '../../data.json';
 import formatPrice from '../utility/Price';
 import formatStars from '../utility/Stars';
 import Modal from '../ProductQuickview/ProductQuickview.js';
+import axios from 'axios';
 
 class ProductSlider extends Component {
 
@@ -12,20 +13,40 @@ class ProductSlider extends Component {
         this.state = {
             show: false,
             myTitle: null,
-            products: data.products.filter((val, i) => {
-                return i < 6
-            }),
+            // products: data.products.filter((val, i) => {
+            //     return i < 6
+            // }),
+            products: null
         };
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
     };
+
+    componentDidMount = () => {
+        let self = this
+
+        axios.get('http://localhost:3000/products')
+        .then(function(response) {
+            self.setState({
+                products: response.data.filter((val, i) => {
+                    return i < 6
+                }),
+            })
+        })
+        .catch( function(error) {
+            console.log(error)
+        })
+    }
+
+
     showModal = (e) => {
         this.setState({ show: true, myTitle:e.target.textContent });
-      };
+    };
     
-      hideModal = () => {
+    hideModal = () => {
         this.setState({ show: false });
-      };
+    };
+
     render() {
         return (
             <div>
@@ -43,11 +64,11 @@ class ProductSlider extends Component {
                     </a>
 
                     <div className="slides">
-                        {this.state.products.map( (product, index) => {
+                        {this.state.products && this.state.products.map( (product, index) => {
                             return (
                                 <div className="text-xl" id={`${this.props.slideId}-${index}`} key={product.ISBN10}>
                                     <img src={product.image} width="50px" alt="somepic" className="itemImage h-auto w-1/3 mx-auto mt-4" />
-                                    <p className="mx-auto text-2xl text-yellow-700 cursor-pointer" onClick={this.showModal}>
+                                    <p className="mx-auto text-xl text-yellow-700 cursor-pointer" onClick={this.showModal}>
                                         {product.title}
                                     </p>
                                     <p>

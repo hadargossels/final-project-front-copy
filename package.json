@@ -8,6 +8,9 @@
     "@testing-library/react": "^11.2.3",
     "@testing-library/user-event": "^12.6.2",
     "autoprefixer": "^9.8.6",
+    "axios": "^0.21.1",
+    "faker": "^5.4.0",
+    "firebase": "^8.2.9",
     "postcss": "^7.0.35",
     "query-string": "^6.13.8",
     "react": "^17.0.1",
@@ -25,7 +28,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "json-server": "json-server --watch products.js"
   },
   "eslintConfig": {
     "extends": [
@@ -44,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "json-server": "^0.16.3"
   }
 }

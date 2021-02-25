@@ -74,7 +74,7 @@ class ContactUs extends Component {
                 }
                 break;
             case "email":
-                validation = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+                validation = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/ //eslint-disable-line
                 exp = event.target.value
                 res = validation.test(exp)
                 if (!res) {

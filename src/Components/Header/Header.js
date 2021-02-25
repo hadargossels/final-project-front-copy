@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import './Header.css';
 import { Link } from "react-router-dom";
 import CartQuickView from '../CartQuickView/CartQuickView';
+import axios from 'axios';
 
 class Header extends Component{
     constructor(props) {
         super(props);
         this.state = {
             show: false,
+            productst: null
         };
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -16,14 +18,55 @@ class Header extends Component{
         this.setState({ 
             show: true 
         });
-      };
+    };
     
-      hideModal = () => {
+    hideModal = () => {
         this.setState({ 
             show: false 
         });
-      };
+    };
+
+    componentDidMount = () => {
+        let self = this;
+        axios.get('http://localhost:3000/products')
+        .then(function(response) { 
+            self.setState({
+                products: response.data
+            })
+        })
+        .catch( function(error) {
+            console.log(error)
+        })
+    }
+
    render(){
+
+    let itemNum = localStorage.getItem('shoppingLength');
+    if (!itemNum) {
+        itemNum = 0;
+     }
+
+    let itemSum = localStorage.getItem('finalPrice');
+    if (!itemSum) {
+        itemSum = 0;
+    }
+
+    let storageList = localStorage.getItem('shoppingCart');
+
+    let productList = [];
+    if (storageList) {
+        if (this.state.products) {
+            productList = this.state.products.filter((product) => {
+                if (storageList.includes(product.ISBN10)) {
+                    return product
+                }
+                return false;
+            })
+        } else {
+            productList = []
+        }
+    }
+
       return(
         <nav className="relative flex flex-wrap items-center justify-between px-2 py-2 navbar-expand-lg bg-yellow-700 mb-3">
             <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
@@ -117,7 +160,7 @@ class Header extends Component{
                 </ul>
                 </div>
             </div>
-            <CartQuickView show={this.state.show} handleClose={this.hideModal}/>
+            {productList.length > 0 && <CartQuickView show={this.state.show} handleClose={this.hideModal} productList={productList} itemNum={itemNum} itemSum={itemSum}/>}
             </nav>
       );
    }

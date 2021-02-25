@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 class CheckoutDetails extends Component {
     constructor() {
       super();
+      this.couponRef = React.createRef()
       this.state = {
         productList: [],
         productNum: 0,
@@ -21,6 +22,16 @@ class CheckoutDetails extends Component {
 
     componentDidUpdate = () => {
         this.updatePrice();
+    }
+
+    componentDidMount = () => {
+        let hasCoupon = localStorage.getItem('coupon')
+        if (hasCoupon && hasCoupon !== 0 && hasCoupon !== "0") {
+            this.setState({
+                couponNotice: <p className="pl-3">Discount: %15</p>,
+                discount: 15,
+            }, () => {this.updatePrice()})
+        }
     }
 
     updatePrice = () => {
@@ -54,7 +65,7 @@ class CheckoutDetails extends Component {
         if(this.state.coupon === "HUMMUS") {
             this.setState({
                 couponNotice: <p className="pl-3">Discount: %15</p>,
-                discount: 5,
+                discount: 15,
             }, () => {this.updatePrice()})
             localStorage.setItem('coupon',15);
         } else {
@@ -92,6 +103,7 @@ class CheckoutDetails extends Component {
                     <input 
                         type="text" 
                         id="coupon" 
+                        ref={this.couponRef}
                         onChange={(event) => {this.getCoupon(event)}} 
                     />
                 </span>

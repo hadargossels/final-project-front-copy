@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import './ProductPage.css';
-import data from '../../data.json';
+// import data from '../../data.json';
 import formatStars from '../utility/Stars';
 import formatPrice from '../utility/Price';
 import formatPrecent from '../utility/Pecent';
+import axios from 'axios';
 
 class ProductPage extends Component{
     constructor(props) {
@@ -41,29 +42,61 @@ class ProductPage extends Component{
 
     componentDidMount() {
         let MyISBN10 = this.props.match.params.itemISBN;
-        let obj = data.products.filter(product => product.ISBN10 === MyISBN10)
-        let myObj = obj[0]
-        let diff = myObj.originalPrice - myObj.price;
-        this.setState({
-            diff: diff,
-            title: myObj.title,
-            format: myObj.format,
-            pages: myObj.pages,
-            dimensions: myObj.dimensions,
-            weight: myObj.weight,
-            publisher: myObj.publisher,
-            publicationPlace: myObj.publicationPlace,
-            language: myObj.language,
-            price: myObj.price,
-            publicationDate: myObj.publicationDate,
-            description: myObj.description,
-            ISBN10: myObj.ISBN10,
-            ISBN13: myObj.ISBN13,
-            author: myObj.author,
-            artist: myObj.artist,
-            stars: myObj.stars,
-            originalPrice: myObj.originalPrice
+        let obj;
+        let self = this
+        axios.get('http://localhost:3000/products')
+        .then(function(response) {
+            obj = response.data.filter(product => product.ISBN10 === MyISBN10)
+            let myObj = obj[0]
+            let diff = myObj.originalPrice - myObj.price;
+            self.setState({
+                diff: diff,
+                title: myObj.title,
+                format: myObj.format,
+                pages: myObj.pages,
+                dimensions: myObj.dimensions,
+                weight: myObj.weight,
+                publisher: myObj.publisher,
+                publicationPlace: myObj.publicationPlace,
+                language: myObj.language,
+                price: myObj.price,
+                publicationDate: myObj.publicationDate,
+                description: myObj.description,
+                ISBN10: myObj.ISBN10,
+                ISBN13: myObj.ISBN13,
+                author: myObj.author,
+                artist: myObj.artist,
+                stars: myObj.stars,
+                originalPrice: myObj.originalPrice
+            })
+            
         })
+        .catch( function(error) {
+            console.log(error)
+        })
+        // let obj = data.products.filter(product => product.ISBN10 === MyISBN10)
+        // let myObj = obj[0]
+        // let diff = myObj.originalPrice - myObj.price;
+        // this.setState({
+        //     diff: diff,
+        //     title: myObj.title,
+        //     format: myObj.format,
+        //     pages: myObj.pages,
+        //     dimensions: myObj.dimensions,
+        //     weight: myObj.weight,
+        //     publisher: myObj.publisher,
+        //     publicationPlace: myObj.publicationPlace,
+        //     language: myObj.language,
+        //     price: myObj.price,
+        //     publicationDate: myObj.publicationDate,
+        //     description: myObj.description,
+        //     ISBN10: myObj.ISBN10,
+        //     ISBN13: myObj.ISBN13,
+        //     author: myObj.author,
+        //     artist: myObj.artist,
+        //     stars: myObj.stars,
+        //     originalPrice: myObj.originalPrice
+        // })
     }
 
     addToStorage = (itemId) => {
