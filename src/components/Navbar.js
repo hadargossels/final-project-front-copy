@@ -18,6 +18,8 @@ export default class Navbar extends Component {
         super(props);
         this.callRef = React.createRef();
         this.searchRef = this.searchRef.bind(this);
+        this.userOptionsShow = this.userOptionsShow.bind(this);
+
         this.state ={
             email:null
         } 
@@ -29,7 +31,29 @@ export default class Navbar extends Component {
         const node =this.callRef.current.value;
         window.location.href = "/search?q=" + node;
         
-}
+    }
+    userOptionsShow(){
+        if(this.state.email == null || this.state.email == "welcome visitor"){
+            return(
+                <>
+                <Link to='/login'>
+                    <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >Login</span>
+                </Link>
+                <Link to='/register'>
+                    <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >Register</span>
+                </Link>
+                </>
+            )}
+            else{
+                return(
+                        <>
+                        <Link to='/'>
+                            <span style ={{color:"white"}} className = "btn-animation btn from-bottom" href="#news" 
+                                onClick={() => {this.logout() }}>Logout</span>
+                        </Link>
+                        </>
+                    )}
+         }
     componentDidMount() {
 
         auth.onAuthStateChanged((user) => {
@@ -95,18 +119,23 @@ export default class Navbar extends Component {
                             <ProductConsumer>
                             {value=> <CartDropdown cartArrDropdown = {value.cart}/> }
                             </ProductConsumer>
-                       <span style={{color:"white",marginTop:"0.5%"}}>{this.state.email} </span>  
-                        <Link to='/login'>
-                        <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >Login</span>
-                        </Link>
-                        <Link to='/register'>
-                            <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >Register</span>
-                        </Link>
-                        <Link to='/'>
-                            <span style ={{color:"white"}} className = "btn-animation btn from-bottom" href="#news" 
-                            onClick={() => {
-                                this.logout() }}>Logout</span>
-                        </Link>
+                       <span style={{color:"white",marginTop:"0.5%"}}>{this.state.email} </span> 
+
+
+                        {this.userOptionsShow()}
+                            {/* <Link to='/login'>
+                            <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >Login</span>
+                            </Link>
+                            <Link to='/register'>
+                                <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >Register</span>
+                            </Link>
+
+                            <Link to='/'>
+                                <span style ={{color:"white"}} className = "btn-animation btn from-bottom" href="#news" 
+                                onClick={() => {
+                                    this.logout() }}>Logout</span>
+                            </Link> */}
+
                         <div  className="clock">
                             <Clock format={'HH:mm'} ticking={true} timezone={'Israel'} style={{color:"white"}}/>
                         </div>

@@ -15,6 +15,7 @@ export default function Login() {
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const { loginGoogle } = useAuth()
+    const { loginFacebook } = useAuth()
     const history = useHistory();
 
     async function handleSubmit(e) {
@@ -57,7 +58,7 @@ export default function Login() {
                         </div>
                         <p className="btn-text">Log in with google</p>
                 </Button>
-                <Button className="google-btn btn-primary mt-3 w-100" onClick = {loginGoogle}>
+                <Button className="google-btn btn-primary mt-3 w-100" onClick = {loginFacebook}>
                         <div className="google-icon-wrapper">
                             <img style = {{width:"25px" , height:"25px" , marginBottom:"3px"}}className="google-icon" src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Facebook_colored_svg_copy-512.png"/>
                         </div>

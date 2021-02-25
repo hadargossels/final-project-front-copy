@@ -15,7 +15,7 @@ export default class Details extends Component {
     componentDidMount(){
         const id = this.props.match.params.id;
         if(id){
-            axios.get("http://localhost:3002/storeProducts/" + id).then(
+            axios.get("http://localhost:3000/storeProducts/" + id).then(
             
                 (response)=>{
                     this.setState({product:response.data})
