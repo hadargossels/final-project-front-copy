@@ -4,15 +4,26 @@ import "firebase/auth";
 
 // import "firebase/database";
 
+// const config = {
+//   apiKey: "AIzaSyCWoQa6kXdCKNaOveQ8eSrwt0rgKwS08CM",
+//   authDomain: "dog-store-db.firebaseapp.com",
+//   projectId: "dog-store-db",
+//   storageBucket: "dog-store-db.appspot.com",
+//   messagingSenderId: "736078134737",
+//   appId: "1:736078134737:web:960d0671bace265d1174f0",
+//   measurementId: "G-N8LSB8GGRK",
+//   databaseUrl: "https://dog-store-db-default-rtdb.firebaseio.com",
+// };
+
 const config = {
-  apiKey: "AIzaSyCWoQa6kXdCKNaOveQ8eSrwt0rgKwS08CM",
-  authDomain: "dog-store-db.firebaseapp.com",
-  projectId: "dog-store-db",
-  storageBucket: "dog-store-db.appspot.com",
-  messagingSenderId: "736078134737",
-  appId: "1:736078134737:web:960d0671bace265d1174f0",
-  measurementId: "G-N8LSB8GGRK",
-  databaseUrl: "https://dog-store-db-default-rtdb.firebaseio.com",
+  apiKey: process.env.REACT_APP_APIKEY,
+  authDomain: process.env.REACT_APP_AUTHDOMAIN,
+  projectId: process.env.REACT_APP_PROJECTID,
+  storageBucket: process.env.REACT_APP_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
+  appId: process.env.REACT_APP_APPID,
+  measurementId: process.env.REACT_APP_MEASUREMENTID,
+  databaseUrl: process.env.REACT_APP_DATABASEURL,
 };
 
 firebase.initializeApp(config);
@@ -88,10 +99,11 @@ export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
-// googleProvider.setCustomParameters({ prompt: "select_account" });
+googleProvider.setCustomParameters({ prompt: "select_account" });
 
 // export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
 export const facebookProvider = new firebase.auth.FacebookAuthProvider();
+export const gitProvider = new firebase.auth.GithubAuthProvider();
 
 export default firebase;

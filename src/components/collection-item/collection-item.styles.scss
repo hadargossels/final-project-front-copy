@@ -92,6 +92,17 @@
     display: flex;
     flex-direction: column;
 
+    .go-to-product-btn {
+      margin-bottom: 10px;
+      margin-left: 250px;
+      margin-right: 250px;
+    }
+    .add-to-cart-btn {
+      margin-bottom: 10px;
+      margin-left: 250px;
+      margin-right: 250px;
+    }
+
     img {
       height: 400px;
       width: 400px;

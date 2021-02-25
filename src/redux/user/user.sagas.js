@@ -14,6 +14,7 @@ import {
 import {
   auth,
   googleProvider,
+  gitProvider,
   facebookProvider,
   createUserProfileDocument,
   getCurrentUser,
@@ -36,6 +37,15 @@ export function* getSnapshotFromUserAuth(userAuth, additionalData) {
 export function* signInWithGoogle() {
   try {
     const { user } = yield auth.signInWithPopup(googleProvider);
+    yield getSnapshotFromUserAuth(user);
+  } catch (error) {
+    yield put(signInFailure(error));
+  }
+}
+
+export function* signInWithGit() {
+  try {
+    const { user } = yield auth.signInWithPopup(gitProvider);
     yield getSnapshotFromUserAuth(user);
   } catch (error) {
     yield put(signInFailure(error));
@@ -96,6 +106,10 @@ export function* onGoogleSignInStart() {
   yield takeLatest(UserActionTypes.GOOGLE_SIGN_IN_START, signInWithGoogle);
 }
 
+export function* onGitSignInStart() {
+  yield takeLatest(UserActionTypes.GIT_SIGN_IN_START, signInWithGit);
+}
+
 export function* onFacebookSignInStart() {
   yield takeLatest(UserActionTypes.FACEBOOK_SIGN_IN_START, signInWithFacebook);
 }
@@ -123,6 +137,7 @@ export function* onSignUpSuccess() {
 export function* userSagas() {
   yield all([
     call(onGoogleSignInStart),
+    call(onGitSignInStart),
     call(onFacebookSignInStart),
     call(onEmailSignInStart),
     call(onCheckUserSession),

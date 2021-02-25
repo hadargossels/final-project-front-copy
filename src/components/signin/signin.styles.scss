@@ -1,4 +1,4 @@
-.sign-up {
+.sign-in {
   display: flex;
   flex-direction: column;
   width: 380px;
@@ -9,6 +9,29 @@
 
   .buttons {
     display: flex;
-    justify-content: space-between;
+    .custom-button {
+      margin: 0 5px;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    .btn-block + .btn-block {
+      margin-top: 5px;
+    }
+    .btn-github {
+      color: #fff;
+      background-color: #444;
+      border-color: rgba(0, 0, 0, 0.2);
+      width: 149px;
+      padding-right: 131px;
+    }
+    .btn-social {
+      position: relative;
+      padding-left: 44px;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 }

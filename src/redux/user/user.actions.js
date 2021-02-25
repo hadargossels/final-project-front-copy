@@ -4,6 +4,10 @@ export const googleSignInStart = () => ({
   type: UserActionTypes.GOOGLE_SIGN_IN_START,
 });
 
+export const gitSignInStart = () => ({
+  type: UserActionTypes.GIT_SIGN_IN_START,
+});
+
 export const facebookSignInStart = () => ({
   type: UserActionTypes.FACEBOOK_SIGN_IN_START,
 });

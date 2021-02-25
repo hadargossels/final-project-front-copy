@@ -117,9 +117,14 @@ const CollectionItem = ({ item, addItem, history }) => {
           style={{ display: displayModal ? "block" : "none" }}
           id="myModal"
           className="modal"
+          name="largeArea"
+          onClick={(e) => {
+            e.target.getAttribute("name") == "largeArea" &&
+              setDisplayModal(false);
+          }}
         >
           {/* Modal content */}
-          <div className="modal-content">
+          <div className="modal-content" name="smallArea">
             <span onClick={closeModal} className="close">
               ×
             </span>
@@ -133,16 +138,19 @@ const CollectionItem = ({ item, addItem, history }) => {
               shedding Gentle Efficient Pet Grooming Glove Dog Bath Cat cleaning
             </p>
 
-            <button onClick={handelClick} class="btn btn-secondary">
+            <button
+              onClick={handelClick}
+              className=" go-to-product-btn btn btn-secondary"
+            >
               Go to the product page
             </button>
             <button
               onClick={handleCartBtnClick}
               type="button"
-              class="btn btn-primary"
+              className="add-to-cart-btn btn btn-primary"
             >
               add to cart
-              <i class="fas fa-shopping-cart"></i>
+              <i className="fas fa-shopping-cart"></i>
             </button>
           </div>
         </div>

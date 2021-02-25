@@ -17,7 +17,7 @@ const SignInAndSignUpPage = (props) => {
         You most sign in or sign up to proceed the checkout
       </h1>
       <div className="sign-in-and-sign-up">
-        <SignIn />
+        {/* <SignIn /> */}
         <SignUp />
       </div>
     </>
