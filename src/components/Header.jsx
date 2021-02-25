@@ -6,7 +6,6 @@ import 'bootstrap/js/dist/collapse';
 import '../css/header.css';
 import $ from 'jquery';
 import CartProduct from './CartProduct.jsx';
-import SignUp from './SignUp';
 
 
 class Header extends React.Component {

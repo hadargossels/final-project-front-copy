@@ -17,6 +17,7 @@ import Blog from './components/Blog.jsx';
 import ArticlePage from './components/ArticlePage.jsx';
 import articles from './data/articles.json';
 
+
 class App extends Component {
   constructor(){
     super();
@@ -102,68 +103,66 @@ class App extends Component {
 
   render() {
     return (
-      <>   
-      <Router>
-        <Header
-          user = {this.state.user} 
-          onSignOut = {this.handleSignOut}
-          qtySum = {this.calculateSumQtyCart()} 
-          cartProducts = {this.state.cartProducts} 
-          onQtyChange = {this.handleQtyChange}
-          onDeleteCartProduct = {this.handleDeleteCartProduct}
-        ></Header>
-        <div className="alert alert-success" role="alert"  style={{display:'none'}}>
-          <button type="button" className="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          The product was successfully added to the shopping cart
-        </div>
-        
-        <Switch>
-          <Route exact path="/" component={Home}/>
-          <Route path="/store" component={Store}/>
-          <Route path="/contact"> <Contact /> </Route>
-          <Route path="/about"> <About /> </Route>
-          <Route path="/blog"> <Blog /> </Route>
-          <Route path="/register"> 
-            <Register 
-              onSignUp= {this.handleAddUser}
-            /> 
-          </Route>
-          <Route path="/cart">
-            <ShoppingCart 
-              cartProducts={this.state.cartProducts} 
-              onQtyChange={this.handleQtyChange}
-              onDeleteCartProduct={this.handleDeleteCartProduct}
-              getSubTotalAmount={this.getSubTotalAmount}
-              tax={this.state.tax}/>
-          </Route>
-          <Route path="/payment">
-            <Payment
-              cartProducts={this.state.cartProducts}
-              getSubTotalAmount={this.getSubTotalAmount}
-              tax={this.state.tax} >
-            </Payment>
-          </Route> 
+        <Router>
+          <Header
+            user = {this.state.user} 
+            onSignOut = {this.handleSignOut}
+            qtySum = {this.calculateSumQtyCart()} 
+            cartProducts = {this.state.cartProducts} 
+            onQtyChange = {this.handleQtyChange}
+            onDeleteCartProduct = {this.handleDeleteCartProduct}
+          ></Header>
+          <div className="alert alert-success" role="alert"  style={{display:'none'}}>
+            <button type="button" className="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            The product was successfully added to the shopping cart
+          </div>
           
-          {storeItems.map(product => 
-            <Route path={`/${product.url}`} component={() => 
-              <ProductPage product={product} onAddToCart={this.handleAddToCart}/>
-            } key={product.id}/>
-          )}
-
-          {articles.map(article => 
-            <Route path={`/article-${article.id}`} key={article.id}>
-              <ArticlePage article={article}></ArticlePage>
+          <Switch>
+            <Route exact path="/" component={Home}/>
+            <Route path="/store" component={Store}/>
+            <Route path="/contact"> <Contact /> </Route>
+            <Route path="/about"> <About /> </Route>
+            <Route path="/blog"> <Blog /> </Route>
+            <Route path="/register"> 
+              <Register 
+                onSignUp= {this.handleAddUser}
+              /> 
             </Route>
-          )}
-          
-          
-          <Route path="*" component={PageNotFound}/>
-        </Switch>
+            <Route path="/cart">
+              <ShoppingCart 
+                cartProducts={this.state.cartProducts} 
+                onQtyChange={this.handleQtyChange}
+                onDeleteCartProduct={this.handleDeleteCartProduct}
+                getSubTotalAmount={this.getSubTotalAmount}
+                tax={this.state.tax}/>
+            </Route>
+            <Route path="/payment">
+              <Payment
+                cartProducts={this.state.cartProducts}
+                getSubTotalAmount={this.getSubTotalAmount}
+                tax={this.state.tax} >
+              </Payment>
+            </Route> 
+            
+            {storeItems.map(product => 
+              <Route path={`/${product.url}`} component={() => 
+                <ProductPage product={product} onAddToCart={this.handleAddToCart}/>
+              } key={product.id}/>
+            )}
 
-        <Footer></Footer>
+            {articles.map(article => 
+              <Route path={`/article-${article.id}`} key={article.id}>
+                <ArticlePage article={article}></ArticlePage>
+              </Route>
+            )}
+            
+            
+            <Route path="*" component={PageNotFound}/>
+          </Switch>
 
-      </Router>
-      </>
+          <Footer></Footer>
+
+        </Router>
     );
   }
   

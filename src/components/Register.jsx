@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import SignUp from './SignUp';
-import SignIn from './SignIn';
+import SignUpPage from './SignUp.jsx';
+import SignInPage from './SignIn.jsx';
+
 
 class Register extends Component {
     constructor(props){
@@ -23,20 +24,27 @@ class Register extends Component {
 
     render() {
         return (
-            <div className="container" style={{maxWidth: "1100px"}}>
+            <div className="container d-flex align-items-center justify-content-center" style={{minHeight: "100vh"}}>
                 <div className="row">
-                    <div className="col-12 col-md-6 f-flex flex-column justify-content-center">
-                        <SignUp
-                            onSignUp= {this.props.onSignUp}
-                            users = {this.state.users}
-                        ></SignUp>
-                    </div>
+                    
                     <div className="col-12 col-md-6">
-                        <SignIn
+                        <div className="w-100" style={{maxWidth: "400px"}}>
+                            {/* <SignUp
+                                onSignUp= {this.props.onSignUp}
+                                users = {this.state.users}
+                            ></SignUp> */}
+                            <SignUpPage/>
+                        </div>
+                    </div>
+
+                    <div className="col-12 col-md-6">
+                        {/* <SignIn
                             onSignUp = {this.props.onSignUp}
                             users = {this.state.users}
-                        ></SignIn>
+                        ></SignIn> */}
+                        <SignInPage/>
                     </div>
+
                 </div>
                 
             </div>
