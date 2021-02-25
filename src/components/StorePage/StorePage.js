@@ -6,7 +6,8 @@ import './storePage.css';
 import propTypes from 'prop-types'
 import querystring from 'query-string'
 
-import {arrayAllProduct} from '../../dataBase'
+import axios  from 'axios'
+// import {arrayAllProduct} from '../../dataBase'
 
 
 
@@ -17,26 +18,51 @@ class StorePage extends Component{
        this.state={
          categoryHeader:props.categoryHeader,
          arrProduct:props.arrProduct,
-         arrFilterList:{category:props.categoryFilter,brands:{"MAC":false,"LORIAL PARIS":false,"BOBBI BROWN":false,"IL MAKIAGE":false},orderBy:"defalte"}
+         arrFilterList:{category:props.categoryFilter,brands:{"MAC":false,"LORIAL PARIS":false,"BOBBI BROWN":false,"IL MAKIAGE":false},orderBy:"defalte"},
+         arrayAllProduct:[]
        //arrProduct include the product after filter, for display
-        //props.arrAllProduct is include all makeup product
+       
        }
-       if(this.props.location){//if we have location prop we need show the search array in store
-         let valSearch=querystring.parse(this.props.location.search).q;
-         let arraySearch=searchFromAllProduct(valSearch);
-         this.state.arrProduct=arraySearch;
-         this.state.categoryHeader=`Search '${valSearch}'`
-       }
+
        this.clickedCategory= this.clickedCategory.bind(this);
        this.changedBrandFilter=this.changedBrandFilter.bind(this);
        this.updateArrProductAllFilters= this.updateArrProductAllFilters.bind(this);
        this.sortChoiced= this.sortChoiced.bind(this);
        this.sortArr=this.sortArr.bind(this);
+       this.searchFromAllProduct=this.searchFromAllProduct.bind(this);
     }
+
+    componentDidMount(){
+      axios.get('http://localhost:3000/arrayAllProduct')
+          .then((response)=> {
+            this.setState({arrayAllProduct:response.data},()=>{
+               if(this.state.arrProduct==undefined)
+                  this.setState({arrProduct:response.data});//defaultProps-if we dont get props.arrproduct then the array is all product
+               if(this.props.location){//if we have location prop we need show the search array in store
+                  let valSearch=querystring.parse(this.props.location.search).q;
+                  let arraySearch=this.searchFromAllProduct(valSearch);
+                  this.setState({arrProduct:arraySearch,categoryHeader:`Search '${valSearch}'`});
+                }
+            })
+          })
+          .catch((error)=> {
+            console.log(error);
+          })
+    }
+
+      searchFromAllProduct(valSearch){
+         valSearch=valSearch.toLocaleLowerCase()
+         let allProductArr=this.state.arrayAllProduct;
+         allProductArr=allProductArr.filter((v)=>{
+            return v.headerProduct.toLocaleLowerCase().indexOf(valSearch)!=-1||v.explanationproduct.toLocaleLowerCase().indexOf(valSearch)!=-1||v.brandProduct.toLocaleLowerCase().indexOf(valSearch)!=-1;
+         });
+         return allProductArr;
+      }
+    
  
       updateArrProductAllFilters(){
       this.setState({categoryHeader:this.state.arrFilterList.category});
-      let filterArr=[...arrayAllProduct].map(a=>({...a}));
+      let filterArr=[...this.state.arrayAllProduct].map(a=>({...a}));
       let categoryToFilter=this.state.arrFilterList.category;
 
       if(categoryToFilter!="Makeup"){//makeup is all the product
@@ -114,7 +140,8 @@ class StorePage extends Component{
             <ListCategory clickedCategory={this.clickedCategory} changedBrandFilter={this.changedBrandFilter}/>
            <div className="col-10">
                <HeaderCategory categoryHeader={this.state.categoryHeader} sortChoiced={this.sortChoiced}/>
-               {(this.state.arrProduct.length!=0)? <GridProduct arrProduct={this.state.arrProduct} localStorageChange={this.props.localStorageChange}/>:<div class="NoProductsDiv">No products</div>}
+               {/* if we in first render and this.state.arrProduc==undefined we display null and second render we display the real array*/}
+               {(this.state.arrProduct!=undefined&& this.state.arrProduct.length!=0)? <GridProduct arrProduct={this.state.arrProduct} localStorageChange={this.props.localStorageChange}/>:((this.state.arrProduct==undefined)?null:<div class="NoProductsDiv">No products</div>)}
               
            </div>
         </div>
@@ -124,20 +151,10 @@ class StorePage extends Component{
 }
 
 StorePage.defaultProps={
-   arrProduct:arrayAllProduct,
+   // arrProduct:arrayAllProduct,
    categoryHeader:"Makeup",
    categoryFilter:"Makeup"
  }
 
  export default StorePage;
 
-
- function searchFromAllProduct(valSearch){
-   valSearch=valSearch.toLocaleLowerCase()
-    let allProductArr=arrayAllProduct;
-    allProductArr=allProductArr.filter((v)=>{
-      return v.headerProduct.toLocaleLowerCase().indexOf(valSearch)!=-1||v.explanationproduct.toLocaleLowerCase().indexOf(valSearch)!=-1||v.brandProduct.toLocaleLowerCase().indexOf(valSearch)!=-1;
-    });
-    return allProductArr;
- }
- 

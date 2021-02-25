@@ -34,14 +34,14 @@ export default class CheckoutPage extends Component {
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="guest" role="tabpanel" aria-labelledby="guest-tab">
                         <form action="/checkout/payment">
-                            <input className="Inputs" type="email" id="EmailGuest" name="email" placeholder="Email Address" required/><br/>
+                            <input className="Inputs" type="email" id="EmailGuest" /*name="email"*/ placeholder="Email Address" required/><br/>
                             <button className="checkoutBtn">Proceed to checkout</button>
                         </form>
                     </div>
                     <div class="tab-pane fade" id="signIn" role="tabpanel" aria-labelledby="signIn-tab">
                         {/*צריך קודם להעביר את המייל השמור בלוקל סטוראג אם קיים ואז בלחיצה לבדוק אם קיים בלוקל והסיסמא תקינה אם לא לרשום שגיאה ואם כן לעבור לדף התשלום*/}
                         <form action="/checkout/payment">
-                            <input className="Inputs" type="email" id="Email" name="email" placeholder="Email Address" required/><br/>
+                            <input className="Inputs" type="email" id="Email" /*name="email"*/ placeholder="Email Address" required/><br/>
                             <input className="Inputs" type="password" id="Pass" placeholder="Password" minlength="6" required/><br/>
                             <input type="checkbox" id="checkbox" name="remember-me" value="yes"/>
                             <label id="LabelRemomber" for="remember-me"> Remember me</label><br/>

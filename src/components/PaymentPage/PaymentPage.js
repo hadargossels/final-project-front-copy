@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import ProductDropDown from '../ProductDropDown/ProductDropDown'
 import './paymentPage.css'
+// import { PayPalButton } from "react-paypal-button-v2";
+import PayPalBtn from '../PayPalBtn/PayPalBtn';
 
 export default class PaymentPage extends Component {
     constructor(props){
@@ -10,7 +12,8 @@ export default class PaymentPage extends Component {
             total:0,
             couponsArr:["10Percent","20Less"],
             couponLabelFailed:"notDisplay",
-            couponLabelAdd:"notDisplay"
+            couponLabelAdd:"notDisplay",
+            paypalBtn:false
         }
         //refs
         this.CouponInput=React.createRef();
@@ -33,6 +36,7 @@ export default class PaymentPage extends Component {
         this.apartmentInputRef=React.createRef();
         this.postLabelRef=React.createRef();
         this.postInputRef=React.createRef();
+        this.commentsRef=React.createRef();
 
         this.inputsRef=[this.nameInputRef,this.lastNameInputRef,this.emailInputRef,this.phoneInputRef, this.cityInputRef,
                          this.streetInputRef,this.buildingInputRef,this.apartmentInputRef,this.postInputRef];
@@ -143,13 +147,38 @@ export default class PaymentPage extends Component {
         {
             // let card=(this.paypalRef.current.checked)?"paypal":"credit_Card";
             // this.props.history.push(`/checkout/payment/${card}`)
+            this.setState({paypalBtn:true});//to show the pay buttons
 
         }
         else
             window.scrollTo(0, 0);
 
     }
-
+    onSuccessPaypal(details, data){
+        console.log(details, data);
+        let objOrder={
+            orderId:data.orderID,
+            firstName:this.nameInputRef.current.value,
+            lastName:this.lastNameLabelRef.current.value,
+            email:this.emailInputRef.current.value,
+            phone:this.phoneInputRef.current.value,
+            city:this.cityInputRef.current.value,
+            street:this.streetInputRef.current.value,
+            building:this.buildingInputRef.current.value,
+            apartment:this.apartmentInputRef.current.value,
+            post:this.postInputRef.current.value,
+            comments:this.commentsRef.current.value,
+            itemsInOrderArr:this.props.localStorageArr,
+            totalOrder:this.state.total,
+            totalItems:this.totalItems()
+        }
+        localStorage.setItem("objOrder",JSON.stringify(objOrder) );//save object of order
+        localStorage.setItem("cartArray","[]")//delete shopping cart
+        this.props.localStorageChange();
+        //לשמור בבסיס נתונים את ההזמנה
+        this.props.history.push("/checkout/payment/order_number");
+    }
+    
 
     render() {
         return (
@@ -203,7 +232,7 @@ export default class PaymentPage extends Component {
                             <div ref={this.postLabelRef} className="hideLabelPay"><label className="redLabel" for="post">*ZIP/Postal Code should be a 7-digit number, e.g. 1234567</label></div>
                         </div>
                         <div className="payDiv col-12">
-                            <textarea id="comments" rows="5" cols="20" placeholder="Comments"></textarea>
+                            <textarea ref={this.commentsRef} id="comments" rows="5" cols="20" placeholder="Comments"></textarea>
                         </div >
                         
                     </form>
@@ -246,6 +275,17 @@ export default class PaymentPage extends Component {
                                 <label className={`LabelCouponAdd ${this.state.couponLabelAdd}`}>Successfully added coupon code</label>
                                 <button className="PaymentBtn" onClick={this.payBtnClicked.bind(this)}>Place Order</button>
                            {/* paypal */}
+                           {(this.state.paypalBtn)?
+                           <div className="paypalDiv">
+                               <hr/>
+                               <h4 className="h4Pay">Payment Method</h4>
+                               <PayPalBtn
+                                    amount = {Number(this.state.total.replace("₪",""))}
+                                    currency={"ILS"}
+                                    onSuccess={this.onSuccessPaypal.bind(this)}
+                                    onError={(err)=>alert(err)}/>
+                            </div>  :null}
+                          
                             </div>
 
                         </div>

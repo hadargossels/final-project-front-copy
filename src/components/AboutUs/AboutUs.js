@@ -4,9 +4,32 @@ import './aboutUs.css'
 export default class AboutUs extends Component {
     render() {
         return (
-            <div>
-                <h1>About Us</h1>
+            <div className="aboutUsDiv">
+                <h2>About Us</h2>
+                <br/>
+                <div className="imgAbout"></div>
+                <p>
+                <br/>
+                <br/>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Mollitia unde, consequuntur odio ullam ipsum quam dolorum eos eius repellat. 
+                    Magnam perferendis provident dolor ducimus voluptatibus impedit minima architecto sit maxime?<br/><br/>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Mollitia unde, consequuntur odio ullam ipsum quam dolorum eos eius repellat. 
+                    Magnam perferendis provident dolor ducimus voluptatibus impedit minima architecto sit maxime?<br/><br/>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Mollitia unde, consequuntur odio ullam ipsum quam dolorum eos eius repellat. 
+                    Magnam perferendis provident dolor ducimus voluptatibus impedit minima architecto sit maxime?<br/><br/>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Mollitia unde, consequuntur odio ullam ipsum quam dolorum eos eius repellat. 
+                    Magnam perferendis provident dolor ducimus voluptatibus impedit minima architecto sit maxime?<br/><br/>
+                    <br/><br/>
+                </p>
+
             </div>
         )
     }
 }
+{/* <iframe 
+src="https://www.youtube.com/embed/boTfxLdDv9I" style={{height:'360px', width:'780px', margin:'auto'}}>
+</iframe> */}

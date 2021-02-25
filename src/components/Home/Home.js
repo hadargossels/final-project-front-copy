@@ -2,12 +2,49 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
 import Product from '../Product/Product'
 import './home.css'
-import {arrayAllProduct} from '../../dataBase'
+import axios  from 'axios'
+// import {arrayAllProduct} from '../../dataBase'
 
-let bestSellersArr=bestSellersArray();
-let salesArr=salesArray(); 
+// let bestSellersArr=bestSellersArray();
+// let salesArr=salesArray(); 
 
 export default class Home extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      bestSellersArr:[],
+      salesArr:[],
+      arrayAllProduct:[]
+    }
+    this.bestSellersArray= this.bestSellersArray.bind(this);
+    this.salesArray= this.salesArray.bind(this);
+  }
+
+  componentDidMount(){
+    axios.get('http://localhost:3000/arrayAllProduct')
+        .then((response)=> {
+          // console.log(response.data);
+          this.setState({arrayAllProduct:response.data},()=>{this.bestSellersArray();this.salesArray()})
+        })
+        .catch((error)=> {
+          console.log(error);
+        })
+  }
+  bestSellersArray(){
+
+    let bestSellersArr= [...this.state.arrayAllProduct];
+    bestSellersArr.sort((a,b)=>a.buyNum-b.buyNum);
+    this.setState({bestSellersArr:bestSellersArr.slice(0,4)}) ;//the 4 besr seller product
+  }
+  
+  salesArray() { 
+      
+    let salesArr=[...this.state.arrayAllProduct];
+    salesArr=salesArr.filter((v)=>v.discountProduct!="none");
+    this.setState({salesArr:salesArr});
+  
+  }
+
     render() {
         return (
           <div className="homeDiv">
@@ -21,9 +58,13 @@ export default class Home extends Component {
                     <div class="carousel-inner">
                       <div class="carousel-item active">
                         <div className="itemDiv row justify-content-center">
-                           <Product data={bestSellersArr[0]} localStorageChange={this.props.localStorageChange}/>
-                            <Product data={bestSellersArr[1] } localStorageChange={this.props.localStorageChange}/>
-                            <Product data={bestSellersArr[2]} localStorageChange={this.props.localStorageChange}/>
+                          {this.state.bestSellersArr.map((v,i)=>{
+                            if(i<3)
+                              return <Product data={v} key={i} localStorageChange={this.props.localStorageChange}/>
+                          })}
+                           {/* <Product data={this.state.bestSellersArr[0]} localStorageChange={this.props.localStorageChange}/>
+                            <Product data={this.state.bestSellersArr[1] } localStorageChange={this.props.localStorageChange}/>
+                            <Product data={this.state.bestSellersArr[2]} localStorageChange={this.props.localStorageChange}/> */}
                         </div>
                       </div>
                       <div class="carousel-item">
@@ -32,7 +73,12 @@ export default class Home extends Component {
                                <Product data={bestSellersArr[4]}/>
                               <Product data={bestSellersArr[5]}/> */}
                               {/* <div className="col-3 thirdProductToggle"><Product data={bestSellersArr[2]}/></div> */}
-                            <Product data={bestSellersArr[3]} localStorageChange={this.props.localStorageChange}/>
+                              {this.state.bestSellersArr.map((v,i)=>{
+                                if(i==3)
+                                  return <Product data={v} key={i} localStorageChange={this.props.localStorageChange}/>
+                              })}
+                            {/* <Product data={this.state.bestSellersArr[3]} localStorageChange={this.props.localStorageChange}/> */}
+                             
                               {/* <div className="col-3 thirdProduct"><Product data={bestSellersArr[1]}/></div>
                               <div className="col-3 thirdProduct"><Product data={bestSellersArr[2]}/></div> */}
                         </div>
@@ -66,9 +112,13 @@ export default class Home extends Component {
                     <div class="carousel-inner">
                       <div class="carousel-item active">
                         <div className="itemDiv row justify-content-center">
-                            <Product data={salesArr[0]} localStorageChange={this.props.localStorageChange}/>
-                            <Product data={salesArr[1]} localStorageChange={this.props.localStorageChange}/>
-                            <Product data={salesArr[2]} localStorageChange={this.props.localStorageChange}/>
+                            {this.state.salesArr.map((v,i)=>{
+                                  if(i<3)
+                                    return <Product data={v} key={`${i}salesArr`} localStorageChange={this.props.localStorageChange}/>
+                                })}
+                            {/* <Product data={this.state.salesArr[0]} localStorageChange={this.props.localStorageChange}/>
+                            <Product data={this.state.salesArr[1]} localStorageChange={this.props.localStorageChange}/>
+                            <Product data={this.state.salesArr[2]} localStorageChange={this.props.localStorageChange}/> */}
                         </div>
                       </div>
                       <div class="carousel-item">
@@ -77,9 +127,14 @@ export default class Home extends Component {
                                <Product data={bestSellersArr[4]}/>
                               <Product data={bestSellersArr[5]}/> */}
                               {/* <div className="col-3 thirdProductToggle"><Product data={bestSellersArr[2]}/></div> */}
-                              <Product data={salesArr[0]} localStorageChange={this.props.localStorageChange}/>
-                              <Product data={salesArr[1]} localStorageChange={this.props.localStorageChange}/>
-                              <Product data={salesArr[2]} localStorageChange={this.props.localStorageChange}/>
+                              {this.state.salesArr.map((v,i)=>{
+                                  // if(i>=3 && i<6)
+                                  if(i<3)
+                                    return <Product data={v} key={`${i}sale`} localStorageChange={this.props.localStorageChange}/>
+                                })}
+                              {/* <Product data={this.state.salesArr[0]} localStorageChange={this.props.localStorageChange}/>
+                              <Product data={this.state.salesArr[1]} localStorageChange={this.props.localStorageChange}/>
+                              <Product data={this.state.salesArr[2]} localStorageChange={this.props.localStorageChange}/> */}
                         </div>
                       </div>
                      
@@ -100,18 +155,3 @@ export default class Home extends Component {
       }
 }
  
-
-function bestSellersArray(){
-
-  let bestSellersArr=[...arrayAllProduct];
-  bestSellersArr.sort((a,b)=>a.buyNum-b.buyNum);
-  return bestSellersArr.slice(0,4);//the 4 besr seller product
-}
-
-function salesArray() { 
-    
-  let salesArr=[...arrayAllProduct];
-  salesArr=salesArr.filter((v)=>v.discountProduct!="none");
-  return salesArr;
-
-}

@@ -1,0 +1,23 @@
+.OrderNumberDiv{
+    text-align: center;  
+}
+.OrderNumberDiv h3{
+    font-size: 80px;
+    color: green;
+    font-weight: lighter;
+}
+.OrderNumberDiv .p1
+{
+    font-size: 30px;
+}
+.OrderNumberDiv a
+{
+    font-size: 25px;
+    text-decoration:underline !important;
+
+}
+.OrderNumberDiv a:hover
+{
+  color: salmon !important;
+  cursor: pointer;
+}

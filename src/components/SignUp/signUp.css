@@ -13,7 +13,24 @@
     font-size: 15px;
     
 }
-
+.signBtnGoogle{
+    background-color: white;
+    width:300px;
+    /* border-radius: 10px; */
+    border:2px solid red;
+    height: 50px;
+    margin: 10px 10px;
+    color: red;
+}
+.signBtnFacebook{
+    background-color: white;
+    width:300px;
+    /* border-radius: 10px; */
+    border:2px solid blue;
+    height: 50px;
+    margin: 10px 10px;
+    color: blue;
+}
 .signUpDiv{
     width: 100%;
     font-size: 20px;
@@ -27,7 +44,7 @@
 }
 
 
-.containerSignUp button{
+#signInBtn{
     background-color: salmon;
     width:300px;
     border-radius: 10px;

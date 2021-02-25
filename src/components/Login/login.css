@@ -11,8 +11,11 @@
   
 }
 
+.redLabell{
+    color:red;
+}
 
-.containerLogin button{
+#signInBtn{
     background-color: salmon;
     width:300px;
     border-radius: 10px;
@@ -21,7 +24,32 @@
     margin: 10px 10px;
     color: white;
 }
+.signBtnGoogle{
+    background-color: white;
+    width:300px;
+    /* border-radius: 10px; */
+    border:2px solid red;
+    height: 50px;
+    margin: 10px 10px;
+    color: red;
+}
+.signBtnFacebook{
+    background-color: white;
+    width:300px;
+    /* border-radius: 10px; */
+    border:2px solid blue;
+    height: 50px;
+    margin: 10px 10px;
+    color: blue;
+}
+
 #signUpBtn{
+    width:300px;
+    border-radius: 10px;
+    border: none;
+    height: 50px;
+    margin: 10px 10px;
+    color: white;
     background-color: black;
 }
 #signUpBtn:hover{
@@ -42,6 +70,7 @@
 
 #forgatA{
     cursor: pointer;
+    text-decoration: underline;
 }
 
 

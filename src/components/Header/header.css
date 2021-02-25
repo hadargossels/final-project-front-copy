@@ -45,7 +45,7 @@ button.searchBtn i{
 header{
     position: fixed !important;
     width: 100%;
-    z-index: 2;
+    z-index: 102;
     background-color: black;
     padding:8px 0 5px 0;
     max-height: 125px;
@@ -95,10 +95,10 @@ header nav{
     background: none;
     border: none;
 }
-.dropdown:hover .dropdown-menu {
+#dropdownCartDiv:hover .dropdown-menu {
     display: block !important;
 }
-.dropdown{
+#dropdownCartDiv{
     position:static !important;
    
 }
@@ -110,6 +110,17 @@ header nav{
     width: 350px;
     /* max-height: 300px !important;
     overflow-y: auto !important; */
+}
+#dropdownUserDiv{
+    position:static !important; 
+    margin-top: 8px;
+}
+.dropdownContentUser{
+    right: 10px !important;
+    left: auto !important;
+    position: absolute !important;
+    top: 50px !important;
+    /* width: 350px; */
 }
 .productsDiv{
     max-height: 240px !important;

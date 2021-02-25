@@ -1,7 +1,8 @@
 
 import React, { Component } from 'react';
 import './App.css';
-import {arrayAllProduct} from './dataBase'
+// import {arrayAllProduct} from './dataBase'
+import axios  from 'axios'
 
 
 import Home from './components/Home/Home';
@@ -35,9 +36,14 @@ export default class App extends Component {
     super(props);
     this.state={
       localStorageArray:JSON.parse(localStorage.getItem("cartArray")),
-      toggleDisplayDropdown:"DisplayNoneDropdown"
+      toggleDisplayDropdown:"DisplayNoneDropdown",
+      arrayAllProduct:[]
     }
     this.localStorageChange=this.localStorageChange.bind(this);
+    this.bestSellersStore=this.bestSellersStore.bind(this);
+    this.categoryStore=this.categoryStore.bind(this);
+    this.salesStore=this.salesStore.bind(this);
+    
     this.state.localStorageArray=JSON.parse(localStorage.getItem("cartArray"))==null?[]:JSON.parse(localStorage.getItem("cartArray"));
   }
 
@@ -49,6 +55,46 @@ export default class App extends Component {
      setTimeout(()=>this.setState({toggleDisplayDropdown:"DisplayNoneDropdown"}),5000)
     }
   }
+
+  componentDidMount(){
+    axios.get('http://localhost:3000/arrayAllProduct')
+        .then((response)=> {
+          // console.log(response.data);
+          this.setState({arrayAllProduct:response.data})
+        })
+        .catch((error)=> {
+          console.log(error);
+        })
+  }
+  
+  bestSellersStore(){
+
+    // let bestSellersArr=[...arrayAllProduct];
+    let bestSellersArr=[...this.state.arrayAllProduct];
+    bestSellersArr.sort((a,b)=>a.buyNum-b.buyNum);
+    bestSellersArr=bestSellersArr.slice(0,4);//the 4 besr seller product
+    return <StorePage arrProduct={bestSellersArr} categoryFilter={"Makeup"} categoryHeader={"Best Sellers"} localStorageChange={this.localStorageChange}/>
+
+  }
+
+  categoryStore(category) { 
+    
+    // let categoryArr=[...arrayAllProduct];
+    let categoryArr=[...this.state.arrayAllProduct];
+    categoryArr=categoryArr.filter((v)=>v.categoryProduct==category);
+    return <StorePage arrProduct={categoryArr} categoryFilter={category} categoryHeader={category} localStorageChange={this.localStorageChange}/>
+
+  }
+
+  salesStore() { 
+    
+    // let salesArr=[...arrayAllProduct];
+    let salesArr=[...this.state.arrayAllProduct];
+    salesArr=salesArr.filter((v)=>v.discountProduct!="none");
+    return <StorePage arrProduct={salesArr} categoryHeader={"Sales"} localStorageChange={this.localStorageChange}/>
+
+  }
+
   
   render() {
     return (
@@ -65,11 +111,11 @@ export default class App extends Component {
                         <Route  path="/policy" component={Policy}/>
                         <Route  path="/shipping-Policy" component={ShippingPolicy}/>
                         <Route  exact path="/store" component={() => <StorePage categoryFilter={"Makeup"} localStorageChange={this.localStorageChange}/>}/>
-                        <Route  exact path="/store/best_Sellers" component={bestSellersStore}/>
-                        <Route  exact path="/store/category_face" component={()=>categoryStore("Face")}/>
-                        <Route  exact path="/store/category_lips" component={()=>categoryStore("Lips")}/>
-                        <Route  exact path="/store/category_eyes" component={()=>categoryStore("Eyes")}/>
-                        <Route  exact path="/store/sales" component={salesStore}/>
+                        <Route  exact path="/store/best_Sellers" component={this.bestSellersStore}/>
+                        <Route  exact path="/store/category_face" component={()=>this.categoryStore("Face")}/>
+                        <Route  exact path="/store/category_lips" component={()=>this.categoryStore("Lips")}/>
+                        <Route  exact path="/store/category_eyes" component={()=>this.categoryStore("Eyes")}/>
+                        <Route  exact path="/store/sales" component={this.salesStore}/>
                         {/* <Route exact path="/shop" component={()=><StorePage/> }/>   for search */}
                         <Route exact path="/shop" render={(props) => <StorePage localStorageChange={this.localStorageChange} {...props} />}/> 
                         <Route exact path="/login" component={Login}/>
@@ -80,7 +126,7 @@ export default class App extends Component {
                         <Route exact  path="/checkout/payment"  render={(props) => <PaymentPage localStorageArr={this.state.localStorageArray} localStorageChange={this.localStorageChange} {...props}/>}/>
                         {/* <Route exact  path="/checkout/payment/credit_Card" component={CreditCardPage}/> */}
                         {/* <Route exact  path="/checkout/payment/paypal" component={}/> */}
-                        {/* <Route exact  path="/checkout/payment/order_number" component={OrderNumber}/> */}
+                        <Route exact  path="/checkout/payment/order_number" component={OrderNumber}/>
                         <Route component={NotFound}/>
                     </Switch>
                 </div>
@@ -93,31 +139,6 @@ export default class App extends Component {
   }
 }
 
-
-function bestSellersStore(){
-
-    let bestSellersArr=[...arrayAllProduct];
-    bestSellersArr.sort((a,b)=>a.buyNum-b.buyNum);
-    bestSellersArr=bestSellersArr.slice(0,4);//the 4 besr seller product
-    return <StorePage arrProduct={bestSellersArr} categoryFilter={"Makeup"} categoryHeader={"Best Sellers"} localStorageChange={this.localStorageChange}/>
-
-}
-
-function categoryStore(category) { 
-    
-    let categoryArr=[...arrayAllProduct];
-    categoryArr=categoryArr.filter((v)=>v.categoryProduct==category);
-    return <StorePage arrProduct={categoryArr} categoryFilter={category} categoryHeader={category} localStorageChange={this.localStorageChange}/>
-
- }
-
- function salesStore() { 
-    
-    let salesArr=[...arrayAllProduct];
-    salesArr=salesArr.filter((v)=>v.discountProduct!="none");
-    return <StorePage arrProduct={salesArr} categoryHeader={"Sales"} localStorageChange={this.localStorageChange}/>
-
- }
 
 
 

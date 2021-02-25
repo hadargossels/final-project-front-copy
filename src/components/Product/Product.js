@@ -32,9 +32,10 @@ class Product extends Component{
 
     clearModal(){
         let myModalEl = this.modalQuickViewRef.current
+        console.log("p",myModalEl)
+        // console.log("p",bootstrap.Modal.getInstance(myModalEl))
         let modal =bootstrap.Modal.getInstance(myModalEl)
         modal.hide()
-    //להראןת את tool tip
     }
    
     render(){

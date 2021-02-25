@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
 import propTypes from 'prop-types'
 import './signUp.css'
+import {auth} from "../../fireBase.config"
+import firebase from "firebase/app"
+import "firebase/auth"
 
 export default class SignUp extends Component {
     constructor(props){
         super(props);
+        this.state={
+            displayLabel:false
+        }
 
         this.nameLabelRef=React.createRef();
         this.nameInputRef=React.createRef();
@@ -21,6 +27,8 @@ export default class SignUp extends Component {
     }
     signInBtnClicked(e)
     {
+        e.preventDefault();
+        this.setState({displayLabel:false})
         let flag=true;
         if(this.nameInputRef.current.value=="")
         {
@@ -60,22 +68,65 @@ export default class SignUp extends Component {
      
         if(flag)
         {
-            // console.dir( this.formRef.current);
-            // this.formRef.current.onsubmit();
-            this.props.onSubmitForm && this.props.onSubmitForm();//&& is ?
+            // this.props.onSubmitForm && this.props.onSubmitForm();//&& is ?
+            this.signUpClicked();
         }
         else{
             e.preventDefault();
         }
     
     }
+    signUpClicked=()=>{
+        let email=this.emailInputRef.current.value;
+        let password=this.passInputRef.current.value;
+        auth.createUserWithEmailAndPassword(email, password)//נצטרך להוסיף גם את השם למשתמש
+        .then((userCredential) => {
+            var user = userCredential.user;
+            this.localAndHistory(user);
+        })
+        .catch((error) => {
+            this.setState({displayLabel:true})
+            window.scrollTo(0, 0);
+        }); 
+    }
+    signUpGoogleClicked=()=>{
+        let provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({prompt: 'select_account'})
+        auth.signInWithPopup(provider)
+             .then((result) => {
+                 var user = result.user;
+                 this.localAndHistory(user);
+ 
+             }).catch((error) => {
+                 var errorMessage = error.message;
+                 alert(errorMessage);
+             });
+     }
+     signUpFacebookClicked=()=>{
+        let provider = new firebase.auth.FacebookAuthProvider();
+       auth.signInWithPopup(provider)
+        .then((result) => {
+            var user = result.user;
+            this.localAndHistory(user);
+        })
+        .catch((error) => {
+            var errorMessage = error.message;
+            alert(errorMessage);
+        }); 
+     }
+     localAndHistory=(user)=>{
+        localStorage.setItem("user",user.email);//save the user
+        this.props.history.push(this.props.actionForm);//default to home or payment
+        //לשנות בnavbar
+     }
 
     render() {
         return (
             <div className="signUpDiv">
                 <div className="containerSignUp">
                     <h2>{this.props.header2}</h2>
-                    <form ref={this.formRef} action={this.props.actionForm}/* onSubmit={this.props.onSubmitForm}*/>
+                    <form ref={this.formRef} /*action={this.props.actionForm} onSubmit={this.props.onSubmitForm}*/>
+                    {(this.state.displayLabel===false)?null:<label className="redLabell">The email address is already in use by another account , Please try again</label>}
                         <input ref={this.nameInputRef} className="inputSignUp" type="text" id="nameInput" /*name="name"*/ placeholder="First name" /><br/>
                         <div className="hideLabel" ref={this.nameLabelRef}><label for="name">*Name is missing</label></div>
                         <input ref={this.lastNameInputRef} className="inputSignUp" type="text" id="lastNameInput" /*name="lastName"*/ placeholder="Last name" /><br/>
@@ -88,6 +139,9 @@ export default class SignUp extends Component {
                         <div ref={this.passConfirmLabelRef} className="hideLabel"><label  for="emaconfirmPasswordil">*Password didn't match</label></div>
                         
                         <button id="signInBtn" onClick={this.signInBtnClicked.bind(this)}>{this.props.btnText}</button>
+                        <p>or</p>
+                        <button className="signBtnGoogle" onClick={this.signUpGoogleClicked}>Sign in with google</button><br/>
+                        <button className="signBtnFacebook" onClick={this.signUpFacebookClicked}>Sign in with facebook</button><br/>
                     </form>
                    
                 </div>
@@ -106,5 +160,6 @@ function emailValidation(email)
 
 SignUp.defaultProps={
     header2:"Sign up",
-    btnText:"Sign up"
+    btnText:"Sign up",
+    actionForm:"/"
 }

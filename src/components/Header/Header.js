@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import ProductDropDown from '../ProductDropDown/ProductDropDown';
 import './header.css';
-
+import {auth} from "../../fireBase.config"
 
 class Header extends Component{
    constructor(props){
@@ -39,6 +39,13 @@ class Header extends Component{
    }
    return sumItems;
 }
+   signOutBtnClicked=()=>{
+      auth.signOut().then(() => {
+         localStorage.removeItem("user")//לשנות את הסטייט הגלןבלי של המשתמש***
+       }).catch((error) => {
+             alert(error," try again");
+       });
+   }
 
    render(){
       return(  
@@ -53,7 +60,7 @@ class Header extends Component{
                   <div className="navBarMargin displaySmall">
                      <ul className="navbar-nav me-auto mb-2 mb-lg-0 navBarRighet">
                         <li className="nav-item">
-                           <div class="dropdown">
+                           <div id="dropdownCartDiv" class="dropdown">
                               <NavLink to="/cart" className="nav-link active navLinkStyle" id="dropdownMenuButton" aria-expanded="false"/* onMouseOver={this.dropdownCartOver}*/>
                                  <span className="numItemsSpan">{this.totalItems()}</span><i className="fas fa-shopping-cart" ></i>
                               </NavLink>
@@ -102,7 +109,7 @@ class Header extends Component{
                   <div className="navBarMargin displayBig">
                      <ul className="navbar-nav me-auto mb-2 mb-lg-0 navBarRighet">
                         <li className="nav-item">
-                           <div class="dropdown">
+                           <div id="dropdownCartDiv" class="dropdown">
                               <NavLink to="/cart" className="nav-link active navLinkStyle" id="dropdownMenuButton" aria-expanded="false"/* onMouseOver={this.dropdownCartOver}*/>
                                  <span className="numItemsSpan">{this.totalItems()}</span><i className="fas fa-shopping-cart" ></i>
                               </NavLink>
@@ -122,8 +129,17 @@ class Header extends Component{
                            <a className="nav-link active" ><i className="fas fa-heart heartIcon"></i></a>
                         </li>
                         <li className="nav-item">
-                              <NavLink exact to="/login" className="nav-link active"><i className="fas fa-user"></i></NavLink> 
-                          {/* <a className="nav-link active" ><i className="fas fa-user"></i></a> */}
+                           {/* לשאול אם יש משתמש או אין*** */}
+                              <NavLink exact to="/login" className="nav-link active"><i className="fas fa-user"></i></NavLink>
+                              {/* <div id="dropdownUserDiv" class="dropdown">
+                                 <div id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i className="fas fa-user"></i>
+                                 </div>
+                                 <ul class="dropdown-menu dropdownContentUser" aria-labelledby="dropdownUser">
+                                    <li><a class="dropdown-item" href="#">My Account</a></li>
+                                    <li><a class="dropdown-item" onClick={this.signOutBtnClicked}>Sign Out</a></li>
+                                 </ul>
+                              </div> */}
                         </li> 
                      </ul>
                   </div> 

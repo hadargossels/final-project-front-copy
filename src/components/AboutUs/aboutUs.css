@@ -1,1 +1,20 @@
-/* padding:0px 10px;  */
+.aboutUsDiv{
+    padding:0px 10px;
+    text-align: center;
+    
+}
+
+.imgAbout{
+    width: 90%;
+    height: 350px;
+    background-image: url('https://www.awbmakeup.co.il/wp-content/uploads/2016/08/%D7%9E%D7%91%D7%A8%D7%A9%D7%95%D7%AA-1024x683.jpg');  
+    background-repeat: no-repeat;
+    background-position:center;
+    background-size: cover;
+    
+}
+.aboutUsDiv p{
+    width:70%;
+    margin: 0 auto;
+    font-size: 20px;
+}

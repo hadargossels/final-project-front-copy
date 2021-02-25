@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './productPage.css';
-import {arrayAllProduct} from '../../dataBase.js'
-
+// import {arrayAllProduct} from '../../dataBase.js'
+import axios  from 'axios'
 
 class ProductPage extends Component{
    
@@ -13,7 +13,8 @@ class ProductPage extends Component{
          span3:"lessDiv",
          imgUrlDisplay:"",
          amountInput:1,
-         theProduct:arrayAllProduct.find((v)=>v.headerProduct.replace(" ","-")==props.match.params.productName)
+         theProduct:null
+         // theProduct:arrayAllProduct.find((v)=>v.headerProduct.replace(" ","-")==props.match.params.productName)
       }
 
       this.changeUrlDisplay=this.changeUrlDisplay.bind(this);
@@ -21,6 +22,16 @@ class ProductPage extends Component{
       this.addProductToCart= this.addProductToCart.bind(this);
 
    }
+   componentDidMount(){
+      axios.get('http://localhost:3000/arrayAllProduct')
+          .then((response)=> {
+            this.setState({theProduct:response.data.find((v)=>v.headerProduct.replace(" ","-")==this.props.match.params.productName)})
+          })
+          .catch((error)=> {
+            console.log(error);
+          })
+    }
+    
    changeUrlDisplay(srcD){
       this.setState({imgUrlDisplay:srcD})
    }
@@ -63,6 +74,9 @@ class ProductPage extends Component{
    
 
    render(){
+      if(this.state.theProduct==null){
+         return (<div>lodding</div>)
+      }
       return(
          <div className="ProductDiv">
             <div className="detailsProduct">
