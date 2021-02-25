@@ -1,10 +1,9 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import Auth from "./auth";
-import {auth} from './firebase'
 
 
-export const Prot = ({ component: Component, ...rest}) => {
+export const Protect = ({ component: Component, ...rest}) => {
  
  
 
@@ -13,7 +12,8 @@ export const Prot = ({ component: Component, ...rest}) => {
         if (Auth.isAuthenticated()) {
           return <Component {...props} />;
         } else {
-          return ( <Redirect to={{ pathname: "/", state: { from: props.location } }}/> );
+          alert("חייב להיות רשום לאתר בכדי לקנות")
+          return ( <Redirect to={{ pathname: "/Cart", state: { from: props.location } }}/> );
         }
       }} /> );
 

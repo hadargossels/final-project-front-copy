@@ -16,6 +16,7 @@ import Footer from "./components/Footer";
 import reportWebVitals from './reportWebVitals';
 import NotFound from './components/NotFound';
 import ScrollToTop from './components/ScrollToTop';
+import { Protect } from './components/protected.route';
 
 
 const router=(
@@ -32,7 +33,8 @@ const router=(
       <Route path="/Recipes/:RecipeName" component={RecipeProduct}/>
       <Route path="/Contact" component={Contact}/>
       <Route path="/Cart" component={Cart}/>
-      <Route path="/Checkout" component={CheckOut} />
+      <Protect exact path="/protect" component={CheckOut} />
+      {/* <Route path="/Checkout" component={CheckOut} /> */}
       <Route component={NotFound}/>
     </Switch>
     <Footer/>

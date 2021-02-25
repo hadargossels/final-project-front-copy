@@ -74,6 +74,7 @@ class Header extends Component{
         var user = userCredential.user;
         //Auth.login(() => { this.props.history.push("/protect")})
         Auth.setName(e[1].value)
+        Auth.login()
         this.setState({name:Auth.getName()})
          this.setState({well:"שלום"})
 
@@ -142,6 +143,7 @@ class Header extends Component{
       const welcome=this.welcomeRef.current
       const login =this.LogInRef.current
       const Signup= this.SignUpRef.current
+      const modal= this.modalRef.current
 
 
       auth.signOut().then(() => {
@@ -151,7 +153,9 @@ class Header extends Component{
             welcome.style.display="none"
             Signup.style.display="none"
             login.style.display="block"
+
             Auth.setName("אורח")
+            Auth.logout()
             this.setState({name:Auth.getName()})
          }, 2500);
         
@@ -182,7 +186,8 @@ class Header extends Component{
                var user = result.user;
                // ...
                Auth.setName(user.displayName)
-            this.setState({name:Auth.getName()})
+               Auth.login()
+               this.setState({name:Auth.getName()})
                this.setState({well:"שלום"})
 
             login.style.display="none"
@@ -219,8 +224,9 @@ class Header extends Component{
          // This gives you a Facebook Access Token. You can use it to access the Facebook API.
          var accessToken = credential.accessToken;
          Auth.setName(user.displayName)
+         Auth.login()
          this.setState({name:Auth.getName()})
-            this.setState({well:"שלום"})
+         this.setState({well:"שלום"})
 
          login.style.display="none"
          welcome.style.display="block"
@@ -267,16 +273,28 @@ class Header extends Component{
                   <NavLink to="/Contact" className="nav-link" href="#" onClick={this.resetUrl}>צור קשר</NavLink>
                </li>
                </ul>
+               
+               <input id="serchInput" className="form-control mr-sm-2 ms-3 " type="search" placeholder="Search" ref={this.callRef} onChange={this.setUrl} value={this.state.urlValue}/>
+               <Link to={"/Catalog?q="+this.state.urlValue}><button id="serchBtn" className="btn btn-outline-success my-2 my-sm-0 " type="submit" onClick={this.setUrl}>חפש</button></Link>
+               
             </div>
             
-            <input id="serchInput" className="form-control mr-sm-2 ms-3 " type="search" placeholder="Search" ref={this.callRef} onChange={this.setUrl} value={this.state.urlValue}/>
-            <Link to={"/Catalog?q="+this.state.urlValue}><button id="serchBtn" className="btn btn-outline-success my-2 my-sm-0 " type="submit" onClick={this.setUrl}>חפש</button></Link>
+            <span>
+               <ul className="navbar-nav">
+                  <li id="userIconSpan">
+                     <span className="navbar-text" ><i className="fas fa-user userIcon" data-bs-toggle="modal" data-bs-target= "#userIcon" data-bs-whatever="@mdo"></i><span id="hello">שלום, {Auth.getName()}</span></span>
+                  </li>
+                  <li>
+                    <NavLink to="/Cart"><span className="navbar-text" href="#" onClick={this.resetUrl}><i className="fas fa-shopping-cart"></i></span></NavLink>
+                  </li>
+               </ul>
+            </span>
            
            
                             
                         
-            <span className="navbar-text" id="userIconSpan"><i className="fas fa-user userIcon" data-bs-toggle="modal" data-bs-target= "#userIcon" data-bs-whatever="@mdo"></i><span id="hello">שלום, {Auth.getName()}</span></span>
-            <NavLink to="/Cart"><span className="navbar-text" href="#" onClick={this.resetUrl}><i className="fas fa-shopping-cart"></i></span></NavLink>
+            
+            
             
          </div>
          </nav>

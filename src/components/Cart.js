@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
+import Auth from './auth'
 
 import './Cart.css'
 import ItemCart from './ItemCart';
@@ -169,7 +170,7 @@ export default class Cart extends Component {
                                     </li>
                                 </ul>
 
-                                {this.state.temporaryAmount ? <NavLink to="/checkout"><button type="button" className="btn btn-primary btn-block waves-effect waves-light mb-4" onClick={this.swichCartCheckOut}>מעבר לתשלום</button></NavLink>:<div></div>}
+                                {this.state.temporaryAmount ? <button type="button" className="btn btn-primary btn-block waves-effect waves-light mb-4" onClick={() => { Auth.setProtectPath(() => {this.props.history.push("/protect");})}}>מעבר לתשלום</button>:<div></div>}
                                 
 
                             </div>

@@ -5,13 +5,14 @@ class Auth {
       this.name='אורח'
     }
   
-    login(cb) {
+    login() {
       this.authenticated = true;
-      cb();
     }
   
-    logout(cb) {
+    logout() {
       this.authenticated = false;
+    }
+    setProtectPath(cb){
       cb();
     }
   
