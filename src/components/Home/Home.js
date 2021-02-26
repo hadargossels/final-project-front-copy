@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
-import Bestseller from "../Bestseller/Bestseller";
 import './Home.css'
 import Slide from "./Slide";
 

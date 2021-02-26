@@ -41,7 +41,7 @@ class Counter extends Component {
                 className="btn btn-danger btnsCart"
                 onClick={() => this.props.onDelete(this.props.counter.id)}
               >
-                <i class="fas fa-trash-alt iconCart" aria-hidden="true"></i>
+                <i className="fas fa-trash-alt iconCart" aria-hidden="true"></i>
               </button>
 
             </div>

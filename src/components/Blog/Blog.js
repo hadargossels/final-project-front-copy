@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Singlblog from "./Singlblog";
-import datablog from "../../datablog";
 
 export default class Blog extends Component {
   constructor(props) {
@@ -8,7 +7,8 @@ export default class Blog extends Component {
   }
 
   displayBlogs = () => {
-     return datablog.map(
+
+     return this.props.datablog.map(
       (element, key) => (
         <div className="row mb-5"  key={key}>
           <Singlblog

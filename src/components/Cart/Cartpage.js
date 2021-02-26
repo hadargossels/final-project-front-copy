@@ -4,33 +4,40 @@ import Tabs from "react-bootstrap/Tabs";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Cart from "./Cart";
-import data from "../../data2";
 import Total from "../Cart/Total";
 import { Col, FormLabel, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { isElementOfType } from "react-dom/test-utils";
+import firebase from "firebase/app";
+import "firebase/analytics";
+import "firebase/auth";
+import "firebase/firestore";
+
 export default class Cartpage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cart: JSON.parse(localStorage.getItem("counters")),
+      // cart: JSON.parse(localStorage.getItem("counters") || []),
+      cart: JSON.parse(localStorage.getItem("counters") || "[]"),
       couponPrice: 0,
       delivery: 0,
-      info:"",
+      info: "",
     };
     this.callRefBtn = React.createRef();
   }
   componentDidMount() {
     this.setState({ couponPrice: 0 });
     localStorage.setItem("coupon", 0);
-    localStorage.setItem("delivery",0)
+    localStorage.setItem("delivery", 0);
   }
   applayCoupon() {
     let couponText = document.querySelector("#couponText").value;
     if (couponText) {
       console.log("couponText", couponText);
 
-      let itemCoupon = data.filter((item) => item.numberCoupon === couponText);
+      let itemCoupon = this.props.data.filter(
+        (item) => item.numberCoupon === couponText
+      );
       let myCart = this.state.cart;
       let found = myCart.filter((item) => item.id === itemCoupon[0].id);
 
@@ -40,11 +47,9 @@ export default class Cartpage extends Component {
         let price = this.state.couponPrice;
 
         price += +priceOfCoupon;
-        console.log("price000", price);
 
         this.setState({ couponPrice: price });
         let downFromCoupon = document.querySelector("#downFromCoupon");
-        // downFromCoupon.innerText="coupon: -"+price
         localStorage.setItem("coupon", price);
         let coupontIstCorrect = document.querySelector("#iscorrect");
         coupontIstCorrect.style.display = "";
@@ -67,8 +72,8 @@ export default class Cartpage extends Component {
   deliveryCost = (e) => {
     let deliveryCost = e.value;
     this.setState({ delivery: deliveryCost });
-    localStorage.setItem("delivery",deliveryCost)
-    console.log(e.value)
+    localStorage.setItem("delivery", deliveryCost);
+    console.log(e.value);
   };
   isInvalid(e) {
     if (!e.value) {
@@ -112,36 +117,35 @@ export default class Cartpage extends Component {
   }
   isEmpty() {
     let classInput = document.querySelectorAll(".isEmpty");
-    let estimate = document.getElementsByClassName("estimate")[0]
-    console.log(estimate)
+    let estimate = document.getElementsByClassName("estimate")[0];
+    console.log(estimate);
     for (let i = 0; i < classInput.length; i++) {
       if (classInput[i].value == "") {
         classInput[i].setAttribute("class", "form-control is-invalid");
-        estimate.style.color="red"
-        estimate.style.display=""
+        estimate.style.color = "red";
+        estimate.style.display = "";
         setTimeout(() => {
-          estimate.style.display="none"
+          estimate.style.display = "none";
         }, 3000);
       }
     }
   }
   allCorrectFun(e) {
-    this.setState({info:e})
+    this.setState({ info: e });
     setTimeout(() => {
       this.callRefBtn.current.click();
     }, 0);
-
   }
   render() {
     return (
       <div>
-        <Cart />
+        <Cart data={this.props.data} />
         <div className="tabs">
           <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
             <Tab eventKey={1} title="Use Coupon Code">
               <Form>
                 <Form.Group
-                  controlId="formGroupText"
+                  // controlId="formGroupText"
                   style={{ marginTop: "2rem" }}
                 >
                   <Form.Label
@@ -155,9 +159,6 @@ export default class Cartpage extends Component {
                     id="couponText"
                     className="couponTextcopon"
                   />
-                  {/* <Form.Control.Feedback >
-                    Please enter your coupon number
-                  </Form.Control.Feedback> */}
                   <div
                     id="noTcorrect"
                     style={{ color: "red", fontSize: "12px", display: "none" }}
@@ -186,13 +187,14 @@ export default class Cartpage extends Component {
                 </Form.Group>
               </Form>
             </Tab>
-            <Tab  eventKey={2} title="Estimate Shipping & Taxes">
+            <Tab eventKey={2} title="Estimate Shipping & Taxes">
               <Form
-              method="POST"
-              onSubmit={(e) => {
-            e.preventDefault();
-            this.allCorrectFun(e.target);
-          }}>
+                method="POST"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  this.allCorrectFun(e.target);
+                }}
+              >
                 <FormLabel style={{ fontWeight: "bolder", margin: "2rem 0" }}>
                   Enter your destination to get a shipping estimate.
                 </FormLabel>
@@ -238,7 +240,8 @@ export default class Cartpage extends Component {
                   </Col>
                 </Form.Row>
                 <Form.Row>
-                  <Form.Group as={Col} controlId="formGriddelivery">
+                  {/* <Form.Group as={Col} controlId="formGriddelivery"> */}
+                  <Form.Group as={Col}>
                     <Form.Label>Delivery</Form.Label>
                     <Form.Control
                       onClick={(e) => this.deliveryCost(e.target)}
@@ -272,27 +275,46 @@ export default class Cartpage extends Component {
                 >
                   Get Quotes
                 </button>
-        <button
-          onClick={() => this.isEmpty()}
-          className="btn btn-success"
-          style={{ marginTop: "2rem",marginBottom:"1rem" }}
-        >
-          Continue to checkout
-        </button>
-        <Link to="/payment">
-          <button
-            className="btn btn-success"
-            ref={this.callRefBtn}
-            style={{ marginLeft: "5rem", marginTop: "2rem", display: "none" }}
-          >
-            Continue to checkout
-          </button>
-        </Link>
+                {firebase.auth().currentUser ? (
+                  <button
+                    onClick={() => this.isEmpty()}
+                    className="btn btn-success"
+                    style={{ marginTop: "2rem", marginBottom: "1rem" }}
+                  >
+                    Continue to checkout
+                  </button>
+                ) : (
+                  <div>
+                    <span style={{ color: "red", fontSize: "25px" }}>
+                      You have to login to continue pay, Please log into your
+                      account
+                    </span>
+                    <br />
+                    <Link to="/login" className="btn btn-danger">
+                      Login
+                    </Link>
+                  </div>
+                )}
+                <Link to="/payment">
+                  <button
+                    className="btn btn-success"
+                    ref={this.callRefBtn}
+                    style={{
+                      marginLeft: "5rem",
+                      marginTop: "2rem",
+                      display: "none",
+                    }}
+                  >
+                    Continue to checkout
+                  </button>
+                </Link>
               </Form>
             </Tab>
           </Tabs>
           <Total delivery={this.state.delivery} />
-        <div className="estimate" style={{display:"none"}}>please enter your Estimate Shipping & Taxes</div>
+          <div className="estimate" style={{ display: "none" }}>
+            please enter your Estimate Shipping & Taxes
+          </div>
         </div>
       </div>
     );

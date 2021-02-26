@@ -1,87 +1,79 @@
 import React, { Component } from "react";
-import Form from "react-bootstrap/Form";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-import { FormLabel } from "react-bootstrap";
-import Counter from "../Cart/Counter";
+import { FormLabel, Col, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Total from "../Cart/Total";
 import ListOfItems from "../Cart/ListOfItems";
-import Paymentdetails from "../Paymentdetails/Paymentdetails";
 import Newaddress from "./Newaddress";
+
 export default class Payment extends Component {
   constructor(props) {
     super(props);
     this.state = {
       allCorrect: false,
       isSameAddress: false,
-      myData:"",
+      myData: "",
     };
     this.callRef = React.createRef();
-
   }
 
   isInvalid(e) {
     if (!e.value) {
       e.setAttribute("class", "form-control is-invalid");
     } else {
-      e.setAttribute("class", "form-control")
+      e.setAttribute("class", "form-control");
     }
-    let type=e.type
-    let myStr=e.value
-    let result=true
-    let patt
-    switch(type){
-      case "text" : 
-                      patt=/^[a-zA-Z-' ]+$/
-                      result=patt.test(myStr);
-      
-      break;
-      case "tel" : 
-                      patt=/^0\d([\d]{0,1})([-]{0,1})\d{7}$/
-                      result=patt.test(myStr);
-      
-      break;
-      case "number" : 
-                      patt=/^[0-9' ]+$/
-                      result=patt.test(myStr);
-      
-      case "textarea" : 
-                    if(myStr.length>36)
-                      result=false
-                      else result=true
-      
-      break;
+    let type = e.type;
+    let myStr = e.value;
+    let result = true;
+    let patt;
+    switch (type) {
+      case "text":
+        patt = /^[a-zA-Z-' ]+$/;
+        result = patt.test(myStr);
 
-      default: 
+        break;
+      case "tel":
+        patt = /^0\d([\d]{0,1})([-]{0,1})\d{7}$/;
+        result = patt.test(myStr);
+
+        break;
+      case "number":
+        patt = /^[0-9' ]+$/;
+        result = patt.test(myStr);
+
+      case "textarea":
+        if (myStr.length > 36) result = false;
+        else result = true;
+
         break;
 
+      default:
+        break;
     }
-    if(!result){
-      e.setAttribute("class", "form-control is-invalid")
-    }else{
-      e.setAttribute("class", "form-control")
+    if (!result) {
+      e.setAttribute("class", "form-control is-invalid");
+    } else {
+      e.setAttribute("class", "form-control");
     }
   }
   allCorrectFun(e) {
-    this.setState({myData:e})
+    this.setState({ myData: e });
     setTimeout(() => {
       this.callRef.current.click();
     }, 0);
   }
   selectDelivery(e) {
-    console.log(e.id);
-    if(e.id=="different"){
-      this.setState({isSameAddress:true})
-    }else if(e.id=="same"){
-      this.setState({isSameAddress:false})
+    if (e.id == "different") {
+      this.setState({ isSameAddress: true });
+    } else if (e.id == "same") {
+      this.setState({ isSameAddress: false });
     }
   }
   render() {
     let counters = JSON.parse(localStorage.getItem("counters") || "[]");
     return (
       <div style={{ margin: "0 auto", width: "800px" }}>
-        <h2 style={{marginTop:"2rem",color:"orange"}}>My Cart:</h2>
+        <h2 style={{ marginTop: "2rem", color: "orange" }}>My Cart:</h2>
         {counters.map((counter) => (
           <ListOfItems key={counter.id} counter={counter} />
         ))}
@@ -119,8 +111,8 @@ export default class Payment extends Component {
                 required
               />
               <Form.Control.Feedback type="invalid">
-                Please Enter your First Name<br/>
-                * Just letters
+                Please Enter your First Name
+                <br />* Just letters
               </Form.Control.Feedback>
               <FormLabel style={{ fontWeight: "bolder" }}>Last Name*</FormLabel>
               <Form.Control
@@ -140,7 +132,7 @@ export default class Payment extends Component {
                   City
                 </Form.Label>
                 <Form.Control
-                type='text'
+                  type="text"
                   onChange={(e) => this.isInvalid(e.target)}
                   style={{ width: "20rem", margin: "1rem 0" }}
                   required
@@ -156,7 +148,7 @@ export default class Payment extends Component {
                   Street
                 </Form.Label>
                 <Form.Control
-                type='text'
+                  type="text"
                   onChange={(e) => this.isInvalid(e.target)}
                   style={{ width: "20rem", margin: "1rem 0" }}
                   required
@@ -172,14 +164,15 @@ export default class Payment extends Component {
                   House number*
                 </Form.Label>
                 <Form.Control
-                type='number'
+                  type="number"
                   onChange={(e) => this.isInvalid(e.target)}
                   style={{ width: "20rem", margin: "1rem 0" }}
                   required
                   //   isInvalid
                 />
                 <Form.Control.Feedback type="invalid">
-                  This is a required field<br/>
+                  This is a required field
+                  <br />
                   *Just numbers 0-9
                 </Form.Control.Feedback>
               </Form.Group>
@@ -189,14 +182,15 @@ export default class Payment extends Component {
                   Entrance*
                 </Form.Label>
                 <Form.Control
-                type='number'
+                  type="number"
                   onChange={(e) => this.isInvalid(e.target)}
                   style={{ width: "20rem", margin: "1rem 0" }}
                   required
                   //   isInvalid
                 />
                 <Form.Control.Feedback type="invalid">
-                  This is a required field<br/>
+                  This is a required field
+                  <br />
                   *Just numbers 0-9
                 </Form.Control.Feedback>
               </Form.Group>
@@ -213,15 +207,14 @@ export default class Payment extends Component {
                   onChange={(e) => this.isInvalid(e.target)}
                   style={{ width: "20rem", margin: "1rem 0" }}
                   required
-                  type='number'
+                  type="number"
                   //   isInvalid
                 />
                 <Form.Text id="textareaHelpBlock" muted>
                   *If there are no floor details, enter 0
                 </Form.Text>
                 <Form.Control.Feedback type="invalid">
-                  This is a required field
-                  *Just numbers 0-9
+                  This is a required field *Just numbers 0-9
                 </Form.Control.Feedback>
               </Form.Group>
 
@@ -230,7 +223,7 @@ export default class Payment extends Component {
                   Apartment number *
                 </Form.Label>
                 <Form.Control
-                  type='number'
+                  type="number"
                   onChange={(e) => this.isInvalid(e.target)}
                   style={{ width: "20rem", margin: "1rem 0" }}
                   required
@@ -239,12 +232,14 @@ export default class Payment extends Component {
                   *If there is no apartment number, register 0
                 </Form.Text>
                 <Form.Control.Feedback type="invalid">
-                  This is a required field<br/>
+                  This is a required field
+                  <br />
                   *Just numbers 0-9
                 </Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Label htmlFor="inputTextarea">Courier message</Form.Label><br/>
+              <Form.Label htmlFor="inputTextarea">Courier message</Form.Label>
+              <br />
               <textarea
                 className="form-control"
                 onChange={(e) => this.isInvalid(e.target)}
@@ -252,7 +247,7 @@ export default class Payment extends Component {
                 type="textarea"
                 id="inputTextarea5"
                 aria-describedby="textareaHelpBlock"
-                style={{resize:"none"}}
+                style={{ resize: "none" }}
                 rows="3"
                 cols="40"
               />
@@ -275,7 +270,6 @@ export default class Payment extends Component {
                   type="tel"
                   style={{ width: "20rem", margin: "1rem 0" }}
                   required
-                 
                 />
                 <Form.Control.Feedback type="invalid">
                   This is a required field
@@ -283,8 +277,7 @@ export default class Payment extends Component {
               </Form.Group>
             </Col>
           </Form.Row>
-        
-          <div
+          {/* <div
             style={{
               backgroundColor: "grey",
               padding: "1rem",
@@ -292,12 +285,12 @@ export default class Payment extends Component {
             }}
           >
             My delivery Address
-          </div>
+          </div> */}
           {/* 
         <Form> */}
-          {["radio"].map((type) => (
-            <div key={`custom-${type}`} className="mb-3">
-              <FormLabel>My delivery Address:</FormLabel>
+          {/* {["radio"].map((type) => ( */}
+          {/* <div key={`custom-${type}`} className="mb-3"> */}
+          {/* <FormLabel>My delivery Address:</FormLabel>
               <Form.Check
                 onClick={(e) => this.selectDelivery(e.target)}
                 custom
@@ -313,12 +306,14 @@ export default class Payment extends Component {
                 name="adress"
                 label="is different from my billing address"
                 id="different"
-              />
-            </div>
-          ))}
-
-          {this.state.isSameAddress ? <Newaddress isInvalid={this.isInvalid()} /> : ""}
-
+              /> */}
+          {/* </div> */}
+          {/* ))} */}
+          {/* {this.state.isSameAddress ? (
+            <Newaddress isInvalid={this.isInvalid()} />
+          ) : (
+            ""
+          )} */}
           <div
             style={{
               backgroundColor: "grey",
@@ -339,26 +334,25 @@ export default class Payment extends Component {
             data-bs-dismiss="modal"
             aria-label="Close"
           >
-            CONTINUE 
-           
+            CONTINUE
           </button>
           <Link to="/paymentdetails">
-          <button
-            // type="submit"
-            style={{ backgroundColor: "green", borderColor: "grey",display:"none" }}
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            ref={this.callRef}
-          >
-            CONTINUE 
-           
-          </button>
-
+            <button
+              // type="submit"
+              style={{
+                backgroundColor: "green",
+                borderColor: "grey",
+                display: "none",
+              }}
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              ref={this.callRef}
+            >
+              CONTINUE
+            </button>
           </Link>
         </form>
         {/* {(this.state.allCorrect)?<Paymentdetails/>:""} */}
-
-       
       </div>
     );
   }

@@ -1,18 +1,28 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import data from '../../data2'
+// import data from '../../data2'
 import "./Bestseller.css";
+import axios from 'axios';
+
 
 export default class Bestseller extends Component {
   constructor(props){
     super(props)
     this.state={
-
+      origItem:[],
     }
   }
+  componentDidMount(){
+    axios.get(`http://localhost:3000/products`)
+      .then(res => {
+        const products = res.data;
+        this.setState({ origItem:products });
+      })
+    }
   sendId(){
     let storge = JSON.parse(localStorage.getItem("counters") || "[]");
     let id=this.props.id
+    let data=this.state.origItem
      let product=data.filter(item=>{
      return item.id===id})
       product=product[0]
@@ -28,6 +38,7 @@ export default class Bestseller extends Component {
   }
   
   render() {
+   
     return (
       <div className="bestsellerdiv col-3 ">
         <div className="card border itemBest">

@@ -1,5 +1,4 @@
 import React, { Component, useState } from 'react'
-import { Col, FormLabel, Form,Tab,Tabs,Button } from "react-bootstrap";
 import Paypal from './Paypal';
 
 export default class Paymentdetails extends Component {
@@ -46,18 +45,18 @@ export default class Paymentdetails extends Component {
       return (
             <div style={{width:"600px",margin:"4rem auto"}}>
               <img src="./images/payment.png" width="500rem" style={{margin:"2rem auto"}} />
-              <h4 style={{marginTop:"2rem",textAlign:"center",color:"orangered",fontFamily:"monospace",fontSize:"24px"}}>Total:&nbsp;{localStorage.getItem("total")}&nbsp;<i style={{fontSize:"14px"}} class="fas fa-shekel-sign"></i></h4>
+              <h4 style={{marginTop:"2rem",textAlign:"center",color:"orangered",fontFamily:"monospace",fontSize:"24px"}}>Total:&nbsp;{localStorage.getItem("total")}&nbsp;<i style={{fontSize:"14px"}} className="fas fa-shekel-sign"></i></h4>
                 <h1 style={{margin:"2rem 0",color:"slategrey"}}>Choose your payment method</h1>
-                <div  style={{marginBottom:"2rem"}} class="form-check" >
-                <input style={{fontSize:"17px"}} class="form-check-input"  onClick={(e)=>this.selectPay(e.target)} type="radio" name="flexRadioDefault" id="paypal"/>
-                <label style={{fontSize:"22px"}} class="form-check-label" for="flexRadioDefault1">
-                  Paypal <i class="fab fa-paypal"></i>/Credit Card <i class="fab fa-cc-visa"></i>&nbsp;<i class="fab fa-cc-mastercard"></i>
+                <div  style={{marginBottom:"2rem"}} className="form-check" >
+                <input style={{fontSize:"17px"}} className="form-check-input"  onClick={(e)=>this.selectPay(e.target)} type="radio" name="flexRadioDefault" id="paypal"/>
+                <label style={{fontSize:"22px"}} className="form-check-label" for="flexRadioDefault1">
+                  Paypal <i className="fab fa-paypal"></i>/Credit Card <i className="fab fa-cc-visa"></i>&nbsp;<i className="fab fa-cc-mastercard"></i>
                 </label>
                 </div>
-                <div class="form-check" style={{marginBottom:"2rem"}}>
-                <input style={{fontSize:"17px"}} class="form-check-input" onClick={(e)=>this.selectPay(e.target)} type="radio" name="flexRadioDefault" id="cash" />
-                <label style={{fontSize:"22px"}} class="form-check-label" for="flexRadioDefault2">
-                 Cash&nbsp;<i class="fas fa-money-bill-wave"></i>
+                <div className="form-check" style={{marginBottom:"2rem"}}>
+                <input style={{fontSize:"17px"}} className="form-check-input" onClick={(e)=>this.selectPay(e.target)} type="radio" name="flexRadioDefault" id="cash" />
+                <label style={{fontSize:"22px"}} className="form-check-label" for="flexRadioDefault2">
+                 Cash&nbsp;<i className="fas fa-money-bill-wave"></i>
                 </label>
                 </div>
                 

@@ -1,19 +1,28 @@
-import { Link, NavLink } from "react-router-dom";
 import React, { Component } from "react";
+import { Link, NavLink, withRouter } from "react-router-dom";
 import "./Header.css";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Button from "react-bootstrap/Button";
 import Popover from "react-bootstrap/Popover";
 import Cart from "../Cart/Cart";
+import auth from "../../auth";
+import Login from "../Login/Login";
+import firebase from "firebase/app";
+import "firebase/analytics";
+import "firebase/auth";
+import "firebase/firestore";
 
-export default class Header extends Component {
+class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      numItems:JSON.parse(
-        localStorage.getItem("counters") || "[]"
-      ).filter((c) => c.value > 0).length,
+      search: "",
+      numItems: JSON.parse(localStorage.getItem("counters") || "[]").filter(
+        (c) => c.value > 0
+      ).length,
+      login: false,
     };
+    this.callRefBtn = React.createRef();
   }
   // componentWillUnmount = () => {
   //   let numOfItems=JSON.parse(localStorage.getItem("counters") || "[]").filter(c => c.value > 0).length
@@ -25,11 +34,17 @@ export default class Header extends Component {
     ).filter((c) => c.value > 0).length;
     this.setState({ numItems: numOfItems });
   };
-  
+
   handleRestart = () => {
     window.location.reload();
   };
+  loginHeader() {
+    setTimeout(() => {
+      this.callRefBtn.current.click();
+    }, 0);
+  }
   render() {
+    console.log("userHeader", firebase.auth());
     return (
       <div>
         <nav
@@ -37,15 +52,16 @@ export default class Header extends Component {
           id="header"
         >
           <div className="container-fluid">
-            <a className="navbar-brand" href="#">
-            <Link to='/'><img
+            {/* <a className="navbar-brand" href="#"> */}
+            <Link to="/">
+              <img
                 src="/images/logo1.png"
                 width="100"
                 height="24"
                 alt=""
                 className="d-inline-block align-top logoimg"
-              /></Link>
-            </a>
+              />
+            </Link>
             <button
               className="navbar-toggler"
               type="button"
@@ -115,8 +131,9 @@ export default class Header extends Component {
                   </NavLink>
                 </li>
               </ul>
-              <form className="d-flex shop" action="/store/">
+              <div className="d-flex shop">
                 <input
+                  id="inputSearch"
                   title="only letters a-z A–Z"
                   required="required"
                   pattern="[a-z A-Z]{1,}"
@@ -125,24 +142,28 @@ export default class Header extends Component {
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
+                  value={this.state.search}
+                  onChange={({ target }) =>
+                    this.setState({
+                      search: target.value,
+                    })
+                  }
                 />
-                <button className="btn btn-outline-success" type="submit">
+                <button
+                  className="btn btn-outline-success"
+                  onClick={(e) => {
+                    if (!this.state.search)
+                      return this.props.history.push(`/store`);
+                    this.setState({ search: "" });
+                    this.props.history.push(`store?q=${this.state.search}`);
+                  }}
+                >
                   Search
                 </button>
-              </form>
+              </div>
               {/* <ul className="navbar-nav mr-auto icons"> */}
               {/* <li> */}
               <div className="icons">
-                <button
-                  type="button"
-                  className="btn signinBtn"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                  data-bs-whatever="@"
-                >
-                  <i className="fas fa-sign-in-alt"></i>
-                </button>
-
                 <div
                   className="modal fade"
                   id="exampleModal"
@@ -153,9 +174,9 @@ export default class Header extends Component {
                   <div className="modal-dialog">
                     <div className="modal-content">
                       <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">
+                        {/* <h5 className="modal-title" id="exampleModalLabel">
                           Sign in
-                        </h5>
+                        </h5> */}
                         <button
                           type="button"
                           className="btn-close"
@@ -164,10 +185,11 @@ export default class Header extends Component {
                         ></button>
                       </div>
                       <div className="modal-body">
-                        <form>
+                        <Login history={this.props.history} />
+                        {/* <form>
                           <div className="mb-3">
                             <label
-                              htmlfor="exampleInputEmail1"
+                              htmlFor="exampleInputEmail1"
                               className="form-label"
                             >
                               Email address
@@ -184,7 +206,7 @@ export default class Header extends Component {
                           </div>
                           <div className="mb-3">
                             <label
-                              htmlfor="exampleInputPassword1"
+                              htmlFor="exampleInputPassword1"
                               className="form-label"
                             >
                               Password
@@ -203,12 +225,12 @@ export default class Header extends Component {
                             />
                             <label
                               className="form-check-label"
-                              htmlfor="exampleCheck1"
+                              htmlFor="exampleCheck1"
                             >
                               Check me out
                             </label>
                           </div>
-                        </form>
+                        </form> */}
                       </div>
                       <div className="modal-footer">
                         <button
@@ -218,9 +240,9 @@ export default class Header extends Component {
                         >
                           Close
                         </button>
-                        <button type="button" className="btn btn-primary">
+                        {/* <button type="button" className="btn btn-primary">
                           Sign in
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                   </div>
@@ -230,10 +252,9 @@ export default class Header extends Component {
                   <i className="fas fa-user-plus"></i>
                 </Link>
 
-                {/* <Link to='/cart' className="navbar-brand" href="#">
-                <i className="fas fa-shopping-cart"></i>
-                </Link>
-             */}
+                {/* <Link to="/cart" className="navbar-brand" href="#">
+                  <i className="fas fa-shopping-cart"></i>
+                </Link> */}
 
                 {["bottom"].map((placement) => (
                   <OverlayTrigger
@@ -266,6 +287,39 @@ export default class Header extends Component {
                     </Button>
                   </OverlayTrigger>
                 ))}
+                {firebase.auth().currentUser ? (
+                  <button
+                    className="btn btn-danger"
+                    style={{}}
+                    onClick={() => {
+                      auth.logout(() => {
+                        this.props.history.push("/login");
+                      });
+                      firebase
+                        .auth()
+                        .signOut()
+                        .then(() => {
+                          alert("Sign-out successful.");
+                          this.setState({ login: false });
+                        })
+                        .catch((error) => {
+                          alert(error);
+                        });
+                    }}
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn signinBtn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    data-bs-whatever="@"
+                  >
+                    <i className="fas fa-sign-in-alt"></i>
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -274,3 +328,5 @@ export default class Header extends Component {
     );
   }
 }
+
+export default withRouter(Header);

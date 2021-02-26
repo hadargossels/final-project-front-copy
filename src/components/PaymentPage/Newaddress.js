@@ -9,7 +9,6 @@ import Total from "../Cart/Total";
 import ListOfItems from "../Cart/ListOfItems";
 import Paymentdetails from "../Paymentdetails/Paymentdetails";
 
-
 export default class Newaddress extends Component {
   render() {
     return (
@@ -22,7 +21,7 @@ export default class Newaddress extends Component {
               First Name*
             </FormLabel>
             <Form.Control
-              onChange={(e) => this.isInvalid(e.target)}
+              // onChange={(e) => this.isInvalid(e.target)}
               type="text"
               placeholder="First name"
               style={{ width: "20rem", margin: "1rem 0" }}
@@ -34,7 +33,7 @@ export default class Newaddress extends Component {
             </Form.Control.Feedback>
             <FormLabel style={{ fontWeight: "bolder" }}>Last Name*</FormLabel>
             <Form.Control
-              onChange={(e) => this.isInvalid(e.target)}
+              // onChange={(e) => this.isInvalid(e.target)}
               type="text"
               placeholder="Last name"
               style={{ width: "20rem", margin: "1rem 0" }}
@@ -50,7 +49,7 @@ export default class Newaddress extends Component {
                 City
               </Form.Label>
               <Form.Control
-                onChange={(e) => this.isInvalid(e.target)}
+                // onChange={(e) => this.isInvalid(e.target)}
                 style={{ width: "20rem", margin: "1rem 0" }}
                 required
                 //   isInvalid
@@ -65,7 +64,7 @@ export default class Newaddress extends Component {
                 Street
               </Form.Label>
               <Form.Control
-                onChange={(e) => this.isInvalid(e.target)}
+                // onChange={(e) => this.isInvalid(e.target)}
                 style={{ width: "20rem", margin: "1rem 0" }}
                 required
                 //   isInvalid
@@ -80,7 +79,7 @@ export default class Newaddress extends Component {
                 House number*
               </Form.Label>
               <Form.Control
-                onChange={(e) => this.isInvalid(e.target)}
+                // onChange={(e) => this.isInvalid(e.target)}
                 style={{ width: "20rem", margin: "1rem 0" }}
                 required
                 //   isInvalid
@@ -95,7 +94,7 @@ export default class Newaddress extends Component {
                 Entrance*
               </Form.Label>
               <Form.Control
-                onChange={(e) => this.isInvalid(e.target)}
+                // onChange={(e) => this.isInvalid(e.target)}
                 style={{ width: "20rem", margin: "1rem 0" }}
                 required
                 //   isInvalid
@@ -114,7 +113,7 @@ export default class Newaddress extends Component {
                 Floor number*
               </Form.Label>
               <Form.Control
-                onChange={(e) => this.isInvalid(e.target)}
+                // onChange={(e) => this.isInvalid(e.target)}
                 style={{ width: "20rem", margin: "1rem 0" }}
                 required
                 //   isInvalid
@@ -132,7 +131,7 @@ export default class Newaddress extends Component {
                 Apartment number *
               </Form.Label>
               <Form.Control
-                onChange={(e) => this.isInvalid(e.target)}
+                // onChange={(e) => this.isInvalid(e.target)}
                 style={{ width: "20rem", margin: "1rem 0" }}
                 required
                 //   isInvalid
@@ -165,7 +164,7 @@ export default class Newaddress extends Component {
                 Phone number *
               </Form.Label>
               <Form.Control
-                onChange={(e) => this.isInvalid(e.target)}
+                // onChange={(e) => this.isInvalid(e.target)}
                 type="number"
                 style={{ width: "20rem", margin: "1rem 0" }}
                 title="only numbers 0-9"

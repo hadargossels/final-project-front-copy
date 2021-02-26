@@ -19,37 +19,37 @@ function Footer() {
             <div className="col-8 ">
               <form id="formFooter" style={{ marginLeft: "6rem" }}>
                 <h4>
-                  Send Us Message &nbsp;<i class="fas fa-envelope"></i>
+                  Send Us Message &nbsp;<i className="fas fa-envelope"></i>
                 </h4>
                 <div className="row">
-                  <div class="col-6 d-grid" >
+                  <div className="col-6 d-grid" >
                     <div>
                       First name
-                      <input type="text" class="form-control" />
+                      <input type="text" className="form-control" />
                     </div>
 
                     <div>
                       Last name
-                      <input type="text" class="form-control" />
+                      <input type="text" className="form-control" />
                     </div>
-                    <div class="mb-3 emailFooter">
+                    <div className="mb-3 emailFooter">
                       Email
                       <input
                         type="email"
-                        class="form-control"
+                        className="form-control"
                         aria-describedby="emailHelp"
                       />
                     </div>
                   </div>
                   <div className="col-6">
-                    <div class="mb-3 textareaFooter">
+                    <div className="mb-3 textareaFooter">
                       <label
-                        htmlfor="exampleInputPassword1"
-                        class="form-label"
+                        htmlFor="exampleInputPassword1"
+                        className="form-label"
                       ></label>
                       Message
                       <textarea
-                        class="form-control"
+                        className="form-control"
                         rows="4"
                         cols="20"
                         id="textarea"
@@ -57,7 +57,7 @@ function Footer() {
                     </div>
 
                     <div className=" btnFooter">
-                      <button type="submit" class="btn btn-success">
+                      <button type="submit" className="btn btn-success">
                         Send Message
                       </button>
                     </div>
