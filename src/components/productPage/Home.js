@@ -39,26 +39,8 @@ class Home extends Component{
                     <h1 id="homeHeadLine" className="text-white">Wellcome to Experis Sports</h1>
                     <img src="/images/experisSportLogo.png"></img>
                     <ListItemLink to="/store/all"  name="Go to store"/><br/>
-                    {/* <div className="row">
-                        <div className="col-3"></div>
-                        <div className="col-12 col-md-2">
-                            <ImgLink name="Bottles" to="/store/bottle" src="/images/bottles/nike-training-hypercharge-shaker-bottle-07l.jpg"/>
-                        </div>
-                        <div className="col-12 col-md-2">
-                          <ImgLink name="Weights" to="/store/weights" src="/images/weights-home.jpg"/>
-                        </div>
-                        <div className="col-12 col-md-2">
-                          <ImgLink name="Yoga" to="/store/yoga" src="/images/yogaMattress.jpg"/>  
-                        </div>
-                        <div className="col-3"></div>
-                    </div> */}
                   <div id="carouselExampleIndicators" className="carousel slide text-center" data-bs-ride="carousel">
                     <h2 className="text-white">Category</h2>
-                    {/* <ol className="carousel-indicators">
-                      <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
-                      <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
-                      <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
-                    </ol> */}
                     <div className="carousel-inner">
                       <div className="carousel-item active">
                         <ImgLink name="Bottles" to="/store/bottle" src="/images/bottles/nike-training-hypercharge-shaker-bottle-07l.jpg"/>

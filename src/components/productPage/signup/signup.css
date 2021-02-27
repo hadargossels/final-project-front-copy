@@ -1,3 +1,15 @@
 #signUpForm {
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.google-span {
+  color: white;
+}
+
+#myGoogleBtn {
+  background-color: rgb(147, 173, 224);
+}
+
+#myFacebookBtn {
+  background-color: rgb(147, 173, 224);
+}

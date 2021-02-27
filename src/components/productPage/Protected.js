@@ -1,23 +1,34 @@
-import {Route,BrowserRouter as  Redirect  } from "react-router-dom";
+import {Route ,  Redirect  } from "react-router-dom";
+ import { useState } from 'react'
 // import  auth from "./auth";
 import {auth} from '../../firebase'
-export const ProtectRouter = props => ({component : Component ,...rest}) =>{
+export const ProtectRouter =  ({component : Component ,...rest}) =>{
+    const [isAuth,setIsAuth] =  useState(false)
+
+    // function myFunction(){
+    //     auth.onAuthStateChanged((user) => {
+    //         if(user)
+    //             setIsAuth(true)
+    //     })
+    // }
+
+
     return (
         <Route
         {...rest}
-            render={props=>{
-                auth.onAuthStateChanged(user=> {
-                    if (user) {
-                        console.log("hey");
-                        return <Component {...props} />
+            render={props=>
+                // <Redirect to={{pathname:'/', state:{from:props.location}}} />
+                {
+                    if(isAuth){
+                        return (<Component {...rest} {...props} />)
+                    }else{
+                        return ( <Redirect to ={ {pathname: "/" , state : {from : props.location}}} />)
                     }
-                    else{
-                        console.log("hey not");
-                        return <Redirect to ={ {pathname: "/" , state : {from : props.location}}} />
-                    }
-                });
-
-        }}
+                }
+        }
+    
+    
         />
     )
+
 } 

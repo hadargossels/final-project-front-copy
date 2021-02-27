@@ -1,5 +1,6 @@
 // import './App.css';
 import {Link,Route,BrowserRouter as Router,NavLink, withRouter, Switch, BrowserRouter  } from "react-router-dom";
+import React, { useState , useEffect } from 'react';
 import Header from './components/productPage/Headrer-navbar';
 import Middle from './components/productPage/Middle';
 import Footer from './components/productPage/Footer';
@@ -14,12 +15,15 @@ import ShopingBag from "./components/productPage/shopingBag";
 import CashOut from "./components/productPage/cashOut/CashOut";
 import SignUp from "./components/productPage/signup/SignUp";
 import PaymentConfirm from "./components/productPage/paymentConfirm/PaymentConfirm";
-import { ProtectRouter } from "./components/productPage/Protected";
 import PrivetSection from "./components/productPage/privetSection/PrivetSection";
+import { ProtectRouter } from "./components/productPage/Protected";
+import {auth} from './firebase'
 
 
 
 function App() {
+  // const [isAuth , setIsAuth] = useState(false);
+  
   return (
     <div>
         <Router>
@@ -36,7 +40,8 @@ function App() {
             <Route path="/shopingchart/:iJson" component={ShopingBag} />
             <Route path="/cashOut" component={CashOut}/>
             <Route path="/paymentconfirm" component={PaymentConfirm}/>
-            {/* <ProtectRouter component={()=>PrivetSection} exact path="/personal"/> */}
+            {/* <ProtectRouter component={PrivetSection} exact path="/personal" /> */}
+            {/* <ProtectRouter component={()=>"success"} exact path="/login" />  */}
             <Route path="/personal" component={PrivetSection}/>
             <Route path="*" component={()=><h1 className="text-center pt-5">404 NOT FOUND</h1>}/>
           </Switch>

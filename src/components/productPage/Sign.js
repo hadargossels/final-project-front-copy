@@ -27,7 +27,7 @@ class Sign extends Component{
         >
             <h1 className="pt-5">Login</h1>
             <div>
-                <input ref={this.useremail} name="userName" type="email" className="m-4" placeholder="email" required/><br/>
+                <input ref={this.useremail} name="email" type="email" className="m-4" placeholder="email" required/><br/>
                 <input ref={this.userPassword} name="password" type="password" className="m-4" placeholder="password" required/><br/>
                 <input type="button" onClick={()=>this.userLogin()} className="btn btn-dark" value="Login"/><br/><br/>
             </div>

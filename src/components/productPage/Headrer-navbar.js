@@ -99,7 +99,7 @@ class Header extends Component{
                     {/* <h3 className="text-white pt-1" style={{position:'relative'}}>Experis-Sports</h3> */}
                     <div id="isUserLogin" className="d-flex">
                         {this.state.isUser}
-                        <ListItemLink to="/shopingchart/mycart" name={<div onMouseEnter={()=>this.cartQuick(true)} onMouseLeave={()=>this.cartQuick(false)}><span id="myBag" className="fs-5 m-1 text-danger">{((Number(localStorage.getItem('totalItems')))?Number(localStorage.getItem('totalItems')):0)}</span><i className="fas fa-shopping-bag fs-4"></i></div>}/> 
+                        <ListItemLink to="/shopingchart/mycart" name={<div onMouseEnter={()=>this.cartQuick(true)} onMouseLeave={()=>this.cartQuick(false)}><span id="myBag" className="fs-5 m-1 text-danger">{((Number(localStorage.getItem('totalItems')))?Number(localStorage.getItem('totalItems')):0)}</span><i className="fas fa-shopping-bag fs-5"></i></div>}/> 
                     </div>
                 </div>
             </nav>
@@ -127,7 +127,7 @@ class Header extends Component{
 
    myIsUser(){
        this.setState({
-           isUser :  <span className="text-danger fs-5 pt-2">Hi {localStorage.getItem('userName')}(<button onClick={()=>this.myLogOut()} className="btn btn-dark">logout</button>)</span>,
+           isUser :  <span className="text-danger fs-5 pt-1">Hi {localStorage.getItem('userName')}(<button onClick={()=>this.myLogOut()} className="btn btn-dark">logout</button>)</span>,
            isAlreadyUser : true
        })
    }
