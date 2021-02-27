@@ -108,3 +108,7 @@
     left: 0;
     z-index: 990;
 }
+
+input[type="checkbox"] {
+    width: 5%;
+}

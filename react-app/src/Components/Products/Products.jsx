@@ -5,7 +5,7 @@ import ratingStars from '../../js/ratingStars';
 import ProductsList from '../ProductsList/ProductsList';
 import ProductsFilter from '../ProductsFilter/ProductsFilter';
 
-const products = require('../../database/products.json');
+//const products = require('../../database/products.json');
 
 export default class Products extends Component {
 
@@ -13,7 +13,7 @@ export default class Products extends Component {
 
         super(props);
         
-        this.state = {prodsArr: products, displayArr: products, displayArrLen: products.length, searched: "",
+        this.state = {prodsArr: this.props.products, displayArr: this.props.products, displayArrLen: this.props.products.length, searched: "",
                         numHardware: 0, numLaptops: 0, numPeripheral: 0, numSoftwares: 0,
                         filterArrRating: [], isStock: false, isSale: false,
                         filterArrCat: [], arrCat: [], filterArrSub: [], arrSub: [], filterArrType: [], arrType: [], filterArrBrand: [], arrBrand: [],
@@ -391,7 +391,7 @@ export default class Products extends Component {
                     {
                         this.state.filterArrCat.map((prod, index) =>
                         <ProductsFilter
-                            key={index} category={"category"} filter={prod} filterCategories={this.filterCategoriesSub.bind(this)} ref={this.state.callRefSub}
+                            key={index} category={"category"} filter={prod} filterCategories={this.filterCategoriesSub.bind(this)} ref={this.state.callRefSub} products={this.state.prodsArr}
                         />)
                     }
                     </ul>
@@ -406,7 +406,7 @@ export default class Products extends Component {
                     {
                         this.state.filterArrSub.map((prod, index) =>
                         <ProductsFilter
-                            key={index} category={"subCategory"} filter={prod} filterCategories={this.filterCategoriesType.bind(this)} ref={this.state.callRefType}
+                            key={index} category={"subCategory"} filter={prod} filterCategories={this.filterCategoriesType.bind(this)} ref={this.state.callRefType} products={this.state.prodsArr}
                         />)
                     }
                     </ul>
@@ -421,7 +421,7 @@ export default class Products extends Component {
                     {
                         this.state.filterArrType.map((prod, index) =>
                         <ProductsFilter
-                            key={index} category={"type"} filter={prod} filterCategories={this.filterCategoriesBrand.bind(this)} ref={this.state.callRefBrand}
+                            key={index} category={"type"} filter={prod} filterCategories={this.filterCategoriesBrand.bind(this)} ref={this.state.callRefBrand} products={this.state.prodsArr}
                         />)
                     }
                     </ul>

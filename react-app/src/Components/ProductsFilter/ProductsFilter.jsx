@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const products = require('../../database/products.json');
+//const products = require('../../database/products.json');
 
 export default class ProductsFilter extends Component {
 
@@ -17,7 +17,7 @@ export default class ProductsFilter extends Component {
 
         case "category":
 
-            products.filter(prod => {
+            this.props.products.filter(prod => {
 
                 if (prod.category === this.state.filter) {
     
@@ -34,7 +34,7 @@ export default class ProductsFilter extends Component {
 
         case "subCategory":
 
-            products.filter(prod => {
+            this.props.products.filter(prod => {
 
                 if (prod.subCategory === this.state.filter) {
     
@@ -51,7 +51,7 @@ export default class ProductsFilter extends Component {
 
         case "type":
 
-            products.filter(prod => {
+            this.props.products.filter(prod => {
 
                 if (prod.type === this.state.filter) {
     

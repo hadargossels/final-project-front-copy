@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import PayPal from '../PayPal/PayPal';
 
-const products = require('../../database/products.json');
+//const products = require('../../database/products.json');
 
 export default class CartPaymentGuestReview extends Component {
 
@@ -42,11 +42,11 @@ export default class CartPaymentGuestReview extends Component {
                 {Object.keys(this.props.location.params.productsInCart).map((id, count) => 
                             <tr style={{fontSize: "20px"}} key={count}>
                                 <th scope="row" style={{verticalAlign: "middle"}}>{++count}</th>
-                                <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+products[id].name}><img src={products[id].img[0]} alt={JSON.stringify(products[id].name)} width="50px"/></Link></td>
-                                <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+products[id].name}>{products[id].title}</Link></td>
-                                <td style={{verticalAlign: "middle"}}>&emsp;₪{products[id].discount ? (products[id].price * (1-products[id].discountPercentage)).toFixed(2) : (products[id].price).toFixed(2)}</td>
+                                <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+this.props.products[id].name}><img src={this.props.products[id].img[0]} alt={JSON.stringify(this.props.products[id].name)} width="50px"/></Link></td>
+                                <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+this.props.products[id].name}>{this.props.products[id].title}</Link></td>
+                                <td style={{verticalAlign: "middle"}}>&emsp;₪{this.props.products[id].discount ? (this.props.products[id].price * (1-this.props.products[id].discountPercentage)).toFixed(2) : (this.props.products[id].price).toFixed(2)}</td>
                                 <td style={{verticalAlign: "middle"}}>&emsp;x{this.props.location.params.productsInCart[id]}</td>
-                                <td style={{verticalAlign: "middle"}}>&emsp;₪{products[id].discount ? (products[id].price * (1-products[id].discountPercentage) * this.props.location.params.productsInCart[id]).toFixed(2) : (products[id].price * this.props.location.params.productsInCart[id]).toFixed(2)}</td>
+                                <td style={{verticalAlign: "middle"}}>&emsp;₪{this.props.products[id].discount ? (this.props.products[id].price * (1-this.props.products[id].discountPercentage) * this.props.location.params.productsInCart[id]).toFixed(2) : (this.props.products[id].price * this.props.location.params.productsInCart[id]).toFixed(2)}</td>
                             </tr>
                             )
                   }

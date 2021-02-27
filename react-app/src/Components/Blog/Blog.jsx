@@ -1,8 +1,8 @@
 import BlogPostList from '../BlogPostList/BlogPostList';
 
-const posts = require('../../database/posts.json');
+//const posts = require('../../database/posts.json');
 
-export default function Blog() {
+export default function Blog({posts}) {
     return(
         <div className="lead" style={{margin: "0 auto", width: "50%"}}>
 

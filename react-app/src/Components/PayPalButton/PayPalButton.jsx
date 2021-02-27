@@ -41,8 +41,6 @@ export default function PayPalButton(props) {
 
     }, [])
     return (
-        <div>
-            <div ref={paypal}></div>
-        </div>
+        <div ref={paypal}></div>
     )
 }

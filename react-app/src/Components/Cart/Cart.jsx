@@ -2,17 +2,10 @@ import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import CartPayment from '../CartPayment/CartPayment'
 import { Link } from 'react-router-dom';
-import prettyFloat from '../../js/prettyFloat';
+import veryPrettyFloat from '../../js/veryPrettyFloat';
 
-const products = require('../../database/products.json');
-const coupons = require('../../database/coupons.json')[0];
-
-function veryPrettyFloat(num) {
-
-    num = prettyFloat(num, 2, true);
-
-    return num.includes(".") ? num.split(".")[1].length === 2 ? num : num = "0" : num + ".00";
-}
+//const products = require('../../database/products.json');
+//const coupons = require('../../database/coupons.json')[0];
 
 export default class Cart extends Component {
 
@@ -29,7 +22,7 @@ export default class Cart extends Component {
 
         if (this.props.productsInCart && Object.keys(this.props.productsInCart).length > 0) {
 
-            Object.keys(this.props.productsInCart).map(id => this.state.total += products[id].discount ? (products[id].price * (1-products[id].discountPercentage) * this.props.productsInCart[id]) : (products[id].price * this.props.productsInCart[id]));
+            Object.keys(this.props.productsInCart).map(id => this.state.total += this.props.products[id].discount ? (this.props.products[id].price * (1-this.props.products[id].discountPercentage) * this.props.productsInCart[id]) : (this.props.products[id].price * this.props.productsInCart[id]));
             
             this.state.total = veryPrettyFloat(this.state.total);
         }
@@ -47,7 +40,7 @@ export default class Cart extends Component {
         let coupon = 1.00;
         let validCoupons = [...this.state.validCoupons];
 
-        if (input in coupons) {
+        if (input in this.props.coupons) {
 
 
             if (arr.indexOf(input) ===- 1) {
@@ -56,7 +49,7 @@ export default class Cart extends Component {
 
                 for (var i = 0 ; i < arr.length ; i++) {
 
-                    coupon -= coupons[arr[i]];
+                    coupon -= this.props.coupons[arr[i]];
                 }
 
                 validCoupons.push(<p className="text-success">"{input}" applied successfully</p>);
@@ -85,11 +78,11 @@ export default class Cart extends Component {
                     {this.props.productsInCart && Object.keys(this.props.productsInCart).length > 0 ? Object.keys(this.props.productsInCart).map((id, count) => 
                             <tr style={{fontSize: "20px"}} key={count}>
                                 <th scope="row" style={{verticalAlign: "middle"}}>{++count}</th>
-                                <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+products[id].name}><img src={products[id].img[0]} alt={JSON.stringify(products[id].name)} width="50px"/></Link></td>
-                                <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+products[id].name}>{products[id].title}</Link></td>
-                                <td style={{verticalAlign: "middle"}}>₪{products[id].discount ? (products[id].price * (1-products[id].discountPercentage)).toFixed(2) : (products[id].price).toFixed(2)}</td>
+                                <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+this.props.products[id].name}><img src={this.props.products[id].img[0]} alt={JSON.stringify(this.props.products[id].name)} width="50px"/></Link></td>
+                                <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+this.props.products[id].name}>{this.props.products[id].title}</Link></td>
+                                <td style={{verticalAlign: "middle"}}>₪{this.props.products[id].discount ? (this.props.products[id].price * (1-this.props.products[id].discountPercentage)).toFixed(2) : (this.props.products[id].price).toFixed(2)}</td>
                                 <td style={{verticalAlign: "middle"}}>x&emsp;<input type="number" min="1" max="4" defaultValue={this.props.productsInCart[id]} style={{width: "50px", textAlign: "center"}} id={"quantity"+id}/></td>
-                                <td style={{verticalAlign: "middle"}}>₪{products[id].discount ? (products[id].price * (1-products[id].discountPercentage) * this.props.productsInCart[id]).toFixed(2) : (products[id].price * this.props.productsInCart[id]).toFixed(2)}</td>
+                                <td style={{verticalAlign: "middle"}}>₪{this.props.products[id].discount ? (this.props.products[id].price * (1-this.props.products[id].discountPercentage) * this.props.productsInCart[id]).toFixed(2) : (this.props.products[id].price * this.props.productsInCart[id]).toFixed(2)}</td>
                                 <td style={{verticalAlign: "middle"}}> <Button variant="outline-warning" onClick={() => this.props.addProductCart(id, document.querySelector("#quantity"+id).value)}>Update</Button></td>
                                 <td style={{verticalAlign: "middle"}}> <Button variant="outline-danger" onClick={() => this.props.delProductCart(id)}>Remove</Button></td>
                             </tr>

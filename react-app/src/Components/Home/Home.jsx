@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 import Carousel from 'react-bootstrap/Carousel';
 import './Home.css';
 
-const products = require('../../database/products.json');
+// const products = require('../../database/products.json');
 
-export default function Home() {
+export default function Home({products}) {
     return(
        <div className="container lead" style={{textAlign: "center"}}>
 

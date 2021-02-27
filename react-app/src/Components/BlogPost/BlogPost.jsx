@@ -3,9 +3,9 @@ import BlogPostAddComments from '../BlogPostAddComments/BlogPostAddComments';
 import BlogPostViewComments from '../BlogPostViewComments/BlogPostViewComments';
 import NotFound from '../404/NotFound';
 
-const posts = require('../../database/posts.json');
+//const posts = require('../../database/posts.json');
 
-export default function BlogPost() {
+export default function BlogPost({posts}) {
         
     const temp = posts.filter(post => post.name === window.location.href.split("/blog/")[1]);
 

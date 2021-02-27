@@ -6,7 +6,7 @@ import NotFound from '../404/NotFound';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 
-const products = require('../../database/products.json');
+//const products = require('../../database/products.json');
 
 export default class Product extends Component {
 
@@ -17,7 +17,7 @@ export default class Product extends Component {
       this.callRef = React.createRef();
       
       // const product = products.filter(prod => prod.name === this.props.match.params.prodName);
-      const product = products.filter(prod => prod.name === window.location.href.split("/shop/")[1]);
+      const product = this.props.products.filter(prod => prod.name === window.location.href.split("/shop/")[1]);
       
       if (product.length === 1) {
 
@@ -160,7 +160,7 @@ export default class Product extends Component {
    
                <br/>
 
-               {  products.map((prod,index) => {
+               {  this.props.products.map((prod,index) => {
 
                      // if (prod.type === this.state.type && prod.name !== this.props.match.params.prodName) {
                      if (prod.type === this.state.type && prod.name !== window.location.href.split("/shop/")[1]) {
