@@ -28,15 +28,9 @@ const Header = ({ currentUser, hidden, signOutStart }) => (
       <div className="header">
         <NavLink className="logo-container" to="/">
           <Logo className="logo" />
-        </NavLink>
+        </NavLink>{" "}
+        {currentUser && <h4>Welcome {currentUser.displayName}</h4>}
         <div className="options">
-          {/* <form class="example" action="/">
-        <input type="text" placeholder="Search.." name="search2" />
-        <button type="submit">
-          <i className="fa fa-search"></i>
-        </button>
-      </form> */}
-
           <SearchBar />
 
           {/* <NavLink className="option" activeStyle={activeStyle} to="/shop">
@@ -59,6 +53,17 @@ const Header = ({ currentUser, hidden, signOutStart }) => (
             CONTACT
           </NavLink>
 
+          {currentUser && (
+            <NavLink
+              className="option dash"
+              activeStyle={activeStyle}
+              to="/dashboard"
+            >
+              <i className="far fa-user fa-1x"></i>
+              <h6> DASHBOARD</h6>
+            </NavLink>
+          )}
+
           {currentUser ? (
             <div className="option" onClick={signOutStart}>
               SIGN OUT
@@ -75,7 +80,7 @@ const Header = ({ currentUser, hidden, signOutStart }) => (
               activeStyle={activeStyle}
               to="/shopping-cart"
             >
-              {currentUser.displayName} Cart
+              Cart
             </NavLink>
           )}
 

@@ -13,6 +13,7 @@ import {
 } from "../../redux/user/user.actions";
 
 import "./sign-up.styles.scss";
+import { Link } from "react-router-dom";
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -321,6 +322,13 @@ class SignUp extends React.Component {
                           Sign in
                         </button>
                       )}
+
+                      {!newUser && (
+                        <div className="w-100 text-center mt-1 mb-3">
+                          <Link to="/forgot-password">Forgot Password?</Link>
+                        </div>
+                      )}
+
                       {newUser ? (
                         <button
                           class="btn btn-success btn-block"

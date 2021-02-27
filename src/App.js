@@ -27,7 +27,6 @@ import AboutPage from "./pages/about/about.component";
 import BlogPage from "./pages/blog/blog.component";
 import SignOutPage from "./pages/signout/signout.component";
 import ProductPage from "./pages/product/product.component";
-import DashboardPage from "./pages/dashboard/dashboard.component";
 import AccountPage from "./pages/account/account.component";
 
 import SignInAndSignUpPage from "./pages/signin-signup/signin-signup.component";
@@ -44,6 +43,10 @@ import BlogPreviewPage from "./pages/blog-preview/blog-preview.component";
 
 // import { selectCurrentUser } from "./redux/user/user.selectors";
 import { checkUserSession } from "./redux/user/user.actions";
+import PrivateRoute from "./components/private-route/PrivateRoute";
+import UpdateProfile from "./pages/update-profile/update-profile.component";
+import Dashboard from "./pages/dashboard/dashboard.component";
+import ForgotPassword from "./pages/forgot-password/forgot-password.component";
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
@@ -117,9 +120,11 @@ class App extends React.Component {
               )
             }
           />{" "}
+          <PrivateRoute path="/dashboard" component={Dashboard} />
+          <PrivateRoute path="/update-profile" component={UpdateProfile} />
           <Route path="/signout" component={SignOutPage} />
-          <Route path="/dashboard" component={DashboardPage} />
           <Route path="/account" component={AccountPage} />
+          <Route path="/forgot-password" component={ForgotPassword} />
           <Route path="/order-tracking" component={TrackingPage} />
           <Route component={NotFoundPage} />
         </Switch>
