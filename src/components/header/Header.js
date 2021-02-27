@@ -66,7 +66,7 @@ amount () {
                   <WishList/>
                   </div>
                </div>
-            <NavLink exact to="/Login" className='fas fa-user'></NavLink>
+            <NavLink exact to="/Dashboard" className='fas fa-user'></NavLink>
             </div>
          </div>
       );

@@ -1,147 +1,43 @@
 import React, { Component } from 'react';
 import './Product.css';
-
-const product = [
-   {
-      src: "/img/souffle1.jpg",
-      price: 10,
-      name: 'Pen1',
-      id: 1,
-      gallery1: "/img/souffle1.jpg",
-      gallery2: "/img/souffle_2.jpg",
-      gallery3: "/img/Souffle-Packaging.jpg",
-      description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Id molestiae exercitationem, ab itaque ad nisi repellendus eum corporis voluptates cupiditate aut, nostrum non fugit dolore numquam, dignissimos nemo nulla necessitatibus.",
-      stock: "IN STOCK",
-      rating: '4.5',
-      raters: '150',
-      related1: "/img/Craft-Glaze.jpg",
-      related2: "/img/Craft-QuickieGlue.jpg",
-      related3: "/img/GellyRoll-GoldSilverShadow.jpg"
-   },
-   {
-      src: "/img/notebooks/noteb1.jpg",
-      price: 15,
-      name: 'Pencil1',
-      id: 2,
-      gallery1: "/img/notebooks/noteb1.jpg",
-      gallery2: "/img/notebooks/noteb1.jpg",
-      gallery3: "/img/notebooks/noteb1.jpg",
-      description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Id molestiae exercitationem, ab itaque ad nisi repellendus eum corporis voluptates cupiditate aut, nostrum non fugit dolore numquam, dignissimos nemo nulla necessitatibus.",
-      stock: "IN STOCK",
-      rating: '3',
-      raters: '150',
-      related1: "/img/notebooks/noteb2.jpg",
-      related2: "/img/notebooks/noteb3.jpg",
-      related3: "/img/notebooks/noteb4.jpg"
-   },
-   {
-      src: "/img/notebooks/noteb1.jpg",
-      price: 6,
-      id: 3,
-      name: 'notebook1',
-   },
-   {
-      src: "/img/notebooks/noteb2.jpg",
-      // category: 'notebooks',
-      brand: 'brandD',
-      color: 'purple',
-      price: 23,
-      priceRange: "21-30",
-      name: 'notebook2',
-      id: 4
-   },
-   {
-      src: "/img/notebooks/noteb3.jpg",
-      // category: 'notebooks',
-      brand: 'brandA',
-      color: 'purple',
-      price: 8,
-      priceRange: "0-10",
-      name: 'notebook3',
-      id: 5
-   },
-   {
-      src: "/img/notebooks/noteb4.jpg",
-      // category: 'notebooks',
-      brand: 'brandB',
-      color: 'blue',
-      price: 9,
-      priceRange: "0-10",
-      name: 'notebook4',
-      id: 6
-   },
-   {
-      src: "/img/notebooks/noteb5.jpg",
-      // category: 'notebooks',
-      brand: 'brandC',
-      color: 'multi',
-      price: 11,
-      priceRange: "11-20",
-      name: 'notebook5',
-      id: 7
-   },
-   {
-      src: "/img/notebooks/noteb6.jpg",
-      // category: 'notebooks',
-      brand: 'brandD',
-      color: 'yellow',
-      price: 7,
-      priceRange: "0-10",
-      name: 'notebook6',
-      id: 8
-   },
-   {
-      src: "/img/notebooks/noteb7.jpg",
-      // category: 'notebooks',
-      brand: 'brandA',
-      color: 'red',
-      price: 18,
-      priceRange: "11-20",
-      name: 'notebook7',
-      id: 9
-   },
-   {
-      src: "/img/notebooks/noteb8.jpg",
-      // category: 'notebooks',
-      brand: 'brandB',
-      color: 'yellow',
-      price: 14,
-      priceRange: "11-20",
-      name: 'notebook8',
-      id: 10
-   },
-   {
-      src: "/img/notebooks/noteb9.jpg",
-      // category: 'notebooks',
-      brand: 'brandC',
-      color: 'yellow',
-      price: 18,
-      priceRange: "11-20",
-      name: 'notebook9',
-      id: 11
-   },
-   {
-      src: "/img/notebooks/noteb10.jpg",
-      price: 18,
-      name: 'notebook10',
-      id: 12
-   }
-]
-
+import axios from 'axios'
 
 class Product extends Component {
    constructor(props) {
       super(props);
 
       this.state = {
-      product: product,
+      product: [],
       i: 0,
       cart: JSON.parse(localStorage.getItem("cart")),
       addMsg: ""
     }
     this.findIndex = this.findIndex.bind(this);
     this.addToCart = this.addToCart.bind(this);
-    this.findIndex();
+   this.findIndex()
+   
+      }
+
+
+      componentDidMount () {
+         this.getProduct();
+      }
+
+
+      
+      async getProduct() {
+      try {
+         const response = await axios.get('http://localhost:3000/product');
+         console.log("response from db",response.data);
+         this.setState({product: response.data}, () => {
+            this.findIndex()
+            console.log("data from db",this.state.product)
+         });
+         
+         
+      } catch (error) {
+         console.error(error);
+      }
       }
 
    addMsg () {
@@ -156,7 +52,7 @@ class Product extends Component {
          {i = element.id - 1; }
       }
       setTimeout(()=>
-      {this.setState({i:i})},100) 
+      {this.setState({i}); console.log(this.state.i)},5) 
    }
 
    addToCart (e) {
@@ -198,7 +94,7 @@ class Product extends Component {
    
    
    render() {
-      return (
+      return (this.state.product[this.state.i]) ? (
          <div className='prodCont'>
          <div className='prodImg'>
             <div className='mainImg'>
@@ -238,7 +134,7 @@ class Product extends Component {
             </div>
          </div>
       </div>
-      );
+      ) : (<div>Loading...</div>)
    }
 }
 export default Product;

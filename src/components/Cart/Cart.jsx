@@ -16,7 +16,6 @@ export class Cart extends Component {
             total: 0,
             shipping: 10,
             discount: 0,
-            valid: "",
             discountMsg: "",
             valid: "",
             validColor: "",

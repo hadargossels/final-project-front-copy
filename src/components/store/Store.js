@@ -1,155 +1,10 @@
 import React, { Component } from 'react';
 import './Store.css';
 import {NavLink} from 'react-router-dom'
-import bootstrap from 'bootstrap'
-import Header from '../header/Header'
 
- const product = [
-  {src: "/img/souffle1.jpg",
-  category: 'pens',
-  brand: 'brandA',
-  color: 'multi',
-  price: 10,
-  priceRange: "0-10",
-  name: 'pen1',
-  description: 'aaaaaa',
-  id: 1,
-  date: new Date ('2019-06-28'),
-  featured: 15
-  },
-  {src: "/img/souffle_2.jpg",
-   category: 'pencils',
-   brand: 'brandB',
-   color: 'multi',
-   price: 15,
-   priceRange: "11-20",
-   name: 'pencil1',
-   description: 'aaaaaa',
-   id: 2,
-   date: new Date ('2012-06-28'),
-   featured: 8
-   },
-   {src: "/img/notebooks/noteb1.jpg",
-   category: 'notebooks',
-   brand: 'brandC',
-   color: 'pink',
-   price: 6,
-   priceRange: "0-10",
-   name: 'notebook1',
-   description: 'aaaaaa',
-   id: 3,
-   date: new Date ('2018-06-28'),
-   featured: 17
-   },
-   {src: "/img/notebooks/noteb2.jpg",
-   category: 'notebooks',
-   brand: 'brandD',
-   color: 'purple',
-   price: 23,
-   priceRange: "21-30",
-   name: 'notebook2',
-   description: 'aaaaaa',
-   id: 4,
-   date: new Date ('2019-08-28'),
-   featured: 5
-   },
-   {src: "/img/notebooks/noteb3.jpg",
-   category: 'notebooks',
-   brand: 'brandA',
-   color: 'purple',
-   price: 8,
-   priceRange: "0-10",
-   name: 'notebook3',
-   description: 'bbb',
-   id: 5,
-   date: new Date ('2019-07-28'),
-   featured: 6
-   },
-   {src: "/img/notebooks/noteb4.jpg",
-   category: 'notebooks',
-   brand: 'brandB',
-   color: 'blue',
-   price: 9,
-   priceRange: "0-10",
-   name: 'notebook4',
-   description: 'bbb',
-   id: 6,
-   date: new Date ('2020-06-28'),
-   featured: 24
-   },
-   {src: "/img/notebooks/noteb5.jpg",
-   category: 'notebooks',
-   brand: 'brandC',
-   color: 'multi',
-   price: 11,
-   priceRange: "11-20",
-   name: 'notebook5',
-   description: 'bbb',
-   id: 7,
-   date: new Date ('2004-06-28'),
-   featured: 16
-   },
-   {src: "/img/notebooks/noteb6.jpg",
-   category: 'notebooks',
-   brand: 'brandD',
-   color: 'yellow',
-   price: 7,
-   priceRange: "0-10",
-   name: 'notebook6',
-   description: 'bbb',
-   id: 8,
-   date: new Date ('2012-06-28'),
-   featured: 22
-   },
-   {src: "/img/notebooks/noteb7.jpg",
-   category: 'notebooks',
-   brand: 'brandA',
-   color: 'red',
-   price: 18,
-   priceRange: "11-20",
-   name: 'notebook7',
-   description: 'ccccccc',
-   id: 9,
-   date: new Date ('2018-11-28'),
-   featured: 30
-   },
-   {src: "/img/notebooks/noteb8.jpg",
-   category: 'notebooks',
-   brand: 'brandB',
-   color: 'yellow',
-   price: 14,
-   priceRange: "11-20",
-   name: 'notebook8',
-   description: 'ccccccc',
-   id: 10,
-   date: new Date ('2019-06-13'),
-   featured: 4
-   },
-   {src: "/img/notebooks/noteb9.jpg",
-   category: 'notebooks',
-   brand: 'brandC',
-   color: 'yellow',
-   price: 18,
-   priceRange: "11-20",
-   name: 'notebook9',
-   description: 'ccccccc',
-   id: 11,
-   date: new Date ('2017-04-28'),
-   featured: 19
-   },
-   {src: "/img/notebooks/noteb10.jpg",
-   category: 'notebooks',
-   brand: 'brandD',
-   color: 'blue',
-   price: 18,
-   priceRange: "11-20",
-   name: 'notebook10',
-   description: 'ccccccc',
-   id: 12,
-   date: new Date ('2021-02-28'),
-   featured: 6
-   }
-]
+const axios = require('axios').default;
+
+ let product = []
 
 class Store extends Component{
     constructor(props) {
@@ -178,10 +33,26 @@ class Store extends Component{
     this.newFeatured()
       }
 
-      addMsg () {
-        setTimeout(()=>{this.setState({addMsg: "Item added to cart"})},5)
-        setTimeout(()=>{this.setState({addMsg: ""})},10000)
-      }
+componentWillMount () {
+  this.getStore()
+}
+
+async getStore() {
+  try {
+    const response = await axios.get('http://localhost:3000/store');
+    product = response.data;
+    this.setState({product, display: product})
+    console.log(product);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+    addMsg () {
+      setTimeout(()=>{this.setState({addMsg: "Item added to cart"})},5)
+      setTimeout(()=>{this.setState({addMsg: ""})},10000)
+    }
 
     addToCart (e) {
       

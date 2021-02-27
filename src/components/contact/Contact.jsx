@@ -24,7 +24,7 @@ import {
                 <div style={{padding: "25px"}}> 
                   <h3>Stationery Store</h3>              
                   <h6>8, ALROV MAMILLA AVENUE, Jerusalem</h6>
-                  <img src='/img/plh-crd-mamilla-mall-ministry-of-tourism-2.jpg' height="150px" />
+                  <img src='/img/plh-crd-mamilla-mall-ministry-of-tourism-2.jpg' alt="img" height="150px" />
                 </div>
               </InfoWindow>
             )}

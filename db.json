@@ -1,0 +1,525 @@
+{
+  "store": [
+    {
+      "src": "/img/souffle1.jpg",
+      "category": "pens",
+      "brand": "brandA",
+      "color": "multi",
+      "price": 10,
+      "priceRange": "0-10",
+      "name": "pen1",
+      "description": "aaaaaa",
+      "id": 1,
+      "date": "new Date (2019-06-28)",
+      "featured": 15
+    },
+    {
+      "src": "/img/souffle_2.jpg",
+      "category": "pencils",
+      "brand": "brandB",
+      "color": "multi",
+      "price": 15,
+      "priceRange": "11-20",
+      "name": "pencil1",
+      "description": "aaaaaa",
+      "id": 2,
+      "date": "new Date (2012-06-28)",
+      "featured": 8
+    },
+    {
+      "src": "/img/notebooks/noteb1.jpg",
+      "category": "notebooks",
+      "brand": "brandC",
+      "color": "pink",
+      "price": 6,
+      "priceRange": "0-10",
+      "name": "notebook1",
+      "description": "aaaaaa",
+      "id": 3,
+      "date": "new Date (2018-06-28)",
+      "featured": 17
+    },
+    {
+      "src": "/img/notebooks/noteb2.jpg",
+      "category": "notebooks",
+      "brand": "brandD",
+      "color": "purple",
+      "price": 23,
+      "priceRange": "21-30",
+      "name": "notebook2",
+      "description": "aaaaaa",
+      "id": 4,
+      "date": "new Date (2019-08-28)",
+      "featured": 5
+    },
+    {
+      "src": "/img/notebooks/noteb3.jpg",
+      "category": "notebooks",
+      "brand": "brandA",
+      "color": "purple",
+      "price": 8,
+      "priceRange": "0-10",
+      "name": "notebook3",
+      "description": "bbb",
+      "id": 5,
+      "date": "new Date (2019-07-28)",
+      "featured": 6
+    },
+    {
+      "src": "/img/notebooks/noteb4.jpg",
+      "category": "notebooks",
+      "brand": "brandB",
+      "color": "blue",
+      "price": 9,
+      "priceRange": "0-10",
+      "name": "notebook4",
+      "description": "bbb",
+      "id": 6,
+      "date": "new Date (2020-06-28)",
+      "featured": 24
+    },
+    {
+      "src": "/img/notebooks/noteb5.jpg",
+      "category": "notebooks",
+      "brand": "brandC",
+      "color": "multi",
+      "price": 11,
+      "priceRange": "11-20",
+      "name": "notebook5",
+      "description": "bbb",
+      "id": 7,
+      "date": "new Date (2004-06-28)",
+      "featured": 16
+    },
+    {
+      "src": "/img/notebooks/noteb6.jpg",
+      "category": "notebooks",
+      "brand": "brandD",
+      "color": "yellow",
+      "price": 7,
+      "priceRange": "0-10",
+      "name": "notebook6",
+      "description": "bbb",
+      "id": 8,
+      "date": "new Date (2012-06-28)",
+      "featured": 22
+    },
+    {
+      "src": "/img/notebooks/noteb7.jpg",
+      "category": "notebooks",
+      "brand": "brandA",
+      "color": "red",
+      "price": 18,
+      "priceRange": "11-20",
+      "name": "notebook7",
+      "description": "ccccccc",
+      "id": 9,
+      "date": "new Date (2018-11-28)",
+      "featured": 30
+    },
+    {
+      "src": "/img/notebooks/noteb8.jpg",
+      "category": "notebooks",
+      "brand": "brandB",
+      "color": "yellow",
+      "price": 14,
+      "priceRange": "11-20",
+      "name": "notebook8",
+      "description": "ccccccc",
+      "id": 10,
+      "date": "new Date (2019-06-13)",
+      "featured": 4
+    },
+    {
+      "src": "/img/notebooks/noteb9.jpg",
+      "category": "notebooks",
+      "brand": "brandC",
+      "color": "yellow",
+      "price": 18,
+      "priceRange": "11-20",
+      "name": "notebook9",
+      "description": "ccccccc",
+      "id": 11,
+      "date": "new Date (2017-04-28)",
+      "featured": 19
+    },
+    {
+      "src": "/img/notebooks/noteb10.jpg",
+      "category": "notebooks",
+      "brand": "brandD",
+      "color": "blue",
+      "price": 18,
+      "priceRange": "11-20",
+      "name": "notebook10",
+      "description": "ccccccc",
+      "id": 12,
+      "date": "new Date (2021-02-28)",
+      "featured": 6
+    }
+  ],
+  "product": [
+    {
+      "src": "/img/souffle1.jpg",
+      "price": 10,
+      "name": "Pen1",
+      "id": 1,
+      "gallery1": "/img/souffle1.jpg",
+      "gallery2": "/img/souffle_2.jpg",
+      "gallery3": "/img/Souffle-Packaging.jpg",
+      "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Id molestiae exercitationem, ab itaque ad nisi repellendus eum corporis voluptates cup id itate aut, nostrum non fugit dolore numquam, dignissimos nemo nulla necessitatibus.",
+      "stock": "IN STOCK",
+      "rating": "4.5",
+      "raters": "150",
+      "related1": "/img/Craft-Glaze.jpg",
+      "related2": "/img/Craft-QuickieGlue.jpg",
+      "related3": "/img/GellyRoll-GoldSilverShadow.jpg"
+    },
+    {
+      "src": "/img/souffle_2.jpg",
+      "price": 15,
+      "name": "Pencil1",
+      "id": 2,
+      "gallery1": "/img/souffle_2.jpg",
+      "gallery2": "/img/souffle_2.jpg",
+      "gallery3": "/img/souffle_2.jpg",
+      "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit.  id molestiae exercitationem, ab itaque ad nisi repellendus eum corporis voluptates cup iditate aut, nostrum non fugit dolore numquam, dignissimos nemo nulla necessitatibus.",
+      "stock": "IN STOCK",
+      "rating": "3",
+      "raters": "150",
+      "related1": "/img/Craft-Glaze.jpg",
+      "related2": "/img/Craft-QuickieGlue.jpg",
+      "related3": "/img/GellyRoll-GoldSilverShadow.jpg"
+    },
+    {
+      "src": "/img/notebooks/noteb1.jpg",
+      "price": 6,
+      "name": "notebook1",
+      "id": 3,
+      "gallery1": "/img/notebooks/noteb1.jpg",
+      "gallery2": "/img/notebooks/noteb1.jpg",
+      "gallery3": "/img/notebooks/noteb1.jpg",
+      "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit.  molestiae exercitationem, ab itaque ad nisi repellendus eum corporis voluptates cupitate aut, nostrum non fugit dolore numquam, dignissimos nemo nulla necessitatibus.",
+      "stock": "IN STOCK",
+      "rating": "3",
+      "raters": "150",
+      "related1": "/img/notebooks/noteb2.jpg",
+      "related2": "/img/notebooks/noteb3.jpg",
+      "related3": "/img/notebooks/noteb4.jpg"
+    },
+    {
+      "src": "/img/notebooks/noteb2.jpg",
+      "price": 23,
+      "name": "notebook2",
+      "id": 4,
+      "gallery1": "/img/notebooks/noteb2.jpg",
+      "gallery2": "/img/notebooks/noteb2.jpg",
+      "gallery3": "/img/notebooks/noteb2.jpg",
+      "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit.   molestiae exercitationem, ab itaque ad nisi repellendus eum corporis voluptates cup itate aut, nostrum non fugit dolore numquam, dignissimos nemo nulla necessitatibus.",
+      "stock": "IN STOCK",
+      "rating": "3",
+      "raters": "150",
+      "related1": "/img/notebooks/noteb3.jpg",
+      "related2": "/img/notebooks/noteb4.jpg",
+      "related3": "/img/notebooks/noteb5.jpg"
+    },
+    {
+      "src": "/img/notebooks/noteb3.jpg",
+      "price": 8,
+      "name": "notebook3",
+      "id": 5,
+      "gallery1": "/img/notebooks/noteb3.jpg",
+      "gallery2": "/img/notebooks/noteb3.jpg",
+      "gallery3": "/img/notebooks/noteb3.jpg",
+      "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit.  molestiae exercitationem, ab itaque ad nisi repellendus eum corporis voluptates cupitate aut, nostrum non fugit dolore numquam, dignissimos nemo nulla necessitatibus.",
+      "stock": "IN STOCK",
+      "rating": "3",
+      "raters": "150",
+      "related1": "/img/notebooks/noteb4.jpg",
+      "related2": "/img/notebooks/noteb5.jpg",
+      "related3": "/img/notebooks/noteb6.jpg"
+    },
+    {
+      "src": "/img/notebooks/noteb4.jpg",
+      "price": 9,
+      "name": "notebook4",
+      "id": 6,
+      "gallery1": "/img/notebooks/noteb4.jpg",
+      "gallery2": "/img/notebooks/noteb4.jpg",
+      "gallery3": "/img/notebooks/noteb4.jpg",
+      "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit.  molestiae exercitationem, ab itaque ad nisi repellendus eum corporis voluptates cupitate aut, nostrum non fugit dolore numquam, dignissimos nemo nulla necessitatibus.",
+      "stock": "IN STOCK",
+      "rating": "3",
+      "raters": "150",
+      "related1": "/img/notebooks/noteb5.jpg",
+      "related2": "/img/notebooks/noteb6.jpg",
+      "related3": "/img/notebooks/noteb7.jpg"
+    },
+    {
+      "src": "/img/notebooks/noteb5.jpg",
+      "price": 11,
+      "name": "notebook5",
+      "id": 7,
+      "gallery1": "/img/notebooks/noteb5.jpg",
+      "gallery2": "/img/notebooks/noteb5.jpg",
+      "gallery3": "/img/notebooks/noteb5.jpg",
+      "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit.  molestiae exercitationem, ab itaque ad nisi repellendus eum corporis voluptates cupitate aut, nostrum non fugit dolore numquam, dignissimos nemo nulla necessitatibus.",
+      "stock": "IN STOCK",
+      "rating": "3",
+      "raters": "150",
+      "related1": "/img/notebooks/noteb6.jpg",
+      "related2": "/img/notebooks/noteb7.jpg",
+      "related3": "/img/notebooks/noteb8.jpg"
+    },
+    {
+      "src": "/img/notebooks/noteb6.jpg",
+      "price": 7,
+      "name": "notebook6",
+      "id": 8,
+      "gallery1": "/img/notebooks/noteb6.jpg",
+      "gallery2": "/img/notebooks/noteb6.jpg",
+      "gallery3": "/img/notebooks/noteb6.jpg",
+      "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit.  molestiae exercitationem, ab itaque ad nisi repellendus eum corporis voluptates cupitate aut, nostrum non fugit dolore numquam, dignissimos nemo nulla necessitatibus.",
+      "stock": "IN STOCK",
+      "rating": "3",
+      "raters": "150",
+      "related1": "/img/notebooks/noteb7.jpg",
+      "related2": "/img/notebooks/noteb8.jpg",
+      "related3": "/img/notebooks/noteb9.jpg"
+    },
+    {
+      "src": "/img/notebooks/noteb7.jpg",
+      "price": 18,
+      "name": "notebook7",
+      "id": 9,
+      "gallery1": "/img/notebooks/noteb7.jpg",
+      "gallery2": "/img/notebooks/noteb7.jpg",
+      "gallery3": "/img/notebooks/noteb7.jpg",
+      "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit.  molestiae exercitationem, ab itaque ad nisi repellendus eum corporis voluptates cupitate aut, nostrum non fugit dolore numquam, dignissimos nemo nulla necessitatibus.",
+      "stock": "IN STOCK",
+      "rating": "3",
+      "raters": "150",
+      "related1": "/img/notebooks/noteb8.jpg",
+      "related2": "/img/notebooks/noteb9.jpg",
+      "related3": "/img/notebooks/noteb10.jpg"
+    },
+    {
+      "src": "/img/notebooks/noteb8.jpg",
+      "price": 14,
+      "name": "notebook8",
+      "id": 10,
+      "gallery1": "/img/notebooks/noteb8.jpg",
+      "gallery2": "/img/notebooks/noteb8.jpg",
+      "gallery3": "/img/notebooks/noteb8.jpg",
+      "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit.  molestiae exercitationem, ab itaque ad nisi repellendus eum corporis voluptates cupitate aut, nostrum non fugit dolore numquam, dignissimos nemo nulla necessitatibus.",
+      "stock": "IN STOCK",
+      "rating": "3",
+      "raters": "150",
+      "related1": "/img/notebooks/noteb9.jpg",
+      "related2": "/img/notebooks/noteb10.jpg",
+      "related3": "/img/notebooks/noteb11.jpg"
+    },
+    {
+      "src": "/img/notebooks/noteb9.jpg",
+      "price": 18,
+      "name": "notebook9",
+      "id": 11,
+      "gallery1": "/img/notebooks/noteb9.jpg",
+      "gallery2": "/img/notebooks/noteb9.jpg",
+      "gallery3": "/img/notebooks/noteb9.jpg",
+      "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit.  molestiae exercitationem, ab itaque ad nisi repellendus eum corporis voluptates cupitate aut, nostrum non fugit dolore numquam, dignissimos nemo nulla necessitatibus.",
+      "stock": "IN STOCK",
+      "rating": "3",
+      "raters": "150",
+      "related1": "/img/notebooks/noteb10.jpg",
+      "related2": "/img/notebooks/noteb11.jpg",
+      "related3": "/img/notebooks/noteb12.jpg"
+    },
+    {
+      "src": "/img/notebooks/noteb10.jpg",
+      "price": 18,
+      "name": "notebook10",
+      "id": 12,
+      "gallery1": "/img/notebooks/noteb10.jpg",
+      "gallery2": "/img/notebooks/noteb10.jpg",
+      "gallery3": "/img/notebooks/noteb10.jpg",
+      "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit.  molestiae exercitationem, ab itaque ad nisi repellendus eum corporis voluptates cupitate aut, nostrum non fugit dolore numquam, dignissimos nemo nulla necessitatibus.",
+      "stock": "IN STOCK",
+      "rating": "3",
+      "raters": "150",
+      "related1": "/img/notebooks/noteb11.jpg",
+      "related2": "/img/notebooks/noteb12.jpg",
+      "related3": "/img/notebooks/noteb1.jpg"
+    }
+  ],
+  "blog": [
+    {
+      "id": 1,
+      "title": "Post Titel1",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero, nobis minima perspiciatis eius, quaerat voluptas, unde temporibus eveniet accusamus culpa quae dolorum nemo. Modi asperiores blanditiis recusandae sed consequatur.",
+      "date": "01/01/2021",
+      "comments": 100,
+      "src": "/img/notebooks/noteb1.jpg"
+    },
+    {
+      "id": 2,
+      "title": "Post Titel2",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero, nobis minima perspiciatis eius, quaerat voluptas, unde temporibus eveniet accusamus culpa quae dolorum nemo. Modi asperiores blanditiis recusandae sed consequatur.",
+      "date": "02/01/2021",
+      "comments": 110,
+      "src": "/img/notebooks/noteb2.jpg"
+    },
+    {
+      "id": 3,
+      "title": "Post Titel3",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero, nobis minima perspiciatis eius, quaerat voluptas, unde temporibus eveniet accusamus culpa quae dolorum nemo. Modi asperiores blanditiis recusandae sed consequatur.",
+      "date": "03/01/2021",
+      "comments": 120,
+      "src": "/img/notebooks/noteb3.jpg"
+    },
+    {
+      "id": 4,
+      "title": "Post Titel4",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero, nobis minima perspiciatis eius, quaerat voluptas, unde temporibus eveniet accusamus culpa quae dolorum nemo. Modi asperiores blanditiis recusandae sed consequatur.",
+      "date": "04/01/2021",
+      "comments": 130,
+      "src": "/img/notebooks/noteb4.jpg"
+    },
+    {
+      "id": 5,
+      "title": "Post Titel5",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero, nobis minima perspiciatis eius, quaerat voluptas, unde temporibus eveniet accusamus culpa quae dolorum nemo. Modi asperiores blanditiis recusandae sed consequatur.",
+      "date": "05/01/2021",
+      "comments": 140,
+      "src": "/img/notebooks/noteb5.jpg"
+    }
+  ],
+  "comments": [
+    {
+      "postId": 1,
+      "id": 1,
+      "name": "john doe",
+      "date": "01/01/2021",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero"
+    },
+    {
+      "postId": 1,
+      "id": 2,
+      "name": "john doe",
+      "date": "02/01/2021",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero"
+    },
+    {
+      "postId": 1,
+      "id": 3,
+      "name": "john doe",
+      "date": "03/01/2021",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero"
+    },
+    {
+      "postId": 2,
+      "id": 4,
+      "name": "john doe",
+      "date": "04/01/2021",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero"
+    },
+    {
+      "postId": 2,
+      "id": 5,
+      "name": "john doe",
+      "date": "05/01/2021",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero"
+    },
+    {
+      "postId": 2,
+      "id": 6,
+      "name": "john doe",
+      "date": "06/01/2021",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero"
+    },
+    {
+      "postId": 3,
+      "id": 7,
+      "name": "john doe",
+      "date": "07/01/2021",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero"
+    },
+    {
+      "postId": 3,
+      "id": 8,
+      "name": "john doe",
+      "date": "08/01/2021",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero"
+    },
+    {
+      "postId": 3,
+      "id": 9,
+      "name": "john doe",
+      "date": "09/01/2021",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero"
+    },
+    {
+      "postId": 4,
+      "id": 10,
+      "name": "john doe",
+      "date": "10/01/2021",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero"
+    },
+    {
+      "postId": 4,
+      "id": 11,
+      "name": "john doe",
+      "date": "11/01/2021",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero"
+    },
+    {
+      "postId": 4,
+      "id": 12,
+      "name": "john doe",
+      "date": "12/01/2021",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero"
+    },
+    {
+      "postId": 5,
+      "id": 13,
+      "name": "john doe",
+      "date": "13/01/2021",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero"
+    },
+    {
+      "postId": 5,
+      "id": 14,
+      "name": "john doe",
+      "date": "14/01/2021",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero"
+    },
+    {
+      "postId": 5,
+      "id": 15,
+      "name": "john doe",
+      "date": "15/01/2021",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi libero"
+    },
+    {
+      "postId": 1,
+      "id": 16,
+      "name": "john doe",
+      "date": "16/01/2021",
+      "comment": "Lfshtjzigendi libero",
+      "blogId": "1"
+    },
+    {
+      "postId": 2,
+      "id": 17,
+      "name": "wde",
+      "date": "21/02/2021",
+      "comment": "rthyh"
+    },
+    {
+      "postId": 1,
+      "id": 18,
+      "name": "egrht",
+      "date": "22/02/2021",
+      "comment": "erhtjk"
+    }
+  ]
+}

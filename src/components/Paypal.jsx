@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from "react";
-import Success from './Success/Success'
 export default function Paypal() {
 
 const totalF = JSON.parse(localStorage.getItem("total"))
@@ -30,7 +29,6 @@ let orderId = 0
         onApprove: async (data, actions) => {
           const order = await actions.order.capture();
           localStorage.setItem("orderId",JSON.stringify(order.id))
-          orderId = order.id
         },
         onError: (err) => {
           localStorage.setItem("orderErr",JSON.stringify(err))

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Route,Switch, BrowserRouter as Router} from 'react-router-dom'
+// import {Route,Switch, BrowserRouter as Router} from 'react-router-dom'
 import './index.css';
 import Header from './components/header/Header';
 import App from './App';
@@ -13,13 +13,20 @@ import Blog from './components/blog/Blog';
 import Shipping from './components/shipping/Shipping'
 import Faq from './components/faq/Faq'
 import Product from './components/product/Product'
-import Login from './components/login/Login'
+// import Login from './components/login/Login'
 import Cart from './components/Cart/Cart';
 import Payment from './components/payment/Payment';
-import Newaccount from './components/newAccount/Newaccount';
-import PropTypes from 'prop-types';
+// import Newaccount from './components/newAccount/Newaccount';
 import WishList from './components/WishList/WishList';
 import Post from './components/Post/Post';
+import { AuthProvider } from "./AuthContext";
+import Signup from "./components/Signup";
+import Dashboard from './components/Dashboard'
+import Login from './components/Login'
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import PrivateRoute from "./components/PrivateRoute";
+import ForgotPassword from "./components/ForgotPassword";
+import UpdateProfile from "./components/UpdateProfile";
 
 localStorage.setItem("orderErr","")
 localStorage.setItem("orderId","")
@@ -47,6 +54,7 @@ console.log(amount)
 
 const router = (
   <Router>
+    <AuthProvider>
   <Header amount={amount}/>
   <Switch>
      <Route exact path="/" component={App}/>
@@ -58,18 +66,23 @@ const router = (
      <Route exact path="/Blog" component={Blog}/>
      <Route path="/Shipping" component={Shipping}/>
      <Route path="/Faq" component={Faq}/>
-     <Route path="/Login" component={Login}/>
+     {/* <Route path="/Login" component={Login}/> */}
      <Route path="/Product/:productid" component={Product}/>
      <Route exact path = "/Cart" component={Cart}/>
      <Route exact path = "/Payment" component={Payment}/>
-     <Route exact path = "/NewAccount" component={Newaccount}/>
+     {/* <Route exact path = "/NewAccount" component={Newaccount}/> */}
      <Route exact path = "/WishList" component={WishList}/>
-     <Route exact path = "/Post/:postId" component={Post}/>
+     <Route exact path = "/Post/:postid" component={Post}/>
+     <PrivateRoute exact path="/Dashboard" component={Dashboard}/>
+    <PrivateRoute exact path="/update-profile" component={UpdateProfile}/>
+    <Route exact path='/signup' component={Signup}/>
+    <Route exact path='/login' component={Login}/>
+    <Route exact path='/forgot-password' component={ForgotPassword}/>
      <Route component={NotFound}/>
   </Switch>
   <Footer/>
+  </AuthProvider>
   </Router>
-  
 )
 
 ReactDOM.render(
