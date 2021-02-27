@@ -12,13 +12,11 @@ export default function Login() {
     const [loading, setLoading] = useState(false)
     const history = useHistory()
 
-    //trying google
     const provider = new firebase.auth.GoogleAuthProvider()
     provider.setCustomParameters({prompt: 'select_account'})
     const signInWithGoogle = () => auth.signInWithPopup(provider);
     const handleGoogle = async (e) => {
         e.preventDefault()
-
         setLoading(true)
         await signInWithGoogle();
         localStorage.setItem("login",auth.currentUser.email)
@@ -28,7 +26,6 @@ export default function Login() {
 
     async function handleSubmit(e) {
         e.preventDefault()
-
         try{
             setError("")
             setLoading(true)

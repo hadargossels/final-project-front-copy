@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+
 import {NavLink} from 'react-router-dom';
 import CartTable from './Cart/CartTable';
 
 class Header extends Component{
-   constructor(props){
-      super(props)
-      this.state = {itemsInCart: JSON.parse(localStorage.getItem("productsArr")) ? JSON.parse(localStorage.getItem("productsArr")).length : 0}
-   }
 
     render(){
       const noDeco = {textDecoration:"none"}
@@ -35,7 +33,7 @@ class Header extends Component{
                      <li className="nav-item">
                         <NavLink style={noDeco} className="nav-link" to="/cart">
                            <i className="fas fa-shopping-cart me-2"></i>
-                           <span>Your Cart ({this.state.itemsInCart})</span>
+                           <span>Your Cart ({this.props.chosenProducts ? this.props.chosenProducts.length : 0})</span>
                         </NavLink>
                      </li>
                      <li className="nav-item">
@@ -68,4 +66,8 @@ class Header extends Component{
     }
  }
 
- export default Header;
+const mapStateToProps = state => ({
+   chosenProducts: state.products.chosenProducts,
+})
+
+export default connect(mapStateToProps)(Header)
