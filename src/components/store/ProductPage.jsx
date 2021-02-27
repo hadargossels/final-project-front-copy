@@ -1,7 +1,9 @@
 import React, { createRef } from 'react';
-import {Carousel, Form, Button} from 'react-bootstrap';
-import storeItems from './StoreItems.jsx';
+import {Form, Button} from 'react-bootstrap';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import { Carousel } from 'react-responsive-carousel';
 import Product from './Product.jsx';
+import axios from 'axios';
 
 
 class ProductPage extends React.Component {
@@ -9,10 +11,18 @@ class ProductPage extends React.Component {
     constructor(props){
         super(props);
         this.qtyRef = createRef();
+        this.state = {
+            products: []
+        }
     }
 
     componentDidMount() {
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
+
+        axios.get('http://localhost:3000/products')
+            .then( response => {
+                this.setState({ products: response.data })
+            })
     }
 
     createStars = () => {
@@ -42,18 +52,18 @@ class ProductPage extends React.Component {
     }
 
     isFavorite = () => {
-        if (this.props.product.favorite)
-            return <i id="favoriteIcon" className="fas fa-heart ml-2" onClick={this.changeFavorite}></i>
-        else
-            return <i id="favoriteIcon" className="far fa-heart ml-2" onClick={this.changeFavorite}></i>
-    }
-
-    changeFavorite = () => {
-        if (this.props.product.favorite) {
-            this.setState({favorite: false});
+        const favoriteProduct = this.props.favoritesProducts.filter(element => element.id === this.props.product.id);
+        console.log(favoriteProduct)
+        if (favoriteProduct.length === 0){
+            console.log("favorite exist")
+            return <i id="favoriteIcon" className="far fa-heart ml-2" onClick={() => this.props.onChangeFavorites(this.props.product, true)}></i>
         }
-        else
-            this.setState({favorite: true});
+            
+        else{
+            console.log("favorite not exist")
+            return <i id="favoriteIcon" className="fas fa-heart ml-2" onClick={() => this.props.onChangeFavorites(this.props.product, false)}></i>
+        }
+            
     }
 
     displayPrice = (product) => {
@@ -71,7 +81,7 @@ class ProductPage extends React.Component {
     }
 
     getRelatedProducts() {
-        return storeItems.filter(element => element.category === this.props.product.category && element.id !== this.props.product.id);
+        return this.state.products.filter(element => element.category === this.props.product.category && element.id !== this.props.product.id);
     }
 
 
@@ -82,27 +92,13 @@ class ProductPage extends React.Component {
                     <div className="col-sm-12 col-md-6 product-image">
                         <div className="row">
                             <div className="col-sm-12">
-                                
-                                <Carousel
-                                    prevIcon={<span aria-hidden="true" className="carousel-control-prev-icon" style={{backgroundColor:'rgb(128, 128, 128, 0.7)',color:'green'}}/>}
-                                    nextIcon={<span aria-hidden="true" className="carousel-control-next-icon" style={{backgroundColor:'rgb(128, 128, 128, 0.7)',color:'green'}}/>}
-                                    >
+                                <Carousel>
                                     {this.props.product.images.map((image, index) => (
-                                        <Carousel.Item key={index}>
-                                            <img className="d-block w-100" src={image} alt="First slide"/>
-                                        </Carousel.Item>
-                                    ))}
-                                </Carousel>
-                            </div>
-                            
-                            <div className="col-sm-12">
-                                <div className="row">
-                                    {this.props.product.images.map((image, index) => (
-                                        <div className="col-sm-4" key={index}>
-                                            <img src={image} alt="First slide" style={{width:"100%", height:"100%"}}/>
+                                        <div key={index}>
+                                            <img src={image} alt="carousel_image"/>
                                         </div>
                                     ))}
-                                </div>
+                                </Carousel>
                             </div>
                         </div>
                     </div>
@@ -122,29 +118,26 @@ class ProductPage extends React.Component {
                             </Form.Group>
                         </Form>
                         <div className="d-flex align-items-center">
-                            <Button variant="primary" className="px-5" onClick={() => this.props.onAddToCart(this.props.product, this.qtyRef.current.value)}>Add to bag</Button>
+                            <Button variant="primary" className="px-5" onClick={() => this.props.onAddToCart(this.props.product, this.qtyRef.current.value)}>
+                                Add to cart
+                            </Button>
                             {this.isFavorite()}
-                            
                         </div>
                         <div id="ProductOtherDetails" className="mt-5">
                             {this.isInStock()}
                             <p><strong>Description:</strong> {this.props.product.description}</p>
                             <p><strong>Category:</strong> {this.props.product.category}</p>
                         </div>
-                    </div>
-                </div>
-
-                <div className="row py-3">
-                    <div className="col-10 justify-content-center py-3">
-                        Related Items:
-                        <div className="row py-3">
+                        <div>
+                            <p className="mb-2">
+                                <strong>Related Items:</strong>
+                            </p>
                             {this.getRelatedProducts().map(productElement => 
-                                <Product key={productElement.id} productElement={productElement}/>)
-                            }
+                                <Product key={productElement.id} productElement={productElement}/>
+                            )}
                         </div>
                     </div>
                 </div>
-
             </div>
         );
     }

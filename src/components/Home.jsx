@@ -1,38 +1,53 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import storeItems from './StoreItems.jsx'
 import '../css/home.css';
 import 'bootstrap/js/dist/carousel';
+import axios from 'axios';
 
 
 class Home extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            products: []
+        }
+    }
 
     componentDidMount() {
         window.scrollTo(0, 0);
+
+        axios.get('http://localhost:3000/products')
+            .then( response => {
+                this.setState({ products: response.data })
+            })
     }
 
     bestSellersCarousel = () => {
         const cards = [];
-        storeItems.slice(0, 6).forEach((item, index) => {
-            cards.push(<div className={`col-md-4 ${index%3!==0? 'clearfix d-none d-md-block' : ''}`} key={index}>
-                        <Link to={`/${item.url}`} className="bestSeller" style={{color: 'black', textDecoration: 'none'}}>
-                            <div className="card">
-                                <img className="card-img-top" src={`${item.images[0]}`} alt={item.name}></img>
-                                <div className="card-body">
-                                    <h4 className="card-title">{item.name}</h4>
-                                </div>
+        this.state.products.slice(0, 6).forEach((item, index) => {
+            cards.push(
+                <div className={`col-md-4 ${index%3!==0? 'clearfix d-none d-md-block' : ''}`} key={index}>
+                    <Link to={`/${item.url}`} className="bestSeller" style={{color: 'black', textDecoration: 'none'}}>
+                        <div className="card">
+                            <img className="card-img-top" src={`${item.images[0]}`} alt={item.name}></img>
+                            <div className="card-body">
+                                <h4 className="card-title">{item.name}</h4>
                             </div>
-                        </Link>
-                    </div>)
+                        </div>
+                    </Link>
+                </div>
+            )
         });
 
         const sliders = [];
         for (let i=0; i<2; i++) {
-            sliders.push(<div className={`carousel-item ${i===0? 'active' : ''}`} key={i}>
-                            <div className="row">
-                                {cards.slice(i*3, i*3+3)}
-                            </div>
-                        </div>);
+            sliders.push(
+                <div className={`carousel-item ${i===0? 'active' : ''}`} key={i}>
+                    <div className="row">
+                        {cards.slice(i*3, i*3+3)}
+                    </div>
+                </div>
+            )
         }
 
         return (
@@ -108,7 +123,9 @@ class Home extends React.Component {
 
                 <div className="container-fluid text-center py-4">
                     <h1 className="display-4" style={{fontWeight: "350", fontSize: "50px", margin:"0"}}>Best Sellers</h1>
-                    {this.bestSellersCarousel()}
+                    <div>
+                        {this.bestSellersCarousel()}
+                    </div>
                 </div>
 
             </div>

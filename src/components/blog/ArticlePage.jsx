@@ -1,7 +1,7 @@
 import React, {Component, createRef} from 'react';
 import axios from 'axios';
 import ArticleComment from './ArticleComment';
-import '../css/articlePage.css';
+import '../../css/articlePage.css';
 
 
 class ArticlePage extends Component {
@@ -118,7 +118,7 @@ class ArticlePage extends Component {
                 <div className="container-fluid d-flex justify-content-center" style={{backgroundColor: "#f2f2f2"}}>
                     <div className="container">
                         {/* <div className="d-flex flex-column justify-content-center align-items-center"> */}
-                            <h4>Comments</h4>
+                            <h4 className="text-center">Comments</h4>
                             {this.state.comments.map((comment, index) => 
                                 <ArticleComment
                                     comment={comment}

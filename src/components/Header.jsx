@@ -5,7 +5,7 @@ import 'bootstrap/js/dist/modal';
 import 'bootstrap/js/dist/collapse';
 import '../css/header.css';
 import $ from 'jquery';
-import CartProduct from './CartProduct.jsx';
+import CartProduct from './cart-and-payment/CartProduct.jsx';
 
 
 class Header extends React.Component {

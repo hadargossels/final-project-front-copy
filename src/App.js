@@ -2,40 +2,38 @@ import React, {Component} from 'react';
 import {Route, BrowserRouter as Router, Switch} from 'react-router-dom';
 import { AuthProvider } from "./context/AuthContext"
 import './css/app.css';
+import axios from 'axios';
+import Home from './components/Home.jsx';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
-import Store from './components/Store.jsx';
-import Home from './components/Home.jsx';
-import ShoppingCart from './components/ShoppingCart.jsx';
-import Payment from './components/Payment.jsx';
-import ProductPage from './components/ProductPage.jsx';
-import PageNotFound from './components/PageNotFound.jsx';
-import storeItems from './components/StoreItems.jsx';
+import AlertBox from './components/AlertBox';
 import Contact from './components/Contact.jsx';
 import About from './components/About.jsx';
-import Blog from './components/Blog.jsx';
-import ArticlePage from './components/ArticlePage.jsx';
+import Blog from './components/blog/Blog.jsx';
+import ArticlePage from './components/blog/ArticlePage.jsx';
 import articles from './data/articles.json';
 import SignUp from './components/authentication/SignUp';
 import Login from './components/authentication/Login';
 import ForgotPassword from './components/authentication/ForgotPassword';
-import PrivateRoute from './components/authentication/PrivateRoute';
 import UpdateProfile from './components/authentication/UpdateProfile';
+import PageNotFound from './components/PageNotFound.jsx';
+import Store from './components/store/Store.jsx';
+import ProductPage from './components/store/ProductPage.jsx';
+import ShoppingCart from './components/cart-and-payment/ShoppingCart.jsx';
+import Payment from './components/cart-and-payment/Payment.jsx';
 
 
 class App extends Component {
   constructor(){
     super();
 
-    let cartProducts = JSON.parse(localStorage.getItem('cartProducts'));
-    if (cartProducts === null) {
-      cartProducts = [];
-    }
-
     this.state = {
       user: {},
-      cartProducts: cartProducts,
-      tax: 0.17
+      products: [],
+      cartProducts: [],
+      favoritesProducts: [],
+      tax: 0.17,
+      alert: false
     }
   }
 
@@ -44,10 +42,26 @@ class App extends Component {
     if (user){
       this.setState({ user});
     }
+
+    axios.get('http://localhost:3000/products')
+      .then( response => {
+        this.setState({ products: response.data })
+      })
+
+    const cartProducts = JSON.parse(localStorage.getItem('cartProducts'));
+    if (cartProducts !== null) {
+      this.setState({ cartProducts })
+    }
+
+    const favoritesProducts = JSON.parse(localStorage.getItem('favoritesProducts'));
+    if (favoritesProducts !== null) {
+      this.setState({ favoritesProducts })
+    }
   }
 
   componentDidUpdate() {
     localStorage.setItem('cartProducts', JSON.stringify(this.state.cartProducts));
+    localStorage.setItem('favoritesProducts', JSON.stringify(this.state.favoritesProducts));
   }
 
   handleAddUser = (user) => {
@@ -60,13 +74,14 @@ class App extends Component {
   }
   
   handleAddToCart = (product, qty) => {
-    document.getElementsByClassName("alert")[0].style.display = 'block';
-    // window.setTimeout(function() {
-    //   document.getElementsByClassName("alert")[0].remove();
-    // }, 10000);
+    this.setState({ alert: true });
+    setTimeout(() => {
+      this.setState({ alert: false });
+    }, 5000);
+
     const cartProducts = this.state.cartProducts;
 
-    let productsFound = cartProducts.filter(element => element.id === product.id)
+    const productsFound = cartProducts.filter(element => element.id === product.id)
     if (productsFound.length > 0){
       cartProducts.forEach((element) => {
         if(element.id === product.id)
@@ -78,7 +93,18 @@ class App extends Component {
     }
     
     this.setState({cartProducts});
-    // alert("The product was successfully added to the shopping cart")
+  }
+
+  handleChangeFavorites = (product, toFavorate) => {
+    let favoritesProducts = this.state.favoritesProducts;
+    if (toFavorate){
+      favoritesProducts.push(product);
+    }
+    else{
+      favoritesProducts = favoritesProducts.filter(element => element.id !== product.id)
+    }
+    
+    this.setState({ favoritesProducts })
   }
 
   handleQtyChange = (product, qty) => {
@@ -118,10 +144,8 @@ class App extends Component {
               onQtyChange = {this.handleQtyChange}
               onDeleteCartProduct = {this.handleDeleteCartProduct}
             ></Header>
-            <div className="alert alert-success" role="alert"  style={{display:'none'}}>
-              <button type="button" className="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              The product was successfully added to the shopping cart
-            </div>
+
+            {this.state.alert ? <AlertBox /> : null}
             
             <Switch>
               <Route exact path="/" component={Home}/>
@@ -133,11 +157,6 @@ class App extends Component {
               <Route path="/contact"> <Contact /> </Route>
               <Route path="/about"> <About /> </Route>
               <Route path="/blog"> <Blog /> </Route>
-              {/* <Route path="/register"> 
-                <Register 
-                  onSignUp= {this.handleAddUser}
-                /> 
-              </Route> */}
               <Route path="/cart">
                 <ShoppingCart 
                   cartProducts={this.state.cartProducts} 
@@ -154,10 +173,10 @@ class App extends Component {
                 </Payment>
               </Route> 
               
-              {storeItems.map(product => 
-                <Route path={`/${product.url}`} component={() => 
-                  <ProductPage product={product} onAddToCart={this.handleAddToCart}/>
-                } key={product.id}/>
+              {this.state.products.map(product => 
+                <Route path={`/${product.url}`} key={product.id} component={() => 
+                  <ProductPage product={product} onAddToCart={this.handleAddToCart} onChangeFavorites={this.handleChangeFavorites} favoritesProducts={this.state.favoritesProducts}/>
+                } />
               )}
 
               {articles.map(article => 
@@ -165,8 +184,7 @@ class App extends Component {
                   <ArticlePage article={article}></ArticlePage>
                 </Route>
               )}
-              
-              
+                
               <Route path="*" component={PageNotFound}/>
             </Switch>
 

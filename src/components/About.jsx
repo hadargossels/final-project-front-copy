@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import ReactPlayer from "react-player";
 import Gallery from 'react-photo-gallery';
 import photos from '../data/gallery_images.json';
@@ -6,6 +6,7 @@ import '../css/about.css';
 
 
 export default function About() {
+
     return (
         <>
             <div className="container-fluid">
@@ -14,8 +15,8 @@ export default function About() {
                 </div>
             </div>
             
-            <div className="d-flex justify-content-center">
-                <div className="row py-5" style={{minHeight: "500px", maxWidth: "1500px"}}>
+            <div className="container d-flex justify-content-center" style={{maxWidth: "1200px"}}>
+                <div className="row py-5">
                     <div className="col-12 col-md-6">
                         <h1 className="display-4 mx-4">About</h1>
                         <p className="mx-4 text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac tempor urna. Nullam non lobortis odio. Aliquam porta vel sapien ac sodales. Quisque congue nisl varius massa eleifend, vel consequat nisi volutpat. Curabitur consequat a leo nec cursus. Quisque et quam eu mauris vulputate eleifend id in tortor. Integer egestas mauris in urna tincidunt vehicula.

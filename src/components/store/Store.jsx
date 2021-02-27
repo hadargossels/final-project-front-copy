@@ -1,7 +1,7 @@
 import React, { Component, createRef} from 'react';
 import {Link} from 'react-router-dom';
 import Product from './Product.jsx';
-import storeItems from './StoreItems.jsx'
+import axios from 'axios';
 
 
 class Store extends Component {
@@ -10,31 +10,58 @@ class Store extends Component {
         super(props);
 
         this.state = {
-            category: [
-                {name: "bedroom", isChecked: false, subCategory: [
-                    {name: "bedding", isChecked: false}, 
-                    {name: "blankets", isChecked: false}]
-                },
-                {name: "bathroom", isChecked: false, subCategory: [
-                    {name:"bath towels", isChecked: false}, 
-                    {name:"bath accessories", isChecked: false}]
-                },
-                {name: "living room", isChecked: false, subCategory: [
-                    {name:"kitchen towels", isChecked: false}, 
-                    {name:"storage", isChecked: false}, 
-                    {name:"serving dishes", isChecked: false}]
-                }
-            ],
+            products: [],
+            category: [],
             valuePriceSelect: 0,
             valueSortSelect: "",
-            store: storeItems
         };
 
         this.priceRangeRef = createRef();
         this.onSaleRef = createRef();
 
     }
-    
+
+    componentDidMount() {
+        window.scrollTo(0, 0);
+        
+        axios.get('http://localhost:3000/products')
+        .then( response => {
+            this.setState({ products: response.data })
+
+            const categories = []
+            response.data.forEach(item => {
+                const category = categories.filter(category => {return category.name === item.category});
+                if (category.length === 0) {
+                    categories.push({name: item.category, isChecked: false, subCategory: [{name: item.subcategory, isChecked: false}]});
+                }
+                else {
+                    const subcategory = category[0].subCategory.filter(subCategory => {return subCategory.name === item.subcategory})
+                    if (subcategory.length === 0) {
+                        category[0].subCategory.push({name: item.subcategory, isChecked: false});
+                    }
+                }
+            });
+
+            this.setState({ category: categories })
+        })
+
+        this.handleStoreCategories();
+        this.handleSearch();
+        this.setState({products: this.state.products});
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.location.pathname.toLowerCase() !== prevProps.location.pathname.toLowerCase()) {
+            this.handleStoreCategories();
+            this.setState({products: this.state.products});
+        }
+        
+        if (this.props.location.search.toLowerCase() !== prevProps.location.search.toLowerCase()) {
+            this.handleSearch();
+            this.setState({products: this.state.products});
+        }
+    }
+
     setPriceValue = (event) => {
         this.setState({valuePriceSelect: event.target.value});
     }
@@ -60,43 +87,32 @@ class Store extends Component {
     }
 
     displayFilteredItems = () => {
-        const storeItems = this.state.store;
-        storeItems.forEach(element => {element.display = false;});
-
-        let isDisplayAllItems = true;
-        this.state.category.forEach(categoryItem => {        
-            const checkedSubCategories = [];
+        let checkedCategories = [];
+        let checkedSubCategories = [];
+        this.state.category.forEach(categoryItem => {
+            if (categoryItem.isChecked)
+                checkedCategories.push(categoryItem.name)
 
             categoryItem.subCategory.forEach(subCategoryItem => {
                 if (subCategoryItem.isChecked)
-                    checkedSubCategories.push(subCategoryItem.name);
+                    checkedSubCategories.push(subCategoryItem.name)
             })
-            
-            categoryItem.subCategory.forEach(subCategoryItem => {
-                if (subCategoryItem.isChecked)
-                    checkedSubCategories.push(subCategoryItem.name);
-            })
+        })
 
-            if (checkedSubCategories.length > 0) {
-                isDisplayAllItems = false;
-                storeItems.forEach(element => {
-                    if (checkedSubCategories.includes(element.subcategory)) 
-                        element.display = true;
-                });
+        const storeItems = this.state.products; 
+        storeItems.forEach(element => {
+            if (checkedCategories.length === 0 && checkedSubCategories.length === 0)
+                element.display = true;
+            else if (checkedCategories.length === 0 && checkedSubCategories.length > 0) {
+                element.display = checkedSubCategories.includes(element.subcategory);
             }
-            else if (categoryItem.isChecked) {
-                isDisplayAllItems = false;
-                storeItems.forEach(element => {
-                    if(categoryItem.name === element.category)
-                        element.display = true;
-                });
+            else if (checkedCategories.length > 0 && checkedSubCategories.length === 0) {
+                element.display = checkedCategories.includes(element.category);
             }
-
-        })  
-
-        if(isDisplayAllItems) {
-            storeItems.forEach(element => {element.display = true;});
-        }
+            else {
+                element.display = checkedCategories.includes(element.category) && checkedSubCategories.includes(element.subcategory);
+            }
+        });
         
         if (this.onSaleRef.current.checked){
             storeItems.forEach(element => {
@@ -113,7 +129,7 @@ class Store extends Component {
 
     applyFilter = () => {
         this.displayFilteredItems();
-        this.setState({store: this.state.store});
+        this.setState({products: this.state.products});
     }
 
     resetFilter = () => {
@@ -139,7 +155,7 @@ class Store extends Component {
         this.priceRangeRef.current.value = 0;
 
         // display all items (no item it filtered)
-        this.state.store.forEach(element => {
+        this.state.products.forEach(element => {
             element.display = true;
         })
 
@@ -152,7 +168,7 @@ class Store extends Component {
 
     changeSort = (event) => {
         this.setState({valueSortSelect: event.target.value});
-        const sortedStore = this.state.store;
+        const sortedStore = this.state.products;
 
         switch (event.target.value){
             case 'low': {
@@ -175,7 +191,7 @@ class Store extends Component {
             }
         }
 
-        this.setState({store: sortedStore});
+        this.setState({products: sortedStore});
     }
 
     getAllSubCategories = () => {
@@ -225,33 +241,14 @@ class Store extends Component {
     handleSearch() {
         const urlParams = new URLSearchParams(this.props.location.search);
         if (urlParams.get('q')) {
-            this.state.store.forEach(element => {
+            this.state.products.forEach(element => {
                 element.display = element.name.toLowerCase().includes(urlParams.get('q').toLowerCase());
             });
         }
     }
 
-    componentDidMount() {
-        window.scrollTo(0, 0);
-        this.handleStoreCategories();
-        this.handleSearch();
-        this.setState({store: this.state.store});
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props.location.pathname.toLowerCase() !== prevProps.location.pathname.toLowerCase()) {
-            this.handleStoreCategories();
-            this.setState({store: this.state.store});
-        }
-        
-        if (this.props.location.search.toLowerCase() !== prevProps.location.search.toLowerCase()) {
-            this.handleSearch();
-            this.setState({store: this.state.store});
-        }
-    }
-
     getProductsElements = () => {
-        return this.state.store.filter(element => element.display).map(productElement => 
+        return this.state.products.filter(element => element.display).map(productElement => 
             <Product key={productElement.id} productElement={productElement}/>)
     }
 
@@ -259,7 +256,7 @@ class Store extends Component {
         return (
             <div className= "container py-5">
                 <div className="row">
-                    <div className="col-2">
+                    <div className="col-2 pr-5">
                         <h5>Sort</h5>
                         <div className="form-group mb-4">
                             <select className="form-control form-control-sm" value={this.state.valueSortSelect} onChange={this.changeSort}>

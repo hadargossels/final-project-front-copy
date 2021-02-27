@@ -1,9 +1,9 @@
 import React, { createRef } from 'react';
-import '../css/payment.css';
+import '../../css/payment.css';
 import OrderSummary from './OrderSummary.jsx';
 import 'bootstrap/js/dist/collapse';
 import $ from 'jquery';
-import images from '../data/images.js';
+import images from '../../data/images.js';
 import PayPalBtn from './PayPalBtn'
 
 
