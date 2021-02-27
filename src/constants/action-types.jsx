@@ -1,0 +1,2 @@
+export const APPLY_DISCOUNT = "APPLY_DISCOUNT"
+export const GET_DISCOUNTS = "GET_DISCOUNTS"

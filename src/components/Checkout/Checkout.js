@@ -1,36 +1,31 @@
 import React, { Component } from 'react'
 import {Link, Redirect} from 'react-router-dom'
 import axios from 'axios'
-import './Checkout.css'
+import {connect} from 'react-redux'
+import {applyDiscount, getDiscounts} from '../../actions'
 import {EmptyCart} from '../Cart/EmptyCart'
+import './Checkout.css'
 
 let priceOfAll
-export default class Checkout extends Component {
+class Checkout extends Component {
     constructor(props){
         super(props)
         this.state = {
-            allCoupons:"",
             allProducts:"",
-            discount:localStorage.getItem("discount"),
-            productsArr:JSON.parse(localStorage.getItem("productsArr")),
             shipping:0,
             loggedIn: localStorage.getItem("login"),
             billingFields: [{id:"fname", value:"", valid:""}, {id:"lname", value:"", valid:""}, {id:"phone", value:"", valid:""}, {id:"email", value:"",valid:""}],
             shippingFields: [{id:"fname2", value:"", valid:""},{id:"lname2", value:"", valid:""},{id:"add1", value:"", valid:""},{id:"add2", value:"", valid:""},{id:"city", value:"", valid:""}, {id:"notes", value:""}],
             allOk:false
         }
+        this.productsArr = JSON.parse(localStorage.getItem("productsArr"))
         this.discountRef = React.createRef();
         this.validateBillingFields =  this.validateBillingFields.bind(this)
         this.validateShippingFields =  this.validateShippingFields.bind(this)
     }
 
     componentDidMount(){
-        axios.get("http://localhost:3000/coupons").then(allCoupons =>{
-            this.setState({allCoupons:allCoupons.data})
-        })
-        axios.get("http://localhost:3000/objectsArr").then(response=>{
-            this.setState({allProducts:response.data})
-        })
+        axios.get("http://localhost:3000/objectsArr").then(response=> this.setState({allProducts:response.data}))
     }
 
     updateBillingFields(e, inputField){
@@ -108,18 +103,6 @@ export default class Checkout extends Component {
         this.setState({shippingFields:newShippingFields})
     }
 
-    applyDiscount(e){
-        e.preventDefault()
-        let coupons = this.state.allCoupons
-        for (let coupon of coupons){
-            if ((this.discountRef.current.value).toLowerCase() === coupon.code.toLowerCase()){
-                let discount = coupon.couponDiscount / 100
-                this.setState({discount})
-                localStorage.setItem("discount",discount)
-            }
-        }
-    }
-
     shippingFee(e){
         this.setState({shipping:Number(e.target.value)})
     }
@@ -149,13 +132,18 @@ export default class Checkout extends Component {
         }
         
         this.setState({billingFields, shippingFields, allOk})
-        localStorage.setItem("totalPrice",(priceOfAll * (this.state.discount ? this.state.discount : 1 ) + (priceOfAll*(this.state.discount?this.state.discount:1) < 100 ? this.state.shipping : 0)).toFixed(2))
+        localStorage.setItem("totalPrice",(priceOfAll * (this.props.discount || 1 ) + (priceOfAll*(this.props.discount||1) < 100 ? this.state.shipping : 0)).toFixed(2))
+    }
+
+    async clickDiscount(e){
+        e.preventDefault()
+        await this.props.getDiscounts()
+        this.props.applyDiscount(this.discountRef.current.value.toLowerCase())
     }
 
     render() {
-        
         priceOfAll = 0;
-        let coupon = this.state.discount
+        let coupon = this.props.discount
         let billing = this.state.billingFields
         let shipping = this.state.shippingFields
        
@@ -163,7 +151,7 @@ export default class Checkout extends Component {
             <div className="py-5">
                 {this.state.loggedIn? "": <Redirect to="/login"/>}
                 {this.state.allOk? <Redirect to="/payment"/> : ""}
-                {!this.state.productsArr? <EmptyCart/>:
+                {!this.productsArr? <EmptyCart/>:
                 
                 <div>
                     
@@ -245,13 +233,13 @@ export default class Checkout extends Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {this.state.productsArr.map((product,key)=>{
+                                            {this.productsArr.map((product,key)=>{
                                                 if (key === 0)
                                                     priceOfAll = 0
                                                 
                                                 for (let obj of this.state.allProducts){
                                                     if (obj.id === product.id){
-                                                        let finalPrice = (obj.discount ? obj.discount : obj.price).toFixed(2)
+                                                        let finalPrice = ( obj.discount || obj.price).toFixed(2)
                                                         let totalPrice = (finalPrice * product.count).toFixed(2)
                                                         priceOfAll+= Number(totalPrice)
                                                         
@@ -293,7 +281,7 @@ export default class Checkout extends Component {
                                                 <th>Total including shipping</th>
                                                 <td className="fw-bold">$
                                                     <span>
-                                                    {(priceOfAll * (coupon ? coupon : 1) + (priceOfAll*(coupon?coupon:1) < 100 ? this.state.shipping : 0)).toFixed(2)}
+                                                    {(priceOfAll * (coupon || 1) + (priceOfAll*(coupon || 1) < 100 ? this.state.shipping : 0)).toFixed(2)}
                                                     </span>
                                                 </td>
                                             </tr>
@@ -306,8 +294,8 @@ export default class Checkout extends Component {
                                     </div>
                             
                                     <div className="my-2">
-                                        <form onSubmit={(e)=>this.applyDiscount(e)} className="row g-3">
-                                            <div className="">
+                                        <form onSubmit={(e)=>this.clickDiscount(e)} className="row g-3">
+                                            <div>
                                                 <h6>Apply Discount Code</h6>
                                                 <input className="me-1 mb-2 form-control" ref={this.discountRef} type="text"/>
                                                 <button className="btn btn-success">Apply Code</button>
@@ -322,3 +310,9 @@ export default class Checkout extends Component {
         )
     }
 }
+
+const mapStateToProps = state => ({
+    discount:state.discount.discount
+})
+
+export default connect(mapStateToProps, {applyDiscount, getDiscounts})(Checkout)

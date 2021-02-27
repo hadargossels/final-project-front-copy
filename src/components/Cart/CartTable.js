@@ -1,23 +1,21 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
+import {connect} from 'react-redux'
+import {applyDiscount, getDiscounts} from '../../actions'
 import './CartTable.css'
 
-export default class CartTable extends Component {
+class CartTable extends Component {
     constructor(props){
         super(props)
-        this.state = {allCoupons:"",allProducts:[],productsArr:this.props.productsArr, discount:localStorage.getItem("discount")}
+        this.state = {
+            allProducts:[],
+            productsArr:this.props.productsArr}
         this.discountRef = React.createRef();
     }
 
     componentDidMount(){
-        axios.get("http://localhost:3000/coupons").then(allCoupons =>{
-            this.setState({allCoupons:allCoupons.data})
-        })
-        axios.get("http://localhost:3000/objectsArr").then(allProducts =>{
-            this.setState({allProducts:allProducts.data})
-        })
-
+        axios.get("http://localhost:3000/objectsArr").then(allProducts => this.setState({allProducts:allProducts.data}))
     }
 
     changeCount(e, objId){
@@ -63,16 +61,10 @@ export default class CartTable extends Component {
         }
     }
     
-    applyDiscount(e){
+    async clickDiscount(e){
         e.preventDefault()
-        let coupons = this.state.allCoupons
-        for (let coupon of coupons){
-            if ((this.discountRef.current.value).toLowerCase() === coupon.code.toLowerCase()){
-                let discounted = coupon.couponDiscount / 100
-                this.setState({discount: discounted})
-                localStorage.setItem("discount",discounted)
-            }
-        }
+        await this.props.getDiscounts()
+        this.props.applyDiscount(this.discountRef.current.value.toLowerCase())
     }
         
     render() {
@@ -103,7 +95,7 @@ export default class CartTable extends Component {
                                         for (let obj of this.state.allProducts){
                                             if (obj.id === product.id){
 
-                                                let finalPrice = (obj.discount ? obj.discount : obj.price).toFixed(2)
+                                                let finalPrice = (obj.discount || obj.price).toFixed(2)
                                                 let totalPrice = (finalPrice * product.count).toFixed(2)
                                                 priceOfAll+= Number(totalPrice)
                                                 
@@ -134,34 +126,38 @@ export default class CartTable extends Component {
                                 <h3 className={`${this.props.page} ps-1 bg-primary py-1 text-light`}>Summary</h3>
                                 <table className="table table-hover my-3">
                                     <tbody>
-                                        <tr className={this.state.discount? "text-danger" : "noDiscount"}>
+                                        <tr className={this.props.discount ? "text-danger" : "noDiscount"}>
                                             <th>Total (before discount)</th>
                                             <td>${priceOfAll.toFixed(2)}</td>
                                         </tr>          
-                                        <tr className={this.state.discount? "text-success" : "noDiscount"}>
+                                        <tr className={this.props.discount ? "text-success" : "noDiscount"}>
                                             <th>Coupon Applied - You've saved</th>
-                                            <td>-${(priceOfAll*(this.state.discount?(1-this.state.discount):1)).toFixed(2)}</td>
+                                            <td>-${(priceOfAll*(this.props.discount?(1-this.props.discount):1)).toFixed(2)}</td>
                                         </tr>
                                         <tr>
                                             <th>Total Before Shipping</th>
-                                            <td>${(priceOfAll*(this.state.discount?this.state.discount:1)).toFixed(2)}</td>
+                                            <td>${(priceOfAll*(this.props.discount || 1)).toFixed(2)}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <div className={this.props.page}>
                                     <h6>Apply Discount Code</h6>
-                                    <form onSubmit={(e)=>this.applyDiscount(e)}>
+                                    <form onSubmit={(e)=>this.clickDiscount(e)}>
                                         <input className="me-1" ref={this.discountRef} type="text"/>
                                         <button className="btn btn-success">Apply Code</button>
                                     </form>
                                 </div>
                                 <button className="float-end btn btn-lg btn-primary my-2"><Link to="/checkout" style={{textDecoration:"none",color:'white'}}>Proceed to Checkout</Link></button>
-
                             </div>
                         </div>}
                 </div>
             )}
             return null;
     }
-    
 }
+
+const mapStateToProps = state => ({
+    discount:state.discount.discount
+})
+
+export default connect(mapStateToProps, {applyDiscount, getDiscounts})(CartTable)
