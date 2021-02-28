@@ -1,0 +1,46 @@
+.homeStyle {
+  margin: 10px;
+  border: 2px solid gold;
+  height: 80rem;
+  position: relative;
+  text-align: center;
+}
+
+.catalogStyle1,
+.catalogStyle2 {
+  background-image: linear-gradient(120deg, SlateGrey, Silver);
+  border: 1px solid gold;
+  margin: 0 100px;
+  padding: 70px;
+  font-size: 1.5rem;
+  color: white;
+  position: relative;
+  top: 50rem;
+}
+
+@media only screen and (max-width: 992px) {
+  .catalogStyle1 {
+    top: 67.3rem;
+    left: -12rem;
+  }
+  .catalogStyle2 {
+    top: 65rem;
+    left: 12rem;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .homeStyle {
+    height: 130rem;
+  }
+  .catalogStyle1 {
+    top: 115rem;
+    left: 2vw;
+    padding: 20px;
+  }
+  .catalogStyle2 {
+    top: 107rem;
+    padding: 20px;
+    left: 1vw;
+  }
+}
