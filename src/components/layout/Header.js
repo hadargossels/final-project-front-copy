@@ -73,7 +73,7 @@ class Header extends React.Component {
                      <this.Card title="Shopping cart" />
                   </Popup>
                   <span className="badge badge-pill badge-info m-1">{this.props.cartAmount}</span>
-                  <span id="registerID" style={spanElemStyle}><Link to=""> Register </Link>Or <Link to="/login"> Sign in </Link></span>
+                  <span id="registerID" style={spanElemStyle}><Link to="/register"> Register </Link>Or <Link to="/login"> Sign in </Link></span>
                </Navbar.Collapse>
             </Navbar>
          </>

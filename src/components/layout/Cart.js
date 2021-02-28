@@ -16,7 +16,7 @@ export default class Cart extends Component {
     getTotalPrice() {
         let tmpTot = 0;
         for (let index = 0; index < this.props.cartProducts.length; index++) {
-            tmpTot += parseInt(this.props.cartProducts[index].price);
+            tmpTot += parseInt(this.props.cartProducts[index].price) * this.props.cartProducts[index].quantity;
         }
         this.setState({ totalPrice: tmpTot });
     }

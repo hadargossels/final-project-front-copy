@@ -10,8 +10,7 @@ import Blog from "../layout/Blog"
 import LogIn from "../layout/LogIn"
 import Cart from "../layout/Cart";
 import Register from "../layout/Register"
-
-// import { _mobilesData, _accessoriesData } from '../data';
+import CheckOut from "../layout/CheckOut"
 
 export default class Routing extends Component {
     state = {
@@ -46,6 +45,7 @@ export default class Routing extends Component {
                 <Route path="/contact" component={ContactUs} />
                 <Route path="/blog" component={Blog} />
                 <Route path="/login" component={LogIn} />
+                <Route path="/register" component={Register} />
                 <Route path="/shoppingCart" >
                     <Cart cartProducts={this.props.cartProducts} handleDelete={this.props.handleDelete} updateQuantity={this.props.updateQuantity} />
                 </Route>
@@ -63,8 +63,10 @@ export default class Routing extends Component {
                 ))}
                 {/* //! Products search */}
                 <Route path="/shop" component={Catalog} />
-
-                <Route path="" component={Register} />
+                <Route path="/checkout" >
+                    <CheckOut cartProducts={this.props.cartProducts} />
+                </Route>
+                <Route path="*" component={() => "404 NOT FOUND"} />
             </Switch>
         )
     }
