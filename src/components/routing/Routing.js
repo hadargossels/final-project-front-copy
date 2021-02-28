@@ -11,6 +11,7 @@ import LogIn from "../layout/LogIn"
 import Cart from "../layout/Cart";
 import Register from "../layout/Register"
 import CheckOut from "../layout/CheckOut"
+import ForgotPassword from "../layout/ForgotPassword"
 
 export default class Routing extends Component {
     state = {
@@ -46,6 +47,7 @@ export default class Routing extends Component {
                 <Route path="/blog" component={Blog} />
                 <Route path="/login" component={LogIn} />
                 <Route path="/register" component={Register} />
+                <Route path="/reset-password" component={ForgotPassword} />
                 <Route path="/shoppingCart" >
                     <Cart cartProducts={this.props.cartProducts} handleDelete={this.props.handleDelete} updateQuantity={this.props.updateQuantity} />
                 </Route>

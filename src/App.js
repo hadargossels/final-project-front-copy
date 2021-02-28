@@ -5,6 +5,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import Routing from './components/routing/Routing';
 import Header from '../src/components/layout/Header'
 import Footer from '../src/components/layout/Footer'
+import { AuthProvider } from './components/layout/AuthContext';
 
 class App extends Component {
    state = {
@@ -45,9 +46,11 @@ class App extends Component {
    render() {
       return (
          <Router>
-            <Header cartAmount={this.state.numItemsInCart} cartProducts={this.state.products} />
-            <Routing updateCart={this.updateCart} handleDelete={this.handleDelete} cartProducts={this.state.products} updateQuantity={this.updateQuantity} />
-            <Footer />
+            <AuthProvider>
+               <Header cartAmount={this.state.numItemsInCart} cartProducts={this.state.products} />
+               <Routing updateCart={this.updateCart} handleDelete={this.handleDelete} cartProducts={this.state.products} updateQuantity={this.updateQuantity} />
+               <Footer />
+            </AuthProvider>
          </Router>
       );
    }
