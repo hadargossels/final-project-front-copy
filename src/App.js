@@ -26,8 +26,8 @@ import Popper from 'popper.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import CheckoutPage from './components/CheckoutPage/CheckoutPage';
 import PaymentPage from './components/PaymentPage/PaymentPage';
-import CreditCardPage from './components/CreditCardPage/CreditCardPage';
 import OrderNumber from './components/OrderNumber/OrderNumber';
+import ProfileUser from './pages/ProfileUser/ProfileUser';
 
 
 
@@ -124,9 +124,9 @@ export default class App extends Component {
                         <Route  path="/product/:productName"  render={(props) => <ProductPage localStorageChange={this.localStorageChange} {...props} />}/>
                         <Route exact  path="/checkout" component={CheckoutPage}/>
                         <Route exact  path="/checkout/payment"  render={(props) => <PaymentPage localStorageArr={this.state.localStorageArray} localStorageChange={this.localStorageChange} {...props}/>}/>
-                        {/* <Route exact  path="/checkout/payment/credit_Card" component={CreditCardPage}/> */}
-                        {/* <Route exact  path="/checkout/payment/paypal" component={}/> */}
                         <Route exact  path="/checkout/payment/order_number" component={OrderNumber}/>
+                        {/* <ProtectedRoutes exact  path="/account/profile" component={ProfileUser}/> */}
+                        <Route exact  path="/account/profile" component={ProfileUser}/> 
                         <Route component={NotFound}/>
                     </Switch>
                 </div>

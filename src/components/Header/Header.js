@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import ProductDropDown from '../ProductDropDown/ProductDropDown';
 import './header.css';
 import {auth} from "../../fireBase.config"
@@ -129,17 +129,21 @@ class Header extends Component{
                            <a className="nav-link active" ><i className="fas fa-heart heartIcon"></i></a>
                         </li>
                         <li className="nav-item">
-                           {/* לשאול אם יש משתמש או אין*** */}
-                              <NavLink exact to="/login" className="nav-link active"><i className="fas fa-user"></i></NavLink>
-                              {/* <div id="dropdownUserDiv" class="dropdown">
+                           {/*  מהסטייט הגלובלי לשאול אם יש משתמש או אין*** */}
+                           {localStorage.getItem("user")==null
+                              ?
+                             <NavLink exact to="/login" className="nav-link active"><i className="fas fa-user"></i></NavLink>
+                             :
+                             <div id="dropdownUserDiv" class="dropdown">
                                  <div id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="fas fa-user"></i>
                                  </div>
                                  <ul class="dropdown-menu dropdownContentUser" aria-labelledby="dropdownUser">
-                                    <li><a class="dropdown-item" href="#">My Account</a></li>
+                                    <li><Link class="dropdown-item" exact to="/account/profile">My Account</Link></li>
                                     <li><a class="dropdown-item" onClick={this.signOutBtnClicked}>Sign Out</a></li>
                                  </ul>
-                              </div> */}
+                              </div>}
+                            
                         </li> 
                      </ul>
                   </div> 

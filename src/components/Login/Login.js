@@ -25,12 +25,8 @@ export default class Login extends Component {
         .then((userCredential) => {
           var user = userCredential.user;
           this.setState({displayLabel:false})
-          localStorage.setItem("user",user.email)
-          //בדיקה האם המשתמש הזה הוא מנהל ונעביר אותו ל ***
-          // this.props.history.push("/manager");
-          // אחרת נעבור לעמוד קודם
-          this.props.history.goBack();
-          //לשנות בnavbar
+          this.localAndHistory(user);
+        
         })
         .catch((error) => {
           this.setState({displayLabel:true})
@@ -44,11 +40,7 @@ export default class Login extends Component {
         auth.signInWithPopup(provider)
              .then((result) => {
                  var user = result.user;
-                 localStorage.setItem("user",user.email)
-                //בדיקה האם המשתמש הזה הוא מנהל ונעביר אותו ל ***
-                // this.props.history.push("/manager");
-                // אחרת נעבור לעמוד קודם
-                this.props.history.push("/")
+                 this.localAndHistory(user);
  
              }).catch((error) => {
                  var errorMessage = error.message;
@@ -60,18 +52,21 @@ export default class Login extends Component {
        auth.signInWithPopup(provider)
         .then((result) => {
             var user = result.user;
-            localStorage.setItem("user",user.email)
-           //בדיקה האם המשתמש הזה הוא מנהל ונעביר אותו ל ***
-           // this.props.history.push("/manager");
-           // אחרת נעבור לעמוד קודם
-           this.props.history.goBack();
+            this.localAndHistory(user);
 
         })
         .catch((error) => {
             var errorMessage = error.message;
             alert(errorMessage);
         });
-      
+     }
+     localAndHistory=(user)=>{
+        localStorage.setItem("user",user.email)
+          //בדיקה האם המשתמש הזה הוא מנהל ונעביר אותו ל ***
+          // this.props.history.push("/manager");
+          // אחרת נעבור לעמוד הבית
+          this.props.history.push("/")
+          //לשנות בnavbar
      }
     render() {
         return (

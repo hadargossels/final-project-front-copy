@@ -1,0 +1,66 @@
+.sumDiv{
+    border: 1px solid rgb(196, 193, 193);
+    padding-top: 30px;
+    position: relative;
+    height: 250px;
+    
+}
+.sumDiv img{
+   max-width: 100px;
+   border-radius: 80px;
+}
+.sumDiv p{
+   color: blue;
+   position:absolute;
+   bottom: -1px;
+   left: 0px;
+   width: 100%;
+   border: 1px solid rgb(196, 193, 193);
+   margin: 0px;
+   height: 50px;
+   padding: 12px;
+
+ }
+ .sumDiv p:hover{
+  cursor: pointer;
+  }
+ 
+
+.profileDiv{
+   margin-left: 30px;
+}
+
+.inputProf{
+    width: 100%;
+    height: 45px;
+
+}
+.inputDiv{
+    margin: 10px 0px;
+}
+.Labels{
+    font-size: 17px !important;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.redLabel{
+    color:red;
+}
+.hideLabelprof{
+    display: none;
+}
+.showLabel{
+    display: block;
+}
+.profileDiv h3{
+    text-align: center;
+}
+.profileDiv hr{
+    /* width: 80%; */
+}
+.saveBtn{
+    background-color: salmon;
+    height: 40px;
+   margin-top: 20px;
+}
