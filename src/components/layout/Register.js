@@ -14,11 +14,9 @@ export default function Register() {
 
     async function handleSubmit(e) {
         e.preventDefault()
-
         if (inputPassword.current.value !== inputPasswordConfirm.current.value) {
             return setError("Passwords not matched !")
         }
-
         try {
             setError("")       // We have no error:
             setLoading(true)
@@ -27,7 +25,6 @@ export default function Register() {
         } catch {
             setError("Failed to create an account!")
         }
-
         setLoading(false)
     }
 
@@ -37,7 +34,6 @@ export default function Register() {
         inputPassword.current.value = ""
         inputPasswordConfirm.current.value = ""
     }
-
     return (
         <div style={{ height: "40rem", marginTop: '30px' }}>
             <Card style={{ height: "35rem", width: "50%", margin: "0 auto" }}>
@@ -70,7 +66,7 @@ export default function Register() {
                 </Card.Body>
             </Card>
             <div className="w-100 text-center mt-2">
-                Already have an account? <Link to="/login">Sing In</Link>
+                Already have an account? <Link to="/login">Sign In</Link>
             </div>
         </div>
     )

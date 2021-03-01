@@ -21,13 +21,12 @@ export default function Login() {
         e.preventDefault()
         setLoading(true)
         await signInWithGoogle();
-        history.push("/dashboard")
+        history.push("/dashboard") //!  TODO # .....
         setLoading(false)
     }
 
     async function handleSubmit(e) {
         e.preventDefault()
-
         try {
             setError("")
             setLoading(true)
@@ -36,7 +35,6 @@ export default function Login() {
         } catch {
             setError("Failed to log in")
         }
-
         setLoading(false)
     }
 
@@ -49,7 +47,6 @@ export default function Login() {
     const iconsStyle = {
         color: 'white',
         fontSize: '1.3em',
-
     }
 
     return (

@@ -12,6 +12,7 @@ import Cart from "../layout/Cart";
 import Register from "../layout/Register"
 import CheckOut from "../layout/CheckOut"
 import ForgotPassword from "../layout/ForgotPassword"
+import ProtectedRoute from "../layout/ProtectedRoute"
 
 export default class Routing extends Component {
     state = {
@@ -35,7 +36,7 @@ export default class Routing extends Component {
     render() {
         return (
             <Switch>
-                <Route exact path="/" component={Home} />
+                <ProtectedRoute exact path="/" component={Home} />
                 <Route path="/shop/mobiles">
                     <Catalog _data={this.state._mobilesData} title="Mobile Phones" />
                 </Route>

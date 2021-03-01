@@ -12,7 +12,6 @@ export default function ForgotPassword() {
 
     async function handleSubmit(e) {
         e.preventDefault()
-
         try {
             setMessage("")
             setError("")
@@ -22,12 +21,12 @@ export default function ForgotPassword() {
         } catch {
             setError("Failed to reset the password!")
         }
-
         setLoading(false)
     }
 
     function handleClear() {
         setError("")
+        setMessage("")
         inputEmail.current.value = ""
     }
 

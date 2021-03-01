@@ -42,7 +42,6 @@ export function AuthProvider({ children }) {
         logout,
         resetPassword
     }
-
     return (
         <AuthContext.Provider value={value}>
             {!loading && children}
