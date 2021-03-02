@@ -1,0 +1,154 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "active": false,
+      "roll": "User",
+      "name": "Leanne Graham",
+      "password": "A11B22",
+      "email": "Sincere@gmail.com",
+      "address": {
+        "street": "Kulas Light",
+        "country": "United States",
+        "city": "Gwenborough",
+        "zipcode": "92998-3874"
+      },
+      "phone": "1-770-736-8031 x56442"
+    },
+    {
+      "id": 2,
+      "active": true,
+      "roll": "User",
+      "name": "Ervin Howell",
+      "password": "AABBCC",
+      "email": "Shanna@melissa.tv",
+      "address": {
+        "street": "Victor Plains",
+        "country": "England",
+        "city": "Wisokyburgh",
+        "zipcode": "90566-7771"
+      },
+      "phone": "010-692-6593 x09125"
+    },
+    {
+      "id": 3,
+      "active": true,
+      "roll": "User",
+      "name": "Clementine Bauch",
+      "password": "112233",
+      "email": "Nathan@yesenia.net",
+      "address": {
+        "street": "Douglas Extension",
+        "country": "United States",
+        "city": "McKenziehaven",
+        "zipcode": "59590-4157"
+      },
+      "phone": "1-463-123-4447"
+    },
+    {
+      "id": 4,
+      "active": true,
+      "roll": "User",
+      "name": "Patricia Lebsack",
+      "password": "AAAAAA",
+      "email": "Julianne.OConner@kory.org",
+      "address": {
+        "street": "Hoeger Mall",
+        "country": "Scotland",
+        "city": "South Elvis",
+        "zipcode": "53919-4257"
+      },
+      "phone": "493-170-9623 x156"
+    },
+    {
+      "id": 5,
+      "active": true,
+      "roll": "User",
+      "name": "Chelsey Dietrich",
+      "password": "AAABBB",
+      "email": "Lucio_Hettinger@annie.ca",
+      "address": {
+        "street": "Skiles Walks",
+        "country": "Norway",
+        "city": "Roscoeview",
+        "zipcode": "33263"
+      },
+      "phone": "(254)954-1289"
+    },
+    {
+      "id": 6,
+      "active": false,
+      "roll": "User",
+      "name": "Mrs. Dennis Schulist",
+      "password": "225588",
+      "email": "Karley_Dach@jasper.info",
+      "address": {
+        "street": "Norberto Crossing",
+        "country": "England",
+        "city": "South Christy",
+        "zipcode": "23505-1337"
+      },
+      "phone": "1-477-935-8478 x6430"
+    },
+    {
+      "id": 7,
+      "active": true,
+      "roll": "User",
+      "name": "Kurtis Weissnat",
+      "password": "789456",
+      "email": "Telly.Hoeger@billy.biz",
+      "address": {
+        "street": "Rex Trail",
+        "country": "United States",
+        "city": "Howemouth",
+        "zipcode": "58804-1099"
+      },
+      "phone": "210.067.6132"
+    },
+    {
+      "id": 8,
+      "active": true,
+      "roll": "User",
+      "name": "Nicholas Runolfsdottir V",
+      "password": "ABCDEF",
+      "email": "Sherwood@rosamond.me",
+      "address": {
+        "street": "Ellsworth Summit",
+        "country": "Italy",
+        "city": "Aliyaview",
+        "zipcode": "45169"
+      },
+      "phone": "586.493.6943 x140"
+    },
+    {
+      "id": 9,
+      "active": true,
+      "roll": "User",
+      "name": "Glenna Reichert",
+      "password": "000000",
+      "email": "Chaim_McDermott@dana.io",
+      "address": {
+        "street": "Dayna Park",
+        "country": "Netherland",
+        "city": "Bartholomebury",
+        "zipcode": "76495-3109"
+      },
+      "phone": "(775)976-6794 x41206"
+    },
+    {
+      "id": 10,
+      "active": true,
+      "roll": "User",
+      "name": "Clementina DuBuque",
+      "password": "147369",
+      "email": "Rey.Padberg@karina.biz",
+      "address": {
+        "street": "Kattie Turnpike",
+        "country": "Japan",
+        "city": "Lebsackbury",
+        "zipcode": "31428-2261"
+      },
+      "phone": "024-648-3804"
+    }
+  ]
+}

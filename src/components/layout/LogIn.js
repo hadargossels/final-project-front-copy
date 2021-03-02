@@ -21,7 +21,7 @@ export default function Login() {
         e.preventDefault()
         setLoading(true)
         await signInWithGoogle();
-        history.push("/dashboard") //!  TODO # .....
+        history.push("/profile")
         setLoading(false)
     }
 

@@ -7,6 +7,7 @@ export default function Register() {
     const inputEmail = useRef()
     const inputPassword = useRef()
     const inputPasswordConfirm = useRef()
+    const inputUserName = useRef()
     const { register } = useAuth()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
@@ -20,7 +21,7 @@ export default function Register() {
         try {
             setError("")       // We have no error:
             setLoading(true)
-            await register(inputEmail.current.value, inputPassword.current.value)
+            await register(inputEmail.current.value, inputPassword.current.value, inputUserName.current.value)
             history.push("/")
         } catch {
             setError("Failed to create an account!")
@@ -33,10 +34,11 @@ export default function Register() {
         inputEmail.current.value = ""
         inputPassword.current.value = ""
         inputPasswordConfirm.current.value = ""
+        inputUserName.current.value = ""
     }
     return (
-        <div style={{ height: "40rem", marginTop: '30px' }}>
-            <Card style={{ height: "35rem", width: "50%", margin: "0 auto" }}>
+        <div style={{ height: "45rem", marginTop: '30px' }}>
+            <Card style={{ height: "40rem", width: "50%", margin: "0 auto" }}>
                 <Card.Body>
                     <h2 className="text-center mb-4">Register</h2>
                     {error && <Alert variant="danger">{error}</Alert>}
@@ -44,6 +46,11 @@ export default function Register() {
                         <Form.Group id="email">
                             <Form.Label>Email</Form.Label>
                             <Form.Control type="email" ref={inputEmail} required />
+                        </Form.Group>
+                        <br />
+                        <Form.Group id="user-name">
+                            <Form.Label>User Name</Form.Label>
+                            <Form.Control type="text" ref={inputUserName} />
                         </Form.Group>
                         <br />
                         <Form.Group id="password">
