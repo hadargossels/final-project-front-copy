@@ -1,22 +1,338 @@
 {
   "products": [
-      {"id": 0, "name": "asus-xonar-ae", "img": ["/images/brands/ASUS/XONAR AE/1.png", "/images/brands/ASUS/XONAR AE/2.png", "/images/brands/ASUS/XONAR AE/3.png", "/images/brands/ASUS/XONAR AE/4.png", "/images/brands/ASUS/XONAR AE/5.png"], "title": "ASUS XONAR AE", "subtitle": "7.1 PCIe gaming sound card with 192kHz/24-bit Hi-Res audio quality, 150ohm headphone amp, high-quality DAC, and exclusive EMI back plate.", "details": ["192kHz/24-bit Hi-Res audio and 7.1-channel, 150ohm headphone amp","High-quality ESS DAC with 110dB signal-to-noise ratio (SNR)","Exclusive EMI back plate provides noise shielding for exceptionally clear audio","Sonic Studio enables full audio control via an intuitive, one-page interface","Perfect Voice technology eliminates background noise for clear in-game communication"],"price": 216.99, "rating": 3.5, "stock": true, "discount": false, "discountPercentage": 0.05, "category": "Hardware", "subCategory": "Sound Cards", "type": "Internal", "brand": "ASUS"},
-      {"id": 1, "name": "creative-sound-blasterx-ae-5", "img": ["/images/brands/Creative/Sound BlasterX AE-5/1.png", "/images/brands/Creative/Sound BlasterX AE-5/2.png", "/images/brands/Creative/Sound BlasterX AE-5/3.png"], "title": "Creative Sound BlasterX AE-5", "subtitle": "Hi-Resolution PCIe Gaming Sound Card and DAC with RGB Aurora Lighting System", "details":["The Sound BlasterX AE-5 is a SABRE32 Ultra Class PCIe DAC which is perfect for hi-resolution audio for games, music, and movies", "It delivers up to 32-bit 384kHz playback with a 122dB DNR, ultra-low distortion and jitter"], "price": 680.00, "rating": 0, "stock": false, "discount": false, "discountPercentage": 0.12, "category": "Hardware", "subCategory": "Sound Cards", "type": "Internal", "brand": "Creative"},
-      {"id": 2, "name": "evga-nu-audio", "img": ["/images/brands/EVGA/NU Audio/1.png", "/images/brands/EVGA/NU Audio/2.png", "/images/brands/EVGA/NU Audio/3.png", "/images/brands/EVGA/NU Audio/4.png"], "title": "EVGA NU Audio", "subtitle": "Lifelike Audio, PCIe, RGB LED, Designed with Audio Note (UK)", "details":["True Audio", "Lifelike Gaming™", "Studio and Audiophile Grade", "Ambient RGB Lighting", "XMOS xCORE-200 DSP"], "price": 752.23, "rating": 1.0, "stock": true, "discount": true, "discountPercentage": 0.10, "category": "Hardware", "subCategory": "Sound Cards", "type": "Internal", "brand": "EVGA"},
-      {"id": 3, "name": "edifier-e25hd-luna-hd-black", "img": ["/images/brands/Edifier/e25HD Luna HD (Black)/1.jpg", "/images/brands/Edifier/e25HD Luna HD (Black)/2.jpg"], "title": "Edifier e25HD Luna HD (Black)", "subtitle": "Flawless sound. Elegant look. Powerful experience.", "details":["Optical input for connectivity to multimedia systems, gaming consoles", "Bluetooth 4.0 pairing capability", "Digital Signal Processing (DSP)"], "price": 749.00, "rating": 4.0, "stock": false, "discount": false, "discountPercentage": 0.20, "category": "Peripheral", "subCategory": "Speakers", "type": "2.0", "brand": "Edifier"},
-      {"id": 4, "name": "edifier-e25hd-luna-hd-red", "img": ["/images/brands/Edifier/e25HD Luna HD (Red)/1.jpeg", "/images/brands/Edifier/e25HD Luna HD (Red)/2.jpg", "/images/brands/Edifier/e25HD Luna HD (Red)/3.png"], "title": "Edifier e25HD Luna HD (Red)", "subtitle": "Flawless sound. Elegant look. Powerful experience.", "details":["Optical input for connectivity to multimedia systems, gaming consoles", "Bluetooth 4.0 pairing capability", "Digital Signal Processing (DSP)"], "price": 749.00, "rating": 4.0, "stock": true, "discount": false, "discountPercentage": 0.20, "category": "Peripheral", "subCategory": "Speakers", "type": "2.0", "brand": "Edifier"},
-      {"id": 5, "name": "edifier-e25hd-luna-hd-white", "img": ["/images/brands/Edifier/e25HD Luna HD (White)/1.jpg", "/images/brands/Edifier/e25HD Luna HD (White)/2.jpg", "/images/brands/Edifier/e25HD Luna HD (White)/3.jpg"], "title": "Edifier e25HD Luna HD (White)", "subtitle": "Flawless sound. Elegant look. Powerful experience.", "details":["Optical input for connectivity to multimedia systems, gaming consoles", "Bluetooth 4.0 pairing capability", "Digital Signal Processing (DSP)"], "price": 749.00, "rating": 4.0, "stock": true, "discount": false, "discountPercentage": 0.20, "category": "Peripheral", "subCategory": "Speakers", "type": "2.0", "brand": "Edifier"},
-      {"id": 6, "name": "microsoft-windows-10-home-x64-retail", "img": ["/images/brands/Microsoft/Windows 10 Home x64 Retail/1.jpg", "/images/brands/Microsoft/Windows 10 Home x64 Retail/2.png"], "title": "Microsoft Windows 10 Home x64 Retail", "subtitle": "", "details":["Home edition", "64-bit","Full version (Retail) license", "Multiple languages"], "price": 400.00, "rating": 0, "stock": false, "discount": false, "discountPercentage": 0.20, "category": "Softwares", "subCategory": "Operating Systems", "type": "Retail", "brand": "Microsoft"},
-      {"id": 7, "name": "microsoft-windows-10-pro-x64-retail", "img": ["/images/brands/Microsoft/Windows 10 Pro x64 Retail/1.jpg", "/images/brands/Microsoft/Windows 10 Pro x64 Retail/2.png"], "title": "Microsoft Windows 10 Pro x64 Retail", "subtitle": "", "details":["Pro edition", "64-bit","Full version (Retail) license", "Multiple languages"], "price": 600.00, "rating": 0, "stock": true, "discount": true, "discountPercentage": 0.05, "category": "Softwares", "subCategory": "Operating Systems", "type": "Retail", "brand": "Microsoft"},
-      {"id": 8, "name": "alienware-m15-r4-gaming-laptop", "img": ["/images/brands/Alienware/m15 R4 Gaming Laptop/1.png", "/images/brands/Alienware/m15 R4 Gaming Laptop/2.png", "/images/brands/Alienware/m15 R4 Gaming Laptop/3.png", "/images/brands/Alienware/m15 R4 Gaming Laptop/4.png", "/images/brands/Alienware/m15 R4 Gaming Laptop/5.png", "/images/brands/Alienware/m15 R4 Gaming Laptop/6.png", "/images/brands/Alienware/m15 R4 Gaming Laptop/7.png"], "title": "Alienware m15 R4 Gaming Laptop", "subtitle": "Alienware's most thin and powerful 15-inch gaming laptop now equipped with an NVIDIA® GeForce RTX™ 3070 graphics card, powered by Ampere.", "details":["10th Generation Intel® Core™ i7-10870H", "Windows 10 Home","16GB DDR4 2933MHz", "NVIDIA® GeForce RTX™ 3070 8GB GDDR6", "15.6-in. display", "4.65 lbs"], "price": 7500.00, "rating": 4.5, "stock": true, "discount": false, "discountPercentage": 0.20, "category": "Laptops", "subCategory": "15.6-in", "type": "Gaming", "brand": "Alienware"}
+    {
+      "id": 0,
+      "name": "asus-xonar-ae",
+      "img": [
+        "/images/brands/ASUS/XONAR AE/1.png",
+        "/images/brands/ASUS/XONAR AE/2.png",
+        "/images/brands/ASUS/XONAR AE/3.png",
+        "/images/brands/ASUS/XONAR AE/4.png",
+        "/images/brands/ASUS/XONAR AE/5.png"
+      ],
+      "title": "ASUS XONAR AE",
+      "subtitle": "7.1 PCIe gaming sound card with 192kHz/24-bit Hi-Res audio quality, 150ohm headphone amp, high-quality DAC, and exclusive EMI back plate.",
+      "details": [
+        "192kHz/24-bit Hi-Res audio and 7.1-channel, 150ohm headphone amp",
+        "High-quality ESS DAC with 110dB signal-to-noise ratio (SNR)",
+        "Exclusive EMI back plate provides noise shielding for exceptionally clear audio",
+        "Sonic Studio enables full audio control via an intuitive, one-page interface",
+        "Perfect Voice technology eliminates background noise for clear in-game communication"
+      ],
+      "price": 216.99,
+      "rating": 3.5,
+      "stock": true,
+      "discount": false,
+      "discountPercentage": 0.05,
+      "category": "Hardware",
+      "subCategory": "Sound Cards",
+      "type": "Internal",
+      "brand": "ASUS"
+    },
+    {
+      "id": 1,
+      "name": "creative-sound-blasterx-ae-5",
+      "img": [
+        "/images/brands/Creative/Sound BlasterX AE-5/1.png",
+        "/images/brands/Creative/Sound BlasterX AE-5/2.png",
+        "/images/brands/Creative/Sound BlasterX AE-5/3.png"
+      ],
+      "title": "Creative Sound BlasterX AE-5",
+      "subtitle": "Hi-Resolution PCIe Gaming Sound Card and DAC with RGB Aurora Lighting System",
+      "details": [
+        "The Sound BlasterX AE-5 is a SABRE32 Ultra Class PCIe DAC which is perfect for hi-resolution audio for games, music, and movies",
+        "It delivers up to 32-bit 384kHz playback with a 122dB DNR, ultra-low distortion and jitter"
+      ],
+      "price": 680,
+      "rating": 0,
+      "stock": false,
+      "discount": false,
+      "discountPercentage": 0.12,
+      "category": "Hardware",
+      "subCategory": "Sound Cards",
+      "type": "Internal",
+      "brand": "Creative"
+    },
+    {
+      "id": 2,
+      "name": "evga-nu-audio",
+      "img": [
+        "/images/brands/EVGA/NU Audio/1.png",
+        "/images/brands/EVGA/NU Audio/2.png",
+        "/images/brands/EVGA/NU Audio/3.png",
+        "/images/brands/EVGA/NU Audio/4.png"
+      ],
+      "title": "EVGA NU Audio",
+      "subtitle": "Lifelike Audio, PCIe, RGB LED, Designed with Audio Note (UK)",
+      "details": [
+        "True Audio",
+        "Lifelike Gaming™",
+        "Studio and Audiophile Grade",
+        "Ambient RGB Lighting",
+        "XMOS xCORE-200 DSP"
+      ],
+      "price": 752.23,
+      "rating": 1,
+      "stock": true,
+      "discount": true,
+      "discountPercentage": 0.1,
+      "category": "Hardware",
+      "subCategory": "Sound Cards",
+      "type": "Internal",
+      "brand": "EVGA"
+    },
+    {
+      "id": 3,
+      "name": "edifier-e25hd-luna-hd-black",
+      "img": [
+        "/images/brands/Edifier/e25HD Luna HD (Black)/1.jpg",
+        "/images/brands/Edifier/e25HD Luna HD (Black)/2.jpg"
+      ],
+      "title": "Edifier e25HD Luna HD (Black)",
+      "subtitle": "Flawless sound. Elegant look. Powerful experience.",
+      "details": [
+        "Optical input for connectivity to multimedia systems, gaming consoles",
+        "Bluetooth 4.0 pairing capability",
+        "Digital Signal Processing (DSP)"
+      ],
+      "price": 749,
+      "rating": 4,
+      "stock": false,
+      "discount": false,
+      "discountPercentage": 0.2,
+      "category": "Peripheral",
+      "subCategory": "Speakers",
+      "type": "2.0",
+      "brand": "Edifier"
+    },
+    {
+      "id": 4,
+      "name": "edifier-e25hd-luna-hd-red",
+      "img": [
+        "/images/brands/Edifier/e25HD Luna HD (Red)/1.jpeg",
+        "/images/brands/Edifier/e25HD Luna HD (Red)/2.jpg",
+        "/images/brands/Edifier/e25HD Luna HD (Red)/3.png"
+      ],
+      "title": "Edifier e25HD Luna HD (Red)",
+      "subtitle": "Flawless sound. Elegant look. Powerful experience.",
+      "details": [
+        "Optical input for connectivity to multimedia systems, gaming consoles",
+        "Bluetooth 4.0 pairing capability",
+        "Digital Signal Processing (DSP)"
+      ],
+      "price": 749,
+      "rating": 4,
+      "stock": true,
+      "discount": false,
+      "discountPercentage": 0.2,
+      "category": "Peripheral",
+      "subCategory": "Speakers",
+      "type": "2.0",
+      "brand": "Edifier"
+    },
+    {
+      "id": 5,
+      "name": "edifier-e25hd-luna-hd-white",
+      "img": [
+        "/images/brands/Edifier/e25HD Luna HD (White)/1.jpg",
+        "/images/brands/Edifier/e25HD Luna HD (White)/2.jpg",
+        "/images/brands/Edifier/e25HD Luna HD (White)/3.jpg"
+      ],
+      "title": "Edifier e25HD Luna HD (White)",
+      "subtitle": "Flawless sound. Elegant look. Powerful experience.",
+      "details": [
+        "Optical input for connectivity to multimedia systems, gaming consoles",
+        "Bluetooth 4.0 pairing capability",
+        "Digital Signal Processing (DSP)"
+      ],
+      "price": 749,
+      "rating": 4,
+      "stock": true,
+      "discount": false,
+      "discountPercentage": 0.2,
+      "category": "Peripheral",
+      "subCategory": "Speakers",
+      "type": "2.0",
+      "brand": "Edifier"
+    },
+    {
+      "id": 6,
+      "name": "microsoft-windows-10-home-x64-retail",
+      "img": [
+        "/images/brands/Microsoft/Windows 10 Home x64 Retail/1.jpg",
+        "/images/brands/Microsoft/Windows 10 Home x64 Retail/2.png"
+      ],
+      "title": "Microsoft Windows 10 Home x64 Retail",
+      "subtitle": "",
+      "details": [
+        "Home edition",
+        "64-bit",
+        "Full version (Retail) license",
+        "Multiple languages"
+      ],
+      "price": 400,
+      "rating": 0,
+      "stock": false,
+      "discount": false,
+      "discountPercentage": 0.2,
+      "category": "Softwares",
+      "subCategory": "Operating Systems",
+      "type": "Retail",
+      "brand": "Microsoft"
+    },
+    {
+      "id": 7,
+      "name": "microsoft-windows-10-pro-x64-retail",
+      "img": [
+        "/images/brands/Microsoft/Windows 10 Pro x64 Retail/1.jpg",
+        "/images/brands/Microsoft/Windows 10 Pro x64 Retail/2.png"
+      ],
+      "title": "Microsoft Windows 10 Pro x64 Retail",
+      "subtitle": "",
+      "details": [
+        "Pro edition",
+        "64-bit",
+        "Full version (Retail) license",
+        "Multiple languages"
+      ],
+      "price": 600,
+      "rating": 0,
+      "stock": true,
+      "discount": true,
+      "discountPercentage": 0.05,
+      "category": "Softwares",
+      "subCategory": "Operating Systems",
+      "type": "Retail",
+      "brand": "Microsoft"
+    },
+    {
+      "id": 8,
+      "name": "alienware-m15-r4-gaming-laptop",
+      "img": [
+        "/images/brands/Alienware/m15 R4 Gaming Laptop/1.png",
+        "/images/brands/Alienware/m15 R4 Gaming Laptop/2.png",
+        "/images/brands/Alienware/m15 R4 Gaming Laptop/3.png",
+        "/images/brands/Alienware/m15 R4 Gaming Laptop/4.png",
+        "/images/brands/Alienware/m15 R4 Gaming Laptop/5.png",
+        "/images/brands/Alienware/m15 R4 Gaming Laptop/6.png",
+        "/images/brands/Alienware/m15 R4 Gaming Laptop/7.png"
+      ],
+      "title": "Alienware m15 R4 Gaming Laptop",
+      "subtitle": "Alienware's most thin and powerful 15-inch gaming laptop now equipped with an NVIDIA® GeForce RTX™ 3070 graphics card, powered by Ampere.",
+      "details": [
+        "10th Generation Intel® Core™ i7-10870H",
+        "Windows 10 Home",
+        "16GB DDR4 2933MHz",
+        "NVIDIA® GeForce RTX™ 3070 8GB GDDR6",
+        "15.6-in. display",
+        "4.65 lbs"
+      ],
+      "price": 7500,
+      "rating": 4.5,
+      "stock": true,
+      "discount": false,
+      "discountPercentage": 0.2,
+      "category": "Laptops",
+      "subCategory": "15.6-in",
+      "type": "Gaming",
+      "brand": "Alienware"
+    }
   ],
-
   "coupons": [
-      {"NEW": 0.15, "OK": 0.05}
+    {
+      "NEW": 0.15,
+      "OK": 0.05
+    }
   ],
-  
   "posts": [
-      {"id": 0, "name": "welcome", "img": ["/images/logos/logo.png"], "title": "Welcome", "author": "Liel Sharon", "subtitle": "This is a wider card with supporting text below as a natural lead-in to additional content.", "details": ["   Just text.\n   Just text.\n   Just text."], "comments": [], "datetime": 3.5, "updated": false},
-      {"id": 1, "name": "welcome2", "img": ["/images/logos/logo.png"], "title": "Welcome Again", "author": "Liel Sharon", "subtitle": "This is a wider card with supporting text below as a natural lead-in to additional content.", "details": ["   Just text.\n   Just text.\n   Just text."], "comments": [{"id": 0, "name": "bamba", "text": "I agree", "datetime": 3.5, "replay": []}, {"id": 1, "name": "hummus", "text": "Thank you!", "datetime": 3.5, "replay": []}], "datetime": 3.5, "updated": true}
+    {
+      "id": 0,
+      "name": "welcome",
+      "img": [
+        "/images/logos/logo.png"
+      ],
+      "title": "Welcome",
+      "author": "Liel Sharon",
+      "subtitle": "This is a wider card with supporting text below as a natural lead-in to additional content.",
+      "details": [
+        "   Just text.\n   Just text.\n   Just text."
+      ],
+      "comments": [],
+      "datetime": 3.5,
+      "updated": false
+    },
+    {
+      "id": 1,
+      "name": "welcome2",
+      "img": [
+        "/images/logos/logo.png"
+      ],
+      "title": "Welcome Again",
+      "author": "Liel Sharon",
+      "subtitle": "This is a wider card with supporting text below as a natural lead-in to additional content.",
+      "details": [
+        "   Just text.\n   Just text.\n   Just text."
+      ],
+      "comments": [
+        {
+          "id": 0,
+          "name": "bamba",
+          "text": "I agree",
+          "datetime": 3.5,
+          "replay": []
+        },
+        {
+          "id": 1,
+          "name": "hummus",
+          "text": "Thank you!",
+          "datetime": 3.5,
+          "replay": []
+        }
+      ],
+      "datetime": 3.5,
+      "updated": true
+    }
+  ],
+  "users": [
+    {
+      "id": " 5QypD8hlSSOR45ZWu29fhs5qqAl2",
+      "email": "a@a.com",
+      "fname": "Liel",
+      "lname": "Sharon",
+      "mobile": "0500000000",
+      "address": "tlv",
+      "type": "Administrator",
+      "active": true
+    },
+    {
+      "id": "WVLrvKAvxOfd41DFFlMiOy4FvOb2",
+      "email": "b@b.com",
+      "fname": "bambi",
+      "lname": "bamba",
+      "mobile": "0511111111",
+      "address": "city",
+      "type": "Site Owner",
+      "active": true
+    },
+    {
+      "id": "evuBNWzJfiamQGaAfjIQUHD0kpo1",
+      "email": "c@c.com",
+      "fname": "cors",
+      "lname": "cafe",
+      "mobile": "052222222",
+      "address": "village",
+      "type": "Customer",
+      "active": true
+    },
+    {
+      "active": false,
+      "fname": "ccc",
+      "lname": "a",
+      "email": "a",
+      "mobile": "a",
+      "address": "a",
+      "type": "Administrator",
+      "id": "c0zhrRY"
+    }
   ]
 }

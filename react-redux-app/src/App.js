@@ -1,7 +1,7 @@
 // import './App.css';
 import React, { Component } from 'react';
 
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
 import Header from './components/Header/Header';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
@@ -20,9 +20,11 @@ import BlogPost from './components/BlogPost/BlogPost';
 
 import ContactUs from './components/ContactUs/ContactUs';
 
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import SignInUp from './components/SignInUp/SignInUp';
 import Account from './components/Account/Account';
-import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import AccountProfile from './components/AccountProfile/AccountProfile';
+import AccountAdmin from './components/AccountAdmin/AccountAdmin';
 
 import Cart from './components/Cart/Cart';
 import CartPaymentGuest from './components/CartPaymentGuest/CartPaymentGuest';
@@ -64,7 +66,10 @@ class App extends Component {
               <Route exact path="/contact" component={() => (<ContactUs/>)}/>
 
               <Route exact path="/sign-in-up" component={(props) => (<SignInUp {...props}/>)}/>
+
               <PrivateRoute exact path="/account" component={(props) => (<Account {...props}/>)}/>
+              <PrivateRoute exact path="/account/profile" component={(props) => (<AccountProfile {...props}/>)}/>
+              <PrivateRoute exact path="/account/admin" component={(props) => (<AccountAdmin {...props}/>)}/>
 
               <Route exact path="/cart" component={() => (<Cart/>)}/>
               <Route exact path="/cart/guest" component={CartPaymentGuest}/>

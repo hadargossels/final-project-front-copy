@@ -187,7 +187,7 @@ export default function SignInUp(props) {
                                     </label> <input type="password" name="password" placeholder="Enter password" required/> </div>
                                 <div className="row px-3" id="signInError"></div>
                                 <div className="row px-3 mb-4 my-3">
-                                    <div className="custom-control custom-checkbox custom-control-inline"> <input id="chk1" type="checkbox" name="chk" className="custom-control-input" checked="checked" disabled/> <label for="chk1" className="custom-control-label text-sm">Remember me</label> </div> <a href="#" className="ml-auto mb-0 text-sm">Forgot Password?</a>
+                                    <div className="custom-control custom-checkbox custom-control-inline"> <input id="chk1" type="checkbox" name="chk" className="custom-control-input" checked="checked" disabled/> <label htmlFor="chk1" className="custom-control-label text-sm">Remember me</label> </div> <a href="#" className="ml-auto mb-0 text-sm">Forgot Password?</a>
                                 </div>
                                 <div className="row mb-3 px-3"> <button type="submit" className="btn btn-blue text-center" ref={callRefBtn} style={{margin: "0 auto"}}>Sign In</button> </div>
                                 <div className="row mb-4 px-3"> <small className="font-weight-bold" style={{margin: "0 auto"}}>Don't have an account? <a className="text-danger" type="button" onClick={() => document.querySelector("#signUpForm").style.display = "block"}>Sign Up</a></small> </div>

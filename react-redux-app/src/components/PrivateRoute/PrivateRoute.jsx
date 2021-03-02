@@ -9,7 +9,7 @@ export default class PrivateRoute extends Component {
 
         super(props);
 
-        this.state = {email: null, timeout: false}
+        this.state = {user: null, timeout: false}
     };
 
     componentDidMount() {
@@ -17,7 +17,7 @@ export default class PrivateRoute extends Component {
         auth().onAuthStateChanged((user) => {
 
             if (user)
-               this.setState({email: user.email});
+               this.setState({user});
         })
 
         setTimeout(() => { this.setState({timeout: true}); }, 1000);
@@ -25,8 +25,8 @@ export default class PrivateRoute extends Component {
 
     render() {
 
-        if (this.state.email) {
-            return <Route {...this.props} component={(props) => <this.props.component {...props} email={this.state.email}/>}/>
+        if (this.state.user) {
+            return <Route {...this.props} component={(props) => <this.props.component {...props} user={this.state.user}/>}/>
         }
 
         else if (!this.state.email && this.state.timeout)
