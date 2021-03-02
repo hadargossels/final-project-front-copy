@@ -6,7 +6,7 @@
     margin: auto ;
     margin-top: 120px;
     margin-bottom: 150px;
-    min-height: 40vh;
+    min-height: 50vh;
     position: relative;
     align-items: center;
     justify-content: center;
@@ -22,4 +22,8 @@
     text-align: center;
     border:  rgb(240, 0, 228) solid 5px;
     border-radius: 10px;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto; 
 }

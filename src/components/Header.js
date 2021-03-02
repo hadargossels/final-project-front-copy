@@ -1,10 +1,20 @@
 
 import React, { Component } from 'react';import './Header.css';
 import { Link,NavLink } from 'react-router-dom';
+import {withRouter} from 'react-router'
+import {db} from '../firebase'
 import {auth} from '../firebase'
 import Auth from './auth'
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import "firebase/database";
+
+
+//import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min';
+//import 'bootstrap/dist/css/bootstrap.min.css';
+// import Modal from "react-bootstrap/Modal";
+// import $ from "jquery";
+// import Popper from 'popper.js';
 
 
 class Header extends Component{
@@ -15,6 +25,7 @@ class Header extends Component{
          urlValue:"",
          name:Auth.getName(),
          well:"",
+         users:[],
       }
       this.callRef= React.createRef()
       this.LogInRef= React.createRef()
@@ -22,6 +33,7 @@ class Header extends Component{
       this.errorMessageRef= React.createRef()
       this.welcomeRef=React.createRef()
       this.modalRef=React.createRef()
+      this.errorMessageLogInRef=React.createRef()
 
       this.setUrl=this.setUrl.bind(this)
       this.resetUrl=this.resetUrl.bind(this)
@@ -29,6 +41,7 @@ class Header extends Component{
       this.signOut=this.signOut.bind(this)
       this.logInGoogle=this.logInGoogle.bind(this)
       this.logInFaceBook=this.logInFaceBook.bind(this)
+      this.getDataFromFirebase=this.getDataFromFirebase.bind(this)
 
       
    }
@@ -37,7 +50,12 @@ class Header extends Component{
 
       this.SignUpRef.current.style.display="none"
       this.welcomeRef.current.style.display="none"
+      this.getDataFromFirebase()
    }
+   getDataFromFirebase(){
+      db.on('value', (snapshot)=>{if(snapshot.val()!=null) this.setState({users: snapshot.val()})
+      })
+    }
 
    setUrl(){
       this.setState({urlValue: this.callRef.current.value})
@@ -62,16 +80,18 @@ class Header extends Component{
 
 
    logIn(e){
-      console.log("log")
 
+      const msg=this.errorMessageLogInRef.current
       const modal=this.modalRef.current
       const login =this.LogInRef.current
       const welcome=this.welcomeRef.current
-     
+      
+
       auth.signInWithEmailAndPassword(e[1].value, e[2].value)
       .then((userCredential) => {
         // Signed in
         var user = userCredential.user;
+        console.log(user)
         //Auth.login(() => { this.props.history.push("/protect")})
         Auth.setName(e[1].value)
         Auth.login()
@@ -85,24 +105,50 @@ class Header extends Component{
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
-        alert(errorMessage)
+
+        msg.innerHTML= errorMessage
+           setTimeout(() => {
+            msg.innerHTML= ""
+         }, 4000);
       });
   
     }
 
     signIn(e){
-      console.log("in")
+
       const welcome=this.welcomeRef.current
       const Signup= this.SignUpRef.current
       const msg=this.errorMessageRef.current
       const login =this.LogInRef.current
+     
+      if(e[4].value===e[5].value){
 
-      if(e[3].value===e[4].value){
-
-         auth.createUserWithEmailAndPassword(e[2].value, e[3].value)
-         .then((userCredential) => {
+         auth.createUserWithEmailAndPassword(e[3].value, e[4].value)
+         .then((user) => {
            // Signed in 
-           var user = userCredential.user;
+
+           let data={
+              id:"",
+              firstName:e[1].value,
+              lastName:e[2].value,
+              email:e[3].value,
+              phone:"",
+              address:{
+                 street:"",
+                 type:"",
+                 city:"",
+                 zipcode:""
+              },
+              password:e[4].value,
+              roll:"user",
+              active:true
+            }
+
+           firebase.database().ref('users/' + user.user.uid).set(data)
+           this.getDataFromFirebase()
+
+           console.log(this.state.users)
+           
            this.setState({well:"המשתמש הוסף בהצלחה"})
 
             Signup.style.display="none"
@@ -111,9 +157,9 @@ class Header extends Component{
             setTimeout(() => {
                welcome.style.display="none"
                login.style.display="block"
-            }, 3000);
+            }, 4000);
 
-           for(let i=1;i<5;i++){
+           for(let i=1;i<6;i++){
               e[i].value=""
            }
            //Auth.login(() => { this.props.history.push("/protect")})
@@ -143,8 +189,12 @@ class Header extends Component{
       const welcome=this.welcomeRef.current
       const login =this.LogInRef.current
       const Signup= this.SignUpRef.current
-      const modal= this.modalRef.current
+      const mod= this.modalRef.current
 
+      //console.log(mod)
+      // let myModal = new bootstrap.Modal(mod, {
+      //    keyboard: false
+      //  })
 
       auth.signOut().then(() => {
          // Sign-out successful.
@@ -153,7 +203,10 @@ class Header extends Component{
             welcome.style.display="none"
             Signup.style.display="none"
             login.style.display="block"
-
+           
+            //mod.modal("hide")
+            // myModal.hide()
+            Auth.setProtectPath(() => {this.props.history.push("/");},"account")
             Auth.setName("אורח")
             Auth.logout()
             this.setState({name:Auth.getName()})
@@ -168,7 +221,7 @@ class Header extends Component{
 
     logInGoogle(e){
       
-
+            const msg=this.errorMessageRef.current
             const welcome=this.welcomeRef.current
             const login =this.LogInRef.current
 
@@ -202,11 +255,16 @@ class Header extends Component{
                var credential = error.credential;
                // ...
                console.log(errorMessage)
-            });
+               msg.innerHTML= errorMessage
+               setTimeout(() => {
+                  msg.innerHTML= ""
+               }, 4000);
+                  });
          }
 
    logInFaceBook(){
 
+      const msg=this.errorMessageRef.current
       const welcome=this.welcomeRef.current
       const login =this.LogInRef.current
       var provider = new firebase.auth.FacebookAuthProvider();
@@ -239,6 +297,10 @@ class Header extends Component{
          var email = error.email;
          // The firebase.auth.AuthCredential type that was used.
          var credential = error.credential;
+         msg.innerHTML= errorMessage
+           setTimeout(() => {
+            msg.innerHTML= ""
+         }, 4000);
 
          // ...
       });
@@ -246,6 +308,7 @@ class Header extends Component{
    }
    
    render() {
+
       return(
          <div>
             
@@ -280,11 +343,11 @@ class Header extends Component{
             </div>
             
             <span>
-               <ul className="navbar-nav">
+               <ul className="navbar-nav p-0">
                   <li id="userIconSpan">
-                     <span className="navbar-text" ><i className="fas fa-user userIcon" data-bs-toggle="modal" data-bs-target= "#userIcon" data-bs-whatever="@mdo"></i><span id="hello">שלום, {Auth.getName()}</span></span>
-                  </li>
-                  <li>
+                     <span className="navbar-text" ><i className="fas fa-user userIcon" data-bs-toggle="modal" data-bs-target= "#userIcon" data-bs-whatever="@mdo"></i>
+                        <span id="hello">שלום, {(Auth.getName()==="אורח")?Auth.getName():<span onClick={() => { Auth.setProtectPath(() => {this.props.history.push("/protect");},"account")}} style={{color:"rgb(8, 144, 255)",cursor:"pointer"}}>{Auth.getName()}</span> }</span>
+                     </span>
                     <NavLink to="/Cart"><span className="navbar-text" href="#" onClick={this.resetUrl}><i className="fas fa-shopping-cart"></i></span></NavLink>
                   </li>
                </ul>
@@ -313,6 +376,7 @@ class Header extends Component{
                      <h5 className="modal-title" id="exampleModalLabel">התחבר</h5>
                   </div>
                   <div className="modal-body fs-4">
+                  <p  style={{color: "red"}} ref={this.errorMessageLogInRef} className="vlidMassege"></p>
                      <div style={{direction:"rtl"}}>
                         <div className="mb-3">
                            <label htmlFor="userName" className="col-form-label"> מייל:</label>
@@ -331,10 +395,10 @@ class Header extends Component{
                   </div>
                   <div className="modal-footer">
                      <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">סגור</button>
-                     <button type="submit" className="btn btn-primary" id="signIn">שלח</button>
+                     <button type="submit" className="btn btn-primary" id="signIn">התחבר</button>
                   </div>
-                  <button type="button" className="btn btn-primary" id="googleBtn" onClick={(e)=>this.logInGoogle(e)}>התחבר דרך חשבון גוגל</button>
-                  <button type="button" className="btn btn-primary" id="faceBookBtn" onClick={(e)=>this.logInFaceBook(e)}>התחבר דרך חשבון פייסבוק</button>
+                  <button type="button" className="btn btn-danger p-2 fs-5" id="googleBtn" onClick={(e)=>this.logInGoogle(e)}><i style={{fontSize:"35px",marginRight:"15px"}} className="fab fa-google-plus-g"></i> התחבר דרך חשבון גוגל </button>
+                  <button type="button" className="btn btn-primary p-2 fs-5" id="faceBookBtn" onClick={(e)=>this.logInFaceBook(e)}><i style={{fontSize:"35px",marginRight:"15px"}} className="fab fa-facebook-f"></i>התחבר דרך חשבון פייסבוק</button>
                </form>
                
                
@@ -369,8 +433,12 @@ class Header extends Component{
                      <p id="citycheck" style={{color: "red"}} ref={this.errorMessageRef} className="vlidMassege"></p>
                      <div style={{direction:"rtl"}}>
                         <div className="mb-3">
-                           <label htmlFor="user-name" className="col-form-label">שם משתמש:</label>
-                           <input type="text" className="form-control" id="user-name"/>
+                           <label htmlFor="user-name" className="col-form-label">שם פרטי:</label>
+                           <input type="text" className="form-control" id="firs-name"/>
+                        </div>
+                        <div className="mb-3">
+                           <label htmlFor="user-name" className="col-form-label">שם משפחה:</label>
+                           <input type="text" className="form-control" id="last-name"/>
                         </div>
                         <div className="mb-3">
                            <label htmlFor="user-name" className="col-form-label" >מייל:</label>
@@ -393,7 +461,7 @@ class Header extends Component{
 
                   <div className="modal-footer">
                      <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">סגור</button>
-                     <button type="submit" className="btn btn-primary">שלח</button>
+                     <button type="submit" className="btn btn-primary">הרשם</button>
                   </div>
                </form>
             </div>
@@ -405,4 +473,4 @@ class Header extends Component{
    }
 }
 
-export default Header;
+export default withRouter(Header);

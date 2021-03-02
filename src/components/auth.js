@@ -3,6 +3,7 @@ class Auth {
     constructor() {
       this.authenticated = false;
       this.name='אורח'
+      this.path=''
     }
   
     login() {
@@ -12,8 +13,9 @@ class Auth {
     logout() {
       this.authenticated = false;
     }
-    setProtectPath(cb){
-      cb();
+    async setProtectPath(cb,p){
+       this.path= await p
+       cb();
     }
   
     isAuthenticated() {
@@ -25,6 +27,9 @@ class Auth {
     }
     getName(){
       return this.name
+    }
+    getPath(){
+      return this.path
     }
   }
   

@@ -50,7 +50,7 @@ export default class Home extends Component {
 
     newestProducts(){
 
-        let array=cakeArr.slice(0,5)
+        let array=cakeArr.slice(cakeArr.length-5,cakeArr.length)
         this.setState({newArr:array})
     }
 

@@ -270,8 +270,88 @@
             "ingredients": ["כפית תמצית וניל","רבע כוס חלב","כוס קמח","אבקת אפייה שקית","2 כפות סוכר חום","2 כפות קקאו","2 ביצים לארג","גביע יוגורט"],
             "preparation":"מערבבים יחד את כל היבשים, מוסיפים את כל שאר המצרכים מערבבים בעזרת מטרפה . השתמשתי בכף שמן זית אחת בלבד לכל הפנקייקים. ( יצאו בערך 10 בינוניים) בשביל שיהיה עניין וקישוט מעל עירבבתי יוגורט וכף סילאן יחד. מחכה לשמוע איך יצא לכם 🙂"
           }
+    ],"users": [
+      {
+        "id": 1,
+        "firstName": "raz",
+        "lastName": "botner",
+        "email": "razbotner@hotmail.com",
+        "phone": "052-4284203",
+        "address": {
+          "street": "Kulas Light",
+          "type": "Apt. 556",
+          "city": "Gwenborough",
+          "zipcode": "92998-3874"
+        },
+        "password": "1234",
+        "roll": "admin",
+        "active": false
+      },
+      {
+        "id": 2,
+        "firstName": "Leanne Graham",
+        "lastName": "Bret",
+        "email": "Sincere@april.biz",
+        "phone": "1-770-736-8031 x56442",
+        "address": {
+          "street": "Kulas Light",
+          "type": "Apt. 556",
+          "city": "Gwenborough",
+          "zipcode": "92998-3874"
+        },
+        "password": "1234",
+        "roll": "admin",
+        "active": true
+      },
+      {
+        "id": 3,
+        "firstName": "moshe",
+        "lastName": "israel",
+        "email": "Sincere@april.biz",
+        "phone": "1-770-736-8031 x56442",
+        "address": {
+          "street": "Kulas Light",
+          "type": "Apt. 556",
+          "city": "Gwenborough",
+          "zipcode": "92998-3874"
+        },
+        "password": "1234",
+        "roll": "user",
+        "active": false
+      },
+      {
+        "id": 4,
+        "firstName": "ata lo",
+        "lastName": "kipod",
+        "email": "Sincere@april.biz",
+        "phone": "1-770-736-8031 x56442",
+        "address": {
+          "street": "Kulas Light",
+          "type": "Apt. 556",
+          "city": "Gwenborough",
+          "zipcode": "92998-3874"
+        },
+        "password": "1234",
+        "roll": "user",
+        "active": true
+      },
+      {
+        "id": 5,
+        "firstName": "john",
+        "lastName": "deer",
+        "email": "Sincere@april.biz",
+        "phone": "1-770-736-8031 x56442",
+        "address": {
+          "street": "Kulas Light",
+          "type": "Apt. 556",
+          "city": "Gwenborough",
+          "zipcode": "92998-3874"
+        },
+        "password": "1234",
+        "roll": "user",
+        "active": false
+      }
     ]
     
-
 
 }
