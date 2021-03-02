@@ -21,6 +21,8 @@ export default class Signup extends Component {
       lname: "",
       email: "",
       password: "",
+      phoneNumber: "",
+      img: "",
     };
     for (let i = 0; i < input.length; i++) {
       switch (input[i].name) {
@@ -43,12 +45,27 @@ export default class Signup extends Component {
         case "confirmPassword":
           input[i].value = "";
           break;
+        case "tel":
+          newUser.phoneNumber = input[i].value;
+          input[i].value = "";
+          break;
+        case "img":
+          newUser.img = input[i].value;
+          input[i].value = "";
+          break;
         default:
           break;
       }
     }
 
-    this.newUser(newUser.email, newUser.password, newUser.fname);
+    this.newUser(
+      newUser.email,
+      newUser.password,
+      newUser.fname,
+      newUser.lname,
+      newUser.phoneNumber,
+      newUser.img
+    );
     // this.setState({ myData: newUser });
     localStorage.setItem("newUser", JSON.stringify(newUser));
     console.log(newUser);
@@ -79,7 +96,8 @@ export default class Signup extends Component {
     }
   }
 
-  newUser(email, password, fname) {
+  newUser(email, password, fname, lname, phoneNumber, img) {
+    let user;
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -88,7 +106,21 @@ export default class Signup extends Component {
           "Hi " + fname + " ,you have successfully created a New account. "
         );
         alert("you can now login to your acount");
-        let user = userCredential.user;
+        user = userCredential.user;
+        if (user) {
+          user
+            .updateProfile({
+              displayName: fname + " " + lname,
+              // phoneNumber: phoneNumber,
+              photoURL: img,
+            })
+            .then(function () {
+              alert("Update Profile successful.");
+            })
+            .catch(function (error) {
+              alert("An error happened on update profile.");
+            });
+        }
         console.log("user", user);
         // ...
       })
@@ -155,6 +187,34 @@ export default class Signup extends Component {
             <div id="emailHelp" className="form-text">
               We'll never share your email with anyone else.
             </div>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="exampleInputEmail1" className="form-label">
+              What's your Phone number?
+            </label>
+            <input
+              name="tel"
+              type="tel"
+              className="form-control"
+              id="tel"
+              aria-describedby="telHelp"
+              title="Please enter your phone number"
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="photo" className="form-label">
+              your profile picture
+            </label>
+            <input
+              name="img"
+              type="file"
+              className="form-control"
+              id="img"
+              aria-describedby="imgHelp"
+              title="Please upload your phone number"
+              required
+            />
           </div>
 
           <div className="mb-3">

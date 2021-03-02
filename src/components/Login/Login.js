@@ -35,7 +35,7 @@ export default class Login extends Component {
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         user = userCredential.user;
-        console.log("userlogin", user);
+        // console.log("userlogin", user);
         // if (user) {
         alert("Login Successful");
         this.changeBtnLogin();
@@ -237,7 +237,7 @@ export default class Login extends Component {
               className="btn btn-danger"
               onClick={() => this.loginWithGoogle()}
             >
-              <i class="fab fa-google"></i> Sign in with Google
+              <i className="fab fa-google"></i> Sign in with Google
             </button>
             <br />
             <button
@@ -245,7 +245,7 @@ export default class Login extends Component {
               style={{ color: "white" }}
               onClick={() => this.loginWithFacebook()}
             >
-              <i class="fab fa-facebook-f"></i> Login with Facebook
+              <i className="fab fa-facebook-f"></i> Login with Facebook
             </button>
           </div>
           <h6>

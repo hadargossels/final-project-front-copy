@@ -53,7 +53,12 @@ export const AppLayout = (props) => {
       <Link to="/store" className="btn btn-success">
         Continue to shopping
       </Link>
-      <Link to="/cart" className="btn btn-success">
+      <br />
+      <Link
+        to="/cart"
+        style={{ marginTop: "10px" }}
+        className="btn btn-success"
+      >
         Continue to my cart
       </Link>
     </div>

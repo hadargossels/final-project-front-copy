@@ -21,6 +21,10 @@ import axios from "axios";
 import { LandingPage } from "./landing.page";
 import { AppLayout } from "./app.layout";
 import { ProtectedRoute } from "./protected.route";
+import { ProtectedRouteProfile } from "./protected.route.profile";
+import profile from "./components/profile/profile";
+import Admin from "./components/admin/AdminPage";
+import AdminPage from "./components/admin/AdminPage";
 
 export default class Routing extends Component {
   state = {
@@ -50,7 +54,6 @@ export default class Routing extends Component {
           <Route exact path="/blog">
             <Blog datablog={this.state.blogs} />
           </Route>
-          {/* <Route path="/blog/:nameblog" component={Oneblog} /> */}
 
           <Route
             path="/blog/:nameblog"
@@ -64,28 +67,6 @@ export default class Routing extends Component {
               <Cartpage {...routerProps} data={this.state.origItem} />
             )}
           />
-
-          {/* <Route exact path="/cart" component={Cartpage} /> */}
-
-          {/* <Route exact path="/cart" >
-                        <Cartpage  data={this.state.origItem}/>
-                    </Route> */}
-
-          {/* <Route  path="/cart/:item" component={Cart} /> */}
-
-          {/* <Route  path="/cart/:item" >
-                        <Cart data={this.state.origItem}/>
-                    </Route> */}
-          {/* <Route exact path="/cart/:item" component={(props) => (<Cart {...props} data={this.state.origItem}/>)}/> */}
-
-          {/* <Route exact path="/cart/guest/payment" component={(props) => (<CartPaymentGuestReview {...props} products={this.state.data.products}/>)}/> */}
-          {/* <Route exact path="/product/:productName" component={(props) => (<Product {...props} data={this.state.origItem}/>)}/> */}
-
-          {/* <Route path="/product/:productName" render={routerProps=>( <Product {...routerProps} data={this.state.origItem}/>)} /> */}
-
-          {/* <Router path="/product">
-                         <Product data={this.state.origItem}/>
-                     </Router> */}
           <Route
             path="/product/:productName"
             render={(routerProps) => (
@@ -99,13 +80,12 @@ export default class Routing extends Component {
               <Display {...routerProps} data={this.state.origItem} />
             )}
           />
-
-          {/* <Route path="/store/product">
-            <Display data={this.state.origItem} />
-          </Route>
-
-          <Route path="/store" component={Display} /> */}
           <ProtectedRoute exact path="/user" component={AppLayout} />
+          <ProtectedRouteProfile
+            exact
+            path="/account/profile"
+            component={profile}
+          />
 
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
@@ -113,7 +93,37 @@ export default class Routing extends Component {
           <Route path="/payment" component={Payment} />
           <Route path="/paypal" component={Paypal} />
           <Route path="/paymentdetails" component={Paymentdetails} />
+          <Route path="/adminpage" component={AdminPage} />
           <Route component={NotFound} />
+
+          {/* <Route path="/blog/:nameblog" component={Oneblog} /> */}
+          {/* <Route path="/store/product">
+            <Display data={this.state.origItem} />
+          </Route>
+
+          <Route path="/store" component={Display} /> */}
+
+          {/* <Route exact path="/cart" component={Cartpage} /> */}
+
+          {/* <Route exact path="/cart" >
+                                <Cartpage  data={this.state.origItem}/>
+                            </Route> */}
+
+          {/* <Route  path="/cart/:item" component={Cart} /> */}
+
+          {/* <Route  path="/cart/:item" >
+                                <Cart data={this.state.origItem}/>
+                            </Route> */}
+          {/* <Route exact path="/cart/:item" component={(props) => (<Cart {...props} data={this.state.origItem}/>)}/> */}
+
+          {/* <Route exact path="/cart/guest/payment" component={(props) => (<CartPaymentGuestReview {...props} products={this.state.data.products}/>)}/> */}
+          {/* <Route exact path="/product/:productName" component={(props) => (<Product {...props} data={this.state.origItem}/>)}/> */}
+
+          {/* <Route path="/product/:productName" render={routerProps=>( <Product {...routerProps} data={this.state.origItem}/>)} /> */}
+
+          {/* <Router path="/product">
+                                 <Product data={this.state.origItem}/>
+                             </Router> */}
         </Switch>
       </div>
     );

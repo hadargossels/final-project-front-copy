@@ -186,51 +186,6 @@ class Header extends Component {
                       </div>
                       <div className="modal-body">
                         <Login history={this.props.history} />
-                        {/* <form>
-                          <div className="mb-3">
-                            <label
-                              htmlFor="exampleInputEmail1"
-                              className="form-label"
-                            >
-                              Email address
-                            </label>
-                            <input
-                              type="email"
-                              className="form-control"
-                              id="exampleInputEmail2"
-                              aria-describedby="emailHelp"
-                            />
-                            <div id="emailHelp" className="form-text">
-                              We'll never share your email with anyone else.
-                            </div>
-                          </div>
-                          <div className="mb-3">
-                            <label
-                              htmlFor="exampleInputPassword1"
-                              className="form-label"
-                            >
-                              Password
-                            </label>
-                            <input
-                              type="password"
-                              className="form-control"
-                              id="exampleInputPassword1"
-                            />
-                          </div>
-                          <div className="mb-3 form-check">
-                            <input
-                              type="checkbox"
-                              className="form-check-input"
-                              id="exampleCheck1"
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="exampleCheck1"
-                            >
-                              Check me out
-                            </label>
-                          </div>
-                        </form> */}
                       </div>
                       <div className="modal-footer">
                         <button
@@ -288,27 +243,33 @@ class Header extends Component {
                   </OverlayTrigger>
                 ))}
                 {firebase.auth().currentUser ? (
-                  <button
-                    className="btn btn-danger"
-                    style={{}}
-                    onClick={() => {
-                      auth.logout(() => {
-                        this.props.history.push("/login");
-                      });
-                      firebase
-                        .auth()
-                        .signOut()
-                        .then(() => {
-                          alert("Sign-out successful.");
-                          this.setState({ login: false });
-                        })
-                        .catch((error) => {
-                          alert(error);
+                  <div>
+                    <button
+                      className="btn btn-danger"
+                      style={{}}
+                      onClick={() => {
+                        auth.logout(() => {
+                          this.props.history.push("/login");
                         });
-                    }}
-                  >
-                    Logout
-                  </button>
+                        firebase
+                          .auth()
+                          .signOut()
+                          .then(() => {
+                            alert("Sign-out successful.");
+                            this.setState({ login: false });
+                          })
+                          .catch((error) => {
+                            alert(error);
+                          });
+                      }}
+                    >
+                      Logout
+                    </button>
+                    &nbsp;
+                    <Link to="/account/profile" className="btn btn-warning">
+                      Profile
+                    </Link>
+                  </div>
                 ) : (
                   <button
                     type="button"
