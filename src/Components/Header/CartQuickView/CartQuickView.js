@@ -1,7 +1,7 @@
 import React from "react";
 // import data from '../../data.json';
 import { Link } from 'react-router-dom';
-import formatPrice from '../utility/Price';
+import formatPrice from '../../utility/Price';
 
 const CartQuickView = ({ handleClose, show, productList, itemNum, itemSum }) => {
   const showHideClassName = show ? "modal modal-visible" : "modal-hidden";

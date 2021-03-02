@@ -14,12 +14,14 @@ import ShoppingCart from './Components/shoppingCart/ShoppingCart';
 import Checkout from './Components/Checkout/Checkout'
 // import data from './data.json'
 import { Switch, Route } from 'react-router-dom';
-import FinalForm from './Components/FinalForm/FinalForm';
+import FinalForm from './Components/Checkout/FinalForm/FinalForm';
 import Confirmation from './Components/Confirmation/Confirmation';
 import BlogPost from './Components/BlogPost/BlogPost';
 import axios from 'axios';
 import {ProtectedRoute} from './protectedRoute';
 import LoginPage from './Components/LoginPage/LoginPage';
+import AccountProfile from './Components/AccountProfile/AccountProfile';
+import AdminMain from './Components/Dashboard/AdminMain';
 
 class App extends Component {
   constructor(props) {
@@ -176,6 +178,7 @@ class App extends Component {
             <Route path="/catalogue/:search" render={(matchProps) => (<StoreFront {...matchProps} {...this.props} addToCart={this.addToCart} />)} />
             <Route path="/item/:itemISBN" render={(matchProps) => (<ProductPage {...matchProps} {...this.props} addToCart={this.addToCart} />)} />
             <Route path="/about-us" component={AboutUs} />
+            <Route path="/admin-dashboard" component={AdminMain} />
             <Route path="/blogpost/:postName" component={BlogPost} />
             <Route path="/shoppingCart" render={(matchProps) => (
               <ShoppingCart {...matchProps} {...this.props} 
@@ -184,6 +187,7 @@ class App extends Component {
               />)}
             />
             <Route path="/blog" component={Blog} />
+            <ProtectedRoute exact path="/account/profile" component={AccountProfile} />
             <Route path="/login" component={Login} />
             <Route path="/sign-up" component={SignUp} />
             <Route path="/contact-us" component={ContactUs} />

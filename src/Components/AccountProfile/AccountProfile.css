@@ -1,0 +1,13 @@
+.AccountProfile{
+    min-height: 86.4vh;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.profileForm {
+    flex: 3 60rem;
+}
+
+.profileCard {
+    flex: 1 20rem;
+}

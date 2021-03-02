@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Header.css';
 import { Link } from "react-router-dom";
-import CartQuickView from '../CartQuickView/CartQuickView';
+import CartQuickView from './CartQuickView/CartQuickView';
 import axios from 'axios';
 
 class Header extends Component{

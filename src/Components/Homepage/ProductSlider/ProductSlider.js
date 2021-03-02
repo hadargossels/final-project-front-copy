@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './ProductSlider.css';
 // import data from '../../data.json';
-import formatPrice from '../utility/Price';
-import formatStars from '../utility/Stars';
-import Modal from '../ProductQuickview/ProductQuickview.js';
+import formatPrice from '../../utility/Price';
+import formatStars from '../../utility/Stars';
+import Modal from './ProductQuickview/ProductQuickview.js';
 import axios from 'axios';
 
 class ProductSlider extends Component {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './CheckoutDetails.css';
-import formatPrice from '../utility/Price'
-import formatPrecent from '../utility/Pecent'
+import formatPrice from '../../utility/Pecent'
+import formatPrecent from '../../utility/Pecent'
 import { Link } from "react-router-dom";
 
 class CheckoutDetails extends Component {

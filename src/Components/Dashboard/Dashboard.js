@@ -1,14 +1,9 @@
-import React, { Component } from 'react';
-import './Dashboard.css';
+import * as React from "react";
+import { Card, CardContent, CardHeader } from '@material-ui/core';
 
-class Dashboard extends Component {
-    render () {
-        return(    
-            <main className="storeFront">
-                <h1>Dashboard</h1>
-            </main>
-        )
-    }
-}
-
-export default Dashboard;
+export default () => (
+    <Card>
+        <CardHeader title="Welcome to the administration" />
+        <CardContent>Lorem ipsum sic dolor amet...</CardContent>
+    </Card>
+);

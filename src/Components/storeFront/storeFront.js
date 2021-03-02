@@ -1,9 +1,9 @@
 import './storeFront.css';
 import React, { Component } from 'react';
 // import data from '../../data.json';
-import ItemView from '../itemView/itemView';
-import Filters from '../filters/filters';
-import Pagination from '../Pagination/Pagination';
+import ItemView from './itemView/itemView';
+import Filters from './filters/filters';
+import Pagination from './Pagination/Pagination';
 import queryString from 'query-string';
 import axios from 'axios';
 

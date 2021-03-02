@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import CheckoutDetails from '../CheckoutDetails/CheckoutDetails';
-import ItemsToBuy from '../ItemsToBuy/ItemsToBuy';
+import CheckoutDetails from './CheckoutDetails/CheckoutDetails';
+import ItemsToBuy from './ItemsToBuy/ItemsToBuy';
 import './ShoppingCart.css';
 
 class ShoppingCart extends Component {

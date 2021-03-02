@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './ItemsToBuy.css';
 // import data from '../../data.json'
-import formatPrice from '../utility/Price'
+import formatPrice from '../../utility/Price'
 import axios from 'axios';
 
 class ItemsToBuy extends Component {

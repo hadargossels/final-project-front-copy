@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import formatPrice from '../utility/Price';
-import formatStars from '../utility/Stars';
+import formatPrice from '../../utility/Price';
+import formatStars from '../../utility/Stars';
 import './itemView.css';
 import { Link } from 'react-router-dom';
 

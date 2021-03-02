@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FirstForm from '../FirstForm/FirstForm';
+import FirstForm from './FirstForm/FirstForm';
 import FinalDetails from '../FinalDetails/FinalDetails';
 import './Checkout.css';
 

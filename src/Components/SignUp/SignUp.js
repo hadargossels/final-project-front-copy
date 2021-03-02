@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './SignUp.css';
 import { Redirect } from 'react-router-dom';
-import {auth} from '../../firebase'
+import {auth, db} from '../../firebase'
 
 class SignUp extends Component {
     constructor(props) {
@@ -23,33 +23,68 @@ class SignUp extends Component {
     }
 
     authfunc = async () => {
-        let userauth = await auth.createUserWithEmailAndPassword(this.state.email, this.state.password).catch((error) => {
+
+        await auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then((user) => {
+            let username = this.state.userName
+            let email = this.state.email
+            let password = this.state.password
+            let data = {
+                username,
+                email,
+                password
+            }
+
+            db.ref('users').push(
+                {
+                    'uid': user.user.uid,
+                    ...data
+                }
+            )
+
+            localStorage.setItem('signupSuccess',"yes")
+
+            this.setState({
+                signUp: true,
+            })
+        })
+        .then ()
+        .catch((error) => {
             this.setState({
                 errorMessage: <h3 className="text-3xl text-red-600 text-center pb-5"><i className="far fa-times-circle"></i> {error.message}</h3>
             })
         })
-        if (userauth) {
-            let time = Date.now()
-            let userObj = {
-                "id": time,
-                "username": this.state.userName,
-                "email": this.state.email,
-                "password": this.state.password
-            }
-            let usersList = JSON.parse(localStorage.getItem('newUsers'))
-            if (usersList) {
-                usersList.push(userObj)
-                localStorage.setItem('newUsers',(JSON.stringify(usersList)))
-            } else {
-                let someList = [];
-                someList.push(userObj)
-                localStorage.setItem('newUsers',(JSON.stringify(someList)))
-            }
-            localStorage.setItem('signupSuccess',"yes")
-            this.setState({
-                signUp: true,
-            })
-        }
+
+
+
+        // let userauth = await auth.createUserWithEmailAndPassword(this.state.email, this.state.password).catch((error) => {
+        //     this.setState({
+        //         errorMessage: <h3 className="text-3xl text-red-600 text-center pb-5"><i className="far fa-times-circle"></i> {error.message}</h3>
+        //     })
+        // })
+        // if (userauth) {
+
+        //     let time = Date.now()
+        //     let userObj = {
+        //         "id": time,
+        //         "username": this.state.userName,
+        //         "email": this.state.email,
+        //         "password": this.state.password
+        //     }
+        //     let usersList = JSON.parse(localStorage.getItem('newUsers'))
+        //     if (usersList) {
+        //         usersList.push(userObj)
+        //         localStorage.setItem('newUsers',(JSON.stringify(usersList)))
+        //     } else {
+        //         let someList = [];
+        //         someList.push(userObj)
+        //         localStorage.setItem('newUsers',(JSON.stringify(someList)))
+        //     }
+        //     localStorage.setItem('signupSuccess',"yes")
+        //     this.setState({
+        //         signUp: true,
+        //     })
+        // }
     }
 
     checkvalidty = (event) => {
