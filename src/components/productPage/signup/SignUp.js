@@ -2,6 +2,7 @@ import React, { Component} from 'react'
 import {Link,Route} from "react-router-dom";
 import '../signup/signup.css'
 import firebase, {auth} from '../../../firebase'
+import {db} from '../../../firebase'
 
 const ListItemLink = ({ to, name }) => (
     <Route path={to} children={({ match }) => (
@@ -16,6 +17,15 @@ export default class SignUp extends Component {
         this.userPassword = React.createRef();
         this.userConfirmPassword = React.createRef()
     }
+
+    componentDidMount(){
+        db.on("value", (snapshot) =>{
+            let myData = ""
+            myData = (snapshot.val().products);
+            console.log(myData);
+        })
+    }
+
     render() {
         return (
             <div id="signUpForm" className="text-center"
@@ -107,7 +117,10 @@ export default class SignUp extends Component {
                 // Signed in 
                 var user = userCredential.user;
                 // ...
-                this.props.history.push('/login');
+                user.updateProfile({
+                    displayName: this.userName.current.value
+                    // photoURL: "https://example.com/jane-q-user/profile.jpg"
+                  }).then(()=> {this.props.history.push('/personal');})
             })
             .catch((error) => {
                 var errorCode = error.code;

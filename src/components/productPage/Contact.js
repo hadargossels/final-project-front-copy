@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+// import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import './contact.css'
 
 class Contact extends Component{
@@ -21,7 +22,17 @@ class Contact extends Component{
 
                         <div className="row" style={{height:"60vh"}}>
                         <div className="col-md-6 maps" >
-                            <iframe src="https://maps.google.com/maps?q=32.0879267,34.7922654&z=15&output=embed" frameBorder="0" style={{border:"0"}} allowFullScreen></iframe>
+                            <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+                                <TileLayer
+                                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                />
+                                <Marker position={[51.505, -0.09]}>
+                                    <Popup>
+                                    A pretty CSS3 popup. <br /> Easily customizable.
+                                    </Popup>
+                                </Marker>
+                            </MapContainer>
                         </div>
                         <div className="col-md-6">
                             <h2 className="text-uppercase mt-3 font-weight-bold text-white">CONTACT US</h2>

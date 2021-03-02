@@ -127,7 +127,7 @@ class Header extends Component{
 
    myIsUser(){
        this.setState({
-           isUser :  <span className="text-danger fs-5 pt-1">Hi {localStorage.getItem('userName')}(<button onClick={()=>this.myLogOut()} className="btn btn-dark">logout</button>)</span>,
+           isUser :  <span className="text-danger fs-5 pt-1">Hi <ListItemLink to='/personal' name={auth.currentUser.displayName} />(<button onClick={()=>this.myLogOut()} className="btn btn-dark">logout</button>)</span>,
            isAlreadyUser : true
        })
    }

@@ -147,5 +147,11 @@
       "type": "bottle",
       "onSale": false
     }
+  ],
+  "users":[
+    {
+      "id":"ymnx1jILeIZK5f1FZ6GHFLLWLq32",
+      "email":"yazek02@gmail.com"
+    }
   ]
 }

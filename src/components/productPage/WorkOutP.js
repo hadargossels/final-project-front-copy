@@ -3,6 +3,7 @@ import {Link,Route} from "react-router-dom";
 import Stars from './Stars';
 import './store.css';
 import axios from 'axios'
+import {db} from '../../firebase'
 const ListItemLink = ({ name , urlImg ,index }) => (
     <Route path={"/product/"+index+"/"+name} children={({ match }) => (
         <Link className="btn text-white" to={"/product/"+index+"/"+name}><br/>
@@ -14,7 +15,7 @@ class WorkOutP extends Component{
      constructor(props){
         super(props);
         this.pType = ["yoga","weights"];
-        this.myJson = require('./workOutP.json').data;
+        this.myJson=[];
         this.myNewJason=[] ;
         this.state ={
             // searchUrl: 
@@ -23,50 +24,56 @@ class WorkOutP extends Component{
             prices :[],
             stars:[],
             myArr:[],
-            jsonPlace:[],
+            id:[],
             // filteFlags:[true,true]
         }
         this.urlSelect = this.urlSelect.bind(this);
-        this.deState();
+        db.on("value", (snapshot) =>{
+            this.myJson = (snapshot.val().products);
+            this.deState()
+        })
     }
+
 
     async deState(){
         // this.myNewJason = await axios.get('http://localhost:3000/data');
         // this.myNewJason = this.myNewJason.data;
         // console.log(this.myNewJason);
         // this.myJson=this.myNewJason;
-        if(this.props.search!="all"){
-            const regex = new RegExp (`${this.props.search}`,"gi")
-            for (const i of this.myJson) {
-                if(regex.test(i.name) || regex.test(i.type)){
+            if(this.props.search!="all"){
+                const regex = new RegExp (`${this.props.search}`,"gi")
+                for (const i of this.myJson) {
+                    if(regex.test(i.name) || regex.test(i.type)){
+                        this.state.name.push(i.name);
+                        this.state.prices.push(Number(i.price));
+                        this.state.stars.push(Number(i.stars));
+                        this.state.urlImg.push(i.urlImg[0]);
+                        this.state.id.push(Number(i.id));
+                    }
+                }
+                if (this.state.name.length===0){
+                    this.props.searchHead("No matches found");
+                }
+                else {
+                    this.props.searchHead(this.props.search);
+                }
+            }
+            else{
+                for (const i of this.myJson) {
                     this.state.name.push(i.name);
                     this.state.prices.push(Number(i.price));
                     this.state.stars.push(Number(i.stars));
                     this.state.urlImg.push(i.urlImg[0]);
-                    this.state.jsonPlace.push(Number(i.jsonPlace));
+                    this.state.id.push(Number(i.id));
                 }
+                this.props.searchHead(this.props.search+ " products");
             }
-            if (this.state.name.length===0){
-                this.props.searchHead("No matches found");
-            }
-            else {
-                this.props.searchHead(this.props.search);
-            }
-        }
-        else{
-            for (const i of this.myJson) {
-                this.state.name.push(i.name);
-                this.state.prices.push(Number(i.price));
-                this.state.stars.push(Number(i.stars));
-                this.state.urlImg.push(i.urlImg[0]);
-                this.state.jsonPlace.push(Number(i.jsonPlace));
-            }
-            this.props.searchHead(this.props.search+ " products");
-        }
+
     }
 
     render(){
-        if(this.state.myArr.length==0){
+        console.log(this.myJson);
+        if(this.state.myArr.length==0 && this.myJson.length!=0){
             let tempArr=[];
             for(let i=0; i<this.state.name.length; i++){
                 if(i%3==0 && i!=0){
@@ -75,9 +82,9 @@ class WorkOutP extends Component{
                 }
                 tempArr.push(<div className="col-sm-12 col-md-3 text-center " key={i}>
                     <h3>{this.state.name[i]}</h3>
-                    <ListItemLink name={this.state.name[i]} urlImg={this.state.urlImg[i]} index={this.state.jsonPlace[i]}/><br/>
+                    <ListItemLink name={this.state.name[i]} urlImg={this.state.urlImg[i]} index={this.state.id[i]}/><br/>
                     <Stars numStars={this.state.stars[i]}/><br/>
-                    {this.myJson[this.state.jsonPlace[i]].onSale==false?
+                    {this.myJson[this.state.id[i]].onSale==false?
                     (<h3>{this.state.prices[i]}$</h3>):
                     (<h3><del>{this.state.prices[i]}$</del><br/><span className="text-danger">{(this.state.prices[i]*(9/10)).toFixed(2)}$</span></h3>)}
                 </div>)
@@ -118,7 +125,7 @@ class WorkOutP extends Component{
        let sName=this.state.name
        let sUrl=this.state.urlImg
        let sStars=this.state.stars
-       let sJson=this.state.jsonPlace
+       let sJson=this.state.id
         for(let i=0; i<sArr.length; i++){
             for(let k=i; k<sArr.length; k++){
                 if(sArr[k]<sArr[i]){
@@ -135,7 +142,7 @@ class WorkOutP extends Component{
         this.setState({name:sName});
         this.setState({urlImg:sUrl});
         this.setState({stars:sStars});
-        this.setState({jsonPlace:sJson});
+        this.setState({id:sJson});
         this.setState({myArr:[]});
    }
    sortStars(){
@@ -143,7 +150,7 @@ class WorkOutP extends Component{
     let sName=this.state.name
     let sUrl=this.state.urlImg
     let sStars=this.state.stars
-    let sJson=this.state.jsonPlace
+    let sJson=this.state.id
      for(let i=0; i<this.state.stars.length; i++){
          for(let k=i; k<this.state.stars.length; k++){
              if(sStars[k]>sStars[i]){
@@ -161,7 +168,7 @@ class WorkOutP extends Component{
      this.setState({name:sName});
      this.setState({urlImg:sUrl});
      this.setState({stars:sStars});
-     this.setState({jsonPlace:sJson});
+     this.setState({id:sJson});
      this.setState({myArr:[]});
 }
     cancelFilter(){
@@ -175,14 +182,14 @@ class WorkOutP extends Component{
             sPrice.push(Number(i.price));
             sStars.push(Number(i.stars));
             sUrl.push(i.urlImg[0]);
-            sJson.push(Number(i.jsonPlace));
+            sJson.push(Number(i.id));
         };
         this.props.searchHead("All products");
         this.setState({prices:sPrice});
         this.setState({name:sName});
         this.setState({urlImg:sUrl});
         this.setState({stars:sStars});
-        this.setState({jsonPlace:sJson});
+        this.setState({id:sJson});
         this.setState({myArr:[]});
     }
     filterSelect(name){
@@ -198,7 +205,7 @@ class WorkOutP extends Component{
                 sName.push(iterator.name);
                 sUrl.push(iterator.urlImg[0]);
                 sStars.push(iterator.stars);
-                sJson.push(iterator.jsonPlace);
+                sJson.push(iterator.id);
             }
         }
         this.props.searchHead(name);
@@ -206,7 +213,7 @@ class WorkOutP extends Component{
         this.setState({name:sName});
         this.setState({urlImg:sUrl});
         this.setState({stars:sStars});
-        this.setState({jsonPlace:sJson});
+        this.setState({id:sJson});
         this.setState({myArr:[]});
         }
         urlSelect(){
@@ -224,14 +231,14 @@ class WorkOutP extends Component{
                     sName.push(iterator.name);
                     sUrl.push(iterator.urlImg[0]);
                     sStars.push(iterator.stars);
-                    sJson.push(iterator.jsonPlace);
+                    sJson.push(iterator.id);
                 }
             }
             this.setState({prices:sPrice});
             this.setState({name:sName});
             this.setState({urlImg:sUrl});
             this.setState({stars:sStars});
-            this.setState({jsonPlace:sJson});
+            this.setState({id:sJson});
             this.setState({myArr:[]});
             }
 }
