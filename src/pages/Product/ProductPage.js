@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import AlsoViewed from './AlsoViewed';
-import CartButton from '../Catalog/CartButton/CartButton';
-import Categories from './Categories'
-import Gallery from './Gallery';
-import Platforms from './Platforms';
-import Price from './Price';
-import Rating from './Rating'
-import Stock from './Stock'
+import AlsoViewed from '../../components/Product/AlsoViewed';
+import CartButton from '../../components/Catalog/CartButton/CartButton';
+import Categories from '../../components/Product/Categories'
+import Gallery from '../../components/Product/Gallery';
+import Platforms from '../../components/Product/Platforms';
+import Price from '../../components/Product/Price';
+import Rating from '../../components/Product/Rating'
+import Stock from '../../components/Product/Stock'
 import './ProductPage.css'
 
 class ProductPage extends Component{

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import {lowToHigh, highToLow, ratingOrder, alphabetOrder} from "../../functions/compareFuncs.js";
 import CatalogElement from "./CatalogElement";
-import "./Catalog.css";
+import "./CatalogContainer.css";
 
-export default class Catalog extends Component {
+export default class CatalogContainer extends Component {
   constructor(props) {
     super(props);
     this.arr = this.props.arr;

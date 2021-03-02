@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {Redirect} from 'react-router-dom'
-import Map from './Map/Map'
+import Map from '../../components/Map/Map'
 
 export default class ContactUs extends Component {
     constructor(){

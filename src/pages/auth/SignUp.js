@@ -24,17 +24,16 @@ export default function Signup() {
             setLoading(true)
             await signup(emailRef.current.value, passwordRef.current.value)
             localStorage.setItem("login",auth.currentUser.email)
-            history.push("/dashboard")
+            history.push("/account")
         } catch {
             setError("Failed to create an account")
         }
-
         setLoading(false)
     }
 
     return (
         <Container className="d-flex align-items-center justify-content-center py-5">
-            {localStorage.getItem("login") && <Redirect to="/dashboard"/>}
+            {localStorage.getItem("login") && <Redirect to="/account"/>}
             <div className="w-100" style={{maxWidth:"400px"}}>
                 <Card>
                     <Card.Body>

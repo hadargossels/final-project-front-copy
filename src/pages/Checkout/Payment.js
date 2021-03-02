@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import PayPalBtn from './PayPalBtn'
+import PayPalBtn from '../../components/Paypal/PayPalBtn'
 
 export default class Payment extends Component {
   constructor(){

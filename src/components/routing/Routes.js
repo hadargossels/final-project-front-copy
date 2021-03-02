@@ -1,32 +1,33 @@
 import React, { Component } from 'react'
 import {Route,Switch} from 'react-router-dom'
 
-import Home from '../Home/Home'
-import AboutUs from '../About-Us/AboutUs'
-import Blog from '../Blog/Blog'
-import BlogPost from '../Blog/BlogPost/BlogPost'
-import Cart from '../Cart/Cart'
-import CatalogPage from '../Catalog/CatalogPage';
-import Checkout from '../Checkout/Checkout'
-import ContactUs from '../Contact-Us/ContactUs'
-import Login from '../Login/Login'
-import MsgSent from '../Contact-Us/MsgSent'
-import NotFound from '../404/NotFound'
-import OrderConfirmed from '../Checkout/OrderConfirmed'
-import ProductPage from '../Product/ProductPage'
-import SignUp from '../SignUp/SignUp'
-import Payment from '../Checkout/PayPal/Payment'
-import { AuthProvider } from '../../contexts/AuthContext';
-import PrivateRoute from './PrivateRoute'
-import Dashboard from '../Dashboard/Dashboard'
-import ForgotPassword from '../ForgotPassword'
+import Home from '../../pages/Home/Home'
+import AboutUs from '../../pages/AboutUs'
+import Blog from '../../pages/Blog/Blog'
+import BlogPost from '../../pages/Blog/BlogPost'
+import Cart from '../../pages/Cart'
+import CatalogPage from '../../pages/Catalog/CatalogPage';
+import Checkout from '../../pages/Checkout/Checkout'
+import ContactUs from '../../pages/Contact/ContactUs'
+import MsgSent from '../../pages/Contact/MsgSent'
+import NotFound from '../../pages/NotFound'
+import OrderConfirmed from '../../pages/OrderConfirmed'
+import ProductPage from '../../pages/Product/ProductPage'
+import Payment from '../../pages/Checkout/Payment'
 
+import PrivateRoute from './PrivateRoute'
+import Account from '../../pages/Account/Account'
+import Profile from '../../pages/Account/Profile'
+
+import ForgotPassword from '../../pages/auth/ForgotPassword'
+import Login from '../../pages/auth/Login'
+import SignUp from '../../pages/auth/SignUp'
+import AdminPage from '../Admin/AdminPage'
 
 export default class Routes extends Component {
 
     render() {
         return (
-            <AuthProvider>
                 <Switch>
                     <Route exact path="/" component={Home}/>
                     <Route path="/about" component={AboutUs}/>
@@ -41,13 +42,14 @@ export default class Routes extends Component {
                     <Route path="/product/:name" component={ProductPage}/>
                     <Route exact path="/store/" component={CatalogPage}/>
                     <Route path="/store/:search" component={CatalogPage}/>
-                    <Route path="/login" component={Login}/>
-                    <Route path="/signup" component={SignUp}/>
-                    <PrivateRoute path="/dashboard" component={Dashboard}/>
+                    <Route exact path="/login" component={Login}/>
+                    <Route exact path="/signup" component={SignUp}/>
+                    <PrivateRoute path="/admin" component={AdminPage}/>
+                    <PrivateRoute exact path="/account" component={Account}/>
+                    <PrivateRoute exact path="/account/profile" component={Profile}/>
                     <Route path="/forgot-password" component={ForgotPassword}/>
                     <Route component={NotFound}/>
                 </Switch>
-            </AuthProvider>
         )
     }
 }

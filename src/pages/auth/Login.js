@@ -1,10 +1,12 @@
 import React, {useRef, useState} from 'react'
-import {Link, Redirect, useHistory} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import {Form, Button, Card, Alert, Container} from 'react-bootstrap'
 import {useAuth} from '../../contexts/AuthContext'
 import firebase, {auth} from '../../firebase'
+import {logIn} from '../../actions'
+import {connect} from 'react-redux'
 
-export default function Login() {
+function Login(props) {
     const emailRef = useRef()
     const passwordRef = useRef()
     const {login} = useAuth()
@@ -20,7 +22,8 @@ export default function Login() {
         setLoading(true)
         await signInWithGoogle();
         localStorage.setItem("login",auth.currentUser.email)
-        history.push("/dashboard")
+        props.logIn()
+        history.push("/account")
         setLoading(false)
     }
 
@@ -31,16 +34,16 @@ export default function Login() {
             setLoading(true)
             await login(emailRef.current.value, passwordRef.current.value)
             localStorage.setItem("login",auth.currentUser.email)
-            history.push("/dashboard")
+            props.logIn()
+            history.push("/account")
         } catch {
-            setError("Failed to sign in")
+            setError("Log-in failed - invalid email or password")
         }
         setLoading(false)
     }
 
     return (
         <Container className="d-flex align-items-center justify-content-center py-5">
-            {localStorage.getItem("login") && <Redirect to="/dashboard"/>}
             <div className="w-100" style={{maxWidth:"400px"}}>
                 <Card>
                     <Card.Body>
@@ -73,3 +76,8 @@ export default function Login() {
         </Container>
     )
 }
+
+const mapStateToProps = state => ({
+ })
+ 
+ export default connect(mapStateToProps,{logIn})(Login)

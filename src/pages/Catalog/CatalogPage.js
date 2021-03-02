@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import queryString from 'query-string'
 
-import Catalog from './Catalog';
+import CatalogContainer from '../../components/Catalog/CatalogContainer';
 import './CatalogPage.css'
 
 export default class CatalogPage extends Component {
@@ -42,7 +42,7 @@ export default class CatalogPage extends Component {
                     <div className="container">
                         <p>{this.exampleProp}</p>
                         <h1 className="text-center py-3">Game Catalog</h1>
-                        <Catalog arr={objCatalog}/>
+                        <CatalogContainer arr={objCatalog}/>
                     </div>
                 }
             </div>

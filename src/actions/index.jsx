@@ -1,7 +1,8 @@
 import axios from 'axios'
 import {
     APPLY_DISCOUNT, GET_DISCOUNTS,
-    GET_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART, PLUS_ONE, MINUS_ONE, EMPTY_CART
+    GET_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART, PLUS_ONE, MINUS_ONE, EMPTY_CART,
+    LOG_IN, LOG_OUT
 } from '../constants/action-types'
 
 //Discount actions
@@ -54,4 +55,13 @@ export const minusOne = (data) => ({
 
 export const emptyCart = () => ({
     type:EMPTY_CART
+})
+
+//User actions
+export const logIn = () => ({
+    type: LOG_IN,
+})
+
+export const logOut = () => ({
+    type: LOG_OUT,
 })

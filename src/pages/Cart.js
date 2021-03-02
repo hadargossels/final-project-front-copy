@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import CartTable from './CartTable'
-import { EmptyCart } from './EmptyCart'
+import CartTable from '../components/Cart/CartTable'
+import { EmptyCart } from '../components/Cart/EmptyCart'
 
 function Cart(props) {
     return (

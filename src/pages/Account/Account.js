@@ -1,9 +1,12 @@
 import React, {useState} from 'react'
 import {Container, Card, Button, Alert} from 'react-bootstrap'
 import {useAuth} from '../../contexts/AuthContext'
-import {useHistory} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
+import {logOut} from '../../actions'
+import {connect} from 'react-redux';
 
-export default function Dashboard() {
+
+function Account(props) {
     const [error,setError] = useState("")
     const {currentUser, logout} = useAuth()
     const history = useHistory()
@@ -12,6 +15,8 @@ export default function Dashboard() {
         setError('')
         try {
             await logout()
+            localStorage.removeItem("login")
+            props.logOut()
             history.push("/login")
         } catch (error) {
             setError("Log out failed")
@@ -22,9 +27,12 @@ export default function Dashboard() {
             <div className="w-100" style={{maxWidth:"400px"}}>
                 <Card>
                     <Card.Body>
-                        <h2 className="text-center mb-4">Dashboard</h2>
+                        <h2 className="text-center mb-4">Account</h2>
                         {error && <Alert variant="danger">{error}</Alert>}
                         <strong>Email: </strong> {currentUser.email}
+                        <Link to="/account/profile">
+                            <Button className="w-100 my-2" type="submit">Profile</Button>
+                        </Link>
                     </Card.Body>
                 </Card>
                 <div className="w-100 text-center mt-2">
@@ -34,3 +42,9 @@ export default function Dashboard() {
         </Container>
     )
 }
+
+const mapStateToProps = state => ({
+    loggedIn: state.user.loggedIn
+ })
+ 
+ export default connect(mapStateToProps, {logOut})(Account)

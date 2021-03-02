@@ -19,8 +19,15 @@ export function AuthProvider({children}) {
         return auth.signInWithEmailAndPassword(email,password)
     }
 
+    function updateEmail(email){
+        return currentUser.updateEmail(email)
+    }
+
+    function updateFirstName(firstname){
+        return currentUser.updateProfile({firstName:firstname})
+    }
+
     function logout(){
-        localStorage.removeItem("login")
         return auth.signOut()
     }
 
@@ -43,7 +50,9 @@ export function AuthProvider({children}) {
         login,
         signup,
         logout,
-        resetPassword
+        resetPassword,
+        updateEmail,
+        updateFirstName
     }
     return (
         <AuthContext.Provider value={value}>

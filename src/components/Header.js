@@ -1,12 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
+import { useAuth } from "../contexts/AuthContext";
 
-import {NavLink} from 'react-router-dom';
+import {NavLink, Link} from 'react-router-dom';
 import CartTable from './Cart/CartTable';
 
-class Header extends Component{
 
-    render(){
+// class Header extends Component{
+function Header(props) {
+
+   //  render(){
+      const { currentUser } = useAuth();
+      console.log(currentUser)
+
+
       const noDeco = {textDecoration:"none"}
        return(
          <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -33,23 +40,48 @@ class Header extends Component{
                      <li className="nav-item">
                         <NavLink style={noDeco} className="nav-link" to="/cart">
                            <i className="fas fa-shopping-cart me-2"></i>
-                           <span>Your Cart ({this.props.chosenProducts ? this.props.chosenProducts.length : 0})</span>
+                           <span>Your Cart ({props.chosenProducts ? props.chosenProducts.length : 0})</span>
                         </NavLink>
                      </li>
-                     <li className="nav-item">
-                        <NavLink style={noDeco} className="nav-link" exact to="/login">Sign-in</NavLink>
-                     </li>
-                     <li className="nav-item">
-                        <NavLink style={noDeco} className="nav-link" exact to="/signup">Register</NavLink>
-                     </li>
+                     
+                     {props.loggedIn ?
+                        <>
+                           <li className="nav-item">          
+                              <NavLink style={noDeco} className="nav-link" to="/admin">Admin</NavLink>
+                           </li>
+                           <li className="nav-item">          
+                              <NavLink style={noDeco} className="nav-link" to="/account">Account</NavLink>
+                           </li>
+                        </> :
+                        <>
+                           <li className="nav-item">
+                              <NavLink style={noDeco} className="nav-link" exact to="/login">Sign-in</NavLink>
+                           </li>
+                           <li className="nav-item">
+                              <NavLink style={noDeco} className="nav-link" exact to="/signup">Register</NavLink>
+                           </li>
+                        </>
+                     }
                   </ul>
 
                   <div className="dropdown">
-                     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                     <span style={{color:"rgba(255,255,255,.55)"}} className="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         View Cart
-                     </button>
+                     </span>
                      <div className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <CartTable page="quickView" productsArr={JSON.parse(localStorage.getItem("productsArr"))}/>
+                        {props.chosenProducts ?
+                           <CartTable page="quickView"/> : 
+                           <div className="text-center container">
+                              <div className="w-100">
+                                 <span className="text-danger">Your cart is empty!</span>
+                              </div>
+                              <button className="btn btn-sm btn-primary m-2">
+                                 <Link to="/store/" style={{textDecoration:"none",color:'white'}}>
+                                    Continue Shopping
+                                 </Link>
+                              </button>
+                           </div>
+                        }
                      </div>
                   </div>
                </div>
@@ -64,10 +96,11 @@ class Header extends Component{
       </nav>
        );
     }
- }
+//  }
 
 const mapStateToProps = state => ({
    chosenProducts: state.products.chosenProducts,
+   loggedIn: state.user.loggedIn
 })
 
 export default connect(mapStateToProps)(Header)

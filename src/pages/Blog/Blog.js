@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import BlogElement from './BlogElement/BlogElement'
+import BlogElement from '../../components/Blog/BlogElement'
 import {newestDate} from '../../functions/compareFuncs'
 
 export default class Blog extends Component {
