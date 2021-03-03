@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { withRouter } from "react-router-dom";
 
-import { connect } from "react-redux";
-
 import CustomButton from "../custom-button/custom-button.component";
-import { addItem } from "../../redux/cart/cart.actions";
+import { CartContext } from "../../providers/cart/cart.provider";
 
 import "./collection-item.styles.scss";
-import { compose } from "redux";
 
-const CollectionItem = ({ item, addItem, history }) => {
+const CollectionItem = ({ item, history }) => {
   const { name, price, imageUrl, id } = item;
+
+  const { addItem } = useContext(CartContext);
 
   const [displayMessage, setDisplayMessage] = useState(false);
 
@@ -25,19 +24,14 @@ const CollectionItem = ({ item, addItem, history }) => {
   };
 
   const handelClick = (event) => {
-    // console.log(event.target.id);
-    // console.log("name :", name.split(" ").join("-"));
     history.push(`/product/${name.split(" ").join("-")}`);
   };
 
   const handleCartBtnClick = () => {
-    // console.log(imageUrl);
-    // console.log(price);
+    // addItem({ id, name, price, imageUrl });
 
-    // console.log(name);
+    addItem(item);
 
-    // console.log(id);
-    addItem({ id, name, price, imageUrl });
     setDisplayMessage(true);
 
     setTimeout(() => {
@@ -155,25 +149,8 @@ const CollectionItem = ({ item, addItem, history }) => {
           </div>
         </div>
       </div>
-
-      {/* {source !== "main" && (
-        <QuickView
-          // onClick={handelQuickViewClick}
-          img={imageUrl}
-          title={name}
-          text="Glove For Cats Cat Grooming Silicone Pet Dog brush Glove De shedding Gentle Efficient Pet Grooming Glove Dog Bath Cat cleaning"
-          price={price}
-        />
-      )} */}
     </div>
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  addItem: (item) => dispatch(addItem(item)),
-});
-
-export default compose(
-  withRouter,
-  connect(null, mapDispatchToProps)
-)(CollectionItem);
+export default withRouter(CollectionItem);

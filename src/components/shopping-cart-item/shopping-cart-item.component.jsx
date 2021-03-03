@@ -1,26 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { withRouter } from "react-router-dom";
+import { CartContext } from "../../providers/cart/cart.provider";
 
 import "./shopping-cart-item.styles.scss";
-import { connect } from "react-redux";
 
-import { compose } from "redux";
-
-import {
-  clearItemFromCart,
-  addItem,
-  removeItem,
-} from "../../redux/cart/cart.actions";
-
-const ShoppingCartItem = ({
-  cartItem,
-  clearItem,
-  addItem,
-  removeItem,
-  history,
-}) => {
+const ShoppingCartItem = ({ cartItem, history }) => {
   const { imageUrl, price, name, quantity, id } = cartItem;
-  // console.log("cartItem :", cartItem);
+
+  const { addItem, removeItem, clearItemFromCart } = useContext(CartContext);
 
   const handelClick = (event) => {
     // console.log(event.target.id);
@@ -98,7 +85,7 @@ const ShoppingCartItem = ({
           setTimeout(() => {
             setDisplayRemoveMessage(false);
           }, 2000);
-          clearItem(cartItem);
+          clearItemFromCart(cartItem);
         }}
         className="remove-button"
       >
@@ -108,17 +95,5 @@ const ShoppingCartItem = ({
     </div>
   );
 };
-const mapDispatchToProps = (dispatch) => ({
-  clearItem: (item) => dispatch(clearItemFromCart(item)),
 
-  addItem: (item) => dispatch(addItem(item)),
-
-  removeItem: (item) => dispatch(removeItem(item)),
-});
-
-// export default connect(null, mapDispatchToProps)(ShoppingCartItem);
-
-export default compose(
-  withRouter,
-  connect(null, mapDispatchToProps)
-)(ShoppingCartItem);
+export default withRouter(ShoppingCartItem);

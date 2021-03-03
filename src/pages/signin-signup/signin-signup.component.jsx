@@ -11,7 +11,7 @@ const SignInAndSignUpPage = (props) => {
     <>
       <h1
         style={{
-          display: props.forCheckIn === "forCheckIn" ? "block" : "none",
+          display: props.data === "forCheckIn" ? "block" : "none",
         }}
       >
         You most sign in or sign up to proceed the checkout

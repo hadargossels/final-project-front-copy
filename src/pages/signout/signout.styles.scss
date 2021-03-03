@@ -215,7 +215,7 @@
   [type="checkbox"]:not(:checked),
   [type="checkbox"]:checked {
     position: absolute;
-    display: none;
+    // display: none;
   }
 
   [type="checkbox"]:not(:checked) + label,

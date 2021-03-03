@@ -2,17 +2,17 @@ import React, { useRef, useState, useContext } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 // import { useAuth } from "../../contexts/AuthContext/AuthContext";
 import { Link, useHistory } from "react-router-dom";
+import CurrentUserContext from "../../contexts/current-user/current-user.context";
+import { auth } from "../../firebase/firebase.utils";
 
-import { createStructuredSelector } from "reselect";
-import { selectCurrentUser } from "./../../redux/user/user.selector";
-import { connect } from "react-redux";
-import { auth } from "./../../firebase/firebase.utils";
-
-function UpdateProfile({ currentUser }) {
+export default function UpdateProfile() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
   // const { currentUser, updatePassword, updateEmail } = useAuth();
+
+  const currentUser = useContext(CurrentUserContext);
+  console.log("currentUser :", currentUser);
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -73,38 +73,36 @@ function UpdateProfile({ currentUser }) {
         <Card.Body>
           <h2 className="text-center mb-4">Update Profile</h2>
           {error && <Alert variant="danger">{error}</Alert>}
-          {currentUser && (
-            <Form onSubmit={handleSubmit}>
-              <Form.Group id="email">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  ref={emailRef}
-                  required
-                  defaultValue={currentUser.email}
-                />
-              </Form.Group>
-              <Form.Group id="password">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  ref={passwordRef}
-                  placeholder="Leave blank to keep the same"
-                />
-              </Form.Group>
-              <Form.Group id="password-confirm">
-                <Form.Label>Password Confirmation</Form.Label>
-                <Form.Control
-                  type="password"
-                  ref={passwordConfirmRef}
-                  placeholder="Leave blank to keep the same"
-                />
-              </Form.Group>
-              <Button disabled={loading} className="w-100" type="submit">
-                Update
-              </Button>
-            </Form>
-          )}
+          <Form onSubmit={handleSubmit}>
+            <Form.Group id="email">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                ref={emailRef}
+                required
+                defaultValue={currentUser.email}
+              />
+            </Form.Group>
+            <Form.Group id="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                ref={passwordRef}
+                placeholder="Leave blank to keep the same"
+              />
+            </Form.Group>
+            <Form.Group id="password-confirm">
+              <Form.Label>Password Confirmation</Form.Label>
+              <Form.Control
+                type="password"
+                ref={passwordConfirmRef}
+                placeholder="Leave blank to keep the same"
+              />
+            </Form.Group>
+            <Button disabled={loading} className="w-100" type="submit">
+              Update
+            </Button>
+          </Form>
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
@@ -113,9 +111,3 @@ function UpdateProfile({ currentUser }) {
     </>
   );
 }
-
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
-});
-
-export default connect(mapStateToProps)(UpdateProfile);

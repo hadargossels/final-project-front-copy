@@ -1,15 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import "./checkout.styles.scss";
 
-import { connect } from "react-redux";
+import { CartContext } from "../../providers/cart/cart.provider";
 
-import { selectCartItemsCount } from "../../redux/cart/cart.selectors";
-
-import { createStructuredSelector } from "reselect";
-
-import { selectCartItems } from "../../redux/cart/cart.selectors";
-import { selectCartTotal } from "../../redux/cart/cart.selectors";
 import ShoppingCartItem from "../../components/shopping-cart-item/shopping-cart-item.component";
 
 import orderConfirmation from "../../components/order-confirmation/order-confirmation.component";
@@ -19,7 +13,9 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import PayPal from "./../../components/paypal/paypal";
 import OrderConfirmation from "../../components/order-confirmation/order-confirmation.component";
 
-const CheckoutPage = ({ cartItems, total, itemCount, currentUser }) => {
+const CheckoutPage = () => {
+  const { cartItems, cartTotal, cartItemsCount } = useContext(CartContext);
+
   const [validPhone, setValidPhone] = useState(false);
   const [promoValue, setPromoValue] = useState();
   const [validPromo, setValidPromo] = useState(false);
@@ -194,7 +190,7 @@ const CheckoutPage = ({ cartItems, total, itemCount, currentUser }) => {
       {validPayment ? (
         <OrderConfirmation
           cartItems={cartItems}
-          total={total + promoChange + deliveryChange}
+          total={cartTotal + promoChange + deliveryChange}
         />
       ) : (
         <div className="container check-page">
@@ -203,7 +199,7 @@ const CheckoutPage = ({ cartItems, total, itemCount, currentUser }) => {
               <h4 className="d-flex justify-content-between align-items-center mb-3">
                 <span className="text-muted">Your cart</span>
                 <span className="badge badge-secondary badge-pill">
-                  {itemCount} Items
+                  {cartItemsCount} Items
                 </span>
               </h4>
               <ul className="list-group mb-3">
@@ -221,7 +217,7 @@ const CheckoutPage = ({ cartItems, total, itemCount, currentUser }) => {
                       }}
                     >
                       {" "}
-                      US ${total}
+                      US ${cartTotal}
                     </p>
                   </li>
                 )}
@@ -271,7 +267,7 @@ const CheckoutPage = ({ cartItems, total, itemCount, currentUser }) => {
                       }}
                     >
                       {" "}
-                      US ${total + deliveryChange}
+                      US ${cartTotal + deliveryChange}
                     </strong>
                   </li>
                 )}
@@ -304,7 +300,10 @@ const CheckoutPage = ({ cartItems, total, itemCount, currentUser }) => {
               {validPromo && (
                 <li className="list-group-item d-flex justify-content-between">
                   <span>Total </span>
-                  <strong> US ${total + promoChange + deliveryChange}</strong>
+                  <strong>
+                    {" "}
+                    US ${cartTotal + promoChange + deliveryChange}
+                  </strong>
                 </li>
               )}
             </div>
@@ -678,7 +677,7 @@ const CheckoutPage = ({ cartItems, total, itemCount, currentUser }) => {
                 )}
                 {/* ///Endcheackicng ////// */}
                 <div onClick={isAllValid} className="paypal-btn">
-                  <PayPal totalPay={total + promoChange + deliveryChange} />
+                  <PayPal totalPay={cartTotal + promoChange + deliveryChange} />
                 </div>
                 <Link to="/shopping-cart">
                   <button type="button" class="btn btn-secondary">
@@ -711,14 +710,4 @@ const CheckoutPage = ({ cartItems, total, itemCount, currentUser }) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  cartItems: selectCartItems,
-  total: selectCartTotal,
-  itemCount: selectCartItemsCount,
-});
-
-// const mapDispatchToProps = (dispatch) => ({
-//   setTotalPrice: (total) => dispatch(setTotalPrice(total)),
-// });
-
-export default connect(mapStateToProps)(CheckoutPage);
+export default CheckoutPage;

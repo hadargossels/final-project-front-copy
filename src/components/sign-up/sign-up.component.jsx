@@ -1,16 +1,16 @@
 import React from "react";
-import { connect } from "react-redux";
+import { Alert } from "react-bootstrap";
 
 // import FormInput from "../form-input/form-input.component";
 // import CustomButton from "../custom-button/custom-button.component";
-
 import {
-  facebookSignInStart,
-  googleSignInStart,
-  emailSignInStart,
-  gitSignInStart,
-  signUpStart,
-} from "../../redux/user/user.actions";
+  fireInfo,
+  auth,
+  createUserProfileDocument,
+  signInWithGoogle,
+  signInWithFacebook,
+  signInWithGithub,
+} from "../../firebase/firebase.utils";
 
 import "./sign-up.styles.scss";
 import { Link } from "react-router-dom";
@@ -29,10 +29,16 @@ class SignUp extends React.Component {
       validEmail: false,
       validPassword: false,
       validConfirmPassword: false,
+      error: false,
+      userDate: {},
     };
   }
 
   handleClick = () => {
+    const { displayName, email } = this.state;
+
+    this.setState({ userData: { displayName, email } });
+
     console.log("====================================");
     console.log("click");
     console.log("====================================");
@@ -40,38 +46,74 @@ class SignUp extends React.Component {
 
   handleSignIn = async (event) => {
     event.preventDefault();
-    const { emailSignInStart } = this.props;
     const { email, password } = this.state;
 
-    emailSignInStart(email, password);
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
 
-    // try {
-    //   await auth.signInWithEmailAndPassword(email, password);
-    //   this.setState({ email: "", password: "" });
-    // } catch (error) {
-    //   console.error(error);
-    //   this.setState({ invalidUser: true });
-    // }
+      this.setState({ email: "", password: "" });
+    } catch (error) {
+      console.log(error);
+
+      this.setState({ error: "invalid details" });
+      setTimeout(() => {
+        this.setState({ error: false });
+      }, 1000);
+    }
   };
-
-  //   this.setState((prevState) => ({
-  //     info: [...prevState.info, [this.state.email, this.state.password]],
-  //   }));
-  //   this.setState({ email: "", password: "" });
-  // };
 
   handleSignup = async (event) => {
     event.preventDefault();
-    const { signUpStart } = this.props;
 
     const { displayName, email, password, confirmPassword } = this.state;
 
     if (password !== confirmPassword) {
-      alert("passwords don't match");
+      // alert("passwords don't match");
+      this.setState({ error: "passwords don't match" });
+
+      setTimeout(() => {
+        this.setState({ error: false });
+      }, 3000);
+
       return;
     }
+    try {
+      const { user } = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+      const createdAt = new Date().toLocaleString();
 
-    signUpStart({ displayName, email, password });
+      let data = {
+        createdAt,
+      };
+
+      await createUserProfileDocument(user, { displayName });
+
+      const userRef = fireInfo.database().ref("users");
+
+      userRef.child(user.uid).set({
+        active: true,
+        admin: false,
+        id: user.uid,
+        displayName,
+        email,
+        ...data,
+      });
+
+      this.setState({
+        displayName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+    } catch (error) {
+      console.error(error);
+      this.setState({ error: "invalid details" });
+      setTimeout(() => {
+        this.setState({ error: false });
+      }, 3000);
+    }
   };
 
   patterns = {
@@ -83,9 +125,6 @@ class SignUp extends React.Component {
 
   handleChange = (event) => {
     const { name, value } = event.target;
-    // console.log("value :", value);
-    // console.log("name :", name);
-
     this.setState({ [name]: value });
 
     if (name !== "confirmPassword") {
@@ -130,18 +169,16 @@ class SignUp extends React.Component {
   };
   render() {
     const {
+      displayName,
+      email,
       newUser,
       password,
       confirmPassword,
       validName,
       validEmail,
       validPassword,
+      error,
     } = this.state;
-    const {
-      googleSignInStart,
-      facebookSignInStart,
-      gitSignInStart,
-    } = this.props;
 
     return (
       <div className="sign-in-page-form">
@@ -150,6 +187,8 @@ class SignUp extends React.Component {
             <div className="row">
               <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
                 <div className="card card-signin my-5">
+                  {error && <Alert variant="danger">{error}</Alert>}
+
                   <div className="card-body">
                     {newUser ? (
                       <h5 className="card-title text-center">Sign up</h5>
@@ -162,6 +201,7 @@ class SignUp extends React.Component {
                           <input
                             name="displayName"
                             type="name"
+                            value={displayName}
                             id="inputName"
                             className="form-control"
                             placeholder="name"
@@ -193,6 +233,7 @@ class SignUp extends React.Component {
                         <input
                           type="email"
                           name="email"
+                          value={email}
                           id="inputEmail"
                           className="form-control"
                           placeholder="Email address"
@@ -222,6 +263,7 @@ class SignUp extends React.Component {
                         <input
                           type="password"
                           name="password"
+                          value={password}
                           id="inputPassword"
                           className="form-control"
                           placeholder="Password"
@@ -254,6 +296,7 @@ class SignUp extends React.Component {
                           <input
                             type="password"
                             name="confirmPassword"
+                            value={confirmPassword}
                             id="inputConfirmPassword"
                             className="form-control"
                             placeholder=" ConfirmPassword"
@@ -350,14 +393,14 @@ class SignUp extends React.Component {
                       )}
                       <hr className="my-4" />
                       <button
-                        onClick={googleSignInStart}
+                        onClick={signInWithGoogle}
                         className="btn btn-lg btn-google btn-block text-uppercase"
                         type="button"
                       >
                         <i className="fab fa-google mr-2" /> Sign in with Google
                       </button>
                       <button
-                        onClick={facebookSignInStart}
+                        onClick={signInWithFacebook}
                         className="btn btn-lg btn-facebook btn-block text-uppercase"
                         type="button"
                       >
@@ -365,7 +408,7 @@ class SignUp extends React.Component {
                         Facebook
                       </button>
                       <button
-                        onClick={gitSignInStart}
+                        onClick={signInWithGithub}
                         className="btn btn-lg btn-github btn-block text-uppercase"
                         type="button"
                       >
@@ -380,131 +423,7 @@ class SignUp extends React.Component {
         </body>
       </div>
     );
-
-    // return (
-    //   <div className="sign-up">
-    //     <h2 className="title">I do not have a account</h2>
-    //     <span>Sign up with your email and password</span>
-    //     <form
-    //       className="sign-up-form"
-    //       onClick={this.handleClick}
-    //       onSubmit={this.handleSubmit}
-    //     >
-    //       <FormInput
-    //         type="text"
-    //         name="displayName"
-    //         value={displayName}
-    //         handleChange={this.handleChange}
-    //         label="Display Name"
-    //         required
-    //       />
-    //       {/* ///// start validation/////// */}
-    //       <p
-    //         style={{ display: validName ? "none" : "block" }}
-    //         className="invalid"
-    //       >
-    //         invalid
-    //       </p>
-    //       <p
-    //         style={{ display: validName ? "block" : "none" }}
-    //         className="valid"
-    //       >
-    //         valid
-    //       </p>
-    //       {/* ///// end validation/////// */}
-    //       <FormInput
-    //         type="email"
-    //         name="email"
-    //         value={email}
-    //         handleChange={this.handleChange}
-    //         label="Email"
-    //         required
-    //       />
-    //       {/* ///// start validation/////// */}
-    //       <p
-    //         style={{ display: validEmail ? "none" : "block" }}
-    //         className="invalid"
-    //       >
-    //         invalid
-    //       </p>
-    //       <p
-    //         style={{ display: validEmail ? "block" : "none" }}
-    //         className="valid"
-    //       >
-    //         valid
-    //       </p>
-    //       {/* ///// end validation/////// */}
-    //       <FormInput
-    //         type="password"
-    //         name="password"
-    //         value={password}
-    //         handleChange={this.handleChange}
-    //         label="Password"
-    //         required
-    //       />
-    //       {/* ///// start validation/////// */}
-    //       <p
-    //         style={{ display: validPassword ? "none" : "block" }}
-    //         className="invalid"
-    //       >
-    //         invalid
-    //       </p>
-    //       <p
-    //         style={{ display: validPassword ? "block" : "none" }}
-    //         className="valid"
-    //       >
-    //         valid
-    //       </p>
-    //       {/* ///// end validation/////// */}
-    //       <FormInput
-    //         type="password"
-    //         name="confirmPassword"
-    //         value={confirmPassword}
-    //         handleChange={this.handleChange}
-    //         label="Confirm Password"
-    //         required
-    //       />
-    //       {/* ///// start validation/////// */}
-    //       <p
-    //         style={{
-    //           display:
-    //             confirmPassword !== password || !validPassword
-    //               ? "block"
-    //               : "none",
-    //         }}
-    //         className="invalid"
-    //       >
-    //         invalid
-    //       </p>
-    //       <p
-    //         style={{
-    //           display:
-    //             confirmPassword === password && validPassword
-    //               ? "block"
-    //               : "none",
-    //         }}
-    //         className="valid"
-    //       >
-    //         valid
-    //       </p>
-    //       {/* ///// end validation/////// */}
-    //       <CustomButton type="submit">SIGN UP</CustomButton>
-    //     </form>
-    //   </div>
-    // );
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  facebookSignInStart: () => dispatch(facebookSignInStart()),
-
-  googleSignInStart: () => dispatch(googleSignInStart()),
-
-  gitSignInStart: () => dispatch(gitSignInStart()),
-
-  emailSignInStart: (email, password) =>
-    dispatch(emailSignInStart({ email, password })),
-  signUpStart: (userCredentials) => dispatch(signUpStart(userCredentials)),
-});
-
-export default connect(null, mapDispatchToProps)(SignUp);
+export default SignUp;

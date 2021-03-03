@@ -1,11 +1,13 @@
 import React, { useRef, useState, useContext } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
+import CurrentUserContext from "../../contexts/current-user/current-user.context";
 import { Link } from "react-router-dom";
 import { auth } from "../../firebase/firebase.utils";
 
 export default function ForgotPassword() {
   const emailRef = useRef();
   // const { resetPassword } = useAuth();
+  const currentUser = useContext(CurrentUserContext);
 
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");

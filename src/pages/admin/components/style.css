@@ -1,0 +1,7 @@
+.MuiTypography-body2[title~="true"] {
+  color: green;
+}
+
+/* td[data-gender="false"] {
+    color: rgb(128, 0, 0)
+} */

@@ -1,19 +1,24 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
+import React, { useContext, useState, useEffect } from "react";
+// import { createStructuredSelector } from "reselect";
 
-import { selectCollectionsForPreview } from "../../redux/shop/shop.selectors";
+// import { selectCollectionsForPreview } from "../../redux/shop/shop.selectors";
 
 import "./collections-overview-all.styles.scss";
 import CollectionViewAll from "./../collection-view-all/collection-view-all.component";
+import CollectionsContext from "../../contexts/collections/collections.context";
+
 import DepartmentsBtn from "./../department-btn/department-btn.component";
 import SortingBtn from "./../sorting-btn/sorting-btn.component";
 
 import queryString from "query-string";
 import { useLocation } from "react-router";
-import { useEffect } from "react";
 
-const CollectionsOverviewAll = ({ collections }) => {
+const CollectionsOverviewAll = () => {
+  const collectionsMap = useContext(CollectionsContext);
+  const collections = Object.keys(collectionsMap).map(
+    (key) => collectionsMap[key]
+  );
+
   const [displayAll, setDisplayAll] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedCollection, setSelectedCollection] = useState(collections);
@@ -132,8 +137,10 @@ const CollectionsOverviewAll = ({ collections }) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  collections: selectCollectionsForPreview,
-});
+// const mapStateToProps = createStructuredSelector({
+//   collections: selectCollectionsForPreview,
+// });
 
-export default connect(mapStateToProps)(CollectionsOverviewAll);
+// export default connect(mapStateToProps)(CollectionsOverviewAll);
+
+export default CollectionsOverviewAll;

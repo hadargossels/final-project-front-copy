@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 
 import CollectionItem from "../collection-item/collection-item.component";
 
@@ -9,14 +10,9 @@ const CollectionViewAll = ({
   items,
   selectedSorting,
   searchData,
+  history,
   handleNoMatchingItems,
 }) => {
-  // console.log("selectedSorting :", selectedSorting);
-
-  // const setState = () => {
-  //   handleNoMatchingItems();
-  // };
-
   return (
     <div className="collection-preview">
       {!searchData && <h1 className="title">{title.toUpperCase()}</h1>}

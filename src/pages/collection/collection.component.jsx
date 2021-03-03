@@ -1,14 +1,17 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useContext } from "react";
 
 import CollectionItem from "../../components/collection-item/collection-item.component";
 
-import { selectCollection } from "../../redux/shop/shop.selectors";
+// import { selectCollection } from "../../redux/shop/shop.selectors";
+import CollectionsContext from "../../contexts/collections/collections.context";
 
 import "./collection.styles.scss";
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 
-const CollectionPage = ({ collection, history }) => {
+const CollectionPage = ({ match, history }) => {
+  const collections = useContext(CollectionsContext);
+  const collection = collections[match.params.collectionId];
+
   const { title, items } = collection;
   return (
     <>
@@ -32,8 +35,8 @@ const CollectionPage = ({ collection, history }) => {
   );
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  collection: selectCollection(ownProps.match.params.collectionId)(state),
-});
+// const mapStateToProps = (state, ownProps) => ({
+//   collection: selectCollection(ownProps.match.params.collectionId)(state),
+// });
 
-export default withRouter(connect(mapStateToProps)(CollectionPage));
+export default CollectionPage;
