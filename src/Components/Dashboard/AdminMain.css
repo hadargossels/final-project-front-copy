@@ -1,0 +1,63 @@
+.RaLayout-root-1 {
+    margin: 0;
+    padding: 0;
+    background-color: #1F2937 !important
+}
+
+.MuiToolbar-root {
+    background-color: #FDE68A !important;
+}
+
+.MuiTableSortLabel-root, .MuiTableSortLabel-icon{
+    color: #FEF3C7 !important;
+}
+
+.PrivateSwitchBase-input-97, .MuiSvgIcon-root, .MuiTypography-subtitle1 {
+    color: #78350F !important;
+}
+
+.RaListToolbar-toolbar-52 {
+    padding-right: 1% !important;
+    padding-left: 1% !important;
+    margin-left: 0.6% !important;
+    margin-bottom: 4%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border-radius: 4px !important;
+    background-color: #FEF3C7 !important;
+}
+
+.RaListToolbar-actions-53 {
+    background-color: #FEF3C7 !important;
+}
+
+.MuiAppBar-root {
+    display: none !important
+}
+
+.MuiPaper-root {
+    background-color: #FEF3C7 !important;
+    margin-left: 10px !important;
+    border-radius: 4px !important;
+    height: auto !important;
+    padding-bottom: 5%;
+    padding-top: 2%;
+}
+
+.MuiTableRow-head, .MuiTableCell-head {
+    background-color: #D97706 !important;
+    color: #FEF3C7 !important
+}
+
+.RaButton-label-7, .MuiLink-root {
+    color: #78350F !important;
+}
+
+.MuiSwitch-colorPrimary, .Mui-checked {
+    color: #F59E0B !important;
+}
+
+.MuiButton-containedPrimary {
+    background-color: #F59E0B !important;
+    color: #78350F !important;
+}

@@ -56,6 +56,14 @@ class LoginPage extends Component {
                             Admin Dashboard
                         </button>
                     </Link>
+                    <br/>
+                    <Link to="/addproduct">
+                        <button 
+                            className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 hover:bg-yellow-100 hover:text-yellow-800 border border-yellow-800 mb-3 mt-3"
+                        >
+                            Add Product
+                        </button>
+                    </Link>
                 </div>
             </main>
         )

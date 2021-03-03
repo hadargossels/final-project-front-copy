@@ -22,6 +22,7 @@ import {ProtectedRoute} from './protectedRoute';
 import LoginPage from './Components/LoginPage/LoginPage';
 import AccountProfile from './Components/AccountProfile/AccountProfile';
 import AdminMain from './Components/Dashboard/AdminMain';
+import AddProduct from './Components/AddProduct/AddProduct';
 
 class App extends Component {
   constructor(props) {
@@ -180,6 +181,7 @@ class App extends Component {
             <Route path="/about-us" component={AboutUs} />
             <Route path="/admin-dashboard" component={AdminMain} />
             <Route path="/blogpost/:postName" component={BlogPost} />
+            <Route path="/addproduct" component={AddProduct} />
             <Route path="/shoppingCart" render={(matchProps) => (
               <ShoppingCart {...matchProps} {...this.props} 
                 cartContent={this.state.productList} 

@@ -35,9 +35,10 @@ class SignUp extends Component {
                 password
             }
 
-            db.ref('users').push(
+
+            db.ref().child("users").child(auth.currentUser.uid).set(
                 {
-                    'uid': user.user.uid,
+                    'id': user.user.uid,
                     ...data
                 }
             )

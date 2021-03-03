@@ -21,13 +21,14 @@ import {
     BooleanInput
 } from 'react-admin';
 import MyUrlField from './MyUrlField';
-import { Fragment } from 'react';
+// import { Fragment } from 'react';
+import firebase from 'firebase/app'
 
-const UserBulkActionButtons = props => (
-    <Fragment>
-        <BulkDeleteWithConfirmButton {...props} />
-    </Fragment>
-);
+// const UserBulkActionButtons = props => (
+//     <Fragment>
+//         <BulkDeleteWithConfirmButton {...props} />
+//     </Fragment>
+// );
 
 const UserEditToolbar = props => (
     <Toolbar {...props} >
@@ -50,7 +51,8 @@ const UserFilter = (props) => (
 );
 
 export const UserList = props => (
-    <List filters={<UserFilter />} bulkActionButtons={<UserBulkActionButtons />} {...props}>
+    // <List filters={<UserFilter />} bulkActionButtons={<UserBulkActionButtons />} {...props}>
+        <List filters={<UserFilter />} {...props}>
         <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="name" />
@@ -62,13 +64,14 @@ export const UserList = props => (
             </ReferenceField>
             <TextField source="active" />
             <EditButton />
+            <DeleteWithConfirmButton/>
         </Datagrid>
     </List>
 );
 
 export const UserEdit = props => (
     <Edit title={<UserName />} {...props}>
-        <SimpleForm toolbar={<UserEditToolbar />}>
+        <SimpleForm toolbar={<UserEditToolbar />} save={() => {console.log(firebase.auth().currentUser)}}>
             <SelectInput disabled source="id" />
             <TextInput source="name" validate={[required()]}/>
             <TextInput source="email" validate={[required()]}/>

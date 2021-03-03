@@ -3,13 +3,27 @@ import formatPrice from '../../utility/Price';
 import formatStars from '../../utility/Stars';
 import './itemView.css';
 import { Link } from 'react-router-dom';
+import {db} from '../../../firebase'
 
 class ItemView extends Component {
     constructor(props) {
         super(props);
         this.state = {
             addCartMessage: null,
+            productsList: null,
         }
+    }
+
+    componentDidMount = () => {
+        db.ref('products').on('value', (snapshot)=>{
+            let arr = [];
+            for (let obj in snapshot.val()) {
+                arr.push(snapshot.val()[obj])
+            }
+            this.setState({
+                productsList: arr
+            }, () => {console.log(this.state.productsList)})
+        })
     }
 
     addToStorage = (itemId) => {
@@ -41,7 +55,8 @@ class ItemView extends Component {
         <div>
             {this.state.addCartMessage}
             <ul className="items">
-                {this.props.products.map(product => (
+            {/* {this.props.products.map(product => ( */}
+                {this.state.productsList !== null && this.state.productsList.map(product => (
                     <li key={product._id}>
                         <div className="product rounded bg-gray-600">
                             <span>
