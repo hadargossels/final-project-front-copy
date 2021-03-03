@@ -1,6 +1,5 @@
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
+// import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 import React, { Component } from 'react'
-import {  detailProduct} from './data'
 // import faker from  'faker';
 // import {storeProducts, detailProduct} from '../db.json'
 // import axios from axios
@@ -9,8 +8,19 @@ const ProductContext = React.createContext();
 // const storeProducts= []
 const axios = require('axios').default;
 let cartSubTotal = 0, cartTax = 0, cartTotal = 0;
-        let cart = [];
-        let storeProducts =[];
+let cart = [];
+let storeProducts =[];
+const detailProduct = {
+            id: 1,
+            title: "",
+            img: "",
+            price: 0,
+            company: "",
+            info:"",
+            inCart: false,
+            count: 0,
+            total: 0
+          };
 class ProductProvider extends Component {
     
     constructor(props) {
@@ -83,9 +93,9 @@ class ProductProvider extends Component {
         }
 
         filterArr.map((filterItem)=> {
-            if(filterItem.isEnabled&&filterItem.type == 'sale' && item.sale)
+            if(filterItem.isEnabled&&filterItem.type === 'sale' && item.sale)
                 found = true;
-             if (filterItem.isEnabled&& filterItem.type == item.type ){
+             if (filterItem.isEnabled&& filterItem.type === item.type ){
                 found = true;
              }
         })
@@ -99,7 +109,7 @@ class ProductProvider extends Component {
         let arr = [...this.state.filtersArray];
         
         arr.forEach(item => {
-            if(item.type == filterName || item.type==filterName) {
+            if(item.type === filterName || item.type===filterName) {
                 item.isEnabled = !item.isEnabled;
             }
         });
@@ -276,10 +286,8 @@ class ProductProvider extends Component {
     };
 
     getProducts = (search)=> {
-        const temp =[];
-         
         return this.state.products.filter((item)=>{
-            return item.title.toLowerCase().indexOf(search.toLowerCase())!= -1;
+            return item.title.toLowerCase().indexOf(search.toLowerCase())!== -1;
         });
        
         
@@ -357,7 +365,7 @@ class ProductProvider extends Component {
     }
     updatePriceWithCoupon =  (val) => {
         let tempPrice = this.state.cartTotal;
-        if(val=="12345"){
+        if(val==="12345"){
             tempPrice = tempPrice-tempPrice*0.1;
         }
         this.setState({cartTotal:tempPrice})

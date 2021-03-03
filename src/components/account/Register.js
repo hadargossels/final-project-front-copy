@@ -1,12 +1,16 @@
-import Title from './Title'
+import Title from '../additionsComp/Title'
 import React, { useRef, useState } from "react"
-import { Form, Button, Card, Alert } from "react-bootstrap"
-import { useAuth } from "./AuthContext"
-import { Link, useHistory } from "react-router-dom"
+import {  Alert } from "react-bootstrap"
+import { useAuth } from "../context/AuthContext"
+import {  useHistory } from "react-router-dom"
 
 export default function Signup() {
   const emailRef = useRef()
   const passwordRef = useRef()
+  const stateRef = useRef()
+  const cityRef = useRef()
+  const zipRef = useRef()
+  const addressRef = useRef()
   const passwordConfirmRef = useRef()
   const { signup } = useAuth()
   const [error, setError] = useState("")
@@ -34,9 +38,10 @@ export default function Signup() {
         setError("")
         setLoading(true)
         await signup(emailRef.current.value, passwordRef.current.value)
+        // updateNewSingup(stateRef.current.value,zipRef.current.value,addressRef.current.value,cityRef.current.value)
         history.push("/")
       } catch {
-        setError("Failed to create an account")
+        setError("Failed to create an account - password or email already")
       }
 
       setLoading(false)
@@ -146,8 +151,8 @@ function zipValidation (event){
                             </div>
                             <div className="form-group col-md-6">
                             <label htmlFor="inputState">State</label>
-                            <select id="inputState" className="form-control" required>
-                                <option selected>USA</option>
+                            <select ref={stateRef} id="inputState" className="form-control" required>
+                                <option >USA</option>
                                 <option>Israel</option>
                                 <option>French</option>
                                 <option>England</option>
@@ -165,7 +170,7 @@ function zipValidation (event){
                             
                             <div className="form-group col-md-6">
                             <label htmlFor="inputCity">City</label>
-                            <input type="text" className="form-control" id="inputCity" placeholder="City" required
+                            <input ref={cityRef} type="text" className="form-control" id="inputCity" placeholder="City" required
                             onChange={(e)=> {
                                 cityValidation(e);
                                 }}/>
@@ -181,7 +186,7 @@ function zipValidation (event){
                             </div>
                             <div className="form-group col-md-2">
                             <label htmlFor="inputZip" required>Zip</label>
-                            <input type="text" className="form-control" id="inputZip" placeholder="Zip" required
+                            <input ref={zipRef} type="text" className="form-control" id="inputZip" placeholder="Zip" required
                             onChange={(e)=> {
                                 zipValidation(e);
                                 }}/>
@@ -189,7 +194,7 @@ function zipValidation (event){
                         </div>
                         <div className="form-group">
                             <label htmlFor="inputAddress">Address</label>
-                            <input type="text" className="form-control" id="inputAddress" placeholder="1234 Main St" required
+                            <input ref={addressRef} type="text" className="form-control" id="inputAddress" placeholder="1234 Main St" required
                             onChange={(e)=> {
                                 addressValidation(e);
                                 }}/>

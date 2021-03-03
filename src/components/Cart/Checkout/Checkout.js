@@ -1,9 +1,9 @@
-import {ProductConsumer} from '../../context';
+import {ProductConsumer} from '../../context/context';
 import "./checkout.css";
 import React, { Component } from 'react';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import PayPal from "./PayPal";
-import Title from '../Title'
+import Title from '../../additionsComp/Title'
 import axios from 'axios';
 
 let targetId="" ,shippingSelect;
@@ -299,7 +299,7 @@ render() {
                                              <div className="row row-1 pt-3">
 
                                             <ProductConsumer>
-                                            {value => { if(value.cartTotal!=0){
+                                            {value => { if(value.cartTotal!==0){
                                                 if(shippingSelect!==undefined && country!=='' && region!==''
                                                     && this.state.filldsArray[0].isFilled 
                                                     && this.state.filldsArray[1].isFilled

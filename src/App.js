@@ -1,34 +1,37 @@
 import React, {Component} from "react";
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Navbar from './components/Navbar';
-import ProductList from './components/ProductList';
-import Details from './components/Details';
+import Navbar from './components/headerNav/Navbar';
+import ProductList from './components/products/ProductList';
+import Details from './components/productDetails/Details';
 import Cart from './components/Cart/Cart';
-import Footer from './components/Footer';
-import Default from './components/Default';
-import Modal from './components/Modal';
-import Homepage from './components/Homepage';
-import Register from './components/Register';
-import Login from './components/Login';
-import Timer from './components/Timer';
-import Checkout from './components/Cart/Checkout';
-import About from './components/About';
-import Blog from './components/Blog';
-import Contact from './components/Contact';
-import Succeeded from './components/Cart/Succeeded';
-import 'moment-timezone';
-import { AuthProvider } from "./components/AuthContext"
-import ForgotPassword from "./components/ForgotPassword"
+import Footer from './components/footer/Footer';
+import Default from './components/additionsComp/Default';
+import Modal from './components/modal/Modal';
+import Homepage from './components/homepage/Homepage';
+import Register from './components/account/Register';
+import Login from './components/account/Login';
+import UpdateProfile from './components/account/UpdateProfile';
+import Profile from './components/account/Profile';
+// import Timer from './components/notBeingUsed/Timer';
+import Checkout from './components/Cart/Checkout/Checkout';
+import About from './components/about/About';
+import Blog from './components/blog/Blog';
+import Contact from './components/contact/Contact';
+import Succeeded from './components/Cart/Checkout/Succeeded';
+// import 'moment-timezone';
+import { AuthProvider } from "./components/context/AuthContext"
+import ForgotPassword from "./components/forgotPassword/ForgotPassword"
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import PrivateRoute from "./components/PrivateRoute"
+import PrivateRoute from "./components/router/PrivateRoute"
+import AdminApp from './components/admin/AdminApp';
 
 class App extends Component{
 
  
 
   render() {
-   return (
+   return ( 
     <React.Fragment>{/*just instend of div, this does not doing anything */}
       <Router>
 
@@ -50,6 +53,9 @@ class App extends Component{
               <Route path="/forgot-password" component={ForgotPassword}/>
               <Route exact path="/login" component={Login}/>
               <Route exact path="/register" component={Register}/>
+              <PrivateRoute path="/account/profile" component={Profile} />
+              <PrivateRoute path="/account/profile-update" component={UpdateProfile} />
+              <PrivateRoute  path="/admin" component={AdminApp}/>
               <Route component={Default}/>
             </Switch>
           </AuthProvider>

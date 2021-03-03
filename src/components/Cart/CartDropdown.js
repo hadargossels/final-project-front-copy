@@ -1,6 +1,6 @@
-import React,{useState} from 'react'
+import React from 'react'
 import './CartDropdown.css';
-import {ProductConsumer} from '../context';
+import {ProductConsumer} from '../context/context';
 import {Link} from 'react-router-dom';
 
 
@@ -9,7 +9,7 @@ export default function CartDropdown(props) {
         const allCartItems = props.cartArrDropdown.map(item=>{return(
         <div className="row" style={{fontSize:"20px"}} key={item.id}>
             <div className="col-lg-4 col-sm-4 col-4 cart-detail-img">
-                <img src={item.img} />
+                <img alt="item" src={item.img} />
             </div>
             <div className="col-lg-8 col-sm-8 col-8 cart-detail-product">
                 <p> {item.title}&nbsp;&nbsp;&nbsp;

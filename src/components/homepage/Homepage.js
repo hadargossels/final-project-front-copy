@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Title from './Title'
-import {ProductConsumer} from '../context'
+import Title from '../additionsComp/Title'
+import {ProductConsumer} from '../context/context'
 import Carousel from 'react-bootstrap/Carousel';
 import './Homepage.css';
 import {Link} from 'react-router-dom';

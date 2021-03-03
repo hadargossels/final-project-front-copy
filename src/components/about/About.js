@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import "./about.css"
-import Title from './Title'
+import Title from '../additionsComp/Title'
 
 export default class About extends Component {
     
@@ -14,7 +14,7 @@ export default class About extends Component {
                 <p>Resize the browser window to see that this page is responsive by the way.</p>
                 </div>
                 <div className="row">
-                    <iframe width="420" height="345" src="https://www.youtube.com/embed/XG5D82CWIXg">
+                    <iframe title="Youtube video" width="420" height="345" src="https://www.youtube.com/embed/XG5D82CWIXg">
                     </iframe>
                 </div>
                 <h2  style={{textAlign:"center"}}>Our Team</h2>

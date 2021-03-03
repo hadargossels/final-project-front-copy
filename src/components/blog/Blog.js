@@ -4,10 +4,10 @@
 
 
 import React,{Component} from "react";
-import { MDBRow, MDBCol, MDBCard, MDBCardBody, MDBMask, MDBIcon, MDBView, MDBBtn } from "mdbreact";
-import Title from './Title'
+import { MDBRow, MDBCol, MDBCard, MDBCardBody, MDBMask, MDBView } from "mdbreact";
+import Title from '../additionsComp/Title'
 import './blog.css';
-import { FORMERR } from "dns";
+// import { FORMERR } from "dns";
 let likeOfComment;
 export default class Blog extends Component{
     
@@ -33,41 +33,31 @@ export default class Blog extends Component{
         let tempPost = [...this.state.posts];
         switch (likeOfComment) {
             case 'post1':
-                console.log(e.target.id)
                 tempPost[0][e.target.id].like++;
                 e.target.innerHTML=`Like ${tempPost[0][e.target.id].like}&nbsp;&nbsp;`
-
                 break;
             case 'post2':
-                console.log("post2")
-
                 tempPost[1][e.target.id].like++;
                 e.target.innerHTML=`Like ${tempPost[1][e.target.id].like}&nbsp;&nbsp;`
                 break;
             case 'post3':
-                console.log("post3")
-
                 tempPost[2][e.target.id].like++;
                 e.target.innerHTML=`Like ${tempPost[2][e.target.id].like}&nbsp;&nbsp;`
                 break;
             case 'post4':
-                console.log("post4")
-
                 tempPost[3][e.target.id].like++;
                 e.target.innerHTML=`Like ${tempPost[3][e.target.id].like}&nbsp;&nbsp;`
                 break;
             case 'post5':
-                console.log("post4")
-
                 tempPost[4][e.target.id].like++;
                 e.target.innerHTML=`Like ${tempPost[4][e.target.id].like}&nbsp;&nbsp;`
                 break;
             case 'post6':
-                console.log("post6")
-
                 tempPost[5][e.target.id].like++;
                 e.target.innerHTML=`Like ${tempPost[5][e.target.id].like}&nbsp;&nbsp;`
-                break;                    
+                break;  
+            default:  
+                break;                
         }
 
         this.setState({posts: tempPost});
@@ -99,7 +89,9 @@ export default class Blog extends Component{
                 break;
             case 'post6':
                 tempPost[5].push({postsAndCommentsArr:document.getElementById("postText6").value,like:0 ,id});
-                break;                         
+                break;
+            default:  
+                break;                           
         }
         this.setState({posts: tempPost});
     }
@@ -122,7 +114,9 @@ export default class Blog extends Component{
                 break;
             case 'cancel6':
                 document.getElementById("postText6").value="";
-                break;                         
+                break;
+            default:  
+                break;                               
         }
     }
         render() {
@@ -145,7 +139,7 @@ export default class Blog extends Component{
                     <img
                         className="img-fluid"
                         src="images/news1.png"
-                        alt=""
+                        alt="news1"
                     />
                     <a href="#!">
                         <MDBMask overlay="white-slight" />
@@ -185,7 +179,7 @@ export default class Blog extends Component{
                                                                 {this.state.posts[0].map(post=> (
                                                                     <>
                                                                         <div></div>
-                                                                        <img className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                        <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
                                                                         <div className="d-flex flex-column justify-content-start ml-2">
                                                                             <span className="d-block font-weight-bold name">Marry Andrews</span>
                                                                             <span className="date text-black-50">posted at:&nbsp;{date.getHours()}:{date.getMinutes()} - {date.getDate()}/{date.getMonth()+1}/{date.getYear()}</span>
@@ -207,7 +201,7 @@ export default class Blog extends Component{
 
                                                             <div className="bg-light p-2">
                                                                 <div className="d-flex flex-row align-items-start">
-                                                                    <img className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                    <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
                                                                     <textarea id="postText1" className="form-control ml-1 shadow-none textarea"></textarea>
                                                                 </div>
                                                             <div className="mt-2 text-right">
@@ -242,7 +236,7 @@ export default class Blog extends Component{
                     <img
                         className="img-fluid"
                         src="images/news2.png"
-                        alt=""
+                        alt="news2"
                     />
                     <a href="#!">
                         <MDBMask overlay="white-slight" />
@@ -282,7 +276,7 @@ export default class Blog extends Component{
                                                                 {this.state.posts[1].map(post=> (
                                                                     <>   
                                                                         <div></div>
-                                                                        <img className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                        <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
                                                                         <div className="d-flex flex-column justify-content-start ml-2">
                                                                             <span className="d-block font-weight-bold name">Marry Andrews</span>
                                                                             <span className="date text-black-50">posted at:&nbsp;{date.getHours()}:{date.getMinutes()} - {date.getDate()}/{date.getMonth()+1}/{date.getFullYear()}</span>
@@ -300,7 +294,7 @@ export default class Blog extends Component{
                                                             </div> 
                                                             <div className="bg-light p-2">
                                                                 <div className="d-flex flex-row align-items-start">
-                                                                    <img className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                    <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
                                                                     <textarea id="postText2" className="form-control ml-1 shadow-none textarea"></textarea>
                                                                 </div>
                                                             <div className="mt-2 text-right">
@@ -334,7 +328,7 @@ export default class Blog extends Component{
                     <img
                         className="img-fluid"
                         src="images/news3.png"
-                        alt=""
+                        alt="news3"
                     />
                     <a href="#!">
                         <MDBMask overlay="white-slight" />
@@ -374,7 +368,7 @@ export default class Blog extends Component{
                                                                 {this.state.posts[2].map(post=> (
                                                                     <>   
                                                                         <div></div>
-                                                                        <img className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                        <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
                                                                         <div className="d-flex flex-column justify-content-start ml-2">
                                                                             <span className="d-block font-weight-bold name">Marry Andrews</span>
                                                                             <span className="date text-black-50">posted at:&nbsp;{date.getHours()}:{date.getMinutes()} - {date.getDate()}/{date.getMonth()+1}/{date.getFullYear()}</span>
@@ -392,7 +386,7 @@ export default class Blog extends Component{
                                                             </div>
                                                             <div className="bg-light p-2">
                                                                 <div className="d-flex flex-row align-items-start">
-                                                                    <img className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                    <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
                                                                     <textarea id="postText3" className="form-control ml-1 shadow-none textarea"></textarea>
                                                                 </div>
                                                             <div className="mt-2 text-right">
@@ -426,7 +420,7 @@ export default class Blog extends Component{
                     <img
                         className="img-fluid"
                         src="images/news4.jpg"
-                        alt=""
+                        alt="news4"
                     />
                     <a href="#!">
                         <MDBMask overlay="white-slight" />
@@ -466,7 +460,7 @@ export default class Blog extends Component{
                                                                 {this.state.posts[3].map(post=> (
                                                                     <>   
                                                                         <div></div>
-                                                                        <img className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                        <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
                                                                         <div className="d-flex flex-column justify-content-start ml-2">
                                                                             <span className="d-block font-weight-bold name">Marry Andrews</span>
                                                                             <span className="date text-black-50">posted at:&nbsp;{date.getHours()}:{date.getMinutes()} - {date.getDate()}/{date.getMonth()+1}/{date.getFullYear()}</span>
@@ -485,7 +479,7 @@ export default class Blog extends Component{
                                                             </div>
                                                             <div className="bg-light p-2">
                                                                 <div className="d-flex flex-row align-items-start">
-                                                                    <img className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                    <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
                                                                     <textarea id="postText4" className="form-control ml-1 shadow-none textarea"></textarea>
                                                                 </div>
                                                             <div className="mt-2 text-right">
@@ -519,7 +513,7 @@ export default class Blog extends Component{
                     <img
                         className="img-fluid"
                         src="images/news5.jpg"
-                        alt=""
+                        alt="news5"
                     />
                     <a href="#!">
                         <MDBMask overlay="white-slight" />
@@ -558,7 +552,7 @@ export default class Blog extends Component{
                                                                 {this.state.posts[4].map(post=> (
                                                                     <>   
                                                                         <div></div>
-                                                                        <img className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                        <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
                                                                         <div className="d-flex flex-column justify-content-start ml-2">
                                                                             <span className="d-block font-weight-bold name">Marry Andrews</span>
                                                                             <span className="date text-black-50">posted at:&nbsp;{date.getHours()}:{date.getMinutes()} - {date.getDate()}/{date.getMonth()+1}/{date.getFullYear()}</span>
@@ -580,7 +574,7 @@ export default class Blog extends Component{
 
                                                             <div className="bg-light p-2">
                                                                 <div className="d-flex flex-row align-items-start">
-                                                                    <img className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                    <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
                                                                     <textarea id="postText5" className="form-control ml-1 shadow-none textarea"></textarea>
                                                                 </div>
                                                             <div className="mt-2 text-right">
@@ -614,7 +608,7 @@ export default class Blog extends Component{
                     <img
                         className="img-fluid"
                         src="images/news6.jpg"
-                        alt=""
+                        alt="news6"
                     />
                     <a href="#!">
                         <MDBMask overlay="white-slight" />
@@ -654,7 +648,7 @@ export default class Blog extends Component{
                                                                 {this.state.posts[5].map(post=> (
                                                                     <>   
                                                                         <div></div>
-                                                                        <img className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                        <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
                                                                         <div className="d-flex flex-column justify-content-start ml-2">
                                                                             <span className="d-block font-weight-bold name">Marry Andrews</span>
                                                                             <span className="date text-black-50">posted at:&nbsp;{date.getHours()}:{date.getMinutes()} - {date.getDate()}/{date.getMonth()+1}/{date.getFullYear()}</span>
@@ -674,7 +668,7 @@ export default class Blog extends Component{
 
                                                             <div className="bg-light p-2">
                                                                 <div className="d-flex flex-row align-items-start">
-                                                                    <img className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                    <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
                                                                     <textarea id="postText6" className="form-control ml-1 shadow-none textarea"></textarea>
                                                                 </div>
                                                             <div className="mt-2 text-right">

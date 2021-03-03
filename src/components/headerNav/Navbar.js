@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import "./headerStyle.css";
-import SideMenu from './sideMenu/SideMenu';
+import SideMenu from '../sideMenu/SideMenu';
 import Clock from 'react-live-clock'
-import {ProductConsumer} from '../context';
-import CartDropdown from './CartDropdown'
-import Dashboard from './Dashboard'
-import { auth } from "../firebase"
+import {ProductConsumer} from '../context/context';
+import CartDropdown from '../Cart/CartDropdown'
+// import Dashboard from './Dashboard'
+import { auth } from "../../firebase"
 
 
 export default class Navbar extends Component {
@@ -33,24 +33,35 @@ export default class Navbar extends Component {
         
     }
     userOptionsShow(){
-        if(this.state.email == null || this.state.email == "welcome visitor"){
+        if(this.state.email === null || this.state.email === "welcome visitor"){
             return(
                 <>
-                <Link to='/login'>
-                    <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >Login</span>
-                </Link>
-                <Link to='/register'>
-                    <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >Register</span>
-                </Link>
+                <ul  className="navbar-nav align-items-center">
+                    <Link to='/login'>
+                        <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >LOGIN</span>
+                    </Link>
+                    <Link to='/register'>
+                        <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >REGISTER</span>
+                    </Link>
+                </ul>
                 </>
             )}
             else{
                 return(
                         <>
-                        <Link to='/'>
-                            <span style ={{color:"white"}} className = "btn-animation btn from-bottom" href="#news" 
-                                onClick={() => {this.logout() }}>Logout</span>
-                        </Link>
+                        <ul  className="navbar-nav align-items-center">
+                            <Link to='/account/profile'>
+                                <span style ={{color:"white"}} className = "btn-animation btn from-bottom" href="#news" 
+                                    ><i className="far fa-user-circle" style={{fontSize:"30px"}}></i></span>
+                            </Link>
+                            <Link to='/'>
+                                <span style ={{color:"white"}} className = " btn from-bottom" href="#news" 
+                                    onClick={() => {this.logout() }}>LOGOUT</span>
+                            </Link>
+                            <Link to='/admin'>
+                                <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >ADMIN</span>
+                            </Link>
+                        </ul>
                         </>
                     )}
          }
@@ -65,6 +76,13 @@ export default class Navbar extends Component {
         })
     }
     logout() {
+         var user = auth.currentUser;
+         console.log(user)
+            // user.delete().then(function() {
+            //     // User deleted.
+            // }).catch(function(error) {
+            //     console.log("error")
+            // });
         return auth.signOut()
       }
     render() {

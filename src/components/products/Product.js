@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
-import {ProductConsumer} from '../context';
+import {ProductConsumer} from '../context/context';
 import PropTypes from 'prop-types'
-import RatingStars from './RatingStars'
+import RatingStars from '../additionsComp/RatingStars'
 
 import './product.css';
 function setSale(p,s){

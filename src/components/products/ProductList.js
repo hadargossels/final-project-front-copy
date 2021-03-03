@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import Product from './Product'
-import Title from './Title'
-import {ProductConsumer} from '../context'
+import Title from '../additionsComp/Title'
+import {ProductConsumer} from '../context/context'
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import 'jquery/dist/jquery.js';
 // import { Slider } from '@material-ui/core'
-import PriceSlider from './PriceSlider'
+// import PriceSlider from '../notBeingUsed/PriceSlider'
 
 
 
@@ -19,7 +19,7 @@ render() {
         search = this.props.location.search.slice(3, this.props.location.search.length);
     }
     function checkIfEmpty(arr){
-        if(arr.length==0){
+        if(arr.length===0){
 
            return(
            <div className="container">
@@ -111,13 +111,13 @@ render() {
             <nav aria-label="Page navigation example">
                 <ul className="pagination justify-content-center">
                     <li className="page-item disabled">
-                        <a className="page-link" href="" tabIndex="-1" aria-disabled="true">Previous</a>
+                        <a className="page-link" href="/shop" tabIndex="-1" aria-disabled="true">Previous</a>
                     </li>
-                    <li className="page-item"><a className="page-link" href="#">1</a></li>
-                    <li className="page-item"><a className="page-link" href="#">2</a></li>
-                    <li className="page-item"><a className="page-link" href="#">3</a></li>
+                    <li className="page-item"><a className="page-link" href="/shop">1</a></li>
+                    <li className="page-item"><a className="page-link" href="/shop">2</a></li>
+                    <li className="page-item"><a className="page-link" href="/shop">3</a></li>
                     <li className="page-item">
-                        <a className="page-link" href="#">Next</a>
+                        <a className="page-link" href="/shop">Next</a>
                     </li>
                 </ul>
             </nav>
