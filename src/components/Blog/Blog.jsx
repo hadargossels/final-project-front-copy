@@ -1,7 +1,7 @@
 import React, { } from 'react'
 import Card from './Card'
-import axios from 'axios'
-import { Component } from 'react';
+import { Component } from 'react'
+import {db} from '../../firebase'
 
 export default class Blog extends Component{
     constructor(){
@@ -12,17 +12,11 @@ export default class Blog extends Component{
     }
     componentDidMount(){
 
-        let that=this
-
-        axios.get('http://localhost:3000/blogs')
-        .then(function (response) {
-            
-          that.setState({blogs:response.data})
-          
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
+        db.ref('blogs').on('value', (snapshot)=>{if(snapshot.val()!=null)
+            this.setState({
+              blogs: snapshot.val()
+            })
+          })
     }
      
        render(){
@@ -30,9 +24,11 @@ export default class Blog extends Component{
             <div>
                 <br/><h1 className="text-center"><span style={{color:"orange"}}>/</span> <b>Latest News</b><span style={{color:"orange"}}>/</span></h1>
                 <div className="container d-flex flex-wrap">
-                { this.state.blogs.map((obj)=>
-                    <Card key={obj.id} id={obj.id} title={obj.Title} image={obj.Image} subject={obj.Subject} />
+                { this.state.blogs.length>0
+                ?this.state.blogs.map((obj)=>
+                    <Card key={obj.id} id={obj.id} title={obj.title} image={obj.image} subject={obj.subject} />
                 )
+                :<h1 className="text-center">No blogs yet</h1>
                 }
                 
             </div>

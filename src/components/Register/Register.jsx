@@ -1,8 +1,7 @@
 import React, { useRef,useState} from "react";
 import { Form, Button, Card, Container,Alert } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import {auth} from "../../firebase"
-
+import {auth,db} from "../../firebase"
 
 export default function Register() {
       const usernameRef=useRef()
@@ -14,8 +13,7 @@ export default function Register() {
     
       const email=new RegExp('[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,64}','gm')
 
-
-  function registerUser(e){
+    function registerUser(e){
     e.preventDefault();
     if(!email.test(emailRef.current.value))
         return setError('Please enter correct email address')
@@ -26,18 +24,27 @@ export default function Register() {
     
     localStorage.setItem('currentUser', JSON.stringify({Username:usernameRef.current.value,Email:emailRef.current.value}));
 
-    auth.createUserWithEmailAndPassword(emailRef.current.value, passwordRef.current.value)
-    .then(() => {
-        history.push('/login')
-    })
-    .catch(() => {
-        setError('Failed to create an account')
-    });
+        auth.createUserWithEmailAndPassword(emailRef.current.value, passwordRef.current.value)
+        .then(() => {
+
+            auth.onAuthStateChanged(user=>{
+                db.ref().child('users').push({
+                    id:user.uid,
+                    username:usernameRef.current.value,
+                    email:emailRef.current.value,
+                    role:"User",
+                    activity:"Active"
+                })
+            })     
+            history.push('/login')
+        })
+        .catch(() => {
+            setError('Failed to create an account')
+        });
     }
 
   return (
-    <>
-             
+    <>    
         <Container style={{width:"400px"}} className="mb-3 mt-3">
             <Card>
                 <Card.Body>

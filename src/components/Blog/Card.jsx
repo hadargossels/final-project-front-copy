@@ -8,7 +8,7 @@ export default function Card(props) {
         <div className="border cardProp d-block">
             <img alt="..." src={props.image} className="blogImg d-block mx-auto"/>
             <div style={{color:"grey"}}>{props.subject}</div>
-            <div className="titleBlog cursor"><b><Link to={`/blogPage/${props.id}`} style={{color:"black"}}> {props.title}</Link></b></div>
+            <b><Link to={`/blogPage/${props.id}`} className="titleBlog cursor"  style={{color:"black"}}> {props.title}</Link></b>
         </div>
     )
 }

@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import './ContactUs.css'
 import Contact from '../../pictures/ContactUs.jpg'
-import {
-    GoogleMap,
-    withGoogleMap,
-    withScriptjs,
-    InfoWindow,
-    Marker,
-  } from "react-google-maps";
-import Store from '../../pictures/Bitcoin-Store.png';
-
+// import {
+//     GoogleMap,
+//     withGoogleMap,
+//     withScriptjs,
+//     InfoWindow,
+//     Marker,
+//   } from "react-google-maps";
+// import Store from '../../pictures/Bitcoin-Store.png';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 export default class ContactUs extends Component {
     constructor(props) {
@@ -33,39 +33,39 @@ export default class ContactUs extends Component {
         });
       };
 
-    Google = withScriptjs(
-        withGoogleMap(
-            props => (
-            <GoogleMap
-                defaultZoom={14}
-                defaultCenter={{ lat: 32.0671552, lng: 34.7909145}}
-            >
-            <Marker
-          position={{ lat: 32.0671552, lng: 34.7909145 }}
-          onMouseOver={() => {
-            this.handleToggleOpen();
-            setTimeout(() => {
-              this.handleToggleClose();
-            }, 3000);
-          }}
-        >
-          {this.state.isOpen && (
-            <InfoWindow onCloseClick={() => this.handleToggleClose()}>
-              <div>
-                <span className="text-center"><i className="fab fa-bitcoin" style={{color:"orange",fontSize:"20px"}}></i>Yoni Token, </span>  
-                <span><b>Yigal Alon 90</b></span><br/>
-                <a href="http://localhost:3000/home"><img alt="..." src={Store} style={{width:"105px",height:"75px", marginLeft:"30px"}}/></a>
-              </div>
-            </InfoWindow>
-          )}
-        </Marker>
-            </GoogleMap>
-            )
-        )
-    )
+    // Google = withScriptjs(
+    //     withGoogleMap(
+    //         props => (
+    //         <GoogleMap
+    //             defaultZoom={14}
+    //             defaultCenter={{ lat: 32.0671552, lng: 34.7909145}}
+    //         >
+    //         <Marker
+    //       position={{ lat: 32.0671552, lng: 34.7909145 }}
+    //       onMouseOver={() => {
+    //         this.handleToggleOpen();
+    //         setTimeout(() => {
+    //           this.handleToggleClose();
+    //         }, 3000);
+    //       }}
+    //     >
+    //       {this.state.isOpen && (
+    //         <InfoWindow onCloseClick={() => this.handleToggleClose()}>
+    //           <div>
+    //             <span className="text-center"><i className="fab fa-bitcoin" style={{color:"orange",fontSize:"20px"}}></i>Yoni Token, </span>  
+    //             <span><b>Yigal Alon 90</b></span><br/>
+    //             <a href="http://localhost:3000/home"><img alt="..." src={Store} style={{width:"105px",height:"75px", marginLeft:"30px"}}/></a>
+    //           </div>
+    //         </InfoWindow>
+    //       )}
+    //     </Marker>
+    //         </GoogleMap>
+    //         )
+    //     )
+    // )
 
     render() {
-        const MyGoogleMap= this.Google;
+        // const MyGoogleMap= this.Google;
         return (
             <div>
                 <br/><h1 className="text-center">Please get in touch and our experts support</h1>
@@ -108,7 +108,7 @@ export default class ContactUs extends Component {
                             <div>Phone number: +972-xxx-xxxxxxx</div>
                             <div>Email address: xxxxxx@gmail.com</div>
                             <div>Our Address: Yigal Alon 90,Tel-Aviv</div>
-                            <div>
+                            {/* <div>
                             <MyGoogleMap
                                 loadingElement={<div>Loading....</div>}
                                 containerElement={<div style={{height: '300px'}} className="map"></div>}
@@ -116,7 +116,20 @@ export default class ContactUs extends Component {
                                 googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVtHhDa2ErB1UuzEc1t3dXozBGaSHiQZk&v=3.exp&libraries=geometry,drawing,places"
                                 />
 
-                            </div>
+                            </div> */}
+                            <div style={{width:"50%"}}>
+                            <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+                                <TileLayer
+                                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                />
+                                <Marker position={[51.505, -0.09]}>
+                                  <Popup>
+                                    A pretty CSS3 popup. <br /> Easily customizable.
+                                  </Popup>
+                                </Marker>
+                              </MapContainer>
+                              </div>
                             <br/><br/>
                         </div>
 

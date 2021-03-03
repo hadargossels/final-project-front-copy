@@ -34,6 +34,7 @@ export default function Login (props) {
           console.log("error")
         });
     }
+    
     function GithubLogin(){
         var provider = new firebase.auth.GithubAuthProvider();
         auth.signInWithPopup(provider)
@@ -50,16 +51,18 @@ export default function Login (props) {
     function userLogin(e){
     e.preventDefault()
 
-
         auth.signInWithEmailAndPassword(emailRef.current.value,passwordRef.current.value)
             .then(() => {
-                console.log("successful login");
+                
+
+
                 Auth.login(()=>props.history.push("/dashboard"))
             })
             .catch(() => {
                 setError('Failed to sign in');
         });
     }
+
         return (
             <>
             <Container style={{width:"400px"}} className="mb-3 mt-3">

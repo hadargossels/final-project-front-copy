@@ -1,13 +1,11 @@
-import React, {  Component } from 'react';
+import React, {  Component} from 'react';
 import './Header.css';
 import {Link,NavLink} from "react-router-dom";
 import Logo from "../../pictures/bitcoinLogo.png";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import ShoppingCart from './ShoppingCart'
 import Popover from 'react-bootstrap/Popover'
-
-
-
+import {auth} from '../../firebase'
 
 
 export default class Header extends Component{ 
@@ -16,6 +14,7 @@ constructor(){
     this.state={
         urlValue:"",
         arrProd:JSON.parse(localStorage.getItem('products')) || [],
+        user:auth.currentUser
     }
     this.callRef = React.createRef();
     this.setUrl=this.setUrl.bind(this);
@@ -23,11 +22,9 @@ constructor(){
   setUrl(){
     this.setState({urlValue: this.callRef.current.value})
     }
-
-
-
+    
     render(){
-        
+      
         let cartItems
         if(this.state.arrProd.length>0) 
             cartItems=<div id="numItems">&nbsp;{this.state.arrProd.length}</div>
@@ -92,20 +89,22 @@ constructor(){
                         <div className="nav-link"><NavLink to="/aboutUs" style={{color:"black"}} activeStyle={{color: "orange"}}>About-Us</NavLink></div>
                     </li>
                     <li className="nav-item">
-                        <div className="nav-link"><NavLink to="/blog" style={{color:"black"}} activeStyle={{color: "orange"}}>Blog</NavLink></div>
+                        <div className="nav-link"><NavLink to="/blog" style={{color:"black"}} activeStyle={{color: "orange"}}>Blogs</NavLink></div>
                     </li>
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <div className="nav-link"><NavLink to="/info" style={{color:"black"}} activeStyle={{color: "orange"}}>what is hardware wallet?</NavLink></div>
-                    </li>
+                    </li> */}
                 </ul>
             </div>
-            <div className="nav-link"><NavLink to="/dashboard" style={{color:"black"}} activeStyle={{color: "orange"}}>Dashboard</NavLink> </div>      
-          <form className="d-flex">
-            <input id="searcBox" className="form-control me-2" type="search" placeholder="Search" ref={this.callRef} onChange={this.setUrl} value={this.state.urlValue} aria-label="Search"></input>
+            <NavLink to="/admin" className="nav-link" style={{color:"black"}} activeStyle={{color: "orange"}}>Admin</NavLink>  
+            <NavLink to="/account/profile" className="nav-link" style={{color:"black"}} activeStyle={{color: "orange"}}>Account</NavLink>  
+            <NavLink to="/dashboard" className="nav-link" style={{color:"black"}} activeStyle={{color: "orange"}}>Dashboard</NavLink>      
+          
+            <input id="searcBox" className="me-2" style={{width:"200px"}} type="search" placeholder="Search" ref={this.callRef} onChange={this.setUrl} aria-label="Search"></input>
             
-            <button className="btn" type="submit" onClick={this.setUrl}><Link to={"/?q="+this.state.urlValue} style={{color:"black"}}>Search</Link></button>
+            <Link className="btn" to={"/?q="+this.state.urlValue} style={{color:"black"}}>Search</Link>
             
-          </form>
+        
         </div>
       </nav>
       );
