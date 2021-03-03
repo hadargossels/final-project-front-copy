@@ -3,45 +3,32 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {applyDiscount, getDiscounts, emptyCart, getProducts, plusOne, minusOne, removeFromCart} from '../../actions'
 import './CartTable.css'
+import Spinner from '../Spinner/Spinner'
 
 class CartTable extends Component {
     constructor(){
         super()
         this.discountRef = React.createRef();
     }
-
     componentDidMount(){
         this.props.getProducts()
     }
- 
     async clickDiscount(e){
         e.preventDefault()
         await this.props.getDiscounts()
         this.props.applyDiscount(this.discountRef.current.value.toLowerCase())
     }
-
-    onEmpty(){
-        this.props.emptyCart()
-    }
-
-    plusOne(id){
-        this.props.plusOne(id)
-    }
-
-    minusOne(id){
-        this.props.minusOne(id)
-    }
-
-    onRemove(id){
-        this.props.removeFromCart(id)
-    }
+    onEmpty(){this.props.emptyCart()}
+    plusOne(id){this.props.plusOne(id)}
+    minusOne(id){this.props.minusOne(id)}
+    onRemove(id){this.props.removeFromCart(id)}
         
     render() {
         let priceOfAll = 0;
         return (
             <div className="container mb-5">
-                {!this.props.chosenProducts?
-                    <div>loading...</div> :
+                {!(this.props.chosenProducts && this.props.allProducts)?
+                    <div><Spinner/></div> :
                     <div>
                         <table className="table table-hover my-3">
                             <thead>
@@ -61,7 +48,6 @@ class CartTable extends Component {
                                     }
                                     for (let obj of this.props.allProducts){
                                         if (obj.id === product.id){
-
                                             let finalPrice = (obj.discount || obj.price).toFixed(2)
                                             let totalPrice = (finalPrice * product.count).toFixed(2)
                                             priceOfAll+= Number(totalPrice)

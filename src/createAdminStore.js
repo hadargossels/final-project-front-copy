@@ -7,17 +7,9 @@ import createSagaMiddleware from 'redux-saga';
 import { all, fork } from 'redux-saga/effects';
 import thunk from 'redux-thunk'
 
-import {
-    adminReducer,
-    adminSaga,
-    USER_LOGOUT,
-} from 'react-admin';
+import { adminReducer,adminSaga, USER_LOGOUT} from 'react-admin';
 
-export default ({
-    authProvider,
-    dataProvider,
-    history,
-}) => {
+export default function createAdminStore({authProvider,dataProvider,history,})  {
     const reducer = combineReducers({
         admin: adminReducer,
         router: connectRouter(history),

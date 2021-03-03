@@ -1,18 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { useAuth } from "../contexts/AuthContext";
 
 import {NavLink, Link} from 'react-router-dom';
 import CartTable from './Cart/CartTable';
 
 
-// class Header extends Component{
 function Header(props) {
-
-   //  render(){
-      const { currentUser } = useAuth();
-      console.log(currentUser)
-
 
       const noDeco = {textDecoration:"none"}
        return(
@@ -96,7 +89,6 @@ function Header(props) {
       </nav>
        );
     }
-//  }
 
 const mapStateToProps = state => ({
    chosenProducts: state.products.chosenProducts,

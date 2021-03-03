@@ -15,7 +15,6 @@ function Account(props) {
         setError('')
         try {
             await logout()
-            localStorage.removeItem("login")
             props.logOut()
             history.push("/login")
         } catch (error) {

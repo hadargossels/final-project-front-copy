@@ -4,7 +4,8 @@ import CartButton from './CartButton/CartButton';
 import { CatalogPrice } from './CatalogPrice';
 import './CatalogElement.css'
 
-const CatalogElement = ({ id, img, name, rating, platforms, price, discount ,imgNarrow, shortDescription}) => (
+const CatalogElement = ({ id, img, name, rating, platforms, price, discount ,imgNarrow, shortDescription}) => {
+  return(
   <div className="col-lg-4 col-md-6 mb-1">
    
     <div className="row">
@@ -21,6 +22,7 @@ const CatalogElement = ({ id, img, name, rating, platforms, price, discount ,img
         <Rating rating={rating} />
       </div>
       <div className="col-2  p-0">
+        
         <CartButton id={id}/>
         <button className="widenIcon mt-2 btn btn-outline-danger m-0 " type="button">
           <i className="far fa-heart"></i>
@@ -68,6 +70,6 @@ const CatalogElement = ({ id, img, name, rating, platforms, price, discount ,img
     
 
   </div>
-);
+)};
 
 export default CatalogElement;

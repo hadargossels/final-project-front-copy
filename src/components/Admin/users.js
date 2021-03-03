@@ -1,20 +1,20 @@
 import * as React from "react";
-import {BooleanInput, email, required, Create, EditButton, Edit, SimpleForm, TextInput, ReferenceInput, Filter, SelectInput, ReferenceField, List, Datagrid, TextField, EmailField, Toolbar, SaveButton, DeleteWithConfirmButton, BooleanField} from 'react-admin';
-import { makeStyles } from '@material-ui/core/styles';
-import { BulkDeleteWithConfirmButton } from 'react-admin';
+import {useTranslate, BooleanInput, email, required, Create, EditButton, Edit, SimpleForm, TextInput, Filter, SelectInput, List, Datagrid, TextField, EmailField, Toolbar, SaveButton,  BooleanField, NumberField} from 'react-admin';
+import { makeStyles, Chip } from '@material-ui/core';
 
 const validateEmail = email();
 
 export const UserList = props => (
-    <List filters={<UserFilter/>}  bulkActionButtons={<UserBulkActionButtons />} {...props}>
+    <List filters={<UserFilter/>}  bulkActionButtons={false} {...props}>
         <Datagrid rowClick="edit">
-            <TextField source="id" />
-            <ReferenceField source="roleId" reference="roles">
-               <TextField source="name" />
-            </ReferenceField>
-            <TextField source="name" />
+            <TextField source="name" label="First name" />
+            <TextField source="lastname" label="Last name" />
             <EmailField source="email" />
-            <TextField label="Address" source="address.street" />
+            <NumberField source="phone"/>
+            <TextField label="Address - Street" source="address.street" />
+            <TextField label="Address 2" source="address.apt" />
+            <TextField label="City" source="address.city" />
+            <TextField source="roleId" label="Role" />
             <BooleanField source="active"/>
             <EditButton />
         </Datagrid>
@@ -25,12 +25,18 @@ export const UserEdit = props => (
     <Edit {...props} undoable={false}>
         <SimpleForm validate={validateUserCreation} toolbar={<CustomToolbar />}>
             <TextInput source="id" disabled/>
-            <TextInput source="name" />
-            <ReferenceInput source="roleId" reference="roles" >
-                <SelectInput optionText="name" />
-            </ReferenceInput>
-            <TextInput source="email" type="email" validate={validateEmail} />
-            <TextInput multiline source="address.street" validate={required()}/>
+            <TextInput source="email" type="email" disabled />
+            <TextInput label="First name" source="name"/>
+            <TextInput label="Last name" source="lastname" />
+            <TextInput source="phone"/>
+            <SelectInput source="roleId" choices={[
+                { id: 'Admin', name: 'Admin' },
+                { id: 'Customer', name: 'Customer' },
+                { id: 'Site Owner', name: 'Site Owner' },
+            ]} />
+            <TextInput multiline label="Address - Street" source="address.street" validate={required()}/>
+            <TextInput label="City" source="address.city"/>
+            <TextInput multiline label="Address 2 (Apt., etc)" source="address.apt" validate={required()}/>
             <BooleanInput label="Active" source="active"/>
         </SimpleForm>
     </Edit>
@@ -41,9 +47,11 @@ export const UserCreate = props => (
     <Create {...props}>
         <SimpleForm validate={validateUserCreation}>
             <TextInput source="name" />
-            <ReferenceInput source="roleId" reference="roles" >
-                <SelectInput optionText="name" />
-            </ReferenceInput>
+            <SelectInput source="roleId" choices={[
+                { id: 'Admin', name: 'Admin' },
+                { id: 'Customer', name: 'Customer' },
+                { id: 'Site Owner', name: 'Site Owner' },
+            ]} />
             <TextInput source="email" type="email" validate={validateEmail}/>
             <TextInput label="Address" multiline source="address.street"/>
             <BooleanInput label="Active" source="active" defaultValue={true}/>
@@ -56,8 +64,8 @@ const validateUserCreation = (values) => {
     if (!values.name) {
         errors.name = ['filling name is required'];
     }
-    if (!values.roleId) {
-        errors.roleId = ['choosing a role is required'];
+    if (!values.lastname) {
+        errors.lastname = ['filling last name is required'];
     }
     if (!values.email) {
         errors.email = ['filling email is required'];
@@ -65,10 +73,11 @@ const validateUserCreation = (values) => {
     return errors
 };
 
+
+//custom toolbar without an option to delete
 const CustomToolbar = props => (
     <Toolbar {...props} classes={useStyles()}>
         <SaveButton />
-        <DeleteWithConfirmButton />
     </Toolbar>
 );
 
@@ -79,17 +88,22 @@ const useStyles = makeStyles({
     },
 });
 
-const UserBulkActionButtons = props => (
-    <React.Fragment>
-        <BulkDeleteWithConfirmButton {...props} />
-    </React.Fragment>
-);
-
+//a filter to see only active users
 const UserFilter = (props) => (
     <Filter {...props} >
-        <TextInput label="Search..." source="q" alwaysOn />
-        <ReferenceInput label="Role" source="roleId" reference="roles" allowEmpty>
-            <SelectInput optionText="name" />
-        </ReferenceInput>
+        <TextInput label="Search name" source="name" alwaysOn />
+        <QuickFilter source="active" label="Active" defaultValue={true} />
     </Filter>
 )
+
+const QuickFilter = ({ label }) => {
+    const translate = useTranslate();
+    const classes = useQuickFilterStyles();
+    return <Chip className={classes.chip} label={translate(label)} />;
+};
+
+const useQuickFilterStyles = makeStyles(theme => ({
+    chip: {
+        marginBottom: theme.spacing(1),
+    },
+}));

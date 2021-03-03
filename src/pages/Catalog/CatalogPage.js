@@ -1,25 +1,24 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import queryString from 'query-string'
-
+import {connect} from 'react-redux'
 import CatalogContainer from '../../components/Catalog/CatalogContainer';
 import './CatalogPage.css'
+import Spinner from '../../components/Spinner/Spinner';
+import { getProducts} from '../../actions'
 
-export default class CatalogPage extends Component {
+
+class CatalogPage extends Component {
     constructor(props){
         super(props)
         this.searchVal = queryString.parse(props.location.search)
         this.filterBtn = props.match.params.search
-        this.state= {allProducts:""}
     }
     componentDidMount(){
-        axios.get("http://localhost:3000/objectsArr").then(allProducts =>{
-            this.setState({allProducts:allProducts.data})
-        })
+        this.props.getProducts()
     }
 
     render() {
-        let objCatalog = [...this.state.allProducts]
+        let objCatalog = [...this.props.allProducts]
         let toSearch = (this.searchVal.q)
 
         if (toSearch){
@@ -38,7 +37,7 @@ export default class CatalogPage extends Component {
 
         return (
             <div>
-                {!this.state.allProducts? <div>loading</div> :
+                {!this.props.allProducts? <Spinner/> :
                     <div className="container">
                         <p>{this.exampleProp}</p>
                         <h1 className="text-center py-3">Game Catalog</h1>
@@ -49,3 +48,9 @@ export default class CatalogPage extends Component {
         )
     }
 }
+
+const mapStateToProps = state => ({
+    allProducts: state.products.allProducts
+})
+
+export default connect(mapStateToProps, {getProducts})(CatalogPage)

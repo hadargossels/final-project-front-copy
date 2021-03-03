@@ -21,7 +21,6 @@ function Login(props) {
         e.preventDefault()
         setLoading(true)
         await signInWithGoogle();
-        localStorage.setItem("login",auth.currentUser.email)
         props.logIn()
         history.push("/account")
         setLoading(false)
@@ -33,7 +32,6 @@ function Login(props) {
             setError("")
             setLoading(true)
             await login(emailRef.current.value, passwordRef.current.value)
-            localStorage.setItem("login",auth.currentUser.email)
             props.logIn()
             history.push("/account")
         } catch {

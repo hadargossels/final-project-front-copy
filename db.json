@@ -109,7 +109,7 @@
       "email": "Nathan@yesenia.net",
       "address": {
         "street": "Douglas Extension",
-        "address2": "Suite 847",
+        "apt": "Suite 847",
         "city": "McKenziehaven"
       },
       "phone": "1-463-123-4447",
@@ -123,7 +123,7 @@
       "email": "Julianne.OConner@kory.org",
       "address": {
         "street": "Hoeger Mall",
-        "address2": "Apt. 692",
+        "apt": "Apt. 692",
         "city": "South Elvis"
       },
       "phone": "493-170-9623 x156",
@@ -137,7 +137,7 @@
       "email": "Lucio_Hettinger@annie.ca",
       "address": {
         "street": "Skiles Walks",
-        "address2": "Suite 351",
+        "apt": "Suite 351",
         "city": "Roscoeview"
       },
       "phone": "(254)954-1289",
@@ -151,7 +151,7 @@
       "email": "Karley_Dach@jasper.info",
       "address": {
         "street": "Norberto Crossing",
-        "address2": "Apt. 950",
+        "apt": "Apt. 950",
         "city": "South Christy"
       },
       "phone": "1-477-935-8478 x6430",
@@ -165,7 +165,7 @@
       "email": "Telly.Hoeger@billy.biz",
       "address": {
         "street": "Rex Trail",
-        "address2": "Suite 280",
+        "apt": "Suite 280",
         "city": "Howemouth"
       },
       "phone": "210.067.6132",
@@ -179,7 +179,7 @@
       "email": "Sherwood@rosamond.me",
       "address": {
         "street": "Ellsworth Summit",
-        "address2": "Suite 729",
+        "apt": "Suite 729",
         "city": "Aliyaview"
       },
       "phone": "586.493.6943 x140",
@@ -193,7 +193,7 @@
       "email": "Chaim_McDermott@dana.io",
       "address": {
         "street": "Dayna Park",
-        "address2": "Suite 449",
+        "apt": "Suite 449",
         "city": "Bartholomebury"
       },
       "phone": "052-111-1111",

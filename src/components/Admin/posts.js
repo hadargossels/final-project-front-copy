@@ -1,54 +1,43 @@
 import * as React from "react";
-import { Filter, List, Datagrid, TextField, ReferenceField, EditButton, Edit, SimpleForm, ReferenceInput, TextInput, SelectInput, Create} from 'react-admin';
+import {  List, Datagrid, TextField} from 'react-admin';
 
-const PostFilter = (props) => (
-    <Filter {...props}>
-        <TextInput label="Search..." source="q" alwaysOn />
-        <ReferenceInput label="User" source="userId" reference="users" allowEmpty>
-            <SelectInput optionText="name" />
-        </ReferenceInput>
-    </Filter>
-)
+//post filter later maybe by title, also all other options
 
 export const PostList = (props) => (
-    <List filters={<PostFilter />} {...props}>
+    <List  {...props}>
         <Datagrid >
-            <TextField source="id" />
-            <ReferenceField source="userId" reference="users">
-               <TextField source="name" />
-            </ReferenceField>
+            <TextField source="date"/>
             <TextField source="title" />
-            <EditButton />
         </Datagrid>
     </List>
 );
 
-const PostTitle = ({ record }) => {
-    return <span>Post {record ? `"${record.title}"` : ''}</span>;
-}
+// const PostTitle = ({ record }) => {
+//     return <span>Post {record ? `"${record.title}"` : ''}</span>;
+// }
 
-export const PostEdit = props => (
-    <Edit title={<PostTitle />} {...props}>
-        <SimpleForm>
-            <TextInput source="id" />
-            <ReferenceInput source="userId" reference="users">
-                <SelectInput optionText="name" />
-            </ReferenceInput>
-            <TextInput source="title" />
-            <TextInput multiline source="body" />
+// export const PostEdit = props => (
+//     <Edit title={<PostTitle />} {...props}>
+//         <SimpleForm>
+//             <TextInput source="id" />
+//             <ReferenceInput source="userId" reference="users">
+//                 <SelectInput optionText="name" />
+//             </ReferenceInput>
+//             <TextInput source="title" />
+//             <TextInput multiline source="body" />
 
-        </SimpleForm>
-    </Edit>
-);
+//         </SimpleForm>
+//     </Edit>
+// );
 
-export const PostCreate = props => (
-    <Create {...props}>
-        <SimpleForm>
-            <ReferenceInput source="userId" reference="users">
-                <SelectInput optionText="name" />
-            </ReferenceInput>
-            <TextInput source="title" />
-            <TextInput multiline source="body" />
-        </SimpleForm>
-    </Create>
-);
+// export const PostCreate = props => (
+//     <Create {...props}>
+//         <SimpleForm>
+//             <ReferenceInput source="userId" reference="users">
+//                 <SelectInput optionText="name" />
+//             </ReferenceInput>
+//             <TextInput source="title" />
+//             <TextInput multiline source="body" />
+//         </SimpleForm>
+//     </Create>
+// );

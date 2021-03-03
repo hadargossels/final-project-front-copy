@@ -10,6 +10,7 @@ import Price from '../../components/Product/Price';
 import Rating from '../../components/Product/Rating'
 import Stock from '../../components/Product/Stock'
 import './ProductPage.css'
+import Spinner from '../../components/Spinner/Spinner';
 
 class ProductPage extends Component{
     constructor(){
@@ -28,7 +29,7 @@ class ProductPage extends Component{
 
         return(
             <div className = "container-fluid pt-4 m-auto px-2">
-                {!this.state.allProducts? <div>loading...</div> : 
+                {!this.state.allProducts? <Spinner/> : 
                 <div className="row mx-md-5 mx-0">
 
                     <div className="gallery  col-md-5 ps-0 pe-2">

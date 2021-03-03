@@ -1,12 +1,16 @@
 import React, {useRef, useState} from 'react'
 import {Container, Form, Button, Card, Alert} from 'react-bootstrap'
 import {useAuth} from '../../contexts/AuthContext'
-import {Link, useHistory, Redirect} from 'react-router-dom'
-import {auth} from '../../firebase'
+import {Link, useHistory} from 'react-router-dom'
+import {auth, db} from '../../firebase'
+import {logIn} from '../../actions'
+import {connect} from 'react-redux'
 
 
-export default function Signup() {
+function Signup(props) {
     const emailRef = useRef()
+    const fnameRef =useRef()
+    const lnameRef=useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
     const {signup} = useAuth()
@@ -23,23 +27,40 @@ export default function Signup() {
             setError("")
             setLoading(true)
             await signup(emailRef.current.value, passwordRef.current.value)
-            localStorage.setItem("login",auth.currentUser.email)
+            props.logIn()
+            db.child("users").child(auth.currentUser.uid).set(
+                {
+                    "id":auth.currentUser.uid,
+                    "name":fnameRef.current.value,
+                    "lastname":lnameRef.current.value,
+                    "email":auth.currentUser.email,
+                    "roleId":"Customer",
+                    "active":true,
+                }
+            )
             history.push("/account")
         } catch {
             setError("Failed to create an account")
         }
         setLoading(false)
     }
-
+    
     return (
         <Container className="d-flex align-items-center justify-content-center py-5">
-            {localStorage.getItem("login") && <Redirect to="/account"/>}
             <div className="w-100" style={{maxWidth:"400px"}}>
                 <Card>
                     <Card.Body>
                         <h2 className="text-center mb-4">Sign Up</h2>
                         {error && <Alert variant="danger">{error}</Alert>}
                         <Form onSubmit={handleSubmit}>
+                            <Form.Group id="firstname">
+                                <Form.Label>First Name</Form.Label>
+                                <Form.Control type="text" ref={fnameRef} required/>
+                            </Form.Group>
+                            <Form.Group id="lastname">
+                                <Form.Label>Last Name</Form.Label>
+                                <Form.Control type="text" ref={lnameRef} required/>
+                            </Form.Group>
                             <Form.Group id="email">
                                 <Form.Label>Email</Form.Label>
                                 <Form.Control type="email" ref={emailRef} required/>
@@ -63,3 +84,8 @@ export default function Signup() {
         </Container>
     )
 }
+
+const mapStateToProps = state => ({
+})
+
+export default connect(mapStateToProps,{logIn})(Signup)

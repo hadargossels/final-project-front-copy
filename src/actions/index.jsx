@@ -4,7 +4,7 @@ import {
     GET_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART, PLUS_ONE, MINUS_ONE, EMPTY_CART,
     LOG_IN, LOG_OUT
 } from '../constants/action-types'
-
+import {db} from '../firebase'
 //Discount actions
 export const applyDiscount = (data) => ({
     type: APPLY_DISCOUNT,
@@ -24,13 +24,17 @@ export const getDiscounts = () => dispatch => {
 
 //Product actions
 export const getProducts = () => dispatch => {
-    return axios
-    .get("http://localhost:3000/objectsArr")
-    .then (allProducts =>
+    
+    db.on("value", (snapshot) =>{
+        let myData = ""
+        myData = (snapshot.val().products)
+
         dispatch({
             type:GET_PRODUCTS,
-            payload: allProducts.data
-        }))
+            payload: myData
+        })
+        
+    })
 }
 
 export const addToCart = (data) => ({

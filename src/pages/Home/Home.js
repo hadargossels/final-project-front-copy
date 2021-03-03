@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import CatalogElement from "../../components/Catalog/CatalogElement";
 import "./Home.css";
+import Spinner from "../../components/Spinner/Spinner";
+import {db} from '../../firebase'
 
 
 const imgArr = [
@@ -16,8 +17,10 @@ export default class Home extends Component {
     this.state = {bestSellers: ""};
   }
   componentDidMount(){
-    axios.get("http://localhost:3000/objectsArr").then(response=>{
-      this.setState({bestSellers:response.data.filter((el) => el.bestseller)})
+    db.on("value", (snapshot) =>{
+      let myData = ""
+      myData = (snapshot.val().products).filter((el) => el.bestseller);
+      this.setState({bestSellers:myData})
     })
   }
 
@@ -34,7 +37,6 @@ export default class Home extends Component {
       {title: "DISCOUNT", src: "/img/home/sale.jpg", link: "discount"},
       {title: "BESTSELLERS", src: "/img/home/bestsellers.jpeg",link: "bestsellers"}
     ];
-
     return (
       <div className="pb-5 text-center">
 
@@ -89,7 +91,7 @@ export default class Home extends Component {
         </div>
 
         {/* bottom-slider-BestSellers */}
-        {!this.state.bestSellers? <div>loading...</div> : 
+        {!this.state.bestSellers? <Spinner/> : 
           <div className="py-5 container-fluid btmSlider">
               <h1 className="text-danger">Our Best-Sellers</h1>
             <div className="row">

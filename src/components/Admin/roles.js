@@ -12,7 +12,7 @@ export const RolesList = (props) => (
 );
 
 export const RoleEdit = props => (
-    <Edit {...props}>
+    <Edit undoable={false} {...props}>
         <SimpleForm >
             <TextInput source="id" disabled/>
             <TextInput label="Role" source="name" />
