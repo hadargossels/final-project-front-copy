@@ -13,6 +13,7 @@ import Contact from './components/Contact';
 import Cart from './components/Cart';
 import CheckOut from './components/CheckOut';
 import Account from './components/Account';
+import MyAdmin from './components/admin/MyAdmin'
 import Footer from "./components/Footer";
 import reportWebVitals from './reportWebVitals';
 import NotFound from './components/NotFound';
@@ -35,7 +36,10 @@ const router=(
       <Route path="/Recipes/:RecipeName" component={RecipeProduct}/>
       <Route path="/Contact" component={Contact}/>
       <Route path="/Cart" component={Cart}/>
-      <Protect exact path="/protect" component={CheckOut} account={Account}/>
+      <Protect path="/checkout" component={CheckOut}/>
+      <Protect path="/admin" component={MyAdmin}/>
+      <Protect path="/user" component={Account}/>
+
       {/* <Route path="/Checkout" component={CheckOut} /> */}
       <Route component={NotFound}/>
     </Switch>

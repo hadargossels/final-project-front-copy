@@ -2,8 +2,9 @@
 class Auth {
     constructor() {
       this.authenticated = false;
-      this.name='אורח'
-      this.path=''
+      this.name='אורח';
+      this.path='';
+      this.role='';
     }
   
     login() {
@@ -30,6 +31,12 @@ class Auth {
     }
     getPath(){
       return this.path
+    }
+    setRole(r){
+      this.role=r
+    }
+    getRole(){
+      return this.role
     }
   }
   

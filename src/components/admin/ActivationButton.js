@@ -16,9 +16,7 @@ const ActivationButton = ({ record = {}, source }) =>{
     const classes = useStyles();
 
     return (
-
         <button className={classes.buttonStyle} onClick={()=>(record[source])?record[source]=false:record[source]=true}>active / ban</button>
-
      );
     }
 

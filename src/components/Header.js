@@ -1,5 +1,6 @@
 
-import React, { Component } from 'react';import './Header.css';
+import React, { Component } from 'react';
+import './Header.css';
 import { Link,NavLink } from 'react-router-dom';
 import {withRouter} from 'react-router'
 import {db} from '../firebase'
@@ -42,6 +43,7 @@ class Header extends Component{
       this.logInGoogle=this.logInGoogle.bind(this)
       this.logInFaceBook=this.logInFaceBook.bind(this)
       this.getDataFromFirebase=this.getDataFromFirebase.bind(this)
+      this.chechAccountType=this.chechAccountType.bind(this)
 
       
    }
@@ -52,6 +54,8 @@ class Header extends Component{
       this.welcomeRef.current.style.display="none"
       this.getDataFromFirebase()
    }
+
+
    getDataFromFirebase(){
       db.on('value', (snapshot)=>{if(snapshot.val()!=null) this.setState({users: snapshot.val()})
       })
@@ -77,6 +81,13 @@ class Header extends Component{
          login.style.display="block"
       }
    }
+   chechAccountType(user){
+
+     let varUid=user.uid
+     const obj=this.state.users.users[varUid]
+     Auth.setRole(obj.role)
+
+   }
 
 
    logIn(e){
@@ -91,10 +102,10 @@ class Header extends Component{
       .then((userCredential) => {
         // Signed in
         var user = userCredential.user;
-        console.log(user)
         //Auth.login(() => { this.props.history.push("/protect")})
         Auth.setName(e[1].value)
         Auth.login()
+        this.chechAccountType(user)
         this.setState({name:Auth.getName()})
          this.setState({well:"שלום"})
 
@@ -128,31 +139,30 @@ class Header extends Component{
            // Signed in 
 
            let data={
-              id:"",
-              firstName:e[1].value,
-              lastName:e[2].value,
-              email:e[3].value,
-              phone:"",
-              address:{
-                 street:"",
-                 type:"",
-                 city:"",
-                 zipcode:""
+              "id":user.user.uid,
+              "firstName":e[1].value,
+              "lastName":e[2].value,
+              "email":e[3].value,
+              "phone":"",
+              "address":{
+                 "street":"",
+                 "city":"",
+                 "type":"",
+                 "zipcode":""
               },
-              password:e[4].value,
-              roll:"user",
-              active:true
+            //   password:e[4].value,
+              "role":"user",
+              "active":true
             }
 
-           firebase.database().ref('users/' + user.user.uid).set(data)
+           db.child('users').child(user.user.uid).set(data)
            this.getDataFromFirebase()
-
-           console.log(this.state.users)
            
            this.setState({well:"המשתמש הוסף בהצלחה"})
 
             Signup.style.display="none"
             welcome.style.display="block"
+            
 
             setTimeout(() => {
                welcome.style.display="none"
@@ -312,7 +322,7 @@ class Header extends Component{
       return(
          <div>
             
-         <nav className="navbar navbar-expand-lg navbar-dark fs-5" style={{backgroundImage:"linear-gradient(to left, rgb(93,0,29) , black)"}}>
+         <nav className="navbar navbar-expand-lg navbar-dark fs-5" style={{backgroundImage:"linear-gradient(to left, rgb(93,0,29) , black)",zIndex:"2"}}>
             <div className="container-fluid col-8">
             <div className="myLogo" style={{"backgroundImage":"url(/images/logo3.png)"}}></div>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -346,7 +356,7 @@ class Header extends Component{
                <ul className="navbar-nav p-0">
                   <li id="userIconSpan">
                      <span className="navbar-text" ><i className="fas fa-user userIcon" data-bs-toggle="modal" data-bs-target= "#userIcon" data-bs-whatever="@mdo"></i>
-                        <span id="hello">שלום, {(Auth.getName()==="אורח")?Auth.getName():<span onClick={() => { Auth.setProtectPath(() => {this.props.history.push("/protect");},"account")}} style={{color:"rgb(8, 144, 255)",cursor:"pointer"}}>{Auth.getName()}</span> }</span>
+                        <span id="hello">שלום, {(Auth.getName()==="אורח")?Auth.getName():<span onClick={() => { Auth.setProtectPath(() => {this.props.history.push(`/${Auth.getRole()}`);},"account")}} style={{color:"rgb(8, 144, 255)",cursor:"pointer"}}>{Auth.getName()}</span> }</span>
                      </span>
                     <NavLink to="/Cart"><span className="navbar-text" href="#" onClick={this.resetUrl}><i className="fas fa-shopping-cart"></i></span></NavLink>
                   </li>

@@ -1,0 +1,17 @@
+
+
+.myContainerAdmin{
+
+    align-items: center;
+    justify-content: center;
+    padding: 0px 30px;
+    position: relative;
+}
+
+.MuiToolbar-root.MuiToolbar-dense.RaAppBar-toolbar-12{
+    display: none;
+}
+.MuiPaper-root.MuiAppBar-root.MuiAppBar-positionFixed.MuiAppBar-colorSecondary.mui-fixed.MuiPaper-elevation4{
+
+    display: none;
+}

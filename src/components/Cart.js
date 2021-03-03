@@ -171,7 +171,7 @@ export default class Cart extends Component {
                                 </ul>
 
                                 {this.state.temporaryAmount ? 
-                                    <button type="button" className="btn btn-primary btn-block waves-effect waves-light mb-4" onClick={() => { Auth.setProtectPath(() => {this.props.history.push("/protect");},"cart")}}>מעבר לתשלום</button>:<div></div>}
+                                    <button type="button" className="btn btn-primary btn-block waves-effect waves-light mb-4" onClick={() => { Auth.setProtectPath(() => {this.props.history.push("/checkout");},"cart")}}>מעבר לתשלום</button>:<div></div>}
                                 
 
                             </div>

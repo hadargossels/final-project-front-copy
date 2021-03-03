@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 import querystring from "query-string";
 import './Catalog.css';
 import SortBar from "./Sortbar";
-
+import firebase from "firebase/app";
+import "firebase/database";
+import {db} from '../firebase'
 
 let cakeArr
-let updateCakeArr
 // const cakeArr= require("../dataBase/productsData.json")
 
 // const updateCakeArr=[...cakeArr.reverse()]
@@ -32,23 +33,32 @@ class Catalog extends Component {
       this.filterSearch=this.filterSearch.bind(this)
    }
 
+
    componentDidMount(){
-      fetch("http://localhost:3000/products").then(
-         (data)=>{return data.json()}
-      ).then((products)=>{
-            let updateproducts=[...products.reverse()]
-            this.setState({Arr:updateproducts})
-            cakeArr=products
-      }).catch(()=>{cakeArr= require("../dataBase/productsData.json")
-            updateCakeArr=[...cakeArr.reverse()]
-            this.setState({Arr:updateCakeArr})
-      })
+      this.getDataFromFirebase()
+      
    }
    
    componentDidUpdate(prevProps){
       if(this.props.location.search!==prevProps.location.search){
       this.filterSearch()
        }
+    }
+    getDataFromFirebase(){
+      let myData = ""
+      db.on('value', (snapshot)=>{
+        if(snapshot.val()!=null){
+
+            myData = (snapshot.val())
+
+        for (const [key, value] of Object.entries(myData)) {
+            myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
+          }
+         cakeArr = myData.products
+         let updateproducts=[...cakeArr.reverse()]
+         this.setState({Arr:updateproducts})
+        } 
+      })
     }
     addFilter(e){
       let copyFilterArr=[...this.state.filterArr]
