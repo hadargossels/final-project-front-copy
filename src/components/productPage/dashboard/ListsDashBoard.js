@@ -30,7 +30,7 @@ export const MyEditUser = props => (
         <SimpleForm>
             {/* <CustomToolbar/> */}
             <TextInput source="role" />
-            <TextInput source="username" />
+            <TextInput source="userName" />
             <TextInput source="email" />
             <TextInput source="active" />
         </SimpleForm>
@@ -44,14 +44,13 @@ export const MyNewUser = props => (
             {/* <ReferenceInput source="username" reference="data">
                 <SelectInput optionText="id" />
             </ReferenceInput> */}
-            <TextInput source="id" />
-            <TextInput source="email" />
-            {/* <TextInput source="active" />
-            <TextInput source="name" /> */}
-            <TextInput source="username" />
-            {/* <TextInput source="phone" /> */}
+            <TextInput source="email" required/>
+            <TextInput source="password" required/>
+            <TextInput source="active" />
+            <TextInput source="userName" />
+            <TextInput source="phone" />
             <TextInput source="role" />
-            {/* <TextInput source="address" /> */}
+            <TextInput source="address" />
         </SimpleForm>
     </Create>
 )
@@ -62,12 +61,12 @@ export const UserList = props =>
         <Datagrid rowClick="edit">
             <TextField source="id" />
             {/* <TextField source="name" /> */}
-            <TextField source="username" />
+            <TextField source="userName" />
             <EmailField source="email" />
-            {/* <TextField source="address" />
-            <TextField source="phone" /> */}
+            <TextField source="address" />
+            <TextField source="phone" />
             <TextField source="role" />
-            {/* <TextField source="active" /> */}
+            <TextField source='active' />
             <EditButton/>
         </Datagrid>
     </List>);
@@ -86,3 +85,35 @@ export const ProductsList = props =>
        <EditButton/>
    </Datagrid>
 </List>);
+
+
+export const MyNewProduct = props => (
+    <Create {...props}>
+        <SimpleForm>
+            {/* <ReferenceInput source="username" reference="data">
+                <SelectInput optionText="id" />
+            </ReferenceInput> */}
+            <TextInput source="id"/>
+            <TextInput source="urlImg" />
+            <TextInput source="name" required/>
+            <TextInput source="price" required/>
+            <TextInput source="stars" />
+            <TextInput source="type" required/>
+            <TextInput source="onSale" required/>
+        </SimpleForm>
+    </Create>
+)
+
+export const MyEditProduct = props => (
+    <Edit {...props}>
+        <SimpleForm>
+            <TextInput source="id"/>
+            <TextInput source="urlImg" />
+            <TextInput source="name" />
+            <TextInput source="price" />
+            <TextInput source="stars" />
+            <TextInput source="type" />
+            <TextInput source="onSale" />
+        </SimpleForm>
+    </Edit>
+)
