@@ -13,7 +13,6 @@ export default function DashBoard(props) {
     const options = {};
     const dataProvider = firebaseDataProvider(firebase,options);
     const [myDash, setMyDash] = useState("")
-    console.log(dataProvider);
 
     useEffect(()=>{
         auth.onAuthStateChanged(user=>{
