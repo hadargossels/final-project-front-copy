@@ -18,13 +18,13 @@ export default class SignUp extends Component {
         this.userConfirmPassword = React.createRef()
     }
 
-    componentDidMount(){
-        db.on("value", (snapshot) =>{
-            let myData = ""
-            myData = (snapshot.val().products);
-            console.log(myData);
-        })
-    }
+    // componentDidMount(){
+    //     db.on("value", (snapshot) =>{
+    //         let myData = ""
+    //         myData = (snapshot.val().products);
+    //         console.log(myData);
+    //     })
+    // }
 
     render() {
         return (
@@ -120,7 +120,7 @@ export default class SignUp extends Component {
                 user.updateProfile({
                     displayName: this.userName.current.value
                     // photoURL: "https://example.com/jane-q-user/profile.jpg"
-                  }).then(()=> {this.props.history.push('/personal');})
+                  }).then(()=> this.dbAddUser())
             })
             .catch((error) => {
                 var errorCode = error.code;
@@ -128,5 +128,21 @@ export default class SignUp extends Component {
                 // ..
             });
         }
+    }
+
+    dbAddUser(){
+        auth.onAuthStateChanged(user=>{
+            if(user){
+                console.log(user);
+                let userRef = db.child("users");
+                console.log(userRef);
+                userRef.child(user.uid).set({
+                  "id":user.uid,
+                  "userName":  this.userName.current.value,
+                  "roll": "client",
+                  "email":this.userEmail.current.value
+                }).then(()=>window.location.reload());
+            }
+        })
     }
 }

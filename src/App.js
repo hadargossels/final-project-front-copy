@@ -18,6 +18,7 @@ import PaymentConfirm from "./components/productPage/paymentConfirm/PaymentConfi
 import PrivetSection from "./components/productPage/privetSection/PrivetSection";
 import { ProtectRouter } from "./components/productPage/Protected";
 import {auth} from './firebase'
+import DashBoard from "./components/productPage/dashboard/DashBoard";
 
 
 
@@ -43,6 +44,7 @@ function App() {
             {/* <ProtectRouter component={PrivetSection} exact path="/personal" /> */}
             {/* <ProtectRouter component={()=>"success"} exact path="/login" />  */}
             <Route path="/personal" component={PrivetSection}/>
+            <Route path="/dashboard/admin" component={DashBoard} />
             <Route path="*" component={()=><h1 className="text-center pt-5">404 NOT FOUND</h1>}/>
           </Switch>
         </Router>
