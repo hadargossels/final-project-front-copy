@@ -13,6 +13,11 @@
   }
 }
 
+.MuiPaper-root.MuiAppBar-root.MuiAppBar-positionFixed.MuiAppBar-colorSecondary.mui-fixed.MuiPaper-elevation4{
+
+  display: none;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

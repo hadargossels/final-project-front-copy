@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import CatalogElement from "../../components/Catalog/CatalogElement";
 import "./Home.css";
 import Spinner from "../../components/Spinner/Spinner";
-import {db} from '../../firebase'
+import {connect} from 'react-redux';
+import {getProducts, moveBestsell} from '../../actions'
 
 
 const imgArr = [
@@ -11,24 +12,14 @@ const imgArr = [
 {src:'/img/home/slider1.jpg',alt:'',h:'Second slide label',p:'Vitae elit libero, a pharetra augue mollisinterdum.',color:'btn-danger'},
 ]
 
-export default class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {bestSellers: ""};
-  }
+class Home extends Component {
+  
   componentDidMount(){
-    db.on("value", (snapshot) =>{
-      let myData = ""
-      myData = (snapshot.val().products).filter((el) => el.bestseller);
-      this.setState({bestSellers:myData})
-    })
+    this.props.getProducts()
   }
 
   clickHandler = ({ target: { innerHTML } }) => {
-    const newArr = [...this.state.bestSellers];
-    if (innerHTML === "&lt;") newArr.unshift(newArr.pop());
-    if (innerHTML === "&gt;") newArr.push(newArr.shift());
-    this.setState({ bestSellers: newArr });
+    this.props.moveBestsell(innerHTML)
   };
   
   render() {
@@ -39,7 +30,6 @@ export default class Home extends Component {
     ];
     return (
       <div className="pb-5 text-center">
-
         {/* upper-slider */}
         <div id="carouselExampleFade" className="carousel slide carousel-fade py-5" data-bs-ride="carousel">
           <div className="carousel-inner">
@@ -91,7 +81,7 @@ export default class Home extends Component {
         </div>
 
         {/* bottom-slider-BestSellers */}
-        {!this.state.bestSellers? <Spinner/> : 
+        {!this.props.bestSellers? <Spinner/> : 
           <div className="py-5 container-fluid btmSlider">
               <h1 className="text-danger">Our Best-Sellers</h1>
             <div className="row">
@@ -100,7 +90,7 @@ export default class Home extends Component {
               </div>
               <div className="col-9">
                 <div className="row">
-                  {this.state.bestSellers.slice(0, 3).map(({ ...rest }, key) => (
+                  {(this.props.bestSellers).slice(0, 3).map(({ ...rest }, key) => (
                     <CatalogElement {...rest} key={key} />
                   ))}
                 </div>
@@ -115,3 +105,9 @@ export default class Home extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  bestSellers: state.products.bestSellers,
+})
+
+export default connect(mapStateToProps, {getProducts, moveBestsell})(Home)

@@ -43,7 +43,7 @@ export default class CatalogContainer extends Component {
     this.setState({ filtering: categ });
 
     if (categ.length >= 1)
-      displayArr = displayArr.filter((el) => categ.includes(el.platforms[0]));
+      displayArr = displayArr.filter((el) => categ.includes(el.platforms));
 
     this.setState({ displayArr, page:1 });
   };

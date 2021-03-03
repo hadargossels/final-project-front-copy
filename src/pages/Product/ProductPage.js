@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import {connect} from 'react-redux'
+import { getProducts} from '../../actions'
 
 import AlsoViewed from '../../components/Product/AlsoViewed';
 import CartButton from '../../components/Catalog/CartButton/CartButton';
@@ -13,23 +14,18 @@ import './ProductPage.css'
 import Spinner from '../../components/Spinner/Spinner';
 
 class ProductPage extends Component{
-    constructor(){
-        super()
-        this.state= {allProducts:""}
-    }
+
     componentDidMount(){
-        axios.get("http://localhost:3000/objectsArr").then(response =>{
-            this.setState({allProducts:response.data})
-        })
+        this.props.getProducts()
     }
     render(){
         let product
-        if (this.state.allProducts)
-            product = this.state.allProducts.find(({name})=>name===(this.props.match.params.name))
+        if (this.props.allProducts)
+            product = this.props.allProducts.find(({name})=>name===(this.props.match.params.name))
 
         return(
             <div className = "container-fluid pt-4 m-auto px-2">
-                {!this.state.allProducts? <Spinner/> : 
+                {!this.props.allProducts? <Spinner/> : 
                 <div className="row mx-md-5 mx-0">
 
                     <div className="gallery  col-md-5 ps-0 pe-2">
@@ -52,7 +48,7 @@ class ProductPage extends Component{
                                 <button className="btn btn-outline-danger my-3 productBtn"><i className="far fa-heart"></i> Add to Wishlist</button>
                             </div>
                         </div>
-                        <p className="text-start"><span className="fw-bold me-2">About:</span>{product.about}</p>
+                        <p className="text-start" style={{whiteSpace:"pre-line"}}><span className="fw-bold me-2" >About:</span>{product.about}</p>
                         <Categories platforms={product.platforms}/>
                         <hr/>
                         <AlsoViewed/>
@@ -63,4 +59,9 @@ class ProductPage extends Component{
     }
  }
 
- export default ProductPage;
+
+ const mapStateToProps = state => ({
+    allProducts: state.products.allProducts
+})
+
+export default connect(mapStateToProps, {getProducts})(ProductPage)

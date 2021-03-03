@@ -1,8 +1,9 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, PLUS_ONE, MINUS_ONE, EMPTY_CART, GET_PRODUCTS} from '../constants/action-types'
+import { ADD_TO_CART, REMOVE_FROM_CART, PLUS_ONE, MINUS_ONE, EMPTY_CART, GET_PRODUCTS, MOVE_BESTSELL} from '../constants/action-types'
 
 const initialState = {
     allProducts: "",
     chosenProducts: JSON.parse(localStorage.getItem("productsArr")),
+    bestSellers:""
 }
 
 export default function products(state = initialState, action){
@@ -12,7 +13,16 @@ export default function products(state = initialState, action){
     }
     switch(action.type){
         case GET_PRODUCTS:
-            return {...state, allProducts: action.payload }
+            return {...state, allProducts: action.payload, bestSellers: (action.payload.filter((el) => el.bestseller))}
+        case MOVE_BESTSELL:
+            let newBest = [...state.bestSellers]
+            if (action.payload === "&lt;"){
+                newBest.unshift(newBest.pop());
+            }
+            else if (action.payload === "&gt;"){
+                newBest.push(newBest.shift());
+            }
+            return {...state, bestSellers:newBest};
 
         case ADD_TO_CART:
             if (newChosen){

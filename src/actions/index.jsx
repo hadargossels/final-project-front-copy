@@ -1,8 +1,8 @@
 import axios from 'axios'
 import {
     APPLY_DISCOUNT, GET_DISCOUNTS,
-    GET_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART, PLUS_ONE, MINUS_ONE, EMPTY_CART,
-    LOG_IN, LOG_OUT
+    GET_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART, PLUS_ONE, MINUS_ONE, EMPTY_CART, MOVE_BESTSELL,
+    LOG_IN, LOG_OUT,
 } from '../constants/action-types'
 import {db} from '../firebase'
 //Discount actions
@@ -23,11 +23,22 @@ export const getDiscounts = () => dispatch => {
 }
 
 //Product actions
+export const moveBestsell = (button) => ({
+    type: MOVE_BESTSELL,
+    payload: button
+})
+
 export const getProducts = () => dispatch => {
     
     db.on("value", (snapshot) =>{
         let myData = ""
-        myData = (snapshot.val().products)
+        myData = (snapshot.val())
+
+        for (const [key, value] of Object.entries(myData)) {
+        
+            myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
+          }
+        myData = (myData.products)
 
         dispatch({
             type:GET_PRODUCTS,

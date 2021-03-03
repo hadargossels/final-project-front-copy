@@ -1,11 +1,11 @@
 import * as React from "react";
-import {useTranslate, BooleanInput, email, required, Create, EditButton, Edit, SimpleForm, TextInput, Filter, SelectInput, List, Datagrid, TextField, EmailField, Toolbar, SaveButton,  BooleanField, NumberField} from 'react-admin';
+import { useTranslate, BooleanInput, email, required, Create, EditButton, Edit, SimpleForm, TextInput, Filter, SelectInput, List, Datagrid, TextField, EmailField, Toolbar, SaveButton,  BooleanField, NumberField, DeleteWithConfirmButton, RefreshButton, ExportButton, CreateButton, FilterButton, FilterButtonMenuItem} from 'react-admin';
 import { makeStyles, Chip } from '@material-ui/core';
 
 const validateEmail = email();
 
 export const UserList = props => (
-    <List filters={<UserFilter/>}  bulkActionButtons={false} {...props}>
+    <List filters={<UserFilter/>}  actions={<UserActionsButtons/>} bulkActionButtons={false} {...props}>
         <Datagrid rowClick="edit">
             <TextField source="name" label="First name" />
             <TextField source="lastname" label="Last name" />
@@ -19,6 +19,13 @@ export const UserList = props => (
             <EditButton />
         </Datagrid>
     </List>
+)
+
+const UserActionsButtons = props => (
+    <div>
+        <RefreshButton {...props}/>
+        <ExportButton {...props}/>
+    </div>
 )
 
 export const UserEdit = props => (
@@ -35,29 +42,34 @@ export const UserEdit = props => (
                 { id: 'Site Owner', name: 'Site Owner' },
             ]} />
             <TextInput multiline label="Address - Street" source="address.street" validate={required()}/>
-            <TextInput label="City" source="address.city"/>
             <TextInput multiline label="Address 2 (Apt., etc)" source="address.apt" validate={required()}/>
+            <TextInput label="City" source="address.city"/>
             <BooleanInput label="Active" source="active"/>
         </SimpleForm>
     </Edit>
 );
 
+// export const UserCreate = props => (
+//     <Create {...props} undoable={false}>
+//         <SimpleForm >
+//             <TextInput source="email" type="email" />
+//             <TextInput label="First name" source="name"/>
+//             <TextInput label="Last name" source="lastname" />
+//             <TextInput source="phone"/>
+//             <SelectInput source="roleId" choices={[
+//                 { id: 'Admin', name: 'Admin' },
+//                 { id: 'Customer', name: 'Customer' },
+//                 { id: 'Site Owner', name: 'Site Owner' },
+//             ]} />
+//             <TextInput multiline label="Address - Street" source="address.street" validate={required()}/>
+//             <TextInput multiline label="Address 2 (Apt., etc)" source="address.apt" validate={required()}/>
+//             <TextInput label="City" source="address.city"/>
+//             <BooleanInput label="Active" source="active" defaultValue={true}/>
+//         </SimpleForm>
+//     </Create>
+// );
 
-export const UserCreate = props => (
-    <Create {...props}>
-        <SimpleForm validate={validateUserCreation}>
-            <TextInput source="name" />
-            <SelectInput source="roleId" choices={[
-                { id: 'Admin', name: 'Admin' },
-                { id: 'Customer', name: 'Customer' },
-                { id: 'Site Owner', name: 'Site Owner' },
-            ]} />
-            <TextInput source="email" type="email" validate={validateEmail}/>
-            <TextInput label="Address" multiline source="address.street"/>
-            <BooleanInput label="Active" source="active" defaultValue={true}/>
-        </SimpleForm>
-    </Create>
-);
+
 
 const validateUserCreation = (values) => {
     const errors = {};
@@ -72,7 +84,6 @@ const validateUserCreation = (values) => {
     }
     return errors
 };
-
 
 //custom toolbar without an option to delete
 const CustomToolbar = props => (
@@ -91,7 +102,7 @@ const useStyles = makeStyles({
 //a filter to see only active users
 const UserFilter = (props) => (
     <Filter {...props} >
-        <TextInput label="Search name" source="name" alwaysOn />
+        <TextInput label="Search name" source="q" alwaysOn />
         <QuickFilter source="active" label="Active" defaultValue={true} />
     </Filter>
 )

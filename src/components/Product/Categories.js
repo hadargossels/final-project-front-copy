@@ -1,11 +1,8 @@
 import React from 'react'
 
 const Categories = (props) => {
-    let categories = ''
-    for (let platforms of props.platforms){
-        categories += platforms + " game"
-    }
-
+    let categories =  props.platforms + " game"
+    
     return (
         <div className="mb-3 text-center">
             <h5>Categories:</h5>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {Link, Redirect} from 'react-router-dom'
-import axios from 'axios'
 import {connect} from 'react-redux'
 import {applyDiscount, getDiscounts} from '../../actions'
 
@@ -12,7 +11,6 @@ class Checkout extends Component {
     constructor(props){
         super(props)
         this.state = {
-            allProducts:"",
             shipping:0,
             loggedIn: localStorage.getItem("login"),
             billingFields: [{id:"fname", value:"", valid:""}, {id:"lname", value:"", valid:""}, {id:"phone", value:"", valid:""}, {id:"email", value:"",valid:""}],
@@ -23,10 +21,6 @@ class Checkout extends Component {
         this.discountRef = React.createRef();
         this.validateBillingFields =  this.validateBillingFields.bind(this)
         this.validateShippingFields =  this.validateShippingFields.bind(this)
-    }
-
-    componentDidMount(){
-        axios.get("http://localhost:3000/objectsArr").then(response=> this.setState({allProducts:response.data}))
     }
 
     updateBillingFields(e, inputField){
@@ -150,14 +144,14 @@ class Checkout extends Component {
        
         return (
             <div className="py-5">
-                {this.state.loggedIn? "": <Redirect to="/login"/>}
+                {this.props.loggedIn? "": <Redirect to="/login"/>}
                 {this.state.allOk? <Redirect to="/payment"/> : ""}
                 {!this.productsArr? <EmptyCart/>:
                 
                 <div>
                     
                 <h1 className="text-center">Checkout</h1>
-                {!this.state.allProducts? <div>loading...</div>:
+                {!this.props.allProducts? <div>loading...</div>:
                     <div className="container">
                         <div className="row">
                             <div className="col-md-6">
@@ -238,7 +232,7 @@ class Checkout extends Component {
                                                 if (key === 0)
                                                     priceOfAll = 0
                                                 
-                                                for (let obj of this.state.allProducts){
+                                                for (let obj of this.props.allProducts){
                                                     if (obj.id === product.id){
                                                         let finalPrice = ( obj.discount || obj.price).toFixed(2)
                                                         let totalPrice = (finalPrice * product.count).toFixed(2)
@@ -313,7 +307,9 @@ class Checkout extends Component {
 }
 
 const mapStateToProps = state => ({
-    discount:state.discount.discount
+    discount:state.discount.discount,
+    allProducts: state.products.allProducts,
+    loggedIn: state.user.loggedIn
 })
 
 export default connect(mapStateToProps, {applyDiscount, getDiscounts})(Checkout)
