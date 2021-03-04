@@ -111,7 +111,7 @@ header nav{
     /* max-height: 300px !important;
     overflow-y: auto !important; */
 }
-#dropdownUserDiv{
+.dropdownUserDiv{
     position:static !important; 
     margin-top: 8px;
 }

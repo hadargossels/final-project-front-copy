@@ -3,6 +3,8 @@ import { Link, NavLink } from 'react-router-dom';
 import ProductDropDown from '../ProductDropDown/ProductDropDown';
 import './header.css';
 import {auth} from "../../fireBase.config"
+import { connect } from 'react-redux';
+import {saveUser,removeUser} from '../../actions/userAction'
 
 class Header extends Component{
    constructor(props){
@@ -41,7 +43,8 @@ class Header extends Component{
 }
    signOutBtnClicked=()=>{
       auth.signOut().then(() => {
-         localStorage.removeItem("user")//לשנות את הסטייט הגלןבלי של המשתמש***
+         this.props.removeUser();//call action to remove user from global state
+         // this.props.history.push("/")
        }).catch((error) => {
              alert(error," try again");
        });
@@ -80,8 +83,19 @@ class Header extends Component{
                            <a className="nav-link active" ><i className="fas fa-heart"></i></a>
                         </li>
                         <li className="nav-item">
+                           {this.props.user==null
+                              ?
                              <NavLink exact to="/login" className="nav-link active"><i className="fas fa-user"></i></NavLink>
-                           {/* <a className="nav-link active" ><i className="fas fa-user"></i></a> */}
+                             :
+                             <div class="dropdown dropdownUserDiv">
+                                 <div id="dropdownUserSmall" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i className="fas fa-user"></i>
+                                 </div>
+                                 <ul class="dropdown-menu dropdownContentUser" aria-labelledby="dropdownUserSmall">
+                                    <li><Link class="dropdown-item" exact to="/account/profile">My Account</Link></li>
+                                    <li><a class="dropdown-item" onClick={this.signOutBtnClicked}>Sign Out</a></li>
+                                 </ul>
+                              </div>}
                         </li> 
                      </ul>
                   </div>
@@ -129,12 +143,11 @@ class Header extends Component{
                            <a className="nav-link active" ><i className="fas fa-heart heartIcon"></i></a>
                         </li>
                         <li className="nav-item">
-                           {/*  מהסטייט הגלובלי לשאול אם יש משתמש או אין*** */}
-                           {localStorage.getItem("user")==null
+                           {this.props.user==null
                               ?
                              <NavLink exact to="/login" className="nav-link active"><i className="fas fa-user"></i></NavLink>
                              :
-                             <div id="dropdownUserDiv" class="dropdown">
+                             <div class="dropdown dropdownUserDiv">
                                  <div id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="fas fa-user"></i>
                                  </div>
@@ -143,7 +156,6 @@ class Header extends Component{
                                     <li><a class="dropdown-item" onClick={this.signOutBtnClicked}>Sign Out</a></li>
                                  </ul>
                               </div>}
-                            
                         </li> 
                      </ul>
                   </div> 
@@ -154,8 +166,12 @@ class Header extends Component{
       );
    }
 }
-export default Header;
 
+const mapStateToProps = store => ({
+   user: store.userReducer.user
+});
+
+export default connect(mapStateToProps,{saveUser,removeUser})(Header);
 
 
 

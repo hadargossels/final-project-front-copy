@@ -7,6 +7,7 @@ import propTypes from 'prop-types'
 import querystring from 'query-string'
 
 import axios  from 'axios'
+import {db} from '../../fireBase.config'
 // import {arrayAllProduct} from '../../dataBase'
 
 
@@ -33,21 +34,41 @@ class StorePage extends Component{
     }
 
     componentDidMount(){
-      axios.get('http://localhost:3000/arrayAllProduct')
-          .then((response)=> {
-            this.setState({arrayAllProduct:response.data},()=>{
-               if(this.state.arrProduct==undefined)
-                  this.setState({arrProduct:response.data});//defaultProps-if we dont get props.arrproduct then the array is all product
-               if(this.props.location){//if we have location prop we need show the search array in store
-                  let valSearch=querystring.parse(this.props.location.search).q;
-                  let arraySearch=this.searchFromAllProduct(valSearch);
-                  this.setState({arrProduct:arraySearch,categoryHeader:`Search '${valSearch}'`});
-                }
-            })
-          })
-          .catch((error)=> {
-            console.log(error);
-          })
+      // axios.get('http://localhost:3000/arrayAllProduct')
+      //     .then((response)=> {
+      //       this.setState({arrayAllProduct:response.data},()=>{
+      //          if(this.state.arrProduct==undefined)
+      //             this.setState({arrProduct:response.data});//defaultProps-if we dont get props.arrproduct then the array is all product
+      //          if(this.props.location){//if we have location prop we need show the search array in store
+      //             let valSearch=querystring.parse(this.props.location.search).q;
+      //             let arraySearch=this.searchFromAllProduct(valSearch);
+      //             this.setState({arrProduct:arraySearch,categoryHeader:`Search '${valSearch}'`});
+      //           }
+      //       })
+      //     })
+      //     .catch((error)=> {
+      //       console.log(error);
+      //     })
+         var arrProductRef = db.ref(`Products`);
+         arrProductRef.on('value', (snapshot) => {
+            let data = snapshot.val();
+         if(!Array.isArray(data)){
+         let arr=[];
+         for (const property in data) {
+            arr.push(data[property])
+         }
+         data=arr;
+         }
+         this.setState({arrayAllProduct:data},()=>{
+            if(this.state.arrProduct==undefined)
+               this.setState({arrProduct:data});//defaultProps-if we dont get props.arrproduct then the array is all product
+            if(this.props.location){//if we have location prop we need show the search array in store, we get  location props just in search otherwise we dont send the route props 
+               let valSearch=querystring.parse(this.props.location.search).q;
+               let arraySearch=this.searchFromAllProduct(valSearch);
+               this.setState({arrProduct:arraySearch,categoryHeader:`Search '${valSearch}'`});
+            }
+         })
+      });
     }
 
       searchFromAllProduct(valSearch){

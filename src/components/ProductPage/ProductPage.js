@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './productPage.css';
 // import {arrayAllProduct} from '../../dataBase.js'
 import axios  from 'axios'
+import {db} from '../../fireBase.config'
 
 class ProductPage extends Component{
    
@@ -23,13 +24,28 @@ class ProductPage extends Component{
 
    }
    componentDidMount(){
-      axios.get('http://localhost:3000/arrayAllProduct')
-          .then((response)=> {
-            this.setState({theProduct:response.data.find((v)=>v.headerProduct.replace(" ","-")==this.props.match.params.productName)})
-          })
-          .catch((error)=> {
-            console.log(error);
-          })
+      //json server
+      // axios.get('http://localhost:3000/arrayAllProduct')
+      //     .then((response)=> {
+      //       this.setState({theProduct:response.data.find((v)=>v.headerProduct.replace(" ","-")==this.props.match.params.productName)})
+      //     })
+      //     .catch((error)=> {
+      //       console.log(error);
+      //     })
+
+      //firebase
+      var arrProductRef = db.ref(`Products`);
+      arrProductRef.on('value', (snapshot) => {
+         let data = snapshot.val();
+      if(!Array.isArray(data)){
+        let arr=[];
+        for (const property in data) {
+          arr.push(data[property])
+        }
+        data=arr;
+      }
+      this.setState({theProduct:data.find((v)=>v.headerProduct.replace(" ","-")==this.props.match.params.productName)})
+    });
     }
     
    changeUrlDisplay(srcD){
@@ -75,7 +91,7 @@ class ProductPage extends Component{
 
    render(){
       if(this.state.theProduct==null){
-         return (<div>lodding</div>)
+         return (<div>loading</div>)
       }
       return(
          <div className="ProductDiv">

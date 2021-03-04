@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import Product from '../Product/Product'
 import './home.css'
 import axios  from 'axios'
+import {db} from "../../fireBase.config"
 // import {arrayAllProduct} from '../../dataBase'
 
 // let bestSellersArr=bestSellersArray();
@@ -21,14 +22,28 @@ export default class Home extends Component {
   }
 
   componentDidMount(){
-    axios.get('http://localhost:3000/arrayAllProduct')
-        .then((response)=> {
-          // console.log(response.data);
-          this.setState({arrayAllProduct:response.data},()=>{this.bestSellersArray();this.salesArray()})
-        })
-        .catch((error)=> {
-          console.log(error);
-        })
+    // axios.get('http://localhost:3000/arrayAllProduct')
+    //     .then((response)=> {
+    //       // console.log(response.data);
+    //       this.setState({arrayAllProduct:response.data},()=>{this.bestSellersArray();this.salesArray()})
+    //     })
+    //     .catch((error)=> {
+    //       console.log(error);
+    //     })
+    var arrProductRef = db.ref(`Products`);
+    arrProductRef.on('value', (snapshot) => {
+      let data = snapshot.val();
+    if(!Array.isArray(data)){
+      let arr=[];
+      for (const property in data) {
+        arr.push(data[property])
+      }
+      data=arr;
+    }
+    console.log("data",data);
+    this.setState({arrayAllProduct:data},()=>{this.bestSellersArray();this.salesArray()});
+  });
+
   }
   bestSellersArray(){
 

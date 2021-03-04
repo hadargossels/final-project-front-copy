@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import ProductDropDown from '../ProductDropDown/ProductDropDown'
 import './paymentPage.css'
-// import { PayPalButton } from "react-paypal-button-v2";
 import PayPalBtn from '../PayPalBtn/PayPalBtn';
+import { connect } from 'react-redux';
+import {db} from '../../fireBase.config'
 
-export default class PaymentPage extends Component {
+ class PaymentPage extends Component {
     constructor(props){
         super(props);
         this.state={
@@ -13,7 +14,18 @@ export default class PaymentPage extends Component {
             couponsArr:["10Percent","20Less"],
             couponLabelFailed:"notDisplay",
             couponLabelAdd:"notDisplay",
-            paypalBtn:false
+            paypalBtn:false,
+            userDetails:{
+                firstName:"",
+                lastName:"",
+                email:"",
+                phone:"",
+                city:"",
+                street:"",
+                building:"",
+                apartment:"",
+                post:""
+            }
         }
         //refs
         this.CouponInput=React.createRef();
@@ -54,6 +66,27 @@ export default class PaymentPage extends Component {
         this.state.total=this.calacTotal();
         
     }
+    componentDidMount(){
+        if(this.props.user){
+            var userDetails = db.ref(`users/${this.props.user.uid}`);
+            userDetails.on('value', (snapshot) => {
+            const data = snapshot.val();
+            this.setState({userDetails:{
+                firstName:data.firstName,
+                lastName:data.lastName,
+                email:data.email,
+                phone:data.phone,
+                city:data.city,
+                street:data.street,
+                building:data.building,
+                apartment:data.apartment,
+                post:data.post
+                }
+            })
+          });
+        }
+    }
+
     calacTotal(){
         let sumTotal=(Number(this.calcSubtotal())+this.calcShipping());
         if(this.state.discount.includes("%")){
@@ -145,17 +178,17 @@ export default class PaymentPage extends Component {
      
         if(flag)
         {
-            // let card=(this.paypalRef.current.checked)?"paypal":"credit_Card";
-            // this.props.history.push(`/checkout/payment/${card}`)
+            //save all user details in the firebase
+            if(this.props.user){
+                db.ref(`users/${this.props.user.uid}`).update(this.state.userDetails);
+            }
             this.setState({paypalBtn:true});//to show the pay buttons
-
         }
         else
             window.scrollTo(0, 0);
 
     }
     onSuccessPaypal(details, data){
-        console.log(details, data);
         let objOrder={
             orderId:data.orderID,
             firstName:this.nameInputRef.current.value,
@@ -175,7 +208,7 @@ export default class PaymentPage extends Component {
         localStorage.setItem("objOrder",JSON.stringify(objOrder) );//save object of order
         localStorage.setItem("cartArray","[]")//delete shopping cart
         this.props.localStorageChange();
-        //לשמור בבסיס נתונים את ההזמנה
+        //לשמור בבסיס נתונים את ההזמנה***
         this.props.history.push("/checkout/payment/order_number");
     }
     
@@ -188,47 +221,47 @@ export default class PaymentPage extends Component {
                     <form className="row justify-content-center">
                         <div className="payDiv col-6">
                             <label className="labels">*First name</label>
-                            <input ref={this.nameInputRef} className="inputPay" type="text" id="namePay" required/><br/>
+                            <input ref={this.nameInputRef} className="inputPay" type="text" id="namePay" value={this.state.userDetails.firstName} onChange={(e)=>this.setState({userDetails:{...this.state.userDetails,firstName:e.target.value}})}/><br/>
                             <div className="hideLabelPay" ref={this.nameLabelRef}><label className="redLabel" for="namePay">*Name is missing</label></div>
                         </div>
                         <div className="payDiv col-6"> 
                             <label className="labels">*Last name</label>
-                            <input ref={this.lastNameInputRef} className="inputPay" type="text" id="lastNamePay"  /><br/>
+                            <input ref={this.lastNameInputRef} className="inputPay" type="text" id="lastNamePay" value={this.state.userDetails.lastName} onChange={(e)=>this.setState({userDetails:{...this.state.userDetails,lastName:e.target.value}})} /><br/>
                             <div ref={this.lastNameLabelRef} className="hideLabelPay"><label className="redLabel"  for="lastNamePay">*Last name is missing</label></div>
                         </div>
                         <div className="payDiv col-6">
                         <label className="labels">*Email Address</label>
-                            <input ref={this.emailInputRef} className="inputPay" type="email" id="emailPay" /><br/>
+                            <input ref={this.emailInputRef} className="inputPay" type="email" id="emailPay" value={this.state.userDetails.email} onChange={(e)=>this.setState({userDetails:{...this.state.userDetails,email:e.target.value}})}/><br/>
                             <div ref={this.emailLabelRef} className="hideLabelPay"><label className="redLabel"  for="emailPay">*Your email must be a valid email</label></div>
                         </div>
                         <div className="payDiv col-6">
                             <label className="labels">*Phone number</label>
-                            <input ref={this.phoneInputRef} className="inputPay" type="tel" id="phone" /><br/>
+                            <input ref={this.phoneInputRef} className="inputPay" type="tel" id="phone" value={this.state.userDetails.phone} onChange={(e)=>this.setState({userDetails:{...this.state.userDetails,phone:e.target.value}})}/><br/>
                             <div ref={this.phoneLabelRef} className="hideLabelPay"><label className="redLabel"  for="phone">*The phone number is incorrect</label></div>
                         </div>
                         <div className="payDiv col-6">
                             <label className="labels">*City</label>
-                            <input ref={this.cityInputRef} className="inputPay" type="text" id="city" /><br/>
+                            <input ref={this.cityInputRef} className="inputPay" type="text" id="city" value={this.state.userDetails.city} onChange={(e)=>this.setState({userDetails:{...this.state.userDetails,city:e.target.value}})}/><br/>
                             <div ref={this.cityLabelRef} className="hideLabelPay"><label className="redLabel" for="city">*City is missing</label></div>
                         </div>
                         <div className="payDiv col-6">
                             <label className="labels">*Street</label>
-                            <input ref={this.streetInputRef} className="inputPay" type="text" id="street" /><br/>
+                            <input ref={this.streetInputRef} className="inputPay" type="text" id="street" value={this.state.userDetails.street} onChange={(e)=>this.setState({userDetails:{...this.state.userDetails,street:e.target.value}})}/><br/>
                             <div ref={this.streetLabelRef} className="hideLabelPay"><label className="redLabel" for="street">*Street is missing</label></div>
                         </div>
                         <div className="payDiv col-4">
                             <label className="labels">*Building</label>
-                            <input ref={this.buildingInputRef} className="inputPay" type="text" id="building"/><br/>
+                            <input ref={this.buildingInputRef} className="inputPay" type="text" id="building" value={this.state.userDetails.building} onChange={(e)=>this.setState({userDetails:{...this.state.userDetails,building:e.target.value}})}/><br/>
                             <div ref={this.buildingLabelRef} className="hideLabelPay"><label className="redLabel" for="building">*Building is missing</label></div>
                         </div>
                         <div className="payDiv col-4">
                             <label className="labels">*Apartment</label>
-                            <input ref={this.apartmentInputRef} className="inputPay" type="text" id="apartment" /><br/>
+                            <input ref={this.apartmentInputRef} className="inputPay" type="text" id="apartment" value={this.state.userDetails.apartment} onChange={(e)=>this.setState({userDetails:{...this.state.userDetails,apartment:e.target.value}})}/><br/>
                             <div ref={this.apartmentLabelRef} className="hideLabelPay"><label className="redLabel" for="apartment">*Apartment is missing</label></div>
                         </div>
                         <div className="payDiv col-4">
                             <label className="labels">*Post/Zip Code</label>
-                            <input ref={this.postInputRef} className="inputPay" type="text" id="post" maxlength="7" /><br/>
+                            <input ref={this.postInputRef} className="inputPay" type="text" id="post" maxlength="7" value={this.state.userDetails.post} onChange={(e)=>this.setState({userDetails:{...this.state.userDetails,post:e.target.value}})}/><br/>
                             <div ref={this.postLabelRef} className="hideLabelPay"><label className="redLabel" for="post">*ZIP/Postal Code should be a 7-digit number, e.g. 1234567</label></div>
                         </div>
                         <div className="payDiv col-12">
@@ -295,6 +328,11 @@ export default class PaymentPage extends Component {
         )
     }
 }
+const mapStateToProps = store => ({
+    user: store.userReducer.user
+ });
+ 
+ export default connect(mapStateToProps)(PaymentPage);
 
 function emailValidation(email)
 {

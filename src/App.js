@@ -28,16 +28,21 @@ import CheckoutPage from './components/CheckoutPage/CheckoutPage';
 import PaymentPage from './components/PaymentPage/PaymentPage';
 import OrderNumber from './components/OrderNumber/OrderNumber';
 import ProfileUser from './pages/ProfileUser/ProfileUser';
+import { connect } from 'react-redux';
+import {saveUser,removeUser} from './actions/userAction'
+import {auth,db} from "./fireBase.config"
+import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes';
+import AdminPage from './admin/AdminPage/AdminPage';
 
 
-
-export default class App extends Component {
+ class App extends Component {
   constructor(props){
     super(props);
     this.state={
       localStorageArray:JSON.parse(localStorage.getItem("cartArray")),
       toggleDisplayDropdown:"DisplayNoneDropdown",
-      arrayAllProduct:[]
+      arrayAllProduct:[],
+      didGlobalUserUpdate:false
     }
     this.localStorageChange=this.localStorageChange.bind(this);
     this.bestSellersStore=this.bestSellersStore.bind(this);
@@ -45,6 +50,28 @@ export default class App extends Component {
     this.salesStore=this.salesStore.bind(this);
     
     this.state.localStorageArray=JSON.parse(localStorage.getItem("cartArray"))==null?[]:JSON.parse(localStorage.getItem("cartArray"));
+    // auth.onAuthStateChanged((user) => {
+    //   if (user) {
+    //     var uid = user.uid;
+    //     this.props.saveUser(user)
+    //   } 
+    //   else {
+    //     this.props.saveUser(null)
+    //   }
+    // });
+
+    // useLayoutEffect(() => {
+    // auth.onAuthStateChanged((user) => {
+    //   if (user) {
+    //     var uid = user.uid;
+    //     this.props.saveUser(user)
+    //   } 
+    //   else {
+    //     this.props.saveUser(null)
+    //   }
+    // });
+    // }, []);
+  
   }
 
   localStorageChange(boolDropdown){
@@ -57,14 +84,38 @@ export default class App extends Component {
   }
 
   componentDidMount(){
-    axios.get('http://localhost:3000/arrayAllProduct')
-        .then((response)=> {
-          // console.log(response.data);
-          this.setState({arrayAllProduct:response.data})
-        })
-        .catch((error)=> {
-          console.log(error);
-        })
+    // axios.get('http://localhost:3000/arrayAllProduct')
+    //     .then((response)=> {
+    //       // console.log(response.data);
+    //       this.setState({arrayAllProduct:response.data})
+    //     })
+    //     .catch((error)=> {
+    //       console.log(error);
+    //     })
+
+      var arrProductRef = db.ref(`Products`);
+      arrProductRef.on('value', (snapshot) => {
+      let data = snapshot.val();
+      if(!Array.isArray(data)){
+        let arr=[];
+        for (const property in data) {
+          arr.push(data[property])
+        }
+        data=arr;
+      }
+      this.setState({arrayAllProduct:data});
+    });
+
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          var uid = user.uid;
+          this.props.saveUser(user)
+     
+        } else {
+          this.props.saveUser(null)
+        }
+        this.setState({didGlobalUserUpdate:true})
+      });
   }
   
   bestSellersStore(){
@@ -94,9 +145,11 @@ export default class App extends Component {
     return <StorePage arrProduct={salesArr} categoryHeader={"Sales"} localStorageChange={this.localStorageChange}/>
 
   }
+ 
 
   
   render() {
+    if(this.state.didGlobalUserUpdate)
     return (
       <Router>
         <div>
@@ -116,8 +169,7 @@ export default class App extends Component {
                         <Route  exact path="/store/category_lips" component={()=>this.categoryStore("Lips")}/>
                         <Route  exact path="/store/category_eyes" component={()=>this.categoryStore("Eyes")}/>
                         <Route  exact path="/store/sales" component={this.salesStore}/>
-                        {/* <Route exact path="/shop" component={()=><StorePage/> }/>   for search */}
-                        <Route exact path="/shop" render={(props) => <StorePage localStorageChange={this.localStorageChange} {...props} />}/> 
+                        <Route exact path="/shop" render={(props) => <StorePage localStorageChange={this.localStorageChange} {...props} />}/> {/*for serch */}
                         <Route exact path="/login" component={Login}/>
                         <Route  path="/login/signup" component={SignUp}/>
                         <Route  path="/cart" component={()=><ShoppingCart localStorageChange={this.localStorageChange}/>}/>
@@ -125,8 +177,13 @@ export default class App extends Component {
                         <Route exact  path="/checkout" component={CheckoutPage}/>
                         <Route exact  path="/checkout/payment"  render={(props) => <PaymentPage localStorageArr={this.state.localStorageArray} localStorageChange={this.localStorageChange} {...props}/>}/>
                         <Route exact  path="/checkout/payment/order_number" component={OrderNumber}/>
-                        {/* <ProtectedRoutes exact  path="/account/profile" component={ProfileUser}/> */}
-                        <Route exact  path="/account/profile" component={ProfileUser}/> 
+                        {(this.state.didGlobalUserUpdate)
+                          ?
+                        <ProtectedRoutes exact  path="/account/profile" component={ProfileUser}/>
+                          :<Route exact  path="/account/profile" component={()=>null}/> 
+                        }
+
+                        <Route exact  path="/admin" component={AdminPage}/>
                         <Route component={NotFound}/>
                     </Switch>
                 </div>
@@ -136,22 +193,18 @@ export default class App extends Component {
         <ScrollToTop />
     </Router>
     )
+    //loading***
+    else return null
+  
   }
 }
+const mapStateToProps = store => ({
+  user: store.userReducer.user
+});
+
+export default connect(mapStateToProps,{saveUser,removeUser})(App);
 
 
 
 
-  {/* <div class="modal fade " id="idShoppingCart" tabIndex="-1" aria-labelledby="shoppingCartLabel" aria-hidden="true">
-               <div class="modal-dialog shoppingCartModal" >
-                  <div class="modal-content contentCart">
-                     <div class="modal-header">
-                     <h5 class="modal-title" id="shoppingCartLabel">My shopping cart</h5>
-                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                     </div>
-                     <div class="modal-body">
-                        <ShoppingCart/>
-                     </div>
-                  </div>
-               </div>
-            </div>  */}
+  

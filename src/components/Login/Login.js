@@ -4,8 +4,10 @@ import './login.css'
 import {auth} from "../../fireBase.config"
 import firebase from "firebase/app"
 import "firebase/auth"
+import { connect } from 'react-redux';
+import {saveUser} from '../../actions/userAction'
 
-export default class Login extends Component {
+ class Login extends Component {
     constructor(props){
         super(props);
         this.state={
@@ -25,7 +27,7 @@ export default class Login extends Component {
         .then((userCredential) => {
           var user = userCredential.user;
           this.setState({displayLabel:false})
-          this.localAndHistory(user);
+          this.saveAndHistory(user);
         
         })
         .catch((error) => {
@@ -40,7 +42,7 @@ export default class Login extends Component {
         auth.signInWithPopup(provider)
              .then((result) => {
                  var user = result.user;
-                 this.localAndHistory(user);
+                 this.saveAndHistory(user);
  
              }).catch((error) => {
                  var errorMessage = error.message;
@@ -52,7 +54,7 @@ export default class Login extends Component {
        auth.signInWithPopup(provider)
         .then((result) => {
             var user = result.user;
-            this.localAndHistory(user);
+            this.saveAndHistory(user);
 
         })
         .catch((error) => {
@@ -60,13 +62,14 @@ export default class Login extends Component {
             alert(errorMessage);
         });
      }
-     localAndHistory=(user)=>{
-        localStorage.setItem("user",user.email)
+     saveAndHistory=(user)=>{
+        // localStorage.setItem("user",user.email)
+        this.props.saveUser(user);//call action to save in user global state
+
           //בדיקה האם המשתמש הזה הוא מנהל ונעביר אותו ל ***
           // this.props.history.push("/manager");
           // אחרת נעבור לעמוד הבית
           this.props.history.push("/")
-          //לשנות בnavbar
      }
     render() {
         return (
@@ -94,3 +97,9 @@ export default class Login extends Component {
         )
     }
 }
+const mapStateToProps = store => ({
+    user: store.userReducer.user
+});
+
+
+export default connect(mapStateToProps,{saveUser})(Login);

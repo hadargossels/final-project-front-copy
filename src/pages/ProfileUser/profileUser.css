@@ -56,11 +56,17 @@
 .profileDiv h3{
     text-align: center;
 }
-.profileDiv hr{
-    /* width: 80%; */
-}
+
 .saveBtn{
     background-color: salmon;
     height: 40px;
    margin-top: 20px;
+}
+
+.greenP{
+    color: green;
+    font-size: 23px;
+    width: 80%;
+    margin: 0 auto;
+    font-weight: bold;
 }
