@@ -34,15 +34,15 @@ export const ProductsList = props => (
             <TextField source="id" />
             <TextField source="headerProduct" />
             <TextField source="brandProduct" />
-            <TextField source="categoryProduct" />
+            {/* <TextField source="categoryProduct" /> */}
             <TextField source="priceProduct" />
             <TextField source="discountProduct" />
             <TextField source="stockProduct" />
-            <NumberField source="buyNum" />
-            <TextField source="macatProduct" />
+            {/* <NumberField source="buyNum" /> */}
+            {/* <TextField source="macatProduct" /> */}
             <ImageField source="imgSrc[0]"  title=""/>
-            <ImageField source="imgSrc[1]"  title=""/>
-            <ImageField source="imgSrc[3]"  title=""/>
+            {/* <ImageField source="imgSrc[1]"  title=""/> */}
+            {/* <ImageField source="imgSrc[3]"  title=""/> */}
             <EditButton/>
             <DeleteWithConfirmButton/>
         </Datagrid>
@@ -51,7 +51,7 @@ export const ProductsList = props => (
 
 
 export const ProductsEdit = props => (
-    <Edit {...props}>
+    <Edit {...props} undoable={false}>
         <SimpleForm>
             <TextInput disabled source="id" />
             <TextInput source="headerProduct" />
