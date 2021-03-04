@@ -5,11 +5,26 @@ import { connect } from 'react-redux';
 
 class CartPaymentGuestReview extends Component {
 
-  constructor(){
+  constructor(props) {
 
-    super();
+    super(props);
 
-    this.state = {callRef: React.createRef(), paypal: ""};
+    this.state = {callRef: React.createRef(), paypal: "", products: {}};
+
+    const temp = {};
+    
+    for (const [key, value] of Object.entries(this.props.location.params.productsInCart)) {
+        
+      for (let prod of this.props.products) {
+
+          if (key === prod.id) {
+
+              temp[prod.id] = prod;
+          }
+      }
+    }
+
+    this.state.products = temp;
   };
 
   componentDidMount() {
@@ -41,11 +56,11 @@ class CartPaymentGuestReview extends Component {
                 {Object.keys(this.props.location.params.productsInCart).map((id, count) => 
                             <tr style={{fontSize: "20px"}} key={count}>
                                 <th scope="row" style={{verticalAlign: "middle"}}>{++count}</th>
-                                <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+this.props.products[id].name}><img src={this.props.products[id].img[0]} alt={JSON.stringify(this.props.products[id].name)} width="50px"/></Link></td>
-                                <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+this.props.products[id].name}>{this.props.products[id].title}</Link></td>
-                                <td style={{verticalAlign: "middle"}}>&emsp;₪{this.props.products[id].discount ? (this.props.products[id].price * (1-this.props.products[id].discountPercentage)).toFixed(2) : (this.props.products[id].price).toFixed(2)}</td>
+                                <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+this.state.products[id].name}><img src={this.state.products[id].img[0]} alt={JSON.stringify(this.state.products[id].name)} width="50px"/></Link></td>
+                                <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+this.state.products[id].name}>{this.state.products[id].title}</Link></td>
+                                <td style={{verticalAlign: "middle"}}>&emsp;₪{this.state.products[id].discount ? (this.state.products[id].price * (1-this.state.products[id].discountPercentage)).toFixed(2) : (this.state.products[id].price).toFixed(2)}</td>
                                 <td style={{verticalAlign: "middle"}}>&emsp;x{this.props.location.params.productsInCart[id]}</td>
-                                <td style={{verticalAlign: "middle"}}>&emsp;₪{this.props.products[id].discount ? (this.props.products[id].price * (1-this.props.products[id].discountPercentage) * this.props.location.params.productsInCart[id]).toFixed(2) : (this.props.products[id].price * this.props.location.params.productsInCart[id]).toFixed(2)}</td>
+                                <td style={{verticalAlign: "middle"}}>&emsp;₪{this.state.products[id].discount ? (this.state.products[id].price * (1-this.state.products[id].discountPercentage) * this.props.location.params.productsInCart[id]).toFixed(2) : (this.state.products[id].price * this.props.location.params.productsInCart[id]).toFixed(2)}</td>
                             </tr>
                             )
                   }

@@ -32,7 +32,8 @@ import CartPaymentGuestReview from'./components/CartPaymentGuestReview/CartPayme
 import Confirmation from './components/Confirmation/Confirmation';
 
 import { connect } from 'react-redux';
-import { GetRequest } from "../src/js/ApiServices";
+import { GetRequest } from '../src/js/ApiServices';
+import { db } from '../src//js//firebase'
 import { fetchData, closeProductAlert } from '../src/actions/actions';
 
 class App extends Component {
@@ -40,9 +41,26 @@ class App extends Component {
   async componentDidMount() {
 
     let data;
-    await GetRequest('http://localhost:3001/','db').then(res => { data = res.data });
     
-    this.props.fetchData(data);
+    // await GetRequest('http://localhost:3001/','db').then(res => { data = res.data });
+
+    await db.on("value", async (snapshot) => {
+
+      data = await (snapshot.val());
+      
+      for (const [key, value] of Object.entries(data)) {
+        
+        data[key] = Object.keys(data[key]).map((iKey) => data[key][iKey])
+      }
+      
+      console.log(data)
+      this.props.fetchData(data);
+
+    }, function (errorObject) {
+      console.log("The read failed: " + errorObject.code);
+    });
+    
+    // this.props.fetchData(data);
   }
 
   render() {

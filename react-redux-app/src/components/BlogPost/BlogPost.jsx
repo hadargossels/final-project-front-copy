@@ -19,6 +19,9 @@ function BlogPost({ posts }) {
             updated = "(Updated)";
     }
 
+    if (!post.comments)
+        post.comments = []
+
     if (post) {
         return (
             <main role="main" className="lead" style={{width: "95%", margin: "0 auto"}}>

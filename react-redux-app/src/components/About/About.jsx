@@ -16,7 +16,7 @@ export default function About() {
                    <br/>
                    <li>It's a computer e-commerce shop - hardware, laptops, peripheral, softwares</li>
                    <br/>
-                   <li>This web application was built in React and Node.js and designed with Bootstrap</li>
+                   <li>This web application was built in React and Node.js, and designed with Bootstrap and Material-UI</li>
                </ul>
            </div>
 

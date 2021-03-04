@@ -2,7 +2,7 @@
 
 import React from 'react';
 import './SignInUp.css';
-import { auth } from '../../js/firebase';
+import { auth, db } from '../../js/firebase';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -21,12 +21,42 @@ export default function SignInUp(props) {
 
         auth().createUserWithEmailAndPassword(form[0].value, form[1].value)
 
-            .then((userCredential) => {
+            .then(async (userCredential) => {
                 // Signed in 
                 let user = userCredential.user;
                 //this.setState({redirect: true})
+
+                let data;
+
+                await db.on("value", async (snapshot) => {
+
+                    data = await (snapshot.val().users);
+
+                    if (!data)
+                        data = {};
+
+                  }, function (errorObject) {
+                    console.log("The read failed: " + errorObject.code);
+                });
+
+                return [data, user]
+            })
+            .then((arr) => {
+                
+                db.child("users").child(arr[1].uid).set({
+
+                    "id": arr[1].uid,
+                    "num": Object.keys(arr[0]).length + 1,
+                    "active": true,
+                    "address": "",
+                    "email": form[0].value,
+                    "fname": "",
+                    "lname": "",
+                    "mobile": "",
+                    "type": "Customer"
+                });
+
                 moveTo();
-                // ...
             })
 
             .catch((error) => {

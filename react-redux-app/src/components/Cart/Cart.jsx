@@ -13,7 +13,7 @@ class Cart extends Component {
 
         super(props);
 
-        this.state = {total: 0.00, shipping: 0.00, taxes: 0.00, coupon: 1.00, couponsArr: [], validCoupons: [], inValidCoupons: "", internalLoading: false};
+        this.state = {total: 0.00, shipping: 0.00, taxes: 0.00, coupon: 1.00, couponsArr: [], validCoupons: [], inValidCoupons: "", internalLoading: false, products: {}};
 
         this.callRefInp = React.createRef();
         this.callRefBtn = React.createRef();
@@ -22,10 +22,23 @@ class Cart extends Component {
         this.setInternalLoading = this.setInternalLoading.bind(this);
         this.updateTotal = this.updateTotal.bind(this);
 
+        const temp = {};
+
         if (this.props.productsInCart && Object.keys(this.props.productsInCart).length > 0) {
 
-            Object.keys(this.props.productsInCart).map(id => this.state.total += this.props.products[id].discount ? (this.props.products[id].price * (1-this.props.products[id].discountPercentage) * this.props.productsInCart[id]) : (this.props.products[id].price * this.props.productsInCart[id]));
+            for (const [key, value] of Object.entries(this.props.productsInCart)) {
+        
+                for (let prod of this.props.products) {
+
+                    if (key === prod.id) {
+
+                        temp[prod.id] = prod;
+                        this.state.total += prod.discount ? (prod.price * (1-prod.discountPercentage) * value) : (prod.price * value);
+                    }
+                }
+            }
             
+            this.state.products = temp;
             this.state.total = veryPrettyFloat(this.state.total);
         }
     }
@@ -81,7 +94,7 @@ class Cart extends Component {
 
             let total = 0.00;
 
-            Object.keys(this.props.productsInCart).map(id => total += this.props.products[id].discount ? (this.props.products[id].price * (1-this.props.products[id].discountPercentage) * this.props.productsInCart[id]) : (this.props.products[id].price * this.props.productsInCart[id]));
+            Object.keys(this.props.productsInCart).map(id => total += this.state.products[id].discount ? (this.state.products[id].price * (1-this.state.products[id].discountPercentage) * this.props.productsInCart[id]) : (this.state.products[id].price * this.props.productsInCart[id]));
             
             this.setState({ total: veryPrettyFloat(total)});
         }
@@ -98,11 +111,11 @@ class Cart extends Component {
                         {this.props.productsInCart && Object.keys(this.props.productsInCart).length > 0 ? Object.keys(this.props.productsInCart).map((id, count) => 
                                 <tr style={{fontSize: "20px"}} key={count}>
                                     <th scope="row" style={{verticalAlign: "middle"}}>{++count}</th>
-                                    <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+this.props.products[id].name}><img src={this.props.products[id].img[0]} alt={JSON.stringify(this.props.products[id].name)} width="60px"/></Link></td>
-                                    <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+this.props.products[id].name}>{this.props.products[id].title}</Link></td>
-                                    <td style={{verticalAlign: "middle"}}>₪{this.props.products[id].discount ? (this.props.products[id].price * (1-this.props.products[id].discountPercentage)).toFixed(2) : (this.props.products[id].price).toFixed(2)}</td>
+                                    <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+this.state.products[id].name}><img src={this.state.products[id].img[0]} alt={JSON.stringify(this.state.products[id].name)} width="60px"/></Link></td>
+                                    <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+this.state.products[id].name}>{this.state.products[id].title}</Link></td>
+                                    <td style={{verticalAlign: "middle"}}>₪{this.state.products[id].discount ? (this.state.products[id].price * (1-this.state.products[id].discountPercentage)).toFixed(2) : (this.state.products[id].price).toFixed(2)}</td>
                                     <td style={{verticalAlign: "middle"}}>x&emsp;<input type="number" min="1" max="4" defaultValue={this.props.productsInCart[id]} style={{width: "60px", textAlign: "center"}} id={"quantity"+id}/></td>
-                                    <td style={{verticalAlign: "middle"}}>₪{this.props.products[id].discount ? (this.props.products[id].price * (1-this.props.products[id].discountPercentage) * this.props.productsInCart[id]).toFixed(2) : (this.props.products[id].price * this.props.productsInCart[id]).toFixed(2)}</td>
+                                    <td style={{verticalAlign: "middle"}}>₪{this.state.products[id].discount ? (this.state.products[id].price * (1-this.state.products[id].discountPercentage) * this.props.productsInCart[id]).toFixed(2) : (this.state.products[id].price * this.props.productsInCart[id]).toFixed(2)}</td>
                                     <td style={{verticalAlign: "middle"}}> <Button variant="outline-warning" onClick={async () => { await this.props.setLoading(); await this.props.addProductCart(id, document.querySelector("#quantity"+id).value); this.updateTotal(); this.setInternalLoading(); this.setInternalLoading(); }}>Update</Button></td>
                                     <td style={{verticalAlign: "middle"}}> <Button variant="outline-danger" onClick={async () => { await this.props.setLoading(); await this.props.delProductCart(id); this.updateTotal(); this.setInternalLoading(); this.setInternalLoading(); }}>Remove</Button></td>
                                 </tr>

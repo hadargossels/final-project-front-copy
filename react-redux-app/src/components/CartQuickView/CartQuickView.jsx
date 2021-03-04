@@ -11,6 +11,7 @@ import { addProductCart, delProductCart, setLoading } from '../../actions/action
 import Spinner from '../Spinner/Spinner';
 
 let total;
+let products = {};
 
 function CartQuickView(props) {
 
@@ -24,7 +25,17 @@ function CartQuickView(props) {
 
     if (props.productsInCart && Object.keys(props.productsInCart).length > 0) {
 
-        Object.keys(props.productsInCart).map(id => total+= props.products[id].discount ? (props.products[id].price * (1-props.products[id].discountPercentage) * props.productsInCart[id]) : (props.products[id].price * props.productsInCart[id]));
+      for (const [key, value] of Object.entries(props.productsInCart)) {
+        
+        for (let prod of props.products) {
+
+            if (key === prod.id) {
+
+                products[prod.id] = prod;
+                total += prod.discount ? (prod.price * (1-prod.discountPercentage) * value) : (prod.price * value);
+            }
+        }
+      }
     }
 
     total = veryPrettyFloat(total);
@@ -44,11 +55,11 @@ function CartQuickView(props) {
                     {props.productsInCart && Object.keys(props.productsInCart).length > 0 ? Object.keys(props.productsInCart).map((id, count) => 
                             <tr style={{fontSize: "20px"}} key={count}>
                                 <th scope="row" style={{verticalAlign: "middle"}}>{++count}</th>
-                                <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+props.products[id].name}><img src={props.products[id].img[0]} alt={JSON.stringify(props.products[id].name)} width="60px"/></Link></td>
-                                <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+props.products[id].name}>{props.products[id].title}</Link></td>
-                                <td style={{verticalAlign: "middle"}}>₪{props.products[id].discount ? (props.products[id].price * (1-props.products[id].discountPercentage)).toFixed(2) : (props.products[id].price).toFixed(2)}</td>
+                                <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+products[id].name}><img src={products[id].img[0]} alt={JSON.stringify(products[id].name)} width="60px"/></Link></td>
+                                <td style={{verticalAlign: "middle"}}><Link to={"/shop/"+products[id].name}>{products[id].title}</Link></td>
+                                <td style={{verticalAlign: "middle"}}>₪{products[id].discount ? (products[id].price * (1-products[id].discountPercentage)).toFixed(2) : (products[id].price).toFixed(2)}</td>
                                 <td style={{verticalAlign: "middle"}}>x&emsp;<input type="number" min="1" max="4" defaultValue={props.productsInCart[id]} style={{width: "60px", textAlign: "center"}} id={"quantity"+id}/></td>
-                                <td style={{verticalAlign: "middle"}}>₪{props.products[id].discount ? (props.products[id].price * (1-props.products[id].discountPercentage) * props.productsInCart[id]).toFixed(2) : (props.products[id].price * props.productsInCart[id]).toFixed(2)}</td>
+                                <td style={{verticalAlign: "middle"}}>₪{products[id].discount ? (products[id].price * (1-products[id].discountPercentage) * props.productsInCart[id]).toFixed(2) : (products[id].price * props.productsInCart[id]).toFixed(2)}</td>
                                 <td style={{verticalAlign: "middle"}}> <Button variant="outline-warning" onClick={async () => { await props.setLoading(); await props.addProductCart(id, document.querySelector("#quantity"+id).value); setInternalLoading(true); setInternalLoading(false); }}>Update</Button></td>
                                 <td style={{verticalAlign: "middle"}}> <Button variant="outline-danger" onClick={async () => { await props.setLoading(); await props.delProductCart(id); setInternalLoading(true); setInternalLoading(false); }}>Remove</Button></td>
                             </tr>

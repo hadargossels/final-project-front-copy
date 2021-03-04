@@ -11,7 +11,7 @@ function Blog({ posts }) {
 
             {posts.map(post =>
                 <div key={post.id}> 
-                    <BlogPostList name={post.name} img={post.img[0]} title={post.title} author={post.author} subtitle={post.subtitle} comments={post.comments} datetime={post.datetime} updated={post.updated}/>
+                    <BlogPostList name={post.name} img={post.img[0]} title={post.title} author={post.author} subtitle={post.subtitle} comments={post.comments || []} datetime={post.datetime} updated={post.updated}/>
                     <br/><br/>
                 </div>
             )}

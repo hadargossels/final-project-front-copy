@@ -56,3 +56,7 @@ code {
 input[type="checkbox"], input[type="radio"] {
   width: 5%;
 }
+
+.MuiPaper-root.MuiAppBar-root.MuiAppBar-positionFixed.MuiAppBar-colorSecondary.mui-fixed.MuiPaper-elevation4{
+  display: none;
+}
