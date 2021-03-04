@@ -14,7 +14,7 @@ import {
 } from "react-admin";
 import MyUrlField from "./MyUrlField";
 
-export const UserList = (props) => (
+export const usersList = (props) => (
   <List {...props}>
     <Datagrid rowClick="edit">
       <TextField source="id" />
@@ -23,6 +23,7 @@ export const UserList = (props) => (
       <TextField source="phone" />
       <MyUrlField source="url" />
       <TextField source="company" />
+      <TextField source="role" />
       <TextField source="active" />
       <EditButton />
     </Datagrid>
@@ -33,7 +34,7 @@ const UserTitle = ({ record }) => {
   return <span>User {record ? `"${record.title}"` : ""}</span>;
 };
 
-export const UserEdit = (props) => (
+export const usersEdit = (props) => (
   <Edit {...props}>
     <SimpleForm>
       {/* <TextInput disabled source="id" /> */}
@@ -46,12 +47,13 @@ export const UserEdit = (props) => (
       <TextInput source="phone" />
       <TextInput source="url" />
       <TextInput source="company" />
+      <TextInput source="role" />
       <TextInput source="active" />
     </SimpleForm>
   </Edit>
 );
 
-export const UserCreate = (props) => (
+export const usersCreate = (props) => (
   <Create {...props}>
     <SimpleForm>
       {/* <ReferenceInput source="name" reference="users">
@@ -67,6 +69,13 @@ export const UserCreate = (props) => (
         <SelectInput choices={("true", "false")} />
       </ReferenceInput> */}
 
+      <SelectInput
+        source="role"
+        choices={[
+          { id: "admin", name: "admin" },
+          { id: "customer", name: "customer" },
+        ]}
+      />
       <SelectInput
         source="active"
         choices={[

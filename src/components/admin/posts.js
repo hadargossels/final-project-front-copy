@@ -12,6 +12,8 @@ import {
   SelectInput,
   TextInput,
   Filter,
+  DateInput,
+  DateField,
 } from "react-admin";
 
 const PostTitle = ({ record }) => {
@@ -22,12 +24,13 @@ export const PostList = (props) => (
   <List filters={<PostFilter />} {...props}>
     <Datagrid>
       <TextField source="id" />
-      <ReferenceField reference="users">
+      <ReferenceField source="users" reference="users">
         <TextField source="name" />
       </ReferenceField>
-      {/* <TextField source="id" /> */}
+      <TextField source="name" />
       <TextField source="title" />
-      <TextField source="body" />
+      <TextField source="text" />
+      <DateField source="date" />
       <EditButton />
     </Datagrid>
   </List>
@@ -37,11 +40,13 @@ export const PostEdit = (props) => (
   <Edit title={<PostTitle />} {...props}>
     <SimpleForm>
       <TextInput disabled source="id" />
-      <ReferenceInput source="userId" reference="users">
+      <ReferenceInput source="users" reference="users">
         <SelectInput optionText="name" />
       </ReferenceInput>
+      <TextInput source="name" />
       <TextInput source="title" />
-      <TextInput multiline source="body" />
+      <TextInput multiline source="text" />
+      {/* <DateInput source="Date" /> */}
     </SimpleForm>
   </Edit>
 );
@@ -49,11 +54,14 @@ export const PostEdit = (props) => (
 export const PostCreate = (props) => (
   <Create {...props}>
     <SimpleForm>
-      <ReferenceInput source="userId" reference="users">
+      <ReferenceInput source="users" reference="users">
         <SelectInput optionText="name" />
       </ReferenceInput>
+
+      <TextInput source="name" />
       <TextInput source="title" />
-      <TextInput multiline source="body" />
+      <TextInput multiline source="text" />
+      <DateInput source="date" />
     </SimpleForm>
   </Create>
 );

@@ -11,7 +11,7 @@ import jsonServerProvider from "ra-data-json-server";
 import { Admin, Resource } from "react-admin";
 // import { PostList, PostEdit, PostCreate } from "./posts";
 
-const dataProvider = jsonServerProvider("http://localhost:3000");
+// const dataProvider = jsonServerProvider("http://localhost:3000");
 
 function App() {
   console.log(auth);

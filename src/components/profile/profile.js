@@ -4,7 +4,9 @@ import firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/auth";
 import "firebase/firestore";
+import { db } from "../../firebase";
 import { Link } from "react-router-dom";
+import { getDefaultNormalizer } from "@testing-library/react";
 // import Login from "../Login/Login";
 
 export default class profile extends Component {
@@ -118,8 +120,11 @@ export default class profile extends Component {
     //     );
     //   });
   }
+  getDataFromFirestore() {}
+
   render() {
     console.log("myUser", firebase.auth().currentUser);
+    this.getDataFromFirestore();
     return (
       <div style={{ fontFamily: "serif" }}>
         <div className="container">
