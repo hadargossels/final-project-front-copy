@@ -17,16 +17,16 @@ import {
     BooleanInput
 } from 'react-admin';
 import MyTextField from './MyTextField';
+import "./reactAdmin.css"
 
 export const UserEdit = props => (
     <Edit {...props}>
         <SimpleForm>
-            <TextInput disabled source="id" />
             <TextInput source="name" />
             <AutocompleteInput source="roll" choices={[
                 { id: 'Admin', name: 'Admin' },
                 { id: 'User', name: 'User' },
-                { id: 'Coustomer', name: 'Coustomer' },
+                { id: 'Customer', name: 'Customer' },
             ]} />
             <TextInput source="email" />
             <TextInput source="phone" />

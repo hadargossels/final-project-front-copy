@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { useAuth } from "../layout/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import firebase, { auth } from '../layout/Firebase'
+import { auth } from '../layout/Firebase'
+import firebase from "firebase/app"
 
 export default function Login() {
     const inputEmail = useRef()

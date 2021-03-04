@@ -65,7 +65,7 @@ export default function Header(props) {
                {currentUser && <span className="badge badge-pill badge-info m-1">{props.cartAmount}</span>}
                <span id="registerID" style={spanElemStyle}>
                   {currentUser
-                     ? <span> Hi <Link to="/profile"> {currentUser.displayName} </Link> </span>
+                     ? <span> Hi <Link to="/profile"> {currentUser.displayName || props.userName} </Link> </span>
                      : <span> <Link to="/register"> Register </Link> Or <Link to="/login"> Sign in </Link> </span>
                   }
                </span>
@@ -74,4 +74,3 @@ export default function Header(props) {
       </>
    );
 }
-// }

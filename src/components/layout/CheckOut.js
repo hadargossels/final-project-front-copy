@@ -99,7 +99,8 @@ export default class CheckOut extends Component {
                                     value={this.state.phoneValue}
                                     onChange={this.handlePhoneValue}
                                     required
-                                    style={{ marginBottom: '15px' }} />
+                                    style={{ marginBottom: '15px' }}
+                                />
 
                                 <Form.Group controlId="validationCustomEmail">
                                     <Form.Control type="email" placeholder="*Enter email" required />

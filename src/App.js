@@ -10,7 +10,8 @@ import { AuthProvider } from './components/layout/AuthContext';
 class App extends Component {
    state = {
       numItemsInCart: 0,
-      products: []
+      products: [],
+      userName: ""
    };
 
    updateCart = (updateCount, name, color, model, price) => {
@@ -43,12 +44,16 @@ class App extends Component {
       this.setState({ products });
    }
 
+   updateUserName = (userName) => {
+      this.setState({ userName });
+   }
+
    render() {
       return (
          <Router>
             <AuthProvider>
-               <Header cartAmount={this.state.numItemsInCart} cartProducts={this.state.products} />
-               <Routing updateCart={this.updateCart} handleDelete={this.handleDelete} cartProducts={this.state.products} updateQuantity={this.updateQuantity} />
+               <Header cartAmount={this.state.numItemsInCart} cartProducts={this.state.products} userName={this.state.userName} />
+               <Routing updateCart={this.updateCart} handleDelete={this.handleDelete} cartProducts={this.state.products} updateQuantity={this.updateQuantity} updateUserName={this.updateUserName} />
                <Footer />
             </AuthProvider>
          </Router>

@@ -3,7 +3,7 @@ import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useAuth } from "../layout/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 
-export default function Register() {
+export default function Register(props) {
     const inputEmail = useRef()
     const inputPassword = useRef()
     const inputPasswordConfirm = useRef()
@@ -19,9 +19,10 @@ export default function Register() {
             return setError("Passwords not matched !")
         }
         try {
-            setError("")       // We have no error:
+            setError("")        // We have no error:
             setLoading(true)
             await register(inputEmail.current.value, inputPassword.current.value, inputUserName.current.value)
+            props.updateUserName(inputUserName.current.value);
             history.push("/")
         } catch {
             setError("Failed to create an account!")
@@ -38,7 +39,7 @@ export default function Register() {
     }
     return (
         <div style={{ height: "45rem", marginTop: '30px' }}>
-            <Card style={{ height: "40rem", width: "50%", margin: "0 auto" }}>
+            <Card style={{ height: "42rem", width: "50%", margin: "0 auto" }}>
                 <Card.Body>
                     <h2 className="text-center mb-4">Register</h2>
                     {error && <Alert variant="danger">{error}</Alert>}
@@ -50,7 +51,7 @@ export default function Register() {
                         <br />
                         <Form.Group id="user-name">
                             <Form.Label>User Name</Form.Label>
-                            <Form.Control type="text" ref={inputUserName} />
+                            <Form.Control type="text" ref={inputUserName} required />
                         </Form.Group>
                         <br />
                         <Form.Group id="password">

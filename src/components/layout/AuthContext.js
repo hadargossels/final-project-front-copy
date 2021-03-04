@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react"
-import { auth } from "../layout/Firebase"
+import { db, auth } from "../layout/Firebase"
 
 const AuthContext = React.createContext()
 
@@ -18,11 +18,13 @@ export function AuthProvider({ children }) {
                     currentUser.user.updateProfile({
                         displayName: fullName
                     })
+                    db.ref('users/' + currentUser.user.uid).set({ 'id': currentUser.user.uid, 'roll': 'User', 'name': fullName, 'email': email, 'active': true })
                 }
             })
     }
 
     function login(email, password) {
+        console.log(auth)
         return auth.signInWithEmailAndPassword(email, password)
     }
 
@@ -32,6 +34,28 @@ export function AuthProvider({ children }) {
 
     function resetPassword(email) {
         return auth.sendPasswordResetEmail(email)
+    }
+
+    function updateEmail(email) {
+        return currentUser.updateEmail(email)
+    }
+
+    function updatePassword(password) {
+        return currentUser.updatePassword(password)
+    }
+
+    function updateDisplayName(userName) {
+        return currentUser.updateProfile({ displayName: userName })
+    }
+
+    function updateDataBase(userName, userEmail, userPhoneNum, addrCountry, addrCity, addrStreet, addrZipcode) {
+        const address = {
+            country: addrCountry,
+            city: addrCity,
+            street: addrStreet,
+            zipcode: addrZipcode
+        }
+        db.ref('users/' + currentUser.uid).set({ 'id': currentUser.uid, 'roll': 'User', 'active': true, 'name': userName, 'email': userEmail, 'phone': userPhoneNum, 'address': address })
     }
 
     useEffect(() => {
@@ -47,7 +71,11 @@ export function AuthProvider({ children }) {
         login,
         register,
         logout,
-        resetPassword
+        resetPassword,
+        updateEmail,
+        updatePassword,
+        updateDisplayName,
+        updateDataBase
     }
     return (
         <AuthContext.Provider value={value}>

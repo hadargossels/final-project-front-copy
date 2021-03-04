@@ -15,6 +15,7 @@ import ForgotPassword from "../layout/ForgotPassword"
 import ProtectedRoute from "../layout/ProtectedRoute"
 import Profile from "../layout/Profile"
 import AdminComp from "../reactAdmin/AdminComp"
+import UpdateProfile from "../layout/UpdateProfile"
 
 export default class Routing extends Component {
     state = {
@@ -41,6 +42,7 @@ export default class Routing extends Component {
                 <Route exact path="/" component={Home} />
                 <Route path="/admin" component={AdminComp} />
                 <ProtectedRoute path="/profile" component={Profile} />
+                <ProtectedRoute path="/update-profile" component={UpdateProfile} />
                 <Route path="/shop/mobiles">
                     <Catalog _data={this.state._mobilesData} title="Mobile Phones" />
                 </Route>
@@ -51,7 +53,9 @@ export default class Routing extends Component {
                 <Route path="/contact" component={ContactUs} />
                 <Route path="/blog" component={Blog} />
                 <Route path="/login" component={LogIn} />
-                <Route path="/register" component={Register} />
+                <Route path="/register">
+                    <Register updateUserName={this.props.updateUserName} />
+                </Route>
                 <Route path="/reset-password" component={ForgotPassword} />
                 <Route path="/shoppingCart" >
                     <Cart cartProducts={this.props.cartProducts} handleDelete={this.props.handleDelete} updateQuantity={this.props.updateQuantity} />
