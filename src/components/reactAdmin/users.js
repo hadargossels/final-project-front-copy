@@ -17,7 +17,6 @@ import {
     BooleanInput
 } from 'react-admin';
 import MyTextField from './MyTextField';
-import "./reactAdmin.css"
 
 export const UserEdit = props => (
     <Edit {...props}>

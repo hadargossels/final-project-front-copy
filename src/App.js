@@ -52,7 +52,7 @@ class App extends Component {
       return (
          <Router>
             <AuthProvider>
-               <Header cartAmount={this.state.numItemsInCart} cartProducts={this.state.products} userName={this.state.userName} />
+               {!window.location.href.includes("admin") && <Header cartAmount={this.state.numItemsInCart} cartProducts={this.state.products} userName={this.state.userName} />}
                <Routing updateCart={this.updateCart} handleDelete={this.handleDelete} cartProducts={this.state.products} updateQuantity={this.updateQuantity} updateUserName={this.updateUserName} />
                <Footer />
             </AuthProvider>
