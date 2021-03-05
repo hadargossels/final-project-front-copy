@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react"
 import { auth } from "../../firebase"
 import firebase from "firebase/app"
 import "firebase/auth"
+import {db} from '../../firebase'
 
 const AuthContext = React.createContext()
 let provider ;
@@ -13,36 +14,35 @@ export function AuthProvider({ children, history }) {
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
 
-  function signup(email, password) {
-    return auth.createUserWithEmailAndPassword(email, password)
+  function signup(email, password,firstNameRef,lastNameRef,emailRef, passwordRef,phoneNumberRef,stateRef,cityRef,zipRef,addressRef) {
+    return (auth.createUserWithEmailAndPassword(email, password)
+    .then(() => {
+        auth.onAuthStateChanged(user=>{
+            db.ref().child('users').child(user.uid).set({
+              active:true,
+              address:addressRef,
+              city:cityRef,
+              country:stateRef,
+              email:emailRef,
+              firstName:firstNameRef,
+              id:user.uid,
+              lastName:lastNameRef,
+              password:passwordRef,
+              phoneNumber:phoneNumberRef,
+              postalCode:zipRef,
+              role:"customer",
+            })
+        })     
+        history.push('/')
+    })
+    .catch(() => {
+        console.log('Failed to create an account')
+    }));
+
+    
+    
   }
 
-  // function updateNewSingup(country,city,zip,address){
-  //   var user = firebase.auth().currentUser;
-  //     user.updateProfile({
-  //       country: country,
-  //       city: city,
-  //       zip:zip,
-  //       address,address
-  //     }).then(function() {
-  //       console.log("Update successful.") 
-  //     }).catch(function(error) {
-  //       // An error happened.
-  //     });
-  // }
-  // function getProfileInfo(){
-  //   var user = firebase.auth().currentUser;
-  //   var country, city, zip, address;
-
-  //   if (user != null) {
-  //     country = user.country;
-  //     city = user.city;
-  //     zip = user.zip;
-  //     address = user.address;
-  //     console.log(country,city,zip,address)
-  //   }
-
-  // }
   function login(email, password) {
     return auth.signInWithEmailAndPassword(email, password)
   }
@@ -179,6 +179,7 @@ export function AuthProvider({ children, history }) {
     loginGoogle,
     loginFacebook,
     loginGitHub,
+    
     // updateNewSingup,
     // getProfileInfo
   }

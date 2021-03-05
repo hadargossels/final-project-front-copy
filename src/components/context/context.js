@@ -3,11 +3,13 @@ import React, { Component } from 'react'
 // import faker from  'faker';
 // import {storeProducts, detailProduct} from '../db.json'
 // import axios from axios
+import {db} from '../../firebase'
+
 const ProductContext = React.createContext();
 
 // const storeProducts= []
 const axios = require('axios').default;
-let cartSubTotal = 0, cartTax = 0, cartTotal = 0;
+let cartSubTotal = 0, cartTax = 0, cartTotal = 0 , flag = false;
 let cart = [];
 let storeProducts =[];
 const detailProduct = {
@@ -131,37 +133,68 @@ class ProductProvider extends Component {
         this.setProducts();
     }
     dbLoad = () =>{
-        axios.get("http://localhost:3000/storeProducts").then(
+
+
+        // db.ref("storeProducts").on("value", (snapshot) =>{
+        //     let myData = ""
+        //     myData = (snapshot.val())
+    
+        //     for (const [key, value] of Object.entries(myData)) {
             
-            (response)=>{
-                this.setState({products:response.data,origProducts:response.data})
-                 if (localStorage.cart.length !== 2) {
-                    storeProducts = [...this.state.origProducts];
-                    cart = JSON.parse(localStorage.cart);
-                    let total = JSON.parse(localStorage.totals);
-                    cartSubTotal = total.cartSubTotal;
-                    cartTax = total.cartTax;
-                    cartTotal = total.cartTotal;
-                    this.setState({cart , cartSubTotal,cartTax,cartTotal});
-
-                    for(let i=0;i<storeProducts.length;i++){
-                        
-                         for(let j=0;j<cart.length;j++){
-                          
-
-                            if(storeProducts[i].id===cart[j].id){
-                                
-                                 storeProducts[i].inCart = cart[j].inCart;    
-
-                            }
-                         }
-                     }
-                     this.setState({products:storeProducts,origProducts:storeProducts})
-
-               }
+        //         myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
+        //       }
+        //       console.log("asdasda"+myData)
+        //     myData = (myData.products)
+        //     this.setState({
+        //               products: myData,
+        //               origProducts: myData
+        //             })
+        //         })
+       
+        db.ref('storeProducts').on('value', (snapshot)=>{
+            let arr = [];
+            for (let obj in snapshot.val()) {
+                arr.push(snapshot.val()[obj])
             }
-        ).catch(()=>{console.log("error")
-        })
+            this.setState({
+                products: arr,
+                origProducts: arr
+            })
+        if(localStorage.cart !==undefined){
+            if (localStorage.cart.length !== 2) {
+                storeProducts = [...this.state.origProducts];
+                cart = JSON.parse(localStorage.cart);
+                let total = JSON.parse(localStorage.totals);
+                cartSubTotal = total.cartSubTotal;
+                cartTax = total.cartTax;
+                cartTotal = total.cartTotal;
+                this.setState({cart , cartSubTotal,cartTax,cartTotal});
+
+                for(let i=0;i<storeProducts.length;i++){
+                    
+                     for(let j=0;j<cart.length;j++){
+                      
+
+                        if(storeProducts[i].id===cart[j].id){
+                            
+                             storeProducts[i].inCart = cart[j].inCart;    
+
+                        }
+                     }
+                 }
+                 this.setState({products:storeProducts,origProducts:storeProducts})
+
+           }
+        }   
+              })
+          //  }
+    
+      
+                
+            
+            //}
+        // ).catch(()=>{console.log("error")
+        // })
 
     }
     setProducts = () => {
@@ -236,7 +269,6 @@ class ProductProvider extends Component {
     removeItem = (id) =>{
         let tempProducts = [...this.state.products];
         let tempCart = [...this.state.cart];
-
         tempCart = tempCart.filter(item=> item.id !== id);
         const index = tempProducts.indexOf(this.getItem(id));
         let removedProduct = tempProducts[index];
@@ -256,9 +288,20 @@ class ProductProvider extends Component {
     };
     clearCart = () =>{
         localStorage.cart = [JSON.stringify([])];
+        localStorage.total = [JSON.stringify([])];
         this.setState(() =>{
             return {cart:[]};
         },()=>{
+            let arr = [...this.state.products];
+        
+        arr.forEach(item => {
+                item.inCart = false;   
+        });
+            this.setState(
+                {products:arr}
+            )
+        }
+        ,()=>{
             this.setProducts();
             this.addTotals();
         });
@@ -293,6 +336,7 @@ class ProductProvider extends Component {
         
     }
     getHomepageProducts = ()=> {
+
         this.state.products = [...this.state.origProducts];
         return this.state.products.filter((item)=>{
             return item.sale;

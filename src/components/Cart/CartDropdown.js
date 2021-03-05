@@ -27,7 +27,7 @@ export default function CartDropdown(props) {
                 <i className="fas fa-cart-plus"/>
                     Item: 
                 <ProductConsumer>
-                    {value=>{ return(" "+ value.cart.length )}}
+                    {value=>{ return("  "+ value.cart.length )}}
                 </ProductConsumer>
             </span>
         </button>

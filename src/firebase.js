@@ -1,5 +1,6 @@
 import firebase from "firebase/app"
 import "firebase/auth"
+import "firebase/database"
 
 const app = firebase.initializeApp({
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -9,13 +10,8 @@ const app = firebase.initializeApp({
     messagingSenderId: process.env.REACT_APP_FIREBASEMESSAGING_SENDER_ID,
     appId: process.env.REACT_APP_FIREBASE_APP_ID
 })
-// const app = firebase.initializeApp({
-//     apiKey: "AIzaSyCwyaRd9SJywVQpdKLbZPji10nimegZWwg",
-//     authDomain: "final-project-react-dev.firebaseapp.com",
-//     projectId: "final-project-react-dev",
-//     storageBucket: "final-project-react-dev.appspot.com",
-//     messagingSenderId: "938789805437",
-//     appId: "1:938789805437:web:83830fd6e24b1d83958014"
-// })
+
 export const auth = app.auth()
-export default app
+export const db = app.database();
+
+export default firebase

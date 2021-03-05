@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import {ProductConsumer} from '../context/context';
 import {Link} from 'react-router-dom';
 import {ButtonContainer} from '../additionsComp/Button';
-import axios from 'axios';
-
+import {db} from '../../firebase'
+import {Spinner} from '../additionsComp/Spinner'
 export default class Details extends Component {
     constructor(props){
         super(props)
@@ -13,18 +13,27 @@ export default class Details extends Component {
     }
 
     componentDidMount(){
-        const id = this.props.match.params.id;
-        if(id){
-            axios.get("http://localhost:3000/storeProducts/" + id).then(
-            
-                (response)=>{
-                    this.setState({product:response.data})
-                }
-            );
-            
-        }
-    }
+        const tempId = this.props.match.params.id;
+        if(tempId){
 
+            db.ref('storeProducts').on('value', (snapshot)=>{
+                let arr = [];
+                for (let obj in snapshot.val()) {
+                    arr.push(snapshot.val()[obj])
+                }
+                for(let i=0;i<arr.length;i++){
+                    if(arr[i].id===tempId){
+                        this.setState({
+                            product:arr[i]
+                        }) 
+                    }
+                }
+                
+            
+            })
+        }
+
+    }
     render() {
         return (this.state.product) ? (
             <ProductConsumer>
@@ -88,6 +97,6 @@ export default class Details extends Component {
                     );
                 }}
             </ProductConsumer>
-        ) : (<div>Loading...</div>);
+        ) : (<Spinner></Spinner>);
     }
 }

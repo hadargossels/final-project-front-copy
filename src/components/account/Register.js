@@ -3,8 +3,11 @@ import React, { useRef, useState } from "react"
 import {  Alert } from "react-bootstrap"
 import { useAuth } from "../context/AuthContext"
 import {  useHistory } from "react-router-dom"
-
+// import { auth } from "../../firebase"
 export default function Signup() {
+  const firstNameRef = useRef()
+  const lastNameRef = useRef()
+  const phoneNumberRef = useRef()
   const emailRef = useRef()
   const passwordRef = useRef()
   const stateRef = useRef()
@@ -12,11 +15,14 @@ export default function Signup() {
   const zipRef = useRef()
   const addressRef = useRef()
   const passwordConfirmRef = useRef()
-  const { signup } = useAuth()
+  const { signup, otherSignUpFields} = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const history = useHistory()
-  let filldsArray =  [{filld:"email",isFilled:false},
+  let filldsArray =  [{filld:"firstName",isFilled:false},
+  {filld:"lastName",isFilled:false},
+  {filled:"phoneNumber",isFilled:false},
+  {filld:"email",isFilled:false},
   {filld:"password",isFilled:false},
   {filld:"passwordConfirmation",isFilled:false},
   {filld:"address",isFilled:false},
@@ -24,24 +30,37 @@ export default function Signup() {
   {filld:"zip",isFilled:false},]
   async function handleSubmit(e) {
     e.preventDefault()
-    if( filldsArray[0].isFilled 
+    if( filldsArray[0].isFilled
       && filldsArray[1].isFilled
       && filldsArray[2].isFilled
       && filldsArray[3].isFilled
       && filldsArray[4].isFilled
-      && filldsArray[5].isFilled){
+      && filldsArray[5].isFilled
+      && filldsArray[6].isFilled
+      && filldsArray[7].isFilled
+      && filldsArray[8].isFilled){
       if (passwordRef.current.value !== passwordConfirmRef.current.value) {
         return setError("Passwords do not match")
       }
+  
 
       try {
         setError("")
         setLoading(true)
-        await signup(emailRef.current.value, passwordRef.current.value)
+        await signup(emailRef.current.value, passwordRef.current.value,
+          firstNameRef.current.value,lastNameRef.current.value,
+          emailRef.current.value, passwordRef.current.value,phoneNumberRef.current.value,
+          stateRef.current.value,cityRef.current.value,zipRef.current.value,addressRef.current.value)
+        // await otherSignUpFields(auth.currentUser.uid,
+        //   firstNameRef.current.value,lastNameRef.current.value,
+        //   emailRef.current.value, passwordRef.current.value,phoneNumberRef.current.value,
+        //   stateRef.current.value,cityRef.current.value,zipRef.current.value,addressRef.current.value)
+        
         // updateNewSingup(stateRef.current.value,zipRef.current.value,addressRef.current.value,cityRef.current.value)
+        
         history.push("/")
       } catch {
-        setError("Failed to create an account - password or email already")
+        setError("Failed to create an account - password or email already exist")
       }
 
       setLoading(false)
@@ -55,11 +74,11 @@ export default function Signup() {
     let regex=/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if(regex.test(event.target.value))
     {
-        filldsArray[0].isFilled = true;
+        filldsArray[3].isFilled = true;
         event.target.setAttribute("class","form-control is-valid")
     }
     else{
-      filldsArray[0].isFilled = false;
+      filldsArray[3].isFilled = false;
         event.target.setAttribute("class", "form-control is-invalid")
     }
 }
@@ -74,25 +93,61 @@ function passwordValidation(event){
   if(regex.test(event.target.value))
   {
       if(event.target.id==="password"){
-        filldsArray[1].isFilled = true;
+        filldsArray[4].isFilled = true;
           event.target.setAttribute("class", "form-control is-valid");
           
       }
       else if(event.target.id==="password-confirm"){
-          filldsArray[2].isFilled = true;
+          filldsArray[5].isFilled = true;
           event.target.setAttribute("class", "form-control is-valid")
       }
       
   }
   else{
       if(event.target.id==="password"){
-          filldsArray[1].isFilled = false;
+          filldsArray[4].isFilled = false;
           event.target.setAttribute("class", "form-control is-invalid")
       }
       else if(event.target.id==="password-confirm"){
-          filldsArray[2].isFilled = false;
+          filldsArray[5].isFilled = false;
           event.target.setAttribute("class", "form-control is-invalid")
       }
+  }
+}
+function firstNameValidation(event){
+  let regex=/^[a-zA-Z ]{2,30}$/;          
+  if(regex.test(event.target.value))
+  {
+      event.target.setAttribute("class", "form-control is-valid")
+      filldsArray[0].isFilled = true;
+  }
+  else{
+      event.target.setAttribute("class", "form-control is-invalid")
+      filldsArray[0].isFilled = false;
+  }
+}
+function lastNameValidation(event){
+  let regex=/^[a-zA-Z ]{2,30}$/;          
+  if(regex.test(event.target.value))
+  {
+      event.target.setAttribute("class", "form-control is-valid")
+      filldsArray[1].isFilled = true;
+  }
+  else{
+      event.target.setAttribute("class", "form-control is-invalid")
+      filldsArray[1].isFilled = false;
+  }
+}
+function phoneNumberValidation(event){
+  let regex=/^(([+]{0,1}\d{2})|\d?)[\s-]?[0-9]{2}[\s-]?[0-9]{3}[\s-]?[0-9]{4}$/;          
+  if(regex.test(event.target.value))
+  {
+      event.target.setAttribute("class", "form-control is-valid")
+      filldsArray[2].isFilled = true;
+  }
+  else{
+      event.target.setAttribute("class", "form-control is-invalid")
+      filldsArray[2].isFilled = false;
   }
 }
 function addressValidation(event){
@@ -100,11 +155,11 @@ function addressValidation(event){
   if(regex.test(event.target.value))
   {
       event.target.setAttribute("class", "form-control is-valid")
-      filldsArray[3].isFilled = true;
+      filldsArray[6].isFilled = true;
   }
   else{
       event.target.setAttribute("class", "form-control is-invalid")
-      filldsArray[3].isFilled = false;
+      filldsArray[6].isFilled = false;
   }
 
 }
@@ -113,11 +168,11 @@ function cityValidation(event){
   if(regex.test(event.target.value) && event.target.value.length>2)
   {
       event.target.setAttribute("class", "form-control is-valid")
-      filldsArray[4].isFilled = true;
+      filldsArray[7].isFilled = true;
       
   }
   else{
-      filldsArray[4].isFilled = false;
+      filldsArray[7].isFilled = false;
       event.target.setAttribute("class", "form-control is-invalid")
   }
   
@@ -127,11 +182,11 @@ function zipValidation (event){
   if(regex.test(event.target.value))
   {
       event.target.setAttribute("class", "form-control is-valid")
-      filldsArray[5].isFilled = true;
+      filldsArray[8].isFilled = true;
   }
   else{
       event.target.setAttribute("class", "form-control is-invalid")
-      filldsArray[5].isFilled = false;
+      filldsArray[8].isFilled = false;
      
   }
 }
@@ -141,6 +196,29 @@ function zipValidation (event){
                  <Title name="regi" title="ster"/>
                  {error && <Alert variant="danger">{error}</Alert>}
                      <form onSubmit={(e)=>{handleSubmit(e)}} >
+                        <div className="row">
+                                <div className="form-group col-md-4 p-0">
+                                <label htmlFor="inputFirstName4" required>First Name</label>
+                                <input ref={firstNameRef} type="text" className="form-control" id="inputFirstName4" placeholder="First Name" required
+                                onChange={(e)=> {
+                                  firstNameValidation(e);
+                                    }}/>
+                                </div>
+                                <div className="form-group col-md-4 p-0">
+                                <label htmlFor="inputLastName4" required>Last Name</label>
+                                <input ref={lastNameRef} type="text" className="form-control" id="inputLastName4" placeholder="Last Name" required
+                                onChange={(e)=> {
+                                  lastNameValidation(e);
+                                    }}/>
+                                </div>
+                                <div className="form-group col-md-4 p-0">
+                                <label htmlFor="inputPhoneNumber4" required>Phone Number</label>
+                                <input ref={phoneNumberRef} type="number" className="form-control" id="inputPhoneNumber4" placeholder="Phone Number" required
+                                onChange={(e)=> {
+                                  phoneNumberValidation(e);
+                                    }}/>
+                                </div>
+                            </div>  
                          <div className="row">
                              <div className="form-group col-md-6 p-0">
                             <label htmlFor="inputEmail4" required>Email</label>

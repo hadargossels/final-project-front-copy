@@ -77,7 +77,6 @@ export default class Navbar extends Component {
     }
     logout() {
          var user = auth.currentUser;
-         console.log(user)
             // user.delete().then(function() {
             //     // User deleted.
             // }).catch(function(error) {
@@ -135,24 +134,12 @@ export default class Navbar extends Component {
                         </div>
                     </div>
                             <ProductConsumer>
-                            {value=> <CartDropdown cartArrDropdown = {value.cart}/> }
+                                {value=> <CartDropdown cartArrDropdown = {value.cart}/> }
                             </ProductConsumer>
                        <span style={{color:"white",marginTop:"0.5%"}}>{this.state.email} </span> 
 
 
                         {this.userOptionsShow()}
-                            {/* <Link to='/login'>
-                            <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >Login</span>
-                            </Link>
-                            <Link to='/register'>
-                                <span style = {{color:"white"}} className = "btn-animation btn from-bottom" href="#news" >Register</span>
-                            </Link>
-
-                            <Link to='/'>
-                                <span style ={{color:"white"}} className = "btn-animation btn from-bottom" href="#news" 
-                                onClick={() => {
-                                    this.logout() }}>Logout</span>
-                            </Link> */}
 
                         <div  className="clock">
                             <Clock format={'HH:mm'} ticking={true} timezone={'Israel'} style={{color:"white"}}/>

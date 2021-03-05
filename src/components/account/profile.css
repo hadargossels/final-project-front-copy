@@ -1894,7 +1894,7 @@ textarea[resize='horizontal'] {
 }
 
 @media (min-width: 768px) {
-  .navbar .dropdown-menu {
+  /* .navbar .dropdown-menu {
     margin: 0;
     pointer-events: none;
     opacity: 0;
@@ -1918,7 +1918,7 @@ textarea[resize='horizontal'] {
   .navbar .dropdown-menu-right:before {
     right: 20px;
     left: auto;
-  }
+  } */
 
   @keyframes show-navbar-dropdown {
     0% {
