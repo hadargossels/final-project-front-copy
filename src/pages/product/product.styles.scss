@@ -91,6 +91,7 @@
   .product_info {
     color: #4d4d4d;
     display: inline-block;
+    padding-right: 86px;
   }
 
   .product_options {
@@ -113,6 +114,7 @@
     float: left;
     margin-right: 22px;
     margin-bottom: 11px;
+    position: relative;
   }
 
   .order_info {
@@ -522,8 +524,9 @@
     height: 100%;
     width: 29px;
     border-left: solid 1px #e5e5e5;
-    // right: 667px;
-    // top: 110px;
+    // right: 761px;
+    // top: 33px;
+    border-left: none;
   }
 
   .quantity_inc,

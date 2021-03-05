@@ -1,15 +1,34 @@
 import React from "react";
-import { Create, SimpleForm, TextInput } from "react-admin";
+import {
+  ArrayField,
+  Create,
+  SimpleForm,
+  TextInput,
+  TextField,
+  Datagrid,
+  ImageField,
+  ImageInput,
+  ArrayInput,
+  SimpleFormIterator,
+  NumberInput,
+} from "react-admin";
 
 const ShopCreate = (props) => {
   return (
-    <Create title="Create a Shop" {...props}>
-      <SimpleForm>
-        <TextInput source="id" />
-        <TextInput source="name" />
-        <TextInput source="description" />
-        <TextInput source="imageUrl" />
-        <TextInput source="price" />
+    <Create {...props} title="Create a Item">
+      <SimpleForm redirect="list">
+        {/* <TextInput source="id" /> */}
+        <TextInput source="title" />
+        <ArrayInput source="items">
+          <SimpleFormIterator>
+            <TextInput source="name" label="Name" />
+            <TextInput source="description" label="Description" />
+            <ImageInput source="imageUrl" label="Image Url" />
+            <NumberInput min="0" step="1" label="in Stock" source="amount" />
+
+            <TextInput source="price" label="Price($)" />
+          </SimpleFormIterator>
+        </ArrayInput>
       </SimpleForm>
     </Create>
   );

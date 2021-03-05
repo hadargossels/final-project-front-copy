@@ -12,6 +12,7 @@ import CartItem from "./../../components/cart-item/cart-item.component";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import PayPal from "./../../components/paypal/paypal";
 import OrderConfirmation from "../../components/order-confirmation/order-confirmation.component";
+import { fireInfo } from "./../../firebase/firebase.utils";
 
 const CheckoutPage = () => {
   const { cartItems, cartTotal, cartItemsCount } = useContext(CartContext);
@@ -42,21 +43,76 @@ const CheckoutPage = () => {
 
   const [validPayment, setValidPayment] = useState(false);
 
+  const orderid = require("order-id")("mysecret");
+  const id = orderid.generate();
+
+  const [orderData, setOrderData] = useState({
+    id: id,
+    date: new Date().toLocaleString(),
+    firstName: "",
+    lastName: "",
+    phone: "",
+    address: "",
+    country: "",
+    zip: "",
+    shipping: "",
+    cartItems: cartItems,
+    cartItemsCount: cartItemsCount,
+    cartTotal: cartTotal,
+    orderState: "sent",
+  });
+
+  function handleOnChange(event) {
+    const { name, value } = event.target;
+
+    setOrderData((prevNote) => {
+      return {
+        ...prevNote,
+        [name]: value,
+      };
+    });
+  }
+
+  const createOrder = () => {
+    const orderRef = fireInfo.database().ref("orders");
+    const order = orderData;
+
+    orderRef.push(order);
+
+    setOrderData({
+      date: "",
+      firstName: "",
+      phone: "",
+      address: "",
+      country: "",
+      zip: "",
+      shipping: "",
+      price: "",
+      orderState: "",
+    });
+  };
+
   const isAllValid = (event) => {
     event.preventDefault();
-    validPhone &&
-    validFirstName &&
-    validLastName &&
-    validAddress &&
-    validZip &&
-    validCName &&
-    validExpiration &&
-    validCNumber &&
-    validCVV &&
-    validCountry &&
-    validShipping
-      ? setValidPayment(true)
-      : setNotValidClick(true);
+
+    if (
+      validPhone &&
+      validFirstName &&
+      validLastName &&
+      validAddress &&
+      validZip &&
+      validCName &&
+      validExpiration &&
+      validCNumber &&
+      validCVV &&
+      validCountry &&
+      validShipping
+    ) {
+      setValidPayment(true);
+    } else {
+      setNotValidClick(true);
+      createOrder();
+    }
 
     setTimeout(() => {
       setNotValidClick(false);
@@ -80,12 +136,28 @@ const CheckoutPage = () => {
   };
 
   const handleChange = (event) => {
-    // console.log(event.target.value);
+    event.persist();
+
+    setOrderData((prevNote) => {
+      return {
+        ...prevNote,
+        country: event.target.value,
+      };
+    });
     setValidCountry(true);
   };
 
   const handleShippingChange = (event) => {
-    // console.log(event.target.value);
+    event.persist();
+
+    console.log(event.target.value);
+
+    setOrderData((prevNote) => {
+      return {
+        ...prevNote,
+        shipping: event.target.value,
+      };
+    });
     setValidShipping(false);
 
     switch (event.target.value) {
@@ -121,6 +193,9 @@ const CheckoutPage = () => {
     lastName: /(^[a-z ,.'-]{2,})+$/i,
 
     address: /^[a-zA-Z0-9\s,'-]*$/i,
+    // street: /^[a-zA-Z0-9\s,'-]*$/i,
+
+    // number: /^[a-zA-Z0-9\s,'-]*$/i,
 
     zip: /^\d{5,7}(?:[-\s]\d{4})?$/i,
     cName: /(^[a-z ,.'-]{2,})+$/i,
@@ -320,6 +395,7 @@ const CheckoutPage = () => {
                       className="form-control"
                       id="firstName"
                       placeholder="First Name"
+                      onChange={handleOnChange}
                       required
                     />
                     {/* ///cheackicng ////// */}
@@ -342,6 +418,7 @@ const CheckoutPage = () => {
                     <label htmlFor="lastName">Last name</label>
                     <input
                       name="lastName"
+                      onChange={handleOnChange}
                       onKeyUp={handleKey}
                       type="text"
                       className="form-control"
@@ -370,6 +447,7 @@ const CheckoutPage = () => {
                   <label htmlFor="phone">Phone</label>
                   <input
                     name="phone"
+                    onChange={handleOnChange}
                     onKeyUp={handleKey}
                     type="phone"
                     className="form-control"
@@ -395,6 +473,7 @@ const CheckoutPage = () => {
                 <div className="mb-3">
                   <label htmlFor="address">Address</label>
                   <input
+                    onChange={handleOnChange}
                     onKeyUp={handleKey}
                     name="address"
                     type="text"
@@ -435,6 +514,7 @@ const CheckoutPage = () => {
                   <div className="col-md-5 mb-3">
                     <label htmlFor="country">Country</label>
                     <select
+                      name="country"
                       onChange={handleChange}
                       className="custom-select d-block w-100"
                       id="country"
@@ -479,6 +559,7 @@ const CheckoutPage = () => {
                     <label htmlFor="zip">Zip</label>
                     <input
                       onKeyUp={handleKey}
+                      onChange={handleOnChange}
                       name="zip"
                       type="text"
                       className="form-control"

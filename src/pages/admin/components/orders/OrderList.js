@@ -14,11 +14,6 @@ import {
   DeleteWithConfirmButton,
   ArrayField,
   ImageField,
-  ShowButton,
-  RefreshButton,
-  CreateButton,
-  ExportButton,
-  NumberField,
 } from "react-admin";
 import { Fragment } from "react";
 
@@ -28,33 +23,38 @@ const UserBulkActionButtons = (props) => (
   </Fragment>
 );
 
-const ShopList = (props) => {
+const OrderList = (props) => {
   return (
     <List
+      filters={<OrderFilter />}
       {...props}
-      filters={<ShopFilter />}
-      actions={<ProductActionsButtons />}
       bulkActionButtons={<UserBulkActionButtons />}
-      style={{ width: "80%" }}
     >
       <Datagrid>
-        <NumberField source="id" />
-        <TextField source="title" />
-        <ArrayField source="items">
-          <Datagrid rowClick="edit">
+        <TextField source="id" />
+        <TextField source="date" />
+        <TextField source="firstName" />
+        <TextField source="lastName" />
+        <TextField source="phone" />
+        <TextField source="address" />
+        <TextField source="country" />
+        <TextField source="zip" />
+        <TextField source="shipping" />
+
+        <ArrayField source="cartItems">
+          <Datagrid>
             {" "}
-            <TextField source="id" />
+            {/* <TextField source="id" /> */}
             <TextField source="name" />
-            <TextField source="description" />
-            <ImageField source="imageUrl" />{" "}
-            <NumberField label="in Stock" source="amount" />
-            <NumberField source="price" />
-            {/* <EditButton /> */}
+            {/* <TextField source="description" />
+            <ImageField source="imageUrl" /> */}
+            <TextField source="price" />
+            {/* <EditButton /> <DeleteWithConfirmButton /> */}
           </Datagrid>
         </ArrayField>
-        <CreateButton />
-        <ShowButton label="" />
-
+        <TextField source="cartItemsCount" />
+        <TextField source="cartTotal" />
+        <TextField source="orderState" />
         <EditButton />
         <DeleteWithConfirmButton />
       </Datagrid>
@@ -62,7 +62,9 @@ const ShopList = (props) => {
   );
 };
 
-const ShopFilter = (props) => (
+export default OrderList;
+
+const OrderFilter = (props) => (
   <Filter {...props}>
     <TextInput label="Search" source="q" alwaysOn />
     {/* <ReferenceInput label="Title" source="userId" reference="users" allowEmpty>
@@ -70,13 +72,3 @@ const ShopFilter = (props) => (
     </ReferenceInput> */}
   </Filter>
 );
-
-const ProductActionsButtons = (props) => (
-  <div>
-    <RefreshButton {...props} />
-    <CreateButton {...props} />
-    <ExportButton {...props} />
-  </div>
-);
-
-export default ShopList;

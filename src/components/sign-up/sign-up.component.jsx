@@ -91,10 +91,11 @@ class SignUp extends React.Component {
       await createUserProfileDocument(user, { displayName });
 
       const userRef = fireInfo.database().ref("users");
+      console.log("userRef :", userRef);
 
       userRef.child(user.uid).set({
         active: true,
-        admin: false,
+        type: "Customer",
         id: user.uid,
         displayName,
         email,

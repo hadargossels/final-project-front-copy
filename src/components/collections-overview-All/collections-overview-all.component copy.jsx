@@ -12,17 +12,16 @@ import SortingBtn from "./../sorting-btn/sorting-btn.component";
 
 import queryString from "query-string";
 import { useLocation } from "react-router";
-import { fireInfo } from "../../firebase/firebase.utils";
-import { Spinner } from "react-bootstrap";
 
 const CollectionsOverviewAll = () => {
-  // const collectionsMap = useContext(CollectionsContext);
-  // const collections = Object.keys(collectionsMap).map(
-  //   (key) => collectionsMap[key]
-  // );
+  const collectionsMap = useContext(CollectionsContext);
+  const collections = Object.keys(collectionsMap).map(
+    (key) => collectionsMap[key]
+  );
 
   const [displayAll, setDisplayAll] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedCollection, setSelectedCollection] = useState(collections);
 
   const [noMatchingItems, setNoMatchingItems] = useState(false);
   const { search } = useLocation();
@@ -34,26 +33,6 @@ const CollectionsOverviewAll = () => {
   const [selectedSorting, setSelectedSorting] = useState();
 
   const [searchData, setSearchData] = useState(q);
-
-  const [selectedCollection, setSelectedCollection] = useState([]);
-  const [isLoading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const collectionsRef = fireInfo.database().ref("SHOP_DATA");
-    console.log("collectionsRef :", collectionsRef);
-    collectionsRef.on("value", (snapshot) => {
-      const collectionsMap = snapshot.val();
-      console.log("collectionsMap :", collectionsMap);
-
-      const collectionsArr = Object.keys(collectionsMap).map(
-        (key) => collectionsMap[key]
-      );
-
-      console.log("collectionsArr :", collectionsArr);
-      setSelectedCollection(collectionsArr);
-      setLoading(false);
-    });
-  }, []);
 
   const putItemInArr = (str) => {
     setSearchData(null);
@@ -77,15 +56,7 @@ const CollectionsOverviewAll = () => {
     setNoMatchingItems(!noMatchingItems);
   };
 
-  return isLoading ? (
-    <div
-      className="spinner-border"
-      style={{ width: "3rem", height: "3rem" }}
-      role="status"
-    >
-      <span className="sr-only">Loading...</span>
-    </div>
-  ) : (
+  return (
     <div className="collections-overview">
       <div className="upper-store-content">
         {displayAll ? (
