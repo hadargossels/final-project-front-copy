@@ -3,7 +3,7 @@ import React from "react";
 import "./slider.styles.scss";
 
 const Slider = () => (
-  <div className="container">
+  <div className="container home-slider">
     <div className="row">
       <div className="col-md-12">
         <h2>

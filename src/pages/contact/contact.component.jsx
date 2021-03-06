@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Map from "../../components/google-map/google-map.component";
+import LeafMap from "../../components/leaf-map/leaf-map";
 
 import "./contact.styles.scss";
 
@@ -257,6 +258,7 @@ const ContactPage = () => {
       </section>
 
       <Map />
+      {/* <LeafMap /> */}
     </>
   );
 };

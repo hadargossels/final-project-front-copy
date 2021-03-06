@@ -11,7 +11,7 @@ import {
 
 const UserCreate = (props) => {
   return (
-    <Create title="Create a User" {...props} undoable={false}>
+    <Create title="Create a User" {...props} undoable={false} redirect="list">
       <SimpleForm>
         <TextInput source="displayName" validate={[required()]} />
         <TextInput

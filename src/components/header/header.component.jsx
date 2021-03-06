@@ -59,10 +59,10 @@ const Header = () => {
               <NavLink
                 className="option dash"
                 activeStyle={activeStyle}
-                to="/dashboard"
+                to="/profile"
               >
                 <i className="far fa-user fa-1x"></i>
-                <h6> DASHBOARD</h6>
+                <h6> PROFILE</h6>
               </NavLink>
             )}
             {currentUser ? (

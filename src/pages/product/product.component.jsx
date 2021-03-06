@@ -7,6 +7,10 @@ import { CartContext } from "../../providers/cart/cart.provider";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import CollectionsContext from "./../../contexts/collections/collections.context";
 import { fireInfo } from "../../firebase/firebase.utils";
+import {
+  SpinnerContainer,
+  SpinnerOverlay,
+} from "./../../components/with-spinner/with-spinner.styles";
 
 function ProductPage(props) {
   //   const collectionsMap = useContext(CollectionsContext);
@@ -38,13 +42,14 @@ function ProductPage(props) {
     // console.log("collectionsRef :", collectionsRef);
     collectionsRef.on("value", (snapshot) => {
       const collectionsMap = snapshot.val();
-      console.log("collectionsMap :", collectionsMap);
+      // console.log("collectionsMap :", collectionsMap);
 
       const collectionsArr = Object.keys(collectionsMap).map(
         (key) => collectionsMap[key]
       );
       //   console.log("collectionsArr :", collectionsArr);
       setSelectedCollection(collectionsArr);
+
       //   console.log("collectionsDisplay :", collectionsDisplay);
       var arrOfArr = collectionsArr.map((collection) => {
         // console.log("collection :", collection);
@@ -55,6 +60,8 @@ function ProductPage(props) {
 
       for (let i = 0; i < arrOfArr.length && !imgFound; i++) {
         for (let j = 0; j < arrOfArr[i].length; j++) {
+          arrOfArr[i][j].name = arrOfArr[i][j].name.replaceAll("-", " ");
+
           if (arrOfArr[i][j].name === productName) {
             console.log("arrOfArr[i][j].name :", arrOfArr[i][j].name);
 
@@ -122,9 +129,9 @@ function ProductPage(props) {
 
     // </div>
     isLoading ? (
-      <Spinner animation="border" role="status">
-        <span className="sr-only">Loading...</span>
-      </Spinner>
+      <SpinnerOverlay>
+        <SpinnerContainer />
+      </SpinnerOverlay>
     ) : (
       <>
         <div className=" product-page">

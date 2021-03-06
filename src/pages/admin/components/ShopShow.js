@@ -19,17 +19,15 @@ export const ShopShow = (props) => (
       <NumberField source="id" />
       <TextField source="title" />
       <ArrayField source="items">
-        <Datagrid rowClick="edit">
-          {" "}
-          <TextField source="id" />
-          <TextField source="name" />
-          <TextField source="description" />
-          <ImageField source="imageUrl" />{" "}
-          <NumberField label="in Stock" source="amount" />
-          <NumberField source="price" />
-          <ShowButton label="" />
-          {/* <EditButton /> */}
-        </Datagrid>
+        {" "}
+        <TextField source="id" />
+        <TextField source="name" />
+        <TextField source="description" />
+        <ImageField source="imageUrl" />{" "}
+        <NumberField label="in Stock" source="amount" />
+        <NumberField source="price" />
+        <ShowButton label="" />
+        {/* <EditButton /> */}
       </ArrayField>
     </SimpleShowLayout>
   </Show>

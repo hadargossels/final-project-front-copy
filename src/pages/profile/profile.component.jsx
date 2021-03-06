@@ -3,9 +3,10 @@ import { Card, Button, Alert } from "react-bootstrap";
 // import { useAuth } from "../../contexts/AuthContext/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 import CurrentUserContext from "../../contexts/current-user/current-user.context";
-import { auth } from "./../../firebase/firebase.utils";
+import { auth } from "../../firebase/firebase.utils";
 
-export default function Dashboard() {
+import "./profile.styles.scss";
+export default function Profile() {
   const [error, setError] = useState("");
   //   const { currentUser, logout } = useAuth();
   const currentUser = useContext(CurrentUserContext);
@@ -25,7 +26,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="dashboard">
+    <div className="profile">
       <Card>
         <Card.Body>
           <img

@@ -16,6 +16,7 @@ export const CartContext = createContext({
   addItem: () => {},
   removeItem: () => {},
   clearItemFromCart: () => {},
+  clearCart: () => {},
   cartItemsCount: 0,
   cartTotal: 0,
   collections: [],
@@ -24,37 +25,62 @@ export const CartContext = createContext({
 const CartProvider = ({ children }) => {
   const [hidden, setHidden] = useState(true);
   const [cartItems, setCartItems] = useState([]);
+
   const [cartItemsCount, setCartItemsCount] = useState(0);
+
   const [cartTotal, setCartTotal] = useState(0);
 
   const [collections, setCollections] = useState();
 
   useEffect(() => {
     const collectionsRef = fireInfo.database().ref("SHOP_DATA");
-    console.log("collectionsRef :", collectionsRef);
+    // console.log("collectionsRef :", collectionsRef);
     collectionsRef.on("value", (snapshot) => {
       const collectionsMap = snapshot.val();
-      console.log("collectionsMap :", collectionsMap);
+      // console.log("collectionsMap :", collectionsMap);
 
       const collectionsArr = Object.keys(collectionsMap).map(
         (key) => collectionsMap[key]
       );
 
-      console.log("collectionsArr :", collectionsArr);
+      // console.log("collectionsArr :", collectionsArr);
       setCollections(collectionsArr);
     });
+
+    const localData = localStorage.getItem("cartItems");
+    const cartData = localData ? JSON.parse(localData) : [];
+
+    setCartItems(cartData);
   }, []);
 
-  const addItem = (item) => setCartItems(addItemToCart(cartItems, item));
-  const removeItem = (item) =>
-    setCartItems(removeItemFromCart(cartItems, item));
+  const makeCartShowAndHidden = (item) => {
+    setHidden(false);
+    setTimeout(() => {
+      setHidden(true);
+    }, 2000);
+  };
+
+  const addItem = (item) => {
+    makeCartShowAndHidden();
+    return setCartItems(addItemToCart(cartItems, item));
+  };
+
+  const removeItem = (item) => {
+    makeCartShowAndHidden();
+
+    return setCartItems(removeItemFromCart(cartItems, item));
+  };
+
   const toggleHidden = () => setHidden(!hidden);
-  const clearItemFromCart = (item) =>
-    setCartItems(filterItemFromCart(cartItems, item));
+
+  const clearItemFromCart = (item) => setCartItems(filterItemFromCart());
+
+  const clearCart = () => setCartItems([]);
 
   useEffect(() => {
     setCartItemsCount(getCartItemsCount(cartItems));
     setCartTotal(getCartTotal(cartItems));
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
   return (
@@ -66,6 +92,7 @@ const CartProvider = ({ children }) => {
         addItem,
         removeItem,
         clearItemFromCart,
+        clearCart,
         cartItemsCount,
         cartTotal,
         collections,

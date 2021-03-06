@@ -14,10 +14,15 @@ import {
   DeleteWithConfirmButton,
   ArrayField,
   ImageField,
+  ShowButton,
+  RefreshButton,
+  CreateButton,
+  ExportButton,
+  DateField,
 } from "react-admin";
 import { Fragment } from "react";
 
-const UserBulkActionButtons = (props) => (
+const OrderBulkActionButtons = (props) => (
   <Fragment>
     <BulkDeleteWithConfirmButton {...props} />
   </Fragment>
@@ -26,11 +31,13 @@ const UserBulkActionButtons = (props) => (
 const OrderList = (props) => {
   return (
     <List
-      filters={<OrderFilter />}
       {...props}
-      bulkActionButtons={<UserBulkActionButtons />}
+      filters={<OrderFilter />}
+      actions={<OrderActionsButtons />}
+      bulkActionButtons={<OrderBulkActionButtons />}
+      // style={{ width: "80%" }}
     >
-      <Datagrid>
+      <Datagrid rowClick="edit">
         <TextField source="id" />
         <TextField source="date" />
         <TextField source="firstName" />
@@ -40,7 +47,6 @@ const OrderList = (props) => {
         <TextField source="country" />
         <TextField source="zip" />
         <TextField source="shipping" />
-
         <ArrayField source="cartItems">
           <Datagrid>
             {" "}
@@ -55,14 +61,13 @@ const OrderList = (props) => {
         <TextField source="cartItemsCount" />
         <TextField source="cartTotal" />
         <TextField source="orderState" />
+        <ShowButton label="" />
         <EditButton />
         <DeleteWithConfirmButton />
       </Datagrid>
     </List>
   );
 };
-
-export default OrderList;
 
 const OrderFilter = (props) => (
   <Filter {...props}>
@@ -72,3 +77,13 @@ const OrderFilter = (props) => (
     </ReferenceInput> */}
   </Filter>
 );
+
+const OrderActionsButtons = (props) => (
+  <div>
+    <RefreshButton {...props} />
+    <CreateButton {...props} />
+    <ExportButton {...props} />
+  </div>
+);
+
+export default OrderList;

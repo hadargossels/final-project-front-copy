@@ -5,6 +5,8 @@ import CollectionsContext from "../../contexts/collections/collections.context";
 
 import "./collections-overview.styles.scss";
 import { fireInfo } from "../../firebase/firebase.utils";
+import { SpinnerContainer } from "../with-spinner/with-spinner.styles";
+import { SpinnerOverlay } from "./../with-spinner/with-spinner.styles";
 
 const CollectionsOverview = () => {
   // const collectionsMap = useContext(CollectionsContext);
@@ -13,6 +15,7 @@ const CollectionsOverview = () => {
   // );
 
   const [collections, setSelectedCollection] = useState([]);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     const collectionsRef = fireInfo.database().ref("SHOP_DATA");
@@ -27,11 +30,16 @@ const CollectionsOverview = () => {
 
       console.log("collectionsArr :", collectionsArr);
       setSelectedCollection(collectionsArr);
+      setLoading(false);
     });
   }, []);
 
-  return (
-    <div className="collections-overview">
+  return isLoading ? (
+    <SpinnerOverlay>
+      <SpinnerContainer />
+    </SpinnerOverlay>
+  ) : (
+    <div className=" container collections-overview">
       {collections.map(({ id, ...otherCollectionProps }) => (
         <CollectionPreview key={id} {...otherCollectionProps} />
       ))}

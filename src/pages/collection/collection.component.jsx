@@ -8,6 +8,10 @@ import { fireInfo } from "../../firebase/firebase.utils";
 
 import "./collection.styles.scss";
 // import { withRouter } from "react-router-dom";
+import {
+  SpinnerContainer,
+  SpinnerOverlay,
+} from "./../../components/with-spinner/with-spinner.styles";
 
 const CollectionPage = ({ match, history }) => {
   // const collections = useContext(CollectionsContext);
@@ -30,13 +34,9 @@ const CollectionPage = ({ match, history }) => {
 
   const { title, items } = collection;
   return isLoading ? (
-    <div
-      className="spinner-border"
-      role="status"
-      style={{ width: "3rem", height: "3rem" }}
-    >
-      <span className="sr-only">Loading...</span>
-    </div>
+    <SpinnerOverlay>
+      <SpinnerContainer />
+    </SpinnerOverlay>
   ) : (
     <>
       {" "}

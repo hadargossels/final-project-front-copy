@@ -13,9 +13,15 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import PayPal from "./../../components/paypal/paypal";
 import OrderConfirmation from "../../components/order-confirmation/order-confirmation.component";
 import { fireInfo } from "./../../firebase/firebase.utils";
+import CurrentUserContext from "../../contexts/current-user/current-user.context";
 
 const CheckoutPage = () => {
-  const { cartItems, cartTotal, cartItemsCount } = useContext(CartContext);
+  const { cartItems, cartTotal, cartItemsCount, clearCart } = useContext(
+    CartContext
+  );
+
+  const currentUser = useContext(CurrentUserContext);
+  console.log("currentUser :", currentUser);
 
   const [validPhone, setValidPhone] = useState(false);
   const [promoValue, setPromoValue] = useState();
@@ -47,9 +53,10 @@ const CheckoutPage = () => {
   const id = orderid.generate();
 
   const [orderData, setOrderData] = useState({
-    id: id,
     date: new Date().toLocaleString(),
     firstName: "",
+    id: id,
+    // uid:currentUser.uid,
     lastName: "",
     phone: "",
     address: "",
@@ -59,7 +66,7 @@ const CheckoutPage = () => {
     cartItems: cartItems,
     cartItemsCount: cartItemsCount,
     cartTotal: cartTotal,
-    orderState: "sent",
+    orderState: "Sent",
   });
 
   function handleOnChange(event) {
@@ -74,10 +81,37 @@ const CheckoutPage = () => {
   }
 
   const createOrder = () => {
-    const orderRef = fireInfo.database().ref("orders");
-    const order = orderData;
+    fireInfo.database().ref("orders").push(orderData);
 
-    orderRef.push(order);
+    // const fireRef = fireInfo.database().ref("orders");
+
+    // fireRef.child(fireRef.push(orderData).key).set({
+    //   id: fireRef.push(orderData).key,
+    //   ...orderData,
+    // });
+
+    // const orderRef = fireInfo.database().ref("orders").push(orderData);
+    // console.log("orderRef.key:", orderRef.key);
+    // var keyValue = orderRef.key;
+
+    //  fireRef.set( keyValue {
+    //    id: keyValue,
+    //    ...orderData,
+    //  });
+
+    // לא עובד->    fireRef["id"] = "orderRef.key";
+
+    // const userRef = fireInfo.database().ref("users");
+    // console.log("userRef :", userRef);
+
+    // userRef.child(user.uid).set({
+    //   active: true,
+    //   type: "Customer",
+    //   id: user.uid,
+    //   displayName,
+    //   email,
+    //   ...data,
+    // });
 
     setOrderData({
       date: "",
@@ -109,6 +143,9 @@ const CheckoutPage = () => {
       validShipping
     ) {
       setValidPayment(true);
+      setTimeout(() => {
+        clearCart();
+      }, 10000);
     } else {
       setNotValidClick(true);
       createOrder();
@@ -269,6 +306,8 @@ const CheckoutPage = () => {
         />
       ) : (
         <div className="container check-page">
+          {" "}
+          {currentUser && <h6>Welcome {currentUser.displayName}</h6>}
           <div className="row">
             <div className="col-md-4 order-md-2 mb-4">
               <h4 className="d-flex justify-content-between align-items-center mb-3">

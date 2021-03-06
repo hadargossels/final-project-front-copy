@@ -13,7 +13,8 @@ import SortingBtn from "./../sorting-btn/sorting-btn.component";
 import queryString from "query-string";
 import { useLocation } from "react-router";
 import { fireInfo } from "../../firebase/firebase.utils";
-import { Spinner } from "react-bootstrap";
+import { SpinnerContainer } from "../with-spinner/with-spinner.styles";
+import { SpinnerOverlay } from "./../with-spinner/with-spinner.styles";
 
 const CollectionsOverviewAll = () => {
   // const collectionsMap = useContext(CollectionsContext);
@@ -78,13 +79,9 @@ const CollectionsOverviewAll = () => {
   };
 
   return isLoading ? (
-    <div
-      className="spinner-border"
-      style={{ width: "3rem", height: "3rem" }}
-      role="status"
-    >
-      <span className="sr-only">Loading...</span>
-    </div>
+    <SpinnerOverlay>
+      <SpinnerContainer />
+    </SpinnerOverlay>
   ) : (
     <div className="collections-overview">
       <div className="upper-store-content">

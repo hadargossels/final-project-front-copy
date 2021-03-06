@@ -9,7 +9,7 @@ import "./shopping-cart.styles.scss";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const ShoppingCartPage = () => {
-  const { cartItems, cartTotal } = useContext(CartContext);
+  const { cartItems, cartTotal, clearCart } = useContext(CartContext);
 
   return (
     <div className="shopping-cart">
@@ -31,7 +31,7 @@ const ShoppingCartPage = () => {
           </button>
         </Link>
         <button
-          // onClick={() => clearCart()}
+          onClick={() => clearCart()}
           type="button"
           className="btn btn-secondary  btn-lg clear-cart"
         >

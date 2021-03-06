@@ -22,7 +22,6 @@ import BlogPreviewPage from "./pages/blog-preview/blog-preview.component";
 import BlogPage from "./pages/blog/blog.component";
 import CheckoutPage from "./pages/checkout/checkout.component";
 import ContactPage from "./pages/contact/contact.component";
-import DashboardPage from "./pages/dashboard/dashboard.component";
 import ForgotPassword from "./pages/forgot-password/forgot-password.component";
 import HomePage from "./pages/homepage/homepage.component";
 import NotFoundPage from "./pages/notfound/notfound.component";
@@ -62,6 +61,8 @@ import { UserShow } from "./pages/admin/components/UserShow";
 import AccountAdminDashboard from "./pages/admin/AccountAdminDashboard";
 import { ComputerIcon } from "@material-ui/icons/Computer";
 import ShopShow from "./pages/admin/components/ShopShow";
+import { OrderShow } from "./pages/admin/components/orders/OrderShow";
+import Profile from "./pages/profile/profile.component";
 
 const options = {
   logging: true,
@@ -160,10 +161,10 @@ class App extends React.Component {
             />{" "}
             <Route
               exact
-              path="/dashboard"
+              path="/profile"
               render={() =>
                 this.state.currentUser && !this.state.loading ? (
-                  <DashboardPage />
+                  <Profile />
                 ) : (
                   <Redirect to="/" />
                 )
@@ -207,10 +208,10 @@ class App extends React.Component {
                       <Resource
                         name="orders"
                         icon={OrderIcon}
-                        // show={PostShow}
                         list={OrderList}
-                        // create={OrderCreate}
-                        // edit={OrderEdit}
+                        show={OrderShow}
+                        create={OrderCreate}
+                        edit={OrderEdit}
                       />
 
                       {/* <Resource

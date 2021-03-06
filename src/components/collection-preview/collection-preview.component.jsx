@@ -1,12 +1,12 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 
-import CollectionItem from "../collection-item/collection-item.component";
+import CollectionItemPreview from "../collection-item-preview/collection-item-preview.component";
 
 import "./collection-preview.styles.scss";
 
 const CollectionPreview = ({ title, items, history, routeName }) => (
-  <div className="collection-preview">
+  <div className="collection-preview  row item-grid-component ">
     <h1
       className="title"
       onClick={() => history.push(`/shop/${routeName.toLowerCase()}`)}
@@ -17,16 +17,17 @@ const CollectionPreview = ({ title, items, history, routeName }) => (
       {items
         .filter((item, idx) => idx < 4)
         .map((item) => (
-          <CollectionItem key={item.id} item={item} />
+          <CollectionItemPreview key={item.id} item={item} />
         ))}
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        onClick={() => history.push(`/shop/${routeName.toLowerCase()}`)}
+      >
+        See More...
+      </button>
     </div>
-    <button
-      type="button"
-      class="btn btn-warning"
-      onClick={() => history.push(`/shop/${routeName.toLowerCase()}`)}
-    >
-      See More...
-    </button>
   </div>
 );
 

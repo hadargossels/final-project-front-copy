@@ -63,7 +63,7 @@ const UserList = (props) => {
       bulkActionButtons={<UserBulkActionButtons />}
       // style={{ width: "50%" }}
     >
-      <Datagrid rowClick="edit">
+      <Datagrid rowClick="show">
         <TextField source="id" />
         <TextField source="displayName" />
         <EmailField source="email" />

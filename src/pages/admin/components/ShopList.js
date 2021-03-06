@@ -37,7 +37,7 @@ const ShopList = (props) => {
       bulkActionButtons={<UserBulkActionButtons />}
       style={{ width: "80%" }}
     >
-      <Datagrid>
+      <Datagrid rowClick="show">
         <NumberField source="id" />
         <TextField source="title" />
         <ArrayField source="items">
@@ -49,14 +49,14 @@ const ShopList = (props) => {
             <ImageField source="imageUrl" />{" "}
             <NumberField label="in Stock" source="amount" />
             <NumberField source="price" />
-            {/* <EditButton /> */}
+            <ShowButton label="" />
+            <EditButton />
+            <DeleteWithConfirmButton />
           </Datagrid>
         </ArrayField>
         <CreateButton />
-        <ShowButton label="" />
 
-        <EditButton />
-        <DeleteWithConfirmButton />
+        {/* <EditButton /> */}
       </Datagrid>
     </List>
   );
