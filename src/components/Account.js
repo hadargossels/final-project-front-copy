@@ -2,7 +2,8 @@
 
 import React, { Component } from 'react'
 import './Account.css';
-import firebase from "firebase/app";
+import {auth} from '../firebase'
+import Auth from './auth'
 import "firebase/database";
 import {db} from '../firebase'
 
@@ -13,10 +14,12 @@ export default class Account extends Component {
     constructor(props){
         super(props)
         this.state={
-         users:[],
+         user:"",
+         userId:""
+
         }
 
-        this.writeUserData=this.writeUserData.bind(this)
+        this.updateUserData=this.updateUserData.bind(this)
         this.getDataFromFirebase=this.getDataFromFirebase.bind(this)
 
         this.emailRef= React.createRef()
@@ -24,86 +27,81 @@ export default class Account extends Component {
     }
 
     componentDidMount(){
-        this.getDataFromFirebase()
+       this.getDataFromFirebase()
       }
 
-      getDataFromFirebase(){
-        db.on('value', (snapshot)=>{
-          if(snapshot.val()!=null) this.setState({users: snapshot.val()})
+      updateUserData(e){
+
+        auth.onAuthStateChanged(user=>{
+  
+           if(user){
+            console.log(user.uid)
+            let data={
+              "id":user.uid,
+              "firstName":e[0].value,
+              "lastName":e[1].value,
+              "email":e[3].value,
+              "phone":e[2].value,
+              "address":{
+                 "street":e[4].value,
+                 "city":e[5].value,
+                 "type":e[6].value,
+                 "zipcode":e[7].value
+              },
+            //   password:e[4].value,
+              "role":"user",
+              "active":true
+            }
+            db.child('users').child(user.uid).set(data)
+           }
         })
       }
 
-    async writeUserData(e) {
+      async getDataFromFirebase(){
 
-        const email=this.emailRef.current
-        let userId
-        let flag=false
-        let i
+        const formData= this.formRef.current
+        let userData
+        let userUid
 
-        for(i=0;i<this.state.users.length;i++){
-          
-          if(this.state.users[i] && this.state.users[i].email===email.value){
+       await auth.onAuthStateChanged(user=>{
+          if(user)
+           this.setState({userId:user.uid})
+       })
 
-            flag=true
-           break
-          }
-        }
-
-
-        if(flag){
-
-          firebase.database().ref('user/' + i).update({
-           
-            fullName: e[0].value +' '+e[1].value,
-            phone:e[2].value,
-            email: e[3].value,
-            city : e[5].value,
-            street : e[4].value
-          });
-        
-
-        }else{
-
-          await db.get().then(function(snapshot) {
-            if (snapshot.exists()) {
-              userId=snapshot.val().length
-            }
-            else {
-              console.log("No data available");
-              userId=0
-            }
-          }).catch(function(error) {
-            console.error(error);
-          });
+       userUid=this.state.userId
+        db.on('value', (snapshot)=>{
+          if(snapshot.val()!=null){
+            userData=snapshot.val().users[userUid]
+            this.setState({user: userData})
   
-          firebase.database().ref('user/' + userId).set({
-           
-            fullName: e[0].value +' '+e[1].value,
-            phone:e[2].value,
-            email: e[3].value,
-            city : e[5].value,
-            street : e[4].value
-          });
-        }
-        
-        this.getDataFromFirebase()
-        
+            formData[0].value=userData.firstName
+            formData[1].value=userData.lastName
+            formData[2].value=userData.phone
+            formData[3].value=userData.email
+            formData[4].value=userData.address.street
+            formData[5].value=userData.address.city
+            formData[6].value=userData.address.type
+            formData[7].value=userData.address.zipcode
+
+          } 
+        })
       }
 
       deleteUser(){
 
-        const email=this.emailRef.current
-        let flag=false
-        
-        for(let i=0;i<this.state.users.length;i++){
-          
-          if(!flag && this.state.users[i] && this.state.users[i].email===email.value){
+           let bool= window.confirm("האם אתה בטוח שתרצה למחוק את המשתמש?");
 
-            flag=true
-            db.child(i).remove()
-          }
-        }
-        this.getDataFromFirebase()
+           if(bool){
+            auth.signOut().then(() => {
+              // Sign-out successful.
+              
+                 Auth.setProtectPath(() => {this.props.history.push("/");},"account")
+                 Auth.setName("אורח")
+                 Auth.logout()             
+            })
+            //.then(db.child('users').child(this.state.userId).remove())
+            
+           }
       }
 
 
@@ -122,8 +120,8 @@ export default class Account extends Component {
                                 <div className="user-avatar">
                                   <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Maxwell Admin"/>
                                 </div>
-                                <h4 className="user-name">Yuki Hayashi</h4>
-                                <h5 className="user-email">yuki@Maxwell.com</h5>
+                                <h4 className="user-name">{this.state.user.firstName} {this.state.user.lastName}</h4>
+                                <h5 className="user-email">{this.state.user.email}</h5>
                               </div>
                             </div>
                           </div>
@@ -131,7 +129,7 @@ export default class Account extends Component {
                       </div>
                       <div className="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
                         <div className="card h-100">
-                          <form className="card-body" method="POST" onSubmit={(e)=>{e.preventDefault(); this.writeUserData(e.target)}} ref={this.formRef}>
+                          <form className="card-body" method="POST" onSubmit={(e)=>{e.preventDefault(); this.updateUserData(e.target)}} ref={this.formRef}>
                             <div className="row gutters">
                               <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <h5 className="mb-3 text-primary">פרטי המשתמש</h5>

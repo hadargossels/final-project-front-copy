@@ -44,7 +44,7 @@ class Header extends Component{
       this.logInFaceBook=this.logInFaceBook.bind(this)
       this.getDataFromFirebase=this.getDataFromFirebase.bind(this)
       this.chechAccountType=this.chechAccountType.bind(this)
-
+      this.loginAfterRefresh=this.loginAfterRefresh.bind(this)
       
    }
 
@@ -53,11 +53,42 @@ class Header extends Component{
       this.SignUpRef.current.style.display="none"
       this.welcomeRef.current.style.display="none"
       this.getDataFromFirebase()
+
    }
 
 
-   getDataFromFirebase(){
-      db.on('value', (snapshot)=>{if(snapshot.val()!=null) this.setState({users: snapshot.val()})
+    getDataFromFirebase(){
+
+       db.on('value',async (snapshot)=>{if(snapshot.val()!=null){
+         await this.setState({users: snapshot.val()})
+         this.loginAfterRefresh()
+      } 
+      })
+    }
+
+    loginAfterRefresh(){
+
+      const login =this.LogInRef.current
+      const welcome=this.welcomeRef.current
+
+      auth.onAuthStateChanged(user=>{
+
+         if(user){
+            let p=this.props.history.location.pathname
+            Auth.setName(user.email)
+            Auth.login()
+            this.chechAccountType(user)
+            this.setState({name:Auth.getName()})
+            login.style.display="none"
+            welcome.style.display="block"
+
+            if(p==='/admin' || p==='/user'){
+               Auth.setProtectPath(() => {this.props.history.push(`/${Auth.getRole()}`);},"account")
+            }
+            if(p==='/checkout'){
+               Auth.setProtectPath(() => {this.props.history.push("/checkout");},"cart")
+            }
+         }
       })
     }
 
@@ -83,9 +114,13 @@ class Header extends Component{
    }
    chechAccountType(user){
 
-     let varUid=user.uid
-     const obj=this.state.users.users[varUid]
-     Auth.setRole(obj.role)
+      if(user.uid){
+
+         let varUid=user.uid
+         const obj=this.state.users.users[varUid]
+         Auth.setRole(obj.role)
+
+      }
 
    }
 

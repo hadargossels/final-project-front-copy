@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import querystring from "query-string";
 import './Catalog.css';
 import SortBar from "./Sortbar";
-import firebase from "firebase/app";
 import "firebase/database";
 import {db} from '../firebase'
 
@@ -46,6 +45,7 @@ class Catalog extends Component {
     }
     getDataFromFirebase(){
       let myData = ""
+      
       db.on('value', (snapshot)=>{
         if(snapshot.val()!=null){
 

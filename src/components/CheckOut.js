@@ -4,8 +4,10 @@ import {NavLink } from 'react-router-dom';
 import './CheckOut.css';
 import OrderConfirmation from './OrderConfirmation';
 import Paypal from './Paypal';
-import axios from 'axios'
-
+import {db} from '../firebase'
+import {auth} from '../firebase'
+import 'firebase/auth'
+import "firebase/database";
 
 let coupons=[]
 // const coupons= require("../dataBase/couponData.json")
@@ -64,6 +66,7 @@ export default class CheckOut extends Component {
 
     componentDidMount(){
 
+        this.getDataFromFirebase()
         this.mailMassegeRef.current.style.display="none"
         this.userMassegeRef.current.style.display="none"
         this.cityMessageRef.current.style.display="none"
@@ -74,9 +77,22 @@ export default class CheckOut extends Component {
         this.loadItemsFromLocalStorage()
         this.calculator()
 
-        axios.get("http://localhost:3000/coupons").then(
-            (response)=>{coupons=response.data}
-        ).catch(()=>{coupons= require("../dataBase/couponData.json")
+    }
+
+    getDataFromFirebase(){
+
+        let myData = ""
+        
+        db.on('value',async (snapshot)=>{
+          if(snapshot.val()!=null){
+  
+              myData = (snapshot.val())
+  
+          for (const [key, value] of Object.entries(myData)) {
+              myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
+            }
+            coupons=myData.coupons
+           } 
         })
     }
 
@@ -323,6 +339,49 @@ export default class CheckOut extends Component {
         }
 
         this.setState({validPay:flag})
+
+        if(flag){
+
+            let today=new Date()
+
+            let dd = String(today.getDate()).padStart(2, '0');
+            let mm = String(today.getMonth() + 1).padStart(2, '0');
+            let yyyy = today.getFullYear();
+            let hh = today.getHours();
+            let m = today.getMinutes();
+            if(m<10)
+                m="0"+m
+            if(hh<10)
+                hh="0"+hh
+            let hour= hh+ ':' +m
+            
+            today = dd + '/' + mm + '/' + yyyy;
+
+            let myData = ""
+            let orderLng
+        
+            db.on('value', (snapshot)=>{
+                if(snapshot.val()!=null){
+        
+                    myData = (snapshot.val())
+        
+                for (const [key, value] of Object.entries(myData)) {
+                    myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
+                  }
+                  orderLng = (myData.orders)? myData.orders.length : 0
+                } 
+              })
+
+
+            let data = {id:orderLng,cart:this.state.arrItems,userOrder:this.state.detailUser,payment:this.state.total,date:{date:today,time:hour},doneAndSend:false}
+
+            auth.onAuthStateChanged(user=>{
+  
+                if(user){
+                    db.child('orders').child(orderLng).set(data)
+                }
+             })
+        }
     }
     
     valiNumber(e) {

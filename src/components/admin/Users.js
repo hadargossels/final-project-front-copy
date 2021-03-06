@@ -8,16 +8,20 @@ import MyActiveField from './MyActiveField';
 import ActivationButton from './ActivationButton';
 
 
-const UserActionsButtons = props => (
-    <div>
-        <RefreshButton {...props}/>
-        <ExportButton {...props}/>
-        <CreateButton {...props}/>
-    </div>
-);
+
+
+// const UserActionsButtons = props => (
+    
+//     <div>
+//         <RefreshButton {...props}/>
+//         <ExportButton {...props}/>
+//         <CreateButton {...props}/>
+//     </div>
+// );
 
 export const UserList = props => (
-    <List filters={<UserFilter />} actions={<UserActionsButtons/>} {...props}>
+    
+    <List {...props} filters={<UserFilter />} >
         <Datagrid>
             <TextField source="id" />
             <TextField source="firstName" />
@@ -99,3 +103,5 @@ export const UserCreate = props => (
             </ReferenceInput>
         </Filter>
     );
+
+    

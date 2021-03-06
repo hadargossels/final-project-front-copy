@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import {NavLink } from 'react-router-dom';
 import './Product.css';
 import Rating from './Rating';
-import axios from 'axios'
-
+import "firebase/database";
+import {db} from '../firebase'
 
 //const productArr= require("../dataBase/productsData.json")
 
@@ -32,26 +32,34 @@ class Product extends Component{
     }
 
     componentDidMount(){
-
-        axios.get("http://localhost:3000/products")
-        .then((response)=>{let productArr=response.data
         
-            const product=productArr.filter((item)=>{
-                return (item["title"]==this.props.match.params.ProductName)
-            })
-            this.setState({prod:product[0]})
-        
-        }).then(()=>{this.priceSmallExists();this.makeArrayImage()})
-        .catch(()=>{
-            const productArr= require("../dataBase/productsData.json")
-
-            const product=productArr.filter((item)=>{
-                return (item["title"]==this.props.match.params.ProductName)
-            })
-            this.setState({prod:product[0]})
-        })
+        this.getDataFromFirebase()
 
     }
+    getDataFromFirebase(){
+        let myData = ""
+        
+        db.on('value',async (snapshot)=>{
+          if(snapshot.val()!=null){
+  
+              myData = (snapshot.val())
+  
+          for (const [key, value] of Object.entries(myData)) {
+              myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
+            }
+            myData = myData.products
+
+            const product=myData.filter((item)=>{
+                return (item["title"]==this.props.match.params.ProductName)
+            })
+            await this.setState({prod:product[0]})
+            this.makeArrayImage()
+            this.priceSmallExists()
+          } 
+        })
+      }
+
+
     showPriceSmall(){
         
         const price = this.priceChoiceRef.current
@@ -165,9 +173,8 @@ quantity(e){
 
 
    render(){
-    
-      return(
-
+    console.log()
+    return(
          <div id="bg">
             <div className="margin-top-product">
                 <div className="d-flex flex-row bd-highlight flex-wrap justify-content-center">

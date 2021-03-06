@@ -1,12 +1,10 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import Auth from "./auth";
-
-
+import SpinnerPage from './Spinner'
+import './protected.route.css'
 
 export const Protect = ({ component: Component, ...rest}) => {
-  console.log(Auth.isAuthenticated())
-  console.log(Auth.getPath())
 
   return (<Route {...rest} render={props => {
     
@@ -26,10 +24,12 @@ export const Protect = ({ component: Component, ...rest}) => {
         alert("חייב להיות רשום לאתר ")
         return ( <Redirect to={{ pathname: "/", state: { from: props.location } }}/> );
       }
+    }else{
+
+      return <div className="containerOfSpinner"><SpinnerPage /></div>
     }
       
-
-
       }} /> );
-
 };
+
+

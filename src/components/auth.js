@@ -18,6 +18,9 @@ class Auth {
        this.path= await p
        cb();
     }
+    setPath(p){
+      this.path=p
+    }
   
     isAuthenticated() {
       return this.authenticated;

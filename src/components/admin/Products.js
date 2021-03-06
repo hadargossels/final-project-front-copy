@@ -1,29 +1,28 @@
 
 
 import * as React from "react";
-import { List, Datagrid, TextField, EmailField,ReferenceField,EditButton,Edit,Create,SimpleForm,
-    ReferenceInput,SelectInput,TextInput, DeleteButton,Filter,BooleanInput,AutocompleteInput,email,required,RefreshButton,
+import { List, Datagrid, TextField, EmailField,EditButton,Edit,Create,SimpleForm,
+    ReferenceInput,SelectInput,TextInput,Filter,BooleanInput,RefreshButton,
     ExportButton,CreateButton,ImageField} from 'react-admin';
 import MyActiveField from './MyActiveField';
-import ActivationButton from './ActivationButton';
 
 
-const UserActionsButtons = props => (
+const ProductActionsButtons = props => (
     <div>
-        <RefreshButton {...props}/>
-        <ExportButton {...props}/>
-        <CreateButton {...props}/>
+        <RefreshButton />
+        <ExportButton />
+        <CreateButton />
     </div>
 );
 
 export const ProductList = props => (
-    <List filters={<UserFilter />} actions={<UserActionsButtons/>} {...props}>
+    <List {...props} filters={<UserFilter/>} actions={<ProductActionsButtons />}>
         <Datagrid>
             <TextField source="id" />
             <TextField source="title" />
             <ImageField source="img"/>
             <TextField source="priceSmall" />
-            <EmailField source="priceBig" />
+            <TextField source="priceBig" />
             <TextField source="stars" />
             <TextField source="new" />
             <MyActiveField source="active" />

@@ -2,7 +2,8 @@
 
 import React, { Component } from 'react'
 import './RecipeProduct.css';
-import axios from 'axios'
+import {db} from '../firebase'
+
 
 
 
@@ -16,7 +17,7 @@ export default class RecipeProduct extends Component {
         this.state={
             recipe:"",
             validForm:"",
-            counter:1,
+            counter:0,
             arrayOfMassege:[],
         }
 
@@ -33,31 +34,33 @@ export default class RecipeProduct extends Component {
     }
 
     componentDidMount(){
+
+        this.getDataFromFirebase()
         
-        axios.get("http://localhost:3000/recipes").then(
-            (response)=>{let recipesArr=response.data; return recipesArr})
-            .then((recipesArr)=>{
-                const recipeTemp=recipesArr.filter((item)=>{
-                    return (item["title"]==this.props.match.params.RecipeName)
-                })
-                return recipeTemp
-            }).then((recipeTemp)=>{this.setState({recipe:recipeTemp[0]})})
-
-        .catch(()=>{
-
-            let recipesArr= require("../dataBase/recipesData.json")
-            const recipeTemp=recipesArr.filter((item)=>{
-                    return (item["title"]==this.props.match.params.RecipeName)
-                })
-            this.setState({recipe:recipeTemp[0]})
-        })
-
-
         this.textMassegeRef.current.style.visibility="hidden"
         this.mailMassegeRef.current.style.visibility="hidden"
         this.userMassegeRef.current.style.visibility="hidden"
+    }
+    getDataFromFirebase(){
 
-        this.updateMassegeList()
+        let myData = ""
+        
+        db.on('value',async (snapshot)=>{
+          if(snapshot.val()!=null){
+  
+              myData = (snapshot.val())
+  
+          for (const [key, value] of Object.entries(myData)) {
+              myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
+            }
+            this.setState({arr:myData.recipes})
+            const recipeTemp=myData.recipes.filter((item)=>{
+                return (item["title"]==this.props.match.params.RecipeName)
+            })
+            await this.setState({recipe:recipeTemp[0]})
+            this.updateMassegeList()
+           } 
+        })
     }
 
     myFunction() {
@@ -93,7 +96,7 @@ export default class RecipeProduct extends Component {
 
         if((mailInput.value.includes("@")) && (array.length==2)&&(array[1].includes("."))){
             array=array[1].split(".");
-            if(array.length==2)
+            if(array.length>=2)
                 mailMassege.style.visibility="hidden"
             else{
                 mailMassege.style.visibility="visible"
@@ -125,16 +128,6 @@ export default class RecipeProduct extends Component {
         this.setState({validForm:flag})
 
         if(flag){
-
-            let storage=JSON.parse(localStorage.getItem("blogStorage")||"[]")
-            
-
-            if(storage[0]){
-
-                    tempArray=storage.filter((item)=>{
-                    return (item["titleBlog"]===this.state.recipe.title)
-                 })
-            }
             
             today=new Date()
 
@@ -155,9 +148,8 @@ export default class RecipeProduct extends Component {
             let massege={id:this.state.counter,fname:fnameInput.value,lname:lnameInput.value,mail:mailInput.value,textMassege:textInput.value,titleBlog:this.state.recipe.title,date:today,time:hour}
             count++
             tempArray.unshift(massege)
-            storage.unshift(massege)
+            db.child('blogStorage').child(massege.id).set(massege)
 
-            localStorage.setItem("blogStorage",JSON.stringify(storage))
             this.setState({counter:count})
             this.setState({arrayOfMassege:tempArray})
             window.alert("ההודעה נוספה בהצלחה")
@@ -165,19 +157,35 @@ export default class RecipeProduct extends Component {
         }
     }
 
-    updateMassegeList(){
+     updateMassegeList(){
 
-        let storage=JSON.parse(localStorage.getItem("blogStorage")||"[]")
+        let storage
+        let myData = ""
+        
+        db.on('value', (snapshot)=>{
+            if(snapshot.val()!=null){
+    
+                myData = (snapshot.val())
+    
+            for (const [key, value] of Object.entries(myData)) {
+                myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
+              }
+              storage = (myData.blogStorage)? myData.blogStorage : []
+            } 
+          })
+
         let tempArray
+        let revtempArray
 
         if(storage[0]){
-
+                this.setState({counter:storage.length})
                 tempArray=storage.filter((item)=>{
                     return (item["titleBlog"]===this.state.recipe.title)
              })
+             revtempArray=tempArray.reverse()
         }
-        this.setState({arrayOfMassege:tempArray})
-
+        
+        this.setState({arrayOfMassege:revtempArray})
     }
 
 
@@ -212,7 +220,7 @@ export default class RecipeProduct extends Component {
                         
                             
                         <div className="topnav m-5" >
-                            <a href="#" className="active" onClick={()=>this.myFunction()}>לחץ כאן להוספת תגובה</a>
+                            <a className="active" onClick={()=>this.myFunction()}>לחץ כאן להוספת תגובה</a>
 
                             <div className="formRecipe fs-4 mb-3" id="myLinks">
                                 
