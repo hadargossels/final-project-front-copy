@@ -1,3 +1,4 @@
+import { address } from 'faker'
 import React, { useContext, useState, useEffect } from 'react'
 import { auth } from './firebase'
 
@@ -13,6 +14,21 @@ export function AuthProvider({children}) {
 
     function signup (email, password) {
         return auth.createUserWithEmailAndPassword(email, password)
+    }
+
+    function userData (displayName, photoURL) {
+        const user = auth.currentUser;
+        
+        if (user != null) {
+            return user.updateProfile({
+                displayName: displayName,
+                photoURL: photoURL
+              }).then(function() {
+                console.log(user.displayName)
+              }).catch(function(error) {
+               console.log(error)
+              });
+          }
     }
 
     function login(email,password) {
@@ -53,7 +69,8 @@ export function AuthProvider({children}) {
         logout,
         resetPassword,
         updateEmail,
-        updatePassword
+        updatePassword,
+        userData
         
     }
     return (

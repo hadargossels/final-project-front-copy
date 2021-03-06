@@ -27,6 +27,7 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import PrivateRoute from "./components/PrivateRoute";
 import ForgotPassword from "./components/ForgotPassword";
 import UpdateProfile from "./components/UpdateProfile";
+import Administrator from './components/admin/Administrator';
 
 localStorage.setItem("orderErr","")
 localStorage.setItem("orderId","")
@@ -66,6 +67,7 @@ const router = (
      <Route exact path="/Blog" component={Blog}/>
      <Route path="/Shipping" component={Shipping}/>
      <Route path="/Faq" component={Faq}/>
+     <Route path='/Admin' component={Administrator}/>
      {/* <Route path="/Login" component={Login}/> */}
      <Route path="/Product/:productid" component={Product}/>
      <Route exact path = "/Cart" component={Cart}/>

@@ -90,6 +90,35 @@ function generateData () {
       "featured": featured
     })
   }
-  return { "comments": comments, "blog":blog, "product": product, "store": store }
+
+  let users = []
+for (let id = 1; id < 50; id++) {
+  let firstName = faker.name.firstName()
+  let lastName = faker.name.lastName()
+  let email = faker.internet.email()
+  let country = faker.address.country()
+  let city = faker.address.city()
+  let addressStreet = faker.address.streetAddress()
+  let zip = faker.address.zipCode()
+  let phone = faker.phone.phoneNumber()
+  let role = faker.random.arrayElement(['admin', 'client', 'guest'])
+  let active = faker.random.boolean()
+  users.push({
+    "id": id,
+    "firstName": firstName,
+    "lastName": lastName,
+    "email": email,
+    "country": country,
+    "city": city,
+    "address": addressStreet,
+    "zip": zip,
+    "phone": phone,
+    "role": role,
+    "active": active,
+  })
+}
+
+  
+  return { "comments": comments, "blog":blog, "product": product, "store": store, "users": users}
 }
 module.exports = generateData
