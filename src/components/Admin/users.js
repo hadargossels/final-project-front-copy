@@ -1,8 +1,7 @@
 import * as React from "react";
-import { SelectInput, List, Create, TextInput, Datagrid, TextField, EmailField,Edit, SimpleForm,EditButton } from 'react-admin';
+import {useNotify, useRedirect, SelectInput, List, Create, TextInput, Datagrid, TextField, EmailField,Edit, SimpleForm,EditButton } from 'react-admin';
 import MyUserField from './MyUserField';
-import Button from '@material-ui/core/Button';
-
+import {auth,db} from "../../firebase"
 
 export const UserList = props => (
     <List {...props}>
@@ -29,6 +28,7 @@ export const UserEdit = props => (
             ]} /> 
         <SelectInput source="role" choices={[
                 { id: 'User', name: 'User' },
+                { id: 'Owner', name: 'Shop Owner' },
                 { id: 'Admin', name: 'Admin' },
             ]} /> 
         </SimpleForm>
@@ -36,16 +36,43 @@ export const UserEdit = props => (
 );
 
 
-export const UserCreate = props => (
-    <Create {...props}>
-        <SimpleForm>
-            <TextInput source="name" />
+export const UserCreate = props =>{
+    const redirect = useRedirect();
+    const notify = useNotify();
+
+
+    function addUser(userData){
+        auth.createUserWithEmailAndPassword(userData.email, userData.password)
+        .then(() => {
+
+            auth.onAuthStateChanged((user)=>{
+                db.ref().child('users').child(user.uid).set({
+                    id:user.uid,
+                    username:userData.username,
+                    email:userData.email,
+                    role:"User",
+                    activity:"Active"
+                })
+                 redirect('/users');
+            })     
+       
+        })  
+        .catch((error) => {
+            notify(`Could not add user: ${error.message}`)
+        });
+    }
+
+    return (
+    <Create {...props} >
+        <SimpleForm save={(userData)=>addUser(userData)}>
+            <TextInput source="username" />
             <TextInput source="email" />
-            <TextInput source="phone" />
+            <TextInput source="password" />
         <SelectInput source="role" choices={[
                 { id: 'User', name: 'User' },
+                { id: 'Owner', name: 'Shop Owner' },
                 { id: 'Admin', name: 'Admin' },
             ]} /> 
         </SimpleForm>
     </Create>
-);
+)};

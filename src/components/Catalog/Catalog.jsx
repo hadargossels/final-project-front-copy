@@ -31,34 +31,48 @@ export default class Catalog extends Component {
         this.typeRef2=React.createRef()
         this.typeRef3=React.createRef()
 
-        // this.cbRef=null
-        // this.setCbRef=element =>{
-        //     this.cbRef=element
-        // }
+        this.searchRef=React.createRef()
     }
 
-    // componentDidUpdate(prevProps) {       
-    //     if (this.props.location.search !== prevProps.location.search) {
-    //         let myArr =[...this.state.allProducts]
-    //         this.cbRef.value=window.location.search.slice(3)
-           
-    //         myArr = myArr.filter((prod) => {
-    //             return (prod.description.toLowerCase().includes(this.cbRef.value.toLowerCase())
-    //             || prod.title.toLowerCase().includes(this.cbRef.value.toLowerCase()))     
-    //         }); 
-    //         myArr.sort(function(a,b){
-    //             return b.price-a.price})
-    //         this.setState({ Products: myArr })
-    //   }
-    // }
+    componentDidUpdate(prevProps) {    
+    if(this.props.location.search!==prevProps.location.search){
+        this.searchRef.current.value=window.location.search.slice(3)
+        let myArr =[...this.state.allProducts]
+        myArr = myArr.filter((prod) => {
+            return (prod.description.toLowerCase().includes(this.searchRef.current.value.toLowerCase())
+            || prod.title.toLowerCase().includes(this.searchRef.current.value.toLowerCase()))     
+        }); 
+        myArr.sort(function(a,b){
+            return b.price-a.price})
+        this.setState({ Products: myArr})
+        }
+    }
+
     componentDidMount(){
 
-        db.ref('products').on('value', (snapshot)=>{if(snapshot.val()!=null)
-            this.setState({
-              Products: snapshot.val(),
-              allProducts:snapshot.val()
-            })
-          })
+        db.ref('products').on('value', (snapshot)=>{
+            if(snapshot.val()!=null){
+            let arrProducts = []
+            let arrAllProducts = []
+            for (let obj in snapshot.val()) {
+                arrProducts.push(snapshot.val()[obj])
+                arrAllProducts.push(snapshot.val()[obj])
+            }
+            
+        if(window.location.search!==""){
+            this.searchRef.current.value=window.location.search.slice(3)
+            let myArr =[...arrAllProducts]
+            myArr = myArr.filter((prod) => {
+                return (prod.description.toLowerCase().includes(this.searchRef.current.value.toLowerCase())
+                || prod.title.toLowerCase().includes(this.searchRef.current.value.toLowerCase()))     
+            }); 
+            myArr.sort(function(a,b){
+                return b.price-a.price})
+            this.setState({ Products: myArr,allProducts:arrAllProducts })
+            }
+        else
+            this.setState({Products: arrProducts,allProducts:arrAllProducts})}})
+
 
 
         fetch("https://api.coincap.io/v2/assets")
@@ -146,6 +160,7 @@ export default class Catalog extends Component {
  
 
     render() {
+       
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -155,7 +170,7 @@ export default class Catalog extends Component {
                         <div className="container-fluid">
                             <form className="d-flex">
                             
-                            <input id="search" ref={this.setCbRef} onChange={this.updateStateSearch} className="form-control me-2" type="search" placeholder="Search items" aria-label="Search"/>
+                            <input id="search"  ref={this.searchRef} onChange={this.updateStateSearch} className="form-control me-2" type="search" placeholder="Search items" aria-label="Search"/>
                             </form>
                         </div>
                         <br/>

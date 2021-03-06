@@ -1,9 +1,10 @@
 import * as React from "react";
 import { Admin, Resource} from 'react-admin';
 import { ProductList,ProductCreate,ProductEdit } from './products'
-import { UserList, UserCreate} from './users'
+import { UserList, UserCreate, UserEdit} from './users'
 import { PostList,PostEdit, PostCreate } from './posts';
 import { BlogList,BlogEdit, BlogCreate } from './blogs';
+import { OrderList,OrderEdit} from './orders';
 import PostIcon from '@material-ui/icons/Book';
 import UserIcon from '@material-ui/icons/Group';
 import firebaseDataProvider from 'ra-data-firebase-client'
@@ -25,11 +26,12 @@ const dataProvider = firebaseDataProvider(firebase,{})
 const authProvider = FirebaseAuthProvider(config);
 
 const App = () => (
-      <Admin dataProvider={dataProvider} authProvider={authProvider} >
+      <Admin dataProvider={dataProvider} authProvider={authProvider}>
           <Resource name="posts" list={PostList} edit={PostEdit} create={PostCreate} icon={PostIcon}/>
-          <Resource name="users" list={UserList} icon={UserIcon} create={UserCreate}/>
+          <Resource name="users" list={UserList} icon={UserIcon} create={UserCreate} edit={UserEdit}/>
           <Resource name="products" list={ProductList} edit={ProductEdit} create={ProductCreate}/>
           <Resource name="blogs" list={BlogList} edit={BlogEdit} create={BlogCreate} icon={PostIcon}/>
+          <Resource name="orders" list={OrderList} edit={OrderEdit}/>
      </Admin>
   );
 export default App;

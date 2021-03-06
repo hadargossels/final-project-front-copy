@@ -7,6 +7,8 @@ import { List,
        Edit,
         TextInput,
         SelectInput,
+        NumberInput,
+        EditButton,
     SimpleForm} from 'react-admin';
 
 export const ProductList = props => (
@@ -17,6 +19,7 @@ export const ProductList = props => (
             <TextField source="rating" />
             <TextField source="title" />
             <TextField source="description" />
+            <EditButton basepath="/products" />
         </Datagrid>
     </List>
 );
@@ -25,11 +28,11 @@ export const ProductCreate = props => (
     <Create {...props}>
         <SimpleForm>
             <TextInput source="title" />
-            <TextInput source="onsale" />
+            <NumberInput source="onsale" />
             <TextInput source="description" />
             <TextInput source="image" />
-            <TextInput source="price" />
-            <TextInput source="rating" />
+            <NumberInput source="price" />
+            <NumberInput source="rating" />
 
             <SelectInput source="hardware" choices={[
                 { id: 'true', name: 'True' },
@@ -44,14 +47,14 @@ export const ProductCreate = props => (
 );
 
 const ProductTitle = ({ record }) => {
-    return <span>User {record ? `"${record.title}"` : ''}</span>;
+    return <span>Product: {record ? `"${record.title}"` : ''}</span>;
 }
 export const ProductEdit = props => (
     <Edit title={<ProductTitle />} {...props}> 
         <SimpleForm>
             <TextInput source="title" />
             <TextInput source="onsale" />
-            <TextInput source="description" />
+            <TextInput multiline source="description" />
             <TextInput source="image" />
             <TextInput source="price" />
             <TextInput source="rating" />

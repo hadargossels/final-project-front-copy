@@ -3,7 +3,7 @@ import './Login.css';
 import { Form, Button, Card, Container,Alert } from "react-bootstrap";
 import {Link} from "react-router-dom"
 import Auth from '../../Auth'
-import {auth} from '../../firebase'
+import {auth,db} from '../../firebase'
 import 'firebase/auth'
 import firebase from 'firebase/app'
 
@@ -18,7 +18,20 @@ export default function Login (props) {
         var provider = new firebase.auth.GoogleAuthProvider();
         auth.signInWithPopup(provider)
         .then((result) => {
-         console.log("success")
+            if(result.additionalUserInfo.isNewUser){
+                auth.onAuthStateChanged((user)=>{
+                    let time=(new Date()).toUTCString()
+                    db.ref().child('users').child(user.uid).set({
+                        id:user.uid,
+                        username:user.displayName,
+                        email:user.email,
+                        role:"User",
+                        activity:"Active",
+                        date:time
+                    })
+                })     
+            }
+            Auth.login(()=>props.history.push("/account/profile"))
       
         }).catch((error) => {
           console.log("error")
@@ -28,7 +41,20 @@ export default function Login (props) {
         var provider = new firebase.auth.FacebookAuthProvider();
         auth.signInWithPopup(provider)
         .then((result) => {
-         console.log("success")
+            if(result.additionalUserInfo.isNewUser){
+                auth.onAuthStateChanged((user)=>{
+                    let time=(new Date()).toUTCString()
+                    db.ref().child('users').child(user.uid).set({
+                        id:user.uid,
+                        username:user.displayName,
+                        email:user.email,
+                        role:"User",
+                        activity:"Active",
+                        date:time
+                    })
+                })     
+            }
+            Auth.login(()=>props.history.push("/account/profile"))
       
         }).catch((error) => {
           console.log("error")
@@ -39,7 +65,20 @@ export default function Login (props) {
         var provider = new firebase.auth.GithubAuthProvider();
         auth.signInWithPopup(provider)
         .then((result) => {
-         console.log("success")
+            if(result.additionalUserInfo.isNewUser){
+                auth.onAuthStateChanged((user)=>{
+                    let time=(new Date()).toUTCString()
+                    db.ref().child('users').child(user.uid).set({
+                        id:user.uid,
+                        username:user.displayName,
+                        email:user.email,
+                        role:"User",
+                        activity:"Active",
+                        date:time
+                    })
+                })     
+            }
+            Auth.login(()=>props.history.push("/account/profile"))
       
         }).catch((error) => {
           console.log("error")
@@ -53,10 +92,7 @@ export default function Login (props) {
 
         auth.signInWithEmailAndPassword(emailRef.current.value,passwordRef.current.value)
             .then(() => {
-                
-
-
-                Auth.login(()=>props.history.push("/dashboard"))
+                Auth.login(()=>props.history.push("/account/profile"))
             })
             .catch(() => {
                 setError('Failed to sign in');

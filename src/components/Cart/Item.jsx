@@ -1,13 +1,13 @@
 import React from 'react'
 import './Item.css'
-import myProducts from '../../prod.json';
-
+import {useAuth} from '../../context/AuthShopContext'
 
 export default function Cards(props) {
+    const {products}=useAuth()
 
-    let choosen=props.image;
-    let result = myProducts.filter(function (pro) {
-        return pro.Image === choosen;
+    let choosen=props.title;
+    let result = products.filter(function (obj) {
+        return obj.title === choosen;
     })[0];
     
 
@@ -15,11 +15,11 @@ export default function Cards(props) {
 
         let arrProd = JSON.parse(localStorage.getItem('products'));
         for (let i = arrProd.length - 1; i >= 0; i--)
-            if (arrProd[i]["Image"]===result.Image){
+            if (arrProd[i]["title"]===result.title){
                 if(e.target.id==="add")
-                    arrProd[i]["Item"]++;
+                    arrProd[i]["item"]++;
                 if(e.target.id==="subtract")
-                    arrProd[i]["Item"]--;
+                    arrProd[i]["item"]--;
             }
         localStorage.removeItem("products");
         localStorage.setItem("products", JSON.stringify(arrProd));
@@ -30,7 +30,7 @@ export default function Cards(props) {
 
         let arrProd = JSON.parse(localStorage.getItem('products'));
         for (let i = arrProd.length - 1; i >= 0; i--)
-            if (arrProd[i]["Image"]===result.Image)
+            if (arrProd[i]["title"]===result.title)
                 arrProd.splice(i, 1);
         localStorage.removeItem("products");
         localStorage.setItem("products", JSON.stringify(arrProd));
@@ -41,14 +41,14 @@ export default function Cards(props) {
             <div className="container-fluid border mt-3" style={{borderRadius:"30px"}}>
                 <div className="row">
                     <div className="col-3">
-                        <img className="cardImg" src={props.image} alt="..."/>
+                        <img className="cardImg" src={result && result.image} alt="..."/>
                     </div>
                     <div className="col-5">
                     <br/><br/>
-                    <div className="fw-bold">{result.Title}</div> 
-                    <div>{result.Description}</div>   
+                    <div className="fw-bold">{result && result.title}</div> 
+                    <div>{result && result.description}</div>   
                     <br/> 
-                    <div id={result.id} className="cursor fw-bold text-center" onClick={(e)=>RemoveProd(e)}>Remove</div>
+                    <div id={result && result.id} className="cursor fw-bold text-center" onClick={(e)=>RemoveProd(e)}>Remove</div>
                     </div>
                     <div className="col-4">
                         <br/><br/><br/>
@@ -58,8 +58,8 @@ export default function Cards(props) {
                             <input id="add" onClick={(e)=>addReduceItems(e)} type="button" className="btnQty" value="+"/>
                         </div>
                         <br/>
-                        <div className="text-center fw-bold">Price: ${props.item*result.Price}</div>
-                        {props.item>1 && <div className="text-center">(${result.Price}) each</div>}
+                        <div className="text-center fw-bold">Price: ${ result && (props.item*result.onsale)}</div>
+                        {props.item>1 && <div className="text-center">(${result && result.onsale}) each</div>}
                     </div>
                 </div>  
             </div>

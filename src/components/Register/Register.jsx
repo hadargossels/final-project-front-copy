@@ -22,29 +22,30 @@ export default function Register() {
     if(passwordRef.current.value!==passConfirmRef.current.value)
         return setError('passwords do not match')
     
-    localStorage.setItem('currentUser', JSON.stringify({Username:usernameRef.current.value,Email:emailRef.current.value}));
-
         auth.createUserWithEmailAndPassword(emailRef.current.value, passwordRef.current.value)
         .then(() => {
 
-            auth.onAuthStateChanged(user=>{
-                db.ref().child('users').push({
+            auth.onAuthStateChanged((user)=>{
+                let time=(new Date()).toUTCString()
+                db.ref().child('users').child(user.uid).set({
                     id:user.uid,
                     username:usernameRef.current.value,
                     email:emailRef.current.value,
                     role:"User",
-                    activity:"Active"
+                    activity:"Active",
+                    date:time
                 })
+                history.push('/account/profile')
             })     
-            history.push('/login')
-        })
+       
+        })  
         .catch(() => {
             setError('Failed to create an account')
         });
     }
 
   return (
-    <>    
+    <div>    
         <Container style={{width:"400px"}} className="mb-3 mt-3">
             <Card>
                 <Card.Body>
@@ -75,6 +76,6 @@ export default function Register() {
           <div className="text-center mb-4">
               Already have an account? <Link to="/login">Login</Link>
         </div>
-    </>
+    </div>
   );
 }

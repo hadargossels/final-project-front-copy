@@ -1,34 +1,38 @@
-import React, {  Component} from 'react';
+import React, { useRef,useState,useEffect} from 'react';
 import './Header.css';
 import {Link,NavLink} from "react-router-dom";
 import Logo from "../../pictures/bitcoinLogo.png";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import ShoppingCart from './ShoppingCart'
 import Popover from 'react-bootstrap/Popover'
-import {auth} from '../../firebase'
+import {useAuth} from '../../context/AuthShopContext'
 
 
-export default class Header extends Component{ 
-constructor(){
-    super();
-    this.state={
-        urlValue:"",
-        arrProd:JSON.parse(localStorage.getItem('products')) || [],
-        user:auth.currentUser
-    }
-    this.callRef = React.createRef();
-    this.setUrl=this.setUrl.bind(this);
-  }
-  setUrl(){
-    this.setState({urlValue: this.callRef.current.value})
+export default function Header (){
+
+    const [urlValue,setUrlValue]=useState()
+    const [userNow,setUserNow]=useState([])
+    const callRef = useRef();
+    const {cart}=useAuth()
+    const {currentUser}=useAuth()
+    const {users}=useAuth()
+
+    useEffect(()=>{
+
+        if(currentUser){
+            for (let i=0;i<users.length;i++) {
+                if(users[i].email===currentUser.email)
+                    setUserNow(users[i])
+            }
+        }
+
+    },[currentUser,users])
+    
+
+  function setUrl(){
+    setUrlValue(callRef.current.value)
     }
     
-    render(){
-      
-        let cartItems
-        if(this.state.arrProd.length>0) 
-            cartItems=<div id="numItems">&nbsp;{this.state.arrProd.length}</div>
-
     return(
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
@@ -66,16 +70,14 @@ constructor(){
                     </OverlayTrigger>
                     </li>
                     
-                    {cartItems}
-                        
-                    
+                    {cart.length>0 && <div id="numItems" >&nbsp;{cart.length}</div>}
                         
                     <li className="nav-item">
                         <div className="nav-link"><NavLink to="/home" style={{color:"black"}} activeStyle={{color: "orange"}}>Home</NavLink></div>
                     </li>
-                    <li className="nav-item">
+                    {!currentUser &&<li className="nav-item">
                         <div className="nav-link"><NavLink to="/login" style={{color:"black"}} activeStyle={{color: "orange"}}>Login</NavLink></div>
-                    </li>
+                    </li>}
                     <li className="nav-item">
                         <div className="nav-link"><NavLink to="/register" style={{color:"black"}} activeStyle={{color: "orange"}}>Register</NavLink></div>
                     </li>
@@ -96,17 +98,17 @@ constructor(){
                     </li> */}
                 </ul>
             </div>
-            <NavLink to="/admin" className="nav-link" style={{color:"black"}} activeStyle={{color: "orange"}}>Admin</NavLink>  
-            <NavLink to="/account/profile" className="nav-link" style={{color:"black"}} activeStyle={{color: "orange"}}>Account</NavLink>  
-            <NavLink to="/dashboard" className="nav-link" style={{color:"black"}} activeStyle={{color: "orange"}}>Dashboard</NavLink>      
+            {currentUser && userNow.role==="Admin" && <NavLink to="/admin" className="nav-link" style={{color:"black"}} activeStyle={{color: "orange"}}>Admin</NavLink> }
+            {currentUser && <NavLink to="/account/profile" className="nav-link" style={{color:"black",width:"170px"}} activeStyle={{color: "orange"}}> {currentUser.displayName || userNow.username}</NavLink>}  
+            {/* <NavLink to="/dashboard" className="nav-link" style={{color:"black"}} activeStyle={{color: "orange"}}>Dashboard</NavLink>       */}
           
-            <input id="searcBox" className="me-2" style={{width:"200px"}} type="search" placeholder="Search" ref={this.callRef} onChange={this.setUrl} aria-label="Search"></input>
+            <input id="searcBox" className="me-2" style={{width:"130px"}} type="search" placeholder="Search" ref={callRef} onChange={()=>setUrl()} aria-label="Search"></input>
             
-            <Link className="btn" to={"/?q="+this.state.urlValue} style={{color:"black"}}>Search</Link>
+            <Link className="btn" to={"/?q="+urlValue} style={{color:"black"}}>Search</Link>
             
         
         </div>
       </nav>
       );
    }
-}
+

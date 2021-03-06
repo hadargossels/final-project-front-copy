@@ -25,11 +25,12 @@ import BlogPage from './components/Blog/BlogPage';
 import Account from './components/account/Account'; 
 import ProtectedRoute from './components/ProtectedRoute'
 import Admin from './components/Admin/Admin'
-
+import {AuthShopProvider} from './context/AuthShopContext' 
 ReactDOM.render(
 
     <div>
     <Router>
+    <AuthShopProvider>
     <Header/>
       <Switch>  
           <ProtectedRoute exact path="/dashboard" component={Dashboard}/>
@@ -43,7 +44,7 @@ ReactDOM.render(
           <Route path="/product/:title" component={Product}/>
           <Route exact path="/info" component={Info}/>
           <Route exact path="/checkout" component={Checkout}/>
-          <Route exact path="/success" component={Success}/>
+          <Route exact path="/success/:ref" component={Success}/>
           <Route exact path="/aboutUs" component={AboutUs}/>
           <Route exact path="/blog" component={Blog}/>
           <Route exact path="/admin" component={Admin}/>
@@ -51,8 +52,8 @@ ReactDOM.render(
           <Route component={PageNotFound}/>
       </Switch>
     <Footer/>
+    </AuthShopProvider>
     </Router>
-    
     </div>,
   document.getElementById('root')
 );

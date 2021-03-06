@@ -3,7 +3,8 @@ import './Cart.css'
 import Item from './Item'
 import {Link} from "react-router-dom"
 import CartEmpty from '../../pictures/cartEmpty.png'
-import axios from 'axios'
+import {db} from '../../firebase'
+
 export default class Cart extends Component {
     constructor(){
         super()
@@ -15,28 +16,26 @@ export default class Cart extends Component {
      
     }
     componentDidMount(){
-        let that=this
-        axios.get('http://localhost:3000/prod')
-        .then(function (response) {
-          that.setState({myProducts:response.data})
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
+        db.ref('products').on('value', (snapshot)=>{
+            if(snapshot.val()!=null){
+            let arrProducts = []
+            for (let obj in snapshot.val()) {
+                arrProducts.push(snapshot.val()[obj])
+            }
+            this.setState({
+              myProducts: arrProducts,
+            })
+        }})
     }
 
     priceCalculation(){
         let totalsum=0;
         for(let i=0;i<this.state.arrProd.length;i++)
             for(let j=0;j<this.state.myProducts.length;j++)
-                if(this.state.arrProd[i].Image===this.state.myProducts[j].Image)
-                    totalsum+=this.state.myProducts[j].Price*this.state.arrProd[i].Item
+                if(this.state.arrProd[i].title===this.state.myProducts[j].title)
+                    totalsum+=this.state.myProducts[j].onsale*this.state.arrProd[i].item
     return totalsum
 
-    }
-    shippingPrice(){
-        if(this.state.country==="Israel")
-            return 0
     }
    
     render() {
@@ -54,7 +53,7 @@ export default class Cart extends Component {
                 <div className="col-9">
                 {
                     this.state.arrProd.map((card) =>
-                        <Item key={card.Image} image={card.Image} item={card.Item}/>
+                        <Item key={card.title} title={card.title} item={card.item}/>
                     )
                 }
                 <br/>   
@@ -76,7 +75,7 @@ export default class Cart extends Component {
                     <br/><p style={{fontSize:"20px",fontWeight:"bold"}}>How you'll pay</p>
                     <form className="btn-group-vertical">
                     <p className="radioP">
-                        <input type="radio" name="name" id="r1" required defaultChecked/>
+                        <input type="radio" name="name" id="r1" required />
                         <label htmlFor="r1">
                             <span className="radioButtonGraph"></span>
                             <i className="fab fa-cc-mastercard" style={{color:"red"}}></i>
@@ -85,7 +84,7 @@ export default class Cart extends Component {
                         </label>
                         </p>
                         <p className="radioP">
-                        <input type="radio" name="name" id="r2" required/>
+                        <input type="radio" name="name" id="r2" required defaultChecked/>
                         <label htmlFor="r2">
                             <span className="radioButtonGraph"></span>
                             <i className="fab fa-cc-paypal" style={{color:"blue"}}></i>
@@ -96,26 +95,17 @@ export default class Cart extends Component {
                         <input type="radio" name="name" id="r3" required/>
                         <label htmlFor="r3">
                             <span className="radioButtonGraph"></span>
-                            <i className="fab fa-bitcoin" style={{color:"orange"}}></i> (Recommended)
-                        </label>
-                        </p>
-                        <p className="radioP">
-                        <input type="radio" name="name" id="r4" required/>
-                        <label htmlFor="r4">
-                            <span className="radioButtonGraph"></span>
-                            Cash
+                            <i className="fab fa-bitcoin" style={{color:"orange"}}></i>
                         </label>
                         </p>
                     </form>
                     <p>Item(s) total: <span className="text-end">${this.priceCalculation()} </span></p>
-                    <p>Shipping: <span className="text-end">${this.shippingPrice()}</span></p>
                     <hr/>
-                    <p style={{fontWeight:"bold"}}>Total ({this.state.arrProd.length} items) <span className="text-end">${this.priceCalculation()+this.shippingPrice()}</span></p>
-                    <Link to='/checkout/' ><button id="checkoutBtn" style={{color:"white"}}>Proceed to checkout
-                    </button></Link>
+                    <p style={{fontWeight:"bold"}}>Total ({this.state.arrProd.length} items) <span className="text-end">${this.priceCalculation()}</span></p>
+                    <Link id="checkoutBtn" className="btn d-block mx-auto" to='/checkout/' style={{color:"white",padding:"15px 0px"}}>Proceed to checkout</Link>
                     <br/>
                     <input id="couponTxt" type="text" placeholder="Coupon Code"/>&nbsp;<i className="fas fa-tag"></i>
-                    <button id="couponBtn">activate coupon</button>
+                    <button id="couponBtn" className="d-block mx-auto">Activate Coupon</button>
                     <br/>
                 </div>
             </div>

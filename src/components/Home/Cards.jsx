@@ -4,7 +4,6 @@ import Rating from '../Catalog/Rating';
 import {Link} from "react-router-dom";
 
 export default function Cards(props) {
-    console.log("hi")
 
     return (
     <div className="align text-center align-content-center">  
