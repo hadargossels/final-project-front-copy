@@ -6,7 +6,8 @@ const initialState = {
     addProductAlert: null,
     data: [],
     loading: false,
-    settingUp: true
+    settingUp: true,
+    user: "Hello"
 }
 
 export default function(state = initialState , action) {
@@ -76,6 +77,13 @@ export default function(state = initialState , action) {
             return {
                 ...state,
                 addProductAlert: null
+            }
+        
+        case types.UPDATE_USER_NAVBAR:
+
+            return {
+                ...state,
+                user: action.payload
             }
         
         default:

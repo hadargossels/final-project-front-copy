@@ -51,7 +51,7 @@ export default class CartPaymentGuest extends Component {
                 
                 break;
 
-            case "phone":
+            case "mobile":
 
                 if (/^[0-9]+$/.test(value) && value.charAt(0) === "0") {
 
@@ -145,10 +145,10 @@ export default class CartPaymentGuest extends Component {
                             <p id="pLName1"></p>
                             <p className="text-danger" id="pLNameE1" style={{display: "none"}}>English alphabet and -' only</p>
 
-                            <label>*Phone:&emsp;&ensp;&thinsp;</label>
-                            &ensp;<input type="text" onChange={(e) => this.checkInput(e.target.value, 'pPhone', 'pPhoneE', "phone")} minLength='9' maxLength='10' required defaultValue={this.props.location.review ? this.props.location.review[2].value : ""}/>
-                            <p id="pPhone"></p>
-                            <p className="text-danger" id="pPhoneE" style={{display: "none"}}>Please enter a valid phone number</p>
+                            <label>*Mobile:&emsp;&ensp;&thinsp;</label>
+                            &ensp;<input type="text" onChange={(e) => this.checkInput(e.target.value, 'pMobile', 'pMobileE', "mobile")} minLength='9' maxLength='10' required defaultValue={this.props.location.review ? this.props.location.review[2].value : ""}/>
+                            <p id="pMobile"></p>
+                            <p className="text-danger" id="pMobileE" style={{display: "none"}}>Please enter a valid mobile number</p>
 
                             <label>*Email:&emsp;&ensp;&ensp;</label>
                             &ensp;<input type="text" onChange={(e) => this.checkInput(e.target.value, 'pEmail', 'pEmailE', "email")} required defaultValue={this.props.location.review ? this.props.location.review[3].value : ""}/>

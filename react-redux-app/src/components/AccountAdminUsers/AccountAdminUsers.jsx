@@ -77,38 +77,23 @@ const UserCreateAuth = (props, data, password) => (
         let user = userCredential.user;
         //this.setState({redirect: true})
 
-        let myData;
+        db.child("users").child(user.uid).set({
 
-        await db.on("value", async (snapshot) => {
-
-            myData = await (snapshot.val().users);
-
-            if (!myData)
-                myData = {};
-
-          }, function (errorObject) {
-            window.alert("The read failed: " + errorObject.code);
-        });
-
-        return [myData, user, data]
-    })
-    .then((arr) => {
-        
-        db.child("users").child(arr[1].uid).set({
-
-            "id": arr[1].uid,
-            "num": Object.keys(arr[0]).length + 1,
+            "id": user.uid,
             "active": true,
-            "address": arr[2].address,
-            "email": arr[2].email,
-            "fname": arr[2].fname,
-            "lname": arr[2].lname,
-            "mobile": arr[2].mobile,
-            "type": "Customer"
-        });
+            "address": data.address,
+            "email": data.email,
+            "fname": data.fname,
+            "lname": data.lname,
+            "mobile": data.mobile,
+            "city": data.city,
+            "country": data.country,
+            "type": data.type
+    })
+
     }).then(() => {
         auth().signOut(); 
-        auth().signInWithEmailAndPassword("a@a.com", "123456");
+        // auth().signInWithEmailAndPassword("a@a.com", "123456");
         //props.history.push("/account/admin#/users");
     })
 
@@ -121,15 +106,16 @@ const UserCreateAuth = (props, data, password) => (
 );
 
 export const UserList = props => (
-    <List {...props} filters={<UserFilter/>} actions={<UserActionsButtons/>} bulkActionButtons={<UserBulkActionButtons />} style={{width: "38%"}} >
+    <List {...props} filters={<UserFilter/>} actions={<UserActionsButtons/>} bulkActionButtons={<UserBulkActionButtons />} >
         <Datagrid rowClick="edit">
-            <TextField source="id" />
-            <NumberField source="num" />
+            {/* <TextField source="id" /> */}
             <TextField label="First Name" source="fname" />
             <TextField label="Last Name" source="lname" />
             <EmailField source="email" />
             <TextField source="mobile" />
             <TextField source="address" />
+            <TextField source="city" />
+            <TextField source="country" />
             <TextField source="type" />
             <MyActiveField source="active" />
             <EditButton />
@@ -141,12 +127,13 @@ export const UserEdit = props => (
     <Edit {...props} title={<UserTitle />} undoable={false}>
         <SimpleForm toolbar={<UserEditToolbar />}>
             <TextInput disabled source="id" />
-            <NumberInput disabled source="num" />
             <TextInput label="First Name" source="fname" validate={[required()]} />
             <TextInput label="Last Name" source="lname" validate={[required()]} />
             <TextInput disabled type="email" source="email" validate={[required(), email()]} />
             <TextInput source="mobile" validate={[required()]} />
             <TextInput source="address" validate={[required()]} />
+            <TextInput source="city" validate={[required()]} />
+            <TextInput source="country" validate={[required()]} />
             <SelectInput label="Type" source="type" validate={[required()]} choices={[
                 { id: 'Administrator', name: 'Administrator' },
                 { id: 'Customer', name: 'Customer' },
@@ -165,6 +152,8 @@ export const UserCreate = props => (
             <TextInput type="email" source="email" validate={[required(), email()]} />
             <TextInput source="mobile" validate={[required()]} />
             <TextInput source="address" validate={[required()]} />
+            <TextInput source="city" validate={[required()]} />
+            <TextInput source="country" validate={[required()]} />
             <SelectInput label="Type" source="type" validate={[required()]} choices={[
                 { id: 'Administrator', name: 'Administrator' },
                 { id: 'Customer', name: 'Customer' },

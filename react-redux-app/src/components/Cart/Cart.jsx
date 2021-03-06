@@ -181,7 +181,12 @@ class Cart extends Component {
                     {
                         this.props.productsInCart && Object.keys(this.props.productsInCart).length > 0 ?
 
-                        <CartPayment productsInCart={this.props.productsInCart} total={this.state.total} coupon={this.state.coupon} couponsArr={this.state.couponsArr} validCoupons={this.state.validCoupons} inValidCoupons={""} removeSpaces={this.removeSpaces} applyCoupon={this.applyCoupon}/>
+                            this.props.user ?
+
+                                <Link to={{pathname: "/cart/user", params: {productsInCart: this.props.productsInCart, total: this.state.total, coupon: this.state.coupon, couponsArr: this.state.couponsArr, validCoupons: this.state.validCoupons, inValidCoupons:"", removeSpaces: this.removeSpaces, applyCoupon: this.applyCoupon}}}><button className="btn btn-primary">Proceed To Payment</button></Link>
+                                :
+                                <Link to={{pathname: "/sign-in-up", cart: true}}><button className="btn btn-primary">Proceed To Payment</button></Link>
+                                // <CartPayment productsInCart={this.props.productsInCart} total={this.state.total} coupon={this.state.coupon} couponsArr={this.state.couponsArr} validCoupons={this.state.validCoupons} inValidCoupons={""} removeSpaces={this.removeSpaces} applyCoupon={this.applyCoupon}/>
 
                         : null
                     }
@@ -200,7 +205,8 @@ const mapStateToProps = state => ({
     products: state.global.data.products,
     productsInCart: state.global.productsInCart,
     coupons: state.global.data.coupons[0],
-    loading: state.global.loading
+    loading: state.global.loading,
+    user: state.global.user
  })
-  
+
  export default connect(mapStateToProps, { addProductCart, delProductCart, setLoading })(Cart)

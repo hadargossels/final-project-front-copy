@@ -61,8 +61,6 @@ const ProductFilter = props => (
     </Filter>
 );
 
-const ProductListStyle = {fontSize: "small"};
-
 // const ProductCreateDB = async (data) => {
 
 //     let dbData;
@@ -106,33 +104,33 @@ const ProductListStyle = {fontSize: "small"};
 // };
 
 export const ProductList = props => (
-    <List {...props} filters={<ProductFilter/>} actions={<ProductActionsButtons/>} bulkActionButtons={<ProductBulkActionButtons />} style={{width: "37%"}} >
+    <List {...props} filters={<ProductFilter/>} actions={<ProductActionsButtons/>} bulkActionButtons={<ProductBulkActionButtons />} >
         <Datagrid rowClick="edit">
-            <NumberField source="id" style={ProductListStyle} />
-            {/* <TextField source="name" style={ProductListStyle}/> */}
+            {/* <TextField source="id"/> */}
+            {/* <TextField source="name" */}
             {/* <ArrayField label="Images" source="img" >
                 <SingleFieldList >
                     <SimpleChipField />
                 </SingleFieldList>
             </ArrayField> */}
-            <TextField source="title" style={ProductListStyle}/>
-            {/* <TextField source="subtitle" style={ProductListStyle}/> */}
+            <TextField source="title"/>
+            {/* <TextField source="subtitle" */}
             {/* <ArrayField source="details">
                 <SingleFieldList>
                     <SimpleChipField />
                 </SingleFieldList>
             </ArrayField> */}
-            <NumberField source="price" style={ProductListStyle}/>
-            <NumberField source="rating" style={ProductListStyle}/>
-            <BooleanField source="stock" style={ProductListStyle}/>
-            <BooleanField source="discount" style={ProductListStyle}/>
-            <NumberField source="discountPercentage" style={ProductListStyle}/>
-            <TextField source="category" style={ProductListStyle}/>
-            <TextField source="subCategory" style={ProductListStyle}/>
-            <TextField source="type" style={ProductListStyle}/>
-            <TextField source="brand" style={ProductListStyle}/>
-            <EditButton style={ProductListStyle} />
-            <DeleteWithConfirmButton style={ProductListStyle} />
+            <NumberField source="price"/>
+            <NumberField source="rating"/>
+            <BooleanField source="stock"/>
+            <BooleanField source="discount"/>
+            <NumberField source="discountPercentage"/>
+            <TextField source="category"/>
+            <TextField source="subCategory"/>
+            <TextField source="type"/>
+            <TextField source="brand"/>
+            <EditButton />
+            <DeleteWithConfirmButton />
         </Datagrid>
     </List>
 );

@@ -38,3 +38,10 @@ export const closeProductAlert = () => {
         type: types.CLOSE_PRODUCT_ALERT
     }
 }
+
+export const updateUserNavbar = (data) => dispatch => {
+    dispatch({
+        type: types.UPDATE_USER_NAVBAR,
+        payload: data
+    })
+}

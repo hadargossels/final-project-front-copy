@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import './Header.css';
 import CartQuickView from '../CartQuickView/CartQuickView';
 import { connect } from 'react-redux';
+import { updateUserNavbar } from '../../actions/actions';
+import { auth, db } from '../../js/firebase';
+import 'firebase/auth';
 
 class Header extends Component {
 
@@ -16,11 +19,50 @@ class Header extends Component {
     this.callRefBtn = React.createRef();
 
     this.setUrl = this.setUrl.bind(this);
+    this.signOut = this.signOut.bind(this);
   };
 
   setUrl() {
 
     this.setState({url: this.callRefInp.current.value});
+  }
+
+  signOut(e) {
+
+    const confirm = window.confirm("Are you sure?");
+
+    if (confirm) {
+
+        this.props.updateUserNavbar(null);
+
+        auth().signOut();
+    }
+    
+    else {
+      e.preventDefault();
+    }
+  }
+
+  async componentDidMount() {
+
+    auth().onAuthStateChanged(async (user) => {
+
+        if (user) {
+
+            let data;
+
+            await db.on("value", async (snapshot) => {
+
+                data = await (snapshot.val().users);
+                data = await data[user.uid];
+
+                const fname = data.fname;
+
+                this.props.updateUserNavbar(fname);
+            })
+        }
+           
+    })
   }
 
   render(){
@@ -40,8 +82,11 @@ class Header extends Component {
               <li activeclassname="nav-item active"><NavLink to="/contact" className="nav-link">Contact Us</NavLink></li>
             </ul>
             <ul className="nav navbar-nav navbar-right pr-3">
-              <li activeclassname="nav-item active"><NavLink to="/sign-in-up" className="nav-link">Sign In <i className="fas fa-sign-in-alt"></i></NavLink></li>
-              <li activeclassname="nav-item active"><NavLink to="/account" className="nav-link"><i className="fas fa-user-circle"></i> Hello</NavLink></li>
+              {this.props.user ?
+                <li activeclassname="nav-item active nav-link"><Link to="/" onClick={(e) => this.signOut(e)} className="nav-link">Sign Out <i className="fas fa-sign-out-alt"></i></Link></li> 
+                :<li activeclassname="nav-item active"><NavLink to="/sign-in-up" className="nav-link">Sign In <i className="fas fa-sign-in-alt"></i></NavLink></li>
+              }
+              <li activeclassname="nav-item active"><NavLink to="/account" className="nav-link"><i className="fas fa-user-circle"></i>&nbsp;{this.props.user || "Hello"}</NavLink></li>
               <li activeclassname="nav-item active"><CartQuickView/></li>
               <li activeclassname="nav-item active"><span className="cartCount">{!this.props.loading ? Object.keys(this.props.productsInCart).length : ''}</span></li>
           </ul>
@@ -58,7 +103,8 @@ class Header extends Component {
 
 const mapStateToProps = state => ({
   productsInCart: state.global.productsInCart,
-  loading: state.global.loading
+  loading: state.global.loading,
+  user: state.global.user
 })
 
-export default connect(mapStateToProps)(Header)
+export default connect(mapStateToProps, { updateUserNavbar })(Header)

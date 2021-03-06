@@ -496,7 +496,7 @@ class Products extends Component {
                 <br/>
 
                 <div>
-                    <a className="list-group-item active btn-danger text-center font-weight-bold" style={{borderRadius: "15px", cursor: "pointer", textDecoration: "none"}}>Reset</a>
+                    <a className="list-group-item active btn-danger text-center font-weight-bold" type="button" onClick={() => window.location.reload()} style={{borderRadius: "15px", cursor: "pointer", textDecoration: "none"}}>Reset</a>
                 </div>
 
                 <br/><br/><br/>

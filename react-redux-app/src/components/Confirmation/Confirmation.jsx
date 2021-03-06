@@ -5,7 +5,7 @@ export default function Confirmation(props) {
     const orderID = JSON.parse(localStorage.getItem("Order")).id;
 
     setTimeout(() => {localStorage.removeItem("Order");}, 0);
-
+    console.log(props.location.params)
     if (props.location.params) {
 
         return (

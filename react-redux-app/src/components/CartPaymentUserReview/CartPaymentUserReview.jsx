@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import PayPal from '../PayPal/PayPal';
 import { connect } from 'react-redux';
 
-class CartPaymentGuestReview extends Component {
+class CartPaymentUserReview extends Component {
 
   constructor(props) {
 
@@ -42,7 +42,7 @@ class CartPaymentGuestReview extends Component {
 
           <div>
             <ol className="breadcrumb">
-                <li><NavLink to={{pathname: "/cart/guest", params: this.props.location.params, review: this.props.location.review}} style={{textDecoration: "none"}}>Go back to details</NavLink></li>
+                <li><NavLink to={{pathname: "/cart/user", params: this.props.location.params, review: this.props.location.review}} style={{textDecoration: "none"}}>Go back to details</NavLink></li>
             </ol>
           </div>
           
@@ -79,63 +79,19 @@ class CartPaymentGuestReview extends Component {
                 <tbody>
 
                   <tr>
-                    <th>Personal Details</th>
-                    <th>&emsp;</th>
-                    <th>Shipping Details</th>
-                    <th>&emsp;</th>
                     <th>Shipping Method</th>
                     <th>&emsp;</th>
                     <th>Payment Method</th>
                   </tr>
 
                   <tr>
-                    <td>First Name: {this.props.location.review[0].value}</td>
-                    <td>&emsp;</td>
-                    <td>First Name: {this.props.location.review[5].value}</td>
-                    <td>&emsp;</td>
                     <td>
-                      {this.props.location.review[12].checked ? this.props.location.review[12].value.split(",")[0] + ": ₪"  + this.props.location.review[12].value.split(",")[1] + ".00": 
-                        this.props.location.review[13].checked ? this.props.location.review[13].value.split(",")[0] + ": ₪"  + this.props.location.review[13].value.split(",")[1] + ".00": 
-                        this.props.location.review[14].value.split(",")[0] + ": ₪"  + this.props.location.review[14].value.split(",")[1] + ".00"}
+                      {this.props.location.review[0].checked ? this.props.location.review[0].value.split(",")[0] + ": ₪"  + this.props.location.review[0].value.split(",")[1] + ".00": 
+                        this.props.location.review[1].checked ? this.props.location.review[1].value.split(",")[0] + ": ₪"  + this.props.location.review[1].value.split(",")[1] + ".00": 
+                        this.props.location.review[2].value.split(",")[0] + ": ₪"  + this.props.location.review[2].value.split(",")[1] + ".00"}
                     </td>
                     <td>&emsp;</td>
-                    <td>{this.props.location.review[15].value}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Last Name: {this.props.location.review[1].value}</td>
-                    <td>&emsp;</td>
-                    <td>Last Name: {this.props.location.review[6].value}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Mobile: {this.props.location.review[2].value}</td>
-                    <td>&emsp;</td>
-                    <td>Address 1: {this.props.location.review[7].value}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Email: {this.props.location.review[3].value}</td>
-                    <td>&emsp;</td>
-                    <td>Address 2: {this.props.location.review[8].value}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Newsletter: {this.props.location.review[4].checked ? "Yes" : "No"}</td>
-                    <td>&emsp;</td>
-                    <td>City: {this.props.location.review[9].value}</td>
-                  </tr>
-
-                  <tr>
-                    <td>&emsp;</td>
-                    <td>&emsp;</td>
-                    <td>Country: {this.props.location.review[10].value}</td>
-                  </tr>
-
-                  <tr>
-                    <td>&emsp;</td>
-                    <td>&emsp;</td>
-                    <td>Comments: {this.props.location.review[11].value}</td>
+                    <td>{this.props.location.review[3].value}</td>
                   </tr>
 
                 </tbody>
@@ -171,9 +127,9 @@ class CartPaymentGuestReview extends Component {
                       <td>Shipping:</td>
                       <td>&emsp;</td>
                       <td>
-                        {this.props.location.review[12].checked ? "₪"  + this.props.location.review[12].value.split(",")[1] + ".00": 
-                          this.props.location.review[13].checked ? "₪"  + this.props.location.review[13].value.split(",")[1] + ".00": 
-                          "₪"  + this.props.location.review[14].value.split(",")[1] + ".00"}
+                        {this.props.location.review[0].checked ? "₪"  + this.props.location.review[0].value.split(",")[1] + ".00": 
+                          this.props.location.review[1].checked ? "₪"  + this.props.location.review[1].value.split(",")[1] + ".00": 
+                          "₪"  + this.props.location.review[2].value.split(",")[1] + ".00"}
                       </td>
                     </tr>
                     
@@ -187,9 +143,9 @@ class CartPaymentGuestReview extends Component {
                       <td>Total after fees + coupons:</td>
                       <td>&emsp;</td>
                       <td ref={this.state.callRef}>₪{(parseFloat(this.props.location.params.total.replace(/,/g, ""))*this.props.location.params.coupon+
-                          parseFloat(this.props.location.review[12].checked ? this.props.location.review[12].value.split(",")[1]: 
-                          this.props.location.review[13].checked ? this.props.location.review[13].value.split(",")[1]: 
-                          this.props.location.review[14].value.split(",")[1])).toFixed(2)}
+                          parseFloat(this.props.location.review[0].checked ? this.props.location.review[0].value.split(",")[1]: 
+                          this.props.location.review[1].checked ? this.props.location.review[1].value.split(",")[1]: 
+                          this.props.location.review[2].value.split(",")[1])).toFixed(2)}
                       </td>
                     </tr>
 
@@ -226,4 +182,4 @@ const mapStateToProps = state => ({
   products: state.global.data.products
 })
 
-export default connect(mapStateToProps)(CartPaymentGuestReview)
+export default connect(mapStateToProps)(CartPaymentUserReview)

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { auth } from '../../js/firebase';
+import { auth, db } from '../../js/firebase';
 import Spinner from '../Spinner/Spinner';
 
 export default class PrivateRoute extends Component {
@@ -14,10 +14,21 @@ export default class PrivateRoute extends Component {
 
     componentDidMount() {
 
-        auth().onAuthStateChanged((user) => {
+        auth().onAuthStateChanged(async (user) => {
 
-            if (user)
-               this.setState({user});
+            if (user) {
+
+                let data;
+
+                await db.on("value", async (snapshot) => {
+
+                    data = await (snapshot.val().users);
+                    data = await data[user.uid];
+
+                    this.setState({user: data});
+                })
+            }
+               
         })
 
         setTimeout(() => { this.setState({timeout: true}); }, 1000);
@@ -26,13 +37,27 @@ export default class PrivateRoute extends Component {
     render() {
 
         if (this.state.user) {
-            return <Route {...this.props} component={(props) => <this.props.component {...props} user={this.state.user}/>}/>
+
+            if (this.state.user.active) {
+
+                return <Route {...this.props} component={(props) => <this.props.component {...props} user={this.state.user}/>}/>
+            }
+
+            else {
+
+                window.alert("This user has been disabled due to inactivity.\nPlease contact with the store for reactivating.")
+                return <Redirect to={{pathname: "/sign-in-up"}}/> 
+            }
         }
 
-        else if (!this.state.email && this.state.timeout)
-            return <Redirect to={{pathname: "/sign-in-up"}}/>
+        else if (!this.state.user && this.state.timeout) {
 
-        else
+            return <Redirect to={{pathname: "/sign-in-up"}}/>
+        }
+
+        else {
+            
             return <div><br/><Spinner/></div>
+        }
     }
 }

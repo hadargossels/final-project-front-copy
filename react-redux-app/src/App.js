@@ -24,11 +24,14 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import SignInUp from './components/SignInUp/SignInUp';
 import Account from './components/Account/Account';
 import AccountProfile from './components/AccountProfile/AccountProfile';
+import AccountOrders from './components/AccountOrders/AccountOrders';
 import AccountAdmin from './components/AccountAdmin/AccountAdmin';
 
 import Cart from './components/Cart/Cart';
 import CartPaymentGuest from './components/CartPaymentGuest/CartPaymentGuest';
 import CartPaymentGuestReview from'./components/CartPaymentGuestReview/CartPaymentGuestReview';
+import CartPaymentUser from './components/CartPaymentUser/CartPaymentUser';
+import CartPaymentUserReview from './components/CartPaymentUserReview/CartPaymentUserReview';
 import Confirmation from './components/Confirmation/Confirmation';
 
 import { connect } from 'react-redux';
@@ -53,7 +56,6 @@ class App extends Component {
         data[key] = Object.keys(data[key]).map((iKey) => data[key][iKey])
       }
       
-      console.log(data)
       this.props.fetchData(data);
 
     }, function (errorObject) {
@@ -87,14 +89,16 @@ class App extends Component {
 
               <PrivateRoute exact path="/account" component={(props) => (<Account {...props}/>)}/>
               <PrivateRoute exact path="/account/profile" component={(props) => (<AccountProfile {...props}/>)}/>
+              <PrivateRoute exact path="/account/orders" component={(props) => (<AccountOrders {...props}/>)}/>
               <PrivateRoute exact path="/account/admin" component={(props) => (<AccountAdmin {...props}/>)}/>
 
               <Route exact path="/cart" component={() => (<Cart/>)}/>
               <Route exact path="/cart/guest" component={CartPaymentGuest}/>
               <Route exact path="/cart/guest/payment" component={(props) => (<CartPaymentGuestReview {...props}/>)}/>
-              
+              <Route exact path="/cart/user" component={(props) => (<CartPaymentUser {...props}/>)}/>
+              <Route exact path="/cart/user/payment" component={(props) => (<CartPaymentUserReview {...props}/>)}/>
               <Route exact path="/confirmation" component={(props) => (<Confirmation {...props}/>)}/>
-
+            
               <Route component={NotFound}/>
           </Switch>
           <Footer />

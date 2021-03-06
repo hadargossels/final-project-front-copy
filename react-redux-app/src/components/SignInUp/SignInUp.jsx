@@ -5,14 +5,22 @@ import './SignInUp.css';
 import { auth, db } from '../../js/firebase';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import { connect } from 'react-redux';
+import { updateUserNavbar } from '../../actions/actions';
 
-export default function SignInUp(props) {
+function SignInUp(props) {
 
     let callRefBtn = React.createRef();
 
-    function moveTo() {
+    function moveTo(name = "") {
+        
+        props.updateUserNavbar(name);
 
-        props.history.push("/account");
+        if (props.location.cart)
+            props.history.push("/cart");
+
+        else
+            props.history.push("/account/profile");
     }
 
     function signUp(form) {
@@ -26,37 +34,21 @@ export default function SignInUp(props) {
                 let user = userCredential.user;
                 //this.setState({redirect: true})
 
-                let data;
+                db.child("users").child(user.uid).set({
 
-                await db.on("value", async (snapshot) => {
-
-                    data = await (snapshot.val().users);
-
-                    if (!data)
-                        data = {};
-
-                  }, function (errorObject) {
-                    console.log("The read failed: " + errorObject.code);
-                });
-
-                return [data, user]
-            })
-            .then((arr) => {
-                
-                db.child("users").child(arr[1].uid).set({
-
-                    "id": arr[1].uid,
-                    "num": Object.keys(arr[0]).length + 1,
+                    "id": user.uid,
                     "active": true,
                     "address": "",
                     "email": form[0].value,
                     "fname": "",
                     "lname": "",
                     "mobile": "",
+                    "city": "",
+                    "country": "",
                     "type": "Customer"
                 });
 
-                moveTo();
+                moveTo("");
             })
 
             .catch((error) => {
@@ -74,8 +66,22 @@ export default function SignInUp(props) {
         auth().signInWithEmailAndPassword(form[0].value, form[1].value)
 
             .then((userCredential) => {
+
                 let user = userCredential.user;
-                moveTo();
+                
+                return user;
+
+            }).then(async (user) => {
+
+                let data;
+
+                await db.on("value", async (snapshot) => {
+
+                    data = await (snapshot.val().users);
+                    data = await data[user.uid];
+                    
+                    moveTo(data.fname);
+                });
             })
         
             .catch((error) => {
@@ -101,7 +107,7 @@ export default function SignInUp(props) {
             // This gives you a Facebook Access Token. You can use it to access the Facebook API.
             let accessToken = credential.accessToken;
 
-            moveTo();
+            moveTo("");
             })
 
             .catch((error) => {
@@ -135,7 +141,7 @@ export default function SignInUp(props) {
             // The signed-in user info.
             let user = result.user;
 
-            moveTo();
+            moveTo("");
             })
 
             .catch((error) => {
@@ -168,7 +174,7 @@ export default function SignInUp(props) {
                 // The signed-in user info.
                 let user = result.user;
 
-                moveTo();
+                moveTo("");
             })
 
             .catch((error) => {
@@ -244,3 +250,5 @@ export default function SignInUp(props) {
        </div>
     );
 }
+
+export default connect("", { updateUserNavbar })(SignInUp)

@@ -19,7 +19,7 @@ export default function CartPayment(props) {
             <Modal.Title>Proceed To Payment</Modal.Title>
           </Modal.Header>
           <Modal.Body style={{textAlign: "center"}}>
-            <div style={{position: "relative", float: "left", left: "10%", width: "35%"}}><button className="btn btn-info" style={{fontSize: "xx-large"}}>Continue as User</button></div>
+            <div style={{position: "relative", float: "left", left: "10%", width: "35%"}}><Link to={{pathname: "/sign-in-up", cart: true}}><button className="btn btn-info" style={{fontSize: "xx-large"}}>Continue as User</button></Link></div>
             <div style={{position: "relative", float: "right", right: "10%", width: "35%"}}><Link to={{pathname: "/cart/guest", params: props}}><button className="btn btn-info" style={{fontSize: "xx-large"}}>Continue as Guest</button></Link></div>
               </Modal.Body>
           <Modal.Footer>    
