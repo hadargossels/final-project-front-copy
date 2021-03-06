@@ -1,60 +1,27 @@
 {
-  "name": "my-app",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.11.9",
-    "@testing-library/react": "^11.2.3",
-    "@testing-library/user-event": "^12.6.2",
-    "axios": "^0.21.1",
-    "bootstrap": "^4.6.0",
-    "firebase": "^8.2.9",
-    "firebaseui": "^4.7.3",
-    "jquery": "^3.5.1",
-    "popper": "^1.0.1",
-    "popper.js": "^1.16.1",
-    "react": "^17.0.1",
-    "react-bootstrap": "^1.4.3",
-    "react-dom": "^17.0.1",
-    "react-firebaseui": "^4.1.0",
-    "react-google-maps": "^9.4.5",
-    "react-image-gallery": "^1.0.8",
-    "react-month-picker": "^2.2.0",
-    "react-paypal-button-v2": "^2.6.3",
-    "react-photo-gallery": "^8.0.0",
-    "react-player": "^2.9.0",
-    "react-responsive-carousel": "^3.2.12",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.1",
-    "recompose": "^0.30.0",
-    "web-vitals": "^0.2.4"
-  },
+  "name": "Final-project-front-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "json-server": "json-server --watch db.json"
+    "server": "json-server --watch db.json --port 5000",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gagishmagi/Final-project-front-end.git"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gagishmagi/Final-project-front-end/issues"
   },
-  "devDependencies": {
-    "json-server": "^0.16.3"
+  "homepage": "https://github.com/gagishmagi/Final-project-front-end#readme",
+  "dependencies": {
+    "concurrently": "^6.0.0",
+    "json-server": "^0.16.3",
+    "ra-data-firebase-client": "^3.0.0"
   }
 }

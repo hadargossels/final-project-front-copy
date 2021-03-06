@@ -1,0 +1,160 @@
+import React, {useState, useRef, useEffect} from 'react'
+import {Container, Card, Button, Alert, Form, Col, Row} from 'react-bootstrap'
+import {useAuth} from '../../context/AuthContext';
+import {firebasedb} from '../../firebase';
+import { Link } from 'react-router-dom';
+
+export default function Profile() {
+    const firstNameRef = useRef();
+    const lastNameRef = useRef();
+    const emailRef = useRef();
+    const phoneRef = useRef();
+    const passwordRef = useRef();
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const { currentUser, updateMyEmail, updateDetails } = useAuth();
+    const [loading, setLoading]= useState(false);
+    const [myUser, setMyUser] = useState();
+
+
+    useEffect(() => {
+        if (currentUser){
+            firebasedb.ref('users').child(currentUser.uid).get().then(snapshot => setMyUser(snapshot.val()))
+        }
+    }, [currentUser])
+
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+        setLoading(true)
+
+        try {
+            await updateMyEmail(passwordRef.current.value, emailRef.current.value);
+        
+            const updates = {};
+            if(firstNameRef.current.value)
+                updates['/users/' + currentUser.uid + '/firstName'] = firstNameRef.current.value;
+            if(lastNameRef.current.value)
+                updates['/users/' + currentUser.uid + '/lastName'] = lastNameRef.current.value;
+            if(phoneRef.current.value)
+                updates['/users/' + currentUser.uid + '/phone'] = phoneRef.current.value;
+            if(emailRef.current.value)
+                updates['/users/' + currentUser.uid + '/email'] = emailRef.current.value;
+            updateDetails(passwordRef.current.value, updates);
+
+            setSuccess('Details updated successfully')
+        }
+        catch(err) {
+            console.log(err);
+            setError(err.message)
+        }
+        finally {
+            setLoading(false)
+        }
+    }
+    
+    return (
+        <>
+            <Container className="d-flex justify-content-center align-items-center" style={{minHeight: "80vh"}}>
+                <div className="w-100" style={{maxWidth: "600px"}}>
+                    <Card>
+                        <Card.Header>
+                            <Card.Title>Profile</Card.Title>
+                            <Card.Subtitle className="mb-2 text-muted">The information can be edited</Card.Subtitle>
+                        </Card.Header>
+                        <Card.Body>
+                            {error && <Alert variant="danger">{error}</Alert>}
+                            {success && <Alert variant="success">{success}</Alert>}
+                            <Form onSubmit={handleSubmit}>
+                                <Row>
+                                    <Col>
+                                        <Form.Group id="firstName">
+                                            <Form.Label>First name</Form.Label>
+                                            <Form.Control type="text" ref={firstNameRef} defaultValue={myUser ? myUser.firstName : ''}></Form.Control>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group id="lastName">
+                                            <Form.Label>Last name</Form.Label>
+                                            <Form.Control type="text" ref={lastNameRef} defaultValue={myUser ? myUser.lastName : ''}></Form.Control>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Form.Group id="email">
+                                            <Form.Label>Email</Form.Label>
+                                            <Form.Control type="email" ref={emailRef} defaultValue={currentUser.email} ></Form.Control>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group id="phone">
+                                            <Form.Label>Phone</Form.Label>
+                                            <Form.Control type="tel" ref={phoneRef} defaultValue={myUser ? myUser.phone : ''}></Form.Control>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Form.Group id="password">
+                                            <Form.Label>Password</Form.Label>
+                                            <Form.Control type="password" ref={passwordRef} ></Form.Control>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Button disabled={loading} className="w-100" type="submit">SAVE CHANGES</Button>
+                            </Form>
+                        </Card.Body>
+                    </Card>
+                    <div className="w-100 text-center mt-2">
+                        <Link to="/change-password">Change Password</Link>
+                    </div>
+                </div>
+            </Container>
+            
+        </>
+    )
+}
+
+
+{/* <form>
+    <label htmlFor="firstName">First name </label>
+    <input type="text" className="form-control" ref={this.firstNameRef} required></input>
+    <div className="invalidMassege text-danger">
+        {this.state.messageFirstName}
+    </div>
+
+    <label htmlFor="lastName">Last name </label>
+    <input type="text" className="form-control" ref={this.lastNameRef} required></input>
+    <div className="invalidMassege text-danger">
+        {this.state.messageLastName}
+    </div>
+
+    <label htmlFor="email">Email </label>
+    <input type="mail" className="form-control" ref={this.emailRef} required></input>
+    <div className="invalidMassege text-danger">
+        {this.state.messageEmail}
+    </div>
+
+    <label htmlFor="phone">Phone </label>
+    <input type="tel" className="form-control" ref={this.phoneRef} placeholder="050-123-1234" required></input>
+    <div className="invalidMassege text-danger">
+        {this.state.messagePhone}
+    </div>
+
+    <label htmlFor="country">Country </label>
+    <input type="text" className="form-control" ref={this.countryRef} required></input>
+    <div className="invalidMassege text-danger">
+        {this.state.messageCountry}
+    </div>
+
+    <label htmlFor="state">State </label>
+    <input type="text" className="form-control" ref={this.stateRef} required></input>
+    <div className="invalidMassege text-danger">
+        {this.state.messageState}
+    </div>
+
+    <div className="d-flex justify-content-center mt-3">
+    <button type="submit" className="btn btn-primary align-middle" onClick={this.submitContact}>Submit</button>
+    </div>
+</form> */}
