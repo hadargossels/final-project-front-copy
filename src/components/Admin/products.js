@@ -1,10 +1,10 @@
 import * as React from "react";
-import {ArrayInput, SimpleFormIterator, SelectInput, SingleFieldList, ChipField, List, Datagrid, TextField, NumberField, BooleanField, DeleteWithConfirmButton, SimpleForm, Edit, Toolbar, SaveButton, TextInput, EditButton, BooleanInput, NumberInput, Create} from 'react-admin';
+import {BulkDeleteWithConfirmButton,ArrayInput, SimpleFormIterator, SelectInput, ChipField, List, Datagrid, TextField, NumberField, BooleanField, DeleteWithConfirmButton, SimpleForm, Edit, Toolbar, SaveButton, TextInput, EditButton, BooleanInput, NumberInput, Create, RefreshButton, ExportButton, CreateButton} from 'react-admin';
 
 import { makeStyles, Chip } from '@material-ui/core';
 
 export const ProductList = props => (
-    <List {...props}>
+    <List {...props} actions={<ProductActionsButtons/>} bulkActionButtons={<ProductBulkActionButtons/>}>
         <Datagrid rowClick="edit">
             <TextField label="Product Name" source="name" />
             <NumberField source="price" />
@@ -14,9 +14,23 @@ export const ProductList = props => (
             <BooleanField source="bestseller" />
             <BooleanField source="new" />
             <EditButton/>
+            <DeleteWithConfirmButton/>
         </Datagrid>
     </List>
 );
+
+const ProductBulkActionButtons = props => (
+    <BulkDeleteWithConfirmButton {...props} />
+)
+
+const ProductActionsButtons = props => (
+    <div>
+        <RefreshButton {...props}/>
+        <ExportButton {...props}/>
+        <CreateButton {...props}/>
+    </div>
+)
+
 
 export const ProductEdit = props =>(
     <Edit {...props} undoable={false}>

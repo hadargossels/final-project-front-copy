@@ -1,28 +1,33 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
+import {connect} from 'react-redux'
+import {markAsPaid} from '../../actions'
+
 import PayPalBtn from '../../components/Paypal/PayPalBtn'
 
-export default class Payment extends Component {
-  constructor(){
-    super()
-    this.state = {tracking:""}
+function Payment(props) {
+
+  function paymentHandler(details, data) {
+    props.markAsPaid(data.orderID)
   }
-    paymentHandler = (details, data) => {
-      localStorage.setItem("tracking",data.orderID)
-      window.location.reload()
-    }
-    render() {
-        return ( 
-            <div className="container my-5 text-center">
-              <h1 className="text-danger py-3">Checkout - Payment</h1>
-              <h3 className="pb-3">Final price - ${localStorage.getItem("totalPrice")}</h3>
-              <h4>Please choose a paying method:</h4>
-              {localStorage.getItem("tracking")? <Redirect to="/confirmed"/>:""}
-                <PayPalBtn
-                    amount = {localStorage.getItem("totalPrice")}
-                    currency = {'USD'}
-                    onSuccess={this.paymentHandler}/>
-            </div>
-        )
-    }
+
+  return (
+    <div className="container my-5 text-center">
+      <h1 className="text-danger py-3">Checkout - Payment</h1>
+      <h3 className="pb-3">Final price - ${props.current_invoice.finalSum}</h3>
+      <h4>Please choose a paying method:</h4>
+      {props.current_invoice.reference? <Redirect to="/confirmed"/>:""}
+        <PayPalBtn
+            amount = {props.current_invoice.finalSum}
+            currency = {'USD'}
+            onSuccess={paymentHandler}/>
+    </div>
+  )
 }
+
+
+const mapStateToProps = state => ({
+  current_invoice:state.invoice.current_invoice
+})
+
+export default connect(mapStateToProps, {markAsPaid})(Payment)

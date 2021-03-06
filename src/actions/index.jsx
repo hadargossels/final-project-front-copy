@@ -3,8 +3,25 @@ import {
     APPLY_DISCOUNT, GET_DISCOUNTS,
     GET_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART, PLUS_ONE, MINUS_ONE, EMPTY_CART, MOVE_BESTSELL,
     LOG_IN, LOG_OUT,
+    ADD_TEMP_INVOICE, CLEAR_INVOICE, MARK_AS_PAID
 } from '../constants/action-types'
 import {db} from '../firebase'
+
+//invoice actions
+export const addTempInvoice = (data) => ({
+    type: ADD_TEMP_INVOICE,
+    payload: data
+})
+
+export const clearInvoice = () => ({
+    type: CLEAR_INVOICE
+})
+
+export const markAsPaid = (data) => ({
+    type: MARK_AS_PAID,
+    payload: data
+})
+
 //Discount actions
 export const applyDiscount = (data) => ({
     type: APPLY_DISCOUNT,
@@ -34,7 +51,7 @@ export const getProducts = () => dispatch => {
         let myData = ""
         myData = (snapshot.val())
 
-        for (const [key, value] of Object.entries(myData)) {
+        for (const [key] of Object.entries(myData)) {
         
             myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
           }
