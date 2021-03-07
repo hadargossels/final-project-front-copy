@@ -14,7 +14,7 @@ export default class AccountOrders extends Component {
         this.cancelOrder = this.cancelOrder.bind(this);
     }
 
-    idToTitle(prodId) {
+    idToTitle(prodId, index) {
 
         let data;
         
@@ -28,9 +28,9 @@ export default class AccountOrders extends Component {
                 
                     if (data[key].id === prodId) {
 
-                        if (document.querySelector("#" + prodId)) {
+                        if (document.querySelector("#prodID_" + index + "_" + prodId)) {
 
-                            document.querySelector("#" + prodId).innerText = data[key].title
+                            document.querySelector("#prodID_" + index + "_" + prodId).innerText = data[key].title
                         }
                     }
                 }
@@ -114,7 +114,7 @@ export default class AccountOrders extends Component {
                                                             <td>{order.datetime}</td>
                                                             <td>
                                                                 {order.productsInCart.map((prod, count) => {
-                                                                    return <p key={count}><span id={prod.prodId}>{this.idToTitle(prod.prodId)}</span>&nbsp;x{prod.prodQuantity}</p>
+                                                                    return <p key={count}><span id={"prodID_" + index + "_" + prod.prodId}>{this.idToTitle(prod.prodId, index)}</span>&nbsp;x{prod.prodQuantity}</p>
                                                                 })}
                                                             </td>
                                                             <td>{order.shipping[0] + ": " + order.shipping[1]}</td>
