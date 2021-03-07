@@ -65,7 +65,6 @@ const editHandleSubmit = (props ,data) => (
      })
     .then(async() => {
         auth.onAuthStateChanged(user=>{
-            console.log(user);
             db.ref().child('users').child(user.uid).set({
               active:true,
               address:data.address,
@@ -80,7 +79,6 @@ const editHandleSubmit = (props ,data) => (
               postalCode:data.postalCode,
               role:data.roles,
             })
-            //window.location.href = "/admin/users" ;
             props.history.push("/users");
 
         })    
@@ -95,32 +93,34 @@ const editHandleSubmit = (props ,data) => (
 
 const createHandleSubmit = (props ,data) => (
     auth.createUserWithEmailAndPassword(data.email, data.password)
-    .then(async () => {
-         db.ref('users').on('value',async (snapshot)=>{
-                 let myData = [];
-                for (let obj in snapshot.val()) {
-                    myData.push(snapshot.val()[obj])
-                }
-          });
-    })
-    .then(async() => {   
+    // .then(async () => {
+    //      db.ref('users').on('value',async (snapshot)=>{
+    //              let myData = [];
+    //             for (let obj in snapshot.val()) {
+    //                 myData.push(snapshot.val()[obj])
+    //             }
+    //       });
+    // })
+    .then(() => {   
         auth.onAuthStateChanged(user=>{
             console.log(user.uid)
-            db.ref().child('users').child(user.uid).set({
-              active:true,
-              address:data.address,
-              city:data.city,
-              country:data.country,
-              email:data.email,
-              firstName:data.firstName,
-              id:user.uid,
-              lastName:data.lastName,
-              password:data.password,
-              phoneNumber:data.phoneNumber,
-              postalCode:data.postalCode,
-              role:data.roles,
-            })
+            if(user.uid){
+                db.ref().child('users').child(user.uid).set({
+                active:true,
+                address:data.address,
+                city:data.city,
+                country:data.country,
+                email:data.email,
+                firstName:data.firstName,
+                id:user.uid,
+                lastName:data.lastName,
+                password:data.password,
+                phoneNumber:data.phoneNumber,
+                postalCode:data.postalCode,
+                role:data.roles,
+                })
             auth.signOut(); 
+        }
              // auth.signInWithEmailAndPassword(currentEmail, currentPassword);
            // props.history.push("/users");
 
@@ -138,10 +138,12 @@ const UserFilter = (props) => (
         </ReferenceInput>
     </Filter>
 );
-
+const OrderPanel = ({ id, record, resource }) => (
+    <div dangerouslySetInnerHTML={{ __html: record.body }} />
+);
 export const UserList = props => {
     
-   return( <List filters={<UserFilter />} {...props}>
+   return( <List filters={<UserFilter />} {...props} expand={<OrderPanel />}>
             
                 <Datagrid>
                     <TextField source="id" />
@@ -158,7 +160,6 @@ export const UserList = props => {
                     <BooleanField source="active"/>
                     <EditButton basePath="/users"/>
                     <DeleteButton basePath="/users"/>
-                    
                 </Datagrid>
             
     </List>

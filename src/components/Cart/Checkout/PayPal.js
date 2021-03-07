@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from "react";
+import {ProductConsumer} from '../../context/context';
 
 export default function Paypal(props) {
   const paypal = useRef();
-console.log(props)
   useEffect(() => {
     window.paypal
       .Buttons({
@@ -22,8 +22,8 @@ console.log(props)
         },
         onApprove: async (data, actions) => {
           const order = await actions.order.capture();
+          props.setOrder(order ,props.orderCart );
           props.clearCart();
-        //   console.log(order);
           window.location.href = "/succeeded";
         },
         onError: (err) => {

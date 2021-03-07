@@ -48,14 +48,6 @@ export function AuthProvider({ children, history }) {
   }
 
   function logout() {
-    console.log(provider)
-      // var user = firebase.auth().currentUser;
-
-      // user.delete().then(function() {
-      //   // User deleted.
-      // }).catch(function(error) {
-      //   // An error happened.
-      // });
     return auth.signOut()
   }
 
@@ -179,9 +171,6 @@ export function AuthProvider({ children, history }) {
     loginGoogle,
     loginFacebook,
     loginGitHub,
-    
-    // updateNewSingup,
-    // getProfileInfo
   }
 
   return (

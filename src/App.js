@@ -13,13 +13,11 @@ import Register from './components/account/Register';
 import Login from './components/account/Login';
 import UpdateProfile from './components/account/UpdateProfile';
 import Profile from './components/account/Profile';
-// import Timer from './components/notBeingUsed/Timer';
 import Checkout from './components/Cart/Checkout/Checkout';
 import About from './components/about/About';
 import Blog from './components/blog/Blog';
 import Contact from './components/contact/Contact';
 import Succeeded from './components/Cart/Checkout/Succeeded';
-// import 'moment-timezone';
 import { AuthProvider } from "./components/context/AuthContext"
 import ForgotPassword from "./components/forgotPassword/ForgotPassword"
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
@@ -36,8 +34,6 @@ class App extends Component{
       <Router>
 
         <Navbar/>
-       {/* <Timer/> */}
-        
          <AuthProvider>
           <Switch>
               <Route exact path="/details/:id" component={Details}/>

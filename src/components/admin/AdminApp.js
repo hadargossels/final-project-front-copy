@@ -1,18 +1,13 @@
 // in src/App.js
 import * as React from "react";
-import { Admin, ListGuesser, Resource } from 'react-admin';
+import { Admin, Resource } from 'react-admin';
 import { UserList, UserEdit, UserCreate } from './Account';
-import { RoleList, RoleEdit, RoleCreate } from './Role';
 import { ProductsList, ProductsEdit, ProductsCreate } from './ProductsStore';
 import { OrdersList, OrdersEdit, OrdersCreate } from './Order';
-
-import jsonServerProvider from 'ra-data-json-server';
 import UserIcon from '@material-ui/icons/Group';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import Dashboard from './Dashboard';
 import ShopIcon from '@material-ui/icons/Shop';
 import { createMuiTheme } from '@material-ui/core/styles';
-import {firebaseConfig} from '../../firebase';
 import {FirebaseAuthProvider} from 'react-admin-firebase';
 import firebaseDataProvider from 'ra-data-firebase-client';
 import firebase from 'firebase/app';
@@ -32,7 +27,6 @@ const config = {
 const authProvider = FirebaseAuthProvider(config);
 const dataProvider = firebaseDataProvider(firebase,{});
 
-// const AuthProvider = FirebaseAuthProvider(config);
 
 
 const theme = createMuiTheme({
@@ -41,13 +35,10 @@ const theme = createMuiTheme({
   },
 });
 const AdminApp = () => (
-    <Admin theme={theme} dashboard={Dashboard} authProvider={authProvider} dataProvider={dataProvider}> 
+    <Admin theme={theme} dashboard={Dashboard} dataProvider={dataProvider}> 
       <Resource name="users" list={UserList} edit={UserEdit} create={UserCreate} icon={UserIcon} />
-      {/* <Resource name="roles" list={RoleList} edit={RoleEdit} create={RoleCreate} icon={SupervisorAccountIcon} /> */}
       <Resource name="storeProducts" list={ProductsList} edit={ProductsEdit} create={ProductsCreate} icon={ShopIcon} />
-      <Resource name="orders" list={OrdersList} edit={OrdersEdit} create={OrdersCreate} icon={AttachMoneyIcon} />
-
-    {/* <Resource name="CustmonForm" list={VisitorForm} /> */}
+      <Resource name="orders" list={OrdersList} edit={OrdersEdit} icon={AttachMoneyIcon} />
     </Admin>
   
 );

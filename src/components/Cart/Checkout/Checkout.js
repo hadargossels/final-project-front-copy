@@ -33,13 +33,13 @@ let targetId="" ,shippingSelect;
             };
      
           }
-          componentDidMount(){
-                axios.get("http://localhost:3002/coupons")
-                .then(
-                    (response)=>{this.setState({coupons:response.data})}
-                    );
+        //   componentDidMount(){
+                // axios.get("http://localhost:3002/coupons")
+                // .then(
+                //     (response)=>{this.setState({coupons:response.data})}
+                //     );
                 
-                }
+                // }
             
           selectCountry (val) {
             this.setState({ country: val });
@@ -97,7 +97,6 @@ let targetId="" ,shippingSelect;
             }
 
             nameValidation(event){
-                // console.log(this.state.filldsArray)
                 let regex=/^[a-zA-Z]*$/;
                 let arr = [...this.state.filldsArray];
                 if(regex.test(event.target.value) && event.target.value.length>2)
@@ -309,7 +308,8 @@ render() {
                                                     && this.state.filldsArray[5].isFilled
                                                     && this.state.filldsArray[6].isFilled){
                                                     return( 
-                                                        <PayPal  total={parseFloat(shippingSelect.priceAfterCoupon)} clearCart={value.clearCart}></PayPal>
+                                                        
+                                                        <PayPal  total={parseFloat(shippingSelect.priceAfterCoupon)} clearCart={value.clearCart} setOrder={value.setOrder} orderCart={value.cart}></PayPal>
                                                     // <PaypalButton total={parseFloat(shippingSelect.priceAfterCoupon)} clearCart={value.clearCart} history={value.history}/> 
                                                 )}
                                                 

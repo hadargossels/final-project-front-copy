@@ -68,7 +68,7 @@ export default class Navbar extends Component {
     componentDidMount() {
 
         auth.onAuthStateChanged((user) => {
-
+            console.log(user)
             if (user)
             this.setState({email: user.email});
             else

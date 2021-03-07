@@ -3,13 +3,12 @@ import React, { Component } from 'react'
 // import faker from  'faker';
 // import {storeProducts, detailProduct} from '../db.json'
 // import axios from axios
-import {db} from '../../firebase'
-
+import {db,auth} from '../../firebase'
 const ProductContext = React.createContext();
 
 // const storeProducts= []
 const axios = require('axios').default;
-let cartSubTotal = 0, cartTax = 0, cartTotal = 0 , flag = false;
+let cartSubTotal = 0, cartTax = 0, cartTotal = 0;
 let cart = [];
 let storeProducts =[];
 const detailProduct = {
@@ -72,9 +71,11 @@ class ProductProvider extends Component {
             first:0,
             rows:10,
             posts: [[{postsAndCommentsArr:"", like:0,}],[{postsAndCommentsArr:"",like:0}],[{postsAndCommentsArr:"",like:0}],
-                    [{postsAndCommentsArr:"",like:0}],[{postsAndCommentsArr:"",like:0}],[{postsAndCommentsArr:"",like:0}]]
+                    [{postsAndCommentsArr:"",like:0}],[{postsAndCommentsArr:"",like:0}],[{postsAndCommentsArr:"",like:0}]],
+            orders: []        
             
-        };
+            };
+
        
       }
 
@@ -105,7 +106,31 @@ class ProductProvider extends Component {
         return found;
       }
 
-     
+     setOrder = (order, orderCart) =>{
+         let tempArr = [...this.state.orders];
+         tempArr.push(order);
+         this.setState({
+             orders:tempArr
+         })
+         let subTotal = this.state.cartSubTotal;
+         subTotal = subTotal.toString();
+         let tempTax = this.state.cartTax;
+         tempTax = tempTax.toString();
+         auth.onAuthStateChanged(()=>{
+            db.ref().child('orders').child(order.id).set({              
+              user:auth.currentUser.email,
+              userId:auth.currentUser.uid,
+              createTime:order.create_time,
+              id:order.id,
+              cart: orderCart,
+              price:order.purchase_units[0].amount.value,
+              orderStatus:"Processing",
+              subTotal: subTotal,
+              tax:tempTax
+
+            })
+        })   
+     }
 
       setFilter = (filterName) => {
         let arr = [...this.state.filtersArray];
@@ -557,7 +582,7 @@ class ProductProvider extends Component {
                updatePriceWithCoupon:this.updatePriceWithCoupon,
                loadComments:this.loadComments,
                dbLoad:this.dbLoad,
-               setValue:this.setValue
+               setOrder: this.setOrder
             }}>
                 {this.props.children}
             </ProductContext.Provider>
