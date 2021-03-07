@@ -11,6 +11,8 @@ import {
 
 export const CartContext = createContext({
   hidden: true,
+  receipt: false,
+
   toggleHidden: () => {},
   cartItems: [],
   addItem: () => {},
@@ -24,6 +26,8 @@ export const CartContext = createContext({
 
 const CartProvider = ({ children }) => {
   const [hidden, setHidden] = useState(true);
+  const [receipt, setReceipt] = useState(true);
+
   const [cartItems, setCartItems] = useState([]);
 
   const [cartItemsCount, setCartItemsCount] = useState(0);
@@ -73,6 +77,8 @@ const CartProvider = ({ children }) => {
 
   const toggleHidden = () => setHidden(!hidden);
 
+  const makeReceipt = () => setReceipt(true);
+
   const clearItemFromCart = (item) => setCartItems(filterItemFromCart());
 
   const clearCart = () => setCartItems([]);
@@ -88,6 +94,8 @@ const CartProvider = ({ children }) => {
       value={{
         hidden,
         toggleHidden,
+        receipt,
+        makeReceipt,
         cartItems,
         addItem,
         removeItem,

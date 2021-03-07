@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
+import { auth, db } from "../../firebase/firebase.utils";
 // import "./paypal.styles.scss";
 
 export default function PayPal(props) {
@@ -14,7 +15,7 @@ export default function PayPal(props) {
             intent: "CAPTURE",
             purchase_units: [
               {
-                description: "cool looking collar",
+                description: "Dog Best Freinds Store",
                 amount: {
                   currency_code: "USD",
                   value: props.totalPay,
@@ -26,8 +27,23 @@ export default function PayPal(props) {
         onApprove: async (data, actions) => {
           const order = await actions.order.capture();
           console.log(order);
+
+          await auth.onAuthStateChanged(async (user) => {
+            if (user) {
+              await db
+                .child("orders")
+                .child(order.id)
+                .set({
+                  id: order.id,
+                  ...props.orderData,
+                });
+            }
+          });
+
           localStorage.setItem("Order", "correct");
           alert("Payment ha");
+
+          props.makeOrderTrue(order.id);
         },
 
         onError: (err) => {

@@ -16,9 +16,13 @@ import { fireInfo } from "./../../firebase/firebase.utils";
 import CurrentUserContext from "../../contexts/current-user/current-user.context";
 
 const CheckoutPage = () => {
-  const { cartItems, cartTotal, cartItemsCount, clearCart } = useContext(
-    CartContext
-  );
+  const {
+    cartItems,
+    cartTotal,
+    cartItemsCount,
+    clearCart,
+    makeReceipt,
+  } = useContext(CartContext);
 
   const currentUser = useContext(CurrentUserContext);
   console.log("currentUser :", currentUser);
@@ -49,13 +53,14 @@ const CheckoutPage = () => {
 
   const [validPayment, setValidPayment] = useState(false);
 
-  const orderid = require("order-id")("mysecret");
-  const id = orderid.generate();
+  const [orderId, setOrderId] = useState("");
+
+  // const orderid = require("order-id")("mysecret");
+  // const id = orderid.generate();
 
   const [orderData, setOrderData] = useState({
     date: new Date().toLocaleString(),
     firstName: "",
-    id: id,
     // uid:currentUser.uid,
     lastName: "",
     phone: "",
@@ -81,7 +86,7 @@ const CheckoutPage = () => {
   }
 
   const createOrder = () => {
-    fireInfo.database().ref("orders").push(orderData);
+    // fireInfo.database().ref("orders").push(orderData);
 
     // const fireRef = fireInfo.database().ref("orders");
 
@@ -113,6 +118,23 @@ const CheckoutPage = () => {
     //   ...data,
     // });
 
+    setOrderData({
+      date: "",
+      firstName: "",
+      phone: "",
+      address: "",
+      country: "",
+      zip: "",
+      shipping: "",
+      price: "",
+      orderState: "",
+    });
+  };
+
+  const makeOrderTrue = (orderId) => {
+    setValidPayment(true);
+    makeReceipt();
+    setOrderId(orderId);
     setOrderData({
       date: "",
       firstName: "",
@@ -301,6 +323,7 @@ const CheckoutPage = () => {
     <>
       {validPayment ? (
         <OrderConfirmation
+          orderId={orderId}
           cartItems={cartItems}
           total={cartTotal + promoChange + deliveryChange}
         />
@@ -783,12 +806,12 @@ const CheckoutPage = () => {
                   </div>
                 </div>
                 <hr className="mb-4" />
-                <button
+                {/* <button
                   onClick={isAllValid}
                   className="btn btn-primary btn-lg btn-block pay-now"
                 >
                   Pay now
-                </button>
+                </button> */}
                 {/* ///cheackicng ////// */}
                 {notValidDetails && (
                   <div className="invalid-feedback">
@@ -797,7 +820,11 @@ const CheckoutPage = () => {
                 )}
                 {/* ///Endcheackicng ////// */}
                 <div onClick={isAllValid} className="paypal-btn">
-                  <PayPal totalPay={cartTotal + promoChange + deliveryChange} />
+                  <PayPal
+                    totalPay={cartTotal + promoChange + deliveryChange}
+                    orderData={orderData}
+                    makeOrderTrue={makeOrderTrue}
+                  />
                 </div>
                 <Link to="/shopping-cart">
                   <button type="button" class="btn btn-secondary">

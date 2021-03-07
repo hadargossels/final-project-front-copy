@@ -1,0 +1,4 @@
+[
+    {"id": 0, "name": "welcome", "img": ["/images/logos/logo.png"], "title": "Welcome", "author": "Liel Sharon", "subtitle": "This is a wider card with supporting text below as a natural lead-in to additional content.", "details": ["   Just text.\n   Just text.\n   Just text."], "comments": [], "datetime": 3.5, "updated": false},
+    {"id": 1, "name": "welcome2", "img": ["/images/logos/logo.png"], "title": "Welcome Again", "author": "Liel Sharon", "subtitle": "This is a wider card with supporting text below as a natural lead-in to additional content.", "details": ["   Just text.\n   Just text.\n   Just text."], "comments": [{"id": 0, "name": "bamba", "text": "I agree", "datetime": 3.5, "replay": []}, {"id": 1, "name": "hummus", "text": "Thank you!", "datetime": 3.5, "replay": []}], "datetime": 3.5, "updated": true}
+]

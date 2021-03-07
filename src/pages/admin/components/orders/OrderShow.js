@@ -1,4 +1,6 @@
 import {
+  ArrayField,
+  Datagrid,
   DateField,
   EmailField,
   SelectField,
@@ -20,6 +22,18 @@ export const OrderShow = (props) => (
       <TextField source="address" />
       <TextField source="country" />
       <TextField source="zip" />
+
+      <ArrayField source="cartItems">
+        <Datagrid>
+          {" "}
+          {/* <TextField source="id" /> */}
+          <TextField source="name" />
+          {/* <TextField source="description" />
+            <ImageField source="imageUrl" /> */}
+          <TextField source="price" />
+          {/* <EditButton /> <DeleteWithConfirmButton /> */}
+        </Datagrid>
+      </ArrayField>
 
       {/* <SelectField
         label="Type"

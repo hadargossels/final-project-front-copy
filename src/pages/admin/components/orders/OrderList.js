@@ -51,15 +51,15 @@ const OrderList = (props) => {
           <Datagrid>
             {" "}
             {/* <TextField source="id" /> */}
-            <TextField source="name" />
+            <TextField label="Product" source="name" />
             {/* <TextField source="description" />
             <ImageField source="imageUrl" /> */}
-            <TextField source="price" />
+            <TextField label="Price($)" source="price" />
             {/* <EditButton /> <DeleteWithConfirmButton /> */}
           </Datagrid>
         </ArrayField>
         <TextField source="cartItemsCount" />
-        <TextField source="cartTotal" />
+        <TextField label="CartTotal($)" source="cartTotal" />
         <TextField source="orderState" />
         <ShowButton label="" />
         <EditButton />
