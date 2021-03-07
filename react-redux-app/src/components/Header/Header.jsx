@@ -56,9 +56,8 @@ class Header extends Component {
                 data = await (snapshot.val().users);
                 data = await data[user.uid];
 
-                const fname = data.fname;
-
-                this.props.updateUserNavbar(fname);
+                const name = await data.fname || data.email;
+                this.props.updateUserNavbar(name);
             })
         }
            

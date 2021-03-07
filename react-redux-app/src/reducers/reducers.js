@@ -7,7 +7,7 @@ const initialState = {
     data: [],
     loading: false,
     settingUp: true,
-    user: "Hello"
+    user: null
 }
 
 export default function(state = initialState , action) {

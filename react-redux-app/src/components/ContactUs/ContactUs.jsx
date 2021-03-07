@@ -1,30 +1,34 @@
 import React, { Component } from 'react'
-import { GoogleMap, withGoogleMap, withScriptjs, Marker, InfoWindow} from "react-google-maps";
+// import { GoogleMap, withGoogleMap, withScriptjs, Marker, InfoWindow} from "react-google-maps";
+import { MapContainer, TileLayer, Marker, Popup, Tooltip } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import markerIconPng from "leaflet/dist/images/marker-icon.png"
+import { Icon } from 'leaflet'
 import './ContactUs.css';
 
-const MyGoogleMap = withScriptjs(
-    withGoogleMap(
-        props => (
-        <GoogleMap
-            defaultZoom={18}
-            defaultCenter={{ lat: 32.0671507, lng: 34.7931032 }}
-        >
-            <Marker position={{ lat: 32.0671507, lng: 34.7931032 }} label="LIEL'S" onClick={() => props.onToggleOpen()}>
-                {!props.isOpen ? 
-                    <InfoWindow onCloseClick={() => props.onToggleOpen()}>
-                        <div style={{textAlign: "center"}}>
-                            <br/><img src="/images/logos/logo.png" alt="LIEL'S"/>
-                            <h6><br/><i>&nbsp;Yigal Alon St 90, Tel Aviv-Yafo, Israel&ensp;</i></h6>
-                            <h6><i>Telephone: +972-3-0000000</i></h6>
-                        </div>
-                    </InfoWindow>
-                : null
-                }
-            </Marker>
-        </GoogleMap>
-        )
-    )
-)
+// const MyGoogleMap = withScriptjs(
+//     withGoogleMap(
+//         props => (
+//         <GoogleMap
+//             defaultZoom={18}
+//             defaultCenter={{ lat: 32.0671507, lng: 34.7931032 }}
+//         >
+//             <Marker position={{ lat: 32.0671507, lng: 34.7931032 }} label="LIEL'S" onClick={() => props.onToggleOpen()}>
+//                 {!props.isOpen ? 
+//                     <InfoWindow onCloseClick={() => props.onToggleOpen()}>
+//                         <div style={{textAlign: "center"}}>
+//                             <br/><img src="/images/logos/logo.png" alt="LIEL'S"/>
+//                             <h6><br/><i>&nbsp;Yigal Alon St 90, Tel Aviv-Yafo, Israel&ensp;</i></h6>
+//                             <h6><i>Telephone: +972-3-0000000</i></h6>
+//                         </div>
+//                     </InfoWindow>
+//                 : null
+//                 }
+//             </Marker>
+//         </GoogleMap>
+//         )
+//     )
+// )
 
 export default class ContactUs extends Component {
 
@@ -48,15 +52,37 @@ export default class ContactUs extends Component {
                 
                 <br/><br/>
 
-                <MyGoogleMap
+                {/* <MyGoogleMap
                     isOpen = {this.state.isOpen}
                     onToggleOpen = {this.onToggleOpen}
                     loadingElement={<div>Loading....</div>}
                     containerElement={<div style={{height: '50%'}} className="map"></div>}
                     mapElement={<div style={{height: '500px'}} className="inner-map"></div>}
                     googleMapURL={"https://maps.googleapis.com/maps/api/js?key=" + process.env.REACT_APP_GOOGLE_MAP_APIKEY + "&v=3.exp&libraries=geometry,drawing,places"}
-                />
+                /> */}
 
+              
+                <MapContainer center={[32.0671507, 34.7931032]} zoom={18} scrollWheelZoom={false}>
+                    <TileLayer
+                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={[32.0671507, 34.7931032]} icon={new Icon({iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41]})}>
+                    {/* <Marker position={[32.0671507, 34.7931032]} icon={new Icon({iconUrl: "/icon.ico", iconSize: [50, 50], iconAnchor: [15, 35]})}> */}
+                        <Popup>
+                            <div style={{textAlign: "center"}}>
+                                <img src="/images/logos/logo.png" alt="LIEL'S"/>
+                                <h6><br/><i>&nbsp;Yigal Alon St 90, Tel Aviv-Yafo, Israel&ensp;</i></h6>
+                                <h6><i>Telephone: +972-3-0000000</i></h6>
+                            </div>
+                        </Popup>
+                        <Tooltip direction="top" offset={[0, -40]} opacity={1} permanent>
+                        {/* <Tooltip direction="top" offset={[10, -35]} opacity={1} permanent> */}
+                            <span  style={{fontWeight: "bold"}}>LIEL'S</span>
+                        </Tooltip>
+                    </Marker>
+                </MapContainer>
+               
                 <br/><br/>
 
                 <div style={{margin: "0 auto", width: "40%"}}>

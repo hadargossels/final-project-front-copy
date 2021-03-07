@@ -16,3 +16,8 @@
     color: #65a2ed;
     border: 2px solid #65a2ed;
 }
+
+.leaflet-container { 
+    height: 600px;
+    margin-top: 15px;
+  }

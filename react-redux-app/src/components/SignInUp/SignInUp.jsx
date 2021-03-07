@@ -12,7 +12,7 @@ function SignInUp(props) {
 
     let callRefBtn = React.createRef();
 
-    function moveTo(name = "") {
+    function moveTo(name) {
         
         props.updateUserNavbar(name);
 
@@ -21,6 +21,44 @@ function SignInUp(props) {
 
         else
             props.history.push("/account/profile");
+    }
+
+    async function SignInUpFacebookGithubGoogle(user) {
+
+        let data;
+                
+        await db.on("value", async (snapshot) => {
+
+            data = await (snapshot.val().users);
+
+            if (data[user.uid]) {
+
+                data = await data[user.uid];
+
+                const name = await data.fname || data.email;
+                moveTo(name);
+            }
+
+            else {
+
+                db.child("users").child(user.uid).set({
+
+                    "id": user.uid,
+                    "active": true,
+                    "address": "",
+                    "email": user.email,
+                    "fname": "",
+                    "lname": "",
+                    "mobile": "",
+                    "city": "",
+                    "country": "",
+                    "type": "Customer"
+                });
+
+                moveTo(user.email);
+            }
+        });
+
     }
 
     function signUp(form) {
@@ -48,7 +86,7 @@ function SignInUp(props) {
                     "type": "Customer"
                 });
 
-                moveTo("");
+                moveTo(form[0].value);
             })
 
             .catch((error) => {
@@ -80,7 +118,7 @@ function SignInUp(props) {
                     data = await (snapshot.val().users);
                     data = await data[user.uid];
                     
-                    moveTo(data.fname);
+                    moveTo(data.fname || data.email);
                 });
             })
         
@@ -107,7 +145,7 @@ function SignInUp(props) {
             // This gives you a Facebook Access Token. You can use it to access the Facebook API.
             let accessToken = credential.accessToken;
 
-            moveTo("");
+            SignInUpFacebookGithubGoogle(user);
             })
 
             .catch((error) => {
@@ -141,7 +179,7 @@ function SignInUp(props) {
             // The signed-in user info.
             let user = result.user;
 
-            moveTo("");
+            SignInUpFacebookGithubGoogle(user);
             })
 
             .catch((error) => {
@@ -174,9 +212,9 @@ function SignInUp(props) {
                 // The signed-in user info.
                 let user = result.user;
 
-                moveTo("");
+                SignInUpFacebookGithubGoogle(user);
             })
-
+            
             .catch((error) => {
                 // Handle Errors here.
                 let errorCode = error.code;

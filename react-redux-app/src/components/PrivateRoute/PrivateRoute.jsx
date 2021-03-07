@@ -9,7 +9,7 @@ export default class PrivateRoute extends Component {
 
         super(props);
 
-        this.state = {user: null, timeout: false}
+        this.state = {user: null, timeout: false};
     };
 
     componentDidMount() {
@@ -45,7 +45,11 @@ export default class PrivateRoute extends Component {
 
             else {
 
-                window.alert("This user has been disabled due to inactivity.\nPlease contact with the store for reactivating.")
+                auth().signOut();
+
+                window.alert("This user has been disabled due to inactivity.\nPlease contact with the store for reactivating.");
+                window.location.reload();
+                
                 return <Redirect to={{pathname: "/sign-in-up"}}/> 
             }
         }
