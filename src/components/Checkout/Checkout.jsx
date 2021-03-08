@@ -14,9 +14,10 @@ export default class Checkout extends Component {
       messageStreet: "",
       messageCity: "",
       messageHouseNum: "",
+      messageEmail: "",
       myProducts: [],
     };
-
+    this.emailRef = React.createRef();
     this.shipmentRef = React.createRef();
     this.streetAddRef = React.createRef();
     this.fullNameRef = React.createRef();
@@ -56,16 +57,19 @@ export default class Checkout extends Component {
     let houseNumber = this.houseNumberRef.current;
     let cityName = this.cityNameRef.current;
     let streetadd = this.streetAddRef.current;
+    let emailInput = this.emailRef.current;
 
     let houseNum = new RegExp("^[0-9]{1,3}$", "gm");
     let name = new RegExp("^[A-Z]{1}[a-z]+ [A-Z]{1}[a-z]+$", "gm");
-    let city = new RegExp("^[A-Z]{1}[a-z ]+$", "gm");
-    let street = new RegExp("^[A-Z]{1}[a-z ]+$", "gm");
+    let city = new RegExp("^[A-Z]{1}[a-z]+", "gm");
+    let street = new RegExp("^[A-Z]{1}[a-z]+", "gm");
+    let email = new RegExp('[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,64}','gm')
 
     let flag1 = 0;
     let flag2 = 0;
     let flag3 = 0;
     let flag4 = 0;
+    let flag5 = 0;
 
     if (name.test(fullName.value)) {
       fullName.style.border = "green 2px solid";
@@ -74,7 +78,16 @@ export default class Checkout extends Component {
     } else {
       fullName.style.border = "red 2px solid";
       this.setState({ messageName: "The name should be as in your ID card" });
-      flag1 = 0;
+    }
+    if (email.test(emailInput.value)) {
+      emailInput.style.border = "green 2px solid";
+      this.setState({ messageEmail: "" });
+      flag5 = 1;
+    } else {
+      emailInput.style.border = "red 2px solid";
+      this.setState({
+        messageEmail: "The email is not correct",
+      });
     }
     if (street.test(streetadd.value)) {
       streetadd.style.border = "green 2px solid";
@@ -85,7 +98,6 @@ export default class Checkout extends Component {
       this.setState({
         messageStreet: "The street name should be as in your ID",
       });
-      flag2 = 0;
     }
 
     if (city.test(cityName.value)) {
@@ -95,43 +107,45 @@ export default class Checkout extends Component {
     } else {
       cityName.style.border = "red 2px solid";
       this.setState({ messageCity: "The city name should be as in your ID" });
-      flag3 = 0;
     }
     if (houseNum.test(houseNumber.value)) {
       houseNumber.style.border = "green 2px solid";
-      this.setState({ messageCity: "" });
+      this.setState({ messageHouseNum: "" });
       flag4 = 1;
     } else {
       houseNumber.style.border = "red 2px solid";
       this.setState({
         messageHouseNum: "The house number should contain up to 3 digits",
       });
-      flag4 = 0;
     }
 
-    if (flag1 === 1 && flag2 === 1 && flag3 === 1 && flag4 === 1){
-
-        let ref=Math.floor((Math.random() * 10000) + 1)
-        let time=(new Date()).toUTCString()
-        var newPostKey = db.ref().child('orders').push().key;
-        db.ref().child('orders').child(newPostKey).set({
-            id:newPostKey,
-            date:time,
-            reference:ref,
-            customer:this.emailRef.current.value,
-            address:{city:this.cityNameRef.current.value,street:this.streetAddRef.current.value,housenum:this.houseNumberRef.current.value}, 
-            total:this.priceCalculation(),
-            status: "Order Recieved",
-            products:arrProd
-        })
-      localStorage.setItem("products", JSON.stringify([]));  
-      window.location.href = "/success/"+ref;
+    if (flag1 === 1 && flag2 === 1 && flag3 === 1 && flag4 === 1 && flag5===1) {
+      let ref = Math.floor(Math.random() * 10000 + 1);
+      let time = new Date().toUTCString();
+      var newPostKey = db.ref().child("orders").push().key;
+      db.ref()
+        .child("orders")
+        .child(newPostKey)
+        .set({
+          id: newPostKey,
+          date: time,
+          reference: ref,
+          customer: this.emailRef.current.value,
+          address: {
+            city: this.cityNameRef.current.value,
+            street: this.streetAddRef.current.value,
+            housenum: this.houseNumberRef.current.value,
+          },
+          total: this.priceCalculation(),
+          status: "Order Recieved",
+          products: arrProd,
+        });
+      localStorage.setItem("products", JSON.stringify([]));
+      window.location.href = "/success/" + ref;
     }
   }
 
-
   render() {
-
     return (
       <div>
         <div className="container-fluid">
@@ -371,6 +385,7 @@ export default class Checkout extends Component {
                         <div>{this.state.messageStreet}</div>
                         <div>{this.state.messageHouseNum}</div>
                         <div>{this.state.messageCity}</div>
+                        <div>{this.state.messageEmail}</div>
                       </div>
                       <div className="modal-footer">
                         <button

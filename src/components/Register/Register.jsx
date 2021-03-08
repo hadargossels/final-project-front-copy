@@ -15,6 +15,8 @@ export default function Register() {
 
     function registerUser(e){
     e.preventDefault();
+    if(usernameRef.current.value.length===0)
+        return setError('Please enter username')
     if(!email.test(emailRef.current.value))
         return setError('Please enter correct email address')
     if(passwordRef.current.value.length<6)
