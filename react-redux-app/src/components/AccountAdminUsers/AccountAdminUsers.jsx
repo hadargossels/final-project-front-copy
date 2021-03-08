@@ -26,7 +26,9 @@ import {
     email,
     BooleanField,
     Filter,
-    CreateButton
+    CreateButton,
+    Show,
+    SimpleShowLayout
 } from 'react-admin';
 
 const UserBulkActionButtons = props => (
@@ -105,9 +107,26 @@ const UserCreateAuth = (props, data, password) => (
     })
 );
 
+const UserPanel  = props => (
+    <Show {...props}>
+        <SimpleShowLayout>
+            <TextField source="id" />
+            <TextField label="First Name" source="fname" />
+            <TextField label="Last Name" source="lname" />
+            <EmailField source="email" />
+            <TextField source="mobile" />
+            <TextField source="address" />
+            <TextField source="city" />
+            <TextField source="country" />
+            <TextField source="type" />
+            <MyActiveField source="active" />
+        </SimpleShowLayout>
+    </Show>
+);
+
 export const UserList = props => (
     <List {...props} filters={<UserFilter/>} actions={<UserActionsButtons/>} bulkActionButtons={<UserBulkActionButtons />} >
-        <Datagrid rowClick="edit">
+        <Datagrid rowClick="expand" expand={<UserPanel />}>
             {/* <TextField source="id" /> */}
             <TextField label="First Name" source="fname" />
             <TextField label="Last Name" source="lname" />

@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import { BulkDeleteWithConfirmButton } from 'react-admin';
 import SimpleChipField from "../SimpleChipField/SimpleChipField";
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import { 
     List,
     Datagrid,
@@ -21,7 +22,10 @@ import {
     ArrayField,
     SingleFieldList,
     ArrayInput,
-    SimpleFormIterator
+    SimpleFormIterator,
+    Show,
+    SimpleShowLayout,
+    Button
 } from 'react-admin';
 
 const OrderBulkActionButtons = props => (
@@ -38,7 +42,6 @@ const OrderActionsButtons = props => (
     </div>
 );
 
-
 const OrderFilter = props => (
     <Filter {...props}>
         <TextInput label="Search" source="q" alwaysOn />
@@ -48,13 +51,43 @@ const OrderFilter = props => (
 const OrderEditToolbar = props => (
     <Toolbar {...props} >
         <SaveButton />
+        <Button label="REFUND" icon={AttachMoneyIcon} className="text-warning btn-warning"/>
         <DeleteWithConfirmButton/>
     </Toolbar>
 );
 
+const OrderPanel  = props => (
+    <Show {...props}>
+        <SimpleShowLayout>
+            <TextField source="id" />
+            <TextField source="datetime" />
+            <TextField label="User Id" source="uid" />
+            <ArrayField source="productsInCart">
+                <Datagrid>
+                    <TextField label="Product" source="prodId" />
+                    <TextField label="Quantity" source="prodQuantity" />
+                </Datagrid>
+            </ArrayField>
+            <ArrayField source="coupons" >
+                <SingleFieldList >
+                    <SimpleChipField />
+                </SingleFieldList>
+            </ArrayField>
+            <ArrayField source="shipping" >
+                <SingleFieldList >
+                    <SimpleChipField />
+                </SingleFieldList>
+            </ArrayField>
+            <TextField source="payment" />
+            <TextField source="total" />
+            <TextField source="status" />
+        </SimpleShowLayout>
+    </Show>
+);
+
 export const OrderList = props => (
     <List {...props} filters={<OrderFilter/>} actions={<OrderActionsButtons/>} bulkActionButtons={<OrderBulkActionButtons />} >
-        <Datagrid rowClick="edit">
+        <Datagrid rowClick="expand" expand={<OrderPanel />}>
             <TextField source="id" />
             <TextField source="datetime" />
             <TextField label="User Id" source="uid" />

@@ -27,7 +27,9 @@ import {
     ArrayInput,
     SimpleFormIterator,
     SelectInput,
-    Filter
+    Filter,
+    Show,
+    SimpleShowLayout
 } from 'react-admin';
 
 const ProductBulkActionButtons = props => (
@@ -61,60 +63,48 @@ const ProductFilter = props => (
     </Filter>
 );
 
-// const ProductCreateDB = async (data) => {
-
-//     let dbData;
-//     let flag = true;
-
-//     await db.on("value", async (snapshot) => {
-
-
-//         dbData = await (snapshot.val().products);
-
-//         if (!dbData)
-//             dbData = {};
-
-//         if (flag) {
-
-//             db.child("products").child(Object.keys(dbData).length).set({
-
-//                 "id": Object.keys(dbData).length,
-//                 "name": data.name,
-//                 "img": data.img,
-//                 "title": data.title,
-//                 "subtitle": data.subtitle || "",
-//                 "details": data.details,
-//                 "price": data.price,
-//                 "rating": data.rating,
-//                 "stock": data.stock,
-//                 "discount": data.discount,
-//                 "discountPercentage": data.discountPercentage,
-//                 "category": data.category,
-//                 "subCategory": data.subCategory,
-//                 "type": data.type,
-//                 "brand": data.brand
-//             });
-
-//             flag = false;
-//         }
-//         else {
-//             return null;
-//         }
-//     });
-// };
+const ProductPanel  = props => (
+    <Show {...props}>
+        <SimpleShowLayout>
+            <TextField source="id"/>
+            <TextField source="name"/>
+            <ArrayField label="Images" source="img" >
+                <SingleFieldList >
+                    <SimpleChipField />
+                </SingleFieldList>
+            </ArrayField>
+            <TextField source="title"/>
+            <TextField source="subtitle"/>
+            <ArrayField source="details">
+                <SingleFieldList>
+                    <SimpleChipField />
+                </SingleFieldList>
+            </ArrayField>
+            <NumberField source="price"/>
+            <NumberField source="rating"/>
+            <BooleanField source="stock"/>
+            <BooleanField source="discount"/>
+            <NumberField source="discountPercentage"/>
+            <TextField source="category"/>
+            <TextField source="subCategory"/>
+            <TextField source="type"/>
+            <TextField source="brand"/>
+        </SimpleShowLayout>
+    </Show>
+);
 
 export const ProductList = props => (
     <List {...props} filters={<ProductFilter/>} actions={<ProductActionsButtons/>} bulkActionButtons={<ProductBulkActionButtons />} >
-        <Datagrid rowClick="edit">
+        <Datagrid rowClick="expand" expand={<ProductPanel />}>
             {/* <TextField source="id"/> */}
-            {/* <TextField source="name" */}
+            {/* <TextField source="name"/>*/}
             {/* <ArrayField label="Images" source="img" >
                 <SingleFieldList >
                     <SimpleChipField />
                 </SingleFieldList>
             </ArrayField> */}
             <TextField source="title"/>
-            {/* <TextField source="subtitle" */}
+            {/* <TextField source="subtitle"/> */}
             {/* <ArrayField source="details">
                 <SingleFieldList>
                     <SimpleChipField />
@@ -172,7 +162,6 @@ export const ProductEdit = props => (
 
 export const ProductCreate = props => (
     <Create {...props}>
-        {/* <SimpleForm save={(data) => ProductCreateDB(data)}> */}
         <SimpleForm redirect="list">
             <TextInput source="name" validate={[required()]} />
             <ArrayInput label="Images" source="img" validate={[required()]}>
