@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Route, BrowserRouter as Router, Switch} from 'react-router-dom';
 import { AuthProvider } from "./context/AuthContext"
 import './css/app.css';
-import axios from 'axios';
 import Home from './components/Home.jsx';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
@@ -24,6 +23,7 @@ import ShoppingCart from './components/cart-and-payment/ShoppingCart.jsx';
 import Payment from './components/cart-and-payment/Payment.jsx';
 import WebsiteAdmin from './components/admin/WebsiteAdmin';
 import PageNotFound from './components/PageNotFound.jsx';
+import {firebasedb} from './firebase';
 
 
 class App extends Component {
@@ -46,9 +46,9 @@ class App extends Component {
       this.setState({ user});
     }
 
-    axios.get('http://localhost:5000/products')
-      .then( response => {
-        this.setState({ products: response.data })
+    firebasedb.ref('products').get()
+      .then( snapshot => {
+        this.setState({ products: snapshot.val() })
       })
 
     const cartProducts = JSON.parse(localStorage.getItem('cartProducts'));
@@ -61,6 +61,7 @@ class App extends Component {
       this.setState({ favoritesProducts })
     }
   }
+
 
   componentDidUpdate() {
     localStorage.setItem('cartProducts', JSON.stringify(this.state.cartProducts));

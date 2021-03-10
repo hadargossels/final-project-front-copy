@@ -29,7 +29,7 @@ export default function ShoppingCart(props) {
                         
                         <div className="text-center">
                             <Link to="/payment">
-                            <button type="button" className="btn btn-primary">Check-Out</button>
+                            <button type="button" className="btn btn-primary  w-100">Check-Out</button>
                             </Link>
                         </div>
                     </div>

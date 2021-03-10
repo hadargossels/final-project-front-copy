@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { Container, Form, Button, Card, Alert } from 'react-bootstrap'
 import {useAuth} from '../../context/AuthContext';
-import {auth, emailAuthProvider} from '../../firebase';
 
 export default function ChangePassword() {
     const currentPasswordRef = useRef();

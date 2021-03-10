@@ -1,41 +1,38 @@
-import React, { Component} from 'react';
+import React, { useEffect} from 'react';
 import {Link} from 'react-router-dom';
 
 
-class Product extends Component {
-    componentDidMount() {
+export default function Product(props) {
+    useEffect(() => {
         window.scrollTo(0, 0);
-    }
+    },[])
     
-    displayPrice = () => {
-        if(this.props.productElement.discount !== 0){
+    const displayPrice = () => {
+        if(props.productElement.discount !== 0){
             return (<div>
-                        <p className="card-text mx-0 my-0">{this.props.productElement.discount * 100}% OFF </p>
-                        <p><del>${this.props.productElement.price}</del>&ensp; 
-                            ${this.props.productElement.price * (1 - this.props.productElement.discount)}
+                        <p className="card-text mx-0 my-0">{props.productElement.discount * 100}% OFF </p>
+                        <p><del>${props.productElement.price}</del>&ensp; 
+                            ${props.productElement.price * (1 - props.productElement.discount)}
                         </p>
                     </div>)
         }
         else{
-            return <p>${this.props.productElement.price}</p>
+            return <p>${props.productElement.price}</p>
         }
     }
 
-    render() {
-        return (
-            <div className="col-xs-6 col-md-3 pb-2 pl-0">
-                <Link to={`/${this.props.productElement.url}`} style={{ color: 'black', textDecoration: 'none' }}>
-                    <div className="card text-center" style={{height: '100%'}}>
-                        <img className="card-img-top" src={this.props.productElement.images[0]} alt={this.props.productElement.name}></img>
-                        <div className="card-body py-0 px-0">
-                            <p className="card-title">{this.props.productElement.name}</p>
-                            {this.displayPrice()}
-                        </div>
+    return (
+        <div className="col-xs-6 col-md-3 pb-2 pl-0">
+            <Link to={`/${props.productElement.url}`} style={{ color: 'black', textDecoration: 'none' }}>
+                <div className="card text-center" style={{height: '100%'}}>
+                    <img className="card-img-top" src={props.productElement.images[0]} alt={props.productElement.name}></img>
+                    <div className="card-body py-0 px-0">
+                        <p className="card-title">{props.productElement.name}</p>
+                        {displayPrice()}
                     </div>
-                </Link>
-            </div>
-        );
-    }
+                </div>
+            </Link>
+        </div>
+    );
 }
 
-export default Product;

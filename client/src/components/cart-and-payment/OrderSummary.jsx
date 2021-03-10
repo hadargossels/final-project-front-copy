@@ -1,50 +1,55 @@
-import React, {Component, createRef} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import {firebasedb} from '../../firebase';
 
 
-class OrderSummary extends Component {
-    constructor(props){
-      super(props);
+export default function OrderSummary(props) {
+    const cuponInputRef = useRef();
+    const cuponDiscountRef = useRef();
+    const totalAmountRef = useRef();
+    const amountAfterCupon = useRef();
+    const [coupons, setCoupons] = useState([])
+    const [myCoupon, setMyCoupon] = useState({})
 
-      this.cuponInputRef = createRef();
-      this.cuponDiscountRef = createRef();
-      this.totalAmountRef = createRef();
-      this.amountAfterCupon = createRef();
-      this.state = {
-        coupons: {},
-        myCoupon: {}
-      }
+
+    useEffect(() => {
+        console.log("effect1")
+        const fetchData = async () => {
+            const snapshot = await firebasedb.ref('coupons').get()
+            setCoupons(snapshot.val());
+        };
+        
+        fetchData();
+    },[])   
+
+    useEffect(() => {
+        console.log("effect3")
+        const coupon = JSON.parse(localStorage.getItem('myCoupon'));
+        if (coupon)
+            setMyCoupon(coupon);
+    }, [])
+
+
+    const getTotalAmount = () => {
+        return props.getSubTotalAmount() * (1 +props.tax);
     }
 
-    getTotalAmount = () => {
-        return this.props.getSubTotalAmount() * (1 +this.props.tax);
-    }
-
-    onActivateCoupon = (e) => {
+    const onActivateCoupon = (e) => {
         e.preventDefault();
-        this.activateCoupon();
-    }
-
-    activateCoupon = () => {
-        if (!this.cuponInputRef.current.value) {
-            let myCoupon = {code: '', discount: 0}
-            this.setState({myCoupon});
-            localStorage.setItem('myCoupon', JSON.stringify(myCoupon));
-            this.cuponDiscountRef.current.style.display = "none";
-            this.totalAmountRef.current.style.textDecorationLine = "none";
-            this.amountAfterCupon.current.style.display = "none";
-        }
-        else {   
+        
+        if (cuponInputRef.current.value) {   
             let cuponConfirmed = false
-            Object.keys(this.state.coupons).forEach(element => {
-                if (element === this.cuponInputRef.current.value){
+            Object.keys(coupons).forEach(element => {
+                if (element === cuponInputRef.current.value){
+                    {console.log(coupons)}
+                    {console.log(myCoupon)}
                     cuponConfirmed = true;
-                    let myCoupon = {code: element, discount: this.state.coupons[element]}
-                    this.setState({myCoupon});
-                    localStorage.setItem('myCoupon', JSON.stringify(myCoupon));
-                    this.cuponDiscountRef.current.style.display = "block";
-                    this.totalAmountRef.current.style.textDecorationLine = "line-through";
-                    this.amountAfterCupon.current.style.display = "block";
+                    const coupon = {code: element, discount: coupons[element]}
+                    setMyCoupon(coupon);
+                    localStorage.setItem('myCoupon', JSON.stringify(coupon));
+                    totalAmountRef.current.style.textDecorationLine = "line-through";
+                    // cuponDiscountRef.current.style.display = "block";
+                    // amountAfterCupon.current.style.display = "block";
                 }
             });
             if (!cuponConfirmed){
@@ -53,37 +58,56 @@ class OrderSummary extends Component {
         }
     }
 
-    componentDidMount() {
-        axios.get('http://localhost:5000/coupons').then( response => {
-            this.setState({ coupons: response.data });
-        })
-
-        let myCoupon = JSON.parse(localStorage.getItem('myCoupon'));
-        if (myCoupon)
-            this.setState({myCoupon});
+    const onCancelCoupon = (e) => {
+        e.preventDefault();
+        setMyCoupon({});
+        localStorage.removeItem('myCoupon')
     }
 
-    render() {
-        let myCoupon = this.state.myCoupon;
         
-        return (
-        <>
-            <h4 className="border-bottom pb-2">Order Summary</h4>
-            <p>Subtotal: ${(this.props.getSubTotalAmount()).toLocaleString()}</p>
-            <p>Taxes: ${((this.props.getSubTotalAmount() * this.props.tax).toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
-            <form>
-                <div className="form-group">
-                    <label htmlFor="cupon">Cupon-code:</label>
-                    <input type="text" className="form-control d-inline" id="cuponInput" ref={this.cuponInputRef} defaultValue={myCoupon.code}></input>
-                    <button type="submit" className="btn btn-outline-primary btn-sm d-inline" onClick={this.onActivateCoupon}>Activate coupon</button>
+    return (
+    <>
+    {console.log(coupons)}
+    {console.log(myCoupon)}
+        <h4 className="border-bottom pb-2">Order Summary</h4>
+        <p>Subtotal: ${(props.getSubTotalAmount()).toLocaleString()}</p>
+        <p>Taxes: ${((props.getSubTotalAmount() * props.tax).toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+        <form>
+            <div className="form-group">
+                <label htmlFor="cupon">Cupon-code:</label>
+                <input type="text" className="form-control d-inline" id="cuponInput" ref={cuponInputRef} defaultValue={myCoupon ? myCoupon.code : ''}></input>
+                <div className="mt-2">
+                    <button type="submit" className="btn btn-outline-primary btn-sm d-inline mr-2" onClick={onActivateCoupon}>Activate coupon</button>
+                    <button type="submit" className="btn btn-outline-primary btn-sm d-inline" onClick={onCancelCoupon}>Cancel coupon</button>
                 </div>
-            </form>
-            <div className="text-success" ref={this.cuponDiscountRef} style={{display:'none'}}>{myCoupon.discount * 100}% discount</div>
-            <p className="mt-1"><b>Total:</b> <span className="text-success" ref={this.totalAmountRef}>${(this.getTotalAmount()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span></p>
-            <p className="text-success" ref={this.amountAfterCupon} style={{display:'none'}}>${(this.getTotalAmount() * (1 - myCoupon.discount)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>            
-        </>
-        )
-    }
+            </div>
+        </form>
+
+        {myCoupon.code ?
+            <div className="text-success" ref={cuponDiscountRef}>
+                {myCoupon.discount * 100}% discount
+            </div>
+        : null
+        }
+        <p className="mt-1">
+            <b>Total:</b> 
+            {/* <span className={`text-success ${myCoupon.code ? 'line-through': ''}}`} ref={totalAmountRef} > */}
+            <span className="text-success" style={myCoupon.code ? {textDecorationLine: 'line-through'} : {}} ref={totalAmountRef} >
+                ${(getTotalAmount()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            </span>
+        </p>
+        {myCoupon.code ?
+            <p className="text-success" ref={amountAfterCupon}>
+                ${(getTotalAmount() * (1 - myCoupon.discount)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            </p>
+        : null
+        }
+                    
+    </>
+    )
+
 }
 
-export default OrderSummary;
+
+
+

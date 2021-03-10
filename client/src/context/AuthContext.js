@@ -14,8 +14,6 @@ export function AuthProvider({children}) {
     
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
-            console.log('onAuthStateChanged');
-            console.log(currentUser);
             setCurrentUser(user)
             setLoading(false)
         })
@@ -29,7 +27,6 @@ export function AuthProvider({children}) {
             user.email, currentPassword);
         return user.reauthenticateWithCredential(cred);
     }
-
 
     async function updateMyEmail(currentPassword, newEmail) {
         try{
@@ -80,14 +77,6 @@ export function AuthProvider({children}) {
 
     function resetPassword(email) {
         return auth.sendPasswordResetEmail(email) 
-    }
-
-    function updateEmail(email) {
-        return currentUser.updateEmail(email)
-    }
-
-    function updatePassword(password) {
-        return currentUser.updatePassword(password)
     }
     
 

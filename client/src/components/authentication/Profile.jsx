@@ -19,7 +19,12 @@ export default function Profile() {
 
     useEffect(() => {
         if (currentUser){
-            firebasedb.ref('users').child(currentUser.uid).get().then(snapshot => setMyUser(snapshot.val()))
+            const fetchData = async () => {
+                const snapshot = await firebasedb.ref('users').child(currentUser.uid).get()
+                setMyUser(snapshot.val());
+            };
+            
+            fetchData();
         }
     }, [currentUser])
 

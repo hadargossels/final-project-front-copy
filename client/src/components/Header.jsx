@@ -21,7 +21,6 @@ export default function Header(props) {
     const history = useHistory();
 
     useEffect(() => {
-        let isMounted = true;
         if (currentUser){
             firebasedb.ref('users').child(currentUser.uid).get().then(snapshot => {
                 if (snapshot.val())

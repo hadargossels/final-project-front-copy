@@ -1,38 +1,24 @@
-import React, { Component, createRef} from 'react';
+import React, { useRef, useState, useEffect, useCallback, dispatch} from 'react';
 import {Link} from 'react-router-dom';
 import Product from './Product.jsx';
 import axios from 'axios';
 
 
-class Store extends Component {
+export default function Store(props) {
+    const [products, setProducts] = useState([]);
+    const [category, setCategory] = useState([]);
+    const [valuePriceSelect, setValuePriceSelect] = useState(0);
+    const [valueSortSelect, setValueSortSelect] = useState('');
     
-    constructor(props) {
-        super(props);
+    const priceRangeRef = useRef();
+    const onSaleRef = useRef();
 
-        this.state = {
-            products: [],
-            category: [],
-            valuePriceSelect: 0,
-            valueSortSelect: "",
-        };
-
-        this.priceRangeRef = createRef();
-        this.onSaleRef = createRef();
-
-    }
-
-    componentDidMount() {
+    useEffect(() => {
         window.scrollTo(0, 0);
         
         axios.get('http://localhost:5000/products')
         .then( response => {
-            this.setState({ products: response.data }, () => {
-                this.handleStoreCategories();
-                this.handleSearch();
-                this.setState({products: this.state.products});
-            })
-
-            const categories = []
+            const categories = [];
             response.data.forEach(item => {
                 const category = categories.filter(category => {return category.name === item.category});
                 if (category.length === 0) {
@@ -46,60 +32,53 @@ class Store extends Component {
                 }
             });
 
-            this.setState({ category: categories })
+            setProducts(response.data);
+            setCategory(categories);
         })
+    }, [])
+
+    useEffect(() => {
+        handleStoreCategories();
+    }, [props.location.pathname])
+
+    useEffect(() => {
+        handleSearch();
+    }, [props.location.search])
+
+    const setPriceValue = (event) => {
+        setValuePriceSelect(event.target.value);
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props.location.pathname.toLowerCase() !== prevProps.location.pathname.toLowerCase()) {
-            this.handleStoreCategories();
-            this.setState({products: this.state.products});
-        }
-        
-        if (this.props.location.search.toLowerCase() !== prevProps.location.search.toLowerCase()) {
-            this.handleSearch();
-            this.setState({products: this.state.products});
-        }
-    }
-
-    setPriceValue = (event) => {
-        this.setState({valuePriceSelect: event.target.value});
-    }
-
-    filterCategory = (event) => {
-        let category = this.state.category
+    const filterCategory = (event) => {
         category.forEach(categoryItem => {
             if (categoryItem.name === event.target.value)
                 categoryItem.isChecked = event.target.checked;
         })
-        this.setState({category: category})
     }
 
-    filterSubcategory = (event) => {
-        let category = this.state.category
+    const filterSubcategory = (event) => {
         category.forEach(categoryItem => {
             categoryItem.subCategory.forEach(subCategoryItem => {
                 if (subCategoryItem.name === event.target.value)
                     subCategoryItem.isChecked = event.target.checked;
             })
         })
-        this.setState({category: category})
     }
 
-    displayFilteredItems = () => {
+    const displayFilteredItems = () => {
         let checkedCategories = [];
         let checkedSubCategories = [];
-        this.state.category.forEach(categoryItem => {
+        category.forEach(categoryItem => {
             if (categoryItem.isChecked)
-                checkedCategories.push(categoryItem.name)
+                checkedCategories.push(categoryItem.name);
 
             categoryItem.subCategory.forEach(subCategoryItem => {
                 if (subCategoryItem.isChecked)
-                    checkedSubCategories.push(subCategoryItem.name)
+                    checkedSubCategories.push(subCategoryItem.name);
             })
         })
 
-        const storeItems = this.state.products; 
+        const storeItems = [...products]; 
         storeItems.forEach(element => {
             if (checkedCategories.length === 0 && checkedSubCategories.length === 0)
                 element.display = true;
@@ -114,35 +93,31 @@ class Store extends Component {
             }
         });
         
-        if (this.onSaleRef.current.checked){
+        if (onSaleRef.current.checked){
             storeItems.forEach(element => {
                 element.display &= element.discount > 0;
             })
         }
         
-        if (this.state.valuePriceSelect > 0) {
+        if (valuePriceSelect > 0) {
             storeItems.forEach(element => {
-                element.display = element.price * (1 - element.discount) <= this.state.valuePriceSelect;
+                element.display &= element.price * (1 - element.discount) <= valuePriceSelect;
             });
         }
+
+        setProducts(storeItems);
     }
 
-    applyFilter = () => {
-        this.displayFilteredItems();
-        this.setState({products: this.state.products});
-    }
-
-    resetFilter = () => {
+    const resetFilter = () => {
         // setting all categories and sub categories elements checked = false
         const elements = document.getElementsByClassName("form-check-input");
         Array.from(elements).forEach((element) => {
             element.checked = false;
         });
 
-        this.onSaleRef.current.isChecked = false;
+        onSaleRef.current.isChecked = false;
 
         // setting all categories and sub categories state checked = false
-        let category = this.state.category
         category.forEach(categoryItem => {
             categoryItem.isChecked = false;
 
@@ -152,23 +127,22 @@ class Store extends Component {
         })
 
         // reset price scroller element to be 0
-        this.priceRangeRef.current.value = 0;
+        priceRangeRef.current.value = 0;
 
         // display all items (no item it filtered)
-        this.state.products.forEach(element => {
+        const displayProducts = products;
+        displayProducts.forEach(element => {
             element.display = true;
         })
 
-        this.setState({category: category, valuePriceSelect: 0});  // TODO: bug - price
+        setProducts(displayProducts);
+        setCategory(category) ;
+        setValuePriceSelect(0);  
     }
 
-    getActualPrice = (product) => {
-        return product.price * (1 - product.discount);
-    }
-
-    changeSort = (event) => {
-        this.setState({valueSortSelect: event.target.value});
-        const sortedStore = this.state.products;
+    const changeSort = (event) => {
+        setValueSortSelect(event.target.value);
+        const sortedStore = products;
 
         switch (event.target.value){
             case 'low': {
@@ -191,40 +165,40 @@ class Store extends Component {
             }
         }
 
-        this.setState({products: sortedStore});
+        setProducts(sortedStore);
     }
 
-    getAllSubCategories = () => {
+    const getAllSubCategories = () => {
         let subCategories = [];
-        this.state.category.forEach(categoryItem => {
+        category.forEach(categoryItem => {
             categoryItem.subCategory.forEach(subCategoryItem => {
-                subCategories.push(subCategoryItem.name)
+                subCategories.push(subCategoryItem.name);
             })
         })
         return subCategories;
     }
 
-    getAllCategoriesUrl = () => {
+    const getAllCategoriesUrl = () => {
         let categories = [];
-        this.state.category.forEach(categoryItem => {
-            categories.push(categoryItem.name.replace(/\s/g, ''))
+        category.forEach(categoryItem => {
+            categories.push(categoryItem.name.replace(/\s/g, ''));
         });
         return categories;
     }
 
-    handleStoreCategories() {    
+    function handleStoreCategories() {    
         // set sale reference if the location.onSale exists   
-        this.onSaleRef.current.checked |= this.props.location.onSale != null;
+        onSaleRef.current.checked |= props.location.onSale != null;
 
-        const category = this.state.category
+        const checkedCategory = [...category];
         const elements = document.getElementsByClassName("form-check-input");
         // setting the category (if exists) to be true
-        let transformedPath = this.props.location.pathname.split('/')
-        if (transformedPath.length > 2 && this.getAllCategoriesUrl().includes(transformedPath[2])) {
+        const transformedPath = props.location.pathname.split('/');
+        if (transformedPath.length > 2 && getAllCategoriesUrl().includes(transformedPath[2])) {
             Array.from(elements).forEach(element => {   
                 if (element.value.replace(/\s/g, '') === transformedPath[2]) {
                     element.checked = true;
-                    category.forEach(categoryItem => {
+                    checkedCategory.forEach(categoryItem => {
                         categoryItem.isChecked = categoryItem.name === element.value;
                     })
                 }
@@ -232,90 +206,92 @@ class Store extends Component {
                     element.checked = false;
                 }
             });
-
+            setCategory(checkedCategory);
+        }
+        else {
+            resetFilter();
         }
 
-        this.displayFilteredItems();
+        displayFilteredItems();
     }
 
-    handleSearch() {
-        const urlParams = new URLSearchParams(this.props.location.search);
+    function handleSearch() {
+        const urlParams = new URLSearchParams(props.location.search);
         if (urlParams.get('q')) {
-            this.state.products.forEach(element => {
+            const searchProducts = [...products]
+            searchProducts.forEach(element => {
                 element.display = element.name.toLowerCase().includes(urlParams.get('q').toLowerCase());
             });
+            
+            setProducts(searchProducts);
         }
     }
 
-    getProductsElements = () => {
-        return this.state.products.filter(element => element.display).map(productElement => 
+    const getProductsElements = () => {
+        return products.filter(element => element.display).map(productElement =>
             <Product key={productElement.id} productElement={productElement}/>)
     }
 
-    render() {
-        return (
-            <div className= "container py-5">
-                <div className="row">
-                    <div className="col-2 pr-5">
-                        <h5>Sort</h5>
-                        <div className="form-group mb-4">
-                            <select className="form-control form-control-sm" value={this.state.valueSortSelect} onChange={this.changeSort}>
-                                <option value=""> </option>
-                                <option value="low">Price: low to high</option>
-                                <option value="high">Price: high to low</option>
-                            </select>
-                        </div>
-
-                        <h5>Filter</h5>
-
-                        <h6>Category</h6>
-                        {this.state.category.map((element, index) => (
-                            <div className= "form-check" key={index}>
-                                <input className="form-check-input" type="checkbox" value={element.name} onChange={this.filterCategory}></input>
-                                <label className="form-check-label" htmlFor={Object.keys(element.name)}>
-                                    {element.name}
-                                </label>
-                            </div>
-                        ))}
-
-                        <br></br>
-                        <h6>Sub Category</h6>    
-                        {this.getAllSubCategories().map((element, index) => (
-                            <div className="form-check" key={index}>
-                                <input className="form-check-input" type="checkbox" value={element} onChange={this.filterSubcategory}></input>
-                                <label className="form-check-label" htmlFor={Object.keys(element)}>
-                                    {element}
-                                </label>
-                            </div>
-                        ))}
-
-                        <br></br>
-                        <div className="form-check">
-                            <input type="checkbox" className="form-check-input" id="onSaleCheck" ref={this.onSaleRef}></input>
-                            <label className="form-check-label" htmlFor="onSaleCheck"><h6>On Sale</h6></label>
-                        </div>
-
-                        <br></br>
-                        <h6>Price</h6> 
-                        <label htmlFor="priceRange" className="form-label"></label>
-                        <input type="range" className="form-range" id="priceRange" min="0" max="1000" step="10" onInput={this.setPriceValue} ref={this.priceRangeRef}></input>
-                        <output> {this.state.valuePriceSelect}</output>
-
-                        <div className="mt-3">
-                            <Link to="/store" className="btn btn-outline-primary btn-sm" type="button" onClick={this.applyFilter}>Apply</Link>
-                            <Link to="/store" className="btn btn-outline-primary btn-sm mx-2" type="button" onClick={this.resetFilter}>Reset</Link>
-                        </div>
-                        
+    return (
+        <div className= "container py-5">
+            <div className="row">
+                <div className="col-2 pr-5">
+                    <h5>Sort</h5>
+                    <div className="form-group mb-4">
+                        <select className="form-control form-control-sm" value={valueSortSelect} onChange={changeSort}>
+                            <option value=""> </option>
+                            <option value="low">Price: low to high</option>
+                            <option value="high">Price: high to low</option>
+                        </select>
                     </div>
-                    <div className="col-10 justify-content-center">
-                        <div className="row">
-                            {this.getProductsElements()}
+
+                    <h5>Filter</h5>
+
+                    <h6>Category</h6>
+                    {category.map((element, index) => (
+                        <div className= "form-check" key={index}>
+                            <input className="form-check-input" type="checkbox" value={element.name} onChange={filterCategory}></input>
+                            <label className="form-check-label" htmlFor={Object.keys(element.name)}>
+                                {element.name}
+                            </label>
                         </div>
+                    ))}
+
+                    <br></br>
+                    <h6>Sub Category</h6>    
+                    {getAllSubCategories().map((element, index) => (
+                        <div className="form-check" key={index}>
+                            <input className="form-check-input" type="checkbox" value={element} onChange={filterSubcategory}></input>
+                            <label className="form-check-label" htmlFor={Object.keys(element)}>
+                                {element}
+                            </label>
+                        </div>
+                    ))}
+
+                    <br></br>
+                    <div className="form-check">
+                        <input type="checkbox" className="form-check-input" id="onSaleCheck" ref={onSaleRef}></input>
+                        <label className="form-check-label" htmlFor="onSaleCheck"><h6>On Sale</h6></label>
+                    </div>
+
+                    <br></br>
+                    <h6>Price</h6> 
+                    <label htmlFor="priceRange" className="form-label"></label>
+                    <input type="range" className="form-range" id="priceRange" min="0" max="1000" step="10" onInput={setPriceValue} ref={priceRangeRef}></input>
+                    <output> {valuePriceSelect}</output>
+
+                    <div className="mt-3">
+                        <Link to="/store" className="btn btn-outline-primary btn-sm" type="button" onClick={displayFilteredItems}>Apply</Link>
+                        <Link to="/store" className="btn btn-outline-primary btn-sm mx-2" type="button" onClick={resetFilter}>Reset</Link>
+                    </div>
+                    
+                </div>
+                <div className="col-10 justify-content-center">
+                    <div className="row">
+                        {getProductsElements()}
                     </div>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
-
-export default Store;

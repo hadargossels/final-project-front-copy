@@ -14,6 +14,7 @@ export default function Login() {
     const [loading, setLoading]= useState(false);
     const history = useHistory();
 
+    //login with google/facebook
     const uiConfig = {
         signInFlow: "popup",
         signInOptions: signInOptions,
@@ -33,7 +34,6 @@ export default function Login() {
             setError('Failed to log in')
         }
         setLoading(false)
-        
     }
 
     return (
@@ -56,6 +56,7 @@ export default function Login() {
                                 <Button disabled={loading} className="w-100" type="submit">Log In</Button>
                             </Form>
 
+                            {/* login with google/facebook */}
                             <StyledFirebaseAuth
                                 uiConfig={uiConfig}
                                 firebaseAuth={auth}
