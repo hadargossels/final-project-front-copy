@@ -61,7 +61,7 @@ import {db} from '../../fireBase.config'
         this.calcShipping=this.calcShipping.bind(this)
         this.calacTotal=this.calacTotal.bind(this)
         this.couponBtnClicked=this.couponBtnClicked.bind(this)
-
+        this.getDateAndTimeOrder=this.getDateAndTimeOrder.bind(this)
         //call
         this.state.total=this.calacTotal();
         
@@ -188,30 +188,39 @@ import {db} from '../../fireBase.config'
             window.scrollTo(0, 0);
 
     }
+
     onSuccessPaypal(details, data){
         let objOrder={
-            orderId:data.orderID,
-            firstName:this.nameInputRef.current.value,
-            lastName:this.lastNameLabelRef.current.value,
-            email:this.emailInputRef.current.value,
-            phone:this.phoneInputRef.current.value,
-            city:this.cityInputRef.current.value,
-            street:this.streetInputRef.current.value,
-            building:this.buildingInputRef.current.value,
-            apartment:this.apartmentInputRef.current.value,
-            post:this.postInputRef.current.value,
+            id:data.orderID,
+            date:this.getDateAndTimeOrder(),
+            userId:this.props.user.uid,
+            Name:this.nameInputRef.current.value+" "+this.lastNameInputRef.current.value,
+            address:this.apartmentInputRef.current.value+"/"+this.buildingInputRef.current.value+" "+this.streetInputRef.current.value+" ,"+ this.cityInputRef.current.value,
             comments:this.commentsRef.current.value,
-            itemsInOrderArr:this.props.localStorageArr,
+            itemsInOrder:this.props.localStorageArr,
             totalOrder:this.state.total,
-            totalItems:this.totalItems()
+            totalItems:this.totalItems(),
+            status:"Received"
         }
-        localStorage.setItem("objOrder",JSON.stringify(objOrder) );//save object of order
+        localStorage.setItem("objOrder",JSON.stringify(objOrder) );//save object of order to order number page
         localStorage.setItem("cartArray","[]")//delete shopping cart
         this.props.localStorageChange();
-        //לשמור בבסיס נתונים את ההזמנה***
+        db.ref(`orders/${objOrder.id}`).set(objOrder);//save the order in database
+       //להוסיף למשתמש בתכונה הזמנות את מספר ההזמנה בבסיס הנתונים***
         this.props.history.push("/checkout/payment/order_number");
     }
-    
+    getDateAndTimeOrder(){
+        let date=new Date();
+        let month=date.getMonth()+1;
+        month=(month<10)?"0"+month:month;
+        let day=date.getDate();
+        day=(day<10)?"0"+day:day;
+        let hours=date.getHours();
+        hours=(hours<10)?"0"+hours:hours;
+        let minutes=date.getMinutes()
+        minutes=(minutes<10)?"0"+minutes:minutes;
+        return ""+day+"/"+month+"/"+date.getFullYear()+" "+hours+":"+minutes;
+    }
 
     render() {
         return (

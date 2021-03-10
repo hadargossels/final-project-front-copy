@@ -118,7 +118,7 @@ export default class ShoppingCart extends Component {
                         <input ref={this.couponInput} type="text" placeholder="Enter a coupon"/><br/>
                         <label className={`labelCouponFailed ${this.state.couponLabelFailed}`}>Coupon code does not exist</label>
                         <label className={`labelCouponAdd ${this.state.couponLabelAdd}`}>Successfully added coupon code</label>
-                        <NavLink exact className="navlink" to="/checkout"><button className="paymentBtn">payment</button></NavLink>
+                        <NavLink exact className="navlink" to="/checkout/payment"><button className="paymentBtn">payment</button></NavLink>
                     </div>
                 </div>
                 

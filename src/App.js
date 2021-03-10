@@ -33,6 +33,7 @@ import {saveUser,removeUser} from './actions/userAction'
 import {auth,db} from "./fireBase.config"
 import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes';
 import AdminPage from './admin/AdminPage/AdminPage';
+import ProtectedRouteCheckout from './components/ProtectedRouteCheckout/ProtectedRouteCheckout';
 
 
  class App extends Component {
@@ -174,8 +175,8 @@ import AdminPage from './admin/AdminPage/AdminPage';
                         <Route  path="/login/signup" component={SignUp}/>
                         <Route  path="/cart" component={()=><ShoppingCart localStorageChange={this.localStorageChange}/>}/>
                         <Route  path="/product/:productName"  render={(props) => <ProductPage localStorageChange={this.localStorageChange} {...props} />}/>
-                        <Route exact  path="/checkout" component={CheckoutPage}/>
-                        <Route exact  path="/checkout/payment"  render={(props) => <PaymentPage localStorageArr={this.state.localStorageArray} localStorageChange={this.localStorageChange} {...props}/>}/>
+                        {/* <Route exact  path="/checkout" component={CheckoutPage}/> */}
+                        <ProtectedRouteCheckout exact  path="/checkout/payment" component={PaymentPage} localStorageArr={this.state.localStorageArray} localStorageChange={this.localStorageChange} /*render={(props) => <PaymentPage localStorageArr={this.state.localStorageArray} localStorageChange={this.localStorageChange} {...props}/>}*//>
                         <Route exact  path="/checkout/payment/order_number" component={OrderNumber}/>
                         {(this.state.didGlobalUserUpdate)
                           ?

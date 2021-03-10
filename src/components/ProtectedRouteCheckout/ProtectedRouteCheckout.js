@@ -1,24 +1,22 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
-import {auth} from "../../fireBase.config"
-import {saveUser,removeUser} from '../../actions/userAction'
-class ProtectedRoutes extends Component{
+
+
+class ProtectedRouteCheckout extends Component{
     constructor(props){
         super(props);
         
     }
    
     render(){
-        let {component: Component,...rest}=this.props;
+        let {component: Component,localStorageArr:arr,localStorageChange:func,...rest}=this.props;
         return(
             <Route {...rest}  render={(props) => {
                 if (this.props.user) {
-                    console.log("protected ",this.props.user)
-                  return <Component {...props} />
+                  return <Component localStorageArr={arr} localStorageChange={func} {...props} />
                 }
                  else {
-                    console.log("protected ",this.props.user)
                     return (
                       <Redirect
                         to={{
@@ -31,7 +29,6 @@ class ProtectedRoutes extends Component{
                 }}/>
           
         );
-        // else return null
     }
 }
 
@@ -40,4 +37,4 @@ const mapStateToProps = store => ({
 });
 
 
-export default connect(mapStateToProps,{saveUser,removeUser})(ProtectedRoutes);
+export default connect(mapStateToProps)(ProtectedRouteCheckout);
