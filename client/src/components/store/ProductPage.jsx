@@ -5,10 +5,12 @@ import { Carousel } from 'react-responsive-carousel';
 import Product from './Product.jsx';
 import {firebasedb} from '../../firebase';
 import { useCart } from '../../context/CartContext';
+import { useFavorites } from '../../context/FavoritesContext';
 
 
 export default function ProductPage(props) {
-    const { handleAddToCart, handleChangeFavorites, favoriteProducts } = useCart();
+    const { handleAddToCart } = useCart();
+    const { handleChangeFavorites, favoriteProducts } = useFavorites();
     const qtyRef = useRef();
     const [products, setProducts] = useState();
 
@@ -65,17 +67,15 @@ export default function ProductPage(props) {
         }
     }
 
-    const displayPrice = (product) => {
-        if(product.discount !== 0){
+    const displayPrice = () => {
+        if(props.product.discount !== 0) {
             return (<div>
-                        <p className="card-text mx-0 my-0">{product.discount * 100}% OFF </p>
-                        <p><del>${product.price}</del>&ensp; 
-                            ${product.price * (1 - product.discount)}
-                        </p>
+                        <h2>{props.product.discount * 100}% OFF</h2>
+                        <h3><span style={{textDecoration: "line-through"}}>${props.product.price}</span> ${props.product.price * (1- props.product.discount)}</h3>
                     </div>)
         }
-        else{
-            return <p>${product.price}</p>
+        else {
+            return <h3>${props.product.price}</h3>
         }
     }
 
@@ -106,8 +106,7 @@ export default function ProductPage(props) {
                     <div id="ProductTitle" className="mt-5">
                         <h1>{props.product.name}</h1>
                         {createStars()}
-                        <h2>{props.product.discount * 100}% off</h2>
-                        <h3><span style={{textDecoration: "line-through"}}>${props.product.price}</span> ${props.product.price * (1- props.product.discount)}</h3>
+                        {displayPrice()}
                     </div>
                     <Form>
                         <Form.Group controlId="qty" className="d-inline-flex">

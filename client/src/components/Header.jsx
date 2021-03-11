@@ -9,11 +9,13 @@ import CartProduct from './cart-and-payment/CartProduct.jsx';
 import { firebasedb } from '../firebase'
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import { useFavorites } from '../context/FavoritesContext';
 
 
 export default function Header() {
-    const { cartProducts, calculateSumQtyCart } = useCart();
     const { currentUser, logout } = useAuth();
+    const { cartProducts, calculateSumQtyCart } = useCart();
+    const { favoriteProducts } = useFavorites();
     const history = useHistory();
 
     const searchInputRef = useRef();
@@ -51,7 +53,12 @@ export default function Header() {
     const displaySumCart = () => {
         const qtySum = calculateSumQtyCart()
         if (qtySum > 0)
-            return <span className="mx-2 text-center" style={{height: '25px', width: '25px', backgroundColor: '#333333', color:'white', borderRadius: '50%', display: 'inline-block'}}>{qtySum}</span>
+            return <div className="mx-2 text-center" style={{height: '25px', width: '25px', backgroundColor: '#333333', color:'white', borderRadius: '50%'}}>{qtySum}</div>
+    }
+
+    const displaySumFavorites = () => {
+        if (favoriteProducts.length > 0)
+            return <div className="mx-2 text-center" style={{height: '25px', width: '25px', backgroundColor: '#333333', color:'white', borderRadius: '50%'}}>{favoriteProducts.length}</div>
     }
 
     const setCartModal = () => {
@@ -112,10 +119,19 @@ export default function Header() {
                     </ul>
                     <form className="form-inline my-2 my-lg-0" onSubmit={(e) => e.preventDefault()}>
                         <div className="navbar-nav mx-2">
+                            <div className="d-flex cart">
                             {displaySumCart()}         
                             <button type="button" className="mx-2 button-icon" style={{border: 'none'}} data-toggle="modal" data-target="#cartModal">
                                 <i className="fas fa-shopping-cart" style={{color: 'dodgerblue'}}></i>
                             </button>
+                            </div>
+
+                            {displaySumFavorites()}
+                            <Link to="/favorites">
+                                <button type="button" className="mx-2 button-icon" style={{border: 'none'}}>
+                                    <i className="fas fa-heart" style={{color: 'dodgerblue'}}></i>
+                                </button>
+                            </Link>
 
                             {currentUser ? <div> Hello {userName}</div> : ''}
 

@@ -15,11 +15,6 @@ export default function Blog() {
         };
         
         fetchData();
-
-        // axios.get('http://localhost:5000/articles')
-        //     .then(response => {
-        //         setArticles(response.data)
-        //     })
     }, [])
 
     return (
@@ -45,5 +40,3 @@ export default function Blog() {
         </div>
     );
 }
-
-

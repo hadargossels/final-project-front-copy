@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+
 export default function Article(props) {
     return (
         <Link to={`/article-${props.article.id}`} style={{ color: 'black', textDecoration: 'none' }}>

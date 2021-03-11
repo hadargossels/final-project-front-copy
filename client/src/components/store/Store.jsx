@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback, dispatch} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import Product from './Product.jsx';
 import {firebasedb} from '../../firebase';
@@ -18,6 +18,9 @@ export default function Store(props) {
         
         firebasedb.ref('products').get()
         .then( snapshot => {
+            const products = snapshot.val().map(product => ({...product, display: true}));
+            setProducts(products);
+
             const categories = [];
             snapshot.val().forEach(item => {
                 const category = categories.filter(category => {return category.name === item.category});
@@ -31,19 +34,61 @@ export default function Store(props) {
                     }
                 }
             });
-
-            setProducts(snapshot.val());
             setCategory(categories);
         })
     }, [])
 
     useEffect(() => {
         handleStoreCategories();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.location.pathname])
 
     useEffect(() => {
-        handleSearch();
-    }, [props.location.search])
+        const urlParams = new URLSearchParams(props.location.search);
+        if (urlParams.get('q')) {
+            const searchProducts = products;
+            let productsUpdated = false;
+            searchProducts.forEach(element => {
+                const shouldDisplay = element.name.toLowerCase().includes(urlParams.get('q').toLowerCase());
+                if (element.display !== shouldDisplay) {
+                    element.display = shouldDisplay;
+                    productsUpdated = true;
+                }
+            });
+            
+            if (productsUpdated)
+                setProducts([...searchProducts]);
+        }
+    }, [props.location.search, products])
+
+    const handleStoreCategories = () => {
+        // set sale reference if the location.onSale exists   
+        onSaleRef.current.checked |= props.location.onSale != null;
+
+        const checkedCategory = [...category];
+        const elements = document.getElementsByClassName("form-check-input");
+        // setting the category (if exists) to be true
+        const transformedPath = props.location.pathname.split('/');
+        if (transformedPath.length > 2 && getAllCategoriesUrl().includes(transformedPath[2])) {
+            Array.from(elements).forEach(element => {   
+                if (element.value.replace(/\s/g, '') === transformedPath[2]) {
+                    element.checked = true;
+                    checkedCategory.forEach(categoryItem => {
+                        categoryItem.isChecked = categoryItem.name === element.value;
+                    })
+                }
+                else {
+                    element.checked = false;
+                }
+            });
+            setCategory(checkedCategory);
+        }
+        else {
+            resetFilter();
+        }
+
+        displayFilteredItems();
+    }
 
     const setPriceValue = (event) => {
         setValuePriceSelect(event.target.value);
@@ -184,47 +229,6 @@ export default function Store(props) {
             categories.push(categoryItem.name.replace(/\s/g, ''));
         });
         return categories;
-    }
-
-    function handleStoreCategories() {    
-        // set sale reference if the location.onSale exists   
-        onSaleRef.current.checked |= props.location.onSale != null;
-
-        const checkedCategory = [...category];
-        const elements = document.getElementsByClassName("form-check-input");
-        // setting the category (if exists) to be true
-        const transformedPath = props.location.pathname.split('/');
-        if (transformedPath.length > 2 && getAllCategoriesUrl().includes(transformedPath[2])) {
-            Array.from(elements).forEach(element => {   
-                if (element.value.replace(/\s/g, '') === transformedPath[2]) {
-                    element.checked = true;
-                    checkedCategory.forEach(categoryItem => {
-                        categoryItem.isChecked = categoryItem.name === element.value;
-                    })
-                }
-                else {
-                    element.checked = false;
-                }
-            });
-            setCategory(checkedCategory);
-        }
-        else {
-            resetFilter();
-        }
-
-        displayFilteredItems();
-    }
-
-    function handleSearch() {
-        const urlParams = new URLSearchParams(props.location.search);
-        if (urlParams.get('q')) {
-            const searchProducts = [...products]
-            searchProducts.forEach(element => {
-                element.display = element.name.toLowerCase().includes(urlParams.get('q').toLowerCase());
-            });
-            
-            setProducts(searchProducts);
-        }
     }
 
     const getProductsElements = () => {

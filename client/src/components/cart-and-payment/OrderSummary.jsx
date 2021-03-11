@@ -17,7 +17,6 @@ export default function OrderSummary() {
 
 
     useEffect(() => {
-        console.log("effect1")
         const fetchData = async () => {
             const snapshot = await firebasedb.ref('coupons').get()
             setCoupons(snapshot.val());
@@ -27,7 +26,6 @@ export default function OrderSummary() {
     },[])   
 
     useEffect(() => {
-        console.log("effect3")
         const coupon = JSON.parse(localStorage.getItem('myCoupon'));
         if (coupon)
             setMyCoupon(coupon);
@@ -45,8 +43,6 @@ export default function OrderSummary() {
             let cuponConfirmed = false
             Object.keys(coupons).forEach(element => {
                 if (element === cuponInputRef.current.value){
-                    {console.log(coupons)}
-                    {console.log(myCoupon)}
                     cuponConfirmed = true;
                     const coupon = {code: element, discount: coupons[element]}
                     setMyCoupon(coupon);
@@ -68,44 +64,42 @@ export default function OrderSummary() {
 
         
     return (
-    <>
-    {console.log(coupons)}
-    {console.log(myCoupon)}
-        <h4 className="border-bottom pb-2">Order Summary</h4>
-        <p>Subtotal: ${(getSubTotalAmount()).toLocaleString()}</p>
-        <p>Taxes: ${((getSubTotalAmount() * tax).toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
-        <form>
-            <div className="form-group">
-                <label htmlFor="cupon">Cupon-code:</label>
-                <input type="text" className="form-control d-inline" id="cuponInput" ref={cuponInputRef} defaultValue={myCoupon ? myCoupon.code : ''}></input>
-                <div className="mt-2">
-                    <button type="submit" className="btn btn-outline-primary btn-sm d-inline mr-2" onClick={onActivateCoupon}>Activate coupon</button>
-                    <button type="submit" className="btn btn-outline-primary btn-sm d-inline" onClick={onCancelCoupon}>Cancel coupon</button>
+        <>
+            <h4 className="border-bottom pb-2">Order Summary</h4>
+            <p>Subtotal: ${(getSubTotalAmount()).toLocaleString()}</p>
+            <p>Taxes: ${((getSubTotalAmount() * tax).toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+            <form>
+                <div className="form-group">
+                    <label htmlFor="cupon">Cupon-code:</label>
+                    <input type="text" className="form-control d-inline" id="cuponInput" ref={cuponInputRef} defaultValue={myCoupon ? myCoupon.code : ''}></input>
+                    <div className="mt-2">
+                        <button type="submit" className="btn btn-outline-primary btn-sm d-inline mr-2" onClick={onActivateCoupon}>Activate coupon</button>
+                        <button type="submit" className="btn btn-outline-primary btn-sm d-inline" onClick={onCancelCoupon}>Cancel coupon</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
 
-        {myCoupon.code ?
-            <div className="text-success" ref={cuponDiscountRef}>
-                {myCoupon.discount * 100}% discount
-            </div>
-        : null
-        }
-        <p className="mt-1">
-            <b>Total:</b> 
-            {/* <span className={`text-success ${myCoupon.code ? 'line-through': ''}}`} ref={totalAmountRef} > */}
-            <span className="text-success" style={myCoupon.code ? {textDecorationLine: 'line-through'} : {}} ref={totalAmountRef} >
-                ${(getTotalAmount()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-            </span>
-        </p>
-        {myCoupon.code ?
-            <p className="text-success" ref={amountAfterCupon}>
-                ${(getTotalAmount() * (1 - myCoupon.discount)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            {myCoupon.code ?
+                <div className="text-success" ref={cuponDiscountRef}>
+                    {myCoupon.discount * 100}% discount
+                </div>
+            : null
+            }
+            <p className="mt-1">
+                <b>Total:</b> 
+                {/* <span className={`text-success ${myCoupon.code ? 'line-through': ''}}`} ref={totalAmountRef} > */}
+                <span className="text-success" style={myCoupon.code ? {textDecorationLine: 'line-through'} : {}} ref={totalAmountRef} >
+                    ${(getTotalAmount()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </span>
             </p>
-        : null
-        }
-                    
-    </>
+            {myCoupon.code ?
+                <p className="text-success" ref={amountAfterCupon}>
+                    ${(getTotalAmount() * (1 - myCoupon.discount)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </p>
+            : null
+            }
+                        
+        </>
     )
 
 }

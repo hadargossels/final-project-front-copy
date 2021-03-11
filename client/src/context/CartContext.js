@@ -8,7 +8,6 @@ export function useCart() {
 
 export function CartProvider({children}) {
     const [cartProducts, setCartProducts] = useState([]);
-    const [favoriteProducts, setFavoriteProducts] = useState([]);
     const [displayAlert, setDisplayAlert] = useState(false);
     const tax = 0.17;
 
@@ -17,20 +16,12 @@ export function CartProvider({children}) {
         if (cartProducts !== null) {
             setCartProducts(cartProducts)
         }
-    
-        const favoriteProducts = JSON.parse(localStorage.getItem('favoriteProducts'));
-        if (favoriteProducts !== null) {
-            setFavoriteProducts(favoriteProducts)
-        }
     }, [])
 
     useEffect(() => {
         localStorage.setItem('cartProducts', JSON.stringify(cartProducts));
     },[cartProducts])
 
-    useEffect(() => {
-        localStorage.setItem('favoriteProducts', JSON.stringify(favoriteProducts));
-    },[favoriteProducts])
 
     const handleAddToCart = (product, qty) => {
         setDisplayAlert(true);
@@ -54,18 +45,6 @@ export function CartProvider({children}) {
         setCartProducts(updatedCartProducts);
     }
 
-    const handleChangeFavorites = (product, toFavorate) => {
-        const updatedFavoriteProducts = [...favoriteProducts];
-        if (toFavorate){
-            updatedFavoriteProducts.push(product);
-        }
-        else{
-            updatedFavoriteProducts = updatedFavoriteProducts.filter(element => element.id !== product.id)
-        }
-        
-        setFavoriteProducts(updatedFavoriteProducts)
-    }
-
     const handleQtyChange = (product, qty) => {
         const updatedCartProducts = [...cartProducts];
         updatedCartProducts.forEach(element => {
@@ -76,8 +55,7 @@ export function CartProvider({children}) {
     }
 
     const handleDeleteCartProduct = (product) => {
-        const updatedCartProducts = [...cartProducts];
-        updatedCartProducts = updatedCartProducts.filter(element => element.id !== product.id);
+        const updatedCartProducts = cartProducts.filter(element => element.id !== product.id);
         setCartProducts(updatedCartProducts);
     }
 
@@ -93,11 +71,9 @@ export function CartProvider({children}) {
 
     const value = {
         cartProducts,
-        favoriteProducts,
         displayAlert,
         tax,
         handleAddToCart,
-        handleChangeFavorites,
         handleQtyChange,
         handleDeleteCartProduct,
         calculateSumQtyCart,

@@ -96,14 +96,13 @@ export default function ArticlePage(props) {
                 [...prevComments, newComment]
                 ), () => {
                     axios.post(`http://localhost:5000/articles_comments`, { ...newComment, articleId: props.article.id })
-                        .catch(error => {
-                            console.log(error);
+                        .catch(err => {
+                            console.log(err);
                         })
                     }
             )
         }
     }
-
 
     return (
         <div className="articlePage">

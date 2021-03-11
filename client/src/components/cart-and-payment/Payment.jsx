@@ -5,28 +5,30 @@ import OrderSummary from './OrderSummary.jsx';
 import 'bootstrap/js/dist/collapse';
 import PayPalBtn from './PayPalBtn'
 import { useCart } from '../../context/CartContext';
+import {useHistory} from 'react-router-dom';
+import {firebasedb} from '../../firebase';
 
 
 export default function Payment() {
     const { tax, getSubTotalAmount } = useCart();
+    const history = useHistory();
 
+    const recipientDetails = useRef();
+    const fullNameRef = useRef('');
+    const phoneRef = useRef('');
+    const emailRef = useRef('');
+    const emailSubscriptionRef = useRef(false);
+    const firstNameRef = useRef('');
+    const lastNameRef = useRef('');
+    const streetRef = useRef('');
+    const homeNumberRef = useRef('');
+    const apartmentNumberRef = useRef('');
+    const selectDelivery = useRef('');
+    const cityRef = useRef('');
+    
     const [openCostumerDetails, setOpenCostumerDetails] = useState(false);
     const [openRecipientDetails, setOpenRecipientDetails] = useState(false);
     const [openPaymentDetails, setOpenPaymentDetails] = useState(false);
-    
-    const costumerDetailsRef = useRef();
-    const recipientDetails = useRef();
-    const fullNameRef = useRef();
-    const phoneRef = useRef();
-    const emailRef = useRef();
-    const firstNameRef = useRef();
-    const lastNameRef = useRef();
-    const streetRef = useRef();
-    const homeNumberRef = useRef();
-    const apartmentNumberRef = useRef();
-    const selectDelivery = useRef();
-    const cityRef = useRef();
-    
     const [deliveryAmount, setDeliveryAmount] = useState(0);
     const [messageFullName, setMessageFullName] = useState('');
     const [messagePhone, setMessagePhone] = useState('');
@@ -37,7 +39,6 @@ export default function Payment() {
     const [messageHomeNumber, setMessageHomeNumber] = useState('');
     const [messageApartmentNumber, setMessageApartmentNumber] = useState('');
     const [messageCity, setMessageCity] = useState('');
-
 
     const calculateDelivery = () => {
         let totalAmount = getSubTotalAmount();
@@ -215,16 +216,46 @@ export default function Payment() {
 
         if (correctInputs){
             setOpenCostumerDetails(false);
+            setOpenRecipientDetails(false);
+            setOpenPaymentDetails(true);
         }  
     }
 
-
     const paymentHandler = (details, data) => {
-        /** Here you can call your backend API
-          endpoint and update the database */
         console.log(details, data);
-    }
 
+        firebasedb.ref('orders').child(data.orderID).set(
+            {
+                order_time: details.create_time,
+                order_id: data.orderID,
+                email_subscription: emailSubscriptionRef.current.checked,
+                purchase_amount: details.purchase_units[0].amount,
+                costumer: {
+                    full_name: fullNameRef.current.value,
+                    phone_number: phoneRef.current.value,
+                    email_address: emailRef.current.value
+                },
+                recipient: {
+                    first_name: firstNameRef.current.value,
+                    last_name: lastNameRef.current.value,
+                    city: cityRef.current.value,
+                    address: streetRef.current.value,
+                    home_number: homeNumberRef.current.value,
+                    apartment_number: apartmentNumberRef.current.value,
+                    delivery_option: selectDelivery.current.value
+                },
+                payer: {
+                    id: details.payer.payer_id,
+                    first_name: details.payer.name.given_name,
+                    last_name: details.payer.name.surname,
+                    email_address: details.payer.email_address,
+                    country_code: details.payer.address.country_code
+                }
+            }
+        )
+
+        history.push('/order-confirmation', {order_id: data.orderID});
+    }
 
     return (
         <div className="container">
@@ -269,7 +300,7 @@ export default function Payment() {
                                             </div>
                                             
                                             <div className="form-check mt-2">
-                                                <input type="checkbox" className="form-check-input" id="ReceiveMarketingInfo"></input>
+                                                <input type="checkbox" className="form-check-input" id="ReceiveMarketingInfo" ref={emailSubscriptionRef}></input>
                                                 <label className="form-check-label mb-2" htmlFor="ReceiveMarketingInfo">I would like to receive information about products and promotions on the site</label>
                                             </div>
                                             
@@ -378,7 +409,7 @@ export default function Payment() {
                                     <form>
                                         <div className="form-group mt-2 payment-form">
                                             <div className="mb-2" id="paypalDetails">
-                                                <PayPalBtn amount = {1} currency = {'USD'} onSuccess={paymentHandler}/>
+                                                <PayPalBtn amount={0.1} currency={'USD'} onSuccess={paymentHandler}/>
                                             </div>
 
                                         </div>
@@ -386,10 +417,6 @@ export default function Payment() {
                                 </div>
                             </Collapse>
                         </div> 
-                    
-                        <div className="col-12 col-md-10 mt-2 mt-4">
-                            <button type="submit" className="btn btn-primary">Confirm order</button> 
-                        </div>
                                             
                 </div>
                 <div className="col-12 col-md-4">

@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react'
 import { Container, Form, Button, Card, Alert } from 'react-bootstrap'
-import { useAuth } from '../../context/AuthContext'
 import { Link, useHistory } from 'react-router-dom';
 import {firebasedb} from '../../firebase';
 import {auth} from '../../firebase';
+
 
 export default function SignUp() {
     const firstNameRef = useRef();
@@ -12,7 +12,6 @@ export default function SignUp() {
     const phoneRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
-    const { signup, currentUser } = useAuth();
     const [error, setError] = useState('');
     const [loading, setLoading]= useState(false);
     const history = useHistory();
@@ -28,8 +27,6 @@ export default function SignUp() {
             setError('')
             setLoading(true)
             const a = await auth.createUserWithEmailAndPassword(emailRef.current.value, passwordRef.current.value)
-            console.log(a)
-            console.log(firstNameRef.current.value)
             await auth.onAuthStateChanged((user)  => {
                 firebasedb.ref('users').child(user.uid).set(
                     {
