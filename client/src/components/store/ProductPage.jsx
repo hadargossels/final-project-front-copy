@@ -4,9 +4,11 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import Product from './Product.jsx';
 import {firebasedb} from '../../firebase';
+import { useCart } from '../../context/CartContext';
 
 
 export default function ProductPage(props) {
+    const { handleAddToCart, handleChangeFavorites, favoriteProducts } = useCart();
     const qtyRef = useRef();
     const [products, setProducts] = useState();
 
@@ -49,17 +51,17 @@ export default function ProductPage(props) {
     }
 
     const isFavorite = () => {
-        if (props.favoritesProducts){
-            const favoriteProduct = props.favoritesProducts.filter(element => element.id === props.product.id);
-            if (favoriteProduct.length === 0){
-                return <i id="favoriteIcon" className="far fa-heart ml-2" onClick={() => props.onChangeFavorites(props.product, true)}></i>
+        if (favoriteProducts){
+            const isFavoriteProduct = favoriteProducts.filter(element => element.id === props.product.id);
+            if (isFavoriteProduct.length === 0){
+                return <i id="favoriteIcon" className="far fa-heart ml-2" onClick={() => handleChangeFavorites(props.product, true)}></i>
             }
             else {
-                return <i id="favoriteIcon" className="fas fa-heart ml-2" onClick={() => props.onChangeFavorites(props.product, false)}></i>
+                return <i id="favoriteIcon" className="fas fa-heart ml-2" onClick={() => handleChangeFavorites(props.product, false)}></i>
             }
         }
         else {
-            return <i id="favoriteIcon" className="far fa-heart ml-2" onClick={() => props.onChangeFavorites(props.product, true)}></i>
+            return <i id="favoriteIcon" className="far fa-heart ml-2" onClick={() => handleChangeFavorites(props.product, true)}></i>
         }
     }
 
@@ -116,7 +118,7 @@ export default function ProductPage(props) {
                         </Form.Group>
                     </Form>
                     <div className="d-flex align-items-center">
-                        <Button variant="primary" className="px-5" onClick={() => props.onAddToCart(props.product, qtyRef.current.value)}>
+                        <Button variant="primary" className="px-5" onClick={() => handleAddToCart(props.product, qtyRef.current.value)}>
                             Add to cart
                         </Button>
                         {isFavorite()}
@@ -134,7 +136,6 @@ export default function ProductPage(props) {
                             getRelatedProducts().map(productElement => 
                                 <Product key={productElement.id} productElement={productElement}/>
                             )
-
                         }
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback, dispatch} from 'react';
 import {Link} from 'react-router-dom';
 import Product from './Product.jsx';
-import axios from 'axios';
+import {firebasedb} from '../../firebase';
 
 
 export default function Store(props) {
@@ -16,10 +16,10 @@ export default function Store(props) {
     useEffect(() => {
         window.scrollTo(0, 0);
         
-        axios.get('http://localhost:5000/products')
-        .then( response => {
+        firebasedb.ref('products').get()
+        .then( snapshot => {
             const categories = [];
-            response.data.forEach(item => {
+            snapshot.val().forEach(item => {
                 const category = categories.filter(category => {return category.name === item.category});
                 if (category.length === 0) {
                     categories.push({name: item.category, isChecked: false, subCategory: [{name: item.subcategory, isChecked: false}]});
@@ -32,7 +32,7 @@ export default function Store(props) {
                 }
             });
 
-            setProducts(response.data);
+            setProducts(snapshot.val());
             setCategory(categories);
         })
     }, [])

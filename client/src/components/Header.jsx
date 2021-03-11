@@ -6,19 +6,22 @@ import 'bootstrap/js/dist/collapse';
 import '../css/header.css';
 import $ from 'jquery';
 import CartProduct from './cart-and-payment/CartProduct.jsx';
-import {useAuth} from '../context/AuthContext'
-import {firebasedb} from '../firebase'
+import { firebasedb } from '../firebase'
+import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 
 
-export default function Header(props) {
+export default function Header() {
+    const { cartProducts, calculateSumQtyCart } = useCart();
+    const { currentUser, logout } = useAuth();
+    const history = useHistory();
 
     const searchInputRef = useRef();
     const modalCartRef = useRef();
-    // const modalSignUpRef = useRef();
+
     const [searchInput, setSearchInput] = useState('')
-    const { currentUser, logout } = useAuth();
     const [userName, setUserName] = useState('');
-    const history = useHistory();
+    
 
     useEffect(() => {
         if (currentUser){
@@ -46,8 +49,9 @@ export default function Header(props) {
     }
 
     const displaySumCart = () => {
-        if (props.qtySum > 0)
-            return <span className="mx-2 text-center" style={{height: '25px', width: '25px', backgroundColor: '#333333', color:'white', borderRadius: '50%', display: 'inline-block'}}>{props.qtySum}</span>
+        const qtySum = calculateSumQtyCart()
+        if (qtySum > 0)
+            return <span className="mx-2 text-center" style={{height: '25px', width: '25px', backgroundColor: '#333333', color:'white', borderRadius: '50%', display: 'inline-block'}}>{qtySum}</span>
     }
 
     const setCartModal = () => {
@@ -62,12 +66,10 @@ export default function Header(props) {
                             </button>
                         </div>
                         <div className="modal-body">
-                            {props.cartProducts.map(cartProduct => 
+                            {cartProducts.map(cartProduct => 
                             <CartProduct 
                                 key={cartProduct.id} 
                                 cartProduct={cartProduct} 
-                                onQtyChange={props.onQtyChange}
-                                onDeleteCartProduct={props.onDeleteCartProduct}
                             />)}
                         </div>
                         <div className="modal-footer"> 
@@ -122,7 +124,6 @@ export default function Header(props) {
                                     <i className="fas fa-user" style={{color: 'dodgerblue'}}></i>
                                 </div>
                                 <div className="dropdown-menu" aria-labelledby="loginNavbarDropdown" style={{width: "170px"}}>
-                                    {/* <button type="button" className="btn btn-light" data-toggle="modal" data-target="#signUpModal">Sign up</button>| */}
                                     { currentUser ?
                                         <div>
                                             <button type="button" className="btn btn-light"><Link to="/profile">Profile</Link></button>|
@@ -136,12 +137,6 @@ export default function Header(props) {
                                     }
                                 </div>
                             </div>
-                            
-                            
-                            {/* <div className="collapse" id="login">
-                                <Link to="/login">Log in</Link>
-                                <Link to="#">Log out</Link>
-                            </div> */}
                         </div>
                         <input className="form-control mr-sm-2" placeholder="Search" aria-label="Search" ref={searchInputRef} onChange={onSetSearchInput}></input >
                         <Link to={`/store?q=${searchInput}`} type="button" className="btn btn-outline-dark my-2 my-sm-0">Search</Link>
@@ -150,7 +145,6 @@ export default function Header(props) {
             </nav>
 
             {setCartModal()}
-            {/* {setSignUpModal()} */}
         </>
     );
     
@@ -158,27 +152,4 @@ export default function Header(props) {
 
 
 
-    // setSignUpModal = () => {
-    //     return (
-    //         <div className="modal fade" id="signUpModal" ref={modalSignUpRef} tabIndex="-1" role="dialog" aria-labelledby="modalLongTitle" aria-hidden="true">
-    //             <div className="modal-dialog" role="document">
-    //                 <div className="modal-content">
-    //                     <div className="modal-header">
-    //                         <h5 className="modal-title" id="modalLongTitle">Sign Up</h5>
-    //                         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-    //                         <span aria-hidden="true">&times;</span>
-    //                         </button>
-    //                     </div>
-    //                     <div className="modal-body">
-    //                         <SignUp></SignUp>
-    //                     </div>
-    //                     <div className="modal-footer"> 
-    //                         <Link to="/cart"><button type="button" className="btn btn-primary" onClick={() => $(modalSignUpRef.current).modal('hide')}>Full shopping cart</button></Link>
-    //                         <Link to="/payment"><button type="button" className="btn btn-primary" onClick={() => $(modalSignUpRef.current).modal('hide')}>Check-Out</button></Link>
-    //                     </div>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     )
-    // }
-    
+   

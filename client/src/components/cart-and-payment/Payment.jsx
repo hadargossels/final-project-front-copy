@@ -3,11 +3,13 @@ import {Button, Collapse } from 'react-bootstrap';
 import '../../css/payment.css';
 import OrderSummary from './OrderSummary.jsx';
 import 'bootstrap/js/dist/collapse';
-import $ from 'jquery';
 import PayPalBtn from './PayPalBtn'
+import { useCart } from '../../context/CartContext';
 
 
-export default function Payment(props) {
+export default function Payment() {
+    const { tax, getSubTotalAmount } = useCart();
+
     const [openCostumerDetails, setOpenCostumerDetails] = useState(false);
     const [openRecipientDetails, setOpenRecipientDetails] = useState(false);
     const [openPaymentDetails, setOpenPaymentDetails] = useState(false);
@@ -38,7 +40,7 @@ export default function Payment(props) {
 
 
     const calculateDelivery = () => {
-        let totalAmount = props.getSubTotalAmount();
+        let totalAmount = getSubTotalAmount();
         if (totalAmount < 50){
             return 50;
         }
@@ -82,7 +84,7 @@ export default function Payment(props) {
 
     const getTotalAmountAfterDelivery = () => {
         let myCoupon = getMyCoupon();
-        return (props.getSubTotalAmount() * (1 +props.tax)) * (1 - myCoupon.discount) + deliveryAmount;
+        return (getSubTotalAmount() * (1 + tax)) * (1 - myCoupon.discount) + deliveryAmount;
     }
 
     const submitCostumerDetails = (event) => {
@@ -391,11 +393,7 @@ export default function Payment(props) {
                                             
                 </div>
                 <div className="col-12 col-md-4">
-                    <OrderSummary
-                        cartProducts={props.cartProducts} 
-                        getSubTotalAmount={props.getSubTotalAmount} 
-                        tax={props.tax} >
-                    </OrderSummary>
+                    <OrderSummary />
                     <p>Delivery: ${deliveryAmount}</p>
                     <p><b>Total after delivery: <span className="text-success">${getTotalAmountAfterDelivery().toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span></b></p>
                 </div>

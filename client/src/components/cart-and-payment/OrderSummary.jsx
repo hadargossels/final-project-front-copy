@@ -1,15 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
 import {firebasedb} from '../../firebase';
+import { useCart } from '../../context/CartContext';
 
 
-export default function OrderSummary(props) {
+export default function OrderSummary() {
+    const { getSubTotalAmount, tax } = useCart();
+
     const cuponInputRef = useRef();
     const cuponDiscountRef = useRef();
     const totalAmountRef = useRef();
     const amountAfterCupon = useRef();
-    const [coupons, setCoupons] = useState([])
-    const [myCoupon, setMyCoupon] = useState({})
+    
+    const [coupons, setCoupons] = useState([]);
+    const [myCoupon, setMyCoupon] = useState({});
+    
 
 
     useEffect(() => {
@@ -31,7 +35,7 @@ export default function OrderSummary(props) {
 
 
     const getTotalAmount = () => {
-        return props.getSubTotalAmount() * (1 +props.tax);
+        return getSubTotalAmount() * (1 + tax);
     }
 
     const onActivateCoupon = (e) => {
@@ -48,8 +52,6 @@ export default function OrderSummary(props) {
                     setMyCoupon(coupon);
                     localStorage.setItem('myCoupon', JSON.stringify(coupon));
                     totalAmountRef.current.style.textDecorationLine = "line-through";
-                    // cuponDiscountRef.current.style.display = "block";
-                    // amountAfterCupon.current.style.display = "block";
                 }
             });
             if (!cuponConfirmed){
@@ -70,8 +72,8 @@ export default function OrderSummary(props) {
     {console.log(coupons)}
     {console.log(myCoupon)}
         <h4 className="border-bottom pb-2">Order Summary</h4>
-        <p>Subtotal: ${(props.getSubTotalAmount()).toLocaleString()}</p>
-        <p>Taxes: ${((props.getSubTotalAmount() * props.tax).toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+        <p>Subtotal: ${(getSubTotalAmount()).toLocaleString()}</p>
+        <p>Taxes: ${((getSubTotalAmount() * tax).toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
         <form>
             <div className="form-group">
                 <label htmlFor="cupon">Cupon-code:</label>
