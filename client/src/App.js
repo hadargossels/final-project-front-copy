@@ -12,7 +12,6 @@ import Contact from './components/Contact.jsx';
 import About from './components/About.jsx';
 import Blog from './components/blog/Blog.jsx';
 import ArticlePage from './components/blog/ArticlePage.jsx';
-import articles from './data/articles.json';
 import SignUp from './components/authentication/SignUp';
 import Login from './components/authentication/Login';
 import ForgotPassword from './components/authentication/ForgotPassword';
@@ -33,13 +32,19 @@ import OrderConfirmation from './components/cart-and-payment/OrderConfirmation.j
 export default function App() {
 
   const [products, setProducts] = useState([]);
-  
+  const [articles, setArticles] = useState([]);
 
   useEffect(() => {
     firebasedb.ref('products').get()
-      .then( snapshot => {
-        setProducts(snapshot.val())
-      })
+    .then( snapshot => {
+      setProducts(snapshot.val())
+    });
+
+    firebasedb.ref('articles').get()
+    .then( snapshot => {
+      setArticles(snapshot.val())
+    });
+
   }, [])
 
 
@@ -71,7 +76,7 @@ export default function App() {
                 <Route path="/order-confirmation" component={OrderConfirmation} />
                 
                 {products.map(product => 
-                  <Route path={`/${product.url}`} key={product.id} component={() => 
+                  <Route path={`/${product.name.replace(' ', '_')}`} key={product.id} component={() => 
                     <ProductPage product={product} />
                   } />
                 )}

@@ -21,10 +21,9 @@ export function FavoritesProvider({children}) {
         localStorage.setItem('favoriteProducts', JSON.stringify(favoriteProducts));
     },[favoriteProducts])
 
-
-    const handleChangeFavorites = (product, toFavorate) => {
+    const handleChangeFavorites = (product, toFavorite) => {
         let updatedFavoriteProducts = [...favoriteProducts];
-        if (toFavorate){
+        if (toFavorite){
             updatedFavoriteProducts.push(product);
         }
         else{

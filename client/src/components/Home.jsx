@@ -23,7 +23,7 @@ export default function Home() {
         products.slice(0, 6).forEach((item, index) => {
             cards.push(
                 <div className={`col-md-4 ${index%3!==0? 'clearfix d-none d-md-block' : ''}`} key={index}>
-                    <Link to={`/${item.url}`} className="bestSeller" style={{color: 'black', textDecoration: 'none'}}>
+                    <Link to={`/${item.name.replace(' ', '_')}`} className="bestSeller" style={{color: 'black', textDecoration: 'none'}}>
                         <div className="card">
                             <img className="card-img-top" src={`${item.images[0]}`} alt={item.name}></img>
                             <div className="card-body">

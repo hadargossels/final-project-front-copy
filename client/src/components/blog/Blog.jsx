@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Article from './Article';
-import axios from 'axios';
 import '../../css/blog.css';
+import { firebasedb } from '../../firebase';
+
 
 export default function Blog() {
 
@@ -9,12 +10,11 @@ export default function Blog() {
 
 
     useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios.get('http://localhost:5000/articles')
-            setArticles(response.data);
-        };
-        
-        fetchData();
+        firebasedb.ref('articles').get()
+        .then( snapshot => {
+            setArticles(snapshot.val())
+        })
+
     }, [])
 
     return (

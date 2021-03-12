@@ -21,7 +21,21 @@ import {
 const ProductFilter = (props) => (
     <Filter {...props}>
         <TextInput label="Search" source="q" alwaysOn />
-        <TextField source="category" />
+        <SelectInput source="category" choices={[
+            { id: 'bedroom', name: 'bedroom' },
+            { id: 'bathroom', name: 'bathroom' },
+            { id: 'living room', name: 'living room' }
+        ]} />
+        <SelectInput source="subcategory" choices={[
+            { id: 'bedding', name: 'bedding' },
+            { id: 'blankets', name: 'blankets' },
+            { id: 'towels', name: 'towels' },
+            { id: 'storage', name: 'storage' },
+            { id: 'pillows', name: 'pillows' },
+            { id: 'accessories', name: 'accessories' }
+        ]} />
+        <BooleanInput source="inStock" label="In stock" />
+        <NumberInput source="price" />
     </Filter>
 );
 
@@ -37,7 +51,6 @@ export const ProductList = props => (
             <NumberField source="price" />
             <NumberField source="discount" />
             <NumberField source="stars" />
-            
             <EditButton />
         </Datagrid>
     </List>
@@ -90,7 +103,6 @@ export const ProductCreate = props => (
                 { id: 'pillows', name: 'pillows' },
                 { id: 'accessories', name: 'accessories' }
             ]} />
-            <TextInput source="subcategory" />
             <BooleanInput source="inStock" label="In stock" />
             <TextInput source="name" />
             <TextInput multiline source="description" />

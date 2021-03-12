@@ -11,11 +11,12 @@ import {
     SimpleForm,
     SelectInput,
     TextInput,
-    BooleanInput
+    BooleanInput,
+    Filter
 } from 'react-admin';
 
 export const UserList = props => (
-    <List {...props}>
+    <List filters={<UserFilter />} {...props}>
         <Datagrid rowClick="edit">
             <TextField source="id" />
             <BooleanField source="active" />
@@ -70,14 +71,14 @@ export const UserCreate = props => (
     </Create>
 );
 
-// const UserFilter = (props) => (
-//     <Filter {...props}>
-//         <TextInput label="Search" source="q" alwaysOn />
-//         <BooleanInput source="active" />
-//         <SelectInput source="role" choices={[
-//                 { id: 'admin', name: 'admin' },
-//                 { id: 'site-owner', name: 'site-owner' },
-//                 { id: 'client', name: 'client' }
-//         ]} />
-//     </Filter>
-// );
+const UserFilter = (props) => (
+    <Filter {...props}>
+        <TextInput label="Search" source="q" alwaysOn />
+        <BooleanInput source="active" />
+        <SelectInput source="role" choices={[
+                { id: 'admin', name: 'admin' },
+                { id: 'site-owner', name: 'site-owner' },
+                { id: 'client', name: 'client' }
+        ]} />
+    </Filter>
+);

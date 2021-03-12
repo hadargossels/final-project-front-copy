@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
-import axios from 'axios';
 import ArticleComment from './ArticleComment';
 import '../../css/articlePage.css';
+import { firebasedb } from '../../firebase';
 
 
 export default function ArticlePage(props) {
@@ -14,14 +14,19 @@ export default function ArticlePage(props) {
     const [comments, setComments] = useState();
 
     useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios.get('http://localhost:5000/articles_comments')
-            const comments = response.data.filter(element => element.articleId === props.article.id);
-            setComments(comments);
-        };
-        
-        fetchData();
-    })
+        window.scrollTo(0, 0);
+
+        firebasedb.ref('articles_comments').get()
+        .then( snapshot => {
+            let comments = [];
+            if (snapshot.val())
+                for (const [value] of Object.entries(snapshot.val())) {
+                    if (value.articleId === props.article.id)
+                        comments.push(value);
+                }
+            setComments(comments)
+        }) 
+    }, [])
 
     function createArticleBody(){
         let articleBody = []
@@ -92,15 +97,12 @@ export default function ArticlePage(props) {
             
             let newComment = {name: fullNameRef.current.value, date: newDate, comment: notesRef.current.value};
 
-            setComments(prevComments => (
-                [...prevComments, newComment]
-                ), () => {
-                    axios.post(`http://localhost:5000/articles_comments`, { ...newComment, articleId: props.article.id })
-                        .catch(err => {
-                            console.log(err);
-                        })
-                    }
-            )
+            setComments(prevComments => ([...prevComments, newComment]))
+            // saving comment to database
+            var commentsRef = firebasedb.ref('articles_comments');
+            var commentsUpdate = {};
+            commentsUpdate[commentsRef.push().key] = { ...newComment, articleId: props.article.id };
+            commentsRef.update(commentsUpdate);
         }
     }
 
