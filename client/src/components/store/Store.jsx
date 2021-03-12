@@ -18,11 +18,15 @@ export default function Store(props) {
         
         firebasedb.ref('products').get()
         .then( snapshot => {
-            const products = snapshot.val().map(product => ({...product, display: true}));
-            setProducts(products);
+            const products = [];
+            for (let key in snapshot.val()) {
+                products.push(snapshot.val()[key]);
+            }
+            const displayProducts = products.map(product => ({...product, display: true}));
+            setProducts(displayProducts);
 
             const categories = [];
-            snapshot.val().forEach(item => {
+            displayProducts.forEach(item => {
                 const category = categories.filter(category => {return category.name === item.category});
                 if (category.length === 0) {
                     categories.push({name: item.category, isChecked: false, subCategory: [{name: item.subcategory, isChecked: false}]});

@@ -6,16 +6,21 @@ import {firebasedb} from '../firebase';
 
 
 export default function Home() {
-    const [products, setProfucts] = useState([])
+    const [products, setProducts] = useState([])
 
 
     useEffect(() => {
         window.scrollTo(0, 0);
 
         firebasedb.ref('products').get()
-            .then( snapshot => {
-                setProfucts(snapshot.val())
-            })
+        .then( snapshot => {
+        const products = [];
+        for (let key in snapshot.val()) {
+            products.push(snapshot.val()[key]);
+        }
+        setProducts(products)
+        });
+
     }, [])
 
     const bestSellersCarousel = () => {

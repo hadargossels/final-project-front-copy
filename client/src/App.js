@@ -37,7 +37,11 @@ export default function App() {
   useEffect(() => {
     firebasedb.ref('products').get()
     .then( snapshot => {
-      setProducts(snapshot.val())
+      const products = [];
+      for (let key in snapshot.val()) {
+        products.push(snapshot.val()[key]);
+      }
+      setProducts(products)
     });
 
     firebasedb.ref('articles').get()

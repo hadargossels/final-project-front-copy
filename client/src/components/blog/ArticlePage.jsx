@@ -18,11 +18,12 @@ export default function ArticlePage(props) {
 
         firebasedb.ref('articles_comments').get()
         .then( snapshot => {
-            let comments = [];
+            const comments = [];
             if (snapshot.val())
-                for (const [value] of Object.entries(snapshot.val())) {
-                    if (value.articleId === props.article.id)
-                        comments.push(value);
+                for (let key in snapshot.val()) {
+                    if (snapshot.val()[key].articleId === props.article.id){
+                        comments.push(snapshot.val()[key]);
+                    }
                 }
             setComments(comments)
         }) 

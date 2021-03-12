@@ -18,12 +18,15 @@ export default function ProductPage(props) {
     useEffect(() => {
         window.scrollTo(0, 0);
         
-        const fetchData = async () => {
-            const snapshot = await firebasedb.ref('products').get()
-            setProducts(snapshot.val());
-        };
+        firebasedb.ref('products').get()
+        .then( snapshot => {
+        const products = [];
+        for (let key in snapshot.val()) {
+            products.push(snapshot.val()[key]);
+        }
+        setProducts(products)
+        });
         
-        fetchData();
     },[])
 
     const createStars = () => {
