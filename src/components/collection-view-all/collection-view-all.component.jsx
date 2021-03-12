@@ -14,7 +14,7 @@ const CollectionViewAll = ({
   handleNoMatchingItems,
 }) => {
   return (
-    <div className="collection-preview">
+    <div className="collection-preview row item-grid-component ">
       {!searchData && <h1 className="title">{title.toUpperCase()}</h1>}
 
       {/* <button

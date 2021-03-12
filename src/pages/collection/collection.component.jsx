@@ -21,12 +21,12 @@ const CollectionPage = ({ match, history }) => {
 
   useEffect(() => {
     const collectionsRef = fireInfo.database().ref("SHOP_DATA");
-    console.log("collectionsRef :", collectionsRef);
+    // console.log("collectionsRef :", collectionsRef);
     collectionsRef.on("value", (snapshot) => {
       const collectionsMap = snapshot.val();
-      console.log("collectionsMap :", collectionsMap);
+      // console.log("collectionsMap :", collectionsMap);
 
-      console.log("match.params.collectionId :", match.params.collectionId);
+      // console.log("match.params.collectionId :", match.params.collectionId);
       setSelectedCollection(collectionsMap[match.params.collectionId]);
     });
     setLoading(false);
@@ -38,7 +38,7 @@ const CollectionPage = ({ match, history }) => {
       <SpinnerContainer />
     </SpinnerOverlay>
   ) : (
-    <>
+    <div className="container">
       {" "}
       <button
         type="button"
@@ -47,15 +47,15 @@ const CollectionPage = ({ match, history }) => {
       >
         See all categories
       </button>
-      <div className="collection-page">
+      <div className="collection-page   row item-grid-component">
         <h2 className="title">{title}</h2>
-        <div className="items">
+        <div className="items preview   ">
           {items.map((item) => (
             <CollectionItem key={item.id} item={item} />
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

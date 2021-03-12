@@ -3,17 +3,13 @@ import React, { useContext, useState, useEffect } from "react";
 import CollectionPreview from "../collection-preview/collection-preview.component";
 import CollectionsContext from "../../contexts/collections/collections.context";
 
-import "./collections-overview.styles.scss";
+import "./sales-overview.styles.scss";
 import { fireInfo } from "../../firebase/firebase.utils";
 import { SpinnerContainer } from "../with-spinner/with-spinner.styles";
 import { SpinnerOverlay } from "./../with-spinner/with-spinner.styles";
+import SalePreviewComponent from "../sale-preview/sale-preview.component";
 
-const CollectionsOverview = () => {
-  // const collectionsMap = useContext(CollectionsContext);
-  // const collections = Object.keys(collectionsMap).map(
-  //   (key) => collectionsMap[key]
-  // );
-
+const SalesOverview = () => {
   const [collections, setSelectedCollection] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
@@ -41,10 +37,10 @@ const CollectionsOverview = () => {
   ) : (
     <div className=" container collections-overview">
       {collections.map(({ id, ...otherCollectionProps }) => (
-        <CollectionPreview key={id} {...otherCollectionProps} />
+        <SalePreviewComponent key={id} {...otherCollectionProps} />
       ))}
     </div>
   );
 };
 
-export default CollectionsOverview;
+export default SalesOverview;

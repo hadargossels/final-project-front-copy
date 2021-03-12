@@ -41,16 +41,16 @@ const CollectionsOverviewAll = () => {
 
   useEffect(() => {
     const collectionsRef = fireInfo.database().ref("SHOP_DATA");
-    console.log("collectionsRef :", collectionsRef);
+    // console.log("collectionsRef :", collectionsRef);
     collectionsRef.on("value", (snapshot) => {
       const collectionsMap = snapshot.val();
-      console.log("collectionsMap :", collectionsMap);
+      // console.log("collectionsMap :", collectionsMap);
 
       const collectionsArr = Object.keys(collectionsMap).map(
         (key) => collectionsMap[key]
       );
 
-      console.log("collectionsArr :", collectionsArr);
+      // console.log("collectionsArr :", collectionsArr);
       setSelectedCollection(collectionsArr);
       setLoading(false);
     });
@@ -83,7 +83,7 @@ const CollectionsOverviewAll = () => {
       <SpinnerContainer />
     </SpinnerOverlay>
   ) : (
-    <div className="collections-overview">
+    <div className="collections-overview container ">
       <div className="upper-store-content">
         {displayAll ? (
           <div

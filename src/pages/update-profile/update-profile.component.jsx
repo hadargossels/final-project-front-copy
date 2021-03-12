@@ -5,7 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import CurrentUserContext from "../../contexts/current-user/current-user.context";
 import { auth } from "../../firebase/firebase.utils";
 
-export default function UpdateProfile() {
+export default function UpdateProfile(props) {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
@@ -50,6 +50,8 @@ export default function UpdateProfile() {
 
     if (emailRef.current.value !== currentUser.email) {
       promises.push(auth.currentUser.updateEmail(emailRef.current.value));
+
+      props.changeEmailDisplay(emailRef.current.value);
     }
     if (passwordRef.current.value) {
       promises.push(auth.currentUser.updatePassword(passwordRef.current.value));

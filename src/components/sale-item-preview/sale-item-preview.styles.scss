@@ -1,8 +1,12 @@
-.collection-item {
-  li {
-    cursor: pointer;
+.sale-item-preview {
+  .big-grid {
+    padding: 0px !important;
   }
-  .shop-grid {
+
+  .item-grid-component .product-grid {
+    padding: 0px !important;
+  }
+  .item-grid-component {
     h3.h3 {
       text-align: center;
       margin: 1em;
@@ -14,7 +18,7 @@
     .product-grid {
       font-family: Raleway, sans-serif;
       text-align: center;
-      padding: 0 0 72px;
+      padding: 0;
       border: 1px solid rgba(0, 0, 0, 0.1);
       overflow: hidden;
       position: relative;
@@ -144,7 +148,7 @@
       color: rgba(0, 0, 0, 0.2);
     }
     .product-grid .product-content {
-      background-color: #fff;
+      // background-color: #fff;
       text-align: center;
       padding: 12px 0;
       margin: 0 auto;
@@ -1408,7 +1412,35 @@
       }
     }
   }
-  .social {
-    background-color: rgba(255, 255, 255, 0.1) !important;
+
+  /* The Modal (background) */
+
+  /* Modal Content */
+  .fa {
+    cursor: pointer;
   }
+
+  .rating {
+    padding-bottom: 20px !important;
+  }
+
+  .product-content {
+    padding-bottom: 30px !important;
+  }
+}
+
+.modal-dialog {
+  .fa {
+    cursor: pointer;
+  }
+  p {
+    color: rgba(0, 0, 0, 0.665);
+  }
+}
+.text-view {
+  cursor: pointer;
+}
+
+.add-to-cart {
+  cursor: pointer;
 }

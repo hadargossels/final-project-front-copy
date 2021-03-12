@@ -63,6 +63,7 @@ import { ComputerIcon } from "@material-ui/icons/Computer";
 import ShopShow from "./pages/admin/components/ShopShow";
 import { OrderShow } from "./pages/admin/components/orders/OrderShow";
 import Profile from "./pages/profile/profile.component";
+import SalesOverview from "./components/sales-overview/sales-overview.component";
 
 const options = {
   logging: true,
@@ -131,6 +132,8 @@ class App extends React.Component {
             <Route path="/shop" component={ShopPage} />
             <Route path="/store" component={ShopPage} />
             <Route path="/collections" component={ShopPage} />
+            <Route path="/sales" component={SalesOverview} />
+            {/* <Route path="/new" component={NewOverview} /> */}
             <Route path="/about" component={AboutPage} />
             <Route path="/blog" component={BlogPage} />
             <Route path="/blog-preview" component={BlogPreviewPage} />

@@ -9,15 +9,22 @@ import ItemsGrid from "../../components/items-grid/items-grid.component";
 
 import "./homepage.styles.scss";
 import CollectionsOverview from "./../../components/collections-overview/collections-overview.component";
+import ShopGrid from "../../components/shop-grid/shop-grid.component";
+import SalesOverview from "../../components/sales-overview/sales-overview.component";
 
 const HomePage = () => (
   <div className="homepage">
     <Directory />
     {/* <HeadingSlider /> */}
-    <StoreBanner />
-    <CollectionsOverview />
+
     <Slider title="Featured Product" />
+    <SalesOverview />
+    <CollectionsOverview />
     <ItemsGrid />
+    <StoreBanner />
+
+    <ShopGrid />
+
     {/* <Discounts /> */}
   </div>
 );

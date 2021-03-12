@@ -3,21 +3,17 @@ import { withRouter } from "react-router-dom";
 
 import CustomButton from "../custom-button/custom-button.component";
 import { CartContext } from "../../providers/cart/cart.provider";
+
+import "./sale-item-preview.styles.scss";
 import { Alert, Button, Modal } from "react-bootstrap";
+import Header from "./../header/header.component";
 
-import "./collection-item.styles.scss";
-
-const CollectionItem = ({ item, history }) => {
-  const { name, price, imageUrl, id, description } = item;
+const SaleItemPreview = ({ item, history }) => {
+  const { name, price, imageUrl, id, description, image1 } = item;
 
   const { addItem } = useContext(CartContext);
 
   const [displayMessage, setDisplayMessage] = useState(false);
-
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const handelClick = (event) => {
     history.push(`/product/${name.split(" ").join("-")}`);
@@ -35,20 +31,52 @@ const CollectionItem = ({ item, history }) => {
     }, 3000);
   };
 
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
-    <>
-      <div className="collection-item col-md-3 col-sm-6">
-        <div className="product-grid6">
-          <div className="product-image6">
-            <div
-              className="view-image"
-              id={id}
-              name={name.split(" ").join("").toLowerCase()}
-              onClick={handelClick}
-            >
+    <div className="col-md-3 col-sm-6 sale-item-preview">
+      <div className="product-grid  big-grid">
+        <div className="product-grid">
+          <div className="product-image">
+            <a href="#">
               <img className="pic-1" src={imageUrl} />
-            </div>
+              <img className="pic-2" src={image1} />
+            </a>
+            <ul className="social">
+              <li>
+                <a href data-tip="Quick View" onClick={handleShow}>
+                  <i className="fa fa-search" />
+                </a>
+              </li>
+              <li>
+                <a href data-tip="Add to Wishlist">
+                  <i className="fa fa-shopping-bag" />
+                </a>
+              </li>
+              <li onClick={handleCartBtnClick}>
+                <a href data-tip="Add to Cart">
+                  <i className="fa fa-shopping-cart" />
+                </a>
+              </li>
+            </ul>
+            <span className="product-new-label">Sale</span>
+            <span className="product-discount-label">20%</span>
           </div>
+          {displayMessage && (
+            <Alert variant="success">
+              <p>Item was add to your shopping cart </p>
+            </Alert>
+          )}
+          <ul className="rating">
+            <li className="fa fa-star" />
+            <li className="fa fa-star" />
+            <li className="fa fa-star" />
+            <li className="fa fa-star" />
+            <li className="fa fa-star disable" />
+          </ul>
           <div className="product-content">
             <h3 className="title">
               <a href="#">{name}</a>
@@ -57,32 +85,17 @@ const CollectionItem = ({ item, history }) => {
               ${price}
               <span>${price + 10}</span>
             </div>
+            <a className="add-to-cart" onClick={handleCartBtnClick}>
+              + Add To Cart
+            </a>
           </div>
-          <ul className="social">
-            {" "}
-            {displayMessage && (
-              <Alert variant="success">
-                <p>Item was add to your shopping cart </p>
-              </Alert>
-            )}
-            <li onClick={handleShow}>
-              <a href data-tip="Quick View">
-                <i className="fa fa-search" />
-              </a>
-            </li>
-            <li>
-              <a href data-tip="Add to Wishlist">
-                <i className="fa fa-shopping-bag" />
-              </a>
-            </li>
-            <li>
-              <a href data-tip="Add to Cart" onClick={handleCartBtnClick}>
-                <i className="fa fa-shopping-cart" />
-              </a>
-            </li>
-          </ul>
         </div>
       </div>
+
+      {/* <Button variant="primary" onClick={handleShow}>
+        Launch demo modal
+      </Button> */}
+
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{name}</Modal.Title>
@@ -121,8 +134,8 @@ const CollectionItem = ({ item, history }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 };
 
-export default withRouter(CollectionItem);
+export default withRouter(SaleItemPreview);

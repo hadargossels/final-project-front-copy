@@ -5,6 +5,8 @@ import CustomButton from "../custom-button/custom-button.component";
 import { CartContext } from "../../providers/cart/cart.provider";
 
 import "./collection-item-preview.styles.scss";
+import { Alert, Button, Modal } from "react-bootstrap";
+import Header from "./../header/header.component";
 
 const CollectionItemPreview = ({ item, history }) => {
   const { name, price, imageUrl, id, description, image1 } = item;
@@ -12,16 +14,6 @@ const CollectionItemPreview = ({ item, history }) => {
   const { addItem } = useContext(CartContext);
 
   const [displayMessage, setDisplayMessage] = useState(false);
-
-  const [displayModal, setDisplayModal] = useState(false);
-
-  const handleDisplayModal = () => {
-    setDisplayModal(true);
-  };
-
-  const closeModal = () => {
-    setDisplayModal(false);
-  };
 
   const handelClick = (event) => {
     history.push(`/product/${name.split(" ").join("-")}`);
@@ -38,6 +30,11 @@ const CollectionItemPreview = ({ item, history }) => {
       setDisplayMessage(false);
     }, 3000);
   };
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <div className="col-md-3 col-sm-6 collection-item-preview">
@@ -58,11 +55,12 @@ const CollectionItemPreview = ({ item, history }) => {
             src={image1}
           />
 
-          {/* <a
+          <a
             id="myBtn"
-            onClick={handleDisplayModal}
+            variant="primary"
+            onClick={handleShow}
             className="fa fa-search product-full-view"
-          /> */}
+          />
         </div>
         <div className="product-content">
           <ul className="rating">
@@ -77,50 +75,55 @@ const CollectionItemPreview = ({ item, history }) => {
           </h3>
           <div className="price"> ${price}</div>
 
-          <a onClick={handelClick} className="add-to-cart" href>
+          <div onClick={handelClick} className="add-to-cart text-view">
             VIEW PRODUCT
-          </a>
-        </div>
-        {/* The Modal */}
-        <div
-          style={{ display: displayModal ? "block" : "none" }}
-          id="myModal"
-          className="modal"
-          name="largeArea"
-          onClick={(e) => {
-            e.target.getAttribute("name") == "largeArea" &&
-              setDisplayModal(false);
-          }}
-        >
-          {/* Modal content */}
-          <div className="modal-content" name="smallArea">
-            <span onClick={closeModal} className="close">
-              ×
-            </span>
-            <img src={imageUrl} alt="modal" />
-            <div className="row">
-              <h3>{name}</h3>
-              <h4>{price}$</h4>{" "}
-            </div>
-            <p>{description}</p>
-
-            <button
-              onClick={handelClick}
-              className=" go-to-product-btn btn btn-secondary"
-            >
-              Go to the product page
-            </button>
-            <button
-              onClick={handleCartBtnClick}
-              type="button"
-              className="add-to-cart-btn btn btn-primary"
-            >
-              add to cart
-              <i className="fas fa-shopping-cart"></i>
-            </button>
           </div>
         </div>
+        {/* The Modal */}
       </div>
+
+      {/* <Button variant="primary" onClick={handleShow}>
+        Launch demo modal
+      </Button> */}
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>{name}</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <div className="modal-content">
+            <img onClick={handelClick} src={imageUrl} alt="modal" />
+            <br />
+            <p>${price}</p>
+            <p>{description}</p>
+            {displayMessage && (
+              <Alert variant="success">
+                <p>Item was add to your shopping cart </p>
+              </Alert>
+            )}
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <button
+            onClick={handelClick}
+            className=" go-to-product-btn btn btn-success"
+          >
+            Go to the product page
+          </button>
+          <Button
+            variant="primary"
+            onClick={handleCartBtnClick}
+            className="add-to-cart-btn btn btn-primary"
+          >
+            Add to Cart
+            <i className="fas fa-shopping-cart"></i>
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

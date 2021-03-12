@@ -62,7 +62,7 @@ function Footer() {
                 {/* End Footer info */}
               </div>
               {/* End Col */}
-              <div className="col-md-12 col-lg-8">
+              <div className="col-md-12 col-lg-8 Down-footer">
                 <div className="row">
                   <div className="col-md-6">
                     <div className="contact-us">
