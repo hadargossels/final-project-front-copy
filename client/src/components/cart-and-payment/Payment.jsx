@@ -3,18 +3,22 @@ import {Button, Collapse } from 'react-bootstrap';
 import '../../css/payment.css';
 import OrderSummary from './OrderSummary.jsx';
 import 'bootstrap/js/dist/collapse';
-import PayPalBtn from './PayPalBtn'
+import PayPalBtn from './PayPalBtn';
 import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
 import {useHistory} from 'react-router-dom';
 import {firebasedb} from '../../firebase';
+import { emailPattern, phonePattrern} from '../../data/constants';
 
 
 export default function Payment() {
-    const { tax, getSubTotalAmount } = useCart();
+    const { tax, getSubTotalAmount, cartProducts } = useCart();
+    const { currentUser, userFirstName, userLastName, userPhone } = useAuth();
     const history = useHistory();
 
     const recipientDetails = useRef();
-    const fullNameRef = useRef('');
+    const firstNameCustomerRef = useRef('');
+    const lastNameCustomerRef = useRef('');
     const phoneRef = useRef('');
     const emailRef = useRef('');
     const emailSubscriptionRef = useRef(false);
@@ -30,7 +34,8 @@ export default function Payment() {
     const [openRecipientDetails, setOpenRecipientDetails] = useState(false);
     const [openPaymentDetails, setOpenPaymentDetails] = useState(false);
     const [deliveryAmount, setDeliveryAmount] = useState(0);
-    const [messageFullName, setMessageFullName] = useState('');
+    const [messageFirstNameCustomer, setFirstNameCustomer] = useState('');
+    const [messageLastNameCustomer, setLastNameCustomer] = useState('');
     const [messagePhone, setMessagePhone] = useState('');
     const [messageEmail, setMessageEmail] = useState('');
     const [messageFirstName, setMessageFirstName] = useState('');
@@ -88,25 +93,32 @@ export default function Payment() {
         return (getSubTotalAmount() * (1 + tax)) * (1 - myCoupon.discount) + deliveryAmount;
     }
 
-    const submitCostumerDetails = (event) => {
-        event.preventDefault();
-
+    const validateCostumerDetails = () => {
         const invalidMessages= {required: "This field is required", 
                                 emailPattern: "Please provide a valid email",
                                 phonePattern: "Please provide a valid phone number"                           
                                 };
-        const phonePattrern = /^0\d{2}-?\d{3}-?\d{4}/;
-        const emailPattern = /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/;
+        
         let correctInputs = true;
 
-        if (fullNameRef.current.validity.valueMissing){
-            fullNameRef.current.style.borderColor = 'red';
+        if (firstNameCustomerRef.current.validity.valueMissing){
+            firstNameCustomerRef.current.style.borderColor = 'red';
             correctInputs = false;
-            setMessageFullName(invalidMessages.required);
+            setFirstNameCustomer(invalidMessages.required);
         }
         else{
-            setMessageFullName('');
-            fullNameRef.current.style.borderColor = 'green';
+            setFirstNameCustomer('');
+            firstNameCustomerRef.current.style.borderColor = 'green';
+        }
+
+        if (lastNameCustomerRef.current.validity.valueMissing){
+            lastNameCustomerRef.current.style.borderColor = 'red';
+            correctInputs = false;
+            setLastNameCustomer(invalidMessages.required);
+        }
+        else{
+            setLastNameCustomer('');
+            lastNameCustomerRef.current.style.borderColor = 'green';
         }
         
         if (phoneRef.current.validity.valueMissing) {
@@ -138,16 +150,22 @@ export default function Payment() {
             setMessageEmail('');
             emailRef.current.style.borderColor = 'green';
         }
-        
-        if (correctInputs){
-            setOpenCostumerDetails(false);
-            setOpenRecipientDetails(true);
-        }  
+
+        return correctInputs;
     }
 
-    const submitRecipientDetails = (event) => {
+    const submitCostumerDetails = (event) => {
         event.preventDefault();
+        setOpenPaymentDetails(false);
 
+        const inputsValidation = validateCostumerDetails();
+        if (inputsValidation){
+            setOpenCostumerDetails(false);
+            setOpenRecipientDetails(true);
+        }
+    }
+
+    const validateRecipientDetails = () => {
         const invalidMessages= {required: "This field is required", 
                                 emailPattern: "Please provide a valid email",
                                 phonePattern: "Please provide a valid phone number"                           
@@ -214,7 +232,15 @@ export default function Payment() {
             cityRef.current.style.borderColor = 'green';
         }
 
-        if (correctInputs){
+        return correctInputs;
+    }
+
+    const submitRecipientDetails = (event) => {
+        event.preventDefault();
+        setOpenPaymentDetails(false);
+
+        const inputsValidation = validateRecipientDetails();
+        if (inputsValidation){
             setOpenCostumerDetails(false);
             setOpenRecipientDetails(false);
             setOpenPaymentDetails(true);
@@ -223,19 +249,29 @@ export default function Payment() {
 
     const paymentHandler = (details, data) => {
         console.log(details, data);
+        const userID = currentUser ? currentUser.uid : 1;
+        const customerFirstName = currentUser ? userFirstName : firstNameCustomerRef.current.value;
+        const customerLastName = currentUser ? userLastName : lastNameCustomerRef.current.value;
+        const customerPhone = currentUser ? userPhone : phoneRef.current.value;
+        const customerEmail = currentUser ? currentUser.email : emailRef.current.value;
 
         firebasedb.ref('orders').child(data.orderID).set(
             {
-                order_time: details.create_time,
-                order_id: data.orderID,
-                email_subscription: emailSubscriptionRef.current.checked,
-                purchase_amount: details.purchase_units[0].amount,
-                costumer: {
-                    full_name: fullNameRef.current.value,
-                    phone_number: phoneRef.current.value,
-                    email_address: emailRef.current.value
+                order_details: {
+                    order_id: data.orderID,
+                    date: details.create_time,
+                    purchase_amount: details.purchase_units[0].amount,
+                    products: cartProducts,
+                    email_subscription: emailSubscriptionRef.current.checked,
                 },
-                recipient: {
+                customer_details: {
+                    user_id: userID,
+                    user_first_name: customerFirstName,
+                    user_last_name: customerLastName,
+                    phone_number: customerPhone,
+                    email: customerEmail
+                },
+                recipient_details: {
                     first_name: firstNameRef.current.value,
                     last_name: lastNameRef.current.value,
                     city: cityRef.current.value,
@@ -244,7 +280,7 @@ export default function Payment() {
                     apartment_number: apartmentNumberRef.current.value,
                     delivery_option: selectDelivery.current.value
                 },
-                payer: {
+                payer_details: {
                     id: details.payer.payer_id,
                     first_name: details.payer.name.given_name,
                     last_name: details.payer.name.surname,
@@ -254,18 +290,47 @@ export default function Payment() {
             }
         )
 
+        localStorage.removeItem('cartProducts');
         history.push('/order-confirmation', {order_id: data.orderID});
+    }
+
+    const onPaymentDetailsClicked = () => {
+        const costumerInputsValidation = validateCostumerDetails();
+        if (!costumerInputsValidation) {
+            setOpenCostumerDetails(true);
+            setOpenRecipientDetails(false);
+            return;
+        }
+
+        const recipientInputsValidation = validateRecipientDetails();
+        if (!recipientInputsValidation) {
+            setOpenCostumerDetails(false);
+            setOpenRecipientDetails(true);
+            return;
+        }
+
+        setOpenPaymentDetails(!openPaymentDetails);
+    }
+
+    const onCustomerDetailsClicked = () => {
+        setOpenCostumerDetails(!openCostumerDetails)
+        setOpenPaymentDetails(false);
+    }
+
+    const onRecipientDetailsCliked = () => {
+        setOpenRecipientDetails(!openRecipientDetails)
+        setOpenPaymentDetails(false);
     }
 
     return (
         <div className="container">
             <h3 className="text-center mb-4">Check-Out</h3>
             <div className="row">
-                <div className="col-12 col-md-8 paymentForm">
+                <div className="col-12 col-md-8 mb-5 paymentForm">
                     
                         <div className="col-12 col-md-10 border-bottom" style={{borderColor: '#d9d9d9'}}>
                             <Button className="btn btn-light btn-block text-left" type="button"
-                             onClick={() => setOpenCostumerDetails(!openCostumerDetails)}
+                             onClick={onCustomerDetailsClicked}
                              aria-controls="costumer-details-collapse"
                              aria-expanded={openCostumerDetails}
                             >
@@ -276,16 +341,36 @@ export default function Payment() {
                                     <form>
                                         <div className="form-group mt-2 payment-form">
                                             <div className="form-group">
-                                                <label htmlFor="fullName">Full name: </label>
-                                                <input type="text" className="form-control" ref={fullNameRef} required></input>
-                                                <div className="invalidMassege text-danger">
-                                                    {messageFullName}
+                                                <div className="row">
+                                                    <div className="col">
+                                                        <label htmlFor="firstNameCustomer">First Name: </label>
+                                                        { currentUser ?
+                                                            <input type="text" className="form-control" ref={firstNameCustomerRef} required value={userFirstName} disabled></input>
+                                                        :   <input type="text" className="form-control" ref={firstNameCustomerRef} required></input>
+                                                        }
+                                                        <div className="invalidMassege text-danger">
+                                                            {messageFirstNameCustomer}
+                                                        </div>
+                                                    </div>
+                                                    <div className="col">
+                                                        <label htmlFor="lastNameCustomer">Last Name: </label>
+                                                        { currentUser ?
+                                                            <input type="text" className="form-control" ref={lastNameCustomerRef} required value={userLastName} disabled></input>
+                                                        :   <input type="text" className="form-control" ref={lastNameCustomerRef} required></input>
+                                                        }
+                                                        <div className="invalidMassege text-danger">
+                                                            {messageLastNameCustomer}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             
                                             <div className="form-group">
                                                 <label htmlFor="phone">Phone: </label>
-                                                <input type="tel" className="form-control" ref={phoneRef} placeholder="050-123-1234" required></input>
+                                                { currentUser ?
+                                                    <input type="tel" className="form-control" ref={phoneRef} placeholder="050-123-1234" required value={userPhone} disabled></input>
+                                                :   <input type="tel" className="form-control" ref={phoneRef} placeholder="050-123-1234" required></input>
+                                                }
                                                 <div className="invalidMassege text-danger">
                                                     {messagePhone}
                                                 </div>
@@ -293,7 +378,10 @@ export default function Payment() {
                                             
                                             <div className="form-group">
                                                 <label htmlFor="email">Email: </label>
-                                                <input type="mail" className="form-control" ref={emailRef} required></input>
+                                                { currentUser ?
+                                                    <input type="mail" className="form-control" ref={emailRef} required value={currentUser.email} disabled></input>
+                                                :   <input type="mail" className="form-control" ref={emailRef} required></input>
+                                                }
                                                 <div className="invalidMassege text-danger">
                                                     {messageEmail}
                                                 </div>
@@ -314,7 +402,7 @@ export default function Payment() {
 
                         <div className="col-12 col-md-10 mt-4 border-bottom" style={{borderColor: '#d9d9d9'}}>
                             <Button className="btn btn-light btn-block text-left" type="button"
-                              onClick={() => setOpenRecipientDetails(!openRecipientDetails)}
+                              onClick={onRecipientDetailsCliked}
                               aria-controls="costumer-details-collapse"
                               aria-expanded={openRecipientDetails}
                             >
@@ -398,7 +486,7 @@ export default function Payment() {
                         {/* Payment Form */}
                         <div className="col-12 col-md-10 border-bottom" style={{borderColor: '#d9d9d9'}}>
                             <Button className="btn btn-light btn-block text-left" type="button" 
-                              onClick={() => setOpenPaymentDetails(!openPaymentDetails)}
+                              onClick={onPaymentDetailsClicked}
                               aria-controls="costumer-details-collapse"
                               aria-expanded={openPaymentDetails}
                             >
@@ -411,7 +499,6 @@ export default function Payment() {
                                             <div className="mb-2" id="paypalDetails">
                                                 <PayPalBtn amount={0.1} currency={'USD'} onSuccess={paymentHandler}/>
                                             </div>
-
                                         </div>
                                     </form> 
                                 </div>

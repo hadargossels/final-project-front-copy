@@ -17,6 +17,7 @@
     "prop-types": "^15.7.2",
     "ra-data-firebase-client": "^3.0.0",
     "ra-data-json-server": "^3.13.1",
+    "ra-delete-with-custom-confirm-button": "^2.0.2",
     "react": "^17.0.1",
     "react-admin": "^3.13.1",
     "react-bootstrap": "^1.4.3",

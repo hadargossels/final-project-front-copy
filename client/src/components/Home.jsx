@@ -87,24 +87,24 @@ export default function Home() {
             </div>
             <div className="container-fluid py-4">
                 <div className="row text-center categories">
-                    <div className="col-12 col-md-4">
+                    <div className="col-12 col-md-4 my-2">
                         <Link to="/store/bedroom" style={{color: 'black', textDecoration: 'none'}}>
-                            <div className="ml-5 box" id="bedroom">
+                            <div className="box" id="bedroom">
                                 <h1 className="display-4 pt-3" style={{fontWeight: "400", fontSize: "40px"}}>BEDROOM</h1>
                             </div>
                         </Link>
                     </div>
                     
-                    <div className="col-12 col-md-4">
+                    <div className="col-12 col-md-4 my-2">
                         <Link to="/store/bathroom" style={{color: 'black', textDecoration: 'none'}}>
                             <div className="box" id="bathroom">
                                 <h1 className="display-4 pt-3" style={{fontWeight: "400", fontSize: "40px"}}>BATHROOM</h1>
                             </div>
                         </Link>
                     </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-12 col-md-4 my-2">
                         <Link to="/store/livingroom" style={{color: 'black', textDecoration: 'none'}}>
-                            <div className="mr-5 box" id="living_room">
+                            <div className="box" id="living_room">
                                 <h1 className="display-4 pt-3" style={{fontWeight: "400", fontSize: "40px"}}>LIVING ROOM</h1>
                             </div>
                         </Link>

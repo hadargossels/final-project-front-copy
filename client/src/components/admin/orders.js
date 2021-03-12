@@ -35,7 +35,7 @@ const DeleteConfirmContent = (props) => {
     );
 };
 
-const ProductFilter = (props) => (
+const OrderFilter = (props) => (
     <Filter {...props}>
         <TextInput label="Search" source="q" alwaysOn />
         <SelectInput source="category" choices={[
@@ -56,7 +56,7 @@ const ProductFilter = (props) => (
     </Filter>
 );
 
-export const ProductList = props => (
+export const OrderList = props => (
     <List filters={<ProductFilter />} {...props}>
         <Datagrid rowClick="edit">
             <TextField source="id" />
@@ -84,7 +84,7 @@ export const ProductList = props => (
 );
 
 
-export const ProductEdit = props => (
+export const OrderEdit = props => (
     <Edit {...props}>
         <SimpleForm>
             <TextInput disabled source="id" />
@@ -113,7 +113,7 @@ export const ProductEdit = props => (
     </Edit>
 );
 
-export const ProductCreate = props => (
+export const OrderCreate = props => (
     <Create {...props}>
         <SimpleForm>
             <SelectInput source="category" choices={[

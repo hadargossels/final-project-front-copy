@@ -31,7 +31,7 @@ export default function ArticlePage(props) {
 
     function createArticleBody(){
         let articleBody = []
-        let paragraphs = props.article.detail.split('\n');
+        let paragraphs = props.article.body.split('\n');
         let imgURL = props.article.img;
 
         for(let i = 0; i < paragraphs.length; i++) {

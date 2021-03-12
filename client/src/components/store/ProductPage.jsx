@@ -26,7 +26,7 @@ export default function ProductPage(props) {
         }
         setProducts(products)
         });
-        
+
     },[])
 
     const createStars = () => {
@@ -134,11 +134,12 @@ export default function ProductPage(props) {
                         <p className="mb-2">
                             <strong>Related Items:</strong>
                         </p>
-                        {
-                            getRelatedProducts().map(productElement => 
+                        <div className="row">
+                            {getRelatedProducts().map(productElement => 
                                 <Product key={productElement.id} productElement={productElement}/>
-                            )
-                        }
+                            )}
+                        </div>
+                        
                     </div>
                 </div>
             </div>

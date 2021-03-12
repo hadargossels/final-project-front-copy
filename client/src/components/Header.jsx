@@ -13,7 +13,7 @@ import { useFavorites } from '../context/FavoritesContext';
 
 
 export default function Header() {
-    const { currentUser, logout } = useAuth();
+    const { currentUser, logout, userFirstName } = useAuth();
     const { cartProducts, calculateSumQtyCart } = useCart();
     const { favoriteProducts } = useFavorites();
     const history = useHistory();
@@ -24,15 +24,6 @@ export default function Header() {
     const [searchInput, setSearchInput] = useState('')
     const [userName, setUserName] = useState('');
     
-
-    useEffect(() => {
-        if (currentUser){
-            firebasedb.ref('users').child(currentUser.uid).get().then(snapshot => {
-                if (snapshot.val())
-                    setUserName(snapshot.val().firstName)
-            })
-        }
-    }, [currentUser])
 
     async function handleLogout() {
         try {
@@ -48,17 +39,6 @@ export default function Header() {
         var value = searchInputRef.current.value.replace(/[^A-Za-z]/ig, '');
         searchInputRef.current.value = value;
         setSearchInput(value);
-    }
-
-    const displaySumCart = () => {
-        const qtySum = calculateSumQtyCart()
-        if (qtySum > 0)
-            return <div className="mx-2 text-center" style={{height: '25px', width: '25px', backgroundColor: '#333333', color:'white', borderRadius: '50%'}}>{qtySum}</div>
-    }
-
-    const displaySumFavorites = () => {
-        if (favoriteProducts.length > 0)
-            return <div className="mx-2 text-center" style={{height: '25px', width: '25px', backgroundColor: '#333333', color:'white', borderRadius: '50%'}}>{favoriteProducts.length}</div>
     }
 
     const setCartModal = () => {
@@ -119,25 +99,22 @@ export default function Header() {
                     </ul>
                     <form className="form-inline my-2 my-lg-0" onSubmit={(e) => e.preventDefault()}>
                         <div className="navbar-nav mx-2">
-                            <div className="d-flex cart">
-                            {displaySumCart()}         
-                            <button type="button" className="mx-2 button-icon" style={{border: 'none'}} data-toggle="modal" data-target="#cartModal">
-                                <i className="fas fa-shopping-cart" style={{color: 'dodgerblue'}}></i>
-                            </button>
-                            </div>
+                            
+                            <span type="button" class="fa-stack has-badge" style={{color: 'black'}} data-count={calculateSumQtyCart()} data-toggle="modal" data-target="#cartModal">
+                                <i class="fa fa-shopping-cart fa-lg mt-1" style={{color: 'dodgerblue'}}></i>
+                            </span>
 
-                            {displaySumFavorites()}
                             <Link to="/favorites">
-                                <button type="button" className="mx-2 button-icon" style={{border: 'none'}}>
-                                    <i className="fas fa-heart" style={{color: 'dodgerblue'}}></i>
-                                </button>
+                                <span class="fa-stack has-badge mx-2" style={{color: 'black'}} data-count={favoriteProducts.length}>
+                                    <i class="fa fa-heart mt-1 fa-lg" style={{color: 'dodgerblue'}}></i>
+                                </span>
                             </Link>
 
-                            {currentUser ? <div> Hello {userName}</div> : ''}
+                            {currentUser ? <div> Hello {userFirstName}</div> : ''}
 
                             <div className="nav-item dropdown mx-2">
-                                <div className="nav-link dropdown-toggle px-0 py-0" id="loginNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i className="fas fa-user" style={{color: 'dodgerblue'}}></i>
+                                <div className="nav-link dropdown-toggle px-0 py-1" id="loginNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i className="fas fa-lg fa-user" style={{color: 'dodgerblue'}}></i>
                                 </div>
                                 <div className="dropdown-menu" aria-labelledby="loginNavbarDropdown" style={{width: "170px"}}>
                                     { currentUser ?
