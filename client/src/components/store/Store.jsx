@@ -243,7 +243,7 @@ export default function Store(props) {
     return (
         <div className= "container py-5">
             <div className="row">
-                <div className="col-2 pr-5">
+                <div className="col-3 pr-5">
                     <h5>Sort</h5>
                     <div className="form-group mb-4">
                         <select className="form-control form-control-sm" value={valueSortSelect} onChange={changeSort}>
@@ -294,7 +294,7 @@ export default function Store(props) {
                     </div>
                     
                 </div>
-                <div className="col-10 justify-content-center">
+                <div className="col-9 justify-content-center">
                     <div className="row">
                         {getProductsElements()}
                     </div>

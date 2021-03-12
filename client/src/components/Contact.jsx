@@ -1,4 +1,5 @@
 import React, { useRef, useState} from 'react';
+import { emailPattern, phonePattrern } from '../data/constants'
 import {
     withScriptjs,
     withGoogleMap,
@@ -27,8 +28,7 @@ export default function Contact() {
                                 emailPattern: "Please provide a valid email",
                                 phonePattern: "Please provide a valid phone number"                           
                                 };
-        const phonePattrern = /^0\d{2}-?\d{3}-?\d{4}/;
-        const emailPattern = /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/;
+
         let correctInputs = true;
 
         if (fullNameRef.current.validity.valueMissing){
@@ -116,41 +116,43 @@ export default function Contact() {
         </div>
 
         <div className="container-fluid mt-4 py-5" style={{backgroundColor: "#f2f2f2"}}>
-            <div className=" d-flex flex-column justify-content-center align-items-center">
-                <h3>Contact Us</h3>
-                <div style={{minWidth:"700px"}}>
-                    <form>
-                        <label htmlFor="fullName">Full name: </label>
-                        <input type="text" className="form-control" ref={fullNameRef} required></input>
-                        <div className="invalidMassege text-danger">
-                            {messageFullName}
-                        </div>
+            <div className="container">
+                <div className="d-flex flex-column justify-content-center align-items-center">
+                    <h3>Contact Us</h3>
+                    <div style={{minWidth:"700px"}}>
+                        <form>
+                            <label htmlFor="fullName">Full name: </label>
+                            <input type="text" className="form-control" ref={fullNameRef} required></input>
+                            <div className="invalidMassege text-danger">
+                                {messageFullName}
+                            </div>
 
-                        <label htmlFor="phone">Phone: </label>
-                        <input type="tel" className="form-control" ref={phoneRef} placeholder="050-123-1234" required></input>
-                        <div className="invalidMassege text-danger">
-                            {messagePhone}
-                        </div>
-                        
-                        <label htmlFor="email">Email: </label>
-                        <input type="mail" className="form-control" ref={emailRef} required></input>
-                        <div className="invalidMassege text-danger">
-                            {messageEmail}
-                        </div>
+                            <label htmlFor="phone">Phone: </label>
+                            <input type="tel" className="form-control" ref={phoneRef} placeholder="050-123-1234" required></input>
+                            <div className="invalidMassege text-danger">
+                                {messagePhone}
+                            </div>
+                            
+                            <label htmlFor="email">Email: </label>
+                            <input type="mail" className="form-control" ref={emailRef} required></input>
+                            <div className="invalidMassege text-danger">
+                                {messageEmail}
+                            </div>
 
-                        <label for="notes">Comment: </label>
-                        <textarea className="form-control" ref={notesRef} rows="3" required></textarea>
-                        <div className="invalidMassege text-danger">
-                            {messageNotes}
-                        </div>
+                            <label for="notes">Comment: </label>
+                            <textarea className="form-control" ref={notesRef} rows="3" required></textarea>
+                            <div className="invalidMassege text-danger">
+                                {messageNotes}
+                            </div>
 
-                        <div className="d-flex justify-content-center mt-3">
-                        <button type="submit" className="btn btn-primary align-middle" onClick={submitContact}>Submit</button>
-                        </div>
-                        
-                    </form>
-                </div>
-            </div> 
+                            <div className="d-flex justify-content-center mt-3">
+                            <button type="submit" className="btn btn-primary align-middle" onClick={submitContact}>Submit</button>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div> 
+            </div>
         </div>
         </>
     ) 

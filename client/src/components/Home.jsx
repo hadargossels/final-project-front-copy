@@ -112,7 +112,7 @@ export default function Home() {
                 </div>
             </div>
             <div className="d-flex flex-column align-items-center justify-content-center" id="sale">
-                <div style={{fontFamily: "'Brush Script MT', cursive", textAlign: "center"}}>
+                <div className="text-center">
                     <h1 style={{fontSize: "100px", color: "red"}}>Sale!</h1>
                     <h1 style={{fontSize: "80px", color: "red"}}>Up to 30%</h1>
                 </div>

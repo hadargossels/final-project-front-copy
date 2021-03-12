@@ -65,7 +65,7 @@ export default function OrderSummary() {
         
     return (
         <>
-            <h4 className="border-bottom pb-2">Order Summary</h4>
+            <h4 className="text-center border-bottom pb-2">Order Summary</h4>
             <p>Subtotal: ${(getSubTotalAmount()).toLocaleString()}</p>
             <p>Taxes: ${((getSubTotalAmount() * tax).toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
             <form>

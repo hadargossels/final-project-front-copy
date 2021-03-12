@@ -22,7 +22,7 @@ export default function Product(props) {
     }
 
     return (
-        <div className="col-xs-6 col-md-3 pb-2 pl-0">
+        <div className="col-6 col-md-3 pb-2 pl-0">
             <Link to={`/${props.productElement.name.replace(' ', '_')}`} style={{ color: 'black', textDecoration: 'none' }}>
                 <div className="card text-center" style={{height: '100%'}}>
                     <img className="card-img-top" src={props.productElement.images[0]} alt={props.productElement.name}></img>

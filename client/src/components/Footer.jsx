@@ -12,12 +12,11 @@ export default function Footer() {
                     <a href="https://www.instagram.com/"><i className="fab fa-instagram-square"></i></a>
                     <a href="https://twitter.com/"><i className="fab fa-twitter-square"></i></a>
                 </div>
-                <div className="footer-info">
-                    <Link to="/contact">Contact |</Link>
-                    <Link to="/info">Info</Link>
+                <div className="footer-info mt-1">
+                    <Link to="/contact">Contact Us</Link>
                 </div>
+                <p  className="text-muted mt-1">© 2021 Copyright HomeStyle</p>
             </Card.Body>
-            <Card.Footer className="text-muted">© 2021 Copyright HomeStyle</Card.Footer>
         </Card>
     );
 }
