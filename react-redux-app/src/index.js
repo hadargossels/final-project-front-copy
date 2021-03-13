@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store/store';
 
-import './index.css';
-import './css/bootstrap_v4_6_0.min.css';
+import './style/index.css';
+import './style/bootstrap_v4_6_0.min.css';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';

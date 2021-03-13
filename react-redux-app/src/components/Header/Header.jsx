@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './Header.css';
-import CartQuickView from '../CartQuickView/CartQuickView';
+import CartQuickView from '../Cart/CartQuickView/CartQuickView';
 import { connect } from 'react-redux';
 import { updateUserNavbar } from '../../actions/actions';
-import { auth, db } from '../../js/firebase';
+import { auth, db } from '../../functions/firebase';
 import 'firebase/auth';
 
 class Header extends Component {

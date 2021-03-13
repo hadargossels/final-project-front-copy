@@ -1,42 +1,41 @@
-// import './App.css';
 import React, { Component } from 'react';
 
-import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Header from './components/Header/Header';
-import ScrollToTop from './components/ScrollToTop/ScrollToTop';
+import ScrollToTop from './components/Route/ScrollToTop/ScrollToTop';
 import Spinner from './components/Spinner/Spinner';
-import NotFound from './components/404/NotFound';
+import NotFound from './pages/404/NotFound';
 import Footer from './components/Footer/Footer';
 
-import Home from './components/Home/Home';
-import About from './components/About/About';
+import Home from './pages/Home/Home';
+import About from './pages/About/About';
 
-import Product from './components/Product/Product';
-import Products from './components/Products/Products';
+import Product from './pages/Shop/Product/Product';
+import Products from './pages/Shop/Products/Products';
 
-import Blog from './components/Blog/Blog';
-import BlogPost from './components/BlogPost/BlogPost';
+import Blog from './pages/Blog/Blog/Blog';
+import BlogPost from './pages/Blog/BlogPost/BlogPost';
 
-import ContactUs from './components/ContactUs/ContactUs';
+import ContactUs from './pages/ContactUs/ContactUs';
 
-import PrivateRoute from './components/PrivateRoute/PrivateRoute';
-import SignInUp from './components/SignInUp/SignInUp';
-import Account from './components/Account/Account';
-import AccountProfile from './components/AccountProfile/AccountProfile';
-import AccountOrders from './components/AccountOrders/AccountOrders';
-import AccountAdmin from './components/AccountAdmin/AccountAdmin';
+import PrivateRoute from './components/Route/PrivateRoute/PrivateRoute';
+import SignInUp from './pages/SignInUp/SignInUp';
+import Account from './pages/Account/Account/Account';
+import AccountProfile from './pages/Account/AccountProfile/AccountProfile';
+import AccountOrders from './pages/Account/AccountOrders/AccountOrders';
+import AccountAdmin from './pages/Account/AccountAdmin/AccountAdmin';
 
-import Cart from './components/Cart/Cart';
-import CartPaymentGuest from './components/CartPaymentGuest/CartPaymentGuest';
-import CartPaymentGuestReview from'./components/CartPaymentGuestReview/CartPaymentGuestReview';
-import CartPaymentUser from './components/CartPaymentUser/CartPaymentUser';
-import CartPaymentUserReview from './components/CartPaymentUserReview/CartPaymentUserReview';
-import Confirmation from './components/Confirmation/Confirmation';
+import Cart from './pages/Cart/Cart/Cart';
+import CartPaymentGuest from './pages/Cart/CartPaymentGuest/CartPaymentGuest';
+import CartPaymentGuestReview from'./pages/Cart/CartPaymentGuestReview/CartPaymentGuestReview';
+import CartPaymentUser from './pages/Cart/CartPaymentUser/CartPaymentUser';
+import CartPaymentUserReview from './pages/Cart/CartPaymentUserReview/CartPaymentUserReview';
+import Confirmation from './pages/Confirmation/Confirmation';
 
 import { connect } from 'react-redux';
-import { GetRequest } from '../src/js/ApiServices';
-import { db } from '../src//js//firebase'
+import { GetRequest } from './functions/ApiServices';
+import { db } from './functions/firebase'
 import { fetchData, closeProductAlert } from '../src/actions/actions';
 
 class App extends Component {
@@ -80,7 +79,7 @@ class App extends Component {
               <Route exact path="/blog" component={() => (<Blog/>)}/>
               <Route exact path="/blog/:post" component={() => (<BlogPost/>)}/>
 
-              <Route exact path="/shop" component={() => (<Products/>)}/>
+              <Route exact path="/shop" component={(props) => (<Products {...props}/>)}/>
               <Route exact path="/shop/:prodName" component={() => (<Product/>)}/>
 
               <Route exact path="/contact" component={() => (<ContactUs/>)}/>

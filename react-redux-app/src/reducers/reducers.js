@@ -1,5 +1,5 @@
 import * as types from '../actions/types';
-import CartAlert from "../components/CartAlert/CartAlert";
+import CartAlert from "../components/Cart/CartAlert/CartAlert";
 
 const initialState = {
     productsInCart: JSON.parse(localStorage.getItem("Cart")) ? JSON.parse(localStorage.getItem("Cart")) : {},
