@@ -2,7 +2,6 @@ import React from 'react';
 import ReactPlayer from "react-player";
 import Gallery from 'react-photo-gallery';
 import photos from '../data/gallery_images.json';
-import '../css/about.css';
 
 
 export default function About() {

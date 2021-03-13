@@ -74,6 +74,7 @@ export default function Store(props) {
         // setting the category (if exists) to be true
         const transformedPath = props.location.pathname.split('/');
         if (transformedPath.length > 2 && getAllCategoriesUrl().includes(transformedPath[2])) {
+            resetFilter();
             Array.from(elements).forEach(element => {   
                 if (element.value.replace(/\s/g, '') === transformedPath[2]) {
                     element.checked = true;
@@ -86,9 +87,6 @@ export default function Store(props) {
                 }
             });
             setCategory(checkedCategory);
-        }
-        else {
-            resetFilter();
         }
 
         displayFilteredItems();

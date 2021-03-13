@@ -2,35 +2,47 @@ import * as React from "react";
 import DeleteWithCustomConfirmButton from 'ra-delete-with-custom-confirm-button';
 import Delete from '@material-ui/icons/Delete';
 import ErrorOutline from '@material-ui/icons/ErrorOutline';
+import { GridShowLayout, RaGrid, BoxedShowLayout, RaBox, TabbedShowLayout, Tab } from "ra-compact-ui";
 import {
     List,
     Datagrid,
     TextField,
-    BooleanField,
     NumberField,
     EditButton,
-    Edit,
-    Create,
-    SimpleForm,
     SelectInput,
     TextInput,
-    BooleanInput,
-    NumberInput,
     Filter,
-    ImageField,
-    SimpleShowLayout
+    SimpleShowLayout,
+    DateField,
+    DateInput,
+    Show,
+    ChipField,
+    ArrayField,
+    EmailField,
+    Edit,
+    SimpleForm
 } from 'react-admin';
 
-const DeleteConfirmTitle = 'Are you sure you want to delete this product?';
+
+const DeleteConfirmTitle = 'Are you sure you want to delete this order?';
+
+const statusOptions = [
+    { id: 'ordered', name: 'ordered' },
+    { id: 'in_proccess', name: 'in proccess' },
+    { id: 'confirmed', name: 'confirmed' },
+    { id: 'sent', name: 'sent' },
+    { id: 'received', name: 'received' },
+    { id: 'returned', name: 'returned' }
+]
 
 const DeleteConfirmContent = (props) => {
     return (
       <SimpleShowLayout {...props} >
         <TextField source="id" />
-        <TextField source="name" />
-        <TextField source="category" />
-        <TextField source="subcategory" />
-        <NumberField source="price" />
+        <TextField source="order_details.status" label="Status" />
+        <DateField source="order_details.date" label="Date" />
+        <NumberField source="order_details.total_amount.value" label="Amount" />
+        <TextField source="customer_details.user_id" label="Customer Id" />
       </SimpleShowLayout>
     );
 };
@@ -38,41 +50,24 @@ const DeleteConfirmContent = (props) => {
 const OrderFilter = (props) => (
     <Filter {...props}>
         <TextInput label="Search" source="q" alwaysOn />
-        <SelectInput source="category" choices={[
-            { id: 'bedroom', name: 'bedroom' },
-            { id: 'bathroom', name: 'bathroom' },
-            { id: 'living room', name: 'living room' }
-        ]} />
-        <SelectInput source="subcategory" choices={[
-            { id: 'bedding', name: 'bedding' },
-            { id: 'blankets', name: 'blankets' },
-            { id: 'towels', name: 'towels' },
-            { id: 'storage', name: 'storage' },
-            { id: 'pillows', name: 'pillows' },
-            { id: 'accessories', name: 'accessories' }
-        ]} />
-        <BooleanInput source="inStock" label="In stock" />
-        <NumberInput source="price" />
+        <SelectInput source="order_details.status" label="Status" choices={statusOptions} />
+        <DateInput source="order_details.date" label="Date" />
+        <TextInput source="customer_details.user_id" label="Customer Id" />
     </Filter>
 );
 
 export const OrderList = props => (
-    <List filters={<ProductFilter />} {...props}>
-        <Datagrid rowClick="edit">
+    <List filters={<OrderFilter />} {...props}>
+        <Datagrid rowClick="show">
             <TextField source="id" />
-            <ImageField source="images.0" label="Image" />
-            <TextField source="category" />
-            <TextField source="subcategory" />
-            <BooleanField source="inStock" label="In stock" />
-            <TextField source="name" />
-            <NumberField source="price" />
-            <NumberField source="discount" />
-            <NumberField source="stars" />
+            <TextField source="order_details.status" label="Status" />
+            <DateField source="order_details.date" label="Date" />
+            <NumberField source="order_details.total_amount.value" label="Amount" />
+            <TextField source="customer_details.user_id" label="Customer Id" />
             <EditButton />
             <DeleteWithCustomConfirmButton
                 title={DeleteConfirmTitle}      // your custom title of delete confirm dialog
                 content={DeleteConfirmContent}  // your custom contents of delete confirm dialog
-                label='Delete'                  // label of delete button (default: 'Delete')
                 confirmColor='warning'          // color of delete button ('warning' or 'primary', default: 'warning')
                 ConfirmIcon={Delete}            // icon of delete button (default: 'Delete')
                 cancel='Cancel'                 // label of cancel button (default: 'Cancel')
@@ -83,62 +78,79 @@ export const OrderList = props => (
     </List>
 );
 
+export const OrderShow = (props) => (
+    <Show {...props}>
+        <SimpleShowLayout>
+            <GridShowLayout className="gridShowLayout">
+                <RaGrid container direction="row">
+                    <RaGrid item xs>
+                        <h6>Order</h6>
+                        <TextField source="id" label="Order Id"/>
+                        <DateField source="order_details.date" label="Date" />                            
+                        <ChipField source="order_details.status" label="Status" />
+                    </RaGrid>
+                    <RaGrid item xs>
+                        <h6>Costumer</h6>
+                        <TextField source="customer_details.user_id" label="Customer Id"/>
+                        <EmailField source="customer_details.email" label="Email"/>
+                    </RaGrid>
+                    <RaGrid item xs>
+                        <h6>Recipient</h6>
+                        <TextField source="recipient_details.city" label="City"/>
+                        <TextField source="recipient_details.street" label="Street"/>
+                        <TextField source="recipient_details.home_number" label="Home Number"/>
+                        <TextField source="recipient_details.apartment_number" label="Apartment Number"/>
+                    </RaGrid>
+                </RaGrid>
+            </GridShowLayout>
+
+            <h6 style={{marginTop: "40px"}}>Items</h6>
+            <BoxedShowLayout>
+                <RaBox flex="0 0 100%" display="flex" mt="20px">
+                    <ArrayField source="order_details.products" style={{width: "100%"}}>
+                        <Datagrid>
+                            <TextField source="id" />
+                            <TextField source="name" />
+                            <NumberField source="price" />
+                            <NumberField source="discount" />
+                            <NumberField source="actual_price" label="Actual Price" />
+                            <NumberField source="quantity" />
+                            <NumberField source="total" />
+                        </Datagrid>
+                    </ArrayField>
+                </RaBox>
+            </BoxedShowLayout>
+            
+            <h6 style={{marginTop: "50px"}}>Totals</h6>
+            <GridShowLayout className="gridShowLayout">
+                <RaGrid container direction="row">
+                    <RaGrid item xs>
+                        <NumberField source="order_details.subtotal_amount" label="Subtotal" />
+                    </RaGrid>
+                    <RaGrid item xs>
+                        <NumberField source="order_details.taxes_amount" label="Taxes" />
+                    </RaGrid>
+                    <RaGrid item xs>
+                        <NumberField source="order_details.coupon_discount_amount" label="Cupon Discount" />
+                    </RaGrid>
+                    <RaGrid item xs>
+                        <NumberField source="order_details.delivery_amount" label="Delivery" />
+                    </RaGrid>
+                    <RaGrid item xs>
+                        <TextField source="order_details.total_amount.value" label="Total" />
+                    </RaGrid>
+                </RaGrid>
+            </GridShowLayout>
+        </SimpleShowLayout>
+    </Show>
+);
 
 export const OrderEdit = props => (
     <Edit {...props}>
         <SimpleForm>
             <TextInput disabled source="id" />
-            <SelectInput source="category" choices={[
-                { id: 'bedroom', name: 'bedroom' },
-                { id: 'bathroom', name: 'bathroom' },
-                { id: 'living room', name: 'living room' }
-            ]} />
-            <SelectInput source="subcategory" choices={[
-                { id: 'bedding', name: 'bedding' },
-                { id: 'blankets', name: 'blankets' },
-                { id: 'towels', name: 'towels' },
-                { id: 'storage', name: 'storage' },
-                { id: 'pillows', name: 'pillows' },
-                { id: 'accessories', name: 'accessories' }
-            ]} />
-            <BooleanInput source="inStock" label="In stock" />
-            <TextInput source="name" />
-            <NumberInput source="price" />
-            <NumberInput source="discount" />
-            <NumberInput source="stars" />
-            <TextInput source="images.0" label="Image 1" />
-            <TextInput source="images.1" label="Image 2" />
-            <TextInput source="images.2" label="Image 3" />
+            <SelectInput source="order_details.status" label="Status" choices={statusOptions} />
         </SimpleForm>
     </Edit>
 );
 
-export const OrderCreate = props => (
-    <Create {...props}>
-        <SimpleForm>
-            <SelectInput source="category" choices={[
-                { id: 'bedroom', name: 'bedroom' },
-                { id: 'bathroom', name: 'bathroom' },
-                { id: 'living room', name: 'living room' }
-            ]} />
-            <SelectInput source="subcategory" choices={[
-                { id: 'bedding', name: 'bedding' },
-                { id: 'blankets', name: 'blankets' },
-                { id: 'towels', name: 'towels' },
-                { id: 'towels', name: 'towels' },
-                { id: 'storage', name: 'storage' },
-                { id: 'pillows', name: 'pillows' },
-                { id: 'accessories', name: 'accessories' }
-            ]} />
-            <BooleanInput source="inStock" label="In stock" />
-            <TextInput source="name" />
-            <TextInput multiline source="description" />
-            <NumberInput source="price" />
-            <NumberInput source="discount" />
-            <NumberInput source="stars" />
-            <TextInput source="images.0" label="Image 1" />
-            <TextInput source="images.1" label="Image 2" />
-            <TextInput source="images.2" label="Image 3" />
-        </SimpleForm>
-    </Create>
-);

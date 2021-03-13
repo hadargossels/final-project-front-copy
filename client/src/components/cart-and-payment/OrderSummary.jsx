@@ -1,65 +1,30 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {firebasedb} from '../../firebase';
+import React, { useRef } from 'react';
 import { useCart } from '../../context/CartContext';
 
 
 export default function OrderSummary() {
-    const { getSubTotalAmount, tax } = useCart();
+    const { myCoupon, activateCoupon, cancelCoupon, getSubTotalAmount, getTaxesAmount, getTotalAfterTaxes, getTotalAfterCouponDiscount } = useCart();
 
     const cuponInputRef = useRef();
     const cuponDiscountRef = useRef();
     const totalAmountRef = useRef();
-    const amountAfterCupon = useRef();
+    const amountAfterCuponRef = useRef();
     
-    const [coupons, setCoupons] = useState([]);
-    const [myCoupon, setMyCoupon] = useState({});
-    
-
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const snapshot = await firebasedb.ref('coupons').get()
-            setCoupons(snapshot.val());
-        };
-        
-        fetchData();
-    },[])   
-
-    useEffect(() => {
-        const coupon = JSON.parse(localStorage.getItem('myCoupon'));
-        if (coupon)
-            setMyCoupon(coupon);
-    }, [])
-
-
-    const getTotalAmount = () => {
-        return getSubTotalAmount() * (1 + tax);
-    }
 
     const onActivateCoupon = (e) => {
         e.preventDefault();
-        
-        if (cuponInputRef.current.value) {   
-            let cuponConfirmed = false
-            Object.keys(coupons).forEach(element => {
-                if (element === cuponInputRef.current.value){
-                    cuponConfirmed = true;
-                    const coupon = {code: element, discount: coupons[element]}
-                    setMyCoupon(coupon);
-                    localStorage.setItem('myCoupon', JSON.stringify(coupon));
-                    totalAmountRef.current.style.textDecorationLine = "line-through";
-                }
-            });
-            if (!cuponConfirmed){
-                alert("Coupon code is invalid")
-            }
+        const checkCoupon = activateCoupon(cuponInputRef.current.value)
+        if (checkCoupon) {   
+            totalAmountRef.current.style.textDecorationLine = "line-through";
+        }
+        else {
+            alert("Coupon code is invalid")
         }
     }
 
     const onCancelCoupon = (e) => {
         e.preventDefault();
-        setMyCoupon({});
-        localStorage.removeItem('myCoupon')
+        cancelCoupon(); 
     }
 
         
@@ -67,7 +32,7 @@ export default function OrderSummary() {
         <>
             <h4 className="text-center border-bottom pb-2">Order Summary</h4>
             <p>Subtotal: ${(getSubTotalAmount()).toLocaleString()}</p>
-            <p>Taxes: ${((getSubTotalAmount() * tax).toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+            <p>Taxes: ${((getTaxesAmount()).toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
             <form>
                 <div className="form-group">
                     <label htmlFor="cupon">Cupon-code:</label>
@@ -86,15 +51,14 @@ export default function OrderSummary() {
             : null
             }
             <p className="mt-1">
-                <b>Total:</b> 
-                {/* <span className={`text-success ${myCoupon.code ? 'line-through': ''}}`} ref={totalAmountRef} > */}
+                <b>Total: </b> 
                 <span className="text-success" style={myCoupon.code ? {textDecorationLine: 'line-through'} : {}} ref={totalAmountRef} >
-                    ${(getTotalAmount()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    ${getTotalAfterTaxes().toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </span>
             </p>
             {myCoupon.code ?
-                <p className="text-success" ref={amountAfterCupon}>
-                    ${(getTotalAmount() * (1 - myCoupon.discount)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                <p ref={amountAfterCuponRef}>
+                    <b>Total after coupon discount: </b><span className="text-success">${getTotalAfterCouponDiscount().toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
                 </p>
             : null
             }

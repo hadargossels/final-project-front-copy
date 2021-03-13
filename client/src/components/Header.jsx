@@ -100,13 +100,13 @@ export default function Header() {
                     <form className="form-inline my-2 my-lg-0" onSubmit={(e) => e.preventDefault()}>
                         <div className="navbar-nav mx-2">
                             
-                            <span type="button" class="fa-stack has-badge" style={{color: 'black'}} data-count={calculateSumQtyCart()} data-toggle="modal" data-target="#cartModal">
-                                <i class="fa fa-shopping-cart fa-lg mt-1" style={{color: 'dodgerblue'}}></i>
+                            <span type="button" className="fa-stack has-badge" style={{color: 'black'}} data-count={calculateSumQtyCart()} data-toggle="modal" data-target="#cartModal">
+                                <i className="fa fa-shopping-cart fa-lg mt-1" style={{color: 'dodgerblue'}}></i>
                             </span>
 
                             <Link to="/favorites">
-                                <span class="fa-stack has-badge mx-2" style={{color: 'black'}} data-count={favoriteProducts.length}>
-                                    <i class="fa fa-heart mt-1 fa-lg" style={{color: 'dodgerblue'}}></i>
+                                <span className="fa-stack has-badge mx-2" style={{color: 'black'}} data-count={favoriteProducts.length}>
+                                    <i className="fa fa-heart mt-1 fa-lg" style={{color: 'dodgerblue'}}></i>
                                 </span>
                             </Link>
 

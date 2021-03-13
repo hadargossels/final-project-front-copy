@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import {Button, Collapse } from 'react-bootstrap';
-import '../../css/payment.css';
 import OrderSummary from './OrderSummary.jsx';
 import 'bootstrap/js/dist/collapse';
 import PayPalBtn from './PayPalBtn';
@@ -12,7 +11,7 @@ import { emailPattern, phonePattrern} from '../../data/constants';
 
 
 export default function Payment() {
-    const { tax, getSubTotalAmount, cartProducts } = useCart();
+    const { cartProducts, cancelCoupon, getSubTotalAmount, getTaxesAmount, getCouponDiscountAmount, getTotalBeforeDelivert, myCoupon } = useCart();
     const { currentUser, userFirstName, userLastName, userPhone } = useAuth();
     const history = useHistory();
 
@@ -44,6 +43,12 @@ export default function Payment() {
     const [messageHomeNumber, setMessageHomeNumber] = useState('');
     const [messageApartmentNumber, setMessageApartmentNumber] = useState('');
     const [messageCity, setMessageCity] = useState('');
+
+    const invalidMessages = {required: "This field is required", 
+                            emailPattern: "Please provide a valid email",
+                            phonePattern: "Please provide a valid phone number"                           
+                            };
+
 
     const calculateDelivery = () => {
         let totalAmount = getSubTotalAmount();
@@ -81,24 +86,12 @@ export default function Payment() {
         }
     }
 
-    const getMyCoupon = () => {
-        let myCoupon = JSON.parse(localStorage.getItem('myCoupon'));
-        if (myCoupon === null)
-        myCoupon = {code: '', discount: 0};
-        return myCoupon;
-    }
 
     const getTotalAmountAfterDelivery = () => {
-        let myCoupon = getMyCoupon();
-        return (getSubTotalAmount() * (1 + tax)) * (1 - myCoupon.discount) + deliveryAmount;
+        return getTotalBeforeDelivert() + deliveryAmount;
     }
 
     const validateCostumerDetails = () => {
-        const invalidMessages= {required: "This field is required", 
-                                emailPattern: "Please provide a valid email",
-                                phonePattern: "Please provide a valid phone number"                           
-                                };
-        
         let correctInputs = true;
 
         if (firstNameCustomerRef.current.validity.valueMissing){
@@ -166,10 +159,6 @@ export default function Payment() {
     }
 
     const validateRecipientDetails = () => {
-        const invalidMessages= {required: "This field is required", 
-                                emailPattern: "Please provide a valid email",
-                                phonePattern: "Please provide a valid phone number"                           
-                                };
         let correctInputs = true;
         
         if (firstNameRef.current.validity.valueMissing){
@@ -254,15 +243,36 @@ export default function Payment() {
         const customerLastName = currentUser ? userLastName : lastNameCustomerRef.current.value;
         const customerPhone = currentUser ? userPhone : phoneRef.current.value;
         const customerEmail = currentUser ? currentUser.email : emailRef.current.value;
+        const couponDiscountAmount = myCoupon.code ? getCouponDiscountAmount() * -1 : 0;
+        const couponCode = myCoupon.code ? myCoupon.code : 0;
+
+        const orderedProducts = cartProducts.map((product) => {
+            return {
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                discount: product.discount,
+                actual_price: product.price * (1 - product.discount),
+                quantity: product.quantity,
+                total: product.price * (1 - product.discount) * product.quantity
+            }
+        })
 
         firebasedb.ref('orders').child(data.orderID).set(
             {
+                id: data.orderID,
                 order_details: {
-                    order_id: data.orderID,
                     date: details.create_time,
-                    purchase_amount: details.purchase_units[0].amount,
-                    products: cartProducts,
+                    total_amount: details.purchase_units[0].amount,
+                    subtotal_amount: getSubTotalAmount(),
+                    taxes_amount: getTaxesAmount(),
+                    coupon_discount_amount: couponDiscountAmount,
+                    coupon_code: couponCode,
+                    delivery_amount: deliveryAmount,
+                    delivery_method: selectDelivery.current.value,
+                    products: orderedProducts,
                     email_subscription: emailSubscriptionRef.current.checked,
+                    status: 'ordered'
                 },
                 customer_details: {
                     user_id: userID,
@@ -275,10 +285,9 @@ export default function Payment() {
                     first_name: firstNameRef.current.value,
                     last_name: lastNameRef.current.value,
                     city: cityRef.current.value,
-                    address: streetRef.current.value,
+                    street: streetRef.current.value,
                     home_number: homeNumberRef.current.value,
-                    apartment_number: apartmentNumberRef.current.value,
-                    delivery_option: selectDelivery.current.value
+                    apartment_number: apartmentNumberRef.current.value
                 },
                 payer_details: {
                     id: details.payer.payer_id,
@@ -291,6 +300,7 @@ export default function Payment() {
         )
 
         localStorage.removeItem('cartProducts');
+        cancelCoupon();
         history.push('/order-confirmation', {order_id: data.orderID});
     }
 

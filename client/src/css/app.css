@@ -39,6 +39,32 @@ button.gm-ui-hover-effect {
   color: black;
 }
 
+#about {
+  background-image: url("../data/images/about.jpg");
+  height: 300px;
+  position: 'relative';
+  background-repeat: no-repeat;
+  background-size: 'cover';
+  background-position: 50% 70%;
+}
+
+.article {
+  text-decoration: none !important;
+  color: black !important;  
+}
+
+.payment-form input:valid {
+  border-color: green;
+}
+
+#blog {
+  background-image: url("../data/images/blog.jpg");
+  height: 300px;
+  position: 'relative';
+  background-repeat: no-repeat;
+  background-size: 'cover';
+  background-position: 50% 70%;
+}
 
 
 /* .App {

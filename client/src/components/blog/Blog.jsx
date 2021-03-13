@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Article from './Article';
-import '../../css/blog.css';
 import { firebasedb } from '../../firebase';
 
 

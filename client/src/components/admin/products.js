@@ -18,10 +18,17 @@ import {
     NumberInput,
     Filter,
     ImageField,
-    SimpleShowLayout
+    SimpleShowLayout,
+    required,
+    maxValue
 } from 'react-admin';
 
 const DeleteConfirmTitle = 'Are you sure you want to delete this product?';
+
+const invalidMessages= {required: "This field is required",
+                        maxDiscount: "The maximum number is 1",
+                        maxStars: "The maximum number is 5"                        
+                        };
 
 const DeleteConfirmContent = (props) => {
     return (
@@ -72,7 +79,6 @@ export const ProductList = props => (
             <DeleteWithCustomConfirmButton
                 title={DeleteConfirmTitle}      // your custom title of delete confirm dialog
                 content={DeleteConfirmContent}  // your custom contents of delete confirm dialog
-                label='Delete'                  // label of delete button (default: 'Delete')
                 confirmColor='warning'          // color of delete button ('warning' or 'primary', default: 'warning')
                 ConfirmIcon={Delete}            // icon of delete button (default: 'Delete')
                 cancel='Cancel'                 // label of cancel button (default: 'Cancel')
@@ -104,8 +110,8 @@ export const ProductEdit = props => (
             <BooleanInput source="inStock" label="In stock" />
             <TextInput source="name" />
             <NumberInput source="price" />
-            <NumberInput source="discount" />
-            <NumberInput source="stars" />
+            <NumberInput source="discount" validate={[maxValue(1, invalidMessages.maxDiscount)]} />
+            <NumberInput source="stars" validate={[maxValue(5, invalidMessages.maxStars)]} />
             <TextInput source="images.0" label="Image 1" />
             <TextInput source="images.1" label="Image 2" />
             <TextInput source="images.2" label="Image 3" />
@@ -116,12 +122,12 @@ export const ProductEdit = props => (
 export const ProductCreate = props => (
     <Create {...props}>
         <SimpleForm>
-            <SelectInput source="category" choices={[
+            <SelectInput source="category" validate={[required(invalidMessages.required)]} choices={[
                 { id: 'bedroom', name: 'bedroom' },
                 { id: 'bathroom', name: 'bathroom' },
                 { id: 'living room', name: 'living room' }
             ]} />
-            <SelectInput source="subcategory" choices={[
+            <SelectInput source="subcategory" validate={[required(invalidMessages.required)]} choices={[
                 { id: 'bedding', name: 'bedding' },
                 { id: 'blankets', name: 'blankets' },
                 { id: 'towels', name: 'towels' },
@@ -131,12 +137,12 @@ export const ProductCreate = props => (
                 { id: 'accessories', name: 'accessories' }
             ]} />
             <BooleanInput source="inStock" label="In stock" />
-            <TextInput source="name" />
-            <TextInput multiline source="description" />
-            <NumberInput source="price" />
-            <NumberInput source="discount" />
-            <NumberInput source="stars" />
-            <TextInput source="images.0" label="Image 1" />
+            <TextInput source="name" validate={[required(invalidMessages.required)]} />
+            <TextInput multiline source="description" validate={[required(invalidMessages.required)]} />
+            <NumberInput source="price" validate={[required(invalidMessages.required)]} />
+            <NumberInput source="discount" validate={[required(invalidMessages.required), maxValue(1, invalidMessages.maxDiscount)]} />
+            <NumberInput source="stars" validate={[required(invalidMessages.required), maxValue(5, invalidMessages.maxStars)]} />
+            <TextInput source="images.0" label="Image 1" validate={[required(invalidMessages.required)]} />
             <TextInput source="images.1" label="Image 2" />
             <TextInput source="images.2" label="Image 3" />
         </SimpleForm>

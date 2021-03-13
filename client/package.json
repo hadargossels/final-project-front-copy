@@ -15,6 +15,7 @@
     "popper": "^1.0.1",
     "popper.js": "^1.16.1",
     "prop-types": "^15.7.2",
+    "ra-compact-ui": "^1.1.0",
     "ra-data-firebase-client": "^3.0.0",
     "ra-data-json-server": "^3.13.1",
     "ra-delete-with-custom-confirm-button": "^2.0.2",
