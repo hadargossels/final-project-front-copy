@@ -13,7 +13,7 @@ import { useFavorites } from '../context/FavoritesContext';
 
 
 export default function Header() {
-    const { currentUser, logout, userFirstName } = useAuth();
+    const { currentUser, logout, userFirstName, currentUserDB } = useAuth();
     const { cartProducts, calculateSumQtyCart } = useCart();
     const { favoriteProducts } = useFavorites();
     const history = useHistory();
@@ -22,8 +22,18 @@ export default function Header() {
     const modalCartRef = useRef();
 
     const [searchInput, setSearchInput] = useState('')
-    const [userName, setUserName] = useState('');
+    const [myUser, setMyUser] = useState();
     
+    // useEffect(() => {
+    //     if (currentUser){
+    //         const fetchData = async () => {
+    //             const snapshot = await firebasedb.ref('users').child(currentUser.uid).get()
+    //             setMyUser(snapshot.val());
+    //         };
+            
+    //         fetchData();
+    //     }
+    // }, [currentUser])
 
     async function handleLogout() {
         try {
@@ -54,10 +64,11 @@ export default function Header() {
                         </div>
                         <div className="modal-body">
                             {cartProducts.map(cartProduct => 
-                            <CartProduct 
-                                key={cartProduct.id} 
-                                cartProduct={cartProduct} 
-                            />)}
+                                <CartProduct 
+                                    key={cartProduct.id} 
+                                    cartProduct={cartProduct} 
+                                />)
+                            }
                         </div>
                         <div className="modal-footer"> 
                             <Link to="/cart"><button type="button" className="btn btn-primary" onClick={() => $(modalCartRef.current).modal('hide')}>Full shopping cart</button></Link>
@@ -110,7 +121,7 @@ export default function Header() {
                                 </span>
                             </Link>
 
-                            {currentUser ? <div> Hello {userFirstName}</div> : ''}
+                            {(currentUser && currentUserDB) ? <div> Hello {currentUserDB.firstName}</div> : ''}
 
                             <div className="nav-item dropdown mx-2">
                                 <div className="nav-link dropdown-toggle px-0 py-1" id="loginNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -127,6 +138,10 @@ export default function Header() {
                                             <button type="button" className="btn btn-light"><Link to="/login">Login</Link></button>|
                                             <button type="button" className="btn btn-light"><Link to="/signup">Sign Up</Link></button>
                                         </div>
+                                    }
+                                    {(currentUser && currentUserDB && currentUserDB.role == 'admin') ?
+                                        <button type="button" className="btn btn-light"><Link to="/admin">Admin</Link></button>
+                                    : ''
                                     }
                                 </div>
                             </div>

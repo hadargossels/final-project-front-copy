@@ -20,7 +20,8 @@ import {
     ArrayField,
     EmailField,
     Edit,
-    SimpleForm
+    SimpleForm,
+    ReferenceField
 } from 'react-admin';
 
 
@@ -63,7 +64,10 @@ export const OrderList = props => (
             <TextField source="order_details.status" label="Status" />
             <DateField source="order_details.date" label="Date" />
             <NumberField source="order_details.total_amount.value" label="Amount" />
-            <TextField source="customer_details.user_id" label="Customer Id" />
+            <ReferenceField label="Customer Id" source="customer_details.user_id" reference="users">
+                <TextField source="id" />
+            </ReferenceField>
+            
             <EditButton />
             <DeleteWithCustomConfirmButton
                 title={DeleteConfirmTitle}      // your custom title of delete confirm dialog

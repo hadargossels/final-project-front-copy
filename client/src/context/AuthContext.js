@@ -13,26 +13,27 @@ export function AuthProvider({children}) {
     const [userFirstName, setUserFirstName] = useState();
     const [userLastName, setUserLastName] = useState();
     const [userPhone, setUserPhone] = useState();
+    const [currentUserDB, setcurrentUserDB] = useState();
 
     
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
-            console.log(user)
             setCurrentUser(user)
             setLoading(false)
             if (user){
                 firebasedb.ref('users').child(user.uid).get().then(snapshot => {
                     if (snapshot.val()){
-                        setUserFirstName(snapshot.val().firstName)
-                        setUserLastName(snapshot.val().lastName)
-                        setUserPhone(snapshot.val().phone)
+                        setUserFirstName(snapshot.val().firstName);
+                        setUserLastName(snapshot.val().lastName);
+                        setUserPhone(snapshot.val().phone);
+                        setcurrentUserDB(snapshot.val());
                     }
                 })
             }
             
         })
         return unsubscribe
-    }, [])
+    }, [currentUser])
 
 
     const reauthenticate = (currentPassword) => {
@@ -99,6 +100,7 @@ export function AuthProvider({children}) {
         userFirstName,
         userLastName,
         userPhone,
+        currentUserDB,
         login,
         signup,
         logout,

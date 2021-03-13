@@ -16,8 +16,10 @@ import SignUp from './components/authentication/SignUp';
 import Login from './components/authentication/Login';
 import ForgotPassword from './components/authentication/ForgotPassword';
 import Profile from './components/authentication/Profile';
+import ProfileOrdes from './components/authentication/ProfileOrdes';
 import ChangePassword from './components/authentication/ChangePassword';
 import PrivateRoute from './components/authentication/PrivateRoute';
+import PrivateRouteAdmin from './components/authentication/PrivateRouteAdmin';
 import Store from './components/store/Store.jsx';
 import ProductPage from './components/store/ProductPage.jsx';
 import ShoppingCart from './components/cart-and-payment/ShoppingCart.jsx';
@@ -64,7 +66,8 @@ export default function App() {
               
               <Switch>
                 <PrivateRoute path="/profile" component={Profile} />
-                <Route path="/websiteAdmin" component={WebsiteAdmin} />
+                <PrivateRoute path="/admin" component={WebsiteAdmin} />
+                <Route path="/profile-ordes" component={ProfileOrdes} />
                 <Route exact path="/" component={Home} />
                 <Route path="/signup" component={SignUp} />
                 <Route path="/login" component={Login} />

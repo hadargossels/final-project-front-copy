@@ -42,7 +42,7 @@ export default function CartProduct(props) {
                             <div className="col-6 col-md-4">
                                 <form>
                                     <label htmlFor="qtyCart" className="card-text mr-1">qty: </label>
-                                    <select name="qtyCart" defaultValue={props.cartProduct.quantity} ref={qtyRef} onChange={() => handleQtyChange(props.cartProduct, qtyRef.current.value)}>
+                                    <select name="qtyCart" value={props.cartProduct.quantity} ref={qtyRef} onChange={() => handleQtyChange(props.cartProduct, qtyRef.current.value)}>
                                         {createQtyList()}
                                     </select>
                                 </form>

@@ -21,7 +21,7 @@ const WebsiteAdmin = () => {
         <Resource name="products" list={ProductList} edit={ProductEdit} create={ProductCreate} />
         <Resource name="orders" list={OrderList} show={OrderShow} edit={OrderEdit}/>
         <Resource name="articles" list={ArticleList} edit={ArticleEdit} create={ArticleCreate} />
-        <Resource name="posts" list={PostList} edit={PostEdit} create={PostCreate} icon={PostIcon} />
+        {/* <Resource name="posts" list={PostList} edit={PostEdit} create={PostCreate} icon={PostIcon} /> */}
     </Admin>
   );
 

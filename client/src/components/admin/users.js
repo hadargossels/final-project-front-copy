@@ -1,5 +1,11 @@
 import * as React from "react";
+import DeleteWithCustomConfirmButton from 'ra-delete-with-custom-confirm-button';
+import Delete from '@material-ui/icons/Delete';
+import ErrorOutline from '@material-ui/icons/ErrorOutline';
+import { auth, firebasedb } from '../../firebase';
 import {
+    required,
+    minLength,
     List,
     Datagrid,
     TextField,
@@ -12,8 +18,50 @@ import {
     SelectInput,
     TextInput,
     BooleanInput,
-    Filter
+    Filter,
+    SimpleShowLayout,
+    PasswordInput
 } from 'react-admin';
+
+const roleOptions = [
+    { id: 'admin', name: 'admin' },
+    { id: 'site-owner', name: 'site-owner' },
+    { id: 'client', name: 'client' }
+]
+
+const UserCreateAuth = (data) => (
+    auth.createUserWithEmailAndPassword(data.email, data.password)
+    .then(async (userCredential) => {
+        // Signed in 
+        let user = userCredential.user;
+        firebasedb.ref('users').child(user.uid).set({
+            "id": user.uid,
+            "active": true,
+            "email": data.email,
+            "firstName": data.firstName,
+            "lastName": data.lastName,
+            "phone": data.phone,
+            "role": data.role
+        })
+    })
+    .catch((error) => {
+        window.alert(error.message);
+    })
+)
+
+const DeleteConfirmTitle = 'Are you sure you want to delete this user?';
+
+const DeleteConfirmContent = (props) => {
+    return (
+      <SimpleShowLayout {...props} >
+        <TextField source="id" />
+        <TextField source="role" />
+        <TextField source="firstName" />
+        <TextField source="lastName" />
+        <TextField source="email" />
+      </SimpleShowLayout>
+    );
+};
 
 export const UserList = props => (
     <List filters={<UserFilter />} {...props}>
@@ -26,6 +74,15 @@ export const UserList = props => (
             <EmailField source="email" />
             <TextField source="phone" />
             <EditButton />
+            <DeleteWithCustomConfirmButton
+                title={DeleteConfirmTitle}      // your custom title of delete confirm dialog
+                content={DeleteConfirmContent}  // your custom contents of delete confirm dialog
+                confirmColor='warning'          // color of delete button ('warning' or 'primary', default: 'warning')
+                ConfirmIcon={Delete}            // icon of delete button (default: 'Delete')
+                cancel='Cancel'                 // label of cancel button (default: 'Cancel')
+                CancelIcon={ErrorOutline}       // icon of cancel button (default: 'ErrorOutline')
+                undoable={true}                 // undoable (default: true)
+            />
         </Datagrid>
     </List>
 );
@@ -33,40 +90,27 @@ export const UserList = props => (
 export const UserEdit = props => (
     <Edit {...props}>
         <SimpleForm>
-            <TextInput disabled source="id" />
-            <TextInput disabled source="email" />
-            <SelectInput source="role" choices={[
-                { id: 'admin', name: 'admin' },
-                { id: 'site-owner', name: 'site-owner' },
-                { id: 'client', name: 'client' }
-            ]} />
-            <TextInput source="firstName" label="First Name" />
-            <TextInput source="lastName" label="Last Name" />
-            <TextInput source="phone" />
+            <TextInput source="id" disabled />
+            <TextInput source="email" disabled />
+            <SelectInput source="role" choices={roleOptions} />
+            <TextInput source="firstName" label="First Name" validate={[required()]} />
+            <TextInput source="lastName" label="Last Name" validate={[required()]} />
+            <TextInput source="phone" validate={[required()]} />
             <BooleanInput source="active" />
-            {/* <TextInput source="address.street" label="Street" />
-            <NumberInput source="address.houseNumber" label="House Number" />
-            <NumberInput source="address.apartmentNumber" label="Apartment Number" />
-            <TextInput source="address.city" label="City" />
-            <TextInput source="address.country" label="Country" />
-            <NumberInput source="address.zipcode" label="Zipcode" /> */}
         </SimpleForm>
     </Edit>
 );
 
 export const UserCreate = props => (
     <Create {...props}>
-        <SimpleForm>        
-            <SelectInput source="role" choices={[
-                { id: 'admin', name: 'admin' },
-                { id: 'site-owner', name: 'site-owner' },
-                { id: 'client', name: 'client' }
-            ]} />
-            <TextInput source="email" />
-            <TextInput source="firstName" label="First Name" />
-            <TextInput source="lastName" label="Last Name" />
-            <TextInput source="phone" />
-            <BooleanInput source="active" />
+        <SimpleForm save={(data) => UserCreateAuth(data)} redirect="list">
+            <SelectInput source="role" choices={roleOptions} validate={[required()]} />
+            <TextInput source="email" validate={[required()]} />
+            <TextInput source="firstName" label="First Name" validate={[required()]} />
+            <TextInput source="lastName" label="Last Name" validate={[required()] }/>
+            <TextInput source="phone" validate={[required()]} />
+            <PasswordInput source="password" label="Password" validate={[required(), minLength(6)] } />
+            <BooleanInput source="active" defaultValue={true} />
         </SimpleForm>
     </Create>
 );
@@ -75,10 +119,6 @@ const UserFilter = (props) => (
     <Filter {...props}>
         <TextInput label="Search" source="q" alwaysOn />
         <BooleanInput source="active" />
-        <SelectInput source="role" choices={[
-                { id: 'admin', name: 'admin' },
-                { id: 'site-owner', name: 'site-owner' },
-                { id: 'client', name: 'client' }
-        ]} />
+        <SelectInput source="role" choices={roleOptions} />
     </Filter>
 );

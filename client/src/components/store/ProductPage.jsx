@@ -72,13 +72,13 @@ export default function ProductPage(props) {
 
     const displayPrice = () => {
         if(props.product.discount !== 0) {
-            return (<div>
-                        <h2>{props.product.discount * 100}% OFF</h2>
-                        <h3><span style={{textDecoration: "line-through"}}>${props.product.price}</span> ${props.product.price * (1- props.product.discount)}</h3>
+            return (<div className="my-3">
+                        <h4>{props.product.discount * 100}% OFF</h4>
+                        <h4><span style={{textDecoration: "line-through"}}>${props.product.price}</span> ${props.product.price * (1- props.product.discount)}</h4>
                     </div>)
         }
         else {
-            return <h3>${props.product.price}</h3>
+            return <h3 className="my-3">${props.product.price}</h3>
         }
     }
 
@@ -92,20 +92,18 @@ export default function ProductPage(props) {
     return (
         <div className="container py-5">
             <div className="row">
-                <div className="col-sm-12 col-md-6 product-image">
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <Carousel>
-                                {props.product.images.map((image, index) => (
-                                    <div key={index}>
-                                        <img src={image} alt="carousel_image"/>
-                                    </div>
-                                ))}
-                            </Carousel>
-                        </div>
+                <div className="col-12 col-md-6 px-5 product-image">
+                    <div>
+                        <Carousel>
+                            {props.product.images.map((image, index) => (
+                                <div key={index}>
+                                    <img src={image} alt="carousel_image" />
+                                </div>
+                            ))}
+                        </Carousel>
                     </div>
                 </div>
-                <div className="col-sm-12 col-md-6 product-details">
+                <div className="col-12 col-md-6 px-4 product-details">
                     <div id="ProductTitle" className="mt-5">
                         <h1>{props.product.name}</h1>
                         {createStars()}

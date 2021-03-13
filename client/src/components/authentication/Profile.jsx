@@ -3,6 +3,7 @@ import {Container, Card, Button, Alert, Form, Col, Row} from 'react-bootstrap'
 import {useAuth} from '../../context/AuthContext';
 import {firebasedb} from '../../firebase';
 import { Link } from 'react-router-dom';
+import ProfileOrdes from './ProfileOrdes'
 
 export default function Profile() {
     const firstNameRef = useRef();
@@ -60,7 +61,7 @@ export default function Profile() {
     
     return (
         <>
-            <Container className="d-flex justify-content-center align-items-center" style={{minHeight: "80vh"}}>
+            <Container className="d-flex justify-content-center align-items-center py-5">
                 <div className="w-100" style={{maxWidth: "600px"}}>
                     <Card>
                         <Card.Header>
@@ -116,6 +117,7 @@ export default function Profile() {
                     </div>
                 </div>
             </Container>
+            
             
         </>
     )

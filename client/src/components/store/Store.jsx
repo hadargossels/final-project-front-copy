@@ -67,11 +67,11 @@ export default function Store(props) {
 
     const handleStoreCategories = () => {
         // set sale reference if the location.onSale exists   
-        onSaleRef.current.checked |= props.location.onSale != null;
+        onSaleRef.current.checked = onSaleRef.current.checked | props.location.onSale != null;
 
+        // setting the category filter if the path is a category
         const checkedCategory = [...category];
         const elements = document.getElementsByClassName("form-check-input");
-        // setting the category (if exists) to be true
         const transformedPath = props.location.pathname.split('/');
         if (transformedPath.length > 2 && getAllCategoriesUrl().includes(transformedPath[2])) {
             resetFilter();
@@ -79,7 +79,12 @@ export default function Store(props) {
                 if (element.value.replace(/\s/g, '') === transformedPath[2]) {
                     element.checked = true;
                     checkedCategory.forEach(categoryItem => {
-                        categoryItem.isChecked = categoryItem.name === element.value;
+                        // categoryItem.isChecked = categoryItem.name === element.value;
+                        if (categoryItem.name === element.value)
+                            categoryItem.isChecked = true;
+                        else {
+                            categoryItem.isChecked = false;
+                        }
                     })
                 }
                 else {
@@ -113,6 +118,7 @@ export default function Store(props) {
     }
 
     const displayFilteredItems = () => {
+        // get the inputs filters that are checked
         let checkedCategories = [];
         let checkedSubCategories = [];
         category.forEach(categoryItem => {
@@ -125,6 +131,7 @@ export default function Store(props) {
             })
         })
 
+        //set the displayed items according to the checked imputs
         const storeItems = [...products]; 
         storeItems.forEach(element => {
             if (checkedCategories.length === 0 && checkedSubCategories.length === 0)
@@ -140,12 +147,14 @@ export default function Store(props) {
             }
         });
         
+        //add filter 'on sale' to the earlier products
         if (onSaleRef.current.checked){
             storeItems.forEach(element => {
                 element.display &= element.discount > 0;
             })
         }
         
+        //add filter 'price' to the earlier products
         if (valuePriceSelect > 0) {
             storeItems.forEach(element => {
                 element.display &= element.price * (1 - element.discount) <= valuePriceSelect;
@@ -156,15 +165,16 @@ export default function Store(props) {
     }
 
     const resetFilter = () => {
-        // setting all categories and sub categories elements checked = false
+        // set all categories and sub categories elements checked = false
         const elements = document.getElementsByClassName("form-check-input");
         Array.from(elements).forEach((element) => {
             element.checked = false;
         });
 
+        //set 'on sale' input to false
         onSaleRef.current.isChecked = false;
 
-        // setting all categories and sub categories state checked = false
+        // set all categories and sub categories state checked = false
         category.forEach(categoryItem => {
             categoryItem.isChecked = false;
 
@@ -187,6 +197,7 @@ export default function Store(props) {
         setValuePriceSelect(0);  
     }
 
+    //set sort
     const changeSort = (event) => {
         setValueSortSelect(event.target.value);
         const sortedStore = products;
@@ -231,11 +242,6 @@ export default function Store(props) {
             categories.push(categoryItem.name.replace(/\s/g, ''));
         });
         return categories;
-    }
-
-    const getProductsElements = () => {
-        return products.filter(element => element.display).map(productElement =>
-            <Product key={productElement.id} productElement={productElement}/>)
     }
 
     return (
@@ -294,7 +300,9 @@ export default function Store(props) {
                 </div>
                 <div className="col-9 justify-content-center">
                     <div className="row">
-                        {getProductsElements()}
+                        {products.filter(element => element.display).map(productElement =>
+                            <Product key={productElement.id} productElement={productElement}/>)
+                        }
                     </div>
                 </div>
             </div>

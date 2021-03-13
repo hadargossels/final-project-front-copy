@@ -13,7 +13,7 @@ export default function About() {
                 </div>
             </div>
             
-            <div className="container d-flex justify-content-center" style={{maxWidth: "1200px"}}>
+            <div className="container d-flex justify-content-center pt-3" style={{maxWidth: "1200px"}}>
                 <div className="row py-5">
                     <div className="col-12 col-md-6">
                         <h1 className="display-4 mx-4">About</h1>

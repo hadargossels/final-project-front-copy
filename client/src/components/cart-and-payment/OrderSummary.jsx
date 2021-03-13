@@ -3,7 +3,7 @@ import { useCart } from '../../context/CartContext';
 
 
 export default function OrderSummary() {
-    const { myCoupon, activateCoupon, cancelCoupon, getSubTotalAmount, getTaxesAmount, getTotalAfterTaxes, getTotalAfterCouponDiscount } = useCart();
+    const { myCoupon, coupons, activateCoupon, cancelCoupon, getSubTotalAmount, getTaxesAmount, getTotalAfterTaxes, getTotalBeforeDelivert, setMyCoupon } = useCart();
 
     const cuponInputRef = useRef();
     const cuponDiscountRef = useRef();
@@ -13,18 +13,28 @@ export default function OrderSummary() {
 
     const onActivateCoupon = (e) => {
         e.preventDefault();
-        const checkCoupon = activateCoupon(cuponInputRef.current.value)
-        if (checkCoupon) {   
-            totalAmountRef.current.style.textDecorationLine = "line-through";
-        }
-        else {
-            alert("Coupon code is invalid")
+        
+        if (cuponInputRef.current.value) {   
+            let cuponConfirmed = false
+            Object.keys(coupons).forEach(element => {
+                if (element === cuponInputRef.current.value){
+                    cuponConfirmed = true;
+                    const coupon = {code: element, discount: coupons[element]}
+                    setMyCoupon(coupon);
+                    localStorage.setItem('myCoupon', JSON.stringify(coupon));
+                    totalAmountRef.current.style.textDecorationLine = "line-through";
+                }
+            });
+            if (!cuponConfirmed){
+                alert("Coupon code is invalid")
+            }
         }
     }
 
     const onCancelCoupon = (e) => {
         e.preventDefault();
-        cancelCoupon(); 
+        setMyCoupon({});
+        localStorage.removeItem('myCoupon')
     }
 
         
@@ -58,7 +68,7 @@ export default function OrderSummary() {
             </p>
             {myCoupon.code ?
                 <p ref={amountAfterCuponRef}>
-                    <b>Total after coupon discount: </b><span className="text-success">${getTotalAfterCouponDiscount().toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
+                    <b>Total after coupon discount: </b><span className="text-success">${getTotalBeforeDelivert().toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
                 </p>
             : null
             }

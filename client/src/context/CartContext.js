@@ -109,6 +109,7 @@ export function CartProvider({children}) {
     }
 
     const activateCoupon = (couponCode) => {
+        
         Object.keys(coupons).forEach(element => {
             if (element === couponCode) {
                 const coupon = {code: element, discount: coupons[element]}
@@ -143,7 +144,9 @@ export function CartProvider({children}) {
         getCouponDiscountAmount,
         getTotalBeforeDelivert,
         activateCoupon,
-        cancelCoupon
+        cancelCoupon,
+        setMyCoupon,
+        coupons
     }
 
     return (

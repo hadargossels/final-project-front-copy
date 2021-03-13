@@ -16,6 +16,10 @@
     outline:none;
 }
 
+.nav-icons {
+  flex-direction: row;
+}
+
 /* .btn-outline-success {
   color: "black" !important;
   border-color: "black" !important;
