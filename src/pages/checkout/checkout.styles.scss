@@ -1,4 +1,5 @@
 .check-page {
+  margin-top: 40px;
   background-color: #f8f9fa !important;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
@@ -39,7 +40,7 @@
   }
 
   img {
-    width: 100px !important;
+    width: 70px !important;
     height: 70px !important;
     padding-right: 0px;
   }
@@ -96,10 +97,16 @@
     display: flex;
   }
   .pay-now {
-    margin-bottom: 0px;
+    margin-bottom: 30px;
   }
 
   .paypal-btn {
     margin-top: 18px;
+  }
+  .btn-info {
+    margin-left: 20px;
+  }
+  #shipping {
+    margin: 0px;
   }
 }

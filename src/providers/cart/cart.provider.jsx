@@ -3,9 +3,13 @@ import { fireInfo } from "../../firebase/firebase.utils";
 
 import {
   addItemToCart,
+  addWishItemToCart,
   removeItemFromCart,
+  removeWishItemFromCart,
   filterItemFromCart,
+  filterItemFromWishlist,
   getCartItemsCount,
+  getWishItemsCount,
   getCartTotal,
 } from "./cart.utils";
 
@@ -17,9 +21,20 @@ export const CartContext = createContext({
   cartItems: [],
   addItem: () => {},
   removeItem: () => {},
+
+  wishItems: [],
+  addWishItem: () => {},
+  removeWishItem: () => {},
+
   clearItemFromCart: () => {},
+  clearItemFromWishlist: () => {},
+
   clearCart: () => {},
+  clearWishlist: () => {},
+
   cartItemsCount: 0,
+  wishItemsCount: 0,
+
   cartTotal: 0,
   collections: [],
 });
@@ -29,8 +44,10 @@ const CartProvider = ({ children }) => {
   const [receipt, setReceipt] = useState(true);
 
   const [cartItems, setCartItems] = useState([]);
+  const [wishItems, setWishItems] = useState([]);
 
   const [cartItemsCount, setCartItemsCount] = useState(0);
+  const [wishItemsCount, setWishItemsCount] = useState(0);
 
   const [cartTotal, setCartTotal] = useState(0);
 
@@ -55,6 +72,11 @@ const CartProvider = ({ children }) => {
     const cartData = localData ? JSON.parse(localData) : [];
 
     setCartItems(cartData);
+
+    const localWishData = localStorage.getItem("wishItems");
+    const wishData = localWishData ? JSON.parse(localWishData) : [];
+
+    setWishItems(wishData);
   }, []);
 
   const makeCartShowAndHidden = (item) => {
@@ -75,19 +97,39 @@ const CartProvider = ({ children }) => {
     return setCartItems(removeItemFromCart(cartItems, item));
   };
 
+  const addWishItem = (item) => {
+    // makeCartShowAndHidden();
+    return setWishItems(addWishItemToCart(wishItems, item));
+  };
+
+  const removeWishItem = (item) => {
+    // makeCartShowAndHidden();
+    return setWishItems(removeWishItemFromCart(wishItems, item));
+  };
+
   const toggleHidden = () => setHidden(!hidden);
 
   const makeReceipt = () => setReceipt(true);
 
-  const clearItemFromCart = (item) => setCartItems(filterItemFromCart());
+  const clearItemFromCart = (item) =>
+    setCartItems(filterItemFromCart(cartItems, item));
+  const clearItemFromWishlist = (item) =>
+    setWishItems(filterItemFromWishlist(wishItems, item));
 
   const clearCart = () => setCartItems([]);
+  const clearWishlist = () => setWishItems([]);
 
   useEffect(() => {
     setCartItemsCount(getCartItemsCount(cartItems));
     setCartTotal(getCartTotal(cartItems));
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
+
+  useEffect(() => {
+    setWishItemsCount(getWishItemsCount(wishItems));
+    // setCartTotal(getCartTotal(cartItems));
+    localStorage.setItem("wishItems", JSON.stringify(wishItems));
+  }, [wishItems]);
 
   return (
     <CartContext.Provider
@@ -100,10 +142,18 @@ const CartProvider = ({ children }) => {
         addItem,
         removeItem,
         clearItemFromCart,
+        clearItemFromWishlist,
         clearCart,
+        clearWishlist,
         cartItemsCount,
+        wishItemsCount,
+
         cartTotal,
+
         collections,
+        wishItems,
+        addWishItem,
+        removeWishItem,
       }}
     >
       {children}

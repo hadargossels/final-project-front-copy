@@ -25,7 +25,7 @@ const config = {
 //   messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
 //   appId: process.env.REACT_APP_APPID,
 //   measurementId: process.env.REACT_APP_MEASUREMENTID,
-//   // databaseUrl: process.env.REACT_APP_DATABASEURL,
+//   databaseUrl: process.env.REACT_APP_DATABASEURL,
 // };
 
 // var config = {

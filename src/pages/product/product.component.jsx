@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 // import SHOP_DATA from "./../shop/shop.data";
-import { Spinner } from "react-bootstrap";
+import { Alert, Spinner } from "react-bootstrap";
 import "./product.styles.scss";
 import { CartContext } from "../../providers/cart/cart.provider";
 
@@ -20,7 +20,7 @@ function ProductPage(props) {
 
   const [isLoading, setLoading] = useState(true);
 
-  const { addItem, removeItem } = useContext(CartContext);
+  const { addItem, removeItem, addWishItem } = useContext(CartContext);
 
   const productName = props.match.params.id.replaceAll("-", " ");
 
@@ -36,6 +36,22 @@ function ProductPage(props) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [imgFound, setImgFound] = useState(false);
+
+  const [displayWishMessage, setDisplayWishMessage] = useState(false);
+
+  const [redHeart, setRedHeart] = useState(false);
+
+  const handleWishBtnClick = () => {
+    addWishItem({ id, name, price, imageUrl });
+
+    setDisplayWishMessage(true);
+
+    setRedHeart(true);
+
+    setTimeout(() => {
+      setDisplayWishMessage(false);
+    }, 3000);
+  };
 
   useEffect(() => {
     const collectionsRef = fireInfo.database().ref("SHOP_DATA");
@@ -307,27 +323,36 @@ function ProductPage(props) {
                               Buy Now
                             </button>
                           </Link>
-                          <div className="product_fav">
-                            <i className="fa fa-heart" />
+                          <div
+                            onClick={handleWishBtnClick}
+                            className="product_fav"
+                          >
+                            {redHeart ? (
+                              <i
+                                className="fa fa-heart"
+                                style={{ color: "red" }}
+                              />
+                            ) : (
+                              <i className="fa fa-heart" />
+                            )}
                           </div>
                         </div>
                       </div>{" "}
-                      <div
-                        className="item-add"
-                        style={{ display: displayMessage ? "block" : "none" }}
-                      >
-                        {" "}
-                        <h6>Item was add to your shopping cart </h6>
-                      </div>
-                      <div
-                        className="item-remove"
-                        style={{
-                          display: displayRemoveMessage ? "block" : "none",
-                        }}
-                      >
-                        {" "}
-                        <h6>Item was remove to your shopping cart </h6>
-                      </div>
+                      {displayMessage && (
+                        <Alert variant="success">
+                          <p>Item was add to your shopping cart </p>
+                        </Alert>
+                      )}
+                      {displayRemoveMessage && (
+                        <Alert variant="danger">
+                          <p>Item was remove from your shopping cart </p>
+                        </Alert>
+                      )}{" "}
+                      {displayWishMessage && (
+                        <Alert variant="info">
+                          <p>Item was add to your Wishlist </p>
+                        </Alert>
+                      )}
                     </div>
                   </div>
                 </div>

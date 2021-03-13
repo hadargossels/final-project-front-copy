@@ -1,7 +1,7 @@
 .store-banner {
   background-color: #6200ea;
   color: #fff;
-  overflow-x: hidden;
+  // overflow-x: hidden;
 
   button:focus {
     -moz-box-shadow: none !important;
@@ -98,4 +98,7 @@
       margin-bottom: 5px;
     }
   }
+  margin: 60px 0px;
+  width: 1308px;
+  height: 696px;
 }

@@ -15,7 +15,7 @@ export default function PayPal(props) {
             intent: "CAPTURE",
             purchase_units: [
               {
-                description: "Dog Best Freinds Store",
+                description: "Dog Best Friends Store",
                 amount: {
                   currency_code: "USD",
                   value: props.totalPay,

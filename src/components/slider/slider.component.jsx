@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 import "./slider.styles.scss";
 
@@ -62,9 +63,9 @@ const Slider = () => (
                           </li>
                         </ul>
                       </div>
-                      <a href="#" className="btn btn-primary">
-                        Add to Cart
-                      </a>
+                      <Link to="/shop">
+                        <a className="btn btn-primary">Go to Shop</a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -101,9 +102,9 @@ const Slider = () => (
                           </li>
                         </ul>
                       </div>
-                      <a href="#" className="btn btn-primary">
-                        Add to Cart
-                      </a>
+                      <Link to="/shop">
+                        <a className="btn btn-primary">Go to Shop</a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -140,9 +141,9 @@ const Slider = () => (
                           </li>
                         </ul>
                       </div>
-                      <a href="#" className="btn btn-primary">
-                        Add to Cart
-                      </a>
+                      <Link to="/shop">
+                        <a className="btn btn-primary">Go to Shop</a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -179,9 +180,9 @@ const Slider = () => (
                           </li>
                         </ul>
                       </div>
-                      <a href="#" className="btn btn-primary">
-                        Add to Cart
-                      </a>
+                      <Link to="/shop">
+                        <a className="btn btn-primary">Go to Shop</a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -199,7 +200,7 @@ const Slider = () => (
                       />
                     </div>
                     <div className="thumb-content">
-                      <h4>"Waterproof Reflective coat</h4>
+                      <h4>Waterproof Reflective coat</h4>
                       <p className="item-price">
                         <strike>$18.00</strike> <span>$16.00</span>
                       </p>
@@ -222,9 +223,9 @@ const Slider = () => (
                           </li>
                         </ul>
                       </div>
-                      <a href="#" className="btn btn-primary">
-                        Add to Cart
-                      </a>
+                      <Link to="/shop">
+                        <a className="btn btn-primary">Go to Shop</a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -261,9 +262,9 @@ const Slider = () => (
                           </li>
                         </ul>
                       </div>
-                      <a href="#" className="btn btn-primary">
-                        Add to Cart
-                      </a>
+                      <Link to="/shop">
+                        <a className="btn btn-primary">Go to Shop</a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -300,9 +301,9 @@ const Slider = () => (
                           </li>
                         </ul>
                       </div>
-                      <a href="#" className="btn btn-primary">
-                        Add to Cart
-                      </a>
+                      <Link to="/shop">
+                        <a className="btn btn-primary">Go to Shop</a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -339,9 +340,9 @@ const Slider = () => (
                           </li>
                         </ul>
                       </div>
-                      <a href="#" className="btn btn-primary">
-                        Add to Cart
-                      </a>
+                      <Link to="/shop">
+                        <a className="btn btn-primary">Go to Shop</a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -382,9 +383,9 @@ const Slider = () => (
                           </li>
                         </ul>
                       </div>
-                      <a href="#" className="btn btn-primary">
-                        Add to Cart
-                      </a>
+                      <Link to="/shop">
+                        <a className="btn btn-primary">Go to Shop</a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -398,7 +399,7 @@ const Slider = () => (
                       />
                     </div>
                     <div className="thumb-content">
-                      <h4>Collar 1</h4>
+                      <h4>Cool Collar </h4>
                       <p className="item-price">
                         <strike>$315.00</strike> <span>$250.00</span>
                       </p>
@@ -421,9 +422,9 @@ const Slider = () => (
                           </li>
                         </ul>
                       </div>
-                      <a href="#" className="btn btn-primary">
-                        Add to Cart
-                      </a>
+                      <Link to="/shop">
+                        <a className="btn btn-primary">Go to Shop</a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -431,13 +432,13 @@ const Slider = () => (
                   <div className="thumb-wrapper">
                     <div className="img-box">
                       <img
-                        src="https://ae01.alicdn.com/kf/H285fceb917814959bf883dbc7f9e9b646/Personalized-Dog-Tag-Stainless-Steel-Name-Engraved-ID-Tags-For-Dog-Collar-Anti-Lost-Pet-Nameplate.jpg_220x220xz.jpg_.webp"
+                        src="https://ae01.alicdn.com/kf/He054df7721df43f6b8f33b428e51331a8/VIP-Link-Pet-Dog-Bed-For-Large-Big-Small-Cat-House-Round-Plush-Mat-Sofa-Dropshipping.jpg_220x220xz.jpg_.webp"
                         className="img-responsive img-fluid"
                         alt
                       />
                     </div>
                     <div className="thumb-content">
-                      <h4>Collar 1</h4>
+                      <h4>Dogs-Accessories Hair-Clips</h4>
                       <p className="item-price">
                         <strike>$220.00</strike> <span>$118.00</span>
                       </p>
@@ -460,9 +461,9 @@ const Slider = () => (
                           </li>
                         </ul>
                       </div>
-                      <a href="#" className="btn btn-primary">
-                        Add to Cart
-                      </a>
+                      <Link to="/shop">
+                        <a className="btn btn-primary">Go to Shop</a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -470,15 +471,15 @@ const Slider = () => (
                   <div className="thumb-wrapper">
                     <div className="img-box">
                       <img
-                        src="https://ae01.alicdn.com/kf/H285fceb917814959bf883dbc7f9e9b646/Personalized-Dog-Tag-Stainless-Steel-Name-Engraved-ID-Tags-For-Dog-Collar-Anti-Lost-Pet-Nameplate.jpg_220x220xz.jpg_.webp"
+                        src="https://ae01.alicdn.com/kf/Hc0bfce4b226c4260803b527090ca769ei/Kawaii-Pet-Dog-Cat-Necklace-Adjustable-Strap-for-Cat-Collar-Dogs-Accessories-Pet-Dog-Bow-Tie.jpg_220x220xz.jpg_.webp"
                         className="img-responsive img-fluid"
                         alt
                       />
                     </div>
                     <div className="thumb-content">
-                      <h4>Collar 2</h4>
+                      <h4>Necklace Bow-Ties </h4>
                       <p className="item-price">
-                        <strike>$280.00</strike> <span>$278.00</span>
+                        <strike>$28.00</strike> <span>$28.00</span>
                       </p>
                       <div className="star-rating">
                         <ul className="list-inline">
@@ -499,9 +500,9 @@ const Slider = () => (
                           </li>
                         </ul>
                       </div>
-                      <a href="#" className="btn btn-primary">
-                        Add to Cart
-                      </a>
+                      <Link to="/shop">
+                        <a className="btn btn-primary">Go to Shop</a>
+                      </Link>
                     </div>
                   </div>
                 </div>

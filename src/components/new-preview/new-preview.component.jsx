@@ -1,11 +1,10 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import NewItemComponent from "../new-item/new-item.component";
 
-import CollectionItemPreview from "../collection-item-preview/collection-item-preview.component";
+import "./new-preview.styles.scss";
 
-import "./collection-preview.styles.scss";
-
-const CollectionPreview = ({ title, items, history, routeName }) => (
+const NewPreviewComponent = ({ title, items, history, routeName }) => (
   <div className="collection-preview  row item-grid-component ">
     <h1
       className="title"
@@ -17,18 +16,18 @@ const CollectionPreview = ({ title, items, history, routeName }) => (
       {items
         .filter((item, idx) => idx < 4)
         .map((item) => (
-          <CollectionItemPreview key={item.id} item={item} />
+          <NewItemComponent key={item.id} item={item} />
         ))}
 
-      <button
+      {/* <button
         type="button"
-        class="btn btn-primary see-more"
+        class="btn btn-primary"
         onClick={() => history.push(`/shop/${routeName.toLowerCase()}`)}
       >
         See More...
-      </button>
+      </button> */}
     </div>
   </div>
 );
 
-export default withRouter(CollectionPreview);
+export default withRouter(NewPreviewComponent);

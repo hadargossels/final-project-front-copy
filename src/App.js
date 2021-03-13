@@ -64,6 +64,10 @@ import ShopShow from "./pages/admin/components/ShopShow";
 import { OrderShow } from "./pages/admin/components/orders/OrderShow";
 import Profile from "./pages/profile/profile.component";
 import SalesOverview from "./components/sales-overview/sales-overview.component";
+import NewOverviewComponent from "./components/new-overview/new-overview.component";
+import WishListPage from "./pages/wishList/wishList.component";
+import OrdersPage from "./pages/orders/orders.component";
+import MyTickets from "./pages/my-tickets/my-tickets.component";
 
 const options = {
   logging: true,
@@ -133,12 +137,15 @@ class App extends React.Component {
             <Route path="/store" component={ShopPage} />
             <Route path="/collections" component={ShopPage} />
             <Route path="/sales" component={SalesOverview} />
-            {/* <Route path="/new" component={NewOverview} /> */}
+            <Route path="/new" component={NewOverviewComponent} />
             <Route path="/about" component={AboutPage} />
             <Route path="/blog" component={BlogPage} />
             <Route path="/blog-preview" component={BlogPreviewPage} />
             <Route path="/contact" component={ContactPage} />
             <Route exact path="/shopping-cart" component={ShoppingCartPage} />
+            <Route exact path="/wishlist" component={WishListPage} />
+            <Route exact path="/orders" component={OrdersPage} />
+            <Route exact path="/my-tickets" component={MyTickets} />
             {/* <Route exact path="/checkout" component={CheckoutPage} /> */}
             <Route
               exact

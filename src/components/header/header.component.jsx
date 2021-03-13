@@ -19,14 +19,18 @@ import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 // import { signOutStart } from "../../redux/user/user.actions";
 
 const activeStyle = {
-  color: "#F0436E",
+  color: "#007bff",
 };
 
 const Header = () => {
   const currentUser = useContext(CurrentUserContext);
-  const { hidden, toggleHidden, cartItemsCount, cartTotal } = useContext(
-    CartContext
-  );
+  const {
+    hidden,
+    toggleHidden,
+    cartItemsCount,
+    cartTotal,
+    wishItemsCount,
+  } = useContext(CartContext);
 
   const [pageMenu, setPageMenu] = useState(false);
 
@@ -282,16 +286,29 @@ const Header = () => {
                     )}{" "}
                     <div className="wishlist d-flex flex-row align-items-center justify-content-end">
                       <div className="wishlist_icon">
-                        <img
-                          src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1560918681/heart.png"
-                          alt
-                        />
+                        <NavLink
+                          className="option"
+                          activeStyle={activeStyle}
+                          to="/wishlist"
+                        >
+                          <img
+                            src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1560918681/heart.png"
+                            alt
+                          />{" "}
+                        </NavLink>
                       </div>
+
                       <div className="wishlist_content">
                         <div className="wishlist_text">
-                          <a href="#">Wishlist</a>
+                          <NavLink
+                            className="option"
+                            activeStyle={activeStyle}
+                            to="/wishlist"
+                          >
+                            <a>Wishlist</a>
+                          </NavLink>
                         </div>
-                        <div className="wishlist_count">10</div>
+                        <div className="wishlist_count">{wishItemsCount}</div>
                       </div>
                     </div>{" "}
                     {/* Cart */}

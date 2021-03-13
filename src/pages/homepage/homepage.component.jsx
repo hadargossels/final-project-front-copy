@@ -9,8 +9,8 @@ import ItemsGrid from "../../components/items-grid/items-grid.component";
 
 import "./homepage.styles.scss";
 import CollectionsOverview from "./../../components/collections-overview/collections-overview.component";
-import ShopGrid from "../../components/shop-grid/shop-grid.component";
-import SalesOverview from "../../components/sales-overview/sales-overview.component";
+// import ShopGrid from "../../components/shop-grid/shop-grid.component";
+// import SalesOverview from "../../components/sales-overview/sales-overview.component";
 
 const HomePage = () => (
   <div className="homepage">
@@ -18,12 +18,12 @@ const HomePage = () => (
     {/* <HeadingSlider /> */}
 
     <Slider title="Featured Product" />
-    <SalesOverview />
+    {/* <SalesOverview /> */}
     <CollectionsOverview />
-    <ItemsGrid />
+    {/* <ItemsGrid /> */}
     <StoreBanner />
 
-    <ShopGrid />
+    {/* <ShopGrid /> */}
 
     {/* <Discounts /> */}
   </div>

@@ -14,6 +14,7 @@ import PayPal from "./../../components/paypal/paypal";
 import OrderConfirmation from "../../components/order-confirmation/order-confirmation.component";
 import { fireInfo } from "./../../firebase/firebase.utils";
 import CurrentUserContext from "../../contexts/current-user/current-user.context";
+import { Alert } from "react-bootstrap";
 
 const CheckoutPage = () => {
   const {
@@ -25,7 +26,7 @@ const CheckoutPage = () => {
   } = useContext(CartContext);
 
   const currentUser = useContext(CurrentUserContext);
-  console.log("currentUser :", currentUser);
+  // console.log("currentUser :", currentUser);
 
   const [validPhone, setValidPhone] = useState(false);
   const [promoValue, setPromoValue] = useState();
@@ -52,6 +53,8 @@ const CheckoutPage = () => {
   const [notValidDetails, setNotValidClick] = useState(false);
 
   const [validPayment, setValidPayment] = useState(false);
+
+  const [canPay, setCanPay] = useState(false);
 
   const [orderId, setOrderId] = useState("");
 
@@ -104,7 +107,7 @@ const CheckoutPage = () => {
     //    ...orderData,
     //  });
 
-    // לא עובד->    fireRef["id"] = "orderRef.key";
+    //  fireRef["id"] = "orderRef.key";
 
     // const userRef = fireInfo.database().ref("users");
     // console.log("userRef :", userRef);
@@ -157,25 +160,25 @@ const CheckoutPage = () => {
       validLastName &&
       validAddress &&
       validZip &&
-      validCName &&
-      validExpiration &&
-      validCNumber &&
-      validCVV &&
-      validCountry &&
       validShipping
     ) {
-      setValidPayment(true);
-      setTimeout(() => {
-        clearCart();
-      }, 10000);
+      setCanPay(true);
+
+      createOrder();
     } else {
       setNotValidClick(true);
-      createOrder();
     }
 
     setTimeout(() => {
       setNotValidClick(false);
     }, 3000);
+  };
+
+  const paypalClick = () => {
+    setValidPayment(true);
+    setTimeout(() => {
+      clearCart();
+    }, 10000);
   };
 
   let promoCode = 123;
@@ -330,7 +333,6 @@ const CheckoutPage = () => {
       ) : (
         <div className="container check-page">
           {" "}
-          {currentUser && <h6>Welcome {currentUser.displayName}</h6>}
           <div className="row">
             <div className="col-md-4 order-md-2 mb-4">
               <h4 className="d-flex justify-content-between align-items-center mb-3">
@@ -450,16 +452,30 @@ const CheckoutPage = () => {
                 <div className="row">
                   <div className="col-md-6 mb-3">
                     <label htmlFor="firstName">First name</label>
-                    <input
-                      name="firstName"
-                      onKeyUp={handleKey}
-                      type="text"
-                      className="form-control"
-                      id="firstName"
-                      placeholder="First Name"
-                      onChange={handleOnChange}
-                      required
-                    />
+
+                    {currentUser ? (
+                      <input
+                        name="firstName"
+                        onKeyUp={handleKey}
+                        type="text"
+                        className="form-control"
+                        id="firstName"
+                        placeholder={currentUser.displayName}
+                        onChange={handleOnChange}
+                        required
+                      />
+                    ) : (
+                      <input
+                        name="firstName"
+                        onKeyUp={handleKey}
+                        type="text"
+                        className="form-control"
+                        id="firstName"
+                        placeholder="First Name"
+                        onChange={handleOnChange}
+                        required
+                      />
+                    )}
                     {/* ///cheackicng ////// */}
                     <div
                       style={{ display: validFirstName ? "none" : "block" }}
@@ -646,193 +662,35 @@ const CheckoutPage = () => {
                     {/* ///Endcheackicng ////// */}
                   </div>
                 </div>
-                <hr className="mb-4" />
-                <h4 className="mb-3">Payment</h4>
-                <div className="d-block my-3">
-                  <div className="custom-control custom-radio">
-                    <input
-                      onKeyUp={handleKey}
-                      name="credit"
-                      id="credit"
-                      name="paymentMethod"
-                      type="radio"
-                      className="custom-control-input"
-                      defaultChecked
-                      required
-                    />
-                    <label className="custom-control-label" htmlFor="credit">
-                      Credit card
-                    </label>
-                  </div>
-                  <div className="custom-control custom-radio">
-                    <input
-                      id="debit"
-                      name="paymentMethod"
-                      type="radio"
-                      className="custom-control-input"
-                      required
-                    />
-                    <label className="custom-control-label" htmlFor="debit">
-                      Debit card
-                    </label>
-                  </div>
-                  <div className="custom-control custom-radio">
-                    <input
-                      id="paypal"
-                      name="paymentMethod"
-                      type="radio"
-                      className="custom-control-input"
-                      required
-                    />
-                    <label className="custom-control-label" htmlFor="paypal">
-                      Paypal
-                    </label>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="cName">Name on card</label>
-                    <input
-                      onKeyUp={handleKey}
-                      name="cName"
-                      type="text"
-                      className="form-control"
-                      id="cc-name"
-                      placeholder
-                      required
-                    />
-
-                    {/* ///cheackicng ////// */}
-                    <div
-                      style={{ display: validCName ? "none" : "block" }}
-                      className="invalid-feedback"
-                    >
-                      Please enter your Name on card.
-                    </div>
-                    <div
-                      style={{ display: validCName ? "block" : "none" }}
-                      className="valid-feedback"
-                    >
-                      valid
-                    </div>
-
-                    {/* ///Endcheackicng ////// */}
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="cNumber">Credit card number</label>
-                    <input
-                      onKeyUp={handleKey}
-                      name="cNumber"
-                      type="text"
-                      className="form-control"
-                      id="cc-number"
-                      placeholder
-                      required
-                    />
-                    <div className="invalid-feedback"></div>
-                    {/* ///cheackicng ////// */}
-                    <div
-                      style={{ display: validCNumber ? "none" : "block" }}
-                      className="invalid-feedback"
-                    >
-                      Please enter your Credit card number.
-                    </div>
-                    <div
-                      style={{ display: validCNumber ? "block" : "none" }}
-                      className="valid-feedback"
-                    >
-                      valid
-                    </div>
-
-                    {/* ///Endcheackicng ////// */}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-3 mb-3">
-                    <label htmlFor="expiration">Expiration</label>
-                    <input
-                      onKeyUp={handleKey}
-                      name="expiration"
-                      type="text"
-                      className="form-control"
-                      id="cc-expiration"
-                      placeholder="00/00"
-                      required
-                    />
-
-                    {/* ///cheackicng ////// */}
-                    <div
-                      style={{ display: validExpiration ? "none" : "block" }}
-                      className="invalid-feedback"
-                    >
-                      Please enter Expiration date .
-                    </div>
-                    <div
-                      style={{ display: validExpiration ? "block" : "none" }}
-                      className="valid-feedback"
-                    >
-                      valid
-                    </div>
-
-                    {/* ///Endcheackicng ////// */}
-                  </div>
-
-                  <div className="col-md-3 mb-3">
-                    <label htmlFor="cvv">CVV</label>
-                    <input
-                      onKeyUp={handleKey}
-                      name="cvv"
-                      type="text"
-                      className="form-control"
-                      id="cc-cvv"
-                      placeholder="000"
-                      required
-                    />
-                    {/* ///cheackicng ////// */}
-                    <div
-                      style={{ display: validCVV ? "none" : "block" }}
-                      className="invalid-feedback"
-                    >
-                      Please enter your Security code
-                    </div>
-                    <div
-                      style={{ display: validCVV ? "block" : "none" }}
-                      className="valid-feedback"
-                    >
-                      valid
-                    </div>
-
-                    {/* ///Endcheackicng ////// */}
-                  </div>
-                </div>
-                <hr className="mb-4" />
-                {/* <button
-                  onClick={isAllValid}
-                  className="btn btn-primary btn-lg btn-block pay-now"
-                >
-                  Pay now
-                </button> */}
-                {/* ///cheackicng ////// */}
-                {notValidDetails && (
-                  <div className="invalid-feedback">
-                    Please Fill All The Required Input
-                  </div>
-                )}
                 {/* ///Endcheackicng ////// */}
-                <div onClick={isAllValid} className="paypal-btn">
-                  <PayPal
-                    totalPay={cartTotal + promoChange + deliveryChange}
-                    orderData={orderData}
-                    makeOrderTrue={makeOrderTrue}
-                  />
-                </div>
+                {canPay ? (
+                  <div onClick={paypalClick} className="paypal-btn">
+                    <PayPal
+                      totalPay={cartTotal + promoChange + deliveryChange}
+                      orderData={orderData}
+                      makeOrderTrue={makeOrderTrue}
+                    />
+                  </div>
+                ) : (
+                  <button
+                    onClick={isAllValid}
+                    className="btn btn-primary btn-lg btn-block pay-now"
+                  >
+                    Pay now
+                  </button>
+                )}
+
+                {notValidDetails && (
+                  <Alert variant="danger">Please Fill all the Details</Alert>
+                )}
+
                 <Link to="/shopping-cart">
                   <button type="button" class="btn btn-secondary">
                     back to shopping cart
                   </button>
                 </Link>
                 <Link to="/store">
-                  <button type="button" class="btn btn-warning">
+                  <button type="button" class="btn btn-info">
                     Back to store
                   </button>
                 </Link>

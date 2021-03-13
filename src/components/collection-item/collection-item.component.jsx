@@ -10,7 +10,7 @@ import "./collection-item.styles.scss";
 const CollectionItem = ({ item, history }) => {
   const { name, price, imageUrl, id, description } = item;
 
-  const { addItem } = useContext(CartContext);
+  const { addItem, addWishItem } = useContext(CartContext);
 
   const [displayMessage, setDisplayMessage] = useState(false);
 
@@ -32,6 +32,18 @@ const CollectionItem = ({ item, history }) => {
 
     setTimeout(() => {
       setDisplayMessage(false);
+    }, 3000);
+  };
+
+  const [displayWishMessage, setDisplayWishMessage] = useState(false);
+
+  const handleWishBtnClick = () => {
+    addWishItem(item);
+
+    setDisplayWishMessage(true);
+
+    setTimeout(() => {
+      setDisplayWishMessage(false);
     }, 3000);
   };
 
@@ -65,12 +77,17 @@ const CollectionItem = ({ item, history }) => {
                 <p>Item was add to your shopping cart </p>
               </Alert>
             )}
+            {displayWishMessage && (
+              <Alert variant="success">
+                <p>Item was add to your WishList </p>
+              </Alert>
+            )}
             <li onClick={handleShow}>
               <a href data-tip="Quick View">
                 <i className="fa fa-search" />
               </a>
             </li>
-            <li>
+            <li onClick={handleWishBtnClick}>
               <a href data-tip="Add to Wishlist">
                 <i className="fa fa-shopping-bag" />
               </a>

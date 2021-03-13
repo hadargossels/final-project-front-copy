@@ -42,7 +42,7 @@ const StoreBanner = () => (
               <div className="blocks row d-flex">
                 <div className="d-flex flex-column">
                   {" "}
-                  <Link to="/clothing">
+                  <Link to="/shop/clothing">
                     <img
                       className="fit-image img-block"
                       src="https://ae01.alicdn.com/kf/Hacbcbaa2c39642d0bb9d1838227a2208p/Pet-Products-Dog-Clothing-Coat-Jacket-Hoodie-Sweater-Clothes-For-Dogs-Cotton-Clothing-For-Dogs-Sports.jpg_220x220xz.jpg_.webp"
@@ -51,7 +51,7 @@ const StoreBanner = () => (
                   <small className="text-center">Clothing</small>{" "}
                 </div>
                 <div className="d-flex flex-column">
-                  <Link to="/collars">
+                  <Link to="/shop/collars">
                     <img
                       className="fit-image img-block"
                       src="https://ae01.alicdn.com/kf/HTB1S5s6AN1YBuNjy1zcq6zNcXXaY/Dog-Harness-with-Leash-Summer-Pet-Adjustable-Reflective-Vest-Walking-Lead-for-Puppy-Polyester-Mesh-Harness.jpg_220x220xz.jpg_.webp"
