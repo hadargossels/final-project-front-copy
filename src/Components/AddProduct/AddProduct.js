@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import './AddProduct.css';
-import { Redirect } from 'react-router-dom';
-import {auth, db} from '../../firebase'
+// import { Redirect } from 'react-router-dom';
+import {db} from '../../firebase'
 
 class AddProduct extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             ISBN10: null,
             ISBN13: null,
             title: null,
-            format: null,
+            format: 'Single Issue',
             pages: null,
             dimensions: null,
             weight: null,
-            publisher: null,
+            publisher: 'Marvel Comics',
             publicationCity: null,
             publicationCountry: null,
-            language: null,
+            language: 'English',
             originalPrice: null,
             publicationDate: null,
             author: null,
@@ -33,7 +33,7 @@ class AddProduct extends Component {
     }
 
     addProductToDB = () => {
-        let fakeHash = Date.now();
+        let fakeHash = this.state.ISBN10;
         let fakePrice = this.state.originalPrice - 5
         let fakeStars = Math.floor(Math.random() * 5) + 1
         let productDetails = {
@@ -56,12 +56,20 @@ class AddProduct extends Component {
             artist: this.state.artist,
             stars: fakeStars,
             quantity: 1,
-            description: this.state.description
+            description: this.state.description,
+            special: false,
+            new: false,
+            top: false
         }
         db.ref('products/' + fakeHash).set({
             ...productDetails
-          })
-          .catch((error) => {console.log(error)});
+        })
+        .then(() => {
+            this.props.history.push('/account/profile')
+        })
+        .catch((error) => {console.log(error)});
+
+        console.log(this.props)
     }
 
     addToState = (event) => {
@@ -107,7 +115,7 @@ class AddProduct extends Component {
                     })
                 } else {
                     this.setState({
-                        format: null
+                        format: 'Single Issue'
                     })
                 }
                 break;
@@ -151,7 +159,7 @@ class AddProduct extends Component {
                     })
                 } else {
                     this.setState({
-                        publisher: null
+                        publisher: 'Marvel Comics'
                     })
                 }
                 break;
@@ -162,7 +170,7 @@ class AddProduct extends Component {
                     })
                 } else {
                     this.setState({
-                        language: null
+                        language: 'English'
                     })
                 }
                 break;
@@ -293,7 +301,11 @@ class AddProduct extends Component {
                             <p className="pb-4">
                                 <label htmlFor="productFormat">Format:&nbsp;&nbsp;&nbsp;</label>
                                 <br/>
-                                <input type="text" id="productFormat" name="productFormat" onChange={(event) => {this.addToState(event)}}/>
+                                <select name="productFormat" id="productFormat" className="w-10/12" onChange={(event) => {this.addToState(event)}}>
+                                    <option value="Single Issue">Single Issue</option>
+                                    <option value="Hardcover">Hardcover</option>
+                                    <option value="Paperback">Paperback</option>
+                                </select>
                             </p>
                             <p className="pb-4">
                                 <label htmlFor="productPages">Pages:&nbsp;&nbsp;&nbsp;</label>
@@ -313,12 +325,26 @@ class AddProduct extends Component {
                             <p className="pb-4">
                                 <label htmlFor="productPublisher">Publisher:&nbsp;&nbsp;&nbsp;</label>
                                 <br/>
-                                <input type="text" id="productPublisher" name="productPublisher" onChange={(event) => {this.addToState(event)}}/>
+                                <select name="productPublisher" id="productPublisher" className="w-10/12" onChange={(event) => {this.addToState(event)}}>
+                                    <option value="DC Comics">DC Comics</option>
+                                    <option value="Marvel Comics">Marvel Comics</option>
+                                    <option value="Dynamite Entertainment">Dynamite Entertainment</option>
+                                    <option value="Image Comics">Image Comics</option>
+                                    <option value="Shueisha/Tsai Fong Books">Shueisha/Tsai Fong Books</option>
+                                    <option value="Pie International Co., Ltd.">Pie International Co., Ltd.</option>
+                                    <option value="Malpaso Editorial">Malpaso Editorial</option>
+                                    <option value="Dark Horse Comics">Dark Horse Comics</option>
+                                </select>
                             </p>
                             <p className="pb-4">
                                 <label htmlFor="productLanguage">Product Language:&nbsp;&nbsp;&nbsp;</label>
                                 <br/>
-                                <input type="text" id="productLanguage" name="productLanguage" onChange={(event) => {this.addToState(event)}}/>
+                                <select name="productLanguage" id="productLanguage" className="w-10/12" onChange={(event) => {this.addToState(event)}}>
+                                    <option value="English">English</option>
+                                    <option value="Spanish">Spanish</option>
+                                    <option value="Japanese">Japanese</option>
+                                    <option value="French">French</option>
+                                </select>
                             </p>
                             <p className="pb-4">
                                 <label htmlFor="publicationCity">Publication City:&nbsp;&nbsp;&nbsp;</label>
@@ -353,7 +379,7 @@ class AddProduct extends Component {
                             <p className="pb-4 col-span-2">
                                 <label htmlFor="productDescription">Description:&nbsp;&nbsp;&nbsp;</label>
                                 <br/>
-                                <input type="textarea" id="productDescription" name="productDescription" onChange={(event) => {this.addToState(event)}}/>
+                                <textarea id="productDescription" name="productDescription" className="w-10/12 h-24" onChange={(event) => {this.addToState(event)}}></textarea>
                             </p>
                         </div>
                         {sbmtBttn}

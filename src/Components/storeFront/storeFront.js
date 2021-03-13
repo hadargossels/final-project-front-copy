@@ -5,7 +5,8 @@ import ItemView from './itemView/itemView';
 import Filters from './filters/filters';
 import Pagination from './Pagination/Pagination';
 import queryString from 'query-string';
-import axios from 'axios';
+// import axios from 'axios';
+import {db} from '../../firebase'
 
 
 class StoreFront extends Component {
@@ -24,18 +25,16 @@ class StoreFront extends Component {
     }
 
     componentDidMount = () => {
-        
-        let self = this
 
-        axios.get('http://localhost:3000/products')
-        .then(function(response) {
-            self.setState({
-                products: response.data,
-                originalProducts: response.data
-            })
-        })
-        .catch( function(error) {
-            console.log(error)
+        db.ref('products').on('value', (snapshot)=>{
+            let arr = [];
+            for (let obj in snapshot.val()) {
+                arr.push(snapshot.val()[obj])
+            }
+            this.setState({
+                products: arr,
+                originalProducts: arr
+            }, () => {console.log(this.state.productsList)})
         })
     }
 
@@ -95,10 +94,18 @@ class StoreFront extends Component {
                 products: this.state.originalProducts
             })
         } else {
-            this.setState({
-                publisher:event.target.value,
-                products: products.filter(product => product.publisher === event.target.value)
-            })
+            let filteredProducts = products.filter(product => product.publisher === event.target.value)
+            if (!filteredProducts.length) {
+                this.setState({
+                    format:event.target.value,
+                    products: this.state.originalProducts.filter(product => product.publisher === event.target.value)
+                })
+            } else {
+                this.setState({
+                    format:event.target.value,
+                    products: products.filter(product => product.publisher === event.target.value)
+                })
+            }
         }
     }
 
@@ -148,17 +155,17 @@ class StoreFront extends Component {
             let myUrl = window.location.href.split('catalogue/');
     
             if(myUrl[1] === "new") {
-                catalogObj = catalogObj.filter(obj => (obj.new === "yes"))
+                catalogObj = catalogObj.filter(obj => (obj.new === true))
                 catalogueLength = catalogObj.length
             };
     
             if(myUrl[1] === "specials") {
-                catalogObj = catalogObj.filter(obj => (obj.special === "yes"))
+                catalogObj = catalogObj.filter(obj => (obj.special === true))
                 catalogueLength = catalogObj.length
             };
     
             if(myUrl[1] === "top") {
-                catalogObj = catalogObj.filter(obj => (obj.top === "yes"))
+                catalogObj = catalogObj.filter(obj => (obj.top === true))
                 catalogueLength = catalogObj.length
             };
 

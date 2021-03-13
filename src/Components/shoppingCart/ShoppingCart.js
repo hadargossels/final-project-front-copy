@@ -17,6 +17,8 @@ class ShoppingCart extends Component {
     getTotal(num) {
         this.setState({
             totalProductsSum: num,
+        }, () => {
+          localStorage.setItem('finalPrice', this.state.totalProductsSum)
         })
     }
 

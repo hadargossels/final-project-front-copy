@@ -1,3 +1,7 @@
 .signupForm{
     min-height: 86.4vh;
 }
+
+.addressInput {
+    width: 180%;
+}

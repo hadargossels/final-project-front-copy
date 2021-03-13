@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './CheckoutDetails.css';
-import formatPrice from '../../utility/Pecent'
+import formatPrice from '../../utility/Price'
 import formatPrecent from '../../utility/Pecent'
 import { Link } from "react-router-dom";
 
@@ -77,6 +77,7 @@ class CheckoutDetails extends Component {
     }
 
     render () {
+
       return (
         <div className="CheckoutDetails m-5">
             <div className="details bg-gray-300 text-3xl p-0 rounded border border-yellow-700 text-center">

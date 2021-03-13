@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './AdminMain.css';
-import { Admin, Resource } from 'react-admin';
+import { Admin, ListGuesser, Resource, ShowGuesser } from 'react-admin';
 // import { PostList, PostEdit, PostCreate } from './posts';
 import { UserList, UserCreate, UserEdit } from './users';
 // import jsonServerProvider from 'ra-data-json-server';
@@ -15,6 +15,9 @@ import firebase from 'firebase/app'
 import "firebase/database";
 import {db} from '../../firebase'
 import { ProductCreate, ProductEdit, ProductList } from './productsDB';
+import { OrderEdit, OrderList, OrderShow } from './orders';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import StyleIcon from '@material-ui/icons/Style';
 
 const config = {
     apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
@@ -41,18 +44,17 @@ class AdminMain extends Component {
             for (let obj in snapshot.val()) {
                 arr.push(snapshot.val()[obj])
             }
-            console.log(arr)
         })
       }
     render () {
         return(    
             <div className="big">
                 <Admin dashboard={Dashboard} dataProvider={dataProvider} authProvider={authProvider}>
-                    {/* <Resource name="users" list={ListGuesser} /> */}
                     {/* <Resource name="posts" list={PostList} edit={PostEdit} create={PostCreate} icon={PostIcon}/> */}
                     <Resource name="users" list={UserList} create={UserCreate} edit={UserEdit} icon={UserIcon}/>
                     <Resource name="roles" list={RoleList} edit={RoleEdit} create={RoleCreate} icon={LabelIcon}/>
-                    <Resource name="products" list={ProductList} edit={ProductEdit} create={ProductCreate}/>
+                    <Resource name="products" list={ProductList} edit={ProductEdit} create={ProductCreate} icon={StyleIcon}/>
+                    <Resource name="orders" list={OrderList} show={OrderShow} edit={OrderEdit} icon={ShoppingBasketIcon}/>
                 </Admin>
             </div>
         )

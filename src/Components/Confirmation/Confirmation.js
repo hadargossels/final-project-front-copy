@@ -22,7 +22,7 @@ class Confirmation extends Component {
     <main className="Confirmation text-center px-24 py-6">
         <div className="bg-gray-300 text-3xl py-10 rounded">
             <h1 className="text-5xl px-5 text-yellow-600">Order Placed!</h1>
-            <p>Your order tracking code is: {this.state.orderNum}</p>
+            <p>Your order tracking code is: {this.props.orderNum}</p>
         </div>
     </main>
     )

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './Login.css';
-import {auth} from '../../firebase'
+import {auth, db} from '../../firebase'
 import firebase from 'firebase/app'
 import CurrAuth from '../../auth';
 
@@ -53,32 +53,88 @@ class Login extends Component {
                 errorMessage: <h3 style={{ color: "red" }}>{error.message}</h3>
             })
         })
-
         if (signinAuth) {
             localStorage.setItem('currentUser',auth.currentUser.email)
+            localStorage.setItem('signIn',true)
+            this.props.curUserName(auth.currentUser.displayName)
+            localStorage.setItem('userName',auth.currentUser.displayName)
+            this.props.isUserSignedIn(true)
+
             this.setState({
                 isSignedIn: true,
-            }, () => {CurrAuth.login(() => {
-                this.props.history.push("/signindone")
-            })
-        })
+            }, () => {this.isSignedWithGoogle(auth.currentUser.email)})
         }
     };
 
+    isSignedWithGoogle = (currEmail) => {   
+        let existing = false;
+
+
+        db.ref('users').on('value', (snapshot)=>{
+            let arr = [];
+            for (let obj in snapshot.val()) {
+                arr.push(snapshot.val()[obj])
+            }
+
+            for (let item of arr) {
+                if(item.email === currEmail) {
+                    existing = true;
+                    break;
+                }
+            }
+        })
+
+        if(!existing) {
+            this.createNewUser();
+        } else {
+            this.props.history.push("/account/profile")
+        }
+    }
+
+    createNewUser = () => {
+        let data = {
+            firstName: auth.currentUser.displayName,
+            lastName: "none",
+            password: "none",
+            email: auth.currentUser.email,
+            country: "none",
+            city: "none",
+            address: "none",
+            phoneNum: "none",
+            dateOfBirth: "none",
+            role: 2,
+            active: true,
+        }
+
+        db.ref().child("users").child(auth.currentUser.uid).set(
+            {
+                'id': auth.currentUser.uid,
+                ...data
+            }
+        )
+
+        this.props.history.push("/account/profile")
+    }
+
     signinAuthFunct = async () => {
-        let signinAuth = auth.signInWithEmailAndPassword(this.state.email, this.state.password).catch((error) => {
+
+        let signinAuth = await auth.signInWithEmailAndPassword(this.state.email, this.state.password).catch((error) => {
             this.setState({
                 errorMessage: <h3 className="text-3xl text-red-600 text-center pb-5"><i className="far fa-times-circle"></i> {error.message}</h3>
             })
         })
         if (signinAuth) {
-            localStorage.setItem('currentUser',this.state.email)
+            localStorage.setItem('currentUser',auth.currentUser.email)
+            localStorage.setItem('signIn',true)
+            this.props.curUserName(auth.currentUser.displayName)
+            localStorage.setItem('userName',auth.currentUser.displayName)
+            this.props.isUserSignedIn(true)
             this.setState({
                 isSignedIn: true,
             }, () => {CurrAuth.login(() => {
-                this.props.history.push("/signindone")
+                this.props.history.push("/account/profile")
             })
-        })
+            })
         }
     }
 
@@ -96,7 +152,7 @@ class Login extends Component {
 
     render () {
         return(    
-            <main className="Login pt-52">
+            <main className="Login pt-32">
                 {this.state.errorMessage}
                 <div className="bg-gray-300 mx-auto w-1/3 text-center text-3xl shadow shadow-md border-4 rounded border-solid border-8 border-gray-400">
                     <h1 className="text-6xl text-yellow-600 py-4 font-medium">Sign In</h1>
@@ -124,6 +180,12 @@ class Login extends Component {
                             &nbsp;&nbsp;
                             Sign in with a Google Account
                         </button>
+                    <hr className="border border-yellow-700 mx-12 my-5"/>
+                    <Link to="/sign-up">
+                        <button className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 hover:bg-yellow-100 hover:text-yellow-800 border border-yellow-800">
+                            Track Order
+                        </button>
+                    </Link>
                     <hr className="border border-yellow-700 mx-12 my-5"/>
                     <p className="mt-6 mb-1 pb-1.5">
                         New?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

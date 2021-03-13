@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import './ItemsToBuy.css';
 // import data from '../../data.json'
 import formatPrice from '../../utility/Price'
-import axios from 'axios';
+// import axios from 'axios';
+import {db} from '../../../firebase'
 
 class ItemsToBuy extends Component {
     constructor(props) {
@@ -18,38 +19,74 @@ class ItemsToBuy extends Component {
 
     componentDidMount = () => {
 
-        let self = this
-
-        axios.get('http://localhost:3000/products')
-        .then(function(response) {
-            self.setState({
-                products: response.data,
-            })
-            let itemCodes = JSON.parse(localStorage.getItem("shoppingCart"))
-            let myItems = [];
-            let generalItems = [...self.state.products]
-            if (itemCodes !== null) {
-                generalItems.filter((product) => {
-                    if(itemCodes.includes(product.ISBN10)) {
-                        myItems.push(product)
-                    }
-                    return true;
-                })
-                let genSum = 0;
-                myItems.forEach((product) => {
-                    genSum += product.price;
-                })
-                self.setState({
-                    productList: myItems,
-                    productSum: genSum,
-                }, () => {
-                    self.getPrice()
-                })
+        let itemCodes;
+        let myItems;
+        let generalItems;
+        db.ref('products').on('value', (snapshot)=>{
+            let arr = [];
+            for (let obj in snapshot.val()) {
+              arr.push(snapshot.val()[obj])
             }
+            this.setState({
+                products: arr,
+            }, () => {
+                itemCodes = JSON.parse(localStorage.getItem("shoppingCart"))
+                myItems = [];
+                generalItems = [...this.state.products]
+                if (itemCodes !== null) {
+                    generalItems.filter((product) => {
+                        if(itemCodes.includes(product.ISBN10)) {
+                            myItems.push(product)
+                        }
+                        return true;
+                    })
+                    let genSum = 0;
+                    myItems.forEach((product) => {
+                        genSum += product.price;
+                    })
+                    this.setState({
+                        productList: myItems,
+                        productSum: genSum,
+                    }, () => {
+                        this.getPrice()
+                    })
+                }
+            })
+            
         })
-        .catch( function(error) {
-            console.log(error)
-        })
+
+        // let self = this
+
+        // axios.get('http://localhost:3000/products')
+        // .then(function(response) {
+        //     self.setState({
+        //         products: response.data,
+        //     })
+        //     let itemCodes = JSON.parse(localStorage.getItem("shoppingCart"))
+        //     let myItems = [];
+        //     let generalItems = [...self.state.products]
+        //     if (itemCodes !== null) {
+        //         generalItems.filter((product) => {
+        //             if(itemCodes.includes(product.ISBN10)) {
+        //                 myItems.push(product)
+        //             }
+        //             return true;
+        //         })
+        //         let genSum = 0;
+        //         myItems.forEach((product) => {
+        //             genSum += product.price;
+        //         })
+        //         self.setState({
+        //             productList: myItems,
+        //             productSum: genSum,
+        //         }, () => {
+        //             self.getPrice()
+        //         })
+        //     }
+        // })
+        // .catch( function(error) {
+        //     console.log(error)
+        // })
     }
 
     changePrice = (event) => {
@@ -58,7 +95,7 @@ class ItemsToBuy extends Component {
         let theProd;
         this.state.productList.forEach((product, index) => {
             if(product.ISBN10 === productId) {
-               theProd = index
+                theProd = index
             }
         });
         let myProductList = [...this.state.productList];

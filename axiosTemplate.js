@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import './ProductSlider.css';
+// import data from '../../data.json';
 import formatPrice from '../../utility/Price';
 import formatStars from '../../utility/Stars';
 import Modal from './ProductQuickview/ProductQuickview.js';
 import axios from 'axios';
-import {db} from '../../../firebase'
 
-class ProductSlider extends Component {
+class something extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             show: false,
             myTitle: null,
+            // products: data.products.filter((val, i) => {
+            //     return i < 6
+            // }),
             products: null
         };
         this.showModal = this.showModal.bind(this);
@@ -20,53 +23,23 @@ class ProductSlider extends Component {
     };
 
     componentDidMount = () => {
-        db.ref('products').on('value', (snapshot)=>{
-            let arr = [];
-            for (let obj in snapshot.val()) {
-                arr.push(snapshot.val()[obj])
-            }
+        let self = this
 
-            let currArr = [];
-            for (let object of arr) {
-                if(this.props.slideId === "slide") {
-                    if (object.special === true && currArr.length < 6) {
-                        currArr.push(object)
-                        console.log(currArr)
-                    }
-                } else if (this.props.slideId === "new" && currArr.length < 6) {
-                    if (object.new === true) {
-                        currArr.push(object)
-                        console.log(currArr)
-                    }
-                } else if (this.props.slideId === "top" && currArr.length < 6) {
-                    if (object.top === true) {
-                        currArr.push(object)
-                        console.log(currArr)
-                    }
-                }
-            }
-
-            this.setState({
-                products: currArr,
+        axios.get('http://localhost:3000/products')
+        .then(function(response) {
+            self.setState({
+                products: response.data.filter((val, i) => {
+                    return i < 6
+                }),
             })
         })
-    }
-
-    addToStorage = (itemId) => {
-        let myCart = JSON.parse(localStorage.getItem('shoppingCart'));
-        if(myCart == null) {
-            myCart = [];
-        }
-        myCart.push(itemId);
-        let myList = Array.from(new Set(myCart));
-        let lengthList = myList.length
-        localStorage.setItem('shoppingCart',JSON.stringify(myList))
-        localStorage.setItem('shoppingLength',lengthList)
+        .catch( function(error) {
+            console.log(error)
+        })
     }
 
 
     showModal = (e) => {
-        console.log(e.target)
         this.setState({ show: true, myTitle:e.target.textContent });
     };
     
@@ -110,11 +83,11 @@ class ProductSlider extends Component {
                     </div>
                 </div>
                 <div>
-                    <Modal show={this.state.show} handleClose={this.hideModal} title={this.state.myTitle} products={this.state.products} addToStorage={this.addToStorage} />
+                    <Modal show={this.state.show} handleClose={this.hideModal} title={this.state.myTitle} />
                 </div>
             </div>
         )
     }
 }
 
-export default ProductSlider;
+export default something;

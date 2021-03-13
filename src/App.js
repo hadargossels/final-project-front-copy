@@ -17,12 +17,16 @@ import { Switch, Route } from 'react-router-dom';
 import FinalForm from './Components/Checkout/FinalForm/FinalForm';
 import Confirmation from './Components/Confirmation/Confirmation';
 import BlogPost from './Components/BlogPost/BlogPost';
-import axios from 'axios';
+// import axios from 'axios';
 import {ProtectedRoute} from './protectedRoute';
 import LoginPage from './Components/LoginPage/LoginPage';
 import AccountProfile from './Components/AccountProfile/AccountProfile';
 import AdminMain from './Components/Dashboard/AdminMain';
 import AddProduct from './Components/AddProduct/AddProduct';
+import {db} from './firebase'
+import Currauth from './auth';
+import TrackOrder from './Components/TrackOrder/TrackOrder';
+
 
 class App extends Component {
   constructor(props) {
@@ -33,18 +37,22 @@ class App extends Component {
       fullName: null,
       phoneNum: null,
       email: null,
-      offers: "none",
+      offers: false,
       firstName: null,
       lastName: null,
       fullAd: null,
       zipCode: null,
       city: null,
+      country: null,
       notes: "none",
       payment: null,
       cardNum: null,
       security: null,
       expDate: null,
       delivery: null,
+      isSignedIn: false,
+      displayName: "user",
+      orderNum: null,
     }
   }
 
@@ -100,6 +108,11 @@ class App extends Component {
           city: val,
         })
         break;
+      case "country":
+        this.setState({
+          country: val,
+        })
+        break;
       case "notes":
         this.setState({
           notes: val,
@@ -142,9 +155,12 @@ class App extends Component {
     if (this.state.productList) {
       let products = [...this.state.productList];
 
-      axios.get('http://localhost:3000/products')
-      .then(function(response) {
-        response.data.forEach((product) => {
+      db.ref('products').on('value', (snapshot)=>{
+        let arr = [];
+        for (let obj in snapshot.val()) {
+          arr.push(snapshot.val()[obj])
+        }
+        arr.forEach((product) => {
           if(products.includes(product.ISBN10)) {
             console.log("finding price")
             sumPrice += Number(product.price);
@@ -152,26 +168,52 @@ class App extends Component {
           }
         })
       })
-      .catch( function(error) {
-          console.log(error)
-      })
-
-      // data.products.forEach((product) => {
-      //   if(products.includes(product.ISBN10)) {
-      //     sumPrice += product.price;
-      //   }
-      // })
-
     }
+  }
+
+  isUserSignedIn = (bool) => {
+    if(bool === true) {
+      console.log("signing in...")
+      Currauth.login(() => {
+        this.setState({
+          isSignedIn: true,
+        })
+      })
+    } else {
+      console.log("signing out now...")
+      Currauth.logout(() => {
+        this.setState({
+          isSignedIn: false,
+        })
+      })
+    }
+  }
+
+  curUserName = (name) => {
+    console.log(name)
+    this.setState({
+      displayName: name,
+    })
+  }
+
+  orderNum = (someHash) =>{
+    this.setState({
+      orderNum: someHash,
+    })
   }
 
   render () {
     return (
       <div className="bg-gray-800 globalFont">
-        <Header cartNum={this.state.productNum}/>
+        <Header cartNum={this.state.productNum} isSignedIn={this.state.isSignedIn} isUserSignedIn={this.isUserSignedIn} curUser={this.state.displayName}/>
           <Switch>
             <Route path="/" exact component={Homepage} />
-            <ProtectedRoute exact path="/signindone" component={LoginPage} />
+            <ProtectedRoute 
+              exact 
+              path="/signindone" 
+              component={LoginPage}
+              isUserSignedIn={this.isUserSignedIn}
+              curUserName={this.curUserName}/>
             <Route path="/catalogue/" render={(matchProps) => (<StoreFront {...matchProps} {...this.props} addToCart={this.addToCart} />)} />
             <Route path="/catalogue/new" render={(matchProps) => (<StoreFront {...matchProps} {...this.props} addToCart={this.addToCart} />)} />
             <Route path="/catalogue/specials" render={(matchProps) => (<StoreFront {...matchProps} {...this.props} addToCart={this.addToCart} />)} />
@@ -181,7 +223,7 @@ class App extends Component {
             <Route path="/about-us" component={AboutUs} />
             <Route path="/admin-dashboard" component={AdminMain} />
             <Route path="/blogpost/:postName" component={BlogPost} />
-            <Route path="/addproduct" component={AddProduct} />
+            <Route path="/addproduct" render={(matchProps) => (<AddProduct {...matchProps} {...this.props}/>)} />
             <Route path="/shoppingCart" render={(matchProps) => (
               <ShoppingCart {...matchProps} {...this.props} 
                 cartContent={this.state.productList} 
@@ -189,11 +231,14 @@ class App extends Component {
               />)}
             />
             <Route path="/blog" component={Blog} />
-            <ProtectedRoute exact path="/account/profile" component={AccountProfile} />
-            <Route path="/login" component={Login} />
-            <Route path="/sign-up" component={SignUp} />
+            <ProtectedRoute exact path="/account/profile" component={AccountProfile} isUserSignedIn={this.isUserSignedIn} curUserName={this.curUserName}/>
+            <Route path="/login" 
+            render={(matchProps) => (<Login {...matchProps} {...this.props} isUserSignedIn={this.isUserSignedIn} curUserName={this.curUserName} />)}
+             />
+            <Route path="/sign-up" component={SignUp} isUserSignedIn={this.isUserSignedIn}/>
             <Route path="/contact-us" component={ContactUs} />
-            <Route path="/confirmation" render={(matchProps) => (<Confirmation {...matchProps} {...this.props} addToCart={this.addToCart} />)} />
+            <Route path="/track-order" component={TrackOrder} />
+            <Route path="/confirmation" render={(matchProps) => (<Confirmation {...matchProps} {...this.props} addToCart={this.addToCart} orderNum={this.state.orderNum} />)} />
             <Route path="/checkout" render={(matchProps) => (<Checkout {...matchProps} {...this.props} addToOrder={this.addToOrder} />)} />
             <Route path="/finalstage" render={(matchProps) => (
               <FinalForm {...matchProps} {...this.props}
@@ -212,6 +257,8 @@ class App extends Component {
                 security={this.state.security}
                 expDate={this.state.expDate}
                 delivery={this.state.delivery}
+                country={this.state.country}
+                orderNum = {this.orderNum}
               />)} 
             />
           </Switch>

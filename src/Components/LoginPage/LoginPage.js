@@ -14,25 +14,30 @@ class LoginPage extends Component {
     }
 
     signOutFunc = async () => {
-        auth.signOut().catch((error) => {
+
+        auth.signOut()
+        .then(() => {
+            this.props.isUserSignedIn(false)
+        })
+        .catch((error) => {
             this.setState({
                 errorMessage: <h3 style={{ color: "red" }}>{error.message}</h3>
             })
         })
 
         localStorage.removeItem('currentUser');
+        localStorage.setItem('signIn', false)
         CurrAuth.logout(() => {
             this.props.history.push("/")
         })
     }
 
     render () {
-        console.log(auth.currentUser)
-        console.log(CurrAuth.isAuthenticated())
+        console.log(this.props.history)
         return(    
             <main className="LoginPage pt-64">
                 <div className="bg-gray-300 mx-auto w-1/3 text-center text-3xl shadow shadow-md border-4 rounded border-solid border-8 border-gray-400">
-                    <h1 className="text-6xl text-yellow-600 py-4 font-medium">Welcome {auth.currentUser.email}!</h1>
+                    <h1 className="text-6xl text-yellow-600 py-4 font-medium">Welcome guest!</h1>
                     <br/>
                     <button 
                         className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 hover:bg-yellow-100 hover:text-yellow-800 border border-yellow-800 mb-3 mt-3"

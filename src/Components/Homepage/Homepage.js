@@ -3,11 +3,10 @@ import './Homepage.css';
 import ProductSlider from './ProductSlider/ProductSlider';
 import HeaderSlider from './HeaderSlider/HeaderSlider';
 import { Link } from 'react-router-dom';
-import CurrAuth from '../../auth';
+
 
 class Homepage extends Component {
     render () {
-        console.log(CurrAuth.isAuthenticated())
         return(    
             <main className="othe pb-12">
                 <HeaderSlider />

@@ -3,6 +3,7 @@ import './FinalForm.css';
 import formatPrice from '../../utility/Price'
 import formatPrecent from '../../utility/Pecent'
 import { Link } from "react-router-dom";
+import {db} from '../../../firebase'
 
 class FinalForm extends Component {
     constructor() {
@@ -11,8 +12,79 @@ class FinalForm extends Component {
             taxRate: 5,
             totalProductsSum: localStorage.getItem('finalPrice'),
             coupon: ((localStorage.getItem('coupon')) ? "%15" : "None"),
+            products: [],
+            finalPrice: 0,
         }
     }
+
+    componentDidMount = () => {
+        let finalPrice;
+        let addOn = (this.state.totalProductsSum/100) * this.state.taxRate;
+        finalPrice = Number(this.state.totalProductsSum) + addOn;
+        if (this.state.coupon !== "None") {
+            let couponAdd = (finalPrice/100) * 15
+            finalPrice -= couponAdd;
+        }
+        if (this.props.delivery === 10) {
+            finalPrice += 10
+        } else if (this.props.delivery === 15) {
+            finalPrice += 15
+        } else {
+            finalPrice += 25
+        }
+
+        this.setState({
+            finalPrice: finalPrice,
+        })
+
+        let items = JSON.parse(localStorage.getItem('shoppingCart'))
+        db.ref('products').on('value', (snapshot)=>{
+            let arr = [];
+            for (let obj in snapshot.val()) {
+                if(items.includes(obj)) {
+                    arr.push(snapshot.val()[obj])
+                }
+            }
+            this.setState({
+                products: arr,
+            }, () => {console.log(this.state.products)})
+        })
+    }
+
+    addOrder = () => {
+        let fakeHash = Date.now();
+        this.props.orderNum(fakeHash)
+        let itemList = this.state.products
+        let thisDate = new Date();
+        let orderDetails = {
+            id: fakeHash,
+            items: itemList,
+            orderDate: thisDate,
+            payerName: this.props.fullName,
+            phoneNum: this.props.phoneNum,
+            email: this.props.email,
+            recieverName:`${this.props.firstName} ${this.props.lastName}`,
+            fullAd: this.props.fullAd,
+            zipCode: this.props.zipCode,
+            city: this.props.city,
+            country: "Israel",
+            notes: this.props.notes,
+            payment: this.props.payment,
+            delivery: this.props.delivery,
+            price: this.state.finalPrice,
+            status: "Processing"
+        }
+
+        db.ref('orders/' + fakeHash).set({
+            ...orderDetails
+        })
+        .then(() => {
+            this.props.history.push('/confirmation')
+        })
+        .catch((error) => {console.log(error)});
+    }
+
+
   render () {
 
     let offers;
@@ -46,20 +118,20 @@ class FinalForm extends Component {
         deliver = <p>Delivery Method: Special Delivery ($25)</p>
     }
 
-    let finalPrice;
-    let addOn = (this.state.totalProductsSum/100) * this.state.taxRate;
-    finalPrice = Number(this.state.totalProductsSum) + addOn;
-    if (this.state.coupon !== "None") {
-        let couponAdd = (finalPrice/100) * 15
-        finalPrice -= couponAdd;
-    }
-    if (this.props.delivery === 10) {
-        finalPrice += 10
-    } else if (this.props.delivery === 15) {
-        finalPrice += 15
-    } else {
-        finalPrice += 25
-    }
+    // let finalPrice;
+    // let addOn = (this.state.totalProductsSum/100) * this.state.taxRate;
+    // finalPrice = Number(this.state.totalProductsSum) + addOn;
+    // if (this.state.coupon !== "None") {
+    //     let couponAdd = (finalPrice/100) * 15
+    //     finalPrice -= couponAdd;
+    // }
+    // if (this.props.delivery === 10) {
+    //     finalPrice += 10
+    // } else if (this.props.delivery === 15) {
+    //     finalPrice += 15
+    // } else {
+    //     finalPrice += 25
+    // }
 
     let paymentMethod;
     if (this.props.payment === "cash") {
@@ -108,6 +180,8 @@ class FinalForm extends Component {
                 <span>City: {this.props.city}</span>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <span>Zip Code: {this.props.zipCode}</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <span>Country: {this.props.country}</span>
                 {notes}
             </div>
             <hr className="border-yellow-800 my-6"/>
@@ -128,15 +202,15 @@ class FinalForm extends Component {
                 <span>Coupon: {this.state.coupon}</span>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 {deliver}
-                <span>Total Pirce: {formatPrice(finalPrice)}</span>
+                <span>Total Pirce: {formatPrice(this.state.finalPrice)}</span>
             </div>
             <hr className="border-yellow-800 my-6"/>
             <div className="placeOrder text-right">
-                <Link to="/confirmation">
-                    <button className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 hover:bg-yellow-100 hover:text-yellow-800 border border-yellow-800">
+                {/* <Link to="/confirmation"> */}
+                    <button className="bg-yellow-800 text-yellow-100 rounded px-4 py-2 hover:bg-yellow-100 hover:text-yellow-800 border border-yellow-800" onClick={() => {this.addOrder()}}>
                         Place Order
                     </button>
-                </Link>
+                {/* </Link> */}
             </div>
         </div>
     </main>

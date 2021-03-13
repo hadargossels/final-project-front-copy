@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import './Header.css';
 import { Link } from "react-router-dom";
 import CartQuickView from './CartQuickView/CartQuickView';
-import axios from 'axios';
+// import axios from 'axios';
+import {db} from '../../firebase'
+// import CurrAuth from '../../auth';
 
 class Header extends Component{
     constructor(props) {
         super(props);
         this.state = {
             show: false,
-            productst: null
+            productst: null,
+            signedIn: false,
         };
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -27,16 +30,26 @@ class Header extends Component{
     };
 
     componentDidMount = () => {
-        let self = this;
-        axios.get('http://localhost:3000/products')
-        .then(function(response) { 
-            self.setState({
-                products: response.data
+
+        db.ref('products').on('value', (snapshot)=>{
+            let arr = [];
+            for (let obj in snapshot.val()) {
+              arr.push(snapshot.val()[obj])
+            }
+            this.setState({
+                products: arr,
             })
         })
-        .catch( function(error) {
-            console.log(error)
-        })
+
+        let signInAuth = localStorage.getItem('signIn')
+
+        console.log(typeof signInAuth)
+
+        if (signInAuth === "true") {
+            this.props.isUserSignedIn(true)
+        } else {
+            this.props.isUserSignedIn(false)
+        }
     }
 
    render(){
@@ -65,6 +78,32 @@ class Header extends Component{
         } else {
             productList = []
         }
+    }
+
+    let storageUserName = localStorage.getItem('userName')
+    let curUserName = this.props.curUser;
+    if(storageUserName && curUserName === "user") {
+        curUserName = storageUserName;
+    }
+
+    let someUser;
+    let userBtn;
+    if (this.props.isSignedIn === true) {
+        someUser = `hello ${curUserName}!`
+        userBtn = <Link to="/account/profile">
+            <i className="fas fa-user-check text-sm leading-xs text-white hover:opacity-75" /> 
+            <span className="ml-2 text-lg">
+                {someUser}
+            </span>
+        </Link>
+    } else {
+        someUser = "Sign In/Sign Up"
+        userBtn = <Link to="/login">
+            <i className="fas fa-user text-sm leading-xs text-white hover:opacity-75" /> 
+            <span className="ml-2 text-lg">
+                {someUser}
+            </span>
+        </Link>
     }
 
       return(
@@ -131,12 +170,7 @@ class Header extends Component{
                 <ul className="flex flex-col lg:flex-row list-none">
                 <li className="nav-item">
                     <span className="px-3 py-2 flex items-center text-sm uppercase leading-snug text-white hover:opacity-75">
-                        <Link to="/login">
-                            <i className="fas fa-user-check text-sm leading-xs text-white hover:opacity-75" /> 
-                            <span className="ml-2 text-lg">
-                                Sign In/Sign Up
-                            </span>
-                        </Link>
+                        {userBtn}
                     </span>
                 </li>
                 <li className="nav-item">

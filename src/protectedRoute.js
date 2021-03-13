@@ -1,12 +1,13 @@
 import React from 'react';
 import {Route, Redirect} from 'react-router-dom'
-import auth from './auth';
+import CurrAuth from './auth';
 
-export const ProtectedRoute = ({component: Component, ...rest}) => {
+export const ProtectedRoute = ({component: Component, isUserSignedIn , curUserName , ...rest}) => {
+    let isSigned = localStorage.getItem('signIn')
     return (
         <Route {...rest} render={(props) => {
-            if(auth.isAuthenticated()) {
-                return <Component {...props}/>
+            if(CurrAuth.isAuthenticated() || isSigned === "true") {
+                return <Component {...props} isUserSignedIn={isUserSignedIn} curUserName={curUserName}/>
             } else {
                 return <Redirect to={
                     {

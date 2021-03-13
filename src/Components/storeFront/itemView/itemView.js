@@ -3,7 +3,7 @@ import formatPrice from '../../utility/Price';
 import formatStars from '../../utility/Stars';
 import './itemView.css';
 import { Link } from 'react-router-dom';
-import {db} from '../../../firebase'
+// import {db} from '../../../firebase'
 
 class ItemView extends Component {
     constructor(props) {
@@ -14,17 +14,17 @@ class ItemView extends Component {
         }
     }
 
-    componentDidMount = () => {
-        db.ref('products').on('value', (snapshot)=>{
-            let arr = [];
-            for (let obj in snapshot.val()) {
-                arr.push(snapshot.val()[obj])
-            }
-            this.setState({
-                productsList: arr
-            }, () => {console.log(this.state.productsList)})
-        })
-    }
+    // componentDidMount = () => {
+    //     db.ref('products').on('value', (snapshot)=>{
+    //         let arr = [];
+    //         for (let obj in snapshot.val()) {
+    //             arr.push(snapshot.val()[obj])
+    //         }
+    //         this.setState({
+    //             productsList: arr
+    //         }, () => {console.log(this.state.productsList)})
+    //     })
+    // }
 
     addToStorage = (itemId) => {
         let myCart = JSON.parse(localStorage.getItem('shoppingCart'));
@@ -55,8 +55,8 @@ class ItemView extends Component {
         <div>
             {this.state.addCartMessage}
             <ul className="items">
-            {/* {this.props.products.map(product => ( */}
-                {this.state.productsList !== null && this.state.productsList.map(product => (
+            {this.props.products.map(product => (
+                // {this.state.productsList !== null && this.state.productsList.map(product => (
                     <li key={product._id}>
                         <div className="product rounded bg-gray-600">
                             <span>

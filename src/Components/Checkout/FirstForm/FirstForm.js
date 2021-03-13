@@ -25,6 +25,7 @@ class FirstForm extends Component {
             cardNum: null,
             security: null,
             expDate: null,
+            country: null,
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -118,13 +119,13 @@ class FirstForm extends Component {
             case "ads":
                 if (this.state.offers === "none") {
                     this.setState({
-                        offers: "yes"
+                        offers: true
                     },() => {
                         this.props.addToOrder("offers",this.state.offers)
                     })
                 } else {
                     this.setState({
-                        offers: "none"
+                        offers: false
                     },() => {
                         this.props.addToOrder("offers",this.state.offers)
                     })
@@ -245,6 +246,30 @@ class FirstForm extends Component {
                         city: event.target.value
                     },() => {
                         this.props.addToOrder("city",this.state.city)
+                    })
+                }
+                break;
+            case "country":
+                validation = /^[a-zA-Z\s]*$/;
+                exp = event.target.value
+                res = validation.test(exp)
+                if (!res) {
+                    event.target.style.border =  "5px solid red"
+                    this.setState({
+                        errorMessage: 
+                            <h1 className="text-3xl text-red-600 text-center pb-5 pt-5"> 
+                                Country names can only contain letters and spaces!
+                            </h1>
+                    })
+                    setTimeout(() => {
+                        event.target.style.border =  "0"; 
+                        this.setState({errorMessage:null})
+                    }, 10000);
+                } else {
+                    this.setState({
+                        country: event.target.value
+                    },() => {
+                        this.props.addToOrder("country",this.state.country)
                     })
                 }
                 break;
@@ -592,6 +617,15 @@ class FirstForm extends Component {
                             <input 
                                 type="text" 
                                 id="city" 
+                                className="w-32" 
+                                required 
+                                onBlur={(event) => {this.validateContent(event)}}
+                            />
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                            <label htmlFor="country">Country: </label>
+                            <input 
+                                type="text" 
+                                id="country" 
                                 className="w-32" 
                                 required 
                                 onBlur={(event) => {this.validateContent(event)}}

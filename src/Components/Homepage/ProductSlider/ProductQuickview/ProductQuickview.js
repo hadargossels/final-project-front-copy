@@ -2,18 +2,32 @@ import React from "react";
 import data from '../../../../data.json';
 import { Link } from 'react-router-dom';
 import formatPrice from '../../../utility/Price';
+import {db} from '../../../../firebase';
+import { useEffect } from 'react'
+import formatStars from '../../../utility/Stars'
 
-const Modal = ({ handleClose, show, title }) => {
+// let addToStorage = (itemId) => {
+//   let myCart = JSON.parse(localStorage.getItem('shoppingCart'));
+//   if(myCart == null) {
+//       myCart = [];
+//   }
+//   myCart.push(itemId);
+//   let myList = Array.from(new Set(myCart));
+//   let lengthList = myList.length
+//   localStorage.setItem('shoppingCart',JSON.stringify(myList))
+//   localStorage.setItem('shoppingLength',lengthList)
+// }
+
+const Modal = ({ handleClose, show, title, products }) => {
   const showHideClassName = show ? "modal modal-visible" : "modal-hidden";
   let obj;
   if(title != null) {
-    obj = data.products.filter(product => product.title === title)
+    obj = products.filter(product => product.title === title)
     obj = obj[0];
   } else {
     obj = data.products.filter(product => product.title === "Lorem ipsum dolor: sit amet consectetur")
     obj = obj[0];
   }
-
   return (
     <div className={showHideClassName}>
     <div className="justify-center items-center fixed inset-0 flex overflow-x-hidden overflow-y-auto z-50 outline-none focus:outline-none" onClick={handleClose}>
@@ -34,21 +48,28 @@ const Modal = ({ handleClose, show, title }) => {
         {/*body*/}
         <div className="relative p-6 flex-auto">
           <img src={obj.image} className="float-left pr-12" alt="" />
-          <p className="my-4 text-gray-600 text-lg leading-relaxed">
+          <p className="my-1 text-gray-600 text-xl leading-relaxed">
+            Author: {obj.author}
+            <br/>
+            Artist: {obj.artist}
+          </p>
+          <p className="my-1 text-yellow-400 text-xl leading-relaxed">
+            {formatStars(obj.stars)}
+          </p>
+          <p className="my-2 text-gray-600 text-lg leading-relaxed">
             {obj.description}
           </p>
-          <p className="text-xl">
+          <p className="text-3xl float-right">
             {formatPrice(obj.price)}
           </p>
           <p>
-          <button 
+          {/* <button 
             className="bg-yellow-100 text-yellow-600 background-transparent uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 rounded" 
             type="button" 
             style={{ transition: "all .15s ease" }} 
-            onClick={handleClose}
           >
             Buy now!
-          </button>
+          </button> */}
           </p>
         </div>
         {/*footer*/}

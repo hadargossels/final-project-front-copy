@@ -1,5 +1,15 @@
+// import firebase from 'firebase/app'
+import 'firebase/auth'
+
 class Auth {
     constructor() {
+        // firebase.auth().onAuthStateChanged(function(user) {
+        //     if (user) {
+        //         this.authenticated=true
+        //     } else {
+        //         this.authenticated=false
+        //     }
+        //   });
         this.authenticated = false;
     }
 
@@ -15,6 +25,7 @@ class Auth {
 
     isAuthenticated() {
         return this.authenticated;
+
     }
 }
 
