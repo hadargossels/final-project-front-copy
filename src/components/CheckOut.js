@@ -215,7 +215,7 @@ export default class CheckOut extends Component {
 
         if((mailInput.value.includes("@")) && (array.length==2)&&(array[1].includes("."))){
             array=array[1].split(".");
-            if(array.length==2)
+            if(array.length>=2)
                 mailMassege.style.display="none"
             else{
                 mailMassege.style.display="inline"

@@ -6,7 +6,6 @@ import Header from "./components/Header";
 import App from './App';
 import Product from './components/Product';
 import Catalog from './components/Catalog';
-import Courses from './components/Courses';
 import Recipes from './components/Recipes';
 import RecipeProduct from './components/RecipeProduct';
 import Contact from './components/Contact';
@@ -31,7 +30,6 @@ const router=(
       <Route exact path="/" component={App}/>
       <Route path="/Catalog/:ProductName" component={Product}/>
       <Route path="/Catalog" exact component={Catalog}/>
-      <Route path="/Courses" component={Courses}/>
       <Route path="/Recipes" exact component={Recipes}/>
       <Route path="/Recipes/:RecipeName" component={RecipeProduct}/>
       <Route path="/Contact" component={Contact}/>

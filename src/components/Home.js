@@ -4,7 +4,7 @@ import {NavLink } from 'react-router-dom';
 
 import './Home.css';
 import HomeElement from './HomeElement';
-import axios from 'axios'
+import {db} from '../firebase'
 
 let cakeArr=[]
 
@@ -34,11 +34,26 @@ export default class Home extends Component {
       componentDidMount() {
 
         window.addEventListener('resize', this.updateDimensions);
+        this.getDataFromFirebase()
+
+      }
+      
+      getDataFromFirebase(){
+        let myData = ""
         
-        axios.get("http://localhost:3000/products").then(
-            (response) => {cakeArr=response.data})
-        .then(() => {this.bestRatingProduct(); this.newestProducts()})
-        .catch(()=>{cakeArr= require("../dataBase/productsData.json")
+        db.on('value',async (snapshot)=>{
+          if(snapshot.val()!=null){
+  
+              myData = (snapshot.val())
+  
+          for (const [key, value] of Object.entries(myData)) {
+              myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
+            }
+            cakeArr = myData.products
+            
+            this.bestRatingProduct()
+            this.newestProducts()
+          } 
         })
       }
 

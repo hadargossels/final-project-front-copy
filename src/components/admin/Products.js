@@ -45,12 +45,12 @@ export const ProductEdit = props => (
             <TextInput source="alt" />
             <TextInput source="description" />
             <TextInput source="stars" />
-            <BooleanInput label="active" source="milk" />
-            <BooleanInput label="active" source="parve" />
-            <BooleanInput label="active" source="fruit" />
-            <BooleanInput label="active" source="shugerFree" />
+            <BooleanInput label="milk" source="milk" />
+            <BooleanInput label="parve" source="parve" />
+            <BooleanInput label="fruit" source="fruit" />
+            <BooleanInput label="shugerFree" source="shugerFree" />
             <BooleanInput label="glutenFree" source="glutenFree" />
-            <BooleanInput label="active" source="new" />
+            <BooleanInput label="new" source="new" />
             <BooleanInput label="active" source="active" />
             
             {/* <ReferenceInput label="role" source="role" reference="users">

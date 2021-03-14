@@ -198,12 +198,6 @@ class Header extends Component{
             Signup.style.display="none"
             welcome.style.display="block"
             
-
-            setTimeout(() => {
-               welcome.style.display="none"
-               login.style.display="block"
-            }, 4000);
-
            for(let i=1;i<6;i++){
               e[i].value=""
            }
@@ -372,9 +366,6 @@ class Header extends Component{
                   <NavLink to="/Catalog" className="nav-link" href="#" onClick={this.resetUrl,this.props.filterSearch}>המוצרים שלנו</NavLink>
                </li>
                <li className="nav-item ms-3">
-                  <NavLink to="/Courses" className="nav-link" href="#" onClick={this.resetUrl}>סדנאות</NavLink>
-               </li>
-               <li className="nav-item ms-3">
                   <NavLink to="/Recipes" className="nav-link" href="#" onClick={this.resetUrl}>מתכונים</NavLink>
                </li>
                <li className="nav-item ms-3">
@@ -393,17 +384,11 @@ class Header extends Component{
                      <span className="navbar-text" ><i className="fas fa-user userIcon" data-bs-toggle="modal" data-bs-target= "#userIcon" data-bs-whatever="@mdo"></i>
                         <span id="hello">שלום, {(Auth.getName()==="אורח")?Auth.getName():<span onClick={() => { Auth.setProtectPath(() => {this.props.history.push(`/${Auth.getRole()}`);},"account")}} style={{color:"rgb(8, 144, 255)",cursor:"pointer"}}>{Auth.getName()}</span> }</span>
                      </span>
-                    <NavLink to="/Cart"><span className="navbar-text" href="#" onClick={this.resetUrl}><i className="fas fa-shopping-cart"></i></span></NavLink>
+                    <NavLink to="/Cart" ><span className="navbar-text" href="#" onClick={this.resetUrl}><i className="fas fa-shopping-cart cartIcon"><p className="cartCounter">15</p></i></span></NavLink>
                   </li>
                </ul>
             </span>
            
-           
-                            
-                        
-            
-            
-            
          </div>
          </nav>
 

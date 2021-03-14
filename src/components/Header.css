@@ -44,3 +44,16 @@
     margin-left: auto; 
     margin-right: auto; 
 }
+.cartIcon{
+
+    position: relative;
+}
+.cartCounter{
+
+    position: absolute;
+    color: white;
+    font-size: 15px;
+    left: 50%;
+    top: 15%;
+    font-weight: bold;
+}

@@ -74,11 +74,16 @@ font-size: 15px;
 
 .stars2 {
     position: absolute;
-    left: 10px;
-    top: 5px;
+    left: 15px;
+    bottom: 35px;
     display: flex;
     flex-direction: row-reverse;
-    justify-content: center
+    justify-content: center;
+    background-color: white;
+    border: black solid 1px;
+    border-radius: 15px;
+    padding: 0px 10px;
+    
 }
 
 .rating>input {
@@ -113,106 +118,6 @@ font-size: 15px;
 }
 /* ///////////////////////////////////////// stars end /////////////////////////////////////////////*/
 
-.contFeedback{
-    padding: 20px 40px;
-    width: 1400px;
-}
-
-#addFeedback{
-
-    width: 100%;
-    height: 400px;
-    background-color: white;
-    border: red solid 1px;
-    border-radius: 10px;
-    position: relative;
-
-}
-
-#addFeedback img{
-
-    margin-top: 10px;
-    margin-right: 20px;
-    float: right;
-
-}
-
-#addFeedback .rating{
-
-    direction: rtl;
-    margin-left: 10px;
-    margin-top: 15px;
-}
-#addFeedback h3{
-
-    position: absolute;
-    top: 40px;
-    right: 120px;
-}
-
-#addFeedback textarea{
-
-    position: absolute;
-    left: 25px;
-    bottom: 100px;
-    resize: none;
-    padding: 10px;
-    font-size: 20px;
-    border: red solid 1px;
-    border-radius: 10px;
-    direction: rtl;
-    width: 90%;
-
-}
-
-/* ////////////////////////// btn send //////////////////////////////// */
-.centered {
-    position: absolute;
-    bottom: 15px;
-    left: 25px;
-    cursor: pointer;
-}
-
-.lgbtn {
-    border-radius: 10px;
-    padding: 15px 55px;
-    font-size: 18px;
-    margin: 10px;
-    text-decoration: none;
-    background-color: green;
-    color: #fff;
-    position: relative;
-    display: inline-block
-}
-
-.lgbtn:active {
-    transform: translate(0px, 5px);
-    -webkit-transform: translate(0px, 5px);
-    box-shadow: 0px 1px 0px 0px
-}
-
-.green {
-    background-color: green;
-    box-shadow: 3px 5px 5px #888888;
-    border-radius: 2px;
-    transition: all .5s ease-in-out
-}
-
-.green:hover {
-    background-color: rgb(50, 160, 68);
-    color: #fff;
-    padding: 20px 60px;
-    transform: scale(1.1)
-    
-}
-
-
-/*////////////////////////// btn send end //////////////////////////////// */
-
-
-#addFeedback a {
-    text-decoration: none !important
-}
 
 /*////////////////////////    popup    //////////////////////////////////////*/
 
@@ -272,6 +177,87 @@ font-size: 15px;
     border-radius: 10px;
     color: white;
 }
+
+/*//////////////////////   form    /////////////////////////////*/
+
+.formProduct{
+
+    max-width: 1200px;
+    margin: auto ;
+    min-height: 40vh;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.formRecipe{
+
+
+    flex: 100%;
+    direction: rtl;
+    background-color: rgb(227,226,222);
+    padding: 20px 10px;
+    border: solid 1.2px;
+
+
+}
+.formRecipe input{
+
+    font-size: 23px;
+    border-radius: 20px;
+    border: solid 1.2px;
+    min-width: 180px;
+}
+
+.formRecipe textarea {
+
+    font-size: 23px;
+    resize: none;
+    border-radius: 20px;
+    border: solid 1.2px;
+    min-width: 150px;
+    padding: 20px;
+ }
+ 
+ .vlidMassege{
+    font-size: 18px;
+}
+  
+.formProduct .topnav {
+    overflow: hidden;
+    position: relative;
+    
+  }
+  
+  .formProduct .topnav #myLinks {
+    display: none;
+  }
+  
+  .formProduct .topnav a {
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    display: block;
+    text-align: center;
+  }
+  
+  .formProduct .topnav a:hover {
+    background-color: rgb(238,76,125);
+    color: black;
+    cursor: pointer;
+  }
+  
+ .formProduct .active {
+    background-color: rgb(155,23,80);
+    color: white;
+  }
+  #bg h3 {
+
+    text-align: center;
+  }
+/*/////////////////////////       form end      ////////////////////////////////////*/
 
 @media (max-width: 1250px) {
     .img-size {

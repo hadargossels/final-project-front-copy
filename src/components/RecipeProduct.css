@@ -120,6 +120,7 @@
   .myContainerRecipesProduct .topnav a:hover {
     background-color: rgb(238,76,125);
     color: black;
+    cursor: pointer;
   }
   
  .myContainerRecipesProduct .active {
