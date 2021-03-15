@@ -118,6 +118,7 @@ const UserPanel  = props => (
             <TextField source="address" />
             <TextField source="city" />
             <TextField source="country" />
+            <TextField label="Zip Code" source="zipcode"/>
             <TextField source="role" />
             <MyActiveField source="active" />
         </SimpleShowLayout>
@@ -135,6 +136,7 @@ export const UserList = props => (
             <TextField source="address" />
             <TextField source="city" />
             <TextField source="country" />
+            <TextField label="Zip Code" source="zipcode"/>
             <TextField source="role" />
             <MyActiveField source="active" />
             <EditButton />
@@ -153,6 +155,7 @@ export const UserEdit = props => (
             <TextInput source="address" validate={[required()]} />
             <TextInput source="city" validate={[required()]} />
             <TextInput source="country" validate={[required()]} />
+            <TextInput label="Zip Code" source="zipcode" validate={[required()]} />
             <SelectInput source="role" validate={[required()]} choices={[
                 { id: 'Administrator', name: 'Administrator' },
                 { id: 'Customer', name: 'Customer' },
@@ -173,6 +176,7 @@ export const UserCreate = props => (
             <TextInput source="address" validate={[required()]} />
             <TextInput source="city" validate={[required()]} />
             <TextInput source="country" validate={[required()]} />
+            <TextInput label="Zip Code" source="zipcode" validate={[required()]} />
             <SelectInput source="role" defaultValue={'Customer'} validate={[required()]} choices={[
                 { id: 'Administrator', name: 'Administrator' },
                 { id: 'Customer', name: 'Customer' },

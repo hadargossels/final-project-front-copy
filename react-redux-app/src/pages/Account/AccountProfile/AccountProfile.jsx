@@ -84,6 +84,17 @@ export default class App extends Component {
             flag = false;
         }
 
+        if (/^[0-9]+$/.test(form[7].value) && form[7].value.length === "7") {
+
+            document.querySelector("#formZipCode").style.display = "none";
+        }
+        
+        else {
+
+            document.querySelector("#formZipCode").style.display = "block";
+            flag = false;
+        }
+
         if (flag) {
 
             const user = {
@@ -97,7 +108,8 @@ export default class App extends Component {
                 "mobile": form[3].value,
                 "address": form[4].value,
                 "city": form[5].value,
-                "country": form[6].value
+                "country": form[6].value,
+                "zipcode": form[7].value
             });
 
             await this.setState({ user });
@@ -194,6 +206,16 @@ export default class App extends Component {
                                     <div className="col-sm-9 text-secondary">
                                     <input type="text" className="form-control" defaultValue={this.state.user.country} style={{textAlign: "center", width: "30%", margin: "0 auto", fontSize: "large"}} required/>
                                     <p className="text-danger" id="formCountry" style={{display: "none"}}>English alphabet and -' only</p>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div className="row">
+                                    <div className="col-sm-3">
+                                    <h5 className="mb-0">Zip Code</h5>
+                                    </div>
+                                    <div className="col-sm-9 text-secondary">
+                                    <input type="text" className="form-control" defaultValue={this.state.user.zipcode} style={{textAlign: "center", width: "30%", margin: "0 auto", fontSize: "large"}} required/>
+                                    <p className="text-danger" id="formZipCode" style={{display: "none"}}>Please enter a valid zip code</p>
                                     </div>
                                 </div>
                                 <hr/>

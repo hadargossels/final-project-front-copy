@@ -52,6 +52,7 @@ function SignInUp(props) {
                     "mobile": "",
                     "city": "",
                     "country": "",
+                    "zipcode": "",
                     "role": "Customer"
                 });
 
@@ -83,6 +84,7 @@ function SignInUp(props) {
                     "mobile": "",
                     "city": "",
                     "country": "",
+                    "zipcode": "",
                     "role": "Customer"
                 });
 

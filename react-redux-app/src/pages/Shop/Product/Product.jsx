@@ -140,9 +140,9 @@ class Product extends Component {
                      <br/><br/>
                      {this.state.addNotify}
                      &emsp;
-                     <button type="button" className="btn btn-outline-warning">
+                     {/* <button type="button" className="btn btn-outline-warning">
                         <span style={{fontSize: "1.25rem", fontWeight: "300"}}>Add to <i className="fas fa-star"></i></span>
-                     </button>
+                     </button> */}
                   </div>
    
                </div>
