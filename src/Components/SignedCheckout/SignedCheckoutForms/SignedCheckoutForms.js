@@ -1,31 +1,31 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import './FirstForm.css';
+import './SignedCheckoutForms.css';
 
-class FirstForm extends Component {
+class SignedCheckoutForms extends Component {
     constructor(props) {
         super(props);
-        this.formRed = React.createRef();
+        this.formRef = React.createRef();
         this.state = {
             val: null,
             input: null,
             page: 1,
             errorMessage: null,
-            fullName: null,
-            phoneNum: null,
-            email: null,
+            fullName: this.props.curUser.lastName === "none" ? null : `${this.props.curUser.firstName} ${this.props.curUser.lastName}`,
+            phoneNum: this.props.curUser.phoneNum === "none" ? null : this.props.curUser.phoneNum,
+            email: this.props.curUser.email,
             offers: "none",
-            firstName: null,
-            lastName: null,
-            fullAd: null,
+            firstName: this.props.curUser.firstName,
+            lastName: this.props.curUser.lastName === "none" ? null : this.props.curUser.lastName,
+            fullAd: this.props.curUser.address === "none" ? null : this.props.curUser.address,
             zipCode: null,
-            city: null,
+            city: this.props.curUser.city === "none" ? null : this.props.curUser.city,
+            country: this.props.curUser.country === "none" ? null : this.props.curUser.country,
             notes: "none",
             payment: null,
             cardNum: null,
             security: null,
             expDate: null,
-            country: null,
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -386,14 +386,75 @@ class FirstForm extends Component {
             case 2:
                 this.setState({page:3})
                 break;
-            case 3:
-                this.setState({page:4})
-                break;
             default:
                 this.setState({page:1})
                 break;
         }
         
+    }
+
+    clearState = (event) => {
+        let inputId = event.target.id;
+        switch(inputId) {
+            case "fullName":
+                let fullName = `${this.props.curUser.firstName} ${this.props.curUser.lastName}`
+                if(this.state.fullName === fullName) {
+                    this.setState({
+                        fullName: null,
+                    })
+                }
+            case "phoneNum":
+                if(this.state.phoneNum === this.props.curUser.phoneNum) {
+                    this.setState({
+                        phoneNum: null,
+                    })
+                }
+                break;
+            case "email":
+                if(this.state.email === this.props.curUser.email) {
+                    this.setState({
+                        email: null,
+                    })
+                }
+                break;
+            case "firstName":
+                if(this.state.firstName === this.props.curUser.firstName) {
+                    this.setState({
+                        firstName: null,
+                    })
+                }
+                break;
+            case "lastName":
+                if(this.state.lastName === this.props.curUser.lastName) {
+                    this.setState({
+                        lastName: null,
+                    })
+                }
+                break;
+            case "fullAddress":
+                if(this.state.fullAd === this.props.curUser.address) {
+                    this.setState({
+                        fullAd: null,
+                    })
+                }
+                break;
+            case "city":
+                if(this.state.city === this.props.curUser.city) {
+                    this.setState({
+                        city: null,
+                    })
+                }
+                break;
+            case "country":
+                if(this.state.country === this.props.curUser.country) {
+                    this.setState({
+                        country: null,
+                    })
+                }
+                break;
+            default: 
+                break;
+        }
     }
 
   render () {
@@ -440,7 +501,7 @@ class FirstForm extends Component {
     }
 
     let basicsBtn;
-    if (this.state.fullName !== null && this.state.phoneNum !== null && this.state.email !== null) {
+    if (this.state.fullName !== null && this.state.fullName !== "" && this.state.phoneNum !== null && this.state.phoneNum !== "" && this.state.email !== null && this.state.email !== "") {
         basicsBtn = 
             <input 
                 type="submit" 
@@ -458,7 +519,7 @@ class FirstForm extends Component {
     }
 
     let addressBtn;
-    if (this.state.firstName !== null && this.state.lastName !== null && this.state.fullAd !== null && this.state.zipCode !== null && this.state.city !== null) {
+    if (this.state.firstName !== null && this.state.firstName !== "" && this.state.lastName !== null && this.state.lastName !== "" && this.state.fullAd !== null && this.state.fullAd !== "" && this.state.zipCode !== null && this.state.city !== null && this.state.city !== "" && this.state.country !== null && this.state.country !== "") {
         addressBtn = 
             <input 
                 type="submit" 
@@ -518,10 +579,10 @@ class FirstForm extends Component {
 
     let page;
     switch(this.state.page) {
-        case 2:
+        default:
             page = (
                 <div className="basics bg-gray-300 rounded mx-48 my-48 text-3xl border-solid border-8 border-gray-400">
-                    <h1 className="text-5xl text-yellow-600 py-4 font-bold">Personal Details</h1>
+                    <h1 className="text-5xl text-yellow-600 py-4 font-bold">Payer Details</h1>
                     {this.state.errorMessage}
                     <form onSubmit={this.handleSubmit} className="mb-6">
                         <div className="mb-2">
@@ -529,7 +590,8 @@ class FirstForm extends Component {
                             <input 
                                 type="text" 
                                 id="fullName" 
-                                required 
+                                placeholder={this.state.fullName}
+                                onClick={(event) => {this.clearState(event)}}
                                 onBlur={(event) => {this.validateContent(event)}}
                             />
                         </div>
@@ -538,10 +600,10 @@ class FirstForm extends Component {
                             <input 
                                 type="tel" 
                                 id="phoneNum" 
-                                placeholder="XXX-XXXXXXX" 
+                                placeholder={this.state.phoneNum} 
                                 pattern="[0-9]{2,3}-[0-9]{7}" 
-                                required 
                                 className="pl-2" 
+                                onClick={(event) => {this.clearState(event)}}
                                 onBlur={(event) => {this.validateContent(event)}}
                             />
                         </div>
@@ -550,7 +612,7 @@ class FirstForm extends Component {
                             <input 
                                 type="email" 
                                 id="email" 
-                                required 
+                                placeholder={this.state.email}
                                 onBlur={(event) => {this.validateContent(event)}}
                             />
                         </div>
@@ -568,7 +630,7 @@ class FirstForm extends Component {
                 </div>
             )
             break;
-        case 3:
+        case 2:
             page = (
                 <div className="deliveryDetails bg-gray-300 rounded mx-48 my-48 text-3xl border-solid border-8 border-gray-400">
                     <h1 className="text-5xl text-yellow-600 py-4 font-bold">Delivery Details</h1>
@@ -580,8 +642,9 @@ class FirstForm extends Component {
                                 type="text" 
                                 id="firstName" 
                                 className="w-44" 
-                                defaultValue="" 
-                                required onBlur={(event) => {this.validateContent(event)}}
+                                placeholder={this.state.firstName}
+                                onClick={(event) => {this.clearState(event)}}
+                                onBlur={(event) => {this.validateContent(event)}}
                             />
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <label htmlFor="lastName">Last Name: </label>
@@ -589,7 +652,8 @@ class FirstForm extends Component {
                                 type="text" 
                                 id="lastName" 
                                 className="w-44" 
-                                required 
+                                placeholder={this.state.lastName}
+                                onClick={(event) => {this.clearState(event)}}
                                 onBlur={(event) => {this.validateContent(event)}}
                             />
                         </div>
@@ -599,7 +663,8 @@ class FirstForm extends Component {
                                 type="text" 
                                 id="fullAddress" 
                                 className="w-96" 
-                                required 
+                                placeholder={this.state.fullAd}
+                                onClick={(event) => {this.clearState(event)}}
                                 onBlur={(event) => {this.validateContent(event)}}
                             />
                         </div>
@@ -618,16 +683,18 @@ class FirstForm extends Component {
                                 type="text" 
                                 id="city" 
                                 className="w-32" 
-                                required 
+                                placeholder={this.state.city}
+                                onClick={(event) => {this.clearState(event)}}
                                 onBlur={(event) => {this.validateContent(event)}}
                             />
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;
                             <label htmlFor="country">Country: </label>
                             <input 
                                 type="text" 
                                 id="country" 
                                 className="w-32" 
-                                required 
+                                placeholder={this.state.country}
+                                onClick={(event) => {this.clearState(event)}}
                                 onBlur={(event) => {this.validateContent(event)}}
                             />
                         </div>
@@ -645,7 +712,7 @@ class FirstForm extends Component {
                 </div>
             )
             break;
-        case 4:
+        case 3:
             page = (
                 <div className="paymentDetails bg-gray-300 rounded mx-48 my-48 text-3xl border-solid border-8 border-gray-400">
                     <h1 className="text-5xl text-yellow-600 py-4 font-bold">Payment</h1>
@@ -689,25 +756,6 @@ class FirstForm extends Component {
                 </div>
             )
             break;
-        default:
-            page = (
-                <div className="signIn bg-gray-300 rounded mx-48 my-48 text-3xl border-solid border-8 border-gray-400">
-                    <h1 className="text-5xl text-yellow-600 py-4 font-bold">Member?</h1>
-                    <Link to="/login">
-                        <button className="shadow-lg mb-4 bg-yellow-100 rounded px-4 py-2 hover:shadow-none text-yellow-800">
-                            Sign In!
-                        </button>
-                    </Link>
-                    <h1 className="text-4xl mt-2 mb-4 font-medium text-yellow-700">Not a memebr?</h1>
-                    <button 
-                        className="shadow-lg mb-4 bg-yellow-100 rounded px-4 py-2 hover:shadow-none text-yellow-800" 
-                        onClick={() => {this.changePageForward()}}
-                    >
-                        Procceed as a Guest
-                    </button>
-                </div> 
-            )
-            break;
     }
 
     return (
@@ -718,4 +766,4 @@ class FirstForm extends Component {
   }
 }
 
-export default FirstForm;
+export default SignedCheckoutForms;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Blog.css';
-// import blogposts from '../../blogposts.json'
+import blogposts from '../../blogposts.json'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -8,24 +8,24 @@ class Blog extends Component {
     constructor(){
         super();
         this.state = {
-            // posts: blogposts.posts,
-            posts: null,
+            posts: blogposts.posts,
+            // posts: null,
         }
     }
 
-    componentDidMount = () => {
-        let self = this
+    // componentDidMount = () => {
+    //     let self = this
 
-        axios.get('http://localhost:3000/posts')
-        .then(function(response) {
-            self.setState({
-                posts: response.data,
-            })
-        })
-        .catch( function(error) {
-            console.log(error)
-        })
-    }
+    //     axios.get('http://localhost:3000/posts')
+    //     .then(function(response) {
+    //         self.setState({
+    //             posts: response.data,
+    //         })
+    //     })
+    //     .catch( function(error) {
+    //         console.log(error)
+    //     })
+    // }
 
     render () {
         return(    

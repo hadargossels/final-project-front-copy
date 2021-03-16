@@ -1,0 +1,14 @@
+.SignedCheckout {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 86.4vh;
+}
+
+.forms {
+    flex: 3 60rem;
+    align-items: baseline;
+}
+
+.checkoutDetails {
+    flex: 1 20rem;
+}

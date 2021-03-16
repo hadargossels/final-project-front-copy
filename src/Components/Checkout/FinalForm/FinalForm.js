@@ -67,7 +67,7 @@ class FinalForm extends Component {
             fullAd: this.props.fullAd,
             zipCode: this.props.zipCode,
             city: this.props.city,
-            country: "Israel",
+            country: this.props.country,
             notes: this.props.notes,
             payment: this.props.payment,
             delivery: this.props.delivery,

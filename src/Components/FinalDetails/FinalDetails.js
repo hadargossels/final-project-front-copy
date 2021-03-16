@@ -10,8 +10,8 @@ class FinalDetails extends Component {
             taxRate: 5,
             totalProductsSum: localStorage.getItem('finalPrice'),
             totalPrice: 0,
-            coupon: ((localStorage.getItem('coupon')) ? "15%" : "None"),
-            delivery: "none",
+            coupon: ((localStorage.getItem('coupon')==="15") ? "15%" : " None"),
+            delivery: " None",
             priceWithDelivery: 0,
         }
     }
@@ -20,7 +20,7 @@ class FinalDetails extends Component {
         let addOn = (this.state.totalProductsSum/100) * this.state.taxRate;
         let finalPrice = Number(this.state.totalProductsSum) + addOn;
         console.log(this.state.coupon)
-        if (this.state.coupon !== "None") {
+        if (this.state.coupon !== " None") {
             let couponAdd = (finalPrice/100) * 15
             finalPrice -= couponAdd;
         }

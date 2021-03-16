@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './BlogPost.css';
-// import blogposts from '../../blogposts.json'
+import blogposts from '../../blogposts.json'
 import axios from 'axios';
 
 class BlogPost extends Component {
@@ -20,39 +20,39 @@ class BlogPost extends Component {
     componentDidMount = () => {
         let MyPost = this.props.match.params.postName;
 
-        let self = this
+        // let self = this
 
-        axios.get('http://localhost:3000/posts')
-        .then(function(response) {
-            let myPosts = response.data.filter(post => post.postName === MyPost)
-            let mainPost = myPosts[0]
-            let postComments = mainPost.comments
-            self.setState({
-                post: mainPost,
-                comments: postComments,
-                content: mainPost.content,
-                title: mainPost.title,
-                date: mainPost.date,
-                postImage: mainPost.postImage,
-                video: mainPost.video,
-            })
-        })
-        .catch( function(error) {
-            console.log(error)
-        })
-
-        // let myPosts = blogposts.posts.filter(post => post.postName === MyPost)
-        // let mainPost = myPosts[0]
-        // let postComments = mainPost.comments
-        // this.setState({
-        //     post: mainPost,
-        //     comments: postComments,
-        //     content: mainPost.content,
-        //     title: mainPost.title,
-        //     date: mainPost.date,
-        //     postImage: mainPost.postImage,
-        //     video: mainPost.video,
+        // axios.get('http://localhost:3000/posts')
+        // .then(function(response) {
+        //     let myPosts = response.data.filter(post => post.postName === MyPost)
+        //     let mainPost = myPosts[0]
+        //     let postComments = mainPost.comments
+        //     self.setState({
+        //         post: mainPost,
+        //         comments: postComments,
+        //         content: mainPost.content,
+        //         title: mainPost.title,
+        //         date: mainPost.date,
+        //         postImage: mainPost.postImage,
+        //         video: mainPost.video,
+        //     })
         // })
+        // .catch( function(error) {
+        //     console.log(error)
+        // })
+
+        let myPosts = blogposts.posts.filter(post => post.postName === MyPost)
+        let mainPost = myPosts[0]
+        let postComments = mainPost.comments
+        this.setState({
+            post: mainPost,
+            comments: postComments,
+            content: mainPost.content,
+            title: mainPost.title,
+            date: mainPost.date,
+            postImage: mainPost.postImage,
+            video: mainPost.video,
+        })
     }
 
     render () {

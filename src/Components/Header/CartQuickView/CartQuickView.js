@@ -110,7 +110,7 @@ const CartQuickView = ({ handleClose, show, productList, itemNum, itemSum }) => 
           </Link>
         </div>
         <div className="flex items-center justify-end px-5 pb-5 rounded-b">        
-            <Link to="/checkout">
+            <Link to="/signedInCheckout">
             <button 
               className="bg-yellow-800 text-yellow-100 uppercase text-lg px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" 
               type="button" 

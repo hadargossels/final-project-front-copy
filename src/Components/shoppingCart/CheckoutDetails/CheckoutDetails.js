@@ -126,7 +126,7 @@ class CheckoutDetails extends Component {
                 </p>
                 <hr className="mx-6 border-yellow-800"/>
                 <p className="pl-3">
-                    <Link to="/checkout">
+                    <Link to="/signedInCheckout">
                         <button className="bg-yellow-800 border border-yellow-800 hover:bg-yellow-100 hover:text-yellow-800 text-white active:bg-yellow-800 uppercase text-2xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-2 mt-2">
                             Checkout
                         </button>

@@ -19,6 +19,7 @@ import Confirmation from './Components/Confirmation/Confirmation';
 import BlogPost from './Components/BlogPost/BlogPost';
 // import axios from 'axios';
 import {ProtectedRoute} from './protectedRoute';
+import {ProtectedCCheckoutRoute} from './protectedCheckoutRoute'
 import LoginPage from './Components/LoginPage/LoginPage';
 import AccountProfile from './Components/AccountProfile/AccountProfile';
 import AdminMain from './Components/Dashboard/AdminMain';
@@ -26,6 +27,7 @@ import AddProduct from './Components/AddProduct/AddProduct';
 import {db} from './firebase'
 import Currauth from './auth';
 import TrackOrder from './Components/TrackOrder/TrackOrder';
+import SignedCheckout from './Components/SignedCheckout/SignedCheckout';
 
 
 class App extends Component {
@@ -214,6 +216,12 @@ class App extends Component {
               component={LoginPage}
               isUserSignedIn={this.isUserSignedIn}
               curUserName={this.curUserName}/>
+            <ProtectedCCheckoutRoute
+              exact 
+              path="/signedInCheckout" 
+              component={SignedCheckout}
+              isUserSignedIn={this.isUserSignedIn}
+              addToOrder={this.addToOrder}/>
             <Route path="/catalogue/" render={(matchProps) => (<StoreFront {...matchProps} {...this.props} addToCart={this.addToCart} />)} />
             <Route path="/catalogue/new" render={(matchProps) => (<StoreFront {...matchProps} {...this.props} addToCart={this.addToCart} />)} />
             <Route path="/catalogue/specials" render={(matchProps) => (<StoreFront {...matchProps} {...this.props} addToCart={this.addToCart} />)} />
@@ -224,24 +232,27 @@ class App extends Component {
             <Route path="/admin-dashboard" component={AdminMain} />
             <Route path="/blogpost/:postName" component={BlogPost} />
             <Route path="/addproduct" render={(matchProps) => (<AddProduct {...matchProps} {...this.props}/>)} />
-            <Route path="/shoppingCart" render={(matchProps) => (
-              <ShoppingCart {...matchProps} {...this.props} 
-                cartContent={this.state.productList} 
-                addToCart={this.addToCart} 
+            <Route path="/shoppingCart" 
+              render={(matchProps) => (<ShoppingCart {...matchProps} {...this.props} 
+              cartContent={this.state.productList} 
+              addToCart={this.addToCart} 
               />)}
             />
             <Route path="/blog" component={Blog} />
             <ProtectedRoute exact path="/account/profile" component={AccountProfile} isUserSignedIn={this.isUserSignedIn} curUserName={this.curUserName}/>
             <Route path="/login" 
-            render={(matchProps) => (<Login {...matchProps} {...this.props} isUserSignedIn={this.isUserSignedIn} curUserName={this.curUserName} />)}
-             />
+              render={(matchProps) => (<Login {...matchProps} {...this.props} 
+                isUserSignedIn={this.isUserSignedIn} 
+                curUserName={this.curUserName} 
+                />)}
+            />
             <Route path="/sign-up" component={SignUp} isUserSignedIn={this.isUserSignedIn}/>
             <Route path="/contact-us" component={ContactUs} />
             <Route path="/track-order" component={TrackOrder} />
             <Route path="/confirmation" render={(matchProps) => (<Confirmation {...matchProps} {...this.props} addToCart={this.addToCart} orderNum={this.state.orderNum} />)} />
             <Route path="/checkout" render={(matchProps) => (<Checkout {...matchProps} {...this.props} addToOrder={this.addToOrder} />)} />
-            <Route path="/finalstage" render={(matchProps) => (
-              <FinalForm {...matchProps} {...this.props}
+            <Route path="/finalstage" 
+              render={(matchProps) => (<FinalForm {...matchProps} {...this.props}
                 fullName={this.state.fullName} 
                 phoneNum={this.state.phoneNum}
                 email={this.state.email}
