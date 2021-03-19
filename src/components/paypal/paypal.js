@@ -41,7 +41,7 @@ export default function PayPal(props) {
           });
 
           localStorage.setItem("Order", "correct");
-          alert("Payment ha");
+          alert(" the Payment Complete Successfully ");
 
           props.makeOrderTrue(order.id);
         },
