@@ -170,11 +170,11 @@ export default class Catalog extends Component {
                         <div className="container-fluid">
                             <form className="d-flex">
                             
-                            <input id="search"  ref={this.searchRef} onChange={this.updateStateSearch} className="form-control me-2" type="search" placeholder="Search items" aria-label="Search"/>
+                            <input id="search"  ref={this.searchRef} onChange={this.updateStateSearch} className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
                             </form>
                         </div>
                         <br/>
-                        <div className="container" onChange={this.updateState}>
+                        <div className="container-sm" onChange={this.updateState}>
                             <div className="row">
                             <div className="form-check col-6">
                             <input className="form-check-input" ref={this.typeRef1} type="checkbox" value="all" id="flexCheckDefault"/>
@@ -205,92 +205,92 @@ export default class Catalog extends Component {
                         <br/>
 
                         <h4 className="text-center"><b>price</b></h4>
-                        <div className="container" onChange={this.updateState}>
+                        <div className="container-sm" onChange={this.updateState}>
                             <div className="row">
-                                <div className="form-check col-10">
+                                <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="10" ref={this.price0} id="flexCheckDefault"/>
-                                <label className="form-check-label" htmlFor="flexCheckDefault">
+                                <label className="form-check-label  mb-2" htmlFor="flexCheckDefault">
                                     under $10
                                 </label>
                                 </div>
-                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.price<10}).length}</p>
-                                <div className="form-check col-10">
+                                <div className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.price<10}).length}</div>
+                                <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="20" ref={this.price1} id="flexCheckChecked"/>
-                                <label className="form-check-label" htmlFor="flexCheckChecked">
+                                <label className="form-check-label  mb-2" htmlFor="flexCheckChecked">
                                     $10 to $20
                                 </label>
                                 </div>
-                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.price>=10 && obj.price<20}).length}</p>
-                                <div className="form-check col-10">
+                                <div className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.price>=10 && obj.price<20}).length}</div>
+                                <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="30" ref={this.price2} id="flexCheckChecked"/>
-                                <label className="form-check-label" htmlFor="flexCheckChecked">
+                                <label className="form-check-label  mb-2" htmlFor="flexCheckChecked">
                                     $20 to $30
                                 </label>
                                 </div>
-                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.price>=20 && obj.price<30}).length}</p>
-                                <div className="form-check col-10">
+                                <div className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.price>=20 && obj.price<30}).length}</div>
+                                <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="50" ref={this.price3} id="flexCheckChecked"/>
-                                <label className="form-check-label" htmlFor="flexCheckChecked">
+                                <label className="form-check-label mb-2" htmlFor="flexCheckChecked">
                                     $30 to $50
                                 </label>
                                 </div>
-                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.price>=30 && obj.price<50}).length}</p>
-                                <div className="form-check col-10">
+                                <div className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.price>=30 && obj.price<50}).length}</div>
+                                <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="100" ref={this.price4} id="flexCheckChecked"/>
-                                <label className="form-check-label" htmlFor="flexCheckChecked">
+                                <label className="form-check-label  mb-2" htmlFor="flexCheckChecked">
                                     $50 to $100
                                 </label>
                                 </div>
-                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.price>=50 && obj.price<100}).length}</p>
-                                <div className="form-check col-10">
+                                <div className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.price>=50 && obj.price<100}).length}</div>
+                                <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="1000" ref={this.price5} id="flexCheckChecked"/>
-                                <label className="form-check-label" htmlFor="flexCheckChecked">
+                                <label className="form-check-label  mb-2" htmlFor="flexCheckChecked">
                                      $100 &#38; above
                                 </label>
                                 </div>
-                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.price>=100}).length}</p>
+                                <div className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.price>=100}).length}</div>
                                 </div>
                         </div>
                         <br/>
                         <h4 className="text-center"><b>Avg. customer review</b></h4>
-                        <div className="container" onChange={this.updateState}>
+                        <div className="container-sm" onChange={this.updateState}>
                             <div className="row">
-                                <div className="form-check col-10">
+                                <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="1" ref={this.rate0} id="flexCheckDefault"/>
                                 <label className="form-check-label" htmlFor="flexCheckDefault">
                                 <span className="stars">★★★★</span><span className="starsNot">★</span> &#38; up
                                 </label>
                                 </div>
-                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.rating>=4}).length}</p>
+                                <p className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.rating>=4}).length}</p>
 
-                                <div className="form-check col-10">
+                                <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="2" ref={this.rate1} id="flexCheckChecked"/>
                                 <label className="form-check-label" htmlFor="flexCheckChecked">
                                     <span className="stars">★★★</span><span className="starsNot">★★</span> &#38; up
                                 </label>
                                 </div>
-                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.rating>=3}).length}</p>
-                                <div className="form-check col-10">
+                                <p className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.rating>=3}).length}</p>
+                                <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="3" ref={this.rate2} id="flexCheckChecked"/>
                                 <label className="form-check-label" htmlFor="flexCheckChecked">
                                 <span className="stars">★★</span><span className="starsNot">★★★</span> &#38; up
                                 </label>
                                 </div>
-                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.rating>=2}).length}</p>
-                                <div className="form-check col-10">
+                                <p className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.rating>=2}).length}</p>
+                                <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="4" ref={this.rate3} id="flexCheckChecked"/>
                                 <label className="form-check-label" htmlFor="flexCheckChecked">
                                 <span className="stars">★</span><span className="starsNot">★★★★</span> &#38; up
                                 </label>
                                 </div>
-                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.rating>=1}).length}</p>
-                                <div className="form-check col-10">
+                                <p className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.rating>=1}).length}</p>
+                                <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="5" ref={this.rate4} id="flexCheckChecked"/>
                                 <label className="form-check-label" htmlFor="flexCheckChecked">
                                 <span className="stars"></span><span className="starsNot">★★★★★</span> &#38; up
                                 </label>
                                 </div>
-                                <p className="col-2 text-end">{this.state.allProducts.filter((obj)=>{return obj.rating>=0}).length}</p>
+                                <p className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.rating>=0}).length}</p>
                                 </div>
                         </div>
                     

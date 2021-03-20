@@ -66,8 +66,6 @@
   #checkoutBtn{
     background-color: black;
     border-radius: 10px;
-    width:200px;
-    height:50px;
     font-size: 15px;
 }
   #checkoutBtn:hover{
@@ -81,8 +79,4 @@
   }
 #couponBtn:hover{
   background-color:white
-}
-
-#couponTxt{
-  margin-left:42px;
 }

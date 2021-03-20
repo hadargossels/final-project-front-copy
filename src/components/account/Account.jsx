@@ -85,7 +85,7 @@ export default function Account(props) {
                             <p>{currentUser && (currentUser.metadata.creationTime|| userNow.date)}</p>
                             <hr/>
                             <label htmlFor="img">Select image:</label>
-                            <input type="file" id="img" name="img" accept="image/*"/>
+                            {/* <input type="file" id="img" name="img" accept="image/*"/> */}
                             <button className="btn btn-warning d-block mx-auto">UPLOAD PICTURE</button>
                     </div>
 
@@ -100,7 +100,7 @@ export default function Account(props) {
                         <div className="col">
                         <div className="mb-3">
                             <label htmlFor="firstName" className="form-label">First name</label>
-                            <input type="text" className="form-control" id="firstName" onChange={(event)=>changeValue(event)} disabled= {currentUser && (currentUser.providerData[0].providerId!=="password"? true:false)}/>
+                            <input type="text" className="form-control" id="firstName" onChange={(event)=>changeValue(event)} defaultValue={userNow.firstName} disabled= {currentUser && (currentUser.providerData[0].providerId!=="password"? true:false)}/>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="emailAddress" className="form-label">Email address</label>
@@ -108,17 +108,17 @@ export default function Account(props) {
                         </div>
                         <div className="mb-3">
                             <label htmlFor="country" className="form-label">Country</label>
-                            <input type="text" className="form-control" id="country" onChange={(event)=>changeValue(event)} disabled= {currentUser && (currentUser.providerData[0].providerId!=="password"? true:false)}/>
+                            <input type="text" className="form-control" id="country" onChange={(event)=>changeValue(event)} defaultValue={userNow.country} disabled= {currentUser && (currentUser.providerData[0].providerId!=="password"? true:false)}/>
                         </div>
                         </div>
                         <div className="col">
                         <div className="mb-3">
                             <label htmlFor="laseName" className="form-label">Last name</label>
-                            <input type="text" className="form-control" id="lastName" onChange={(event)=>changeValue(event)} disabled= {currentUser && (currentUser.providerData[0].providerId!=="password"? true:false)}/>
+                            <input type="text" className="form-control" id="lastName" onChange={(event)=>changeValue(event)} defaultValue={userNow.lastName} disabled= {currentUser && (currentUser.providerData[0].providerId!=="password"? true:false)}/>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="phoneNumber" className="form-label">Phone number</label>
-                            <input type="text" className="form-control" id="phoneNumber" onChange={(event)=>changeValue(event)} disabled= {currentUser && (currentUser.providerData[0].providerId!=="password"? true:false)}/>
+                            <input type="text" className="form-control" id="phoneNumber" onChange={(event)=>changeValue(event)} defaultValue={userNow.phone}  disabled= {currentUser && (currentUser.providerData[0].providerId!=="password"? true:false)}/>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="userName" className="form-label">User name</label>

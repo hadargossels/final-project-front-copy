@@ -5,3 +5,10 @@ border:grey 2px solid;
 margin:0 auto;
 border-radius: 15px;
 }
+
+
+@media only screen and (max-width: 720px) {
+    img { 
+       display:none;
+    }
+  }

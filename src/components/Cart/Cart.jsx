@@ -104,7 +104,8 @@ export default class Cart extends Component {
                     <p style={{fontWeight:"bold"}}>Total ({this.state.arrProd.length} items) <span className="text-end">${this.priceCalculation()}</span></p>
                     <Link id="checkoutBtn" className="btn d-block mx-auto" to='/checkout/' style={{color:"white",padding:"15px 0px"}}>Proceed to checkout</Link>
                     <br/>
-                    <input id="couponTxt" type="text" placeholder="Coupon Code"/>&nbsp;<i className="fas fa-tag"></i>
+                    <input type="text" placeholder="Coupon Code" style={{width:"120px"}}/>
+                    <i className="fas fa-tag"></i>
                     <button id="couponBtn" className="d-block mx-auto">Activate Coupon</button>
                     <br/>
                 </div>

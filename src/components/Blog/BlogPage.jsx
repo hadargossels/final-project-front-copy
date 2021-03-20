@@ -63,7 +63,7 @@ export default class BlogPage extends Component {
            <button type="submit" onClick={this.updateState}>add a comment</button><br/>
            {
                
-               this.state.posts.filter((obj)=>{return obj.blogId===Number(this.choosen)}).map((obj)=>
+               this.state.posts.length>0 && this.state.posts.filter((obj)=>{return obj.blogId===Number(this.choosen)}).map((obj)=>
                <div key={obj.id}><b>{obj.userId}</b>
                <div><b>Title: {obj.title}</b></div>
                 <div>Comment: {obj.body}</div> 

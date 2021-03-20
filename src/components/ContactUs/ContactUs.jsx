@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import './ContactUs.css'
 import Contact from '../../pictures/ContactUs.jpg'
-// import {
-//     GoogleMap,
-//     withGoogleMap,
-//     withScriptjs,
-//     InfoWindow,
-//     Marker,
-//   } from "react-google-maps";
-// import Store from '../../pictures/Bitcoin-Store.png';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import {
+    GoogleMap,
+    withGoogleMap,
+    withScriptjs,
+    InfoWindow,
+    Marker,
+  } from "react-google-maps";
+import Store from '../../pictures/Bitcoin-Store.png';
+// import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 export default class ContactUs extends Component {
     constructor(props) {
@@ -33,39 +33,39 @@ export default class ContactUs extends Component {
         });
       };
 
-    // Google = withScriptjs(
-    //     withGoogleMap(
-    //         props => (
-    //         <GoogleMap
-    //             defaultZoom={14}
-    //             defaultCenter={{ lat: 32.0671552, lng: 34.7909145}}
-    //         >
-    //         <Marker
-    //       position={{ lat: 32.0671552, lng: 34.7909145 }}
-    //       onMouseOver={() => {
-    //         this.handleToggleOpen();
-    //         setTimeout(() => {
-    //           this.handleToggleClose();
-    //         }, 3000);
-    //       }}
-    //     >
-    //       {this.state.isOpen && (
-    //         <InfoWindow onCloseClick={() => this.handleToggleClose()}>
-    //           <div>
-    //             <span className="text-center"><i className="fab fa-bitcoin" style={{color:"orange",fontSize:"20px"}}></i>Yoni Token, </span>  
-    //             <span><b>Yigal Alon 90</b></span><br/>
-    //             <a href="http://localhost:3000/home"><img alt="..." src={Store} style={{width:"105px",height:"75px", marginLeft:"30px"}}/></a>
-    //           </div>
-    //         </InfoWindow>
-    //       )}
-    //     </Marker>
-    //         </GoogleMap>
-    //         )
-    //     )
-    // )
+    Google = withScriptjs(
+        withGoogleMap(
+            props => (
+            <GoogleMap
+                defaultZoom={14}
+                defaultCenter={{ lat: 32.0671552, lng: 34.7909145}}
+            >
+            <Marker
+          position={{ lat: 32.0671552, lng: 34.7909145 }}
+          onMouseOver={() => {
+            this.handleToggleOpen();
+            setTimeout(() => {
+              this.handleToggleClose();
+            }, 3000);
+          }}
+        >
+          {this.state.isOpen && (
+            <InfoWindow onCloseClick={() => this.handleToggleClose()}>
+              <div>
+                <span className="text-center"><i className="fab fa-bitcoin" style={{color:"orange",fontSize:"20px"}}></i>Yoni Token, </span>  
+                <span><b>Yigal Alon 90</b></span><br/>
+                <a href="http://localhost:3000/home"><img alt="..." src={Store} style={{width:"105px",height:"75px", marginLeft:"30px"}}/></a>
+              </div>
+            </InfoWindow>
+          )}
+        </Marker>
+            </GoogleMap>
+            )
+        )
+    )
 
     render() {
-        // const MyGoogleMap= this.Google;
+        const MyGoogleMap= this.Google;
         return (
             <div>
                 <br/><h1 className="text-center">Please get in touch and our experts support</h1>
@@ -73,15 +73,15 @@ export default class ContactUs extends Component {
                     <br/><br/>
                     <div className="container">
                     <div className="row">
-                        <div className="col d-flex justify-content-end">
+                        <div className="col-6 d-flex justify-content-end">
                         <form>
                             <div className="mb-3">
                                 <label htmlFor="exampleInputName" className="form-label"><b>Full name *</b></label>
-                                <input placeholder="Full name *" type="text" className="form-control inputTxt" style={{width:"400px"}} id="exampleInputName" aria-describedby="emailHelp" required/>
+                                <input placeholder="Full name *" type="text" className="form-control inputTxt" style={{width:"300px"}} id="exampleInputName" aria-describedby="emailHelp" required/>
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="exampleInputEmail1" className="form-label"><b>Email address *</b></label>
-                                <input placeholder="Email *" type="email" className="form-control" style={{width:"400px"}} id="exampleInputEmail1" aria-describedby="emailHelp" required/>
+                                <input placeholder="Email *" type="email" className="form-control" style={{width:"300px"}} id="exampleInputEmail1" aria-describedby="emailHelp" required/>
                             </div>
                         
                             <div><b>Are you an existing customer? *</b></div>
@@ -96,19 +96,19 @@ export default class ContactUs extends Component {
                             </label>
                             </div>
                             <label><b>Your message *</b></label>
-                            <textarea className="form-control" style={{resize:"none",width:"400px",height:"200px"}} placeholder="Your message *"></textarea>
+                            <textarea className="form-control" style={{resize:"none",width:"300px",height:"200px"}} placeholder="Your message *"></textarea>
                             <br/>
                             <button type="submit" className="btn btn-warning submitBtn d-flex" style={{margin:"0 auto"}}>Submit</button>
                             <br/>
                             </form>
                         </div>
-                        <div className="col">
+                        <div className="col-6 text-center">
                             <img alt="..." src={Contact} className="contactImg"/>
                             <br/><br/>
-                            <div>Phone number: +972-xxx-xxxxxxx</div>
-                            <div>Email address: xxxxxx@gmail.com</div>
-                            <div>Our Address: Yigal Alon 90,Tel-Aviv</div>
-                            {/* <div>
+                            <div><b>Phone number: </b><br/>+972-54-5555555</div>
+                            <div><b>Email address:</b><br/> binderyoni@gmail.com</div>
+                            <div><b>Our Address: </b><br/>Yigal Alon 90,Tel-Aviv</div>
+                            <div>
                             <MyGoogleMap
                                 loadingElement={<div>Loading....</div>}
                                 containerElement={<div style={{height: '300px'}} className="map"></div>}
@@ -116,8 +116,8 @@ export default class ContactUs extends Component {
                                 googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVtHhDa2ErB1UuzEc1t3dXozBGaSHiQZk&v=3.exp&libraries=geometry,drawing,places"
                                 />
 
-                            </div> */}
-                            <div style={{width:"50%"}}>
+                            </div>
+                            {/* <div style={{width:"50%"}}>
                             <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
                                 <TileLayer
                                   attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -129,7 +129,7 @@ export default class ContactUs extends Component {
                                   </Popup>
                                 </Marker>
                               </MapContainer>
-                              </div>
+                              </div> */}
                             <br/><br/>
                         </div>
 

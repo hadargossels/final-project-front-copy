@@ -24,6 +24,7 @@ import Blog from './components/Blog/Blog';
 import BlogPage from './components/Blog/BlogPage';
 import Account from './components/account/Account'; 
 import ProtectedRoute from './components/ProtectedRoute'
+import ProtectedRouteAdmin from './components/ProtectedRouteAdmin'
 import Admin from './components/Admin/Admin'
 import {AuthShopProvider} from './context/AuthShopContext' 
 ReactDOM.render(
@@ -33,7 +34,7 @@ ReactDOM.render(
     <AuthShopProvider>
     <Header/>
       <Switch>  
-          <ProtectedRoute exact path="/dashboard" component={Dashboard}/>
+          <ProtectedRouteAdmin exact path="/dashboard" component={Dashboard}/>
           <ProtectedRoute exact path="/account/profile" component={Account}/>
           <Route exact path="/" component={Catalog}/>
           <Route exact path="/cart" component={Cart}/>

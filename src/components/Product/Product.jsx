@@ -59,7 +59,7 @@ export default function Product (props){
       <div>
          <div className="container">   
          <div className="row">
-            <div className="col-2 border">
+            <div className="col-2">
             <br></br>  
             <img onClick={(event)=>updateState(event)} alt="..." src={T1} className="smallPics mx-auto d-block cursor"></img>
             <br></br>  
@@ -86,7 +86,8 @@ export default function Product (props){
                <p>Description:</p>
                <p>{result && result.description}</p>
             
-               <div><span className="seller">Best Seller</span>&#10003; in stock</div>
+               <div className="seller">Best Seller</div>
+               <div>&#10003; in stock</div>
                <br></br>
                <div className="price">{result && (result.price!==result.onsale?<div><span style={{color:"red",textDecoration:"line-through"}}>(${result.price})</span> ${result.onsale}</div>:<div>${result.price}</div>)}</div>
                <span>Quantity:&nbsp; 

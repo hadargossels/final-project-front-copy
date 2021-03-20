@@ -11,3 +11,11 @@
     border-radius: 10px;
     border: 1px grey solid;
   }
+
+  
+@media only screen and (max-width: 730px) {
+    .cardImg { 
+        width:150px;
+        height:150px;
+    }
+  }

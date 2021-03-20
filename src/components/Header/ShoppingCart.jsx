@@ -16,7 +16,7 @@ export default function ShoppingCart() {
           return prod.title === obj.title;
         })[0];
         return (
-          <div className="border" key={obj.key}>
+          <div className="border" key={obj.title}>
             <div className="row">
               <div className="col-5">
                 <img className="popImg" src={results.image} alt="..." />

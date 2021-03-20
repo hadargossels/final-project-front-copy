@@ -5,7 +5,7 @@ import {auth} from '../firebase'
 // import Auth from '../../Auth'
 
 export default function ProtectedRoute({component:Component,...rest}) {
- 
+  
     return(
         <Route {...rest} render={(props)=>{ 
         return auth.currentUser

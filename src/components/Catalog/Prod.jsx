@@ -7,8 +7,8 @@ import Modals from './Modals';
 
 
 const align={
-    width:"260px",
-    margin:"10px 20px",
+    width:"210px",
+    margin:"10px 10px",
     padding:"10px",
     border:"1px lightgrey solid"
 }

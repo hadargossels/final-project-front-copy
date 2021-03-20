@@ -23,7 +23,7 @@ export default class Blog extends Component{
         return (
             <div>
                 <br/><h1 className="text-center"><span style={{color:"orange"}}>/</span> <b>Latest News</b><span style={{color:"orange"}}>/</span></h1>
-                <div className="container d-flex flex-wrap">
+                <div className="container d-flex flex-wrap ">
                 { this.state.blogs.length>0
                 ?this.state.blogs.map((obj)=>
                     <Card key={obj.id} id={obj.id} title={obj.title} image={obj.image} subject={obj.subject} />

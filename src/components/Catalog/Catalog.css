@@ -1,7 +1,4 @@
-.catalog{
-    width: 200px;
-    height:200px;
-}
+
 
 .btnAdd{
     background-color: orange;
@@ -11,10 +8,10 @@
 
 .stars{
     color: #ffc700;
-    font-size:25px;
+    font-size:20px;
 }
 .starsNot{
-    font-size:25px;
+    font-size:20px;
     color:#ccc;
 }
 

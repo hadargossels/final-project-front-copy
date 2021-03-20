@@ -66,11 +66,11 @@ export default function Header (){
                         </Popover>
                     }
                     >
-                    <Link to="/cart"><div className="navbar-brand" style={{margin:"1px"}}><i className="fas fa-shopping-cart"></i></div></Link>
+                    <Link to="/cart"><div className="navbar-brand" style={{margin:"1px"}}><i className="fas fa-shopping-cart"></i></div>{cart.length>0 && <span id="numItems" style={{marginLeft:"1px"}}>{cart.length}</span>} </Link>
                     </OverlayTrigger>
                     </li>
                     
-                    {cart.length>0 && <div id="numItems" >&nbsp;{cart.length}</div>}
+                    
                         
                     <li className="nav-item">
                         <div className="nav-link"><NavLink to="/home" style={{color:"black"}} activeStyle={{color: "orange"}}>Home</NavLink></div>

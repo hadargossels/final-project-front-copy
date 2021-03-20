@@ -1,22 +1,19 @@
 import React, {} from 'react'
 import './Carousela.css'
 import Carousel from 'react-bootstrap/Carousel'
-// import case_T from '../../pictures/case_T_front_dark_blue_empty.png'
-// import T1 from '../../pictures/T1.png'
-// import T1_white from '../../pictures/T1_white.png' 
 import Cards from './Cards'
-// import {db} from '../../firebase'
 import {useAuth} from '../../context/AuthShopContext'
 
 export default function Carousela (props){
 
   const {products}=useAuth()
   
- 
-    return (
+ const nextIcon=<span className="carousel-control-next-icon" style={{backgroundColor:"black"}}></span>
+ const prevIcon=<span className="carousel-control-prev-icon" style={{backgroundColor:"black"}}></span>
+ return (
       <div className="pb-3">
-      <Carousel>
-        <Carousel.Item >
+      <Carousel nextIcon={nextIcon} prevIcon={prevIcon} indicators={false}>
+        <Carousel.Item>
         <div className="container d-flex ">
         {
              props.title==="onSale" && products.filter((obj) =>{return obj.price!==obj.onsale}).map((prod)=>{    
