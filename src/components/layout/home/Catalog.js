@@ -5,12 +5,15 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 import CatalogProduct from './CatalogProduct'
+import Pagination from './Pagination'
 import './Catalog.css';
 
 export default class Catalog extends Component {
 
     constructor(props) {
+
         super(props);
+
         this.state = {
             productsArr: (this.props._data) ? (this.props._data) : [],
             sortingBy: "Sort By",
@@ -19,38 +22,38 @@ export default class Catalog extends Component {
             typeFil: 0,
             isSearch: (this.props._data) ? false : true,
             _mobilesData: [],
-            _accessoriesData: []
+            _accessoriesData: [],
+            currentPage: 1,
+            productsPerPage: 9
         };
-    }
 
-    componentDidMount() {
-        axios.get(`http://localhost:3000/_mobilesData`)
-            .then(res => {
-                const _mobilesData = res.data;
-                this.setState({ _mobilesData });
-            })
-        axios.get(`http://localhost:3000/_accessoriesData`)
-            .then(res => {
-                const _accessoriesData = res.data;
-                this.setState({ _accessoriesData });
-            })
-    }
+        let tmpMobileData = [], tmpAccData = []
 
-    componentDidUpdate() {
-        //! Handling search request:
-        let searchValue = (this.state.isSearch) ? queryString.parse(this.props.location.search).q : "";
-        if (this.state.isSearch) {
-            for (const mobile of this.state._mobilesData) {
-                if ((mobile.title).toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
-                    this.state.productsArr.push(mobile);
+        axios.get(`http://localhost:3000/products`)
+            .then(res => {
+                const data = res.data;
+                for (const product of data) {
+                    if (product.category === "Phone") { tmpMobileData.push(product) }
+                    else if (product.category === "Accessory") { tmpAccData.push(product) }
                 }
-            }
-            for (const accessory of this.state._accessoriesData) {
-                if ((accessory.title).toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
-                    this.state.productsArr.push(accessory);
+                this.setState({ _mobilesData: tmpMobileData });
+                this.setState({ _accessoriesData: tmpAccData });
+
+                //! Handling search request:
+                let searchValue = (this.state.isSearch) ? queryString.parse(this.props.location.search).q : "";
+                if (this.state.isSearch) {
+                    for (const mobile of tmpMobileData) {
+                        if ((mobile.title).toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
+                            this.state.productsArr.push(mobile);
+                        }
+                    }
+                    for (const accessory of tmpAccData) {
+                        if ((accessory.title).toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
+                            this.state.productsArr.push(accessory);
+                        }
+                    }
                 }
-            }
-        }
+            })
     }
 
     //* Listener to filter choosing: 
@@ -122,17 +125,17 @@ export default class Catalog extends Component {
                 //! Filter by rating:
                 if (this.state.rateFil) {
                     if (event.target.name === "0 - 2") {
-                        if (product.stars <= 2) {
+                        if (product.rating <= 2) {
                             tmpArr.push(product);
                         }
                     }
                     if (event.target.name === "3 - 4") {
-                        if (product.stars >= 3 && product.stars <= 4) {
+                        if (product.rating >= 3 && product.rating <= 4) {
                             tmpArr.push(product);
                         }
                     }
                     if (event.target.name === "5") {
-                        if (product.stars === 5) {
+                        if (product.rating === 5) {
                             tmpArr.push(product);
                         }
                     }
@@ -167,7 +170,7 @@ export default class Catalog extends Component {
                     tmpArr = (this.state.productsArr).sort((a, b) => a.price - b.price);
                     break;
                 case "Sort by customers ratings":
-                    tmpArr = (this.state.productsArr).sort((a, b) => b.stars - a.stars);
+                    tmpArr = (this.state.productsArr).sort((a, b) => b.rating - a.rating);
                     break;
                 default:
                     break;
@@ -176,7 +179,17 @@ export default class Catalog extends Component {
         });
     }
 
+    //* Change page:
+    paginate = (pageNum) => {
+        this.setState({ currentPage: pageNum })
+    }
+
     render() {
+        //! Get current products
+        const indexOfLastProd = this.state.currentPage * this.state.productsPerPage
+        const indexOfFirstProd = indexOfLastProd - this.state.productsPerPage
+        const currentProducts = this.state.productsArr.slice(indexOfFirstProd, indexOfLastProd)
+
         return (
             <div className="mainStyle">
                 <h2> {(this.props.title) ? (this.props.title) : "Search results for: " + queryString.parse(this.props.location.search).q} </h2>
@@ -212,12 +225,15 @@ export default class Catalog extends Component {
                     {/* //! Printing the Items: */}
                     <div className="container">
                         <div className="row">
-                            {this.state.productsArr.map((product, index) => (
+                            {currentProducts.map((product, index) => (
                                 <div className="cards col-lg-4 col-md-6" key={index}>
-                                    <Link to={"/product/" + product.title.replace(/\s/g, '')} style={{ textDecoration: 'none' }}><CatalogProduct img={product.img} title={product.title} stars={product.stars} desc={product.desc} price={product.price} /></Link>
+                                    <Link to={"/product/" + product.title.replace(/\s/g, '')} style={{ textDecoration: 'none' }}>
+                                        <CatalogProduct img={product.img} title={product.title} rating={product.rating} desc={product.desc} price={product.price} />
+                                    </Link>
                                 </div>
                             ))}
                         </div>
+                        <Pagination productsPerPage={this.state.productsPerPage} totalProducts={this.state.productsArr.length} paginate={this.paginate} />
                     </div>
                 </div>
             </div>

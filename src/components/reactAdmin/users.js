@@ -23,7 +23,7 @@ export const UserEdit = props => (
         <SimpleForm>
             <TextInput source="name" />
             <AutocompleteInput source="roll" choices={[
-                { id: 'Admin', name: 'Admin' },
+                { id: 'Administrator', name: 'Administrator' },
                 { id: 'User', name: 'User' },
                 { id: 'Customer', name: 'Customer' },
             ]} />
@@ -42,7 +42,7 @@ export const UserCreate = props => (
             <AutocompleteInput source="roll" choices={[
                 { id: 'Administrator', name: 'Administrator' },
                 { id: 'Site Owner', name: 'Site Owner' },
-                { id: 'Coustomer', name: 'Coustomer' },
+                { id: 'Customer', name: 'Coustomer' },
             ]} />
             <TextInput source="email" />
             <TextInput source="phone" />

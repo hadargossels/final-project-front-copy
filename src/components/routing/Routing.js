@@ -6,7 +6,7 @@ import Body from '../layout/product/Body'
 import Catalog from "../layout/home/Catalog";
 import AboutUs from "../layout/AboutUs"
 import ContactUs from "../layout/ContactUs"
-import Blog from "../layout/Blog"
+// import Blog from "../layout/Blog"
 import LogIn from "../layout/LogIn"
 import Cart from "../layout/Cart";
 import Register from "../layout/Register"
@@ -24,15 +24,16 @@ export default class Routing extends Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:3000/_mobilesData`)
+        axios.get(`http://localhost:3000/products`)
             .then(res => {
-                const _mobilesData = res.data;
-                this.setState({ _mobilesData });
-            })
-        axios.get(`http://localhost:3000/_accessoriesData`)
-            .then(res => {
-                const _accessoriesData = res.data;
-                this.setState({ _accessoriesData });
+                const data = res.data;
+                let tmpMobileData = [], tmpAccData = []
+                for (const product of data) {
+                    if (product.category === "Phone") { tmpMobileData.push(product) }
+                    else if (product.category === "Accessory") { tmpAccData.push(product) }
+                }
+                this.setState({ _mobilesData: tmpMobileData });
+                this.setState({ _accessoriesData: tmpAccData });
             })
     }
 
@@ -51,7 +52,7 @@ export default class Routing extends Component {
                 </Route>
                 <Route path="/about" component={AboutUs} />
                 <Route path="/contact" component={ContactUs} />
-                <Route path="/blog" component={Blog} />
+                {/* <Route path="/blog" component={Blog} /> */}
                 <Route path="/login" component={LogIn} />
                 <Route path="/register">
                     <Register updateUserName={this.props.updateUserName} />

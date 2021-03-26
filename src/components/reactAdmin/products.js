@@ -24,10 +24,10 @@ import MyNumberField from './MyNumberField'
 export const ProductEdit = props => (
     <Edit {...props}>
         <SimpleForm>
-            <ImageInput source="image" label="Related pictures" accept="image/*">
+            <ImageInput source="img" label="Related pictures" accept="image/*">
                 <ImageField source="src" />
             </ImageInput>
-            <TextInput source="product name" />
+            <TextInput source="title" />
             <AutocompleteInput source="category" choices={[
                 { id: 'Phone', name: 'Phone' },
                 { id: 'Accessory', name: 'Accessory' }
@@ -48,10 +48,10 @@ export const ProductEdit = props => (
 export const ProductCreate = props => (
     <Create {...props}>
         <SimpleForm>
-            <ImageInput source="image" label="Related pictures" accept="image/*">
+            <ImageInput source="img" label="Related pictures" accept="image/*">
                 <ImageField source="src" />
             </ImageInput>
-            <TextInput source="product name" />
+            <TextInput source="title" />
             <AutocompleteInput source="category" choices={[
                 { id: 'Phone', name: 'Phone' },
                 { id: 'Accessory', name: 'Accessory' }
@@ -73,7 +73,7 @@ const ProductFilter = (props) => (
     <Filter {...props}>
         <TextInput label="Search" source="q" alwaysOn />
         <ReferenceInput label="Product" source="id" reference="products" allowEmpty>
-            <SelectInput optionText="product name" />
+            <SelectInput optionText="title" />
         </ReferenceInput>
     </Filter>
 );
@@ -81,8 +81,8 @@ const ProductFilter = (props) => (
 export const ProductList = props => (
     <List filters={<ProductFilter />} {...props}>
         <Datagrid rowClick="edit">
-            <ImageField source="image" />
-            <TextField source="product name" />
+            <ImageField source="img" />
+            <TextField source="title" />
             <ChipField source="category" />
             <NumberField source="price" options={{ style: 'currency', currency: 'USD' }} />
             <MyNumberField source="stock" />

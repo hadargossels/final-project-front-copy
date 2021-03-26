@@ -10,7 +10,7 @@ class Body extends React.Component {
         const divStyle = {
             margin: '10px',
             border: '2px solid gold',
-            height: '120vh',
+            height: '90vh',
             textAlign: 'center',
             position: 'relative',
             backgroundColor: 'rgb(217, 236, 228)'

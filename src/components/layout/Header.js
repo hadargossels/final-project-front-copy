@@ -49,7 +49,7 @@ export default function Header(props) {
                   <Link to="/" style={linkStyle}>Home</Link>
                   <Link to="/about" style={linkStyle}>About-Us</Link>
                   <Link to="/contact" style={linkStyle}>Contact-Us</Link>
-                  <Link to="/blog" style={linkStyle}>Blog</Link>
+                  {/* <Link to="/blog" style={linkStyle}>Blog</Link> */}
                </Nav>
                <Form action="/shop" inline style={{ padding: '0 30px' }}>
                   <FormControl name="q" required type="text" placeholder="Search" className="mr-sm-2" ref={searchVal} />

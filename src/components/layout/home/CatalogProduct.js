@@ -14,7 +14,7 @@ export default class CatalogProduct extends Component {
                         <ReactStars
                             count={5}
                             size={24}
-                            value={this.props.stars}
+                            value={this.props.rating}
                             edit={false}
                             activeColor="#ffd700"
                         />
