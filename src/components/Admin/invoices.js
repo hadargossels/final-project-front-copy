@@ -1,5 +1,5 @@
 import * as React from "react";
-import {  Show, DateField, ArrayField, NumberField, EmailField, BooleanField, SimpleShowLayout, SelectInput, TextInput, List,Edit, Datagrid, TextField, SimpleForm, CreateButton, ExportButton, RefreshButton, ShowButton, DateInput, BooleanInput, EditButton, Title} from 'react-admin';
+import {  Show, DateField, ArrayField, NumberField, EmailField, BooleanField, SimpleShowLayout, SelectInput, TextInput, List,Edit, Datagrid, TextField, SimpleForm, CreateButton, ExportButton, RefreshButton, ShowButton, DateInput, BooleanInput, EditButton, Title, inferTypeFromValues} from 'react-admin';
 
 export const InvoiceList = (props) => (
     <List  {...props} actions={<InvoiceActionsButtons/>}>
@@ -44,39 +44,69 @@ export const InvoiceEdit = (props) => (
 export const InvoiceShow = props => (
     <Show {...props}>
         <SimpleShowLayout>
-            <h4>Order</h4>
-            <DateField source="date" />
-            <TextField source="status" />
-
-            <TextField label="Reference" source="id" />
-            <BooleanField source="refunded" />
-
-            <h4>Customer</h4>
-            <TextField label="Customer" source="billName" />
-            <EmailField source="email" />
-            <TextField source="phone" />
-
-            <h4>Shipping Address</h4>
-            <TextField label="Shipping address" source="shipName" />
-            <TextField source="address" />
-            <TextField source="city" />
             
-            <h4>Items</h4>
-            <ArrayField label="Items" source="purchaseDetails">
-                <Datagrid>
-                    <TextField label="Product name" source="name" />
-                    <NumberField label="Unit Price" source="unitPrice" />
-                    <NumberField label="Quantity" source="count" />
-                    <NumberField label="Total" source="finalPrice" />
-                </Datagrid>
-            </ArrayField>
+            <SimpleShowLayout className="row py-0">
+                <SimpleShowLayout className="col-7 row">
+                    <h4>Order</h4>
+                    <DateField className="col-6" source="date"  />
+                    <TextField className="col-6" label="Reference" source="id" />
+                    <TextField className="col-6" source="status" />
+                    <BooleanField className="col-6" source="refunded" />
+                </SimpleShowLayout>
 
-            <h4>Totals</h4>
-            <TextField source="sum" />
-            <TextField label="With discount" source="sumWithDiscount" />
-            <TextField label="Delivery" source="shipping" />
-            <TextField label="Total" source="finalSum" />
-            <TextField source="notes" />
+                <SimpleShowLayout className=" col-5">
+                    <h4>Customer</h4>
+                    <TextField label="" source="billName" />
+                    <EmailField label="" source="email" />
+                    <TextField label="" source="phone" />
+                    <h4 className="pt-2">Shipping Address</h4>
+                    <TextField label="" source="shipName" />
+                    <TextField label="" source="address" />
+                    <TextField label="" source="city" />
+                </SimpleShowLayout>
+            </SimpleShowLayout>
+
+
+            <SimpleShowLayout className="row pt-0">
+                <h4>Items</h4>
+                <ArrayField label="" source="purchaseDetails">
+                    <Datagrid>
+                        <TextField label="Product name" source="name" />
+                        <NumberField label="Unit Price" source="unitPrice" />
+                        <NumberField label="Quantity" source="count" />
+                        <NumberField label="Total" source="finalPrice" />
+                    </Datagrid>
+                </ArrayField>
+            </SimpleShowLayout>
+
+
+            <SimpleShowLayout className="row">
+                <h4 className="pb-2">Totals</h4>
+                <SimpleShowLayout className="row">
+                    <span className="col-7 pt-3">Sum</span>
+                    <TextField className="ps-3 col-5" label="" source="sum" />
+                </SimpleShowLayout>
+
+                <SimpleShowLayout className="d-none">
+                    <span className="col-7 pt-3">With discount</span>
+                    <TextField className=" ps-3 col-5" label="" source="sumWithDiscount" />
+                </SimpleShowLayout>
+
+                <SimpleShowLayout className="row">
+                    <span className="col-7 pt-3">Delivery</span>
+                    <TextField className=" ps-3 col-5" label="" source="shipping" />
+
+                </SimpleShowLayout>
+
+                <SimpleShowLayout className="row">
+                    <span className="col-7 pt-3">Total</span>
+                    <TextField className="ps-3 col-5 fw-bold" label="" source="finalSum" />
+                </SimpleShowLayout>
+                <TextField source="notes" className="py-4" />
+
+            </SimpleShowLayout>
+
+
         </SimpleShowLayout>
     </Show>
 );

@@ -30,7 +30,7 @@ export const applyDiscount = (data) => ({
 
 export const getDiscounts = () => dispatch => {
     return axios
-    .get("http://localhost:3000/coupons")
+    .get("coupons")
     .then (allCoupons =>
         dispatch({
             type: GET_DISCOUNTS,

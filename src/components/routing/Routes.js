@@ -23,6 +23,7 @@ import ForgotPassword from '../../pages/auth/ForgotPassword'
 import Login from '../../pages/auth/Login'
 import SignUp from '../../pages/auth/SignUp'
 import AdminPage from '../Admin/AdminPage'
+import Invoices from '../../pages/Account/Invoices'
 
 export default class Routes extends Component {
 
@@ -47,6 +48,7 @@ export default class Routes extends Component {
                     <PrivateRoute path="/admin" component={AdminPage}/>
                     <PrivateRoute exact path="/account" component={Account}/>
                     <PrivateRoute exact path="/account/profile" component={Profile}/>
+                    <PrivateRoute exact path="/account/invoices" component={Invoices}/>
                     <Route path="/forgot-password" component={ForgotPassword}/>
                     <Route component={NotFound}/>
                 </Switch>

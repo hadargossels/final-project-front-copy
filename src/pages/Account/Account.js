@@ -32,6 +32,9 @@ function Account(props) {
                         <Link to="/account/profile">
                             <Button className="w-100 my-2" type="submit">Profile</Button>
                         </Link>
+                        <Link to="/account/invoices">
+                            <Button className="w-100 my-2" type="submit">Your Invoices</Button>
+                        </Link>
                     </Card.Body>
                 </Card>
                 <div className="w-100 text-center mt-2">

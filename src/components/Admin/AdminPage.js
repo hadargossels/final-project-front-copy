@@ -8,7 +8,7 @@ import { createHashHistory } from 'history';
 import { Provider } from 'react-redux';
 import createAdminStore from '../../createAdminStore';
 
-import { Admin, EditGuesser, ListGuesser, Resource, ShowGuesser} from 'react-admin';
+import { Admin, Resource} from 'react-admin';
 import UserIcon from '@material-ui/icons/Group';
 import Dashboard from './Dashboard';
 import {UserList, UserEdit, UserCreate} from './users'
@@ -32,7 +32,6 @@ export default function AdminPage() {
     history
   })}
   >
-    <h1 className="text-center text-danger py-2">Management interface</h1>
       <Admin dashboard={Dashboard} dataProvider={dataProvider} history={history}>
         <Resource name="users" list={UserList} edit={UserEdit} icon={UserIcon} create={UserCreate}/>
         <Resource name="products" list={ProductList} edit={ProductEdit} create={ProductCreate} icon={ShoppingCartIcon}/>

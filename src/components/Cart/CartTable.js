@@ -18,10 +18,17 @@ class CartTable extends Component {
         await this.props.getDiscounts()
         this.props.applyDiscount(this.discountRef.current.value.toLowerCase())
     }
-    onEmpty(){this.props.emptyCart()}
-    plusOne(id){this.props.plusOne(id)}
-    minusOne(id){this.props.minusOne(id)}
-    onRemove(id){this.props.removeFromCart(id)}
+    onEmpty()
+    {this.props.emptyCart()}
+
+    plusOne(id)
+    {this.props.plusOne(id)}
+
+    minusOne(id)
+    {this.props.minusOne(id)}
+    
+    onRemove(id)
+    {this.props.removeFromCart(id)}
         
     render() {
         let priceOfAll = 0;

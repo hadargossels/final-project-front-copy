@@ -14,8 +14,8 @@ export default function discount(state = initialState, action) {
             }
         case APPLY_DISCOUNT:
             for (let coupon of state.allCoupons){
-                if (coupon.code.toLowerCase() === action.payload){
-                    let discount = coupon.couponDiscount / 100
+                if (coupon.couponName.toLowerCase() === action.payload){
+                    let discount = coupon.couponSize / 100
                     localStorage.setItem("discount",discount)
                     return {...state, discount: discount}
                 }
