@@ -8,22 +8,40 @@ import { createHashHistory } from 'history';
 import { Provider } from 'react-redux';
 import createAdminStore from '../../createAdminStore';
 
-import { Admin, Resource} from 'react-admin';
-import UserIcon from '@material-ui/icons/Group';
+import { Admin, Resource, fetchUtils} from 'react-admin';
 import Dashboard from './Dashboard';
-import {UserList, UserEdit, UserCreate} from './users'
-import { PostList } from "./posts";
-import {ProductList, ProductEdit, ProductCreate} from "./products"
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PostAddIcon from '@material-ui/icons/PostAdd';
-import { RoleEdit, RolesList, RoleCreate } from "./roles";
-import {InvoiceList, InvoiceEdit, InvoiceShow} from './invoices'
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import UserIcon from '@material-ui/icons/Group';
+import MoneyOffIcon from '@material-ui/icons/MoneyOff';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+
+// import {InvoiceList, InvoiceEdit, InvoiceShow} from './invoices'
+import {UserList, UserEdit, UserCreate} from './adminTables/users'
+import { PostList, PostCreate, PostEdit} from "./adminTables/posts";
+import {ProductList, ProductEdit, ProductCreate} from "./adminTables/products"
+import { RoleEdit, RolesList, RoleCreate } from "./adminTables/roles";
+import {CouponsList, CouponEdit, CouponCreate} from './adminTables/coupons'
+
+import simpleRestProvider from 'ra-data-simple-rest';
+
 
 const history = createHashHistory();
 const dataProvider= firebaseDataProvider(firebase, {})
 
 
 export default function AdminPage() { 
+
+  const httpClient = (url, options = {}) => {
+    options.user = {
+        authenticated: true,
+        token: `Bearer token`
+    };
+    return fetchUtils.fetchJson(url, options);
+};
+
+const dataProvider= simpleRestProvider('http://localhost:5000', httpClient)
+
 
   return(
   <Provider
@@ -33,11 +51,12 @@ export default function AdminPage() {
   })}
   >
       <Admin dashboard={Dashboard} dataProvider={dataProvider} history={history}>
-        <Resource name="users" list={UserList} edit={UserEdit} icon={UserIcon} create={UserCreate}/>
+        <Resource name="coupons" list={CouponsList} edit={CouponEdit} create={CouponCreate} icon={MoneyOffIcon}/>
+        <Resource name="posts" list={PostList} icon={PostAddIcon} create={PostCreate} edit={PostEdit} />
         <Resource name="products" list={ProductList} edit={ProductEdit} create={ProductCreate} icon={ShoppingCartIcon}/>
-        <Resource name="roles" list={RolesList} edit={RoleEdit} create={RoleCreate}/>
-        <Resource name="invoices" list={InvoiceList} show={InvoiceShow} edit={InvoiceEdit}/>
-        <Resource name="posts" list={PostList} icon={PostAddIcon} />
+        <Resource name="roles" list={RolesList} edit={RoleEdit} create={RoleCreate} icon={AssignmentIndIcon}/>
+        <Resource name="users" list={UserList} edit={UserEdit} icon={UserIcon} create={UserCreate}/>
+        {/* <Resource name="invoices" list={InvoiceList} show={InvoiceShow} edit={InvoiceEdit}/> */}
       </Admin>
     </Provider>
   );

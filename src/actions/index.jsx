@@ -5,7 +5,6 @@ import {
     LOG_IN, LOG_OUT,
     ADD_TEMP_INVOICE, CLEAR_INVOICE, MARK_AS_PAID
 } from '../constants/action-types'
-import {db} from '../firebase'
 
 //invoice actions
 export const addTempInvoice = (data) => ({
@@ -30,7 +29,7 @@ export const applyDiscount = (data) => ({
 
 export const getDiscounts = () => dispatch => {
     return axios
-    .get("coupons")
+    .get("/coupons")
     .then (allCoupons =>
         dispatch({
             type: GET_DISCOUNTS,
@@ -46,23 +45,15 @@ export const moveBestsell = (button) => ({
 })
 
 export const getProducts = () => dispatch => {
-    
-    db.on("value", (snapshot) =>{
-        let myData = ""
-        myData = (snapshot.val())
 
-        for (const [key] of Object.entries(myData)) {
-        
-            myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
-          }
-        myData = (myData.products)
-
+    return axios
+    .get("/products")
+    .then (allProducts =>
         dispatch({
-            type:GET_PRODUCTS,
-            payload: myData
+            type: GET_PRODUCTS,
+            payload: allProducts.data
         })
-        
-    })
+    )
 }
 
 export const addToCart = (data) => ({

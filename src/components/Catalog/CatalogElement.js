@@ -4,7 +4,7 @@ import CartButton from './CartButton/CartButton';
 import { CatalogPrice } from './CatalogPrice';
 import './CatalogElement.css'
 
-const CatalogElement = ({ id, img, name, rating, platforms, price, discount ,imgNarrow, shortDescription}) => {
+const CatalogElement = ({ id, img, name, rating, platform, price, discount ,imgNarrow, shortDescription}) => {
   return(
   <div className="col-lg-4 col-md-6 mb-1">
    
@@ -18,7 +18,7 @@ const CatalogElement = ({ id, img, name, rating, platforms, price, discount ,img
         </Link>
       
         <CatalogPrice discount={discount} price={price}/>
-        <h6 className="text-danger fw-normal">{platforms}</h6>
+        <h6 className="text-danger fw-normal">{platform.platformName}</h6>
         <Rating rating={rating} />
       </div>
       <div className="col-2  p-0">
@@ -47,7 +47,7 @@ const CatalogElement = ({ id, img, name, rating, platforms, price, discount ,img
                     <div className="col-6">
                       <h4>{name}</h4>
                       <CatalogPrice discount={discount} price={price}/>
-                      <p>{platforms}</p>
+                      <p>{platform.platformName}</p>
                       <CartButton page="quickview" id={id}/>
                       <button className="mt-2 btn-lg btn btn-outline-danger w-100" type="button">
                         <i className="far fa-heart"></i>

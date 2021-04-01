@@ -10,7 +10,7 @@ export default class Blog extends Component {
     }
 
     componentDidMount(){
-        axios.get("http://localhost:3000/posts").then( (response) =>{
+        axios.get("/posts").then( (response) =>{
             this.setState({posts : response.data})
         })
     }
@@ -23,9 +23,9 @@ export default class Blog extends Component {
               {!sorted? "Loading...": 
                     <div className="container col-11">
                         <div className="row justify-content-center">
-                            {sorted.map((element)=>{
-                                return <BlogElement post={element} key={element.id}/>
-                            })}
+                            {sorted.map((element)=>
+                                <BlogElement post={element} key={element.id}/>
+                            )}
                         </div>
                     </div>
               }
