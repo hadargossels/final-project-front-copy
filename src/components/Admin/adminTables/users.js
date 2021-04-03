@@ -1,14 +1,14 @@
 import * as React from "react";
 import { 
     // useMutation, useTranslate,useRedirect
-    BooleanInput, required, Create, EditButton, Edit, SimpleForm, TextInput, SelectInput, List, Datagrid, TextField, EmailField, Toolbar, SaveButton,  BooleanField, NumberField} from 'react-admin';
+    ReferenceInput, BooleanInput, required, Create, EditButton, Edit, SimpleForm, TextInput, SelectInput, List, Datagrid, TextField, EmailField, Toolbar, SaveButton,  BooleanField, NumberField} from 'react-admin';
 // import {auth, db} from '../../../firebase'
 // import {useAuth} from '../../../contexts/AuthContext'
 import {useStyles, MyFilter, ActionsButtons} from '../addOns'
 
 
 export const UserList = props => (
-    <List filters={<MyFilter/>} sort={{ field: 'name', order: 'ASC' }}  actions={<ActionsButtons/>} bulkActionButtons={false} {...props}>
+    <List {...props} filters={<MyFilter/>} sort={{ field: 'name', order: 'ASC' }}  actions={<ActionsButtons/>} bulkActionButtons={false}>
         <Datagrid >
             <TextField source="name" label="First name" />
             <TextField source="lastname" label="Last name" />
@@ -17,7 +17,7 @@ export const UserList = props => (
             <TextField label="Street" source="address.street" />
             <TextField label="Apt" source="address.apt" />
             <TextField label="City" source="address.city" />
-            <TextField label="Role" source="role.roleName"  />
+            <TextField label="Role" source="role"  />
             <BooleanField source="active"/>
             <EditButton />
         </Datagrid>
@@ -32,7 +32,9 @@ export const UserEdit = props => (
             <TextInput label="First name" source="name"/>
             <TextInput label="Last name" source="lastname" />
             <TextInput source="phone"/>
-            <SelectInput source="role" choices={rolesChoices} />
+            <ReferenceInput source="role" reference="roles">
+                <SelectInput optionText="roleName" />
+            </ReferenceInput>
             <TextInput multiline label="Address - Street" source="address.street" />
             <TextInput multiline label="Address 2 (Apt., etc)" source="address.apt" />
             <TextInput label="City" source="address.city"/>
@@ -42,13 +44,15 @@ export const UserEdit = props => (
 )
 
 export const UserCreate = props => (
-    <Create {...props} undoable={false}>
+    <Create {...props} >
         <SimpleForm>
            <TextInput source="email" type="email" validate={required()} />
            <TextInput label="First name" source="name" validate={required()}/>
             <TextInput label="Last name" source="lastname" validate={required()} />
             <TextInput source="phone"/>
-            <SelectInput source="role" defaultValue="Customer" choices={rolesChoices} />
+            <ReferenceInput source="role" reference="roles">
+                <SelectInput optionText="roleName"/>
+            </ReferenceInput>
             <TextInput multiline label="Address - Street" source="address.street"/>
             <TextInput multiline label="Address 2 (Apt., etc)" source="address.apt" />
             <TextInput label="City" source="address.city"/>

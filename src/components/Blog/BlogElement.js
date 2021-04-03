@@ -5,15 +5,16 @@ import './BlogElement.css'
 import Spinner from '../Spinner/Spinner'
 
 export default function BlogElement(props) {
+  const post = props.post
   const [commentCount , setCommentCount] = useState(null)
+  let date = new Date(post.date)
+  post.date= date.getFullYear()+"/"+(Number(date.getMonth())+1)+"/"+date.getDate()
+  
   useEffect(() => {
     axios.get(`/comments?postId=${post.id}`).then((response)=>{
       setCommentCount(response.data.length)
     })
-  }, [])
-  const post = props.post
-  let date = new Date(post.date)
-  post.date= date.getFullYear()+"/"+(Number(date.getMonth())+1)+"/"+date.getDate()
+  }, [post.id])
   return (
     Number.isInteger(commentCount)?
       <div className="col-lg-3 col-md-5 px-0 text-start border border-2 m-2 bordered border-secondary rounded">

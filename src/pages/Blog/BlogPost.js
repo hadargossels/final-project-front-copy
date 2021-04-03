@@ -1,4 +1,4 @@
-import React, {useEffect, Component, useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Spinner from '../../components/Spinner/Spinner'
@@ -14,7 +14,7 @@ export default function BlogPost(props) {
                 setComments(response.data)
             });
         });
-    }, [])
+    }, [props.match.params.title])
 
     const updateComment = (e) =>{
         setCurrentComment(e.target.value)
@@ -23,8 +23,12 @@ export default function BlogPost(props) {
     const addComment = (e) =>{
         e.preventDefault()
         if (!currentComment){ return}
-        axios.post("http://localhost:5000/comments", {postId:post.id, userId:'60636e12545fd24c70ff8daa', comment:currentComment})
-        setCurrentComment("")
+        axios.post("http://localhost:5000/comments", {postId:post.id, userId:'60636e12545fd24c70ff8daa', postDate:new Date(), comment:currentComment}).then(()=>{
+            axios.get(`http://localhost:5000/comments?postId=${post.id}`).then( (response) =>{
+                setComments(response.data)
+            });
+            setCurrentComment("")
+        })
     }
 
     if (post){
@@ -76,7 +80,7 @@ export default function BlogPost(props) {
                         )}
                         <h6 className="pt-2 text-danger">{currentUser ? "" : <span><Link to="/login">Log in</Link> to </span>}Add a Comment</h6>
                         <form className={currentUser? "col-10" : "d-none"}
-                        onSubmit={(e)=>this.addComment(e)}
+                        onSubmit={(e)=>addComment(e)}
                         >
                             <p>Name: {currentUser}</p>
                             <textarea 

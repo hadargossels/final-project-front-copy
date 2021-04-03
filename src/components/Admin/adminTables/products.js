@@ -1,5 +1,5 @@
 import * as React from "react";
-import {ArrayInput, SimpleFormIterator, SelectInput, ChipField, List, Datagrid, TextField, NumberField, BooleanField, DeleteWithConfirmButton, SimpleForm, Edit, TextInput, EditButton, BooleanInput, NumberInput, Create} from 'react-admin';
+import {ArrayInput, ReferenceInput, SimpleFormIterator, SelectInput, ChipField, List, Datagrid, TextField, NumberField, BooleanField, DeleteWithConfirmButton, SimpleForm, Edit, TextInput, EditButton, BooleanInput, NumberInput, Create} from 'react-admin';
 import {MyFilter, ActionsButtons, BulkActionButtons, CustomToolbar} from '../addOns'
 
 
@@ -9,7 +9,7 @@ export const ProductList = props => (
             <TextField label="Product Name" source="name" />
             <NumberField source="price" />
             <TextField source="discount" />
-            <ChipField label="Platform" source="platform.platformName" />
+            <ChipField label="Platform" source="platform" />
             <NumberField source="rating" />
             <BooleanField source="bestseller" />
             <BooleanField source="new" />
@@ -19,12 +19,15 @@ export const ProductList = props => (
     </List>
 );
 
-export const ProductEdit = props =>(
+export const ProductEdit = props =>{
+return(
     <Edit {...props} undoable={false}>
         <SimpleForm toolbar={<CustomToolbar />}>
             <TextInput source="id" disabled/>
             <TextInput label="Product Name" source="name"/>
-            <SelectInput source="platform" choices={platformChoices} />
+            <ReferenceInput source="platform" reference="platforms">
+                <SelectInput optionText="platformName" />
+            </ReferenceInput>
             <BooleanInput label="Best-seller" source="bestseller"/>
             <BooleanInput source="new"/>
             <NumberInput source="price"/>
@@ -42,13 +45,15 @@ export const ProductEdit = props =>(
             <TextInput multiline source="about"/>
         </SimpleForm>
     </Edit>
-)
+)}
 
 export const ProductCreate = props =>(
     <Create {...props}>
         <SimpleForm {...props}>
             <TextInput label="Product Name" source="name"/>
-            <SelectInput source="platform" choices={platformChoices} />
+            <ReferenceInput source="platform" reference="platforms">
+                <SelectInput optionText="platformName"/>
+            </ReferenceInput>
             <BooleanInput label="Best-seller" source="bestseller"/>
             <BooleanInput source="new"/>
             <NumberInput source="price"/>
@@ -68,12 +73,6 @@ export const ProductCreate = props =>(
         </SimpleForm>
     </Create>
 )
-
-let platformChoices = [
-    {  id: 'PlayStation4' ,name: 'PlayStation4'},
-    {  id: 'Nintendo Switch' ,name: 'Nintendo Switch'},
-    {  id: 'Computer' , name: 'Computer'},
-]
 
 let imgChoices = [
     {  id: '/img/catalog/catalog1.jpg' ,name: '/img/catalog/catalog1.jpg'},

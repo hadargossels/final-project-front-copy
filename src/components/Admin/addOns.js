@@ -1,4 +1,4 @@
-import { Toolbar, SaveButton, CreateButton, ExportButton, RefreshButton, TextInput, Filter, DeleteWithConfirmButton, BulkDeleteWithConfirmButton} from "react-admin";
+import { Toolbar, SaveButton, CreateButton, RefreshButton, TextInput, Filter, DeleteWithConfirmButton, BulkDeleteWithConfirmButton} from "react-admin";
 import { makeStyles } from '@material-ui/core';
 
 export const MyFilter = props => (
@@ -11,13 +11,16 @@ export const BulkActionButtons = props => (
     <BulkDeleteWithConfirmButton {...props} />
 )
 
-export const ActionsButtons = props => (
+export const ActionsButtons = props => {
+    const picked = (({ basePath, className , resource}) => ({  basePath, className , resource}))(props);
+
+    return (
     <div>
-        <RefreshButton {...props}/>
-        <ExportButton {...props}/>
-        <CreateButton {...props}/>
+        <RefreshButton {...picked}/>
+        <CreateButton {...picked}/>
     </div>
-)
+)}
+
 export const CustomToolbar = props => (
     <Toolbar {...props} classes={useStyles()}>
         <SaveButton />
