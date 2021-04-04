@@ -3,10 +3,8 @@ import React, { Component } from 'react';
 import {NavLink } from 'react-router-dom';
 import './Product.css';
 import Rating from './Rating';
-import "firebase/database";
-import {db} from '../firebase'
+import axios from "axios"
 
-//const productArr= require("../dataBase/productsData.json")
 
 class Product extends Component{
     constructor(props){
@@ -23,7 +21,6 @@ class Product extends Component{
             counter:1,
             priceSmall:"",
             validForm:"",
-            counterMassege:0,
             arrayOfMassege:[],
          }
          this.state.priceSmallExists=this.priceSmallExists.bind(this)
@@ -46,36 +43,26 @@ class Product extends Component{
 
     componentDidMount(){
         
-        this.getDataFromFirebase()
-
+        this.getDataFromMongoDB()
         this.textMassegeRef.current.style.visibility="hidden"
         this.mailMassegeRef.current.style.visibility="hidden"
         this.userMassegeRef.current.style.visibility="hidden"
-    }
-    getDataFromFirebase(){
-        let myData = ""
-        
-        db.on('value',async (snapshot)=>{
-          if(snapshot.val()!=null){
-  
-              myData = (snapshot.val())
-  
-          for (const [key, value] of Object.entries(myData)) {
-              myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
-            }
-            myData = myData.products
 
-            const product=myData.filter((item)=>{
-                return (item["title"]==this.props.match.params.ProductName)
-            })
-            await this.setState({prod:product[0]})
+    }
+
+      async getDataFromMongoDB(){
+
+        try{
+            let response=await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/products`, {params: {title: this.props.match.params.ProductName}})
+            await this.setState({prod:response.data[0]})
             this.makeArrayImage()
             this.priceSmallExists()
             this.updateMassegeList()
-          } 
-        })
+  
+        }catch(err){
+           console.log(err);
+        }
       }
-
 
     showPriceSmall(){
         
@@ -120,12 +107,17 @@ class Product extends Component{
 //////////////////    array of image to the slider     //////////////////////////////
     makeArrayImage(){
 
-        let count=2
         let arr=[]
 
-        while(this.state.prod["img"+count]){
-            arr.push(this.state.prod["img"+count])
-            count++
+        if(this.state.prod["img2"]){
+            arr.push(this.state.prod["img2"])
+        }
+        if(this.state.prod["img3"] && this.state.prod["img2"]){
+            arr=this.state.prod["img3"]
+            arr.unshift(this.state.prod["img2"])
+        }
+        if(this.state.prod["img3"] && !this.state.prod["img2"]){
+            arr=this.state.prod["img3"]
         }
         this.setState({arrImage:arr})
     }
@@ -147,7 +139,7 @@ class Product extends Component{
         let storage=JSON.parse(localStorage.getItem("cartStorage")||"[]")
 
             for (const item of storage) {
-                if(item.id==this.state.prod.id && this.state.selectedPrice==item.price){
+                if(item.id===this.state.prod.id && this.state.selectedPrice===item.price){
                     item.count=item.count+this.state.counter
                     flag=true
                 }
@@ -155,7 +147,7 @@ class Product extends Component{
 
 
             if(!flag){
-                if(this.state.size=="קטן")
+                if(this.state.size==="קטן")
                     storage.push({id:this.state.prod.id,count:this.state.counter,title:this.state.prod.title,img:this.state.prod.img2,price:this.state.selectedPrice,size:this.state.size})
                 else
                     storage.push({id:this.state.prod.id,count:this.state.counter,title:this.state.prod.title,img:this.state.prod.img,price:this.state.selectedPrice,size:this.state.size})
@@ -163,6 +155,7 @@ class Product extends Component{
         
             localStorage.setItem("cartStorage",JSON.stringify(storage))
             this.popUp()
+            this.props.updatItemsFromLocalStorage()
     }
 
     popUp() {
@@ -178,10 +171,10 @@ quantity(e){
 
     let count=this.state.counter
     
-    if(e.value=="+"){
+    if(e.value==="+"){
         count++
     }
-    if(e.value=="-" && (count>1)){
+    if(e.value==="-" && (count>1)){
         count--
     }
     this.setState({counter:count})
@@ -200,7 +193,7 @@ myFunction() {
   inputValid(){
 
     let flag=true
-    let tempArray=[]
+    let tempArray=this.state.arrayOfMassege
     let today
 
     const textInput =this.textInputRef.current
@@ -217,7 +210,7 @@ myFunction() {
 
     let array=mailInput.value.split("@");
 
-    if((mailInput.value.includes("@")) && (array.length==2)&&(array[1].includes("."))){
+    if((mailInput.value.includes("@")) && (array.length===2)&&(array[1].includes("."))){
         array=array[1].split(".");
         if(array.length>=2)
             mailMassege.style.visibility="hidden"
@@ -267,48 +260,37 @@ myFunction() {
         
         today = dd + '/' + mm + '/' + yyyy;
 
-        let count=this.state.counterMassege
-        let massege={id:this.state.counterMassege,fname:fnameInput.value,lname:lnameInput.value,mail:mailInput.value,textMassege:textInput.value,titleFeedBack:this.state.prod.title,date:today,time:hour}
-        count++
+        let massege={fname:fnameInput.value,lname:lnameInput.value,email:mailInput.value,textMessage:textInput.value,titleFeedBack:this.state.prod.title,date:today,time:hour}
         tempArray.unshift(massege)
-        db.child('feedBackStorage').child(massege.id).set(massege)
 
-        this.setState({counterMassege:count})
+        axios.post(`${process.env.REACT_APP_MONGO_DATABASE}/api/feedbacks`,massege)
+          .then(function (response) {
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+
         this.setState({arrayOfMassege:tempArray})
         window.alert("ההודעה נוספה בהצלחה")
         this.myFunction()
     }
 }
 
- updateMassegeList(){
+ async updateMassegeList(){
 
     let storage
-    let myData = ""
-    
-    db.on('value', (snapshot)=>{
-        if(snapshot.val()!=null){
+    let array
 
-            myData = (snapshot.val())
+    try{
+        let response=await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/feedbacks?titleFeedBack=${this.state.prod.title}`)
 
-        for (const [key, value] of Object.entries(myData)) {
-            myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
-          }
-          storage = (myData.feedBackStorage)? myData.feedBackStorage : []
-        } 
-      })
-
-    let tempArray
-    let revtempArray
-
-    if(storage[0]){
-            this.setState({counterMassege:storage.length})
-            tempArray=storage.filter((item)=>{
-                return (item["titleFeedBack"]===this.state.prod.title)
-         })
-         revtempArray=tempArray.reverse()
+        storage = (response.data)? response.data : []
+        array=storage.reverse()
+        this.setState({arrayOfMassege:array})
+    }catch(err){
+       console.log(err);
     }
-
-    this.setState({arrayOfMassege:revtempArray})
 }
 
 
@@ -415,7 +397,7 @@ myFunction() {
                         
                     <div className="formProduct"> 
                         <div className="topnav m-5" >
-                            <a className="active" onClick={()=>this.myFunction()}>לחץ כאן להוספת תגובה</a>
+                            <span className="active" onClick={()=>this.myFunction()}>לחץ כאן להוספת תגובה</span>
 
                             <div className="formRecipe fs-4 mb-3" id="myLinks">
                                 
@@ -465,7 +447,7 @@ myFunction() {
                                                 </div>
 
                                                 <div className="theMassege">
-                                                    {el.textMassege}
+                                                    {el.textMessage}
                                                 </div>
                                             </div>
                                             

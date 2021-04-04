@@ -128,7 +128,7 @@ class Header extends Component{
    logIn(e){
 
       const msg=this.errorMessageLogInRef.current
-      const modal=this.modalRef.current
+      //const modal=this.modalRef.current
       const login =this.LogInRef.current
       const welcome=this.welcomeRef.current
       
@@ -149,7 +149,7 @@ class Header extends Component{
         e[2].value=""
       })
       .catch((error) => {
-        var errorCode = error.code;
+        //var errorCode = error.code;
         var errorMessage = error.message;
 
         msg.innerHTML= errorMessage
@@ -384,7 +384,7 @@ class Header extends Component{
                      <span className="navbar-text" ><i className="fas fa-user userIcon" data-bs-toggle="modal" data-bs-target= "#userIcon" data-bs-whatever="@mdo"></i>
                         <span id="hello">שלום, {(Auth.getName()==="אורח")?Auth.getName():<span onClick={() => { Auth.setProtectPath(() => {this.props.history.push(`/${Auth.getRole()}`);},"account")}} style={{color:"rgb(8, 144, 255)",cursor:"pointer"}}>{Auth.getName()}</span> }</span>
                      </span>
-                    <NavLink to="/Cart" ><span className="navbar-text" href="#" onClick={this.resetUrl}><i className="fas fa-shopping-cart cartIcon"><p className="cartCounter">15</p></i></span></NavLink>
+                    <NavLink to="/Cart" ><span className="navbar-text" href="#" onClick={this.resetUrl}><i className="fas fa-shopping-cart cartIcon"><p className="cartCounter">{this.props.cartCounter}</p></i></span></NavLink>
                   </li>
                </ul>
             </span>

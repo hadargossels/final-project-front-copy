@@ -8,10 +8,6 @@ import './OrderConfirmation.css'
 
 export default class OrderConfirmation extends Component {
 
-    constructor(props){
-        super(props)
-    }
-
     render() {
         return (
             <div className="myContainerConfirm">
@@ -37,7 +33,7 @@ export default class OrderConfirmation extends Component {
                                                     <td align="right" valign="top" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "48px", fontWeight: "400", lineHeight: "48px"}}>
                                                         <table cellSpacing="0" cellPadding="0" border="0" align="right">
                                                             <tr >
-                                                            <td style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize:" 18px", fontWeight: "400", lineHeight: "24px"}}> <NavLink to="/Catalog" href="#" target="_blank" style={{color: "#ffffff", textDecoration: "none"}}><img src="https://img.icons8.com/color/48/000000/small-business.png" width="40" height="33" style={{display: "block", border: "0px",marginRight:"20px"}} /></NavLink> </td>
+                                                            <td style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize:" 18px", fontWeight: "400", lineHeight: "24px"}}> <NavLink to="/Catalog" href="#" target="_blank" style={{color: "#ffffff", textDecoration: "none"}}><img src="https://img.icons8.com/color/48/000000/small-business.png" alt="to shop" width="40" height="33" style={{display: "block", border: "0px",marginRight:"20px"}} /></NavLink> </td>
                                                                 <td style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "18px", fontWeight: "400"}}>
                                                                     <p style={{fontSize: "24px", fontWeight: "600", margin: "0", color: "#ffffff"}}><NavLink to="/Catalog" href="#" target="_blank" style={{color: "#ffffff", textDecoration: "none"}}>לחנות &nbsp;</NavLink></p>
                                                                 </td>
@@ -54,7 +50,7 @@ export default class OrderConfirmation extends Component {
                                     <td align="center" style={{padding: "35px 35px 20px 35px", backgroundColor: "#ffffff"}} bgcolor="#ffffff">
                                         <table align="center" border="0" cellPadding="0" cellSpacing="0" width="100%" style={{maxWidth:"600px"}}>
                                             <tr>
-                                                <td align="center" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "400", lineHeight: "24px", paddingTop: "25px"}}> <img src="https://img.icons8.com/carbon-copy/100/000000/checked-checkbox.png" width="125" height="120" style={{display: "block", border: "0px"}} /><br/>
+                                                <td align="center" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "16px", fontWeight: "400", lineHeight: "24px", paddingTop: "25px"}}> <img src="https://img.icons8.com/carbon-copy/100/000000/checked-checkbox.png" alt="success" width="125" height="120" style={{display: "block", border: "0px"}} /><br/>
                                                     <h2 style={{fontSize: "30px", fontWeight: "800", lineHeight: "36px", color: "#333333", margin: "0"}}> ההזמנה בוצעה בהצלחה! </h2>
                                                 </td>
                                             </tr>

@@ -1,14 +1,11 @@
 
 import React, { Component } from 'react'
 import {NavLink } from 'react-router-dom';
-
+import axios from "axios"
 import './Home.css';
 import HomeElement from './HomeElement';
-import {db} from '../firebase'
 
 let cakeArr=[]
-
-// const cakeArr= require("../dataBase/productsData.json")
 
 
 let x=3
@@ -25,6 +22,7 @@ export default class Home extends Component {
             height: 0,
         }
           this.slideMyslider=this.slideMyslider.bind(this)
+          
     }
     
 
@@ -34,32 +32,27 @@ export default class Home extends Component {
       componentDidMount() {
 
         window.addEventListener('resize', this.updateDimensions);
-        this.getDataFromFirebase()
+        this.getDataFromMongoDB()
 
       }
       
-      getDataFromFirebase(){
-        let myData = ""
-        
-        db.on('value',async (snapshot)=>{
-          if(snapshot.val()!=null){
-  
-              myData = (snapshot.val())
-  
-          for (const [key, value] of Object.entries(myData)) {
-              myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
-            }
-            cakeArr = myData.products
-            
-            this.bestRatingProduct()
-            this.newestProducts()
-          } 
-        })
-      }
-
-
       componentWillUnmount() {
         window.removeEventListener('resize', this.updateDimensions);
+      }
+
+      async getDataFromMongoDB(){
+
+        try{
+           let response=await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/products`)
+           cakeArr = response.data
+           this.bestRatingProduct()
+            this.newestProducts()
+  
+        }catch(err){
+  
+           console.log(err);
+        }
+  
       }
 
 
@@ -96,12 +89,12 @@ export default class Home extends Component {
 
         let arr=[]
         let element
-        if(e.parentNode.id=="newElementSlider")
+        if(e.parentNode.id==="newElementSlider")
             arr=[...this.state.newArr]
-        else if(e.parentNode.id=="bestRatingElementSlider")
+        else if(e.parentNode.id==="bestRatingElementSlider")
             arr=[...this.state.bestRatingArr]
 
-        if(e.innerHTML=='<i class="fas fa-arrow-left"></i>'){
+        if(e.innerHTML==='<i class="fas fa-arrow-left"></i>'){
 
             element=arr.shift()
             arr.push(element)
@@ -110,10 +103,10 @@ export default class Home extends Component {
             element=arr.pop()
             arr.unshift(element)
         }
-        if(e.parentNode.id=="newElementSlider")
+        if(e.parentNode.id==="newElementSlider")
             this.setState({newArr:arr})
         
-        else if(e.parentNode.id=="bestRatingElementSlider")
+        else if(e.parentNode.id==="bestRatingElementSlider")
             this.setState({bestRatingArr:arr})
 
     }
@@ -153,7 +146,7 @@ export default class Home extends Component {
                             <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)}><i className="fas fa-arrow-left" onClick={(e)=>this.slideMyslider(e.target.parentNode)}></i></button>
                             
                             {this.state.newArr.slice(0,x).map((el,key)=>(
-                                <div className="elm" key={key*10}><HomeElement el={el} /></div>
+                                <div className="elm" key={key*10}><HomeElement el={el} updatItemsFromLocalStorage={this.props.updatItemsFromLocalStorage}/></div>
                             ))}
                             
                             <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)} ><i className="fas fa-arrow-right" onClick={(e)=>this.slideMyslider(e.target.parentNode)}></i></button>
@@ -164,7 +157,7 @@ export default class Home extends Component {
                         <div id="bestRatingElementSlider" className="mySlider">
                             <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)} ><i className="fas fa-arrow-left" onClick={(e)=>this.slideMyslider(e.target.parentNode)}></i></button>
                             {this.state.bestRatingArr.slice(0,x).map((el,key)=>(
-                                <div className="elm" key={key}><HomeElement  el={el}/></div>
+                                <div className="elm" key={key}><HomeElement  el={el} updatItemsFromLocalStorage={this.props.updatItemsFromLocalStorage}/></div>
                             ))}
                             <button className="mySliderBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.slideMyslider(e.target)}><i className="fas fa-arrow-right" onClick={(e)=>this.slideMyslider(e.target.parentNode)}></i></button>
                         </div>

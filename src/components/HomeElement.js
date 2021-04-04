@@ -39,7 +39,7 @@ export default class HomeElement extends Component {
         let storage=JSON.parse(localStorage.getItem("cartStorage")||"[]")
 
             for (const item of storage) {
-                if(item.id==this.props.el.id && this.props.el.priceBig==item.price){
+                if(item.id===this.props.el.id && this.props.el.priceBig===item.price){
                     item.count++
                     flag=true
                 }
@@ -50,13 +50,13 @@ export default class HomeElement extends Component {
         
             localStorage.setItem("cartStorage",JSON.stringify(storage))
             this.popUp(e)
-
+            this.props.updatItemsFromLocalStorage()
     }
 
     popUp(e) {
         
         let popup
-        if(e.target.id=="myPopup")
+        if(e.target.id==="myPopup")
             popup = this.popRef.current
         else
             popup = this.popRef2.current

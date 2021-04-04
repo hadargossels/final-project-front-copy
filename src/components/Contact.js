@@ -75,9 +75,9 @@ export default class Contact extends Component {
 
         let array=mailInput.value.split("@");
 
-        if((mailInput.value.includes("@")) && (array.length==2)&&(array[1].includes("."))){
+        if((mailInput.value.includes("@")) && (array.length===2)&&(array[1].includes("."))&& (array[0])){
             array=array[1].split(".");
-            if(array.length==2)
+            if(array.length===2)
                 mailMassege.style.visibility="hidden"
             else{
                 mailMassege.style.visibility="visible"
@@ -98,7 +98,7 @@ export default class Contact extends Component {
 
         /////////////    check phone   ///////////
         
-        if(phoneInput.value[0] !=0 || phoneInput.value[1]!=5 || phoneInput.value.length!==10){
+        if(phoneInput.value[0] !=="0" || phoneInput.value[1]!=="5" || phoneInput.value.length!==10){
             phoneMassage.style.visibility="visible"
             flag=false
         }

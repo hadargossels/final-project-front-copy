@@ -7,8 +7,6 @@ import Auth from './auth'
 import "firebase/database";
 import {db} from '../firebase'
 
-
-
 export default class Account extends Component {
 
     constructor(props){

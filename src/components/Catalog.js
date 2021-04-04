@@ -4,13 +4,9 @@ import { Link } from 'react-router-dom';
 import querystring from "query-string";
 import './Catalog.css';
 import SortBar from "./Sortbar";
-import "firebase/database";
-import {db} from '../firebase'
+import axios from "axios"
 
 let cakeArr
-// const cakeArr= require("../dataBase/productsData.json")
-
-// const updateCakeArr=[...cakeArr.reverse()]
 
 class Catalog extends Component {
 
@@ -34,8 +30,7 @@ class Catalog extends Component {
 
 
    componentDidMount(){
-      this.getDataFromFirebase()
-      
+      this.getDataFromMongoDB()
    }
    
    componentDidUpdate(prevProps){
@@ -43,23 +38,22 @@ class Catalog extends Component {
       this.filterSearch()
        }
     }
-    getDataFromFirebase(){
-      let myData = ""
-      
-      db.on('value', (snapshot)=>{
-        if(snapshot.val()!=null){
 
-            myData = (snapshot.val())
+    async getDataFromMongoDB(){
 
-        for (const [key, value] of Object.entries(myData)) {
-            myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
-          }
-         cakeArr = myData.products
+      try{
+         let response=await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/products`)
+         cakeArr = response.data
          let updateproducts=[...cakeArr.reverse()]
          this.setState({Arr:updateproducts})
-        } 
-      })
+
+      }catch(err){
+
+         console.log(err);
+      }
+
     }
+
     addFilter(e){
       let copyFilterArr=[...this.state.filterArr]
 
@@ -91,7 +85,7 @@ class Catalog extends Component {
          return (item==="fruit" || item==="withoutfruit")
       })
 
-      if(flagFruit.length==2){
+      if(flagFruit.length===2){
          copyFilterArr=copyFilterArr.filter((item)=>{
             return (item !=="fruit" && item !=="withoutfruit")
          })
@@ -100,7 +94,7 @@ class Catalog extends Component {
          return (item==="parve" || item==="milk")
       })
 
-      if(flagMilkParve.length==2){
+      if(flagMilkParve.length===2){
          copyFilterArr=copyFilterArr.filter((item)=>{
             return (item !=="parve" && item !=="milk")
          })

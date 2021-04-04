@@ -3,7 +3,7 @@ import { GoogleMap, withGoogleMap, withScriptjs, Marker, InfoWindow} from "react
 import './Map.css'
 
 
-const { compose, withProps, withStateHandlers } = require("recompose");
+// const { compose, withProps, withStateHandlers } = require("recompose");
 
 
 const MyGoogleMap = withScriptjs(

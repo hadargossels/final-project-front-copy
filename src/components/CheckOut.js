@@ -31,6 +31,8 @@ export default class CheckOut extends Component {
             validPay:"",
             detailUser:"",
             cardType:"",
+            userId:'',
+            user:'',
         }
         this.couponRef = React.createRef()
         this.couponMessageRef= React.createRef()
@@ -79,7 +81,7 @@ export default class CheckOut extends Component {
 
     }
 
-    getDataFromFirebase(){
+    async getDataFromFirebase(){
 
         let myData = ""
         
@@ -94,6 +96,35 @@ export default class CheckOut extends Component {
             coupons=myData.coupons
            } 
         })
+
+
+        let userData
+        let userUid
+
+       await auth.onAuthStateChanged(user=>{
+          if(user)
+           this.setState({userId:user.uid})
+       })
+       console.log()
+       userUid=this.state.userId
+       db.on('value', (snapshot)=>{
+         if(snapshot.val()!=null){
+           userData=snapshot.val().users[userUid]
+           this.setState({user: userData})
+ 
+           if(this.userFnameRef.current){
+                this.userFnameRef.current.value=userData.firstName
+                this.userLnameRef.current.value=userData.lastName
+                this.phoneInputRef.current.value=userData.phone
+                this.mailRef.current.value=userData.email
+                this.addressRef.current.value=userData.address.street
+                this.cityRef.current.value=userData.address.city
+                this.houseTypeRef.current.value=userData.address.type
+                this.zipRef.current.value=userData.address.zipcode
+           }
+          
+         } 
+       })
     }
 
     loadItemsFromLocalStorage(){

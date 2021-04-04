@@ -36,18 +36,18 @@ export default class ItemCart extends Component {
         let storage=JSON.parse(localStorage.getItem("cartStorage")||"[]")
         let counter=this.state.item.count
         
-        if(e.value=="+"){
+        if(e.value==="+"){
             counter++
             for (const iterator of storage) {
-                if(iterator.id==this.state.item.id){
+                if(iterator.id===this.state.item.id){
                     iterator.count=counter
                 }
             }
         }
-        if(e.value=="-" && (counter>1)){
+        if(e.value==="-" && (counter>1)){
             counter--
             for (const iterator of storage) {
-                if(iterator.id==this.state.item.id){
+                if(iterator.id===this.state.item.id){
                     iterator.count=counter
                 }
             }

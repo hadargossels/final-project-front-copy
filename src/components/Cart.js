@@ -49,6 +49,8 @@ export default class Cart extends Component {
          localStorage.setItem("cartStorage",JSON.stringify(newStorage))
          this.setState({arrItems:newStorage})
          this.calculator()
+         this.props.updatItemsFromLocalStorage()
+
     }
 
     calculator(){
@@ -77,6 +79,7 @@ export default class Cart extends Component {
         localStorage.removeItem("cartStorage")
         this.setState({arrItems:[]})
         this.calculator()
+        this.props.updatItemsFromLocalStorage()
     }
 
 
@@ -134,7 +137,7 @@ export default class Cart extends Component {
                         <div className="productList">
                             <hr className="mb-4"/>
                             {this.state.arrItems.map((el,key)=>(
-                                        <div className="itemOfCart" key={key}><ItemCart  el={el} removeItem={this.removeItem} calculator={this.calculator}/></div>
+                                        <div className="itemOfCart" key={key}><ItemCart  el={el} removeItem={this.removeItem} calculator={this.calculator} /></div>
                                     ))}
                             {!this.state.arrItems[0] && <div className="emptyCart"><h3> העגלה ריקה  ☹️ </h3></div>}
                         </div>
