@@ -40,7 +40,7 @@ class ProductPage extends Component{
                                     <span className="h5 me-2">Rated:</span><Rating rating={product.rating}/>
                                 </div> 
                                 <Price price={product.price} discount={product.discount}/>
-                                <Platforms platforms={product.platform.platformName}/>
+                                <Platforms platforms={product.platform}/>
                             </div>
                             <div className="col-md-6 col-sm-12">
                                 <CartButton id={product.id} page="buyNow"/>
@@ -49,7 +49,7 @@ class ProductPage extends Component{
                             </div>
                         </div>
                         <p className="text-start" style={{whiteSpace:"pre-line"}}><span className="fw-bold me-2" >About:</span>{product.about}</p>
-                        <Categories platforms={product.platform.platformName}/>
+                        <Categories platforms={product.platform}/>
                         <hr/>
                         <AlsoViewed/>
                     </div>                    

@@ -1,38 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import {Container, Card} from 'react-bootstrap'
-import {useAuth} from '../../contexts/AuthContext'
-import {db} from '../../firebase'
+import axios from 'axios'
 
 
 export default function Invoices() {
-    const {currentUser} = useAuth()
-    const [myData, setMyData] = useState("")
+    const [user, setUser] = useState("")
 
     useEffect(()=> {
-        const updateDatabase = ()=>{
-          db.on("value", (snapshot) =>{
-              let myData = ""
-              myData = (snapshot.val().invoices);
-              for (const [key,value] of Object.entries(myData)){
-                if (value.uid === currentUser.uid){
-                  setMyData(value)
-                }
-              }
-          })
-      }
-    
-    updateDatabase()
+      axios.post("http://localhost:5000/auth/tokenfromuser", {token:localStorage.getItem("token")}).then(response=>{
+        setUser(response.data)
+      })
       
-      },[])
+    },[])
 
-    console.log(myData)
+    console.log(user)
     return (
         <Container className="d-flex align-items-center justify-content-center py-5">
             <div className="w-100" style={{maxWidth:"400px"}}>
                 <Card>
                     <Card.Body>
                         <h2 className="text-center mb-4">Invoices</h2>
-                        <strong>Email: </strong> {currentUser.email}
+                        <strong>Email: </strong> {user.email}
 
 
                     </Card.Body>

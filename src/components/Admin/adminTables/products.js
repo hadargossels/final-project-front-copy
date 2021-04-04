@@ -11,7 +11,6 @@ export const ProductList = props => (
             <TextField source="discount" />
             <ChipField label="Platform" source="platform" />
             <NumberField source="rating" />
-            <BooleanField source="bestseller" />
             <BooleanField source="new" />
             <EditButton/>
             <DeleteWithConfirmButton/>

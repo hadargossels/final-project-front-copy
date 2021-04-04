@@ -1,10 +1,9 @@
 import React, {useRef, useState} from 'react'
 import {Container, Form, Button, Card, Alert} from 'react-bootstrap'
-import {useAuth} from '../../contexts/AuthContext'
 import {Link, useHistory} from 'react-router-dom'
-import {auth, db} from '../../firebase'
 import {logIn} from '../../actions'
 import {connect} from 'react-redux'
+import axios from 'axios'
 
 
 function Signup(props) {
@@ -13,7 +12,6 @@ function Signup(props) {
     const lnameRef=useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
-    const {signup} = useAuth()
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const history = useHistory()
@@ -23,26 +21,18 @@ function Signup(props) {
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
             return setError("Passwords do not match")
         }
-        try{
-            setError("")
-            setLoading(true)
-            await signup(emailRef.current.value, passwordRef.current.value)
-            props.logIn()
-            db.child("users").child(auth.currentUser.uid).set(
-                {
-                    "id":auth.currentUser.uid,
-                    "name":fnameRef.current.value,
-                    "lastname":lnameRef.current.value,
-                    "email":auth.currentUser.email,
-                    "roleId":"Customer",
-                    "active":true,
-                }
-            )
-            history.push("/account")
-        } catch {
-            setError("Failed to create an account")
-        }
+        setError("")
+        setLoading(true)
+        axios.post("http://localhost:5000/auth/register", {name:fnameRef.current.value, lastname:lnameRef.current.value, email:emailRef.current.value, password:passwordRef.current.value}).then(response=>{
+            console.log(response.data)
+            if (response.data.token){
+                localStorage.setItem("token",response.data.token)
+                props.logIn()
+                history.push("/account")
+            }
+        })
         setLoading(false)
+
     }
     
     return (

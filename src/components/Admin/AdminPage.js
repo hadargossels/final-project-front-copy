@@ -13,8 +13,10 @@ import UserIcon from '@material-ui/icons/Group';
 import MoneyOffIcon from '@material-ui/icons/MoneyOff';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
-// import {InvoiceList, InvoiceEdit, InvoiceShow} from './invoices'
+import {OrderList, OrderEdit, OrderShow} from './adminTables/orders'
 import {UserList, UserEdit, UserCreate} from './adminTables/users'
 import { PostList, PostCreate, PostEdit} from "./adminTables/posts";
 import {ProductList, ProductEdit, ProductCreate} from "./adminTables/products"
@@ -23,7 +25,7 @@ import {CouponsList, CouponEdit, CouponCreate} from './adminTables/coupons'
 import {PlatformCreate, PlatformEdit, PlatformsList} from './adminTables/platforms'
 
 import simpleRestProvider from 'ra-data-simple-rest';
-import { useHistory } from "react-router";
+import { StatusCreate, StatusEdit, StatusList } from "./adminTables/status";
 
 
 const history = createHashHistory();
@@ -50,13 +52,14 @@ const dataProvider= simpleRestProvider('http://localhost:5000', httpClient)
   })}
   >
       <Admin dashboard={Dashboard} dataProvider={dataProvider} history={history}>
+        <Resource name="products" list={ProductList} edit={ProductEdit} create={ProductCreate} icon={ShoppingCartIcon}/>
+        <Resource name="users" list={UserList} edit={UserEdit} icon={UserIcon} create={UserCreate}/>
+        <Resource name="orders" list={OrderList} show={OrderShow} edit={OrderEdit} icon={ListAltIcon}/>
+        <Resource name="posts" list={PostList} icon={PostAddIcon} create={PostCreate} edit={PostEdit} />
         <Resource name="coupons" list={CouponsList} edit={CouponEdit} create={CouponCreate} icon={MoneyOffIcon}/>
         <Resource name="platforms" list={PlatformsList} icon={SportsEsportsIcon} create={PlatformCreate} edit={PlatformEdit} />
-        <Resource name="posts" list={PostList} icon={PostAddIcon} create={PostCreate} edit={PostEdit} />
-        <Resource name="products" list={ProductList} edit={ProductEdit} create={ProductCreate} icon={ShoppingCartIcon}/>
         <Resource name="roles" list={RolesList} edit={RoleEdit} create={RoleCreate} icon={AssignmentIndIcon}/>
-        <Resource name="users" list={UserList} edit={UserEdit} icon={UserIcon} create={UserCreate}/>
-        {/* <Resource name="invoices" list={InvoiceList} show={InvoiceShow} edit={InvoiceEdit}/> */}
+        <Resource name="status" list={StatusList} edit={StatusEdit} create={StatusCreate} icon={AccessTimeIcon}/>
       </Admin>
     </Provider>
   );

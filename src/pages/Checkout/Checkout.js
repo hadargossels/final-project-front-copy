@@ -3,15 +3,13 @@ import {Link, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {applyDiscount, getDiscounts, addTempInvoice} from '../../actions'
 import Spinner from '../../components/Spinner/Spinner'
-import {useAuth} from '../../contexts/AuthContext'
-import {db} from '../../firebase'
 
 import {EmptyCart} from '../../components/Cart/EmptyCart'
 import './Checkout.css'
+import axios from 'axios'
 
 function Checkout (props) {
-    const [myData, setMyData] = useState("")
-    const {currentUser} = useAuth()
+    const [user, setUser] = useState("")
 
     const billFnameRef = useRef()
     const billLnameRef = useRef()
@@ -39,13 +37,8 @@ function Checkout (props) {
     let coupon = props.discount
 
     useEffect(()=>{
-        db.on("value", (snapshot) =>{
-            let myData = ""
-            myData = (snapshot.val().users);
-            for (const [key,value] of Object.entries(myData)){
-              if (value.id === currentUser.uid)
-                setMyData(value)
-            }
+        axios.post("http://localhost:5000/auth/tokenfromuser", {token:localStorage.getItem("token")}).then(response=>{
+            setUser(response.data)
         })
     },[])
 
@@ -218,8 +211,8 @@ function Checkout (props) {
                         break;
                     default:
                         break;
+                }
             }
-        }
         }
         setBilling(newBilling)
         setShipping(newShipping)
@@ -242,19 +235,19 @@ function Checkout (props) {
             })
 
             props.addTempInvoice({
-                uid: currentUser.uid,
+                userId: user.id,
                 billName: billFnameRef.current.value+" "+billLnameRef.current.value,
-                email: emailRef.current.value,
-                phone:phoneRef.current.value,
+                billEmail: emailRef.current.value,
+                billPhone:phoneRef.current.value,
 
                 shipName: shipFnameRef.current.value+" "+shipLnameRef.current.value,
-                address: streetRef.current.value +" "+aptRef.current.value,
-                city: cityRef.current.value,
+                shipAddress: streetRef.current.value +" "+aptRef.current.value,
+                shipCity: cityRef.current.value,
                 notes: notesRef.current.value,
 
                 purchaseDetails:itemsAllData,
                 sum: priceOfAll.toFixed(2),
-                sumWithDiscount: coupon? (priceOfAll * coupon).toFixed(2): "",
+                discount: coupon? priceOfAll-(priceOfAll * coupon).toFixed(2): "0.00",
                 shipping: (priceOfAll*(coupon || 1) < 100 ? Number(shippingFee) : 0).toFixed(2),
                 finalSum:(priceOfAll * (coupon || 1) + (priceOfAll*(coupon || 1) < 100 ? Number(shippingFee) : 0)).toFixed(2)
             })
@@ -288,26 +281,26 @@ function Checkout (props) {
                                         <label htmlFor="fname" className="fw-bold form-label">First name
                                             <span className="text-danger">*</span>
                                         </label>
-                                        <input ref={billFnameRef} onChange={()=>validateBilling("fname")} id="fname" type="text" className={`form-control ${billingValid.fname}`} defaultValue={myData.name}/>
+                                        <input ref={billFnameRef} onChange={()=>validateBilling("fname")} id="fname" type="text" className={`form-control ${billingValid.fname}`} defaultValue={user.name}/>
                                         <div className="invalid-feedback">Please fill your first name.</div>
                                     </div>
                                     <div className="col-md-6">
                                         <label htmlFor="lname" className="fw-bold form-label">Last name
                                             <span className="text-danger">*</span>
                                         </label>
-                                        <input ref={billLnameRef} onChange={()=>validateBilling("lname")} id="lname" type="text" className={`form-control ${billingValid.lname}`} defaultValue={myData.lastname} />
+                                        <input ref={billLnameRef} onChange={()=>validateBilling("lname")} id="lname" type="text" className={`form-control ${billingValid.lname}`} defaultValue={user.lastname} />
                                         <div className="invalid-feedback">Please fill your last name.</div>
                                     </div>
                                     <div className="col-12">
                                         <label htmlFor="phone" className="fw-bold form-label">Phone Number
                                             <span className="text-danger">*</span>
                                         </label>
-                                        <input ref={phoneRef} onChange={()=>validateBilling("phone")} id="phone" type="text" className={`form-control ${billingValid.phone}`} defaultValue={myData.phone}/>
+                                        <input ref={phoneRef} onChange={()=>validateBilling("phone")} id="phone" type="text" className={`form-control ${billingValid.phone}`} defaultValue={user.phone}/>
                                         <div className="invalid-feedback">Invalid phone number.</div>
                                     </div>
                                     <div className="col-12">
                                         <label htmlFor="email" className="fw-bold form-label">Email Address<span className="text-danger">*</span></label>
-                                        <input ref={emailRef} onChange={()=>validateBilling("email")} id="email" type="text" className={`form-control ${billingValid.email}`} defaultValue={myData.email} />
+                                        <input ref={emailRef} onChange={()=>validateBilling("email")} id="email" type="text" className={`form-control ${billingValid.email}`} defaultValue={user.email} />
                                         <div className="invalid-feedback">Invalid email address.</div>
                                     </div>
                                     <div className="col-12 form-check">
@@ -321,14 +314,14 @@ function Checkout (props) {
                                         <label htmlFor="fname2" className="fw-bold form-label">First name
                                             <span className="text-danger">*</span>
                                         </label>
-                                        <input id="fname2" ref={shipFnameRef} onChange={()=>validateShipping("fname")}  defaultValue={myData.name} type="text" className={`form-control ${shippingValid.fname}`}/>
+                                        <input id="fname2" ref={shipFnameRef} onChange={()=>validateShipping("fname")}  defaultValue={user.name} type="text" className={`form-control ${shippingValid.fname}`}/>
                                         <div className="invalid-feedback">Please fill the recepient's first name.</div>
                                     </div>
                                     <div className="col-md-6">
                                         <label htmlFor="lname2" className="fw-bold form-label">Last name
                                             <span className="text-danger">*</span>
                                         </label>
-                                        <input id="lname2" ref={shipLnameRef} onChange={()=>validateShipping("lname")}  defaultValue={myData.lastname} className={`form-control ${shippingValid.lname}`} type="text"/>
+                                        <input id="lname2" ref={shipLnameRef} onChange={()=>validateShipping("lname")}  defaultValue={user.lastname} className={`form-control ${shippingValid.lname}`} type="text"/>
                                         <div className="invalid-feedback">Please fill the recepient's last name.</div>
                                     </div>
                                     <div className="col-12">
@@ -336,7 +329,7 @@ function Checkout (props) {
                                             <span className="text-danger">*</span>
                                         </label>
                                         <input id="add1" ref={streetRef} onChange={()=>validateShipping("street")}  
-                                            defaultValue={myData.address? myData.address.street : ""}
+                                            defaultValue={user.address? user.address.street : ""}
                                             className={`form-control ${shippingValid.street}`} placeholder="123 Main St" type="text"/>
                                         <div className="invalid-feedback">Please fill the recepient's address.</div>
                                     </div>
@@ -345,14 +338,14 @@ function Checkout (props) {
                                             <span className="text-danger">*</span>
                                         </label>
                                         <input id="add2" ref={aptRef} onChange={()=>validateShipping("apt")} className={`form-control ${shippingValid.apt}`}
-                                        defaultValue={myData.address? myData.address.apt : ""}
+                                        defaultValue={user.address? user.address.apt : ""}
                                         type="text"/>
                                         <div className="invalid-feedback">Please fill the recepient's address.</div>
                                     </div>
                                     <div className="col-12">
                                         <label htmlFor="city" className="fw-bold form-label">City<span className="text-danger">*</span></label>
                                         <input ref={cityRef} id="city" onChange={()=>validateShipping("city")} 
-                                            defaultValue={myData.address? myData.address.city : ""}
+                                            defaultValue={user.address? user.address.city : ""}
                                             className={`form-control ${shippingValid.city}`} type="text"/>
                                         <div className="invalid-feedback">Please fill the recepient's city.</div>
                                     </div>

@@ -18,7 +18,7 @@ const CatalogElement = ({ id, img, name, rating, platform, price, discount ,imgN
         </Link>
       
         <CatalogPrice discount={discount} price={price}/>
-        <h6 className="text-danger fw-normal">{platform.platformName}</h6>
+        <h6 className="text-danger fw-normal">{platform}</h6>
         <Rating rating={rating} />
       </div>
       <div className="col-2  p-0">
@@ -47,7 +47,7 @@ const CatalogElement = ({ id, img, name, rating, platform, price, discount ,imgN
                     <div className="col-6">
                       <h4>{name}</h4>
                       <CatalogPrice discount={discount} price={price}/>
-                      <p>{platform.platformName}</p>
+                      <p>{platform}</p>
                       <CartButton page="quickview" id={id}/>
                       <button className="mt-2 btn-lg btn btn-outline-danger w-100" type="button">
                         <i className="far fa-heart"></i>

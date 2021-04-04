@@ -1,7 +1,7 @@
 import { LOG_IN, LOG_OUT } from '../constants/action-types'
 
 const initialState = {
-    loggedIn: "",
+    loggedIn: (localStorage.getItem("token")? true:false),
 }
 
 export default function discount(state = initialState, action) {

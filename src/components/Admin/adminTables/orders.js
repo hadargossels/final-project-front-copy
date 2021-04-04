@@ -1,13 +1,14 @@
 import * as React from "react";
-import {  Show, DateField, ArrayField, NumberField, EmailField, BooleanField, SimpleShowLayout, SelectInput, TextInput, List,Edit, Datagrid, TextField, SimpleForm, CreateButton, ExportButton, RefreshButton, ShowButton, DateInput, BooleanInput, EditButton, Title, inferTypeFromValues} from 'react-admin';
+import {  Show, DateField, ArrayField, NumberField, EmailField, BooleanField, SimpleShowLayout, SelectInput, TextInput, List,Edit, Datagrid, TextField, SimpleForm, ShowButton, DateInput, BooleanInput, EditButton, ReferenceInput, ReferenceField} from 'react-admin';
+import {MyFilter, ActionsButtons, BulkActionButtons, CustomToolbar} from '../addOns'
 
-export const InvoiceList = (props) => (
-    <List  {...props} actions={<InvoiceActionsButtons/>}>
+export const OrderList = (props) => (
+    <List  {...props}  sort={{ field: 'reference', order: 'ASC' }} filters={<MyFilter/>}  actions={<ActionsButtons/>} bulkActionButtons={<BulkActionButtons/>}>
         <Datagrid >
-            <TextField label="Date" source="fulldate"/>
-            <TextField label="Reference" source="id" />
+            <TextField source="reference" />
+            <DateField source="orderDate"/>
+            <TextField label="User" source="userId"/>
             <TextField label="Customer" source="billName"/>
-            <TextField label="Total" source="finalSum"/>
             <TextField source="status"/>
             <ShowButton/>
             <EditButton/>
@@ -15,54 +16,43 @@ export const InvoiceList = (props) => (
     </List>
 );
 
-const InvoiceActionsButtons = props => (
-    <div>
-        <RefreshButton {...props}/>
-        <ExportButton {...props}/>
-        <CreateButton {...props}/>
-    </div>
-)
-
-export const InvoiceEdit = (props) => (
+export const OrderEdit = (props) => (
     <Edit {...props} undoable={false} >
-        <SimpleForm redirect="list">
-            <TextInput source="date" disabled/>
-            <SelectInput source="status" choices={[
-                { id: 'ordered', name: 'ordered' },
-                { id: 'in process', name: 'in process' },
-                { id: 'approved', name: 'approved' },
-                { id: 'sent', name: 'sent' },
-                { id: 'delivered', name: 'delivered' },
-                { id: 'cancelled', name: 'cancelled' },
-            ]} />
-            <TextInput label="Reference" source="id" disabled/>
+        <SimpleForm toolbar={<CustomToolbar />}>
+            <DateInput source="orderDate" disabled/>
+            <ReferenceInput source="status" reference="status">
+                <SelectInput optionText="statusName" />
+            </ReferenceInput>
+            <TextInput source="reference" disabled/>
             <BooleanInput source="refunded"/>
         </SimpleForm>
     </Edit>
 )
 
-export const InvoiceShow = props => (
+export const OrderShow = props => (
     <Show {...props}>
         <SimpleShowLayout>
             
             <SimpleShowLayout className="row py-0">
                 <SimpleShowLayout className="col-7 row">
-                    <h4>Order</h4>
-                    <DateField className="col-6" source="date"  />
-                    <TextField className="col-6" label="Reference" source="id" />
-                    <TextField className="col-6" source="status" />
+                    <h5>Order</h5>
+                    <DateField className="col-6" source="orderDate"/>
+                    <TextField className="col-6" source="reference" />
+                    <ReferenceField source="status" reference="status">
+                        <TextField className="col-6" source="statusName" />
+                    </ReferenceField>
                     <BooleanField className="col-6" source="refunded" />
                 </SimpleShowLayout>
 
                 <SimpleShowLayout className=" col-5">
-                    <h4>Customer</h4>
+                    <h5>Customer</h5>
                     <TextField label="" source="billName" />
-                    <EmailField label="" source="email" />
-                    <TextField label="" source="phone" />
-                    <h4 className="pt-2">Shipping Address</h4>
+                    <EmailField label="" source="billEmail" />
+                    <TextField label="" source="billPhone" />
+                    <h5 className="pt-2">Shipping Address</h5>
                     <TextField label="" source="shipName" />
-                    <TextField label="" source="address" />
-                    <TextField label="" source="city" />
+                    <TextField label="" source="shipAddress" />
+                    <TextField label="" source="shipCity" />
                 </SimpleShowLayout>
             </SimpleShowLayout>
 
@@ -87,9 +77,9 @@ export const InvoiceShow = props => (
                     <TextField className="ps-3 col-5" label="" source="sum" />
                 </SimpleShowLayout>
 
-                <SimpleShowLayout className="d-none">
-                    <span className="col-7 pt-3">With discount</span>
-                    <TextField className=" ps-3 col-5" label="" source="sumWithDiscount" />
+                <SimpleShowLayout className="row">
+                    <span className="col-7 pt-3">Discount</span>
+                    <TextField className=" ps-3 col-5" label="" source="discount" />
                 </SimpleShowLayout>
 
                 <SimpleShowLayout className="row">

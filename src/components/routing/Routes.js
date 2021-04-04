@@ -15,11 +15,9 @@ import OrderConfirmed from '../../pages/OrderConfirmed'
 import ProductPage from '../../pages/Product/ProductPage'
 import Payment from '../../pages/Checkout/Payment'
 
-import PrivateRoute from './PrivateRoute'
 import Account from '../../pages/Account/Account'
 import Profile from '../../pages/Account/Profile'
 
-import ForgotPassword from '../../pages/auth/ForgotPassword'
 import Login from '../../pages/auth/Login'
 import SignUp from '../../pages/auth/SignUp'
 import AdminPage from '../Admin/AdminPage'
@@ -45,11 +43,13 @@ export default class Routes extends Component {
                     <Route path="/store/:search" component={CatalogPage}/>
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/signup" component={SignUp}/>
-                    <PrivateRoute path="/admin" component={AdminPage}/>
-                    <PrivateRoute exact path="/account" component={Account}/>
-                    <PrivateRoute exact path="/account/profile" component={Profile}/>
-                    <PrivateRoute exact path="/account/invoices" component={Invoices}/>
-                    <Route path="/forgot-password" component={ForgotPassword}/>
+
+                    <Route path="/token/:token" component={Account}/>
+                    <Route path="/admin" component={AdminPage}/>
+                    <Route exact path="/account" component={Account}/>
+                    <Route exact path="/account/profile" component={Profile}/>
+                    <Route exact path="/account/invoices" component={Invoices}/>
+                    
                     <Route component={NotFound}/>
                 </Switch>
         )

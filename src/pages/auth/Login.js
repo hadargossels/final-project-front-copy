@@ -1,44 +1,43 @@
 import React, {useRef, useState} from 'react'
 import {Link, useHistory} from 'react-router-dom'
 import {Form, Button, Card, Alert, Container} from 'react-bootstrap'
-import {useAuth} from '../../contexts/AuthContext'
-import firebase, {auth} from '../../firebase'
 import {logIn} from '../../actions'
 import {connect} from 'react-redux'
+import axios from 'axios'
 
 function Login(props) {
     const emailRef = useRef()
     const passwordRef = useRef()
-    const {login} = useAuth()
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const history = useHistory()
 
-    const provider = new firebase.auth.GoogleAuthProvider()
-    provider.setCustomParameters({prompt: 'select_account'})
-    const signInWithGoogle = () => auth.signInWithPopup(provider);
-    const handleGoogle = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault()
+        setError("")
         setLoading(true)
-        await signInWithGoogle();
-        props.logIn()
-        history.push("/account")
-        setLoading(false)
+
+        axios.post("/auth/login", {email:emailRef.current.value, password:passwordRef.current.value}).then(
+            response=>{
+                setLoading(false)
+                if (response.data.message){
+                    setError(response.data.message)
+                }
+                else if (response.data.token){
+                    localStorage.setItem("token",response.data.token)
+                    props.logIn()
+                    history.push("/account")
+                }
+            }
+        )
     }
 
-    async function handleSubmit(e) {
+    const handleGoogle = (e) => {
         e.preventDefault()
-        try{
-            setError("")
-            setLoading(true)
-            await login(emailRef.current.value, passwordRef.current.value)
-            props.logIn()
-            history.push("/account")
-        } catch {
-            setError("Log-in failed - invalid email or password")
-        }
-        setLoading(false)
+        window.location.href = "http://localhost:5000/auth/google"
     }
+
+
 
     return (
         <Container className="d-flex align-items-center justify-content-center py-5">
@@ -62,9 +61,6 @@ function Login(props) {
                                 <span className="px-1">Log-in with google</span>
                             </Button>
                         </Form>
-                        <div className="w-100 text-center mt-3">
-                            <Link to="/forgot-password">Forgot password?</Link>
-                        </div>
                     </Card.Body>
                 </Card>
                 <div className="w-100 text-center mt-2">

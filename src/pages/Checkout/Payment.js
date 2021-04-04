@@ -10,7 +10,6 @@ function Payment(props) {
   function paymentHandler(details, data) {
     props.markAsPaid(data.orderID)
   }
-
   return (
     <div className="container my-5 text-center">
       <h1 className="text-danger py-3">Checkout - Payment</h1>

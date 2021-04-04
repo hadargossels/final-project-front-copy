@@ -4,14 +4,19 @@ import axios from 'axios'
 import Spinner from '../../components/Spinner/Spinner'
 
 export default function BlogPost(props) {
-    const [currentComment, setCurrentComment] = useState("")
     const [post, setPost] = useState(null)
     const [comments, setComments] = useState(null)
+    const [user, setUser] = useState(null)
+    const [currentComment, setCurrentComment] = useState("")
+
     useEffect(() => {
         axios.get(`http://localhost:5000/posts?title=${props.match.params.title}`).then( (response) =>{
             setPost(response.data[0])
             axios.get(`http://localhost:5000/comments?postId=${response.data[0].id}`).then( (response) =>{
                 setComments(response.data)
+            });
+            axios.post("http://localhost:5000/auth/tokenfromuser", {token:localStorage.getItem("token")}).then(response=>{
+                setUser(response.data)
             });
         });
     }, [props.match.params.title])
@@ -23,7 +28,7 @@ export default function BlogPost(props) {
     const addComment = (e) =>{
         e.preventDefault()
         if (!currentComment){ return}
-        axios.post("http://localhost:5000/comments", {postId:post.id, userId:'60636e12545fd24c70ff8daa', postDate:new Date(), comment:currentComment}).then(()=>{
+        axios.post("http://localhost:5000/comments", {postId:post.id, userId:user.id, postDate:new Date(), comment:currentComment}).then(()=>{
             axios.get(`http://localhost:5000/comments?postId=${post.id}`).then( (response) =>{
                 setComments(response.data)
             });
@@ -40,7 +45,6 @@ export default function BlogPost(props) {
             comment.date = new Date(comment.date)
         }
     }
-    const currentUser = localStorage.getItem("login")
     return (
         <div className="py-5 container">
             {!post? <Spinner/>: 
@@ -78,11 +82,11 @@ export default function BlogPost(props) {
                                 </div>
                             </div>
                         )}
-                        <h6 className="pt-2 text-danger">{currentUser ? "" : <span><Link to="/login">Log in</Link> to </span>}Add a Comment</h6>
-                        <form className={currentUser? "col-10" : "d-none"}
+                        <h6 className="pt-2 text-danger">{user ? "" : <span><Link to="/login">Log in</Link> to </span>}Add a Comment</h6>
+                        <form className={user? "col-10" : "d-none"}
                         onSubmit={(e)=>addComment(e)}
                         >
-                            <p>Name: {currentUser}</p>
+                            <p>Name: {user? user.name+" "+user.lastname: ""}</p>
                             <textarea 
                             onChange={(e)=>updateComment(e)}
                              value={currentComment}
