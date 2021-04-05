@@ -2,12 +2,9 @@
 
 import React, { Component } from 'react'
 import './RecipeProduct.css';
-import {db} from '../firebase'
+import axios from "axios"
 
 
-
-
-// const recipesArr= require("../dataBase/recipesData.json")
 
 export default class RecipeProduct extends Component {
 
@@ -17,7 +14,6 @@ export default class RecipeProduct extends Component {
         this.state={
             recipe:"",
             validForm:"",
-            counter:0,
             arrayOfMassege:[],
         }
 
@@ -35,32 +31,24 @@ export default class RecipeProduct extends Component {
 
     componentDidMount(){
 
-        this.getDataFromFirebase()
+        this.getDataFromMongoDB()
         
         this.textMassegeRef.current.style.visibility="hidden"
         this.mailMassegeRef.current.style.visibility="hidden"
         this.userMassegeRef.current.style.visibility="hidden"
     }
-    getDataFromFirebase(){
 
-        let myData = ""
-        
-        db.on('value',async (snapshot)=>{
-          if(snapshot.val()!=null){
-  
-              myData = (snapshot.val())
-  
-          for (const [key, value] of Object.entries(myData)) {
-              myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
-            }
-            this.setState({arr:myData.recipes})
-            const recipeTemp=myData.recipes.filter((item)=>{
-                return (item["title"]==this.props.match.params.RecipeName)
-            })
-            await this.setState({recipe:recipeTemp[0]})
+    async getDataFromMongoDB(){
+
+        try{
+            let response=await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/recipes?title=${this.props.match.params.RecipeName}`)
+            await this.setState({recipe:response.data[0]})
             this.updateMassegeList()
-           } 
-        })
+
+         }catch(err){
+   
+            console.log(err);
+         }
     }
 
     myFunction() {
@@ -77,7 +65,7 @@ export default class RecipeProduct extends Component {
     inputValid(){
 
         let flag=true
-        let tempArray=[]
+        let tempArray=this.state.arrayOfMassege
         let today
 
         const textInput =this.textInputRef.current
@@ -94,7 +82,7 @@ export default class RecipeProduct extends Component {
 
         let array=mailInput.value.split("@");
 
-        if((mailInput.value.includes("@")) && (array.length==2)&&(array[1].includes("."))){
+        if((mailInput.value.includes("@")) && (array.length===2)&&(array[1].includes("."))&& (array[0])){
             array=array[1].split(".");
             if(array.length>=2)
                 mailMassege.style.visibility="hidden"
@@ -144,48 +132,36 @@ export default class RecipeProduct extends Component {
             
             today = dd + '/' + mm + '/' + yyyy;
 
-            let count=this.state.counter
-            let massege={id:this.state.counter,fname:fnameInput.value,lname:lnameInput.value,mail:mailInput.value,textMassege:textInput.value,titleBlog:this.state.recipe.title,date:today,time:hour}
-            count++
-            tempArray.unshift(massege)
-            db.child('blogStorage').child(massege.id).set(massege)
+            let message={fname:fnameInput.value,lname:lnameInput.value,email:mailInput.value,textMessage:textInput.value,titleComment:this.state.recipe.title,date:today,time:hour}
+            tempArray.unshift(message)
 
-            this.setState({counter:count})
+            axios.post(`${process.env.REACT_APP_MONGO_DATABASE}/api/comments`,message)
+            .then(function (response) {
+            })
+            .catch(function (error) {
+            console.log(error);
+            });
+
             this.setState({arrayOfMassege:tempArray})
             window.alert("ההודעה נוספה בהצלחה")
             this.myFunction()
         }
     }
 
-     updateMassegeList(){
+     async updateMassegeList(){
 
         let storage
-        let myData = ""
-        
-        db.on('value', (snapshot)=>{
-            if(snapshot.val()!=null){
+        let array
     
-                myData = (snapshot.val())
+        try{
+            let response=await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/comments?titleComment=${this.state.recipe.title}`)
     
-            for (const [key, value] of Object.entries(myData)) {
-                myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
-              }
-              storage = (myData.blogStorage)? myData.blogStorage : []
-            } 
-          })
-
-        let tempArray
-        let revtempArray
-
-        if(storage[0]){
-                this.setState({counter:storage.length})
-                tempArray=storage.filter((item)=>{
-                    return (item["titleBlog"]===this.state.recipe.title)
-             })
-             revtempArray=tempArray.reverse()
+            storage = (response.data)? response.data : []
+            array=storage.reverse()
+            this.setState({arrayOfMassege:array})
+        }catch(err){
+           console.log(err);
         }
-        
-        this.setState({arrayOfMassege:revtempArray})
     }
 
 
@@ -220,7 +196,7 @@ export default class RecipeProduct extends Component {
                         
                             
                         <div className="topnav m-5" >
-                            <a className="active" onClick={()=>this.myFunction()}>לחץ כאן להוספת תגובה</a>
+                            <span className="active" onClick={()=>this.myFunction()}>לחץ כאן להוספת תגובה</span>
 
                             <div className="formRecipe fs-4 mb-3" id="myLinks">
                                 
@@ -267,7 +243,7 @@ export default class RecipeProduct extends Component {
                                                 </div>
 
                                                 <div className="theMassege">
-                                                    {el.textMassege}
+                                                    {el.textMessage}
                                                 </div>
                                             </div>
                                             

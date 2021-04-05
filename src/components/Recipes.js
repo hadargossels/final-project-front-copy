@@ -2,8 +2,8 @@
 import React, { Component } from 'react'
 import ReactPlayer from 'react-player'
 import { Link} from 'react-router-dom';
-import {db} from '../firebase'
 import './Recipes.css';
+import axios from "axios"
 
 
 
@@ -22,32 +22,28 @@ export default class Recipes extends Component {
     }
 
     componentDidMount(){
-        this.getDataFromFirebase()
+        this.getDataFromMongoDB()
     }
-    getDataFromFirebase(){
 
-        let myData = ""
-        
-        db.on('value',async (snapshot)=>{
-          if(snapshot.val()!=null){
-  
-              myData = (snapshot.val())
-  
-          for (const [key, value] of Object.entries(myData)) {
-              myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
-            }
-            await this.setState({arr:myData.recipes})
+    async getDataFromMongoDB(){
+
+        try{
+            let response=await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/recipes`)
+            await this.setState({arr:response.data})
             this.fixDate()
-           } 
-        })
+   
+         }catch(err){
+   
+            console.log(err);
+         }
     }
 
     fixDate(){
 
         let array= this.state.arr
-        array.map((el, key) => {
+        array.forEach((el, key) => {
             let tempArr=el.date.split("-")
-            el.date=`${tempArr[2]}/${tempArr[1]}/${tempArr[0][2]}${tempArr[0][3]}`
+            el.date=`${tempArr[2][0]}${tempArr[2][1]}/${tempArr[1]}/${tempArr[0][2]}${tempArr[0][3]}`
         })
         this.setState({arr:array})
     }
@@ -75,10 +71,7 @@ export default class Recipes extends Component {
                             ))}
 
                         </div>
-
                     </div>
-
-
                 </div>
             </div>
         )

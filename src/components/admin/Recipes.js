@@ -1,19 +1,11 @@
 
 
 import * as React from "react";
-import { List, Datagrid, TextField, EmailField,EditButton,Edit,Create,SimpleForm,
-    ReferenceInput,SelectInput,TextInput,Filter,BooleanInput,RefreshButton,
-    ExportButton,CreateButton,ImageField,DateInput,DateField,ArrayInput,SimpleFormIterator } from 'react-admin';
+import { List, Datagrid, TextField,EditButton,Edit,Create,SimpleForm,
+    ReferenceInput,SelectInput,TextInput,Filter,BooleanInput
+    ,ImageField,DateInput,DateField,ArrayInput,SimpleFormIterator } from 'react-admin';
 import MyActiveField from './MyActiveField';
 
-
-const UserActionsButtons = props => (
-    <div>
-        <RefreshButton />
-        <ExportButton />
-        <CreateButton />
-    </div>
-);
 
 export const RecipeList = props => (
     <List {...props} filters={<UserFilter/>} >
@@ -25,7 +17,6 @@ export const RecipeList = props => (
             <TextField source="description" />
             <MyActiveField source="active" />
             <EditButton />
-            {/* <ActivationButton source="active"/> */}
         </Datagrid>
     </List>
 );
@@ -46,19 +37,8 @@ export const RecipeEdit = props => (
             </ArrayInput>
             <TextInput source="preparation"/>
             <BooleanInput label="active" source="active" />
-            
-            {/* <ReferenceInput label="role" source="role" reference="users">
-                <SelectInput optionText="name" />
-            </ReferenceInput> */}
-                
         </SimpleForm>
     </Edit>
-);
-
-export const UserActivation = props => (
-    // <Edit {...props}>
-        console.log(props)
-    // </Edit>
 );
 
 export const RecipeCreate = props => (
@@ -76,12 +56,7 @@ export const RecipeCreate = props => (
                     </SimpleFormIterator>
                 </ArrayInput>
                 <TextInput source="preparation"/>
-                <BooleanInput label="active" source="active" />
-                
-                {/* <ReferenceInput label="role" source="role" reference="users">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
-                
+                <BooleanInput label="active" source="active" defaultValue={true}/>
             </SimpleForm>
         </Create>
     );

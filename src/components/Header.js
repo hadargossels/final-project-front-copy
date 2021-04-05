@@ -9,6 +9,7 @@ import Auth from './auth'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import "firebase/database";
+import axios from "axios"
 
 
 //import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min';
@@ -60,10 +61,15 @@ class Header extends Component{
     getDataFromFirebase(){
 
        db.on('value',async (snapshot)=>{if(snapshot.val()!=null){
+          console.log(snapshot.val())
          await this.setState({users: snapshot.val()})
          this.loginAfterRefresh()
       } 
       })
+    }
+    getDataFromMongoDB(){
+
+      
     }
 
     loginAfterRefresh(){
@@ -115,7 +121,7 @@ class Header extends Component{
    chechAccountType(user){
 
       if(user.uid){
-
+         console.log(user.uid)
          let varUid=user.uid
          const obj=this.state.users.users[varUid]
          Auth.setRole(obj.role)

@@ -1,10 +1,8 @@
 
 import React, { Component } from 'react';
-import {useWindowSize,} from '@react-hook/window-size'
 import './Sortbar.css';
 
 // let sliderC = new Slider("#ex12c", { id: "slider12c", min: 0, max: 10, range: true, value: [3, 7] });
-
 
 
 class Sortbar extends Component{
@@ -59,9 +57,7 @@ class Sortbar extends Component{
             document.querySelector("#invalid").innerHTML= ""
             this.props.filteringPrice(min,max)
         }
-
-
-      }
+    }
 
       handleResize(){
 
@@ -120,7 +116,6 @@ class Sortbar extends Component{
 
     return(
          
-            
             <div className="sortBar">
                 <div className="sort">
                     <label htmlFor="sortBy">מיין לפי:</label><br/>
@@ -134,7 +129,7 @@ class Sortbar extends Component{
                     
                 </div>
 
-                <a className="activeBtn" onClick={()=>this.myFunction()}> פילטר <i className="fas fa-sliders-h"></i> </a>
+                <span className="activeBtn" onClick={()=>this.myFunction()}> פילטר <i className="fas fa-sliders-h"></i> </span>
                 
                 <div className="filter" ref={this.fillter1Ref}>
 

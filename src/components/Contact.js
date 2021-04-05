@@ -75,7 +75,7 @@ export default class Contact extends Component {
 
         let array=mailInput.value.split("@");
 
-        if((mailInput.value.includes("@")) && (array.length===2)&&(array[1].includes("."))&& (array[0])){
+        if((mailInput.value.includes("@")) && (array.length===2)&&(array[1].includes(".")) && (array[0])){
             array=array[1].split(".");
             if(array.length===2)
                 mailMassege.style.visibility="hidden"

@@ -210,7 +210,7 @@ myFunction() {
 
     let array=mailInput.value.split("@");
 
-    if((mailInput.value.includes("@")) && (array.length===2)&&(array[1].includes("."))){
+    if((mailInput.value.includes("@")) && (array.length===2)&&(array[1].includes("."))&& (array[0])){
         array=array[1].split(".");
         if(array.length>=2)
             mailMassege.style.visibility="hidden"
@@ -260,7 +260,7 @@ myFunction() {
         
         today = dd + '/' + mm + '/' + yyyy;
 
-        let massege={fname:fnameInput.value,lname:lnameInput.value,email:mailInput.value,textMessage:textInput.value,titleFeedBack:this.state.prod.title,date:today,time:hour}
+        let massege={fname:fnameInput.value,lname:lnameInput.value,email:mailInput.value,textMessage:textInput.value,titleFeedback:this.state.prod.title,date:today,time:hour}
         tempArray.unshift(massege)
 
         axios.post(`${process.env.REACT_APP_MONGO_DATABASE}/api/feedbacks`,massege)
@@ -283,7 +283,7 @@ myFunction() {
     let array
 
     try{
-        let response=await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/feedbacks?titleFeedBack=${this.state.prod.title}`)
+        let response=await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/feedbacks?titleFeedback=${this.state.prod.title}`)
 
         storage = (response.data)? response.data : []
         array=storage.reverse()

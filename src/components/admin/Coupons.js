@@ -1,19 +1,11 @@
 
 
 import * as React from "react";
-import { List, Datagrid, TextField, EmailField,EditButton,Edit,Create,SimpleForm,
-    ReferenceInput,SelectInput,TextInput,Filter,BooleanInput,RefreshButton,
-    ExportButton,CreateButton } from 'react-admin';
+import { List, Datagrid, TextField,EditButton,Edit,Create,SimpleForm,
+    ReferenceInput,SelectInput,TextInput,Filter,BooleanInput} from 'react-admin';
 import MyActiveField from './MyActiveField';
 
 
-const UserActionsButtons = props => (
-    <div>
-        <RefreshButton />
-        <ExportButton />
-        <CreateButton />
-    </div>
-);
 
 export const CouponList = props => (
     <List {...props} filters={<UserFilter/>} >
@@ -21,10 +13,8 @@ export const CouponList = props => (
             <TextField source="id" />
             <TextField source="serialNumber" />
             <TextField source="discountPercentage" />
-            <MyActiveField source="used" />
             <MyActiveField source="active" />
             <EditButton />
-            {/* <ActivationButton source="active"/> */}
         </Datagrid>
     </List>
 );
@@ -35,21 +25,9 @@ export const CouponEdit = props => (
             <TextInput disabled source="id" />
             <TextInput source="serialNumber" />
             <TextInput source="discountPercentage" />
-            <BooleanInput label="used" source="used" />
             <BooleanInput label="active" source="active" />
-            
-            {/* <ReferenceInput label="role" source="role" reference="users">
-                <SelectInput optionText="name" />
-            </ReferenceInput> */}
-                
         </SimpleForm>
     </Edit>
-);
-
-export const UserActivation = props => (
-    // <Edit {...props}>
-        console.log(props)
-    // </Edit>
 );
 
 export const CouponCreate = props => (
@@ -58,14 +36,7 @@ export const CouponCreate = props => (
                 <TextInput disabled source="id" />
                 <TextInput source="serialNumber" />
                 <TextInput source="discountPercentage" />
-                <BooleanInput label="used" source="used" />
-                <BooleanInput label="active" source="active" />
-                
-                {/* <ReferenceInput label="role" source="role" reference="users">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
-                    
-                
+                <BooleanInput label="active" source="active" defaultValue={true}/>
             </SimpleForm>
         </Create>
     );
