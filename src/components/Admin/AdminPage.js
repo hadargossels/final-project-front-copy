@@ -36,22 +36,111 @@ export default function AdminPage() {
   const httpClient = (url, options = {}) => {
     options.user = {
         authenticated: true,
-        token: `Bearer token`
+        token: `Bearer ${localStorage.getItem("token")}`
     };
     return fetchUtils.fetchJson(url, options);
 };
 
-const dataProvider= simpleRestProvider('http://localhost:5000', httpClient)
+  const dataProvider= simpleRestProvider(process.env.REACT_APP_SERVER, httpClient)
 
+  const convertFileToBase64 = file =>
+
+  new Promise((resolve, reject) => {
+
+      const reader = new FileReader();
+      
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+
+      reader.readAsDataURL(file.rawFile);
+  });
+
+  const myDataProvider = {
+
+    ...dataProvider,
+
+    create: (resource, params) => {
+
+        // fallback to the default implementation
+        if (resource !== 'products' && resource !== 'posts' && !params.data.pictures) {
+            
+            return dataProvider.create(resource, params);
+        }
+
+        // Freshly dropped pictures are File objects and must be converted to base64 strings
+        const newPictures = params.data.pictures.filter(
+            p => p.rawFile instanceof File
+        );
+        const formerPictures = params.data.pictures.filter(
+            p => !(p.rawFile instanceof File)
+        );
+
+        return Promise.all(newPictures.map(convertFileToBase64))
+            .then(base64Pictures =>
+                base64Pictures.map((picture64, i) => ({
+                    src: picture64,
+                    title: `${params.data.pictures[i].title}`,
+                }))
+            )
+            .then(transformedNewPictures =>
+                dataProvider.create(resource, {
+                    ...params,
+                    data: {
+                        ...params.data,
+                        pictures: [
+                            ...transformedNewPictures,
+                            ...formerPictures,
+                        ],
+                    },
+                })
+            );
+    },
+    update: (resource, params) => {
+
+        // fallback to the default implementation
+        if ((resource !== 'products'  && resource !== 'posts')|| !params.data.pictures) {
+            
+            return dataProvider.update(resource, params);
+        }
+
+        // Freshly dropped pictures are File objects and must be converted to base64 strings
+        const newPictures = params.data.pictures.filter(
+            p => p.rawFile instanceof File
+        );
+        const formerPictures = params.data.pictures.filter(
+            p => !(p.rawFile instanceof File)
+        );
+
+        return Promise.all(newPictures.map(convertFileToBase64))
+            .then(base64Pictures =>
+                base64Pictures.map((picture64, i) => ({
+                    src: picture64,
+                    title: `${params.data.pictures[i].title}`,
+                }))
+            )
+            .then(transformedNewPictures =>
+                dataProvider.update(resource, {
+                    ...params,
+                    data: {
+                        ...params.data,
+                        pictures: [
+                            ...transformedNewPictures,
+                            ...formerPictures,
+                        ],
+                    },
+                })
+            );
+      }
+  };
 
   return(
   <Provider
     store={createAdminStore({
-    dataProvider,
+    myDataProvider,
     history
   })}
   >
-      <Admin dashboard={Dashboard} dataProvider={dataProvider} history={history}>
+      <Admin dashboard={Dashboard} dataProvider={myDataProvider} history={history}>
         <Resource name="products" list={ProductList} edit={ProductEdit} create={ProductCreate} icon={ShoppingCartIcon}/>
         <Resource name="users" list={UserList} edit={UserEdit} icon={UserIcon} create={UserCreate}/>
         <Resource name="orders" list={OrderList} show={OrderShow} edit={OrderEdit} icon={ListAltIcon}/>

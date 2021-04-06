@@ -4,13 +4,15 @@ import CartButton from './CartButton/CartButton';
 import { CatalogPrice } from './CatalogPrice';
 import './CatalogElement.css'
 
-const CatalogElement = ({ id, img, name, rating, platform, price, discount ,imgNarrow, shortDescription}) => {
+const CatalogElement = ({ id, name, rating, platform, price, discount, images, shortDescription}) => {
   return(
   <div className="col-lg-4 col-md-6 mb-1">
    
     <div className="row">
       <div className="imgContain">
-        <img src={img} alt="" className="rounded img-fluid" /> 
+        <img 
+        src={process.env.REACT_APP_SERVER +images.filter(obj=>!obj.includes("narrow")&&!obj.includes("small"))[0]}
+        alt="" className="rounded img-fluid" /> 
       </div>
       <div className="col-9 ">
         <Link style={{textDecoration:"none"}} to={`/product/${name}`}>
@@ -42,7 +44,7 @@ const CatalogElement = ({ id, img, name, rating, platform, price, discount ,imgN
                 <div className="container-fluid">
                   <div className="row mb-3">
                     <div className="col-6">
-                    <img src={imgNarrow} className="img-fluid" alt=""/>
+                    <img src={process.env.REACT_APP_SERVER +images.filter(obj=>obj.includes("narrow"))[0]} className="img-fluid" alt=""/>
                     </div>
                     <div className="col-6">
                       <h4>{name}</h4>

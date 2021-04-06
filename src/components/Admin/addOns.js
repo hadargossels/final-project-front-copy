@@ -34,3 +34,14 @@ export const useStyles = makeStyles({
         justifyContent: 'space-between',
     },
 });
+
+export const CustomDeleteButton = ({ type = 'Item', field, ...props }) => {
+    const { record } = props;
+    return (
+      <DeleteWithConfirmButton
+        confirmTitle={`Delete ${type} - ${field ? record[field] : 'this item'}?`}
+        confirmContent={'Are you sure you want to delete this item?'}
+        {...props}
+      />
+    );
+  }

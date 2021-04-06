@@ -1,12 +1,12 @@
 import * as React from "react";
-import {  Show, DateField, ArrayField, NumberField, EmailField, BooleanField, SimpleShowLayout, SelectInput, TextInput, List,Edit, Datagrid, TextField, SimpleForm, ShowButton, DateInput, BooleanInput, EditButton, ReferenceInput, ReferenceField} from 'react-admin';
-import {MyFilter, ActionsButtons, BulkActionButtons, CustomToolbar} from '../addOns'
+import {  Toolbar, SaveButton, Show, DateField, ArrayField, NumberField, EmailField, BooleanField, SimpleShowLayout, SelectInput, TextInput, List,Edit, Datagrid, TextField, SimpleForm, ShowButton, DateInput, BooleanInput, EditButton, ReferenceInput, ReferenceField} from 'react-admin';
+import {MyFilter, ActionsButtons, BulkActionButtons, useStyles, CustomDeleteButton} from '../addOns'
 
 export const OrderList = (props) => (
-    <List  {...props}  sort={{ field: 'reference', order: 'ASC' }} filters={<MyFilter/>}  actions={<ActionsButtons/>} bulkActionButtons={<BulkActionButtons/>}>
+    <List  {...props}  sort={{ field: 'orderDate', order: 'ASC' }} filters={<MyFilter/>}  actions={<ActionsButtons/>} bulkActionButtons={<BulkActionButtons/>}>
         <Datagrid >
-            <TextField source="reference" />
             <DateField source="orderDate"/>
+            <TextField source="reference" />
             <TextField label="User" source="userId"/>
             <TextField label="Customer" source="billName"/>
             <TextField source="status"/>
@@ -18,7 +18,7 @@ export const OrderList = (props) => (
 
 export const OrderEdit = (props) => (
     <Edit {...props} undoable={false} >
-        <SimpleForm toolbar={<CustomToolbar />}>
+        <SimpleForm toolbar={<OrderCustomToolbar />}>
             <DateInput source="orderDate" disabled/>
             <ReferenceInput source="status" reference="status">
                 <SelectInput optionText="statusName" />
@@ -99,4 +99,11 @@ export const OrderShow = props => (
 
         </SimpleShowLayout>
     </Show>
+);
+
+const OrderCustomToolbar = props => (
+    <Toolbar {...props} classes={useStyles()}>
+        <SaveButton />
+        <CustomDeleteButton basePath="/orders" undoable={false} type="Order" field="reference"/>
+    </Toolbar>
 );

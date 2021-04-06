@@ -6,11 +6,11 @@ import {newestDate} from '../../functions/compareFuncs'
 export default class Blog extends Component {
     constructor(){
         super()
-        this.state = {posts:[]}
+        this.state = {posts:[]};
     }
 
     componentDidMount(){
-        axios.get("/posts").then( (response) =>{
+        axios.get(`${process.env.REACT_APP_SERVER}/public/posts`, {headers: {Authorization: `bearer ${process.env.REACT_APP_PUBLIC_HEADER}`}}).then( (response) =>{
             this.setState({posts : response.data})
         })
     }

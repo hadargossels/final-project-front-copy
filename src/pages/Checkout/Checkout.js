@@ -37,10 +37,12 @@ function Checkout (props) {
     let coupon = props.discount
 
     useEffect(()=>{
-        axios.post("http://localhost:5000/auth/tokenfromuser", {token:localStorage.getItem("token")}).then(response=>{
-            setUser(response.data)
-        })
-    },[])
+        if (props.loggedIn){
+            axios.post(`${process.env.REACT_APP_SERVER}/auth/userfromtoken`, {token:localStorage.getItem("token")}).then(response=>{
+                setUser(response.data)
+            })
+        }
+    },[props.loggedIn])
 
     function validateBilling(field){
         let newValid = {...billingValid}
@@ -225,13 +227,14 @@ function Checkout (props) {
                         itemsAllData.push(
                             {
                                 name:obj.name,
-                                unitPrice: obj.discount || obj.price,
+                                unitPrice: (obj.discount || obj.price).toFixed(2),
                                 count:product.count,
-                                finalPrice: (obj.discount || obj.price)*product.count
+                                finalPrice: "$"+ ((obj.discount || obj.price)*product.count).toFixed(2)
                             }
                         )
                     }
                 }
+                return ""
             })
 
             props.addTempInvoice({
@@ -247,9 +250,9 @@ function Checkout (props) {
 
                 purchaseDetails:itemsAllData,
                 sum: priceOfAll.toFixed(2),
-                discount: coupon? priceOfAll-(priceOfAll * coupon).toFixed(2): "0.00",
-                shipping: (priceOfAll*(coupon || 1) < 100 ? Number(shippingFee) : 0).toFixed(2),
-                finalSum:(priceOfAll * (coupon || 1) + (priceOfAll*(coupon || 1) < 100 ? Number(shippingFee) : 0)).toFixed(2)
+                discount: coupon? "$-"+(priceOfAll-(priceOfAll * coupon)).toFixed(2): "0.00",
+                shipping: (priceOfAll*(coupon || 1) < 100 ? "$"+Number(shippingFee) : 0).toFixed(2),
+                finalSum:"$"+(priceOfAll * (coupon || 1) + (priceOfAll*(coupon || 1) < 100 ? Number(shippingFee) : 0)).toFixed(2)
             })
         }
 
@@ -260,12 +263,13 @@ function Checkout (props) {
         e.preventDefault()
         await props.getDiscounts()
         props.applyDiscount(discountRef.current.value.toLowerCase())
+        discountRef.current.value=""
     }
 
     return (
         <div className="py-5">
-            {props.loggedIn? "": <Redirect to="/login"/>}
-            {allOkStatus? <Redirect to="/payment"/> : ""}
+            {!props.loggedIn && <Redirect to="/login"/>}
+            {allOkStatus && <Redirect to="/payment"/>}
             {!props.chosenProducts? 
             <EmptyCart/>:
             <div>

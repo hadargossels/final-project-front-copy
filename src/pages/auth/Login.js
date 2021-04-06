@@ -17,7 +17,7 @@ function Login(props) {
         setError("")
         setLoading(true)
 
-        axios.post("/auth/login", {email:emailRef.current.value, password:passwordRef.current.value}).then(
+        axios.post(`${process.env.REACT_APP_SERVER}/auth/login`, {email:emailRef.current.value, password:passwordRef.current.value}).then(
             response=>{
                 setLoading(false)
                 if (response.data.message){
@@ -34,7 +34,7 @@ function Login(props) {
 
     const handleGoogle = (e) => {
         e.preventDefault()
-        window.location.href = "http://localhost:5000/auth/google"
+        window.location.href = `${process.env.REACT_APP_SERVER}/auth/google`
     }
 
 

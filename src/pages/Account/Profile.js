@@ -18,30 +18,32 @@ function Profile(props) {
   const [user, setUser] = useState("")
 
   useEffect(()=> {
-    axios.post("http://localhost:5000/auth/tokenfromuser", {token:localStorage.getItem("token")}).then(response=>{
+    axios.post(`${process.env.REACT_APP_SERVER}/auth/userfromtoken`, {token:localStorage.getItem("token")}).then(response=>{
       setUser(response.data)
     })},[])
 
   function handleSubmit(){
       setLoading(true)
       setError("")
-      axios.put(`http://localhost:5000/users/${user.id}`, 
-      {
-        name:fnameRef.current.value,
-        lastname:lnameRef.current.value,
-        email:emailRef.current.value,
-        phone:phoneRef.current.value,
-        address:{
-          street:streetRef.current.value,
-          apt:aptRef.current.value,
-          city:cityRef.current.value
-        }
-      }
-      
-      ).then(response=>{
-        setUser(response.data)})
+      axios.put(`${process.env.REACT_APP_SERVER}/users/${user.id}`, 
+        {
+          name:fnameRef.current.value,
+          lastname:lnameRef.current.value,
+          email:emailRef.current.value,
+          phone:phoneRef.current.value,
+          address:{
+            street:streetRef.current.value,
+            apt:aptRef.current.value,
+            city:cityRef.current.value
+          }
+        }, {headers: {Authorization}}
+      )
+      .then(response=>{
+        setUser(response.data)
         setLoading(false)
+      })
   }
+  let Authorization = `bearer ${localStorage.getItem("token")}`
 
   return (
     <Container className="d-flex justify-content-center py-5">

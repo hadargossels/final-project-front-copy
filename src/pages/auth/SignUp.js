@@ -23,7 +23,7 @@ function Signup(props) {
         }
         setError("")
         setLoading(true)
-        axios.post("http://localhost:5000/auth/register", {name:fnameRef.current.value, lastname:lnameRef.current.value, email:emailRef.current.value, password:passwordRef.current.value}).then(response=>{
+        axios.post(`${process.env.REACT_APP_SERVER}/auth/register`, {name:fnameRef.current.value, lastname:lnameRef.current.value, email:emailRef.current.value, password:passwordRef.current.value}).then(response=>{
             console.log(response.data)
             if (response.data.token){
                 localStorage.setItem("token",response.data.token)

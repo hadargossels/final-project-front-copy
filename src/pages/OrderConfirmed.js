@@ -5,11 +5,12 @@ import {emptyCart} from '../actions'
 class OrderConfirmed extends Component {
     componentDidMount(){
         let invoice = this.props.current_invoice
+        let Authorization = `bearer ${localStorage.getItem("token")}`
 
-        axios.post("http://localhost:5000/orders", {...invoice, status:"606378a4545fd24c70ff8dc5", orderDate:new Date()}).then(
+        axios.post(`${process.env.REACT_APP_SERVER}/orders`, {...invoice, status:"606378a4545fd24c70ff8dc5", orderDate:new Date()}, {headers: {Authorization}})
+        .then(
             this.props.emptyCart
         )
-    
     }
     render() {
         return (

@@ -17,6 +17,8 @@ class CartTable extends Component {
         e.preventDefault()
         await this.props.getDiscounts()
         this.props.applyDiscount(this.discountRef.current.value.toLowerCase())
+        this.discountRef.current.value=""
+
     }
     onEmpty()
     {this.props.emptyCart()}
@@ -61,7 +63,9 @@ class CartTable extends Component {
                                             
                                             return(
                                                 <tr key={key}>
-                                                    <td className="smallImg"> <img src={obj.imgSmall} className="img-fluid" alt=""/></td>
+                                                    <td className="smallImg">
+                                                        <img src= {process.env.REACT_APP_SERVER +obj.images.filter(obj=>obj.includes("small"))[0]}
+                                                            className="img-fluid" alt=""/></td>
                                                     <td className="text-start">{obj.name}</td>
                                                     <td className="text-start">${finalPrice}</td>
                                                     <td >

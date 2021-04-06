@@ -1,6 +1,6 @@
 import * as React from "react";
-import { DateInput, Create, Datagrid, Edit, EditButton, List, SimpleForm, TextField, TextInput, DeleteWithConfirmButton, SelectInput, DateField} from "react-admin";
-import {MyFilter, ActionsButtons, BulkActionButtons, CustomToolbar} from '../addOns'
+import { Toolbar, SaveButton, ArrayInput,required, SimpleFormIterator, BooleanInput, ImageInput, ImageField, DateInput, Create, Datagrid, Edit, EditButton, List, SimpleForm, TextField, TextInput, DateField} from "react-admin";
+import {MyFilter, ActionsButtons, BulkActionButtons, CustomDeleteButton, useStyles} from '../addOns'
 
 export const PostList = (props) => (
     <List  {...props} sort={{ field: 'date', order: 'DESC' }} filters={<MyFilter/>} actions={<ActionsButtons/>} bulkActionButtons={<BulkActionButtons/>} >
@@ -8,38 +8,27 @@ export const PostList = (props) => (
             <DateField source="date"/>
             <TextField source="title" />
             <EditButton />
-            <DeleteWithConfirmButton/>
+            <CustomDeleteButton basePath="/posts" undoable={false} type="Post" field="title"/>
         </Datagrid>
     </List>
 );
 
 export const PostEdit = props => (
     <Edit {...props} undoable={false}>
-        <SimpleForm toolbar={<CustomToolbar />}>
+        <SimpleForm toolbar={<PostToolbar />}>
             <TextInput source="id" disabled />
             <DateInput source="date"/>
             <TextInput source="title" />
+            <ArrayInput source="images" validate={[required()]}>
+                <SimpleFormIterator disableAdd disableRemove>
+                    <TextInput label="Title" source="title" disabled/>
+                    <BooleanInput label="Active" source="active"/>
+                </SimpleFormIterator>
+            </ArrayInput>
             <TextInput multiline source="blogtext" />
-
-            <SelectInput source="img" choices={[
-                {  id: '/img/blog/post1.jpg' ,name: '/img/blog/post1.jpg'},
-                {  id: '/img/blog/post2.jpg' ,name: '/img/blog/post2.jpg'},
-                {  id: '/img/blog/post3.jpg' ,name: '/img/blog/post3.jpg'},
-                {  id: '/img/blog/post4.jpg' ,name: '/img/blog/post4.jpg'},
-                {  id: '/img/blog/post5.jpg' ,name: '/img/blog/post5.jpg'},
-                {  id: '/img/blog/post6.jpg' ,name: '/img/blog/post6.jpg'},
-                {  id: '/img/blog/post7.jpg' ,name: '/img/blog/post7.jpg'},
-                {  id: '/img/blog/post8.jpg' ,name: '/img/blog/post8.jpg'}
-            ]} />
-            <SelectInput source="bottomType" choices={[
-                {  id: 'picture' ,name: 'picture'}
-            ]} />
-            <SelectInput source="bottomContent" choices={[
-                {  id: '/img/blog/bottom/bottom1.jpg' ,name: '/img/blog/bottom/bottom1.jpg'},
-                {  id: '/img/blog/bottom/bottom2.jpg' ,name: '/img/blog/bottom/bottom2.jpg'},
-                {  id: '/img/blog/bottom/bottom3.jpg' ,name: '/img/blog/bottom/bottom3.jpg'},
-                {  id: '/img/blog/bottom/bottom4.jpg' ,name: '/img/blog/bottom/bottom4.jpg'}
-            ]} />
+            <ImageInput multiple source="pictures" label="Drop some pictures to upload, or click to select one (up to 10MB)." accept="image/*">
+                <ImageField source="src" title="title" />
+            </ImageInput>
         </SimpleForm>
     </Edit>
 );
@@ -50,25 +39,16 @@ export const PostCreate = props => (
             <DateInput source="date"/>
             <TextInput source="title" />
             <TextInput multiline source="blogtext" />
-            <SelectInput source="img" choices={[
-                {  id: '/img/blog/post1.jpg' ,name: '/img/blog/post1.jpg'},
-                {  id: '/img/blog/post2.jpg' ,name: '/img/blog/post2.jpg'},
-                {  id: '/img/blog/post3.jpg' ,name: '/img/blog/post3.jpg'},
-                {  id: '/img/blog/post4.jpg' ,name: '/img/blog/post4.jpg'},
-                {  id: '/img/blog/post5.jpg' ,name: '/img/blog/post5.jpg'},
-                {  id: '/img/blog/post6.jpg' ,name: '/img/blog/post6.jpg'},
-                {  id: '/img/blog/post7.jpg' ,name: '/img/blog/post7.jpg'},
-                {  id: '/img/blog/post8.jpg' ,name: '/img/blog/post8.jpg'}
-            ]} />
-            <SelectInput source="bottomType" choices={[
-                {  id: 'picture' ,name: 'picture'}
-            ]} />
-            <SelectInput source="bottomContent" choices={[
-                {  id: '/img/blog/bottom/bottom1.jpg' ,name: '/img/blog/bottom/bottom1.jpg'},
-                {  id: '/img/blog/bottom/bottom2.jpg' ,name: '/img/blog/bottom/bottom2.jpg'},
-                {  id: '/img/blog/bottom/bottom3.jpg' ,name: '/img/blog/bottom/bottom3.jpg'},
-                {  id: '/img/blog/bottom/bottom4.jpg' ,name: '/img/blog/bottom/bottom4.jpg'}
-            ]} />
+            <ImageInput multiple source="pictures" label="Drop some pictures to upload, or click to select one (up to 10MB)." accept="image/*">
+                <ImageField source="src" title="title" />
+            </ImageInput>
         </SimpleForm>
     </Create>
+);
+
+const PostToolbar = props => (
+    <Toolbar {...props} classes={useStyles()}>
+        <SaveButton />
+        <CustomDeleteButton basePath="/posts" undoable={false} type="Post" field="title"/>
+    </Toolbar>
 );

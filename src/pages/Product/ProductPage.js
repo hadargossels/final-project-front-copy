@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import { getProducts} from '../../actions'
 
-import AlsoViewed from '../../components/Product/AlsoViewed';
 import CartButton from '../../components/Catalog/CartButton/CartButton';
 import Categories from '../../components/Product/Categories'
 import Gallery from '../../components/Product/Gallery';
@@ -29,7 +28,9 @@ class ProductPage extends Component{
                 <div className="row mx-md-5 mx-0">
 
                     <div className="gallery  col-md-5 ps-0 pe-2">
-                        <Gallery mainImg={product.imgNarrow} wideImg={product.img}/>
+                        <Gallery 
+                        mainImg={process.env.REACT_APP_SERVER +product.images.filter(obj=>obj.includes("narrow"))[0]}
+                        wideImg={process.env.REACT_APP_SERVER +product.images.filter(obj=>!obj.includes("narrow") && !obj.includes("small"))[0]}/>
                     </div>
                     <div className="px-0  col-md-7 mx-0">
                         <h1 className="text-center">{product.name}</h1>
@@ -49,9 +50,8 @@ class ProductPage extends Component{
                             </div>
                         </div>
                         <p className="text-start" style={{whiteSpace:"pre-line"}}><span className="fw-bold me-2" >About:</span>{product.about}</p>
-                        <Categories platforms={product.platform}/>
                         <hr/>
-                        <AlsoViewed/>
+                        <Categories platforms={product.platform}/>
                     </div>                    
                 </div>}
             </div> 

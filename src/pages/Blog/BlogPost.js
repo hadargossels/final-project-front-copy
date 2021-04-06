@@ -4,21 +4,24 @@ import axios from 'axios'
 import Spinner from '../../components/Spinner/Spinner'
 
 export default function BlogPost(props) {
+    let Authorization = `bearer ${localStorage.getItem("token")}`
     const [post, setPost] = useState(null)
     const [comments, setComments] = useState(null)
     const [user, setUser] = useState(null)
     const [currentComment, setCurrentComment] = useState("")
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/posts?title=${props.match.params.title}`).then( (response) =>{
+        axios.get(`${process.env.REACT_APP_SERVER}/public/posts?title=${props.match.params.title}`, {headers: {Authorization: `bearer ${process.env.REACT_APP_PUBLIC_HEADER}`}}).then( (response) =>{
             setPost(response.data[0])
-            axios.get(`http://localhost:5000/comments?postId=${response.data[0].id}`).then( (response) =>{
+            axios.get(`${process.env.REACT_APP_SERVER}/comments?postId=${response.data[0].id}`, {headers: {Authorization: `bearer ${process.env.REACT_APP_PUBLIC_HEADER}`}}).then( (response) =>{
                 setComments(response.data)
             });
-            axios.post("http://localhost:5000/auth/tokenfromuser", {token:localStorage.getItem("token")}).then(response=>{
+        });
+        if (localStorage.getItem("token")){
+            axios.post(`${process.env.REACT_APP_SERVER}/auth/userfromtoken`, {token:localStorage.getItem("token")}).then(response=>{
                 setUser(response.data)
             });
-        });
+        }
     }, [props.match.params.title])
 
     const updateComment = (e) =>{
@@ -28,8 +31,8 @@ export default function BlogPost(props) {
     const addComment = (e) =>{
         e.preventDefault()
         if (!currentComment){ return}
-        axios.post("http://localhost:5000/comments", {postId:post.id, userId:user.id, postDate:new Date(), comment:currentComment}).then(()=>{
-            axios.get(`http://localhost:5000/comments?postId=${post.id}`).then( (response) =>{
+        axios.post(`${process.env.REACT_APP_SERVER}/comments`, {postId:post.id, userId:user.id, postDate:new Date(), comment:currentComment}, {headers: {Authorization}}).then(()=>{
+            axios.get(`${process.env.REACT_APP_SERVER}/comments?postId=${post.id}`,  {headers: {Authorization: `bearer ${process.env.REACT_APP_PUBLIC_HEADER}`}}).then( (response) =>{
                 setComments(response.data)
             });
             setCurrentComment("")
@@ -51,14 +54,19 @@ export default function BlogPost(props) {
             <div>
                 <div className="row justify-content-center border border-warning" style={{backgroundColor:"#FFF5EE"}}>
                     <div className="col-10 my-4">
-                        <div className="rounded my-2" style={{backgroundImage:`url(${post.img})`, height:"25vw", backgroundPosition:"center", backgroundSize:"100%",backgroundRepeat:"no-repeat"}}></div>
+                        <div className="rounded my-2" 
+                        style={
+                            {backgroundImage:`url(${process.env.REACT_APP_SERVER +post.images.filter(obj=>!obj.includes("bottom"))[0]})`,
+                            height:"25vw", backgroundPosition:"center", backgroundSize:"100%",backgroundRepeat:"no-repeat"}}></div>
                         <h1 className="text-danger">{post.title}</h1>
                         <div className="d-flex">
                             <span className="p-2"><i className="far fa-calendar-alt"> {post.date}</i></span>
                             <span className="p-2"><i className="fas fa-comment-alt"></i> {comments? comments.length : "0"}</span>
                         </div>
                         <div className="my-3" style={{whiteSpace:"pre-line"}}>{(post.blogtext)}</div>
-                        <img src={post.bottomContent} alt="" className={`${post.bottomType === "picture"? "" : "d-none"} mx-auto d-block img-fluid img-thumbnail`}/>
+                        {post.images.filter(obj=>obj.includes("bottom")).length !==0 &&
+                            <img src={process.env.REACT_APP_SERVER +post.images.filter(obj=>obj.includes("bottom"))[0]} alt="" className= "picture mx-auto d-block img-fluid img-thumbnail"/>
+                        }
                         <br/>
                         <Link to="/blog"><button className="btn btn-danger float-end">Back to Our Blog</button></Link>
                     </div>

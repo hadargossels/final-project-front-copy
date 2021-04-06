@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {markAsPaid} from '../../actions'
 
 import PayPalBtn from '../../components/Paypal/PayPalBtn'
+import Spinner from '../../components/Spinner/Spinner';
 
 function Payment(props) {
 
@@ -16,10 +17,15 @@ function Payment(props) {
       <h3 className="pb-3">Final price - ${props.current_invoice.finalSum}</h3>
       <h4>Please choose a paying method:</h4>
       {props.current_invoice.reference? <Redirect to="/confirmed"/>:""}
+      {
+        props.current_invoice.finalSum?
         <PayPalBtn
             amount = {props.current_invoice.finalSum}
             currency = {'USD'}
             onSuccess={paymentHandler}/>
+        :
+        <Spinner/>
+      }
     </div>
   )
 }

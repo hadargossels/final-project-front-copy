@@ -28,15 +28,15 @@ export const applyDiscount = (data) => ({
 })
 
 export const getDiscounts = () => dispatch => {
-    return axios
-    .get("/coupons")
-    .then (allCoupons =>
-        dispatch({
-            type: GET_DISCOUNTS,
-            payload: allCoupons.data
-        })
-    )
+
+    return axios.get(`${process.env.REACT_APP_SERVER}/coupons`, {headers: {Authorization: `bearer ${process.env.REACT_APP_PUBLIC_HEADER}`}}).then(allCoupons =>
+            dispatch({
+                type: GET_DISCOUNTS,
+                payload: allCoupons.data
+            })
+        )
 }
+
 
 //Product actions
 export const moveBestsell = (button) => ({
@@ -46,14 +46,13 @@ export const moveBestsell = (button) => ({
 
 export const getProducts = () => dispatch => {
 
-    return axios
-    .get("/products")
-    .then (allProducts =>
-        dispatch({
-            type: GET_PRODUCTS,
-            payload: allProducts.data
-        })
-    )
+    return axios.get(`${process.env.REACT_APP_SERVER}/public/products`, {headers: {Authorization: `bearer ${process.env.REACT_APP_PUBLIC_HEADER}`}}).then(allProducts =>
+            dispatch({
+                type: GET_PRODUCTS,
+                payload: allProducts.data
+            })
+        )
+    
 }
 
 export const addToCart = (data) => ({

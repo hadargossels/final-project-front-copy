@@ -16,10 +16,10 @@ function Account(props) {
             props.logIn()
             history.push("/account")
         }
-        axios.post("http://localhost:5000/auth/tokenfromuser", {token:localStorage.getItem("token")}).then(response=>{
+        axios.post(`${process.env.REACT_APP_SERVER}/auth/userfromtoken`, {token:localStorage.getItem("token")}).then(response=>{
             setUser(response.data)
         })
-    }, [props])
+    }, [props,history])
 
     function handleLogout(){
         localStorage.removeItem("token")
@@ -39,7 +39,7 @@ function Account(props) {
                                 <Button className="w-100 my-2" type="submit">Profile</Button>
                             </Link>
                             <Link to="/account/invoices">
-                                <Button className="w-100 my-2" type="submit">Your Invoices</Button>
+                                <Button className="w-100 my-2" type="submit">Purchase History</Button>
                             </Link>
                         </Card.Body>
                     : <Spinner/>}

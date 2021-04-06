@@ -1,20 +1,20 @@
 import * as React from "react";
-import { Create, Datagrid, Edit, EditButton, List, SimpleForm, TextField, TextInput, DeleteWithConfirmButton} from "react-admin";
-import {MyFilter, ActionsButtons, BulkActionButtons, CustomToolbar} from '../addOns'
+import { Toolbar, SaveButton, Create, Datagrid, Edit, EditButton, List, SimpleForm, TextField, TextInput} from "react-admin";
+import {MyFilter, ActionsButtons, BulkActionButtons, useStyles, CustomDeleteButton} from '../addOns'
 
 export const StatusList = (props) => (
     <List {...props} sort={{ field: 'statusName', order: 'ASC' }} filters={<MyFilter/>} actions={<ActionsButtons/>} bulkActionButtons={<BulkActionButtons/>}>
         <Datagrid >
             <TextField source="statusName" />
             <EditButton />
-            <DeleteWithConfirmButton/>
+            <CustomDeleteButton basePath="/status" undoable={false} type="Status" field="statusName"/>
         </Datagrid>
     </List>
 );
 
 export const StatusEdit = props => (
     <Edit {...props} undoable={false}>
-        <SimpleForm toolbar={<CustomToolbar />}>
+        <SimpleForm toolbar={<StatusToolbar />}>
             <TextInput source="id" disabled/>
             <TextInput label="Status" source="statusName" />
         </SimpleForm>
@@ -27,4 +27,11 @@ export const StatusCreate = props => (
             <TextInput label="Status" source="statusName" />
         </SimpleForm>
     </Create>
+);
+
+const StatusToolbar = props => (
+    <Toolbar {...props} classes={useStyles()}>
+        <SaveButton />
+        <CustomDeleteButton basePath="/status" undoable={false} type="Status" field="statusName"/>
+    </Toolbar>
 );
