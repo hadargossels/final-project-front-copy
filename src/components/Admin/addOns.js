@@ -21,6 +21,15 @@ export const ActionsButtons = props => {
     </div>
 )}
 
+export const ActionsRefreshOnly = props => {
+    const picked = (({ basePath, className , resource}) => ({  basePath, className , resource}))(props);
+
+    return (
+    <div>
+        <RefreshButton {...picked}/>
+    </div>
+)}
+
 export const CustomToolbar = props => (
     <Toolbar {...props} classes={useStyles()}>
         <SaveButton />

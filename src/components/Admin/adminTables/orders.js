@@ -1,9 +1,9 @@
 import * as React from "react";
 import {  Toolbar, SaveButton, Show, DateField, ArrayField, NumberField, EmailField, BooleanField, SimpleShowLayout, SelectInput, TextInput, List,Edit, Datagrid, TextField, SimpleForm, ShowButton, DateInput, BooleanInput, EditButton, ReferenceInput, ReferenceField} from 'react-admin';
-import {MyFilter, ActionsButtons, BulkActionButtons, useStyles, CustomDeleteButton} from '../addOns'
+import {MyFilter, ActionsRefreshOnly, BulkActionButtons, useStyles, CustomDeleteButton} from '../addOns'
 
 export const OrderList = (props) => (
-    <List  {...props}  sort={{ field: 'orderDate', order: 'ASC' }} filters={<MyFilter/>}  actions={<ActionsButtons/>} bulkActionButtons={<BulkActionButtons/>}>
+    <List  {...props}  sort={{ field: 'orderDate', order: 'ASC' }} filters={<MyFilter/>}  actions={<ActionsRefreshOnly/>} bulkActionButtons={<BulkActionButtons/>}>
         <Datagrid >
             <DateField source="orderDate"/>
             <TextField source="reference" />

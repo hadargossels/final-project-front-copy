@@ -15,6 +15,7 @@ import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
 
 import {OrderList, OrderEdit, OrderShow} from './adminTables/orders'
 import {UserList, UserEdit, UserCreate} from './adminTables/users'
@@ -26,6 +27,7 @@ import {PlatformCreate, PlatformEdit, PlatformsList} from './adminTables/platfor
 
 import simpleRestProvider from 'ra-data-simple-rest';
 import { StatusCreate, StatusEdit, StatusList } from "./adminTables/status";
+import { TicketEdit, TicketList, TicketShow } from "./adminTables/tickets";
 
 
 const history = createHashHistory();
@@ -145,6 +147,7 @@ export default function AdminPage() {
         <Resource name="users" list={UserList} edit={UserEdit} icon={UserIcon} create={UserCreate}/>
         <Resource name="orders" list={OrderList} show={OrderShow} edit={OrderEdit} icon={ListAltIcon}/>
         <Resource name="posts" list={PostList} icon={PostAddIcon} create={PostCreate} edit={PostEdit} />
+        <Resource name="tickets" icon={MailOutlineIcon} list={TicketList} show={TicketShow} edit={TicketEdit} />
         <Resource name="coupons" list={CouponsList} edit={CouponEdit} create={CouponCreate} icon={MoneyOffIcon}/>
         <Resource name="platforms" list={PlatformsList} icon={SportsEsportsIcon} create={PlatformCreate} edit={PlatformEdit} />
         <Resource name="roles" list={RolesList} edit={RoleEdit} create={RoleCreate} icon={AssignmentIndIcon}/>
