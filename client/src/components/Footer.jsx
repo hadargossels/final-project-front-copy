@@ -5,7 +5,7 @@ import {Card} from "react-bootstrap";
 
 export default function Footer() {
     return (
-        <Card className="text-center">
+        <Card className="text-center myfooter">
             <Card.Body>
                 <div className="socialmedia-links">
                     <a href="https://www.facebook.com/"><i className="fab fa-facebook"></i></a>

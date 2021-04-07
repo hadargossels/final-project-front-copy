@@ -16,7 +16,6 @@ import SignUp from './components/authentication/SignUp';
 import Login from './components/authentication/Login';
 import ForgotPassword from './components/authentication/ForgotPassword';
 import Profile from './components/authentication/Profile';
-import ProfileOrdes from './components/authentication/ProfileOrdes';
 import ChangePassword from './components/authentication/ChangePassword';
 import PrivateRoute from './components/authentication/PrivateRoute';
 import PrivateRouteAdmin from './components/authentication/PrivateRouteAdmin';
@@ -66,8 +65,7 @@ export default function App() {
               
               <Switch>
                 <PrivateRoute path="/profile" component={Profile} />
-                <PrivateRoute path="/admin" component={WebsiteAdmin} />
-                <Route path="/profile-ordes" component={ProfileOrdes} />
+                <PrivateRouteAdmin path="/admin" component={WebsiteAdmin} />
                 <Route exact path="/" component={Home} />
                 <Route path="/signup" component={SignUp} />
                 <Route path="/login" component={Login} />

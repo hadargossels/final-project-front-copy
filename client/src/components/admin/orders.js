@@ -2,7 +2,7 @@ import * as React from "react";
 import DeleteWithCustomConfirmButton from 'ra-delete-with-custom-confirm-button';
 import Delete from '@material-ui/icons/Delete';
 import ErrorOutline from '@material-ui/icons/ErrorOutline';
-import { GridShowLayout, RaGrid, BoxedShowLayout, RaBox, TabbedShowLayout, Tab } from "ra-compact-ui";
+import { GridShowLayout, RaGrid, BoxedShowLayout, RaBox } from "ra-compact-ui";
 import {
     List,
     Datagrid,
@@ -21,7 +21,8 @@ import {
     EmailField,
     Edit,
     SimpleForm,
-    ReferenceField
+    ReferenceField,
+    ReferenceInput
 } from 'react-admin';
 
 
@@ -40,20 +41,23 @@ const DeleteConfirmContent = (props) => {
     return (
       <SimpleShowLayout {...props} >
         <TextField source="id" />
-        <TextField source="order_details.status" label="Status" />
-        <DateField source="order_details.date" label="Date" />
-        <NumberField source="order_details.total_amount.value" label="Amount" />
-        <TextField source="customer_details.user_id" label="Customer Id" />
+        <TextField source="status" />
+        <DateField source="createdAt" label="Date" />
+        <NumberField source="totalAmount" label="Total" />
+        <TextField source="userId" label="Customer Id" />
       </SimpleShowLayout>
     );
 };
 
 const OrderFilter = (props) => (
     <Filter {...props}>
-        <TextInput label="Search" source="q" alwaysOn />
-        <SelectInput source="order_details.status" label="Status" choices={statusOptions} />
-        <DateInput source="order_details.date" label="Date" />
-        <TextInput source="customer_details.user_id" label="Customer Id" />
+        <TextInput label="Search" source="id" alwaysOn />
+        <SelectInput source="status" choices={statusOptions} />
+        <DateInput source="createdAt" label="Date" />
+        <ReferenceInput label="Customer Id" source="userId" reference="users" >
+            <TextInput optionText="id" />
+        </ReferenceInput>
+        {/* <TextInput source="userId" label="Customer Id" /> */}
     </Filter>
 );
 
@@ -61,10 +65,10 @@ export const OrderList = props => (
     <List filters={<OrderFilter />} {...props}>
         <Datagrid rowClick="show">
             <TextField source="id" />
-            <TextField source="order_details.status" label="Status" />
-            <DateField source="order_details.date" label="Date" />
-            <NumberField source="order_details.total_amount.value" label="Amount" />
-            <ReferenceField label="Customer Id" source="customer_details.user_id" reference="users">
+            <TextField source="status" />
+            <DateField source="createdAt" label="Date" />
+            <NumberField source="totalAmount" label="Total" />
+            <ReferenceField label="Customer Id" source="userId" reference="users">
                 <TextField source="id" />
             </ReferenceField>
             
@@ -90,20 +94,24 @@ export const OrderShow = (props) => (
                     <RaGrid item xs>
                         <h6>Order</h6>
                         <TextField source="id" label="Order Id"/>
-                        <DateField source="order_details.date" label="Date" />                            
-                        <ChipField source="order_details.status" label="Status" />
+                        <DateField source="createdAt" label="Date" />                            
+                        <ChipField source="status" label="Status" />
                     </RaGrid>
                     <RaGrid item xs>
                         <h6>Costumer</h6>
-                        <TextField source="customer_details.user_id" label="Customer Id"/>
-                        <EmailField source="customer_details.email" label="Email"/>
+                        <ReferenceField label="Customer Id" source="userId" reference="users">
+                            <TextField source="id" />
+                        </ReferenceField>
+                        <ReferenceField label="Customer Email" source="userId" reference="users">
+                            <TextField source="email" />
+                        </ReferenceField>
                     </RaGrid>
                     <RaGrid item xs>
                         <h6>Recipient</h6>
-                        <TextField source="recipient_details.city" label="City"/>
-                        <TextField source="recipient_details.street" label="Street"/>
-                        <TextField source="recipient_details.home_number" label="Home Number"/>
-                        <TextField source="recipient_details.apartment_number" label="Apartment Number"/>
+                        <TextField source="recipient.city" label="City"/>
+                        <TextField source="recipient.street" label="Street"/>
+                        <TextField source="recipient.homeNumber" label="Home Number"/>
+                        <TextField source="recipient.apartmentNumber" label="Apartment Number"/>
                     </RaGrid>
                 </RaGrid>
             </GridShowLayout>
@@ -111,15 +119,25 @@ export const OrderShow = (props) => (
             <h6 style={{marginTop: "40px"}}>Items</h6>
             <BoxedShowLayout>
                 <RaBox flex="0 0 100%" display="flex" mt="20px">
-                    <ArrayField source="order_details.products" style={{width: "100%"}}>
+                    <ArrayField source="products" style={{width: "100%"}}>
                         <Datagrid>
-                            <TextField source="id" />
-                            <TextField source="name" />
-                            <NumberField source="price" />
-                            <NumberField source="discount" />
-                            <NumberField source="actual_price" label="Actual Price" />
+                            <ReferenceField label="Product Id" source="productId" reference="products">
+                                <TextField source="id" />
+                            </ReferenceField>
+                            <ReferenceField label="Product Name" source="productId" reference="products">
+                                <TextField source="name" />
+                            </ReferenceField>
                             <NumberField source="quantity" />
-                            <NumberField source="total" />
+                            <ReferenceField label="Product Price" source="productId" reference="products">
+                                <TextField source="price" />
+                            </ReferenceField>
+                            <ReferenceField label="Discount" source="productId" reference="products">
+                                <TextField source="discount" />
+                            </ReferenceField>
+                            <ReferenceField label="Actual Price" source="productId" reference="products">
+                                <TextField source="actual_price" label="Actual Price" />
+                            </ReferenceField>
+                            {/* <NumberField source="total" /> */}
                         </Datagrid>
                     </ArrayField>
                 </RaBox>
@@ -129,19 +147,19 @@ export const OrderShow = (props) => (
             <GridShowLayout className="gridShowLayout">
                 <RaGrid container direction="row">
                     <RaGrid item xs>
-                        <NumberField source="order_details.subtotal_amount" label="Subtotal" />
+                        <NumberField source="subtotalAmount" label="Subtotal" />
                     </RaGrid>
                     <RaGrid item xs>
-                        <NumberField source="order_details.taxes_amount" label="Taxes" />
+                        <NumberField source="taxesAmount" label="Taxes" />
                     </RaGrid>
                     <RaGrid item xs>
-                        <NumberField source="order_details.coupon_discount_amount" label="Cupon Discount" />
+                        <NumberField source="couponDiscountAmount" label="Cupon Discount" />
                     </RaGrid>
                     <RaGrid item xs>
-                        <NumberField source="order_details.delivery_amount" label="Delivery" />
+                        <NumberField source="deliveryAmount" label="Delivery" />
                     </RaGrid>
                     <RaGrid item xs>
-                        <TextField source="order_details.total_amount.value" label="Total" />
+                        <TextField source="totalAmount" label="Total" />
                     </RaGrid>
                 </RaGrid>
             </GridShowLayout>
@@ -153,7 +171,7 @@ export const OrderEdit = props => (
     <Edit {...props}>
         <SimpleForm>
             <TextInput disabled source="id" />
-            <SelectInput source="order_details.status" label="Status" choices={statusOptions} />
+            <SelectInput source="status" label="Status" choices={statusOptions} />
         </SimpleForm>
     </Edit>
 );

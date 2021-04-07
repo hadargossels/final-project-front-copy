@@ -8,7 +8,7 @@ export default function PrivateRoute({component: Component, ...rest}) {
         <Route
             {...rest}
             render={props => {
-                return (currentUser && currentUserDB && currentUserDB.role == 'admin') ? 
+                return (currentUser && currentUserDB && currentUserDB.role === 'admin') ? 
                     <Component {...props} /> : <Redirect to="/login" />
             }}
         >

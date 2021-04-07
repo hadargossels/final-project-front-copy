@@ -94,18 +94,18 @@ export function CartProvider({children}) {
     }
 
     const getTotalAfterTaxes = () => {
-        return getSubTotalAmount() + getTaxesAmount()
+        return getSubTotalAmount() + getTaxesAmount();
     }
 
     const getCouponDiscountAmount = () => {
-        return getTotalAfterTaxes * myCoupon.discount
+        return getTotalAfterTaxes() * myCoupon.discount;
     }
 
     const getTotalBeforeDelivert = () => {
         if (myCoupon.code)
             return getTotalAfterTaxes() * (1 - myCoupon.discount);
         else
-            return getTotalAfterTaxes()
+            return getTotalAfterTaxes();
     }
 
     const activateCoupon = (couponCode) => {
@@ -137,6 +137,7 @@ export function CartProvider({children}) {
         handleQtyChange,
         handleDeleteCartProduct,
         calculateSumQtyCart,
+        setCartProducts,
         setDisplayAlert,
         getSubTotalAmount,
         getTaxesAmount,

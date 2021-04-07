@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import {useAuth} from '../../context/AuthContext';
-import {firebasedb} from '../../firebase';
+import { useAuth } from '../../context/AuthContext';
+import { firebasedb } from '../../firebase';
+import { Container, Table } from 'react-bootstrap'
 
 export default function ProfileOrdes() {
     const { currentUser } = useAuth();
@@ -31,13 +32,48 @@ export default function ProfileOrdes() {
 
     return (
         <div>
-            {console.log(userOrders)}
-            {userOrders.map(order => {
-                <h1>{order.id}</h1>
-               
-                })
-            }
-            
+            {userOrders.length > 0 ? 
+                <Container>
+                    {console.log(userOrders)}
+                    {console.log("hi")}
+                    <h3 className="mb-3">Orders</h3>
+                    {userOrders.map(order => (
+                        <div className="mb-4">
+                            <div className="d-flex">
+                                <p><b>Order Id: </b>{order.id}</p>
+                                <p className="ml-3"><b>Status: </b> {order.order_details.status}</p>
+                                <p className="ml-3"><b>Total: </b>${order.order_details.total_amount.value}</p>
+                                <p></p>
+                            </div>
+
+                            <Table striped bordered hover>
+                                <thead>
+                                    <tr>
+                                    <th></th>
+                                    <th>Product Name</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {order.order_details.products.map((product, index) => (
+                                    <tr>
+                                        <td>{index + 1}</td>
+                                        <td>{product.name}</td>
+                                        <td>{(product.price * (1 - product.discount)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                        <td>{product.quantity}</td>
+                                        <td>${(parseInt(product.quantity) * (product.price * (1 - product.discount))).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                            </Table>
+                        </div>
+                        
+                        
+                    ))}
+                </Container>
+            : ''}
         </div>
     )
 }

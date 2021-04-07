@@ -11,7 +11,7 @@ import { emailPattern, phonePattrern} from '../../data/constants';
 
 
 export default function Payment() {
-    const { cartProducts, cancelCoupon, getSubTotalAmount, getTaxesAmount, getCouponDiscountAmount, getTotalBeforeDelivert, myCoupon } = useCart();
+    const { cartProducts, setCartProducts, cancelCoupon, getSubTotalAmount, getTaxesAmount, getCouponDiscountAmount, getTotalBeforeDelivert, myCoupon } = useCart();
     const { currentUser, userFirstName, userLastName, userPhone } = useAuth();
     const history = useHistory();
 
@@ -298,9 +298,11 @@ export default function Payment() {
                 }
             }
         )
-
+        
+        setCartProducts([]);
         localStorage.removeItem('cartProducts');
         cancelCoupon();
+        
         history.push('/order-confirmation', {order_id: data.orderID});
     }
 

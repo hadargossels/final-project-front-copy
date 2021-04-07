@@ -106,9 +106,9 @@ export const UserCreate = props => (
         <SimpleForm save={(data) => UserCreateAuth(data)} redirect="list">
             <SelectInput source="role" choices={roleOptions} validate={[required()]} />
             <TextInput source="email" validate={[required()]} />
-            <TextInput source="firstName" label="First Name" validate={[required()]} />
-            <TextInput source="lastName" label="Last Name" validate={[required()] }/>
-            <TextInput source="phone" validate={[required()]} />
+            <TextInput source="firstName" label="First Name" />
+            <TextInput source="lastName" label="Last Name"/>
+            <TextInput source="phone" />
             <PasswordInput source="password" label="Password" validate={[required(), minLength(6)] } />
             <BooleanInput source="active" defaultValue={true} />
         </SimpleForm>

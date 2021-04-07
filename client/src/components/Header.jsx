@@ -24,16 +24,16 @@ export default function Header() {
     const [searchInput, setSearchInput] = useState('')
     const [myUser, setMyUser] = useState();
     
-    // useEffect(() => {
-    //     if (currentUser){
-    //         const fetchData = async () => {
-    //             const snapshot = await firebasedb.ref('users').child(currentUser.uid).get()
-    //             setMyUser(snapshot.val());
-    //         };
+    useEffect(() => {
+        if (currentUser){
+            const fetchData = async () => {
+                const snapshot = await firebasedb.ref('users').child(currentUser.uid).get()
+                setMyUser(snapshot.val());
+            };
             
-    //         fetchData();
-    //     }
-    // }, [currentUser])
+            fetchData();
+        }
+    }, [currentUser])
 
     async function handleLogout() {
         try {
