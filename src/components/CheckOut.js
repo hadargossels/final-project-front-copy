@@ -4,13 +4,9 @@ import {NavLink } from 'react-router-dom';
 import './CheckOut.css';
 import OrderConfirmation from './OrderConfirmation';
 import Paypal from './Paypal';
-import {db} from '../firebase'
-import {auth} from '../firebase'
-import 'firebase/auth'
-import "firebase/database";
+import axios from 'axios'
 
 let coupons=[]
-// const coupons= require("../dataBase/couponData.json")
 
 
 export default class CheckOut extends Component {
@@ -33,6 +29,7 @@ export default class CheckOut extends Component {
             cardType:"",
             userId:'',
             user:'',
+            token:""
         }
         this.couponRef = React.createRef()
         this.couponMessageRef= React.createRef()
@@ -68,7 +65,7 @@ export default class CheckOut extends Component {
 
     componentDidMount(){
 
-        this.getDataFromFirebase()
+        this.getDataFromMongoDB()
         this.mailMassegeRef.current.style.display="none"
         this.userMassegeRef.current.style.display="none"
         this.cityMessageRef.current.style.display="none"
@@ -81,50 +78,47 @@ export default class CheckOut extends Component {
 
     }
 
-    async getDataFromFirebase(){
+    async getDataFromMongoDB(){
 
-        let myData = ""
-        
-        db.on('value',async (snapshot)=>{
-          if(snapshot.val()!=null){
-  
-              myData = (snapshot.val())
-  
-          for (const [key, value] of Object.entries(myData)) {
-              myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
-            }
-            coupons=myData.coupons
-           } 
-        })
 
+
+        try{
+            const USER_TOKEN=JSON.parse(localStorage.getItem("token")||"[]")
+            const AuthStr = 'Bearer ' + USER_TOKEN;
+            await this.setState({token:AuthStr})
+            let response=await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/coupons`,{ 'headers': { 'Authorization': AuthStr } })
+            coupons=response.data
+         }catch(err){
+   
+            console.log(err);
+         }
 
         let userData
-        let userUid
+        let user=JSON.parse(localStorage.getItem("user")||"[]")
 
-       await auth.onAuthStateChanged(user=>{
-          if(user)
-           this.setState({userId:user.uid})
-       })
-       console.log()
-       userUid=this.state.userId
-       db.on('value', (snapshot)=>{
-         if(snapshot.val()!=null){
-           userData=snapshot.val().users[userUid]
-           this.setState({user: userData})
- 
-           if(this.userFnameRef.current){
+        this.setState({userId:user.id})
+    
+        try{
+            let response=await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/users/${user.id}`,{ 'headers': { 'Authorization': this.state.token } })
+            userData=response.data
+            this.setState({user: response.data})
+
+            if(this.userFnameRef.current){
                 this.userFnameRef.current.value=userData.firstName
                 this.userLnameRef.current.value=userData.lastName
                 this.phoneInputRef.current.value=userData.phone
                 this.mailRef.current.value=userData.email
                 this.addressRef.current.value=userData.address.street
                 this.cityRef.current.value=userData.address.city
-                this.houseTypeRef.current.value=userData.address.type
+                this.houseTypeRef.current.value=userData.address.houseType
                 this.zipRef.current.value=userData.address.zipcode
            }
-          
-         } 
-       })
+
+         }catch(err){
+   
+            console.log(err);
+         }
+
     }
 
     loadItemsFromLocalStorage(){
@@ -244,7 +238,7 @@ export default class CheckOut extends Component {
 
         let array=mailInput.value.split("@");
 
-        if((mailInput.value.includes("@")) && (array.length==2)&&(array[1].includes("."))){
+        if((mailInput.value.includes("@")) && (array.length===2)&&(array[1].includes("."))){
             array=array[1].split(".");
             if(array.length>=2)
                 mailMassege.style.display="none"
@@ -305,7 +299,7 @@ export default class CheckOut extends Component {
 
         if(flag){
 
-            let userDetail={fname:fnameInput.value,lname:lnameInput.value,email:mailInput.value,city:cityInput.value,address:addressInput.value,houseType:this.houseTypeRef.current.value,zip:zipInput.value,phone:phoneInput.value}
+            let userDetail={fname:fnameInput.value,lname:lnameInput.value,email:mailInput.value,city:cityInput.value,street:addressInput.value,houseType:this.houseTypeRef.current.value,zipcode:zipInput.value,phone:phoneInput.value}
             localStorage.setItem("userDetails",JSON.stringify(userDetail))
             this.setState({detailUser:userDetail})
         }
@@ -388,30 +382,16 @@ export default class CheckOut extends Component {
             
             today = dd + '/' + mm + '/' + yyyy;
 
-            let myData = ""
-            let orderLng
         
-            db.on('value', (snapshot)=>{
-                if(snapshot.val()!=null){
-        
-                    myData = (snapshot.val())
-        
-                for (const [key, value] of Object.entries(myData)) {
-                    myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
-                  }
-                  orderLng = (myData.orders)? myData.orders.length : 0
-                } 
+            let data = {id:"",cart:this.state.arrItems,userOrder:this.state.detailUser,payment:this.state.total,date:today,time:hour,doneAndSend:false}
+
+            axios.post(`${process.env.REACT_APP_MONGO_DATABASE}/api/orders`, data ,{ 'headers': { 'Authorization': this.state.token } })
+              .then(function (response) {
+                console.log(response);
               })
-
-
-            let data = {id:orderLng,cart:this.state.arrItems,userOrder:this.state.detailUser,payment:this.state.total,date:{date:today,time:hour},doneAndSend:false}
-
-            auth.onAuthStateChanged(user=>{
-  
-                if(user){
-                    db.child('orders').child(orderLng).set(data)
-                }
-             })
+              .catch(function (error) {
+                console.log(error);
+              });
         }
     }
     
@@ -569,10 +549,10 @@ export default class CheckOut extends Component {
                             <div className="col-md-12">
                                 <div className="payment-info">
                                     <span className="type d-block mt-3 mb-1"> סוג כרטיס / פייפל</span>
-                                    <label className="radio"> <input type="radio" name="card" value="mastercard" onClick={(e)=>this.cardType(e.target.value)}/> <span><img width="50" src="https://img.icons8.com/color/48/000000/mastercard.png" /></span> </label>
-                                    <label className="radio"> <input type="radio" name="card" value="visa" onClick={(e)=>this.cardType(e.target.value)}/> <span><img width="50" src="https://img.icons8.com/officel/48/000000/visa.png" /></span> </label>
-                                    <label className="radio"> <input type="radio" name="card" value="amex" onClick={(e)=>this.cardType(e.target.value)}/> <span><img width="50" src="https://img.icons8.com/ultraviolet/48/000000/amex.png" /></span> </label>
-                                    <label className="radio"> <input type="radio" name="card" value="paypal" onClick={(e)=>this.cardType(e.target.value)}/> <span><img width="50" src="https://img.icons8.com/officel/48/000000/paypal.png" /></span> </label>
+                                    <label className="radio"> <input type="radio" name="card" value="mastercard" onClick={(e)=>this.cardType(e.target.value)}/> <span><img alt="mastercard" width="50" src="https://img.icons8.com/color/48/000000/mastercard.png" /></span> </label>
+                                    <label className="radio"> <input type="radio" name="card" value="visa" onClick={(e)=>this.cardType(e.target.value)}/> <span><img alt="visa" width="50" src="https://img.icons8.com/officel/48/000000/visa.png" /></span> </label>
+                                    <label className="radio"> <input type="radio" name="card" value="amex" onClick={(e)=>this.cardType(e.target.value)}/> <span><img alt="amex" width="50" src="https://img.icons8.com/ultraviolet/48/000000/amex.png" /></span> </label>
+                                    <label className="radio"> <input type="radio" name="card" value="paypal" onClick={(e)=>this.cardType(e.target.value)}/> <span><img alt="paypal" width="50" src="https://img.icons8.com/officel/48/000000/paypal.png" /></span> </label>
                                     <br/> <p id="usercheck" style={{color: "red"}} className="vlidMassege" ref={this.cardMassegeRef}> ** נא לבחור אמצעי תשלום  </p>
 
                                     

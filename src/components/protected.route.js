@@ -7,7 +7,6 @@ import './protected.route.css'
 export const Protect = ({ component: Component, ...rest}) => {
 
   return (<Route {...rest} render={props => {
-    
     if(Auth.getPath()==="cart"){
       
         if (Auth.isAuthenticated()) {
@@ -16,7 +15,7 @@ export const Protect = ({ component: Component, ...rest}) => {
           alert("חייב להיות רשום לאתר בכדי לקנות")
           return ( <Redirect to={{ pathname: "/Cart", state: { from: props.location } }}/> );
         }
-
+        
     }else if(Auth.getPath()==="account"){
       if (Auth.isAuthenticated()) {
         return <Component {...props} />;

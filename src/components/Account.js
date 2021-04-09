@@ -2,10 +2,9 @@
 
 import React, { Component } from 'react'
 import './Account.css';
-import {auth} from '../firebase'
 import Auth from './auth'
-import "firebase/database";
-import {db} from '../firebase'
+import axios from 'axios'
+
 
 export default class Account extends Component {
 
@@ -13,94 +12,106 @@ export default class Account extends Component {
         super(props)
         this.state={
          user:"",
-         userId:""
+         userId:"",
+         token:""
 
         }
 
         this.updateUserData=this.updateUserData.bind(this)
-        this.getDataFromFirebase=this.getDataFromFirebase.bind(this)
+        this.getDataFromMongoDB=this.getDataFromMongoDB.bind(this)
 
         this.emailRef= React.createRef()
         this.formRef= React.createRef()
     }
 
-    componentDidMount(){
-       this.getDataFromFirebase()
+    async componentDidMount(){
+
+        const USER_TOKEN=JSON.parse(localStorage.getItem("token")||"[]")
+        const AuthStr = 'Bearer ' + USER_TOKEN;
+        await this.setState({token:AuthStr})
+        this.getDataFromMongoDB()
       }
 
-      updateUserData(e){
+      async updateUserData(e){
 
-        auth.onAuthStateChanged(user=>{
-  
-           if(user){
-            console.log(user.uid)
-            let data={
-              "id":user.uid,
-              "firstName":e[0].value,
-              "lastName":e[1].value,
-              "email":e[3].value,
-              "phone":e[2].value,
-              "address":{
-                 "street":e[4].value,
-                 "city":e[5].value,
-                 "type":e[6].value,
-                 "zipcode":e[7].value
-              },
-            //   password:e[4].value,
-              "role":"user",
-              "active":true
-            }
-            db.child('users').child(user.uid).set(data)
-           }
-        })
+        let data={
+          "id":this.state.user.id,
+          "firstName":e[0].value,
+          "lastName":e[1].value,
+          "email":e[3].value,
+          "phone":e[2].value,
+          "address":{
+             "street":e[4].value,
+             "city":e[5].value,
+             "houseType":e[6].value,
+             "zipcode":e[7].value
+          },
+        //   password:e[4].value,
+          "role":"user",
+          "active":true
+        }
+        try{
+          
+          await axios.put(`${process.env.REACT_APP_MONGO_DATABASE}/api/users/${this.state.user.id}`, data ,{ 'headers': { 'Authorization': this.state.token } });
+          alert("המשתמש עודכן בהצלחה!!")
+          this.setState({user:data})
+        }catch(err){
+          console.log(err)
+        }
+        
+
       }
 
-      async getDataFromFirebase(){
+      async getDataFromMongoDB(){
 
         const formData= this.formRef.current
         let userData
-        let userUid
 
-       await auth.onAuthStateChanged(user=>{
-          if(user)
-           this.setState({userId:user.uid})
-       })
+        let user=JSON.parse(localStorage.getItem("user")||false)
+        this.setState({userId:user.id})
 
-       userUid=this.state.userId
-        db.on('value', (snapshot)=>{
-          if(snapshot.val()!=null){
-            userData=snapshot.val().users[userUid]
-            this.setState({user: userData})
+        try{
+          let response=await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/users/${user.id}`,{ 'headers': { 'Authorization': this.state.token }})
+          userData=response.data
+
+          this.setState({user: userData})
   
-            formData[0].value=userData.firstName
-            formData[1].value=userData.lastName
-            formData[2].value=userData.phone
-            formData[3].value=userData.email
-            formData[4].value=userData.address.street
-            formData[5].value=userData.address.city
-            formData[6].value=userData.address.type
-            formData[7].value=userData.address.zipcode
+          formData[0].value=userData.firstName
+          formData[1].value=userData.lastName
+          formData[2].value=userData.phone
+          formData[3].value=userData.email
+          formData[4].value=userData.address.street
+          formData[5].value=userData.address.city
+          formData[6].value=userData.address.houseType
+          formData[7].value=userData.address.zipcode
 
-          } 
-        })
+          }catch(err){
+    
+              console.log(err);
+          }
       }
 
-      deleteUser(){
+      async deleteUser(){
 
            let bool= window.confirm("האם אתה בטוח שתרצה למחוק את המשתמש?");
 
            if(bool){
-            auth.signOut().then(() => {
-              // Sign-out successful.
-              
-                 Auth.setProtectPath(() => {this.props.history.push("/");},"account")
-                 Auth.setName("אורח")
-                 Auth.logout()             
-            })
-            //.then(db.child('users').child(this.state.userId).remove())
-            
+
+                try{
+                  await axios.delete(`${process.env.REACT_APP_MONGO_DATABASE}/api/users/${this.state.userId}`,{ 'headers': { 'Authorization': this.state.token }})
+
+                  localStorage.removeItem('token');
+                  localStorage.removeItem('user');
+                  Auth.setProtectPath(() => {this.props.history.push("/");},"account")
+                  Auth.setName("אורח")
+                  Auth.logout()  
+
+                }catch(err){
+        
+                  console.log(err);
+              }
            }
-      }
+        }
 
     render() {
         return (

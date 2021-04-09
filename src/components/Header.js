@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import './Header.css';
 import { Link,NavLink } from 'react-router-dom';
 import {withRouter} from 'react-router'
-import {db} from '../firebase'
 import {auth} from '../firebase'
 import Auth from './auth'
 import firebase from 'firebase/app'
@@ -17,7 +16,6 @@ import axios from "axios"
 // import Modal from "react-bootstrap/Modal";
 // import $ from "jquery";
 // import Popper from 'popper.js';
-
 
 class Header extends Component{
 
@@ -43,8 +41,6 @@ class Header extends Component{
       this.signOut=this.signOut.bind(this)
       this.logInGoogle=this.logInGoogle.bind(this)
       this.logInFaceBook=this.logInFaceBook.bind(this)
-      this.getDataFromFirebase=this.getDataFromFirebase.bind(this)
-      this.chechAccountType=this.chechAccountType.bind(this)
       this.loginAfterRefresh=this.loginAfterRefresh.bind(this)
       
    }
@@ -53,40 +49,28 @@ class Header extends Component{
 
       this.SignUpRef.current.style.display="none"
       this.welcomeRef.current.style.display="none"
-      this.getDataFromFirebase()
+      this.loginAfterRefresh()
 
    }
-
-
-    getDataFromFirebase(){
-
-       db.on('value',async (snapshot)=>{if(snapshot.val()!=null){
-          console.log(snapshot.val())
-         await this.setState({users: snapshot.val()})
-         this.loginAfterRefresh()
-      } 
-      })
-    }
-    getDataFromMongoDB(){
-
-      
-    }
 
     loginAfterRefresh(){
 
       const login =this.LogInRef.current
       const welcome=this.welcomeRef.current
 
-      auth.onAuthStateChanged(user=>{
+      let user=JSON.parse(localStorage.getItem("user")||false)
+      let token=JSON.parse(localStorage.getItem("token")||false)
 
-         if(user){
+      if(user && token){
             let p=this.props.history.location.pathname
             Auth.setName(user.email)
             Auth.login()
-            this.chechAccountType(user)
+            Auth.setRole(user.role)
             this.setState({name:Auth.getName()})
             login.style.display="none"
             welcome.style.display="block"
+            this.setState({well:"שלום"})
+
 
             if(p==='/admin' || p==='/user'){
                Auth.setProtectPath(() => {this.props.history.push(`/${Auth.getRole()}`);},"account")
@@ -95,7 +79,6 @@ class Header extends Component{
                Auth.setProtectPath(() => {this.props.history.push("/checkout");},"cart")
             }
          }
-      })
     }
 
    setUrl(){
@@ -118,18 +101,6 @@ class Header extends Component{
          login.style.display="block"
       }
    }
-   chechAccountType(user){
-
-      if(user.uid){
-         console.log(user.uid)
-         let varUid=user.uid
-         const obj=this.state.users.users[varUid]
-         Auth.setRole(obj.role)
-
-      }
-
-   }
-
 
    logIn(e){
 
@@ -137,69 +108,67 @@ class Header extends Component{
       //const modal=this.modalRef.current
       const login =this.LogInRef.current
       const welcome=this.welcomeRef.current
+      const that=this
       
+      axios.post(`${process.env.REACT_APP_MONGO_DATABASE}/api/users/login`,{email:e[1].value,password:e[2].value})
+          .then(function (response) {
+            localStorage.setItem("token",JSON.stringify(response.data.token))
+            localStorage.setItem("user",JSON.stringify(response.data.user))
+            let user = response.data.user
+            Auth.setName(e[1].value)
+            Auth.login()
+            Auth.setRole(user.role)
+            that.setState({name:Auth.getName()})
+            that.setState({well:"שלום"})
+    
+            login.style.display="none"
+            welcome.style.display="block"
+            e[2].value=""
+         })
+          .catch(function (error) {
+            console.log(error);
+            var errorMessage = error.message;
 
-      auth.signInWithEmailAndPassword(e[1].value, e[2].value)
-      .then((userCredential) => {
-        // Signed in
-        var user = userCredential.user;
-        //Auth.login(() => { this.props.history.push("/protect")})
-        Auth.setName(e[1].value)
-        Auth.login()
-        this.chechAccountType(user)
-        this.setState({name:Auth.getName()})
-         this.setState({well:"שלום"})
-
-        login.style.display="none"
-        welcome.style.display="block"
-        e[2].value=""
-      })
-      .catch((error) => {
-        //var errorCode = error.code;
-        var errorMessage = error.message;
-
-        msg.innerHTML= errorMessage
-           setTimeout(() => {
-            msg.innerHTML= ""
-         }, 4000);
-      });
-  
+            msg.innerHTML= errorMessage
+            setTimeout(() => {
+               msg.innerHTML= ""
+            }, 4000);
+          });
     }
 
-    signIn(e){
+    signUp(e){
 
       const welcome=this.welcomeRef.current
       const Signup= this.SignUpRef.current
       const msg=this.errorMessageRef.current
-      const login =this.LogInRef.current
-     
-      if(e[4].value===e[5].value){
+      //const login =this.LogInRef.current
+      const that=this
 
-         auth.createUserWithEmailAndPassword(e[3].value, e[4].value)
-         .then((user) => {
-           // Signed in 
+      if(e[4].value===e[5].value && e[5].value){
 
-           let data={
-              "id":user.user.uid,
-              "firstName":e[1].value,
-              "lastName":e[2].value,
-              "email":e[3].value,
-              "phone":"",
-              "address":{
-                 "street":"",
-                 "city":"",
-                 "type":"",
-                 "zipcode":""
-              },
-            //   password:e[4].value,
-              "role":"user",
-              "active":true
-            }
+         let data={
+            "id":"",
+            "firstName":e[1].value,
+            "lastName":e[2].value,
+            "email":e[3].value,
+            "img":"",
+            "phone":"",
+            "address":{
+               "street":"",
+               "city":"",
+               "houseType":"",
+               "zipcode":""
+            },
+            "password":e[4].value,
+            "role":"user",
+            "active":true
+          }
 
-           db.child('users').child(user.user.uid).set(data)
-           this.getDataFromFirebase()
-           
-           this.setState({well:"המשתמש הוסף בהצלחה"})
+          axios.post(`${process.env.REACT_APP_MONGO_DATABASE}/api/users`, data)
+          .then(function (response) {
+            that.logIn(["",{value:e[3].value},{value:e[4].value}])
+
+            that.setState({well:"המשתמש הוסף בהצלחה"})
 
             Signup.style.display="none"
             welcome.style.display="block"
@@ -207,20 +176,22 @@ class Header extends Component{
            for(let i=1;i<6;i++){
               e[i].value=""
            }
-           //Auth.login(() => { this.props.history.push("/protect")})
-         })
-         .catch((error) => {
-           var errorCode = error.code;
-           var errorMessage = error.message;
 
-           msg.innerHTML= errorMessage
-           setTimeout(() => {
-            msg.innerHTML= ""
-         }, 4000);
-           
-     
-           // ..
-         });
+          })
+          .catch(function (error) {
+            console.log(error);
+
+            var errorMessage = error.message;
+ 
+            msg.innerHTML= errorMessage
+            setTimeout(() => {
+             msg.innerHTML= ""
+          }, 4000);
+
+          });
+
+
+         
       }else{
          msg.innerHTML="הסיסמאות לא תואמות*"
          setTimeout(() => {
@@ -234,14 +205,16 @@ class Header extends Component{
       const welcome=this.welcomeRef.current
       const login =this.LogInRef.current
       const Signup= this.SignUpRef.current
-      const mod= this.modalRef.current
+      //const mod= this.modalRef.current
 
       //console.log(mod)
       // let myModal = new bootstrap.Modal(mod, {
       //    keyboard: false
       //  })
 
-      auth.signOut().then(() => {
+         localStorage.removeItem('token');
+         localStorage.removeItem('user');
+
          // Sign-out successful.
          this.setState({well:"ביי"})
          setTimeout(() => {
@@ -257,13 +230,8 @@ class Header extends Component{
             this.setState({name:Auth.getName()})
          }, 2500);
         
-
-       }).catch((error) => {
-         // An error happened.
-       });
-
     }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     logInGoogle(e){
       
             const msg=this.errorMessageRef.current
@@ -292,12 +260,12 @@ class Header extends Component{
             welcome.style.display="block"
             }).catch((error) => {
                // Handle Errors here.
-               var errorCode = error.code;
+               //var errorCode = error.code;
                var errorMessage = error.message;
                // The email of the user's account used.
-               var email = error.email;
+               //var email = error.email;
                // The firebase.auth.AuthCredential type that was used.
-               var credential = error.credential;
+               //var credential = error.credential;
                // ...
                console.log(errorMessage)
                msg.innerHTML= errorMessage
@@ -394,10 +362,8 @@ class Header extends Component{
                   </li>
                </ul>
             </span>
-           
          </div>
          </nav>
-
 
           {/* ////////////////   modal-quick-view   ////////////////////// */}
 
@@ -416,11 +382,11 @@ class Header extends Component{
                      <div style={{direction:"rtl"}}>
                         <div className="mb-3">
                            <label htmlFor="userName" className="col-form-label"> מייל:</label>
-                           <input type="email" className="form-control" id="userName" style={{direction:"ltr"}}/>
+                           <input type="email" className="form-control" id="userName" required style={{direction:"ltr"}}/>
                         </div>
                         <div className="mb-3">
                            <label htmlFor="passwordName" className="col-form-label">סיסמא:</label>
-                           <input type="password" className="form-control" id="passwordName"/>
+                           <input type="password" className="form-control" id="passwordName" required/>
                         </div>
                      </div>
                   </div>
@@ -460,7 +426,7 @@ class Header extends Component{
 
 
             <div className="modal-dialog" ref={this.SignUpRef}>
-               <form className="modal-content" method="POST" onSubmit={(e)=>{e.preventDefault(); this.signIn(e.target)}}>
+               <form className="modal-content" method="POST" onSubmit={(e)=>{e.preventDefault(); this.signUp(e.target)}}>
                   <div className="modal-header">
                      <button type="button" className="btn" data-bs-dismiss="modal" aria-label="Close" style={{float: "left"}}>✖</button>
                      <h5 className="modal-title" id="exampleModalLabel">הרשם</h5>
@@ -478,15 +444,15 @@ class Header extends Component{
                         </div>
                         <div className="mb-3">
                            <label htmlFor="user-name" className="col-form-label" >מייל:</label>
-                           <input type="email" className="form-control" id="user-mail" style={{direction:"ltr"}}/>
+                           <input type="email" className="form-control" id="user-mail" style={{direction:"ltr"}} required/>
                         </div>
                         <div className="mb-3">
                            <label htmlFor="password" className="col-form-label">סיסמא:</label>
-                           <input type="password" className="form-control" id="password" />
+                           <input type="password" className="form-control" id="password" required/>
                         </div>
                         <div className="mb-3">
                            <label htmlFor="passwordCheck" className="col-form-label">אימות סיסמא:</label>
-                           <input type="password" className="form-control" id="passwordCheck"/>
+                           <input type="password" className="form-control" id="passwordCheck" required/>
                         </div>
                      </div>
                   </div>

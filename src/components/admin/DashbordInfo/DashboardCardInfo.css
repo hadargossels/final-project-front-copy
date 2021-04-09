@@ -1,0 +1,39 @@
+
+
+
+.myContainerDashInfo{
+    margin: 8px;
+    padding: 10px 0px;
+    width: 400px;
+    border-radius: 15px;
+
+}
+.myCardInfoDash{
+    
+    text-decoration: none;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.myBoxInfoDash{
+
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px;
+}
+.myBoxInfoDash p{
+    font-size: 28px;
+
+}
+.iconDash{
+    font-size: 50px !important;
+    vertical-align: middle;
+    margin: 10px;
+
+}
+a:link{
+    text-decoration: none!important;
+  }

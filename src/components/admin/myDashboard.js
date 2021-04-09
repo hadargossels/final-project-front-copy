@@ -19,12 +19,11 @@ import Dashboard from './Dashboard';
 import './MyDashboard.css'
 import simpleRestProvider from 'ra-data-simple-rest';
 
-
-
+const token = JSON.parse(localStorage.getItem("token")||false)
 const httpClient = (url, options = {}) => {
     options.user = {
         authenticated: true,
-        token: `Bearer breakTheKeyboard`
+        token: `Bearer ${token}`
     };
     return fetchUtils.fetchJson(url, options);
 };
