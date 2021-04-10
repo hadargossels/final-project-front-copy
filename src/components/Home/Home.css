@@ -1,92 +1,78 @@
-#imgHomePage{
-    background-image:url(https://scontent.fsdv2-1.fna.fbcdn.net/v/t1.0-9/57101576_2170614129672471_8958882496158629888_n.png?_nc_cat=105&ccb=2&_nc_sid=e3f864&_nc_ohc=YiYywShku-kAX-Nq9S3&_nc_ht=scontent.fsdv2-1.fna&oh=dbfae0982baa9e6a66bea655cc3c08db&oe=6042ED3F);
-    width: 100%;
-    height: 500px;
-    background-repeat: no-repeat;
-    background-size: cover;
+.bestseller {
+  margin: 3rem 5rem;
 }
-.bestseller{
-    margin:3rem 5rem;
-
+.categories {
+  display: flex;
+  justify-content: space-between;
+  margin: 3rem 10rem;
 }
-.categories{
-    display: flex;
-    justify-content:space-between;
-    margin: 3rem 10rem;
+.divCate {
+  border: 1px solid grey;
+  border-radius: 10rem;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAP8AAADGCAMAAAAqo6adAAAABlBMVEUAAAAORKmU5gWIAAAA3klEQVR4nO3PAQEAAAjDoNu/tEEYDdjN1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W34b/H769AMf5McvaAAAAAElFTkSuQmCC);
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
 }
-.divCate{
-    border: 1px solid grey;
-    border-radius: 10rem;
-    width: 100px;
-    height: 100px;
-    position: relative;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAP8AAADGCAMAAAAqo6adAAAABlBMVEUAAAAORKmU5gWIAAAA3klEQVR4nO3PAQEAAAjDoNu/tEEYDdjN1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W39bf1t/W34b/H769AMf5McvaAAAAAElFTkSuQmCC);
-    background-repeat: no-repeat;
-    background-size: cover;
-    text-align: center;
+.spantext:hover {
+  color: rgb(218, 213, 213);
 }
-.spantext:hover{
-   
-   color: rgb(218, 213, 213);
+.spantext {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgb(155, 0, 0);
+  font-weight: bolder;
+  font-size: 16px;
 }
-.spantext{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    color: rgb(155, 0, 0);
-    font-weight:bolder;
-    font-size:16px;
+.home {
+  margin: 0 50px;
 }
-.home{
-    margin: 0 50px;
-    
+.slideImg {
+  height: 30rem;
 }
-.slideImg{
-    height: 30rem;
-   
+.pageSlide {
+  padding: 0 50px;
 }
-.pageSlide{
-   padding: 0 50px;
+.slideA {
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 3rem;
 }
-.slideA{
-    background-color: rgba(0,0,0,0.2);
-    width: 3rem;
+.slideA:nth-child(2) {
+  transform: translateX(-40%);
+  width: 5%;
 }
-.slideA:nth-child(2){
-transform: translateX(-40%);
-width: 5%;
+.slideA:last-child {
+  transform: translateX(40%);
+  width: 5%;
 }
-.slideA:last-child{
-transform: translateX(40%);
-width: 5%;
-}
-.titleH2{
-    margin-bottom: 1rem;
-    color: indianred;
-    font-weight: bold;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+.titleH2 {
+  margin-bottom: 1rem;
+  color: indianred;
+  font-weight: bold;
+  font-family: Georgia, "Times New Roman", Times, serif;
 }
 
-.slideA > span{
-    /* background-color: indianred; */
-
+.slideA > span {
+  /* background-color: indianred; */
 }
-@media only screen and (max-width: 800px) {  
-    .categories { 
-        font-size: 1rem;
-        margin: 3rem 0;
-       } 
-    }  
-@media only screen and (max-width: 600px) {  
-    .categories { 
-     
-        font-size: 1rem;
-        margin: 3rem 0;
-       }
-       .divCate{
-        width: 60px;
-        height: 60px;
-       }
-    }
-    
+@media only screen and (max-width: 800px) {
+  .categories {
+    font-size: 1rem;
+    margin: 3rem 0;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .categories {
+    font-size: 1rem;
+    margin: 3rem 0;
+  }
+  .divCate {
+    width: 60px;
+    height: 60px;
+  }
+}

@@ -4,11 +4,11 @@ import ReactPlayer from "react-player";
 export default class About extends Component {
   render() {
     return (
-      <div style={{ margin: "0 2rem",backgroundColor:"wheat" }}>
-        <div className="container" style={{paddingBottom:"5rem" }}>
+      <div style={{ margin: "0 2rem", backgroundColor: "wheat" }}>
+        <div className="container" style={{ paddingBottom: "5rem" }}>
           <div className="row">
             <div className="col-12">
-              <img src="./images/about.png" width="100%" />
+              <img src="./images/about.png" width="100%" alt="1" />
             </div>
           </div>
           <div className="row mt-5 pl-3">
@@ -29,12 +29,12 @@ export default class About extends Component {
               </p>
             </div>
             <div className="col-6">
-              <img src="./images/about2.png" width="100%" />
+              <img src="./images/about2.png" width="100%" alt="2" />
             </div>
           </div>
           <div className="row mt-5 pl-3">
             <div className="col-6">
-              <img src="./images/about3.png" width="100%" />
+              <img src="./images/about3.png" width="100%" alt="3" />
             </div>
             <div className="col-6">
               <p style={{ fontSize: "14px" }}>
@@ -70,13 +70,13 @@ export default class About extends Component {
               </p>
             </div>
             <div className="col-6">
-              <img src="./images/about4.png" width="100%" />
+              <img src="./images/about4.png" width="100%" alt="4" />
             </div>
           </div>
 
           <div className="row mt-5 pl-3">
             <div className="col-6">
-              <img src="./images/about5.png" width="100%" />
+              <img src="./images/about5.png" width="100%" alt="5" />
             </div>
             <div className="col-6">
               <h5 style={{ margin: "2rem 0 1rem 0" }}>
@@ -116,17 +116,14 @@ export default class About extends Component {
               </p>
             </div>
             <div className="col-6">
-              <img src="./images/about6.png" width="100%" />
+              <img src="./images/about6.png" width="100%" alt="6" />
             </div>
           </div>
-          <div className="row mt-5 pl-3 " style={{textAlign:"center"}}>
-                  <h3>Nespresso - Our Commitments</h3>
-              <div style={{margin:"0 0 2rem 14rem"}}>
-                  
-              <ReactPlayer
-                     url="https://www.youtube.com/watch?v=i7F4-mXGy1A&feature=youtu.be"
-                    />
-              </div>
+          <div className="row mt-5 pl-3 " style={{ textAlign: "center" }}>
+            <h3>Nespresso - Our Commitments</h3>
+            <div style={{ margin: "0 0 2rem 14rem" }}>
+              <ReactPlayer url="https://www.youtube.com/watch?v=i7F4-mXGy1A&feature=youtu.be" />
+            </div>
           </div>
         </div>
       </div>

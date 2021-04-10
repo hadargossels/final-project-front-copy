@@ -5,20 +5,17 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Cart from "./Cart";
 import Total from "../Cart/Total";
-import { Col, FormLabel, Row } from "react-bootstrap";
+import { Col, FormLabel } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { isElementOfType } from "react-dom/test-utils";
 import firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/auth";
-import "firebase/firestore";
 
 export default class Cartpage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // cart: JSON.parse(localStorage.getItem("counters") || []),
-      cart: JSON.parse(localStorage.getItem("counters") || "[]"),
+      cart: [...this.props.products] || [],
       couponPrice: 0,
       delivery: 0,
       info: "",
@@ -33,8 +30,6 @@ export default class Cartpage extends Component {
   applayCoupon() {
     let couponText = document.querySelector("#couponText").value;
     if (couponText) {
-      console.log("couponText", couponText);
-
       let itemCoupon = this.props.data.filter(
         (item) => item.numberCoupon === couponText
       );
@@ -49,7 +44,6 @@ export default class Cartpage extends Component {
         price += +priceOfCoupon;
 
         this.setState({ couponPrice: price });
-        let downFromCoupon = document.querySelector("#downFromCoupon");
         localStorage.setItem("coupon", price);
         let coupontIstCorrect = document.querySelector("#iscorrect");
         coupontIstCorrect.style.display = "";
@@ -58,7 +52,6 @@ export default class Cartpage extends Component {
         }, 10000);
       } else {
         let coupontNotCorrect = document.querySelector("#noTcorrect");
-        console.log(coupontNotCorrect.style.display);
         coupontNotCorrect.style.display = "";
         setTimeout(() => {
           coupontNotCorrect.style.display = "none";
@@ -73,7 +66,6 @@ export default class Cartpage extends Component {
     let deliveryCost = e.value;
     this.setState({ delivery: deliveryCost });
     localStorage.setItem("delivery", deliveryCost);
-    console.log(e.value);
   };
   isInvalid(e) {
     if (!e.value) {
@@ -99,11 +91,10 @@ export default class Cartpage extends Component {
       case "number":
         patt = /^[0-9' ]+$/;
         result = patt.test(myStr);
-
+        break;
       case "textarea":
         if (myStr.length > 36) result = false;
         else result = true;
-
         break;
 
       default:
@@ -118,9 +109,8 @@ export default class Cartpage extends Component {
   isEmpty() {
     let classInput = document.querySelectorAll(".isEmpty");
     let estimate = document.getElementsByClassName("estimate")[0];
-    console.log(estimate);
     for (let i = 0; i < classInput.length; i++) {
-      if (classInput[i].value == "") {
+      if (classInput[i].value === "") {
         classInput[i].setAttribute("class", "form-control is-invalid");
         estimate.style.color = "red";
         estimate.style.display = "";
@@ -139,7 +129,19 @@ export default class Cartpage extends Component {
   render() {
     return (
       <div>
-        <Cart data={this.props.data} />
+        <Cart
+          data={this.props.data}
+          updateProducts={this.props.updateProducts}
+          handleIncrement={this.props.handleIncrement}
+          handleDecrement={this.props.handleDecrement}
+          products={this.props.products}
+          numberProducts={this.props.numberProducts}
+          handleRestart={this.props.handleRestart}
+          handleDelete={this.props.handleDelete}
+          handleReset={this.props.handleReset}
+          total={this.props.total}
+          totalNavBar={this.props.totalNavBar}
+        />
         <div className="tabs">
           <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
             <Tab eventKey={1} title="Use Coupon Code">
@@ -204,6 +206,7 @@ export default class Cartpage extends Component {
                       className="isEmpty"
                       placeholder="Country*"
                       type="text"
+                      name="country"
                       onChange={(e) => this.isInvalid(e.target)}
                       required
                     />
@@ -215,6 +218,7 @@ export default class Cartpage extends Component {
                   <Col xs={7}>
                     <Form.Control
                       placeholder="City*"
+                      name="city"
                       className="isEmpty"
                       type="text"
                       onChange={(e) => this.isInvalid(e.target)}
@@ -269,9 +273,8 @@ export default class Cartpage extends Component {
                   </Form.Group>
                 </Form.Row>
                 <button
-                  style={{ marginTop: "2rem" }}
+                  style={{ marginTop: "2rem", display: "none" }}
                   variant="danger"
-                  style={{ display: "none" }}
                 >
                   Get Quotes
                 </button>
@@ -311,7 +314,7 @@ export default class Cartpage extends Component {
               </Form>
             </Tab>
           </Tabs>
-          <Total delivery={this.state.delivery} />
+          <Total delivery={this.state.delivery} total={this.props.total} />
           <div className="estimate" style={{ display: "none" }}>
             please enter your Estimate Shipping & Taxes
           </div>

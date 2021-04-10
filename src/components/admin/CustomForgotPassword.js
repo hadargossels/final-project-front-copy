@@ -27,7 +27,6 @@ export default function AlertDialog() {
     setOpen(false);
   };
   const handleSubmit = async () => {
-    console.log("sending email to: ", email);
     try {
       await firebase.auth().sendPasswordResetEmail(email);
       setOpen(false);

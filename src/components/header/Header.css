@@ -1,7 +1,7 @@
-#search{
-    position: relative;
-    left: 40vw;
-    /* float: right; */
+#search {
+  position: relative;
+  left: 40vw;
+  /* float: right; */
 }
 /* #links{
     position: relative;
@@ -10,44 +10,42 @@
 /* #nav{
     width: 1000px;
 } */
-.nav-link{
-    /* color: green; */
-    font-weight: bolder;
-    text-decoration: none ;
+.nav-link {
+  /* color: green; */
+  font-weight: bolder;
+  text-decoration: none;
 }
-.nav-link:active{
-    text-decoration: none;
+.nav-link:active {
+  text-decoration: none;
 }
-.shop{
-    padding-right: 10px;
+.shop {
+  padding-right: 10px;
 }
-.signinBtn{
-    margin-right: 10px;
-    
-    
+.signinBtn {
+  margin-right: 10px;
 }
-.numItems{
-    border: 1px solid grey;
-    border-radius: 10rem;
-    padding: 0.2rem;
-    background-color: indianred;
+.numItems {
+  border: 1px solid grey;
+  border-radius: 10rem;
+  padding: 0.2rem;
+  background-color: indianred;
 }
-.btnCartIcon{
-    background-color:rgb(248, 239, 239);
-    color:black;
-    border: none;
+.btnCartIcon {
+  background-color: rgb(248, 239, 239);
+  color: black;
+  border: none;
 }
-@media screen and (max-width: 990px) {   
-    .nav-item{
-        text-align: center;
-    }
-    .nav-item:hover {     
-        background-color: rgba(0, 0, 0, 0.2); 
-      }
-     
-     .icons{
-        text-align: center;
-        position: relative;
-        
-     }
+@media screen and (max-width: 990px) {
+  .nav-item {
+    text-align: center;
+  }
+  .nav-item:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  /* .icons {
+    text-align: center;
+    position: relative;
+    margin-left: "100px";
+  } */
 }

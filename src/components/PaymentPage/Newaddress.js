@@ -1,13 +1,7 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
 import { FormLabel } from "react-bootstrap";
-import Counter from "../Cart/Counter";
-import { Link } from "react-router-dom";
-import Total from "../Cart/Total";
-import ListOfItems from "../Cart/ListOfItems";
-import Paymentdetails from "../Paymentdetails/Paymentdetails";
 
 export default class Newaddress extends Component {
   render() {

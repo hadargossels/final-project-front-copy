@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { FormLabel, Col, Form } from "react-bootstrap";
+import { Col, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Total from "../Cart/Total";
 import ListOfItems from "../Cart/ListOfItems";
-import Newaddress from "./Newaddress";
+import axios from "axios";
+import firebase from "firebase";
 
 export default class Payment extends Component {
   constructor(props) {
@@ -12,6 +13,19 @@ export default class Payment extends Component {
       allCorrect: false,
       isSameAddress: false,
       myData: "",
+      dataForm: {
+        userId: firebase.auth().currentUser.uid,
+        fname: "",
+        lname: "",
+        city: "",
+        street: "",
+        houseNumber: "",
+        entrance: "",
+        floorNumber: "",
+        apartmentNumber: "",
+        message: "",
+        phoneNumber: "",
+      },
     };
     this.callRef = React.createRef();
   }
@@ -40,7 +54,7 @@ export default class Payment extends Component {
       case "number":
         patt = /^[0-9' ]+$/;
         result = patt.test(myStr);
-
+        break;
       case "textarea":
         if (myStr.length > 36) result = false;
         else result = true;
@@ -56,28 +70,32 @@ export default class Payment extends Component {
       e.setAttribute("class", "form-control");
     }
   }
-  allCorrectFun(e) {
-    this.setState({ myData: e });
+
+  async allCorrectFun(e) {
+    localStorage.setItem("orderDetails", JSON.stringify(this.state.dataForm));
+
     setTimeout(() => {
       this.callRef.current.click();
     }, 0);
   }
   selectDelivery(e) {
-    if (e.id == "different") {
+    if (e.id === "different") {
       this.setState({ isSameAddress: true });
-    } else if (e.id == "same") {
+    } else if (e.id === "same") {
       this.setState({ isSameAddress: false });
     }
   }
   render() {
-    let counters = JSON.parse(localStorage.getItem("counters") || "[]");
+    // console.log("firebase", firebase.auth().currentUser.getIdToken());
+
+    let counters = [];
     return (
       <div style={{ margin: "0 auto", width: "800px" }}>
         <h2 style={{ marginTop: "2rem", color: "orange" }}>My Cart:</h2>
         {counters.map((counter) => (
           <ListOfItems key={counter.id} counter={counter} />
         ))}
-        <Total />
+        <Total products={this.props.products} total={this.props.total} />
 
         <Link to="/store">
           <button
@@ -98,151 +116,244 @@ export default class Payment extends Component {
             this.allCorrectFun(e.target);
           }}
         >
+          <label
+            style={{ fontWeight: "bolder", marginTop: "1rem" }}
+            className="form-label"
+          >
+            First Name*
+          </label>
+          <input
+            className="inputOrder form-control"
+            name="firstName"
+            onChange={(e) => {
+              this.isInvalid(e.target);
+              this.setState((prevState) => ({
+                dataForm: {
+                  ...prevState.dataForm,
+                  fname: e.target.value,
+                },
+              }));
+            }}
+            type="text"
+            placeholder="First name"
+            style={{ width: "20rem", margin: "1rem 0" }}
+            required
+          />
+          <Form.Control.Feedback type="invalid">
+            Please Enter your First Name
+            <br />* Just letters
+          </Form.Control.Feedback>
           <Form.Row>
             <Col>
-              <FormLabel style={{ fontWeight: "bolder", marginTop: "1rem" }}>
-                First Name*
-              </FormLabel>
-              <Form.Control
-                onChange={(e) => this.isInvalid(e.target)}
-                type="text"
-                placeholder="First name"
-                style={{ width: "20rem", margin: "1rem 0" }}
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                Please Enter your First Name
-                <br />* Just letters
-              </Form.Control.Feedback>
-              <FormLabel style={{ fontWeight: "bolder" }}>Last Name*</FormLabel>
-              <Form.Control
-                onChange={(e) => this.isInvalid(e.target)}
+              <label style={{ fontWeight: "bolder" }} className="form-label">
+                Last Name*
+              </label>
+              <input
+                className="inputOrder form-control"
+                name="lastName"
+                onChange={(e) => {
+                  this.isInvalid(e.target);
+                  this.setState((prevState) => ({
+                    dataForm: {
+                      ...prevState.dataForm,
+                      lname: e.target.value,
+                    },
+                  }));
+                }}
                 type="text"
                 placeholder="Last name"
                 style={{ width: "20rem", margin: "1rem 0" }}
                 required
-                // isInvalid
+                isInvalid
+              />
+              <div className="invalid-feedback">
+                Please Enter your Last Name
+              </div>
+              <hr />
+              <label
+                style={{ fontWeight: "bolder", marginTop: "1rem" }}
+                className="form-label"
+              >
+                City*
+              </label>
+              <input
+                className="inputOrder form-control"
+                type="text"
+                name="city"
+                onChange={(e) => {
+                  this.isInvalid(e.target);
+                  this.setState((prevState) => ({
+                    dataForm: {
+                      ...prevState.dataForm,
+                      city: e.target.value,
+                    },
+                  }));
+                }}
+                style={{ width: "20rem", margin: "1rem 0" }}
+                required
+                isInvalid
+              />
+
+              <Form.Control.Feedback type="invalid">
+                This is a required field
+              </Form.Control.Feedback>
+
+              <label
+                style={{ fontWeight: "bolder", marginTop: "1rem" }}
+                className="form-label"
+              >
+                Street
+              </label>
+              <input
+                className="inputOrder form-control"
+                type="text"
+                name="street"
+                onChange={(e) => {
+                  this.isInvalid(e.target);
+                  this.setState((prevState) => ({
+                    dataForm: {
+                      ...prevState.dataForm,
+                      street: e.target.value,
+                    },
+                  }));
+                }}
+                style={{ width: "20rem", margin: "1rem 0" }}
+                required
+                isInvalid
               />
               <Form.Control.Feedback type="invalid">
-                Please Enter your Last Name
+                This is a required field
               </Form.Control.Feedback>
-              <hr />
-              <Form.Group controlId="formGridCity">
-                <Form.Label style={{ fontWeight: "bolder", marginTop: "1rem" }}>
-                  City
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  onChange={(e) => this.isInvalid(e.target)}
-                  style={{ width: "20rem", margin: "1rem 0" }}
-                  required
-                  //   isInvalid
-                />
-                <Form.Control.Feedback type="invalid">
-                  This is a required field
-                </Form.Control.Feedback>
-              </Form.Group>
+              <label
+                style={{ fontWeight: "bolder", marginTop: "1rem" }}
+                className="form-label"
+              >
+                House number*
+              </label>
+              <input
+                className="inputOrder form-control"
+                type="number"
+                name="houseNumber"
+                onChange={(e) => {
+                  this.isInvalid(e.target);
+                  this.setState((prevState) => ({
+                    dataForm: {
+                      ...prevState.dataForm,
+                      houseNumber: e.target.value,
+                    },
+                  }));
+                }}
+                style={{ width: "20rem", margin: "1rem 0" }}
+                required
+                isInvalid
+              />
+              <Form.Control.Feedback type="invalid">
+                This is a required field
+                <br />
+                *Just numbers 0-9
+              </Form.Control.Feedback>
 
-              <Form.Group controlId="formGridStreet">
-                <Form.Label style={{ fontWeight: "bolder", marginTop: "1rem" }}>
-                  Street
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  onChange={(e) => this.isInvalid(e.target)}
-                  style={{ width: "20rem", margin: "1rem 0" }}
-                  required
-                  //   isInvalid
-                />
-                <Form.Control.Feedback type="invalid">
-                  This is a required field
-                </Form.Control.Feedback>
-              </Form.Group>
+              <label
+                style={{ fontWeight: "bolder", marginTop: "1rem" }}
+                className="form-label"
+              >
+                Entrance*
+              </label>
+              <input
+                className="inputOrder form-control"
+                type="number"
+                name="entrance"
+                onChange={(e) => {
+                  this.isInvalid(e.target);
+                  this.setState((prevState) => ({
+                    dataForm: {
+                      ...prevState.dataForm,
+                      entrance: e.target.value,
+                    },
+                  }));
+                }}
+                style={{ width: "20rem", margin: "1rem 0" }}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                This is a required field
+                <br />
+                *Just numbers 0-9
+              </Form.Control.Feedback>
+              <label
+                style={{ fontWeight: "bolder", marginTop: "1rem" }}
+                className="form-label"
+              >
+                Floor number*
+              </label>
+              <input
+                className="inputOrder form-control"
+                onChange={(e) => {
+                  this.isInvalid(e.target);
+                  this.setState((prevState) => ({
+                    dataForm: {
+                      ...prevState.dataForm,
+                      floorNumber: e.target.value,
+                    },
+                  }));
+                }}
+                name="floorNumber"
+                style={{ width: "20rem", margin: "1rem 0" }}
+                required
+                type="number"
+              />
+              <Form.Text id="textareaHelpBlock" muted>
+                *If there are no floor details, enter 0
+              </Form.Text>
+              <Form.Control.Feedback type="invalid">
+                This is a required field *Just numbers 0-9
+              </Form.Control.Feedback>
 
-              <Form.Group controlId="formGridHouseNumber">
-                <Form.Label style={{ fontWeight: "bolder", marginTop: "1rem" }}>
-                  House number*
-                </Form.Label>
-                <Form.Control
-                  type="number"
-                  onChange={(e) => this.isInvalid(e.target)}
-                  style={{ width: "20rem", margin: "1rem 0" }}
-                  required
-                  //   isInvalid
-                />
-                <Form.Control.Feedback type="invalid">
-                  This is a required field
-                  <br />
-                  *Just numbers 0-9
-                </Form.Control.Feedback>
-              </Form.Group>
+              <label
+                style={{ fontWeight: "bolder", marginTop: "1rem" }}
+                className="form-label"
+              >
+                Apartment number *
+              </label>
+              <input
+                className="inputOrder form-control"
+                type="number"
+                name="apartmentNumber"
+                onChange={(e) => {
+                  this.isInvalid(e.target);
+                  this.setState((prevState) => ({
+                    dataForm: {
+                      ...prevState.dataForm,
+                      apartmentNumber: e.target.value,
+                    },
+                  }));
+                }}
+                style={{ width: "20rem", margin: "1rem 0" }}
+                required
+              />
+              <Form.Text id="textareaHelpBlock" muted>
+                *If there is no apartment number, register 0
+              </Form.Text>
+              <Form.Control.Feedback type="invalid">
+                This is a required field
+                <br />
+                *Just numbers 0-9
+              </Form.Control.Feedback>
 
-              <Form.Group controlId="formGridEntrance">
-                <Form.Label style={{ fontWeight: "bolder", marginTop: "1rem" }}>
-                  Entrance*
-                </Form.Label>
-                <Form.Control
-                  type="number"
-                  onChange={(e) => this.isInvalid(e.target)}
-                  style={{ width: "20rem", margin: "1rem 0" }}
-                  required
-                  //   isInvalid
-                />
-                <Form.Control.Feedback type="invalid">
-                  This is a required field
-                  <br />
-                  *Just numbers 0-9
-                </Form.Control.Feedback>
-              </Form.Group>
+              <label className="form-label">Courier message</label>
 
-              <Form.Group controlId="formHorizontalCheck">
-                <Form.Check label="Private house" />
-              </Form.Group>
-
-              <Form.Group controlId="formGridEntrance">
-                <Form.Label style={{ fontWeight: "bolder", marginTop: "1rem" }}>
-                  Floor number*
-                </Form.Label>
-                <Form.Control
-                  onChange={(e) => this.isInvalid(e.target)}
-                  style={{ width: "20rem", margin: "1rem 0" }}
-                  required
-                  type="number"
-                  //   isInvalid
-                />
-                <Form.Text id="textareaHelpBlock" muted>
-                  *If there are no floor details, enter 0
-                </Form.Text>
-                <Form.Control.Feedback type="invalid">
-                  This is a required field *Just numbers 0-9
-                </Form.Control.Feedback>
-              </Form.Group>
-
-              <Form.Group controlId="formGridEntrance">
-                <Form.Label style={{ fontWeight: "bolder", marginTop: "1rem" }}>
-                  Apartment number *
-                </Form.Label>
-                <Form.Control
-                  type="number"
-                  onChange={(e) => this.isInvalid(e.target)}
-                  style={{ width: "20rem", margin: "1rem 0" }}
-                  required
-                />
-                <Form.Text id="textareaHelpBlock" muted>
-                  *If there is no apartment number, register 0
-                </Form.Text>
-                <Form.Control.Feedback type="invalid">
-                  This is a required field
-                  <br />
-                  *Just numbers 0-9
-                </Form.Control.Feedback>
-              </Form.Group>
-
-              <Form.Label htmlFor="inputTextarea">Courier message</Form.Label>
-              <br />
               <textarea
-                className="form-control"
-                onChange={(e) => this.isInvalid(e.target)}
+                className="form-control inputOrder"
+                onChange={(e) => {
+                  this.isInvalid(e.target);
+                  this.setState((prevState) => ({
+                    dataForm: {
+                      ...prevState.dataForm,
+                      message: e.target.value,
+                    },
+                  }));
+                }}
+                name="message"
                 maxLength="36"
                 type="textarea"
                 id="inputTextarea5"
@@ -260,60 +371,34 @@ export default class Payment extends Component {
                 courier
               </Form.Text>
               <hr />
-
-              <Form.Group controlId="formGridNumber">
-                <Form.Label style={{ fontWeight: "bolder", marginTop: "1rem" }}>
-                  Phone number *
-                </Form.Label>
-                <Form.Control
-                  onChange={(e) => this.isInvalid(e.target)}
-                  type="tel"
-                  style={{ width: "20rem", margin: "1rem 0" }}
-                  required
-                />
-                <Form.Control.Feedback type="invalid">
-                  This is a required field
-                </Form.Control.Feedback>
-              </Form.Group>
+              <label
+                style={{ fontWeight: "bolder", marginTop: "1rem" }}
+                className="form-label"
+              >
+                Phone number *
+              </label>
+              <input
+                className="inputOrder form-control"
+                onChange={(e) => {
+                  this.isInvalid(e.target);
+                  this.setState((prevState) => ({
+                    dataForm: {
+                      ...prevState.dataForm,
+                      phoneNumber: e.target.value,
+                    },
+                  }));
+                }}
+                name="phoneNumber"
+                type="tel"
+                style={{ width: "20rem", margin: "1rem 0" }}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                This is a required field
+              </Form.Control.Feedback>
             </Col>
           </Form.Row>
-          {/* <div
-            style={{
-              backgroundColor: "grey",
-              padding: "1rem",
-              fontWeight: "bolder",
-            }}
-          >
-            My delivery Address
-          </div> */}
-          {/* 
-        <Form> */}
-          {/* {["radio"].map((type) => ( */}
-          {/* <div key={`custom-${type}`} className="mb-3"> */}
-          {/* <FormLabel>My delivery Address:</FormLabel>
-              <Form.Check
-                onClick={(e) => this.selectDelivery(e.target)}
-                custom
-                type={type}
-                name="adress"
-                id="same"
-                label="is the same as my billing address"
-              />
-              <Form.Check
-                onClick={(e) => this.selectDelivery(e.target)}
-                custom
-                type={type}
-                name="adress"
-                label="is different from my billing address"
-                id="different"
-              /> */}
-          {/* </div> */}
-          {/* ))} */}
-          {/* {this.state.isSameAddress ? (
-            <Newaddress isInvalid={this.isInvalid()} />
-          ) : (
-            ""
-          )} */}
+
           <div
             style={{
               backgroundColor: "grey",
@@ -325,7 +410,7 @@ export default class Payment extends Component {
           </div>
           <Form.Group
             style={{ margin: "1rem 0" }}
-            controlId="formHorizontalCheck"
+            controlId="formHorizontalCheck1"
           >
             <Form.Check label="I would like to receive promotional & informative communication emails from Nespresso regarding their products and related information. I understand I can withdraw my consent in reference to Nespresso Privacy Notice or change my Contact preferences at any time." />
           </Form.Group>

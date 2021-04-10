@@ -5,6 +5,7 @@ import firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/auth";
 import "firebase/firestore";
+import axios from "axios";
 
 export default class Signup extends Component {
   constructor(props) {
@@ -21,8 +22,12 @@ export default class Signup extends Component {
       lname: "",
       email: "",
       password: "",
-      phoneNumber: "",
-      img: "",
+      phone: "",
+      url: "",
+      country: "",
+      city: "",
+      street: "",
+      streetNumber: "",
     };
     for (let i = 0; i < input.length; i++) {
       switch (input[i].name) {
@@ -46,11 +51,27 @@ export default class Signup extends Component {
           input[i].value = "";
           break;
         case "tel":
-          newUser.phoneNumber = input[i].value;
+          newUser.phone = input[i].value;
           input[i].value = "";
           break;
         case "img":
           newUser.img = input[i].value;
+          input[i].value = "";
+          break;
+        case "country":
+          newUser.country = input[i].value;
+          input[i].value = "";
+          break;
+        case "city":
+          newUser.city = input[i].value;
+          input[i].value = "";
+          break;
+        case "street":
+          newUser.street = input[i].value;
+          input[i].value = "";
+          break;
+        case "streetNumber":
+          newUser.streetNumber = input[i].value;
           input[i].value = "";
           break;
         default:
@@ -58,29 +79,15 @@ export default class Signup extends Component {
       }
     }
 
-    this.newUser(
-      newUser.email,
-      newUser.password,
-      newUser.fname,
-      newUser.lname,
-      newUser.phoneNumber,
-      newUser.img
-    );
-    // this.setState({ myData: newUser });
-    localStorage.setItem("newUser", JSON.stringify(newUser));
-    console.log(newUser);
-
-    setTimeout(() => {
-      this.callRefBtn1.current.click();
-    }, 0);
+    this.newUser(newUser);
+    // localStorage.setItem("newUser", JSON.stringify(newUser));
   }
   checkedPassword(e) {
-    console.log("e", e);
-    // if (e.value.length < 8)
-    //   e.setAttribute("class", "form-control password is-invalid");
-    // else {
-    //   e.setAttribute("class", "form-control password ");
-    // }
+    if (e.value.length < 8)
+      e.setAttribute("class", "form-control password is-invalid");
+    else {
+      e.setAttribute("class", "form-control password ");
+    }
     let input = document.querySelectorAll(".password");
     let confirm = document.querySelector("#msgconfirm");
 
@@ -89,48 +96,57 @@ export default class Signup extends Component {
         confirm.style.display = "";
         input[1].setAttribute("class", "form-control password is-invalid");
       } else {
-        // input[0].setAttribute("class", "form-control password ")
+        input[0].setAttribute("class", "form-control password ");
         input[1].setAttribute("class", "form-control password ");
         confirm.style.display = "none";
       }
     }
   }
 
-  newUser(email, password, fname, lname, phoneNumber, img) {
+  newUser(newUser) {
     let user;
     firebase
       .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        alert(
-          "Hi " + fname + " ,you have successfully created a New account. "
-        );
-        alert("you can now login to your acount");
-        user = userCredential.user;
-        if (user) {
-          user
-            .updateProfile({
-              displayName: fname + " " + lname,
-              // phoneNumber: phoneNumber,
-              photoURL: img,
-            })
-            .then(function () {
-              alert("Update Profile successful.");
-            })
-            .catch(function (error) {
-              alert("An error happened on update profile.");
-            });
-        }
-        console.log("user", user);
-        // ...
+      .createUserWithEmailAndPassword(newUser.email, newUser.password)
+      .then(async (userCredential) => {
+        user = await userCredential.user;
+        //   await db
+        //     .child("users")
+        //     .child(user.uid)
+        //     .set({
+        //       id: user.uid,
+        //       // active: true,
+        //       email: newUser.email || "",
+        //       fname: newUser.fname || "",
+        //       lname: newUser.lname || "",
+        //       phone: newUser.phone || "",
+        //       country: newUser.country || "",
+        //       city: newUser.city || "",
+        //       street: newUser.street || "",
+        //       streetNumber: newUser.streetNumber || "",
+        //       // role: "Customer",
+        //     });
+        //   return user;
+        // })
+        // .then((user) => {
+        //   user.updateProfile({
+        //     displayName: newUser.fname + " " + newUser.lname,
+        //     photoURL: newUser.url,
+        //   });
+        newUser.id = user.uid;
+        axios.post(`http://localhost:4000/users`, newUser).then((res) => {
+          // console.log("res", res);
+        });
       })
       .catch((error) => {
-        let errorCode = error.code;
-        let errorMessage = error.message;
-        // ..
+        // let errorCode = error.code;
+        // let errorMessage = error.message;
+        alert("An error happened on update profile.");
       });
   }
+  // addUserDb;
   render() {
+    // console.log("db-user", db);
     return (
       <div className="signUp">
         <form
@@ -216,6 +232,63 @@ export default class Signup extends Component {
               required
             />
           </div>
+          <h4>Address</h4>
+          <div className="mb-3">
+            <label htmlFor="country" className="form-label">
+              Country*
+            </label>
+            <input
+              name="country"
+              type="text"
+              className="form-control"
+              id="country"
+              aria-describedby="countryHelp"
+              title="Please enter your country"
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="city" className="form-label">
+              city*
+            </label>
+            <input
+              name="city"
+              type="text"
+              className="form-control"
+              id="city"
+              aria-describedby="cityHelp"
+              title="Please enter your city"
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="street" className="form-label">
+              Street*
+            </label>
+            <input
+              name="street"
+              type="text"
+              className="form-control"
+              id="street"
+              aria-describedby="streetHelp"
+              title="Please enter your Street"
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="streetNumber" className="form-label">
+              Street Number*
+            </label>
+            <input
+              name="streetNumber"
+              type="number"
+              className="form-control"
+              id="streetNumber"
+              aria-describedby="streetNumberHelp"
+              title="Please enter your Street Number"
+              required
+            />
+          </div>
 
           <div className="mb-3">
             <label htmlFor="exampleInputPassword1" className="form-label">
@@ -269,11 +342,11 @@ export default class Signup extends Component {
 
           <div>
             By creating a Reach account you agree to our{" "}
-            <a className="linkSign" href="#">
+            <a className="linkSign" href="/#">
               Terms and Conditions
             </a>{" "}
             and{" "}
-            <a className="linkSign" href="#">
+            <a className="linkSign" href="/#">
               Privacy Notice
             </a>{" "}
             , which contains information about how we use your data and your
@@ -282,16 +355,17 @@ export default class Signup extends Component {
           </div>
           <div id="btnSignIn">
             <button className="btn btn-success btnSignUp">SIGN UP</button>
-            <Link to="/login">
-              <button
-                type="submit"
-                className="btn btn-success btnSignUp"
-                ref={this.callRefBtn1}
-                style={{ display: "none" }}
-              >
-                SIGN UP
-              </button>
-            </Link>
+            {/* <Link to="/login"> */}
+            <button
+              type="submit"
+              className="btn btn-success btnSignUp"
+              ref={this.callRefBtn1}
+              style={{ display: "none" }}
+            >
+              SIGN UP
+            </button>
+            {/* </Link> */}
+
             <p>
               Have an account?
               <Link className="linkSign" to="/login">
@@ -301,6 +375,43 @@ export default class Signup extends Component {
             </p>
           </div>
         </form>
+        {/* <Create {...this.props}>
+          <SimpleForm save={(data) => this.UserCreateAuth(this.props, data)}>
+            <TextInput
+              label="First Name"
+              source="fname"
+              validate={[required()]}
+            />
+            <TextInput
+              label="Last Name"
+              source="lname"
+              validate={[required()]}
+            />
+            <TextInput
+              type="email"
+              source="email"
+              validate={[required(), email()]}
+            />
+            <TextInput source="phone" validate={[required()]} />
+            <TextInput source="address" validate={[required()]} />
+            <TextInput
+              source="password"
+              type="password"
+              validate={[required()]}
+            />
+            <SelectInput
+              label="role"
+              source="role"
+              validate={[required()]}
+              choices={[
+                { id: "Administrator", name: "Administrator" },
+                { id: "Customer", name: "Customer" },
+                { id: "Site Owner", name: "Site Owner" },
+              ]}
+            />
+            <BooleanInput source="active" defaultValue={true} disabled />
+          </SimpleForm>
+        </Create> */}
       </div>
     );
   }

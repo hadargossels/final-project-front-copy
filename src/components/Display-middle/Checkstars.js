@@ -9,31 +9,30 @@ export default class Checkstars extends Component {
   }
   updateCheckbox = (num) => {
     const checkbox = [...this.state.checkbox];
-    const index=checkbox.indexOf(num)
-    if(index!==-1)
-        checkbox.splice(index,1)
-    else checkbox.push(num)
+    const index = checkbox.indexOf(num);
+    if (index !== -1) checkbox.splice(index, 1);
+    else checkbox.push(num);
 
-    this.setState({checkbox})
-    this.props.filterStars(checkbox)
+    this.setState({ checkbox });
+    this.props.filterStars(checkbox);
   };
-  clear=()=>{
-      this.setState({checkbox:[]})
-      this.props.filterStars([])
-      this.props.no()
-  }
+  clear = () => {
+    this.setState({ checkbox: [] });
+    this.props.filterStars([]);
+    this.props.no();
+  };
 
   render() {
     // const { filterStars } = this.props;
     return (
       <div>
-        <a href="#" onClick={this.clear} id="clear">
+        <a href="/store" onClick={() => this.clear} id="clear">
           Clear
         </a>
         <div className="form-check">
           <input
             onChange={(e) => this.updateCheckbox(4)}
-            checked={this.state.checkbox.indexOf(4)!==-1}
+            checked={this.state.checkbox.indexOf(4) !== -1}
             className="form-check-input"
             type="checkbox"
             id="flexCheckDefault"
@@ -48,8 +47,8 @@ export default class Checkstars extends Component {
         </div>
         <div className="form-check">
           <input
-             onChange={(e) => this.updateCheckbox(3)}
-             checked={this.state.checkbox.indexOf(3)!==-1}
+            onChange={(e) => this.updateCheckbox(3)}
+            checked={this.state.checkbox.indexOf(3) !== -1}
             className="form-check-input"
             type="checkbox"
             id="flexCheckDefault1"
@@ -64,8 +63,8 @@ export default class Checkstars extends Component {
         </div>
         <div className="form-check">
           <input
-             onChange={(e) => this.updateCheckbox(2)}
-             checked={this.state.checkbox.indexOf(2)!==-1}
+            onChange={(e) => this.updateCheckbox(2)}
+            checked={this.state.checkbox.indexOf(2) !== -1}
             className="form-check-input"
             type="checkbox"
             id="flexCheckDefault2"
@@ -80,8 +79,8 @@ export default class Checkstars extends Component {
         </div>
         <div className="form-check">
           <input
-             onChange={(e) => this.updateCheckbox(1)}
-             checked={this.state.checkbox.indexOf(1)!==-1}
+            onChange={(e) => this.updateCheckbox(1)}
+            checked={this.state.checkbox.indexOf(1) !== -1}
             className="form-check-input"
             type="checkbox"
             id="flexCheckDefault3"
@@ -98,5 +97,3 @@ export default class Checkstars extends Component {
     );
   }
 }
-
-

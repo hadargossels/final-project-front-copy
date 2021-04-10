@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import {
   List,
   Datagrid,
@@ -19,7 +20,17 @@ import {
 const PostTitle = ({ record }) => {
   return <span>Post {record ? `"${record.title}"` : ""}</span>;
 };
-
+const CreatePostDatabase = (props, data) => {
+  // db.child("blogs").child(data.uid)
+  //   .set({
+  //     id: data.users,
+  //     name: data.name,
+  //     src: data.src,
+  //     title: data.title,
+  //     text: data.text,
+  //     date: data.date,
+  //   })
+};
 export const PostList = (props) => (
   <List filters={<PostFilter />} {...props}>
     <Datagrid>
@@ -29,7 +40,7 @@ export const PostList = (props) => (
       </ReferenceField>
       <TextField source="name" />
       <TextField source="title" />
-      <TextField source="text" />
+      {/* <TextField source="text" /> */}
       <DateField source="date" />
       <EditButton />
     </Datagrid>
@@ -52,13 +63,13 @@ export const PostEdit = (props) => (
 );
 
 export const PostCreate = (props) => (
-  <Create {...props}>
-    <SimpleForm>
+  <Create title="Create a Blog" {...props}>
+    <SimpleForm save={(data) => CreatePostDatabase(props, data)}>
       <ReferenceInput source="users" reference="users">
         <SelectInput optionText="name" />
       </ReferenceInput>
-
       <TextInput source="name" />
+      <TextInput source="src" />
       <TextInput source="title" />
       <TextInput multiline source="text" />
       <DateInput source="date" />

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Link, Route } from "react-router-dom";
-import axios from "axios";
+import { Link } from "react-router-dom";
+// import axios from "axios";
 
 export default class Items extends Component {
   constructor(props) {
@@ -8,13 +8,14 @@ export default class Items extends Component {
     this.state = {
       item: this.props.name,
       data: [],
+      origItem: this.props.data || "",
     };
   }
   componentDidMount() {
-    axios.get(`http://localhost:3000/products`).then((res) => {
-      const products = res.data;
-      this.setState({ origItem: products });
-    });
+    // axios.get(`http://localhost:3000/products`).then((res) => {
+    //   const products = res.data;
+    //   this.setState({ origItem: products });
+    // });
   }
 
   openProduct = () => {
@@ -26,8 +27,8 @@ export default class Items extends Component {
     } else return "";
   }
   sendId() {
-    let storge = JSON.parse(localStorage.getItem("counters") || "[]");
-
+    // let storge = JSON.parse(localStorage.getItem("counters") || "[]");
+    let storge = this.props.products || [];
     let name = this.props.name;
     let product = this.props.data.filter((item) => item.name === name);
 
@@ -41,15 +42,24 @@ export default class Items extends Component {
       this.props.msgIsInCart();
       return;
     }
-    let aa = [...storge];
-    aa.push({
+    // let aa = [...storge];
+    // aa.push({
+    //   id: product.id,
+    //   value: 1,
+    //   name: product.name,
+    //   price: product.price,
+    //   src: product.src,
+    // });
+    let newProduct = {
       id: product.id,
       value: 1,
       name: product.name,
       price: product.price,
       src: product.src,
-    });
-    localStorage.setItem("counters", JSON.stringify(aa));
+    };
+    this.props.updateProducts(newProduct);
+    // localStorage.setItem("counters", JSON.stringify(this.props.products));
+    localStorage.setItem("counters", this.props.products);
     this.props.changeMsg();
     // {<Header msg={this.changeMsg}/>}
     // let msg=document.querySelector("#message")
@@ -70,13 +80,13 @@ export default class Items extends Component {
     }
     let imgSubCategory;
     if (this.props.subcategory) {
-      if (this.props.subcategory.toLowerCase() == "sales") {
+      if (this.props.subcategory.toLowerCase() === "sales") {
         imgSubCategory = "/images/sale.webp";
-      } else if (this.props.subcategory.toLowerCase() == "featured product") {
+      } else if (this.props.subcategory.toLowerCase() === "featured product") {
         imgSubCategory = "/images/feature.png";
-      } else if (this.props.subcategory.toLowerCase() == "new") {
+      } else if (this.props.subcategory.toLowerCase() === "new") {
         imgSubCategory = "/images/new.webp";
-      } else if (this.props.subcategory.toLowerCase() == "best sellers") {
+      } else if (this.props.subcategory.toLowerCase() === "best sellers") {
         imgSubCategory = "/images/bastSeller.png";
       }
     }
@@ -89,7 +99,7 @@ export default class Items extends Component {
             // alt={this.props.name}
             // name={this.props.name}
           >
-            <img src={imgSubCategory} className="imgsubca" />
+            <img src={imgSubCategory} className="imgsubca" alt="" />
             <img
               src={this.props.src}
               className="card-img-top imgproduct"
@@ -144,7 +154,11 @@ export default class Items extends Component {
                           {/* <Link to={`/product/${this.props.name}`} openProduct={this.openProduct} type="button" className="btn btn-secondary" >Shop Now</Link> */}
                         </div>
                         <div className="col">
-                          <img className="imgQuickview" src={this.props.src} />
+                          <img
+                            className="imgQuickview"
+                            src={this.props.src}
+                            alt=""
+                          />
                         </div>
                       </div>
                     </div>

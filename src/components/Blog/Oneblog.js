@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Comment from "./Comment";
-import axios from "axios";
 
 export default class Oneblog extends Component {
   constructor(props) {
@@ -80,7 +79,7 @@ export default class Oneblog extends Component {
   }
   currentPostComments() {
     let comments = this.state.comments;
-    let myComments = comments.filter((a) => a.post == this.state.nameOfBlog);
+    let myComments = comments.filter((a) => a.post === this.state.nameOfBlog);
 
     return myComments;
   }
@@ -115,6 +114,7 @@ export default class Oneblog extends Component {
           </div>
           <div style={{ textAlign: "center" }}>
             <img
+              alt="myBlog"
               src={this.state.myBlog.src}
               style={{ width: "50%", minWidth: "300px" }}
             />

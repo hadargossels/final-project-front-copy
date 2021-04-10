@@ -1,21 +1,20 @@
 import React, { Component } from "react";
 // import data2 from "../../data2";
 import Bestseller from "../Bestseller/Bestseller";
-import axios from "axios";
 
 export default class Slide extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      data: this.props.data || [],
       sortItem: [],
     };
   }
   componentDidMount = () => {
-    axios.get(`http://localhost:3000/products`).then((res) => {
-      const products = res.data;
-      this.setState({ data: products, sortItem: products });
-    });
+    // axios.get(`http://localhost:3000/products`).then((res) => {
+    //   const products = res.data;
+    //   this.setState({ data: products, sortItem: products });
+    // });
     this.displayItemsCategory(this.props.category);
   };
   displayItemsCategory(category) {
@@ -65,8 +64,6 @@ export default class Slide extends Component {
     return arr;
   }
   changeMsg() {
-    console.log("props", this.props);
-
     let msg = document.querySelector("#message");
 
     msg.style.display = "";
@@ -76,7 +73,6 @@ export default class Slide extends Component {
     }, 10000);
   }
   msgIsInCart() {
-    console.log("props", this.props);
     let msg2 = document.querySelector("#message2");
 
     msg2.style.display = "";

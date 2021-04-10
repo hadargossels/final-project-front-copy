@@ -19,9 +19,7 @@ export default class Login extends Component {
     localStorage.setItem("login", false);
   }
   allCorrectFun(e) {
-    console.log("in");
     let input = document.querySelectorAll(".myInputLogin");
-    console.log("input", input[0].value, input[1].value);
     this.login(input[0].value, input[1].value);
     // input[0].value = "";
     // input[1].value = "";
@@ -35,10 +33,10 @@ export default class Login extends Component {
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         user = userCredential.user;
-        // console.log("userlogin", user);
         // if (user) {
         alert("Login Successful");
         this.changeBtnLogin();
+        localStorage.setItem("newUser", JSON.stringify(user));
 
         setTimeout(() => {
           this.callRefBtn.current.click();
@@ -46,9 +44,7 @@ export default class Login extends Component {
         // }
       })
       .catch((error) => {
-        var errorCode = error.code;
         var errorMessage = error.message;
-        console.log(errorMessage);
         alert(
           "Sorry, your password or Email was incorrect. Please double-check your password and Email."
         );
@@ -73,10 +69,9 @@ export default class Login extends Component {
       .auth()
       .signInWithPopup(provider)
       .then((result) => {
-        let credential = result.credential;
-        let token = credential.accessToken;
+        // let credential = result.credential;
+        // let token = credential.accessToken;
         let user = result.user;
-        console.log("googleUser", user);
         alert("Login Successful");
         this.changeBtnLogin();
         let newUser = {
@@ -93,7 +88,6 @@ export default class Login extends Component {
         let errorMessage = error.message;
         let email = error.email;
         let credential = error.credential;
-        console.log(errorCode, errorMessage, email, credential);
         alert(
           "Sorry, your password or Email was incorrect. Please double-check your password and Email."
         );
@@ -107,9 +101,9 @@ export default class Login extends Component {
       .auth()
       .signInWithPopup(provider)
       .then((result) => {
-        var credential = result.credential;
+        // var credential = result.credential;
         var user = result.user;
-        var accessToken = credential.accessToken;
+        // var accessToken = credential.accessToken;
         alert("Login Successful");
         this.changeBtnLogin();
         let newUser = {
@@ -133,15 +127,12 @@ export default class Login extends Component {
       });
   }
   render() {
-    console.log("currentUser", firebase.auth().currentUser);
-
     return (
       <div style={{ width: "auto", margin: "0 auto" }}>
         <form
           method="POST"
           onSubmit={(e) => {
             e.preventDefault();
-            // console.log("e onsubmit", e.target);
             this.allCorrectFun(e.target);
           }}
           id="formLogin"

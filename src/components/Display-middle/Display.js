@@ -5,6 +5,8 @@ import Items from "./Items";
 import Sortby from "./Sortby";
 import Category from "./Category";
 import queryString from "query-string";
+import { Link } from "react-router-dom";
+
 import axios from "axios";
 
 export default class Display extends Component {
@@ -16,30 +18,39 @@ export default class Display extends Component {
       limit: 8,
       origItem: this.props.data || [],
       ItemsDet: this.props.data || [],
+      category: this.props.match.params.category || "",
       // searchValue: queryString.parse((props.location || "").search),
       noResult: "",
     };
     this.filterStars = this.filterStars.bind(this);
     this.sortCategory = this.sortCategory.bind(this);
+    // let newData = [];
+    // this.setState({});
+    this.getData();
   }
   componentDidMount = () => {
-    // axios.get(`http://localhost:3000/products`).then((res) => {
-    //   const products = res.data;
-    //   this.setState({ origItem: products });
-    // });
-    console.log(this.props);
-    this.setState({ ItemsDet: this.props.data });
+    if (this.props.match.params.category) {
+      this.sortSubCategory(this.props.match.params.category);
+    } else this.setState({ ItemsDet: this.props.data });
+
     this.updateSearch();
 
     this.updatecategory();
   };
   componentDidUpdate(previousProps) {
-    if (previousProps.location != this.props.location) this.updateSearch();
+    if (previousProps.location !== this.props.location) this.updateSearch();
   }
   // componentWillUnmount = () => {
   //   localStorage.setItem("imgs", JSON.stringify(this.props.data));
   // };
-
+  getData() {
+    axios.get(`http://localhost:4000/products`).then((res) => {
+      const products = res.data;
+      this.setState({ origItem: products });
+      this.setState({ ItemsDet: products });
+      // return products;
+    });
+  }
   sortPrice = (type) => {
     let ItemsDet = [...this.props.data];
     if (type === "lowToHight") ItemsDet.sort((a, b) => a.price - b.price);
@@ -47,7 +58,13 @@ export default class Display extends Component {
 
     this.setState({ ItemsDet });
   };
-
+  sortSubCategory(subCategory) {
+    let subCategoryData = [...this.props.data];
+    subCategoryData = subCategoryData.filter(
+      (item) => item.subcategory.toLowerCase() === subCategory.toLowerCase()
+    );
+    this.setState({ ItemsDet: subCategoryData });
+  }
   filterStars = (types) => {
     let orgArr = [...this.props.data];
     let newArr = [];
@@ -87,6 +104,7 @@ export default class Display extends Component {
       (img, key) => (
         <div className="col-md-6 col-lg-4 col-xl-3 mb-2 item" key={key}>
           <Items
+            data={this.state.origItem}
             changeMsg={this.changeMsg}
             msgIsInCart={this.msgIsInCart}
             openProduct={this.openProduct}
@@ -98,7 +116,8 @@ export default class Display extends Component {
             subcategory={img.subcategory}
             text={img.text}
             id={+key + 2}
-            data={this.props.data}
+            updateProducts={this.props.updateProducts}
+            products={this.props.products}
           />
         </div>
       )
@@ -106,23 +125,15 @@ export default class Display extends Component {
   };
 
   updateSearch() {
-    // console.log(this.props.location, this.props.location.search.includes("q="));
     // if (!this.props.location.search.includes("q=")) return;
     let searchValueInput = queryString.parse(this.props.location.search).q;
 
     if (!searchValueInput) return;
-    // this.setState({ noResult: "" });
     if (searchValueInput) {
-      let searchInput = [];
       const ItemsDet = [...this.props.data].filter((item) => {
         return item.name.toLowerCase().includes(searchValueInput.toLowerCase());
       });
-      console.log(searchValueInput, ItemsDet);
       this.setState({ ItemsDet });
-      // this.setState({ ItemsDet: searchInput });
-      // if (searchInput.length === 0) this.setState({ noResult: "No Result" });
-      // if(!this.state.ItemsDet) this.setState({display:"inline"})
-      // else this.setState({display:"none"})
     }
   }
   updatecategory() {
@@ -132,7 +143,6 @@ export default class Display extends Component {
       searchCategory = [...this.props.data].filter((item) => {
         return item.subcategory.toLowerCase().includes(category.toLowerCase());
       });
-      // console.log("searchCategory", searchCategory);
       this.setState({ ItemsDet: searchCategory });
     }
   }
@@ -208,17 +218,18 @@ export default class Display extends Component {
                 <nav aria-label="Page navigation example">
                   <ul className="pagination">
                     <li className="page-item">
-                      <a
+                      <Link
                         className="page-link"
-                        href="#"
-                        onClick={() =>
+                        to="/store"
+                        onClick={() => {
                           this.setState((state) => ({
                             page: state.page && state.page - 1,
-                          }))
-                        }
+                          }));
+                          window.scrollTo(0, 0);
+                        }}
                       >
                         Previous
-                      </a>
+                      </Link>
                     </li>
                     {Array(
                       0 | (this.state.ItemsDet.length / this.state.limit + 1)
@@ -227,12 +238,15 @@ export default class Display extends Component {
                       .map((_, index) => (
                         <li
                           className="page-item"
-                          onClick={() => this.setState({ page: index })}
+                          onClick={() => {
+                            this.setState({ page: index });
+                            window.scrollTo(0, 0);
+                          }}
                           key={index}
                         >
-                          <a className="page-link" href="#">
+                          <Link className="page-link" to="/store">
                             {index}
-                          </a>
+                          </Link>
                         </li>
                       ))}
 
@@ -245,11 +259,12 @@ export default class Display extends Component {
                         ) {
                           this.setState((state) => ({ page: state.page + 1 }));
                         }
+                        window.scrollTo(0, 0);
                       }}
                     >
-                      <a className="page-link" href="#">
+                      <Link className="page-link" to="/store">
                         Next
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </nav>

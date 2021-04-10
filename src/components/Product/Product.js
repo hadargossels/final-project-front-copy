@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./Product.css";
 import barista from "./imgs/barista.jpg";
-import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default class Product extends Component {
@@ -16,19 +15,35 @@ export default class Product extends Component {
     };
 
     this.changeImg = this.changeImg.bind(this);
+    this.getData();
   }
   componentDidMount() {
     window.scrollTo(0, 0);
+    axios
+      .get(`http://localhost:4000/products`)
+      .then((res) => {
+        const products = res.data;
+        this.setState({ origItem: products });
+      })
+      .then((res) => {
+        let nameP = this.props.match.params.productName;
 
-    let nameP = this.props.match.params.productName;
-    if (!nameP) return;
+        if (!nameP) return;
 
-    let currentItem = this.props.data.filter((item) => item.name == nameP);
-    if (!currentItem.length) return;
-    currentItem = currentItem[0];
-    this.setState({ currentItem, loading: false });
+        let currentItem = this.state.origItem.filter(
+          (item) => item.name === nameP
+        );
+        if (!currentItem.length) return;
+        currentItem = currentItem[0];
+        this.setState({ currentItem, loading: false });
+      });
   }
-
+  getData() {
+    axios.get(`http://localhost:4000/products`).then((res) => {
+      const products = res.data;
+      this.setState({ origItem: products });
+    });
+  }
   changeImg(img) {
     this.setState({ bigPhoto: img });
   }
@@ -36,11 +51,10 @@ export default class Product extends Component {
   findRelated(related) {
     // related = related.RelatedProducts;
     // related = this.state.origItem.filter((item) => {
-    //   console.log(item.name,related)
     //   item.name === related}
 
     //   )}
-    let arr = this.state.origItem.filter((item) => item.name == related);
+    let arr = this.state.origItem.filter((item) => item.name === related);
 
     return arr[0];
   }
@@ -61,7 +75,6 @@ export default class Product extends Component {
     let arrRelated = [];
     if (currentItem.RelatedProducts)
       arrRelated = currentItem.RelatedProducts.map((relatedItem, index) => {
-        // console.log("item", relatedItem);
         return this.findRelated(relatedItem);
       });
 
@@ -240,9 +253,9 @@ export default class Product extends Component {
               <div className="row">
                 <div className="col ">
                   <div className="card border border-danger">
-                    <Link to={`/product/${related1.name}`}>
+                    <a href={`/product/${related1.name}`}>
                       <img src={related1.src} alt="" className="card-img-top" />
-                    </Link>
+                    </a>
                     <div className="card-body">
                       <h5 className="card-title">{related1.name}</h5>
                       <p className="card-text">
@@ -256,9 +269,9 @@ export default class Product extends Component {
 
                 <div className="col">
                   <div className="card border border-danger">
-                    <Link to={`/product/${related2.name}`}>
+                    <a href={`/product/${related2.name}`}>
                       <img src={related2.src} alt="" className="card-img-top" />
-                    </Link>
+                    </a>
                     <div className="card-body">
                       <h5 className="card-title">{related2.name}</h5>
                       <p className="card-text">
@@ -272,9 +285,9 @@ export default class Product extends Component {
 
                 <div className="col">
                   <div className="card border border-danger">
-                    <Link to={`/product/${related3.name}`}>
+                    <a href={`/product/${related3.name}`}>
                       <img src={related3.src} alt="" className="card-img-top" />
-                    </Link>
+                    </a>
                     <div className="card-body">
                       <h5 className="card-title">{related3.name}</h5>
                       <p className="card-text">

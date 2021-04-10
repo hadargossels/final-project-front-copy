@@ -3,7 +3,6 @@ import {
   List,
   Datagrid,
   TextField,
-  ReferenceField,
   EditButton,
   Edit,
   Create,
@@ -40,14 +39,7 @@ const ProductsTitle = ({ record }) => {
 };
 
 export const ProductsList = (props) => (
-  <List
-    filters={<ProductsFilter />}
-    aside={<FilterSidebar />}
-    // filter={{ category: Pixie }}
-    // filter={{ category: Origin }}
-    // filter={{ category: food & bites }}
-    {...props}
-  >
+  <List filters={<ProductsFilter />} aside={<FilterSidebar />} {...props}>
     <Datagrid>
       <TextField source="id" />
       <TextField source="name" />

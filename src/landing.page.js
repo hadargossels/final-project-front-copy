@@ -1,5 +1,3 @@
-import react from "react";
-import auth from "./auth";
 import Login from "./components/Login/Login";
 export const LandingPage = (props) => {
   return (
