@@ -1,13 +1,12 @@
 import React from 'react'
-import { Container } from 'react-bootstrap'
 import ProfileDetails from './ProfileDetails'
-import ProfileOrdes from './ProfileOrdes'
+import ProfileOrders from './ProfileOrders'
 
 export default function Profile() {
     return (
         <div>
             <ProfileDetails />
-            <ProfileOrdes />
+            <ProfileOrders />
         </div>
     )
 }

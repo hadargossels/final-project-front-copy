@@ -8,6 +8,7 @@ import { useAuth } from '../../context/AuthContext';
 import {useHistory} from 'react-router-dom';
 import {firebasedb} from '../../firebase';
 import { emailPattern, phonePattrern} from '../../data/constants';
+import axios from 'axios';
 
 
 export default function Payment() {
@@ -114,21 +115,6 @@ export default function Payment() {
             lastNameCustomerRef.current.style.borderColor = 'green';
         }
         
-        if (phoneRef.current.validity.valueMissing) {
-            phoneRef.current.style.borderColor = 'red';
-            correctInputs = false;
-            setMessagePhone(invalidMessages.required);
-        }
-        else if (!phoneRef.current.value.match(phonePattrern)){
-            phoneRef.current.style.borderColor = 'red';
-            correctInputs = false;
-            setMessagePhone(invalidMessages.phonePattern);
-        }
-        else {
-            setMessagePhone('');
-            phoneRef.current.style.borderColor = 'green';
-        }
-        
         if (!emailRef.current.value){
             emailRef.current.style.borderColor = 'red';
             correctInputs = false;
@@ -221,6 +207,21 @@ export default function Payment() {
             cityRef.current.style.borderColor = 'green';
         }
 
+        if (phoneRef.current.validity.valueMissing) {
+            phoneRef.current.style.borderColor = 'red';
+            correctInputs = false;
+            setMessagePhone(invalidMessages.required);
+        }
+        else if (!phoneRef.current.value.match(phonePattrern)){
+            phoneRef.current.style.borderColor = 'red';
+            correctInputs = false;
+            setMessagePhone(invalidMessages.phonePattern);
+        }
+        else {
+            setMessagePhone('');
+            phoneRef.current.style.borderColor = 'green';
+        }
+
         return correctInputs;
     }
 
@@ -237,67 +238,48 @@ export default function Payment() {
     }
 
     const paymentHandler = (details, data) => {
-        console.log(details, data);
         const userID = currentUser ? currentUser.uid : 1;
-        const customerFirstName = currentUser ? userFirstName : firstNameCustomerRef.current.value;
-        const customerLastName = currentUser ? userLastName : lastNameCustomerRef.current.value;
-        const customerPhone = currentUser ? userPhone : phoneRef.current.value;
-        const customerEmail = currentUser ? currentUser.email : emailRef.current.value;
         const couponDiscountAmount = myCoupon.code ? getCouponDiscountAmount() * -1 : 0;
         const couponCode = myCoupon.code ? myCoupon.code : 0;
+        // const customerFirstName = currentUser ? userFirstName : firstNameCustomerRef.current.value;
+        // const customerLastName = currentUser ? userLastName : lastNameCustomerRef.current.value;
+        // const customerPhone = currentUser ? userPhone : phoneRef.current.value;
+        // const customerEmail = currentUser ? currentUser.email : emailRef.current.value;
 
         const orderedProducts = cartProducts.map((product) => {
             return {
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                discount: product.discount,
-                actual_price: product.price * (1 - product.discount),
-                quantity: product.quantity,
-                total: product.price * (1 - product.discount) * product.quantity
+                productId: product.id,
+                quantity: product.quantity
             }
         })
-
-        firebasedb.ref('orders').child(data.orderID).set(
-            {
-                id: data.orderID,
-                order_details: {
-                    date: details.create_time,
-                    total_amount: details.purchase_units[0].amount,
-                    subtotal_amount: getSubTotalAmount(),
-                    taxes_amount: getTaxesAmount(),
-                    coupon_discount_amount: couponDiscountAmount,
-                    coupon_code: couponCode,
-                    delivery_amount: deliveryAmount,
-                    delivery_method: selectDelivery.current.value,
-                    products: orderedProducts,
-                    email_subscription: emailSubscriptionRef.current.checked,
-                    status: 'ordered'
-                },
-                customer_details: {
-                    user_id: userID,
-                    user_first_name: customerFirstName,
-                    user_last_name: customerLastName,
-                    phone_number: customerPhone,
-                    email: customerEmail
-                },
-                recipient_details: {
-                    first_name: firstNameRef.current.value,
-                    last_name: lastNameRef.current.value,
-                    city: cityRef.current.value,
-                    street: streetRef.current.value,
-                    home_number: homeNumberRef.current.value,
-                    apartment_number: apartmentNumberRef.current.value
-                },
-                payer_details: {
-                    id: details.payer.payer_id,
-                    first_name: details.payer.name.given_name,
-                    last_name: details.payer.name.surname,
-                    email_address: details.payer.email_address,
-                    country_code: details.payer.address.country_code
-                }
+        axios.post(`${process.env.REACT_APP_PROXY}/orders`, {
+            id: data.orderID,
+            totalAmount: parseFloat(details.purchase_units[0].amount.value),
+            subtotalAmount: getSubTotalAmount(),
+            taxesAmount: getTaxesAmount(),
+            couponDiscountAmount: couponDiscountAmount,
+            couponCode: couponCode,
+            deliveryAmount: deliveryAmount,
+            deliveryMethod: selectDelivery.current.value,
+            products: orderedProducts,
+            userId: '606629fb8c73a357f4a3d267',
+            recipient: {
+                firstName: firstNameRef.current.value,
+                lastName: lastNameRef.current.value,
+                city: cityRef.current.value,
+                street: streetRef.current.value,
+                homeNumber: homeNumberRef.current.value,
+                apartmentNumber: apartmentNumberRef.current.value,
+                phone: phoneRef.current.value
             }
-        )
+            // payer_details: {
+            //     id: details.payer.payer_id,
+            //     first_name: details.payer.name.given_name,
+            //     last_name: details.payer.name.surname,
+            //     email_address: details.payer.email_address,
+            //     country_code: details.payer.address.country_code
+            // }
+        });
         
         setCartProducts([]);
         localStorage.removeItem('cartProducts');
@@ -475,7 +457,15 @@ export default function Payment() {
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
+                                            <div className="form row form-group">
+                                                <label htmlFor="phone">Phone:</label>
+                                                <input type="tel" className="form-control" ref={phoneRef} placeholder="0501231234" required></input>
+                                                <div className="invalidMassege text-danger">
+                                                    {messagePhone}
+                                                </div>
+                                            </div>
+                                                                                        
                                             <button type="submit" className="btn btn-primary btn-sm px-5" onClick={submitRecipientDetails}>Next</button> 
                                         </div>  
                                     </form> 

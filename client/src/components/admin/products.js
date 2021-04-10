@@ -9,6 +9,7 @@ import {
     BooleanField,
     NumberField,
     ReferenceField,
+    FunctionField,
     EditButton,
     Edit,
     Create,
@@ -24,15 +25,18 @@ import {
     maxValue,
     ReferenceInput,
     ArrayInput,
-    SimpleFormIterator
+    SimpleFormIterator,
+    ImageInput
 } from 'react-admin';
 
 const DeleteConfirmTitle = 'Are you sure you want to delete this product?';
 
-const invalidMessages= {required: "This field is required",
-                        maxDiscount: "The maximum number is 1",
-                        maxStars: "The maximum number is 5"                        
-                        };
+const invalidMessages = 
+    {
+        required: "This field is required",
+        maxDiscount: "The maximum number is 1",
+        maxStars: "The maximum number is 5"                        
+    };
 
 const DeleteConfirmContent = (props) => {
     return (
@@ -65,11 +69,15 @@ export const ProductList = props => (
             <ReferenceField source="category" reference="categories">
                 <TextField source="name" />
             </ReferenceField>
-            <BooleanField source="inStock" label="In stock" />
             <TextField source="name" />
             <NumberField source="price" />
             <NumberField source="discount" />
+            <FunctionField
+                label="Actual Price"
+                render={record => `${record.price * (1 - record.discount)}`}
+            />
             <NumberField source="stars" />
+            <BooleanField source="inStock" label="In stock" />
             <EditButton />
             <DeleteWithCustomConfirmButton
                 title={DeleteConfirmTitle}      // your custom title of delete confirm dialog
@@ -89,27 +97,17 @@ export const ProductEdit = props => (
     <Edit {...props}>
         <SimpleForm>
             <TextInput disabled source="id" />
-            <SelectInput source="category" choices={[
-                { id: 'bedroom', name: 'bedroom' },
-                { id: 'bathroom', name: 'bathroom' },
-                { id: 'living room', name: 'living room' }
-            ]} />
-            <SelectInput source="subcategory" choices={[
-                { id: 'bedding', name: 'bedding' },
-                { id: 'blankets', name: 'blankets' },
-                { id: 'towels', name: 'towels' },
-                { id: 'storage', name: 'storage' },
-                { id: 'pillows', name: 'pillows' },
-                { id: 'accessories', name: 'accessories' }
-            ]} />
+            <ReferenceInput source="category" reference="categories" validate={[required(invalidMessages.required)]} />
             <BooleanInput source="inStock" label="In stock" />
             <TextInput source="name" />
             <NumberInput source="price" />
             <NumberInput source="discount" validate={[maxValue(1, invalidMessages.maxDiscount)]} />
             <NumberInput source="stars" validate={[maxValue(5, invalidMessages.maxStars)]} />
-            <TextInput source="images.0" label="Image 1" />
-            <TextInput source="images.1" label="Image 2" />
-            <TextInput source="images.2" label="Image 3" />
+            <ArrayInput source="product_images" validate={[required(invalidMessages.required)]}>
+                <SimpleFormIterator>
+                    <ImageInput />
+                </SimpleFormIterator>
+            </ArrayInput>
         </SimpleForm>
     </Edit>
 );
@@ -128,12 +126,9 @@ export const ProductCreate = props => (
             <NumberInput source="stars" validate={[required(invalidMessages.required), maxValue(5, invalidMessages.maxStars)]} />
             <ArrayInput source="product_images" validate={[required(invalidMessages.required)]}>
                 <SimpleFormIterator>
-                    <TextInput source="image" />
+                    <ImageInput/>
                 </SimpleFormIterator>
             </ArrayInput>
-            {/* <TextInput source="images.0" label="Image 1" validate={[required(invalidMessages.required)]} />
-            <TextInput source="images.1" label="Image 2" />
-            <TextInput source="images.2" label="Image 3" /> */}
         </SimpleForm>
     </Create>
 );

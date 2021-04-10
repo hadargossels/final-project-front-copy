@@ -18,7 +18,6 @@ import {
     Show,
     ChipField,
     ArrayField,
-    EmailField,
     Edit,
     SimpleForm,
     ReferenceField,
@@ -54,9 +53,9 @@ const OrderFilter = (props) => (
         <TextInput label="Search" source="id" alwaysOn />
         <SelectInput source="status" choices={statusOptions} />
         <DateInput source="createdAt" label="Date" />
-        <ReferenceInput label="Customer Id" source="userId" reference="users" >
+        {/* <ReferenceInput label="Customer Id" source="userId" reference="users" >
             <TextInput optionText="id" />
-        </ReferenceInput>
+        </ReferenceInput> */}
         {/* <TextInput source="userId" label="Customer Id" /> */}
     </Filter>
 );

@@ -24,7 +24,7 @@ export default function CartProduct(props) {
         <div className="card mb-3" style={{maxWidth: "750px"}}>
             <div className="row g-0">
                 <div className="col-2">
-                    <img src={props.cartProduct.images[0]} alt="..." style={{maxHeight:"100%", maxWidth:"100%"}}></img>
+                    <img src={props.cartProduct.product_images[0]} alt="..." style={{maxHeight:"100%", maxWidth:"100%"}}></img>
                 </div>
                 <div className="col-10">
                     <div className="card-body">

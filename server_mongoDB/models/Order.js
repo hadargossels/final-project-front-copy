@@ -4,39 +4,38 @@ const aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 const recipientSchema = mongoose.Schema({
     firstName: {
         type: String,
-        required: true
+        required: [true, 'first name is required']
     },
     lastName: {
         type: String,
-        required: true
+        required: [true, 'last name is required']
     },
     phone: {
         type: String,
-        required: true,
+        required: [true, 'phone number is required'],
         match: /^0\d{1,2}\d{7}/
     },
     city: {
         type: String,
-        required: true
+        required: [true, 'city is required']
     },
     street: {
         type: String,
-        required: true
+        required: [true, 'street is required']
     },
     homeNumber: {
         type: Number,
-        required: true
+        required: [true, 'home number is required']
     },
     apartmentNumber: {
-        type: Number,
-        required: true
+        type: Number
     }
 })
 
 const orderedProducts = mongoose.Schema({
     productId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        required: [true, 'product id is required'],
         ref: 'Product'
     }, 
     quantity: {
@@ -60,27 +59,25 @@ const orderSchema = mongoose.Schema({
     },
     subtotalAmount: {
         type: Number,
-        required: true
+        required: [true, 'subtotal amount is required']
     },
     taxesAmount: {
         type: Number,
-        required: true
+        required: [true, 'taxes amount is required']
     },
     couponCode: {
-        type: String,
-        required: true
+        type: String
     },
     couponDiscountAmount: {
-        type: Number,
-        required: true
+        type: Number
     },
     deliveryAmount: {
         type: Number,
-        required: true
+        required: [true, 'delivery amount is required']
     },
     totalAmount: {
         type: Number,
-        required: true
+        required: [true, 'total amount is required']
     },
     deliveryMethod: {
         type: String,
@@ -91,22 +88,21 @@ const orderSchema = mongoose.Schema({
             },
             message: 'You must provide a valid status'
         },
-        required: true
+        required: [true, 'first name is required']
     },
-    orderedProducts: [ orderedProducts ],
+    products: [ orderedProducts ],
     recipient: {
         type: recipientSchema,
-        required: true
+        required: [true, 'recipient details are required']
     },
     createdAt: {
         type: Date,
-        required: true,
         default: Date.now
     },
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: [true, 'user id is required']
     }
 });
 

@@ -49,32 +49,32 @@ const UserCreateAuth = (data) => (
     })
 )
 
-const DeleteConfirmTitle = 'Are you sure you want to delete this user?';
+// const DeleteConfirmTitle = 'Are you sure you want to delete this user?';
 
-const DeleteConfirmContent = (props) => {
-    return (
-      <SimpleShowLayout {...props} >
-        <TextField source="id" />
-        <TextField source="role" />
-        <TextField source="firstName" />
-        <TextField source="lastName" />
-        <TextField source="email" />
-      </SimpleShowLayout>
-    );
-};
+// const DeleteConfirmContent = (props) => {
+//     return (
+//       <SimpleShowLayout {...props} >
+//         <TextField source="id" />
+//         <TextField source="role" />
+//         <TextField source="firstName" />
+//         <TextField source="lastName" />
+//         <TextField source="email" />
+//       </SimpleShowLayout>
+//     );
+// };
 
 export const UserList = props => (
     <List filters={<UserFilter />} {...props}>
         <Datagrid rowClick="edit">
             <TextField source="id" />
             <BooleanField source="active" />
+            <EmailField source="email" />
             <TextField source="role" />
             <TextField source="firstName" label="First Name" />
             <TextField source="lastName" label="Last Name" />
-            <EmailField source="email" />
             <TextField source="phone" />
             <EditButton />
-            <DeleteWithCustomConfirmButton
+            {/* <DeleteWithCustomConfirmButton
                 title={DeleteConfirmTitle}      // your custom title of delete confirm dialog
                 content={DeleteConfirmContent}  // your custom contents of delete confirm dialog
                 confirmColor='warning'          // color of delete button ('warning' or 'primary', default: 'warning')
@@ -82,7 +82,7 @@ export const UserList = props => (
                 cancel='Cancel'                 // label of cancel button (default: 'Cancel')
                 CancelIcon={ErrorOutline}       // icon of cancel button (default: 'ErrorOutline')
                 undoable={true}                 // undoable (default: true)
-            />
+            /> */}
         </Datagrid>
     </List>
 );

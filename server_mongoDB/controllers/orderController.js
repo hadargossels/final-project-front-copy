@@ -1,10 +1,8 @@
 const Order = require("../models/Order")
 const mongoose = require("mongoose")
-const path = require('path');
+
 
 exports.findAll = async (req, res) => {
-    console.log(req)
-
     const limit_ = 5;
     const aggregate_options = [];
 
@@ -18,6 +16,7 @@ exports.findAll = async (req, res) => {
         page = (to + 1) / limit
     }
 
+    
     const options = {
         page, 
         limit,
@@ -28,36 +27,49 @@ exports.findAll = async (req, res) => {
         }   
     }
 
+    //deconstruct the $categories array using $unwind(aggregation).
+    // aggregate_options.push({$unwind: {path: "$products", preserveNullAndEmptyArrays: true}});
+
     //2 - LOOKUP/JOIN - use $lookup(aggregation) to get the relationship from event to categories (one to many).
     // aggregate_options.push({
     //     $lookup: {
-    //         from: 'categories',
-    //         localField: "category",
+    //         from: 'products',
+    //         localField: "products.productId",
     //         foreignField: "_id",
-    //         as: "categories"
+    //         as: "products"
+    //     }
+    // });
+
+    // aggregate_options.push({
+    //     $group: {
+    //         _id: { $dateToString: {format: "%Y-%m-%d", date: "$createdAt"} },
+    //         data: {$push: "$$ROOT"}
     //     }
     // });
     
     //3 - FILTERING TEXT SEARCH
     if (req.query.filter && Object.keys(JSON.parse(req.query.filter)).length) {
-        const match = {};
-        let search = JSON.parse(req.query.filter)
-        let query = ""
-        console.log(req.query.filter)
-        console.log(search)
-        if (Array.isArray(search[Object.keys(search)[0]])){
-            search[Object.keys(search)[0]].forEach(element => {
-                if (query)
-                    query += `|${element}`
-                else
-                    query = element
-            })
-            
+        let search = JSON.parse(req.query.filter);
+
+        let match = {};
+        for (let key in search) {
+            switch(key) {
+                case "date_gte": // for dashborad usages
+                    match["createdAt"] = { $gte: new Date(search[key])};
+                    break;
+                case "createdAt":
+                    const startTime = new Date(search[key]);
+                    const endTime = new Date(search[key]);
+                    endTime.setDate(endTime.getDate() + 1);
+
+                    match["createdAt"] = {$gte: startTime, $lt: endTime }
+                    break;
+                default:
+                    match[key] = { $regex: search[key], $options: 'i' };
+                    break;
+            }
         }
-        else{
-            query = search[Object.keys(search)[0]]
-        }
-        match[Object.keys(search)[0]] = {$regex: query, $options: 'i'};    
+        console.log(match);
         aggregate_options.push({$match: match});
     } 
 
@@ -67,7 +79,6 @@ exports.findAll = async (req, res) => {
         sortOrder = sortOrder.toLowerCase()==='desc'? -1 :1
         aggregate_options.push({$sort: {[sortBy]: sortOrder}});
     }
-    
 
     try {
         const myAggregate = Order.aggregate(aggregate_options);

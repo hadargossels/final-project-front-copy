@@ -1,46 +1,42 @@
 import React, { useRef, useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import Product from './Product.jsx';
-import {firebasedb} from '../../firebase';
+import { useStore } from '../../context/StoreContext';
+import axios from 'axios';
 
 
 export default function Store(props) {
-    const [products, setProducts] = useState([]);
-    const [category, setCategory] = useState([]);
-    const [valuePriceSelect, setValuePriceSelect] = useState(0);
-    const [valueSortSelect, setValueSortSelect] = useState('');
+    const { products } = useStore();
+    const [ displayProducts, setDisplayProducts ] = useState([]);
+
+    const { categories } = useStore();
+    const [ displayCategories, setDisplayCategories ] = useState([]);
+
+    const [ valuePriceSelect, setValuePriceSelect ] = useState(0);
+    const [ valueSortSelect, setValueSortSelect ] = useState('');
     
     const priceRangeRef = useRef();
     const onSaleRef = useRef();
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        
-        firebasedb.ref('products').get()
-        .then( snapshot => {
-            const products = [];
-            for (let key in snapshot.val()) {
-                products.push(snapshot.val()[key]);
-            }
-            const displayProducts = products.map(product => ({...product, display: true}));
-            setProducts(displayProducts);
 
-            const categories = [];
-            displayProducts.forEach(item => {
-                const category = categories.filter(category => {return category.name === item.category});
-                if (category.length === 0) {
-                    categories.push({name: item.category, isChecked: false, subCategory: [{name: item.subcategory, isChecked: false}]});
-                }
-                else {
-                    const subcategory = category[0].subCategory.filter(subCategory => {return subCategory.name === item.subcategory})
-                    if (subcategory.length === 0) {
-                        category[0].subCategory.push({name: item.subcategory, isChecked: false});
-                    }
-                }
-            });
-            setCategory(categories);
-        })
-    }, [])
+        const displayProducts = products.map(product => ({...product, display: true}));
+        setDisplayProducts(displayProducts);
+        
+        const dbCategories = categories.filter(category => {return category.parent === null});
+        const displayCategoriess = [];
+        dbCategories.forEach(dbCategory => {
+            let subCategory = [];
+            categories.forEach(category => {
+                if (category.parent === dbCategory.name) 
+                    subCategory.push({name: category.name, isChecked: false});
+            })
+            displayCategories.push({name: dbCategory.name, isChecked: false, subCategory: subCategory});
+        });
+        setDisplayCategories(displayCategoriess);
+        
+    }, [products, categories])
 
     useEffect(() => {
         handleStoreCategories();
@@ -61,7 +57,7 @@ export default function Store(props) {
             });
             
             if (productsUpdated)
-                setProducts([...searchProducts]);
+                setDisplayProducts([...searchProducts]);
         }
     }, [props.location.search, products])
 
@@ -70,13 +66,17 @@ export default function Store(props) {
         onSaleRef.current.checked = onSaleRef.current.checked | props.location.onSale != null;
 
         // setting the category filter if the path is a category
-        const checkedCategory = [...category];
+        const checkedCategory = [...displayCategories];
         const elements = document.getElementsByClassName("form-check-input");
         const transformedPath = props.location.pathname.split('/');
-        if (transformedPath.length > 2 && getAllCategoriesUrl().includes(transformedPath[2])) {
+
+        const categoriesRegex = new RegExp( getAllCategoriesUrl().join( "|" ), "i");
+        if (transformedPath.length > 2 && categoriesRegex.test(transformedPath[2])) {
             resetFilter();
-            Array.from(elements).forEach(element => {   
-                if (element.value.replace(/\s/g, '') === transformedPath[2]) {
+            Array.from(elements).forEach(element => {
+                console.log(element.value.replace(/\s/g, '').toLowerCase() + ' ' + transformedPath[2].toLowerCase());
+                if (element.value.replace(/\s/g, '').toLowerCase() === transformedPath[2].toLowerCase()) {
+                    console.log(element);
                     element.checked = true;
                     checkedCategory.forEach(categoryItem => {
                         // categoryItem.isChecked = categoryItem.name === element.value;
@@ -91,7 +91,8 @@ export default function Store(props) {
                     element.checked = false;
                 }
             });
-            setCategory(checkedCategory);
+            setDisplayCategories(checkedCategory);
+            console.log("--->" + checkedCategory);
         }
 
         displayFilteredItems();
@@ -102,14 +103,14 @@ export default function Store(props) {
     }
 
     const filterCategory = (event) => {
-        category.forEach(categoryItem => {
+        displayCategories.forEach(categoryItem => {
             if (categoryItem.name === event.target.value)
                 categoryItem.isChecked = event.target.checked;
         })
     }
 
     const filterSubcategory = (event) => {
-        category.forEach(categoryItem => {
+        displayCategories.forEach(categoryItem => {
             categoryItem.subCategory.forEach(subCategoryItem => {
                 if (subCategoryItem.name === event.target.value)
                     subCategoryItem.isChecked = event.target.checked;
@@ -118,10 +119,16 @@ export default function Store(props) {
     }
 
     const displayFilteredItems = () => {
+        axios.get(`${process.env.REACT_APP_PROXY}/products?filter={"onSale":true, "price":100}`)
+        .then(res => {
+            console.log(res.data);
+        });
+
+
         // get the inputs filters that are checked
         let checkedCategories = [];
         let checkedSubCategories = [];
-        category.forEach(categoryItem => {
+        displayCategories.forEach(categoryItem => {
             if (categoryItem.isChecked)
                 checkedCategories.push(categoryItem.name);
 
@@ -161,7 +168,7 @@ export default function Store(props) {
             });
         }
 
-        setProducts(storeItems);
+        setDisplayProducts(storeItems);
     }
 
     const resetFilter = () => {
@@ -175,7 +182,7 @@ export default function Store(props) {
         onSaleRef.current.isChecked = false;
 
         // set all categories and sub categories state checked = false
-        category.forEach(categoryItem => {
+        displayCategories.forEach(categoryItem => {
             categoryItem.isChecked = false;
 
             categoryItem.subCategory.forEach(subCategoryItem => {
@@ -192,8 +199,8 @@ export default function Store(props) {
             element.display = true;
         })
 
-        setProducts(displayProducts);
-        setCategory(category) ;
+        setDisplayProducts(displayProducts);
+        setDisplayCategories(displayCategories) ;
         setValuePriceSelect(0);  
     }
 
@@ -223,12 +230,12 @@ export default function Store(props) {
             }
         }
 
-        setProducts(sortedStore);
+        setDisplayProducts(sortedStore);
     }
 
     const getAllSubCategories = () => {
         let subCategories = [];
-        category.forEach(categoryItem => {
+        displayCategories.forEach(categoryItem => {
             categoryItem.subCategory.forEach(subCategoryItem => {
                 subCategories.push(subCategoryItem.name);
             })
@@ -238,7 +245,7 @@ export default function Store(props) {
 
     const getAllCategoriesUrl = () => {
         let categories = [];
-        category.forEach(categoryItem => {
+        displayCategories.forEach(categoryItem => {
             categories.push(categoryItem.name.replace(/\s/g, ''));
         });
         return categories;
@@ -258,16 +265,6 @@ export default function Store(props) {
                     </div>
 
                     <h5>Filter</h5>
-
-                    <h6>Category</h6>
-                    {category.map((element, index) => (
-                        <div className= "form-check" key={index}>
-                            <input className="form-check-input" type="checkbox" value={element.name} onChange={filterCategory}></input>
-                            <label className="form-check-label" htmlFor={Object.keys(element.name)}>
-                                {element.name}
-                            </label>
-                        </div>
-                    ))}
 
                     <br></br>
                     <h6>Sub Category</h6>    
@@ -300,7 +297,7 @@ export default function Store(props) {
                 </div>
                 <div className="col-9 justify-content-center">
                     <div className="row">
-                        {products.filter(element => element.display).map(productElement =>
+                        {displayProducts.filter(element => element.display).map(productElement =>
                             <Product key={productElement.id} productElement={productElement}/>)
                         }
                     </div>

@@ -23,7 +23,7 @@ export default function FavoriteProduct(props) {
                     </button>
 
                     <Link to={`/${props.favoriteProduct.name.replace(' ', '_')}`} className="link">
-                        <Card.Img variant="top" src={props.favoriteProduct.images[0]} />
+                        <Card.Img variant="top" src={props.favoriteProduct.product_images[0]} />
                         <Card.Body className="py-1">
                             {discount > 0 ?
                                 <p className="text-success my-1">{discount * 100}% DISCOUNT</p>

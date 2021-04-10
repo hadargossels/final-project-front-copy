@@ -99,11 +99,11 @@ export default function Header() {
                         <li className="nav-item dropdown">
                             <div className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Store</div>
                             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <Link to="/store" className="dropdown-item">All Products</Link>
+                                <Link to="/products" className="dropdown-item">All Products</Link>
                                 <div className="dropdown-divider"></div>
-                                <Link to={{pathname: "/store/bedroom", category: "bedroom"}} className="dropdown-item">Bedroom</Link>
-                                <Link to={{pathname: "/store/bathroom", category: "bathroom"}} className="dropdown-item">Bathroom</Link>
-                                <Link to={{pathname: "/store/livingroom", category: "living room"}} className="dropdown-item">Living Room</Link>
+                                <Link to={{pathname: "/products/bedroom", category: "bedroom"}} className="dropdown-item">Bedroom</Link>
+                                <Link to={{pathname: "/products/bathroom", category: "bathroom"}} className="dropdown-item">Bathroom</Link>
+                                <Link to={{pathname: "/products/livingroom", category: "living room"}} className="dropdown-item">Living Room</Link>
                             </div>
 
                         </li>
@@ -139,7 +139,7 @@ export default function Header() {
                                             <button type="button" className="btn btn-light"><Link to="/signup">Sign Up</Link></button>
                                         </div>
                                     }
-                                    {(currentUser && currentUserDB && currentUserDB.role == 'admin') ?
+                                    {(currentUser && currentUserDB && currentUserDB.role === 'admin') ?
                                         <button type="button" className="btn btn-light"><Link to="/admin">Admin</Link></button>
                                     : ''
                                     }

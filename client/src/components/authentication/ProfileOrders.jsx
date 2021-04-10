@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { useStore } from '../../context/StoreContext';
 import { firebasedb } from '../../firebase';
 import { Container, Table } from 'react-bootstrap'
 
-export default function ProfileOrdes() {
+export default function ProfileOrders() {
     const { currentUser } = useAuth();
     const [myUser, setMyUser] = useState();
     const [userOrders, setuserOrders] = useState([]);
+    const {orders} = useStore();
 
     useEffect(() => {
+        console.log(orders)
         if (currentUser){
             firebasedb.ref('users').child(currentUser.uid).get()
             .then (snapshot => {
@@ -18,7 +21,10 @@ export default function ProfileOrdes() {
             firebasedb.ref('orders').get()
             .then (snapshot => {
                 const userOrders = [];
+                console.log("-------------------------------------")
+                console.log(snapshot.val())
                 for (let key in snapshot.val()){
+                    console.log(key)
                     if(snapshot.val()[key].customer_details.user_id == currentUser.uid){
                         userOrders.push(snapshot.val()[key])
                     }
@@ -34,8 +40,6 @@ export default function ProfileOrdes() {
         <div>
             {userOrders.length > 0 ? 
                 <Container>
-                    {console.log(userOrders)}
-                    {console.log("hi")}
                     <h3 className="mb-3">Orders</h3>
                     {userOrders.map(order => (
                         <div className="mb-4">

@@ -3,30 +3,20 @@ import {Form, Button} from 'react-bootstrap';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import { Carousel } from 'react-responsive-carousel';
 import Product from './Product.jsx';
-import {firebasedb} from '../../firebase';
 import { useCart } from '../../context/CartContext';
 import { useFavorites } from '../../context/FavoritesContext';
+import { useStore } from '../../context/StoreContext';
 
 
 export default function ProductPage(props) {
     const { handleAddToCart } = useCart();
     const { handleChangeFavorites, favoriteProducts } = useFavorites();
     const qtyRef = useRef();
-    const [products, setProducts] = useState();
+    const { products } = useStore();
 
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        
-        firebasedb.ref('products').get()
-        .then( snapshot => {
-        const products = [];
-        for (let key in snapshot.val()) {
-            products.push(snapshot.val()[key]);
-        }
-        setProducts(products)
-        });
-
     },[])
 
     const createStars = () => {
@@ -95,7 +85,7 @@ export default function ProductPage(props) {
                 <div className="col-12 col-md-6 px-5 product-image">
                     <div>
                         <Carousel>
-                            {props.product.images.map((image, index) => (
+                            {props.product.product_images.map((image, index) => (
                                 <div key={index}>
                                     <img src={image} alt="carousel_image" />
                                 </div>

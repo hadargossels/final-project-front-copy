@@ -3,8 +3,6 @@ const mongoose = require("mongoose");
 
 
 exports.findAll = async (req, res) => {
-    console.log(req.query)
-
     const limit_ = 5;
     const aggregate_options = [];
 
@@ -30,28 +28,16 @@ exports.findAll = async (req, res) => {
     
     //2 - FILTERING TEXT SEARCH
     if (req.query.filter && Object.keys(JSON.parse(req.query.filter)).length) {
-        const match = {};
         let search = JSON.parse(req.query.filter);
-        let query = "";
-        // console.log(search);
-        // console.log(search[Object.keys(search)]);
-        // console.log(search[Object.keys(search)[0]]);
-        // console.log(Array.isArray(search[Object.keys(search)[0]]));
-        if (Array.isArray(search[Object.keys(search)[0]])){
-            search[Object.keys(search)[0]].forEach(element => {
-                if (query)
-                    query += `|${element}`
-                else
-                    query = element
-            })
-            
+
+        let match = {};
+        for (let key in search) {
+            if (!Array.isArray(search[key]))
+                match[key] = { $regex: search[key], $options: 'i' };
         }
-        else{
-            query = search[Object.keys(search)[0]]
-        }
-        match[Object.keys(search)[0]] = {$regex: query, $options: 'i'};    
+        
         aggregate_options.push({$match: match});
-    } 
+    }
 
     //3 - SORT
     if (req.query.sort) {
@@ -170,8 +156,3 @@ exports.delete = async function (req, res) {
         res.status(500).json({error: err})
     } 
 }
-
-// exports.index = async function (req, res) {
-
-// }
-

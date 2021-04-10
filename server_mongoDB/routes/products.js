@@ -26,7 +26,9 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 router.get('/', productController.findAll);
 
-router.get('/:id', productController.findOne);
+router.get('/:category', productController.findCategoryProducts);
+
+router.get('/:category/:id', productController.findOneProduct);
 
 router.post('/', upload.array('product_images'), productController.create);
 

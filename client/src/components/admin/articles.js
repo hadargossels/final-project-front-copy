@@ -4,16 +4,13 @@ import {
     Datagrid,
     TextField,
     DateField,
-    RichTextField,
     EditButton,
     Edit,
     Create,
     SimpleForm,
     TextInput,
     DateInput,
-    Filter,
-    Show,
-    SimpleShowLayout
+    Filter
 } from 'react-admin';
 
 const ArticleTitle = ({ record }) => {

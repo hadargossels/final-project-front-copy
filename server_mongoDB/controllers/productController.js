@@ -1,11 +1,107 @@
 const Product = require("../models/Product")
 const mongoose = require("mongoose")
-const path = require('path');
-const Category = require('../models/Category')
+
 
 exports.findAll = async (req, res) => {
-    console.log(req.query)
+    console.log(req.params)
+    const limit_ = 5;
+    const aggregate_options = [];
 
+    //1- PAGINATION - set the options for pagination
+    let page = parseInt(req.query.page) || 1;
+    let limit = parseInt(req.query.limit) || limit_;
+
+    if (req.query.range){
+        let [from, to] = JSON.parse(req.query.range)
+        limit = to + 1 - from
+        page = (to + 1) / limit
+    }
+
+    const options = {
+        page, 
+        limit,
+        collation: {locale: 'en'},
+        customLabels: {
+            totalDocs: 'totalResults',
+            docs: 'products'
+        }   
+    }
+
+    //2 - LOOKUP/JOIN - use $lookup(aggregation) to get the relationship from event to categories (one to many).
+    aggregate_options.push({
+        $lookup: {
+            from: 'categories',
+            localField: "category",
+            foreignField: "_id",
+            as: "categories"
+        }
+    });
+    //deconstruct the $categories array using $unwind(aggregation).
+    aggregate_options.push({$unwind: {path: "$categories", preserveNullAndEmptyArrays: true}});
+
+
+    //3 - FILTERING TEXT SEARCH
+    if (req.query.filter && Object.keys(JSON.parse(req.query.filter)).length) {
+        let search = JSON.parse(req.query.filter);
+
+        let match = {};
+        for (let key in search) {
+            switch(key) {
+                case " category":
+                    match["categories.id"] = { $regex: search[key], $options: 'i' };
+                    break;
+                case "inStock":
+                    match["inStock"] = search[key];
+                    break;
+                // case "price":
+                //     match["price"] = { $lte: search[key] };
+                //     break;
+                default:
+                    match[key] = { $regex: search[key], $options: 'i' };
+                    break;
+            }
+        }
+        aggregate_options.push({$match: match});
+    } 
+
+    //4 - SORT
+    if (req.query.sort) {
+        let [sortBy, sortProduct] = JSON.parse(req.query.sort)
+        sortProduct = sortProduct.toLowerCase() === 'asc'? 1 : -1
+        aggregate_options.push({$sort: {[sortBy]: sortProduct}});
+    }
+    
+
+    try {
+        console.log(aggregate_options)
+        const myAggregate = Product.aggregate(aggregate_options);
+        const result = await Product.aggregatePaginate(myAggregate, options);
+        
+        res.setHeader('Content-Range', `${result.products.length}`)
+        res.status(200).json(result.products);
+    }
+    catch(err) {
+        console.log(err)
+        res.status(500).json({error: err})
+    }
+    
+    // try{
+    //     const products = await Product.find({});
+    //     res.setHeader("Content-Range", `${products.length}`);
+    //     res.status(200).json(
+    //         // count: products.length,
+    //         // products: products
+    //         products
+    //     );
+    // }
+    // catch(err){
+    //     console.log(err);
+    // }
+    
+}
+
+exports.findCategoryProducts = async (req, res) => {
+    console.log(req.query)
     const limit_ = 5;
     const aggregate_options = [];
 
@@ -41,35 +137,39 @@ exports.findAll = async (req, res) => {
     //deconstruct the $categories array using $unwind(aggregation).
     aggregate_options.push({$unwind: {path: "$categories", preserveNullAndEmptyArrays: true}});
     
-    //3 - FILTERING TEXT SEARCH
-    if (req.query.filter && Object.keys(JSON.parse(req.query.filter)).length) {
-        let search = JSON.parse(req.query.filter);
+    //FILTER BY CATEGORY PARAMS
+    aggregate_options.push({$match: {"categories.parent": {$regex : req.params.category, $options: 'i'} } });
 
-        let match = {};
-        for (let key in search) {
-            switch(key) {
-                case "category":
-                    match["categories.id"] = { $regex: search[key], $options: 'i' };
-                    break;
-                case "price":
-                    match["price"] = { $lte: parseInt(search[key])};
-                    break;
-                case "inStock":
-                    match["inStock"] = !!search[key];
-                    break;
-            }
-        }
+    //FILTER BY SUBCATEGORY QUERY
+    if(req.query.subcategory) {
+        const match = {};
+        const query = req.query.subcategory.split(',').map(element => {
+            return {"categories.name": {$regex : element, $options: 'i'} }
+        })
+        match["$or"] = query
         aggregate_options.push({$match: match});
-    } 
+    }
 
-    //4 - SORT
-    if (req.query.sort) {
-        let [sortBy, sortProduct] = JSON.parse(req.query.sort)
-        sortProduct = sortProduct.toLowerCase() === 'asc'? 1 : -1
-        aggregate_options.push({$sort: {[sortBy]: sortProduct}});
+    //FILTER BY INSTOCK QUERY
+    if(req.query.inStock) {
+        aggregate_options.push({$match: {"inStock" : (req.query.inStock == 'true') }});
+    }
+
+    //FILTER BY PRICE QUERY
+    if(req.query.price && req.query.price > 0) {
+        aggregate_options.push({$match: {actualPrice: {$lte: parseFloat(req.query.price) } }});
+    }
+
+    //SORT
+    if(req.query.sort){
+        const sortProduct = req.query.sort.toLowerCase() === 'asc'? 1 : -1
+        aggregate_options.push({$sort: {"actualPrice": sortProduct}});
+    }
+    else{
+        aggregate_options.push({$sort: {"createdAt": -1}});
     }
     
-
+ 
     try {
         const myAggregate = Product.aggregate(aggregate_options);
         const result = await Product.aggregatePaginate(myAggregate, options);
@@ -80,24 +180,10 @@ exports.findAll = async (req, res) => {
     catch(err) {
         console.log(err)
         res.status(500).json({error: err})
-    }
-    
-    // try{
-    //     const products = await Product.find({});
-    //     res.setHeader("Content-Range", `${products.length}`);
-    //     res.status(200).json(
-    //         // count: products.length,
-    //         // products: products
-    //         products
-    //     );
-    // }
-    // catch(err){
-    //     console.log(err);
-    // }
-    
+    }  
 }
 
-exports.findOne = async function (req, res) {
+exports.findOneProduct = async function (req, res) {
     try{
         const product = await Product.findById(req.params.id);
         if (product){
@@ -127,7 +213,7 @@ exports.create = async function (req, res) {
         description: req.body.description,
         price: req.body.price,
         discount: req.body.discount,
-        actual_price: req.body.actual_price,
+        actualPrice: req.body.price * (1 - req.body.discount),
         stars: req.body.stars,
         category: req.body.category,
         subcategory: req.body.subcategory,
@@ -182,7 +268,6 @@ exports.update = async function (req, res) {
 exports.delete = async function (req, res) {
     try{
         const result = await Product.findOneAndDelete({_id: req.params.id});
-        console.log(result)
         if(result) {
             res.status(200).json({
                 message: 'Product was deleted',
@@ -199,104 +284,3 @@ exports.delete = async function (req, res) {
         res.status(500).json({error: err})
     } 
 }
-
-exports.index = async function (req, res) {
-    
-    const aggregate_options = [];
-    const limit_ = 10;
-
-    const search = !!(req.query.q);
-    const match_regex = {$regex: req.query.q, $options: 'i'}; //use $regex in mongodb - add the 'i' flag if you want the search to be case insensitive.
-
-    //PAGINATION -- set the options for pagination
-    const options = {
-        page: parseInt(req.query.page) || 1,
-        limit: parseInt(req.query.limit) || limit_,
-        collation: {locale: 'en'},
-        customLabels: {
-            totalDocs: 'totalResults',
-            docs: 'products'
-        }
-    };
-
-    //1
-    //FILTERING AND PARTIAL TEXT SEARCH -- FIRST STAGE
-    if (search) aggregate_options.push({$match: {"name": match_regex}});
-
-    //2
-    //LOOKUP/JOIN -- SECOND STAGE
-    //FIRST JOIN  -- Category ===================================
-    // Here we use $lookup(aggregation) to get the relationship from event to categories (one to many).
-    aggregate_options.push({
-        $lookup: {
-            from: 'categories',
-            localField: "category",
-            foreignField: "_id",
-            as: "categories"
-        }
-    });
-
-    //3A
-    //FILTER BY Category -- THIRD STAGE - use mongoose.Types.ObjectId() to recreate the moogoses object id
-    if (req.query.category) {
-        aggregate_options.push({
-            $match: {
-                category: mongoose.Types.ObjectId(req.query.category)
-            }
-        });
-    }
-
-
-    //3B
-    //FILTER BY EventID -- THIRD STAGE - use mongoose.Types.ObjectId() to recreate the moogoses object id
-    if (req.query.id) {
-        aggregate_options.push({
-            $match: {
-                _id: mongoose.Types.ObjectId(req.query.id)
-            }
-        });
-    }
-
-    //4
-    //FILTER BY DATE -- FOURTH STAGE
-    if (req.query.start) {
-        let start = moment(req.query.start).startOf('day');
-        let end = moment(req.query.start).endOf('day'); // add 1 day
-
-        if (req.query.end) end = req.query.end;
-
-        aggregate_options.push({
-            $match: {"start_date": {$gte: new Date(start), $lte: new Date(end)}}
-        });
-
-    }else if (req.query.end) {
-        aggregate_options.push({
-            $match: {"start_date": {$lte: new Date(req.query.end)}}
-        });
-    }else if (!search){
-        aggregate_options.push({
-            $match: {"start_date": {$gte: new Date()}}
-        });
-    }
-
-    //5
-    //SORTING -- FIFTH STAGE
-    let sort_order = req.query.sort_order && req.query.sort_order === 'asc' ? 1 : -1;
-    let sort_by = req.query.sort_by || "start_date";
-    aggregate_options.push({
-        $sort: {
-            [sort_by]: sort_order,
-            "_id": -1
-        },
-    });
-
-
-    // Set up the aggregation
-    const myAggregate = Event.aggregate(aggregate_options);
-    const result = await Event.aggregatePaginate(myAggregate, options);
-
-    const categories = await Category.find({});
-    result["categories"] = categories;
-    res.status(200).json(result);
-};
-

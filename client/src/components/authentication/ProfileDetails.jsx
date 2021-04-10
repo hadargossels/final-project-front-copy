@@ -3,7 +3,7 @@ import {Container, Card, Button, Alert, Form, Col, Row} from 'react-bootstrap'
 import {useAuth} from '../../context/AuthContext';
 import {firebasedb} from '../../firebase';
 import { Link } from 'react-router-dom';
-import ProfileOrdes from './ProfileOrdes'
+
 
 export default function ProfileDetails() {
     const firstNameRef = useRef();

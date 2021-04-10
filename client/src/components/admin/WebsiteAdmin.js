@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Admin, Resource } from 'react-admin';
+import Dashboard from './dashboard';
 import { UserList, UserEdit, UserCreate } from './users';
 import { ProductList, ProductEdit, ProductCreate } from './products';
 import { OrderList, OrderShow, OrderEdit } from './orders';
@@ -16,10 +17,8 @@ import simpleRestProvider from 'ra-data-simple-rest';
 const dataProvider = simpleRestProvider(process.env.REACT_APP_PROXY);
 
 const WebsiteAdmin = () => {
-  // let dataProvider = firebaseDataProvider(firebase, {})
-  console.log(dataProvider);
   return (
-    <Admin dataProvider={dataProvider}>
+    <Admin dataProvider={dataProvider} dashboard={Dashboard}>
         <Resource name="users" list={UserList} edit={UserEdit} create={UserCreate} icon={UserIcon}/>
         <Resource name="categories" list={CategoryList} create={CategoryCreate} />
         <Resource name="products" list={ProductList} edit={ProductEdit} create={ProductCreate} />

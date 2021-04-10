@@ -59,7 +59,6 @@ exports.login = async function (req, res) {
     })
 }
 
-
 exports.findAll = async (req, res) => {
     console.log(req)
 
@@ -88,26 +87,23 @@ exports.findAll = async (req, res) => {
     
     //3 - FILTERING TEXT SEARCH
     if (req.query.filter && Object.keys(JSON.parse(req.query.filter)).length) {
-        const match = {};
-        let search = JSON.parse(req.query.filter)
-        let query = ""
-        console.log(req.query.filter)
-        console.log(search)
-        if (Array.isArray(search[Object.keys(search)[0]])){
-            search[Object.keys(search)[0]].forEach(element => {
-                if (query)
-                    query += `|${element}`
-                else
-                    query = element
-            })
-            
+        let search = JSON.parse(req.query.filter);
+
+        let match = {};
+        for (let key in search) {
+            if (!Array.isArray(search[key])) {
+                switch(key) {
+                    case "active":
+                        match["active"] = search[key];
+                        break;
+                    default:
+                        match[key] = { $regex: search[key], $options: 'i' };
+                        break;
+                }
+            }
         }
-        else{
-            query = search[Object.keys(search)[0]]
-        }
-        match[Object.keys(search)[0]] = {$regex: query, $options: 'i'};    
         aggregate_options.push({$match: match});
-    } 
+    }
 
     //4 - SORT
     if (req.query.sort) {

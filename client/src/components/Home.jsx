@@ -2,25 +2,14 @@ import React, { useEffect, useState } from 'react';
 import {Link} from 'react-router-dom';
 import '../css/home.css';
 import 'bootstrap/js/dist/carousel';
-import {firebasedb} from '../firebase';
+import { useStore } from '../context/StoreContext';
 
 
 export default function Home() {
-    const [products, setProducts] = useState([])
-
+    const { products } = useStore();
 
     useEffect(() => {
         window.scrollTo(0, 0);
-
-        firebasedb.ref('products').get()
-        .then( snapshot => {
-        const products = [];
-        for (let key in snapshot.val()) {
-            products.push(snapshot.val()[key]);
-        }
-        setProducts(products)
-        });
-
     }, [])
 
     const bestSellersCarousel = () => {
@@ -30,7 +19,7 @@ export default function Home() {
                 <div className={`col-md-4 ${index%3!==0? 'clearfix d-none d-md-block' : ''}`} key={index}>
                     <Link to={`/${item.name.replace(' ', '_')}`} className="bestSeller" style={{color: 'black', textDecoration: 'none'}}>
                         <div className="card">
-                            <img className="card-img-top" src={`${item.images[0]}`} alt={item.name}></img>
+                            <img className="card-img-top" src={`${item.product_images[0]}`} alt={item.name}></img>
                             <div className="card-body">
                                 <h4 className="card-title">{item.name}</h4>
                             </div>
@@ -51,28 +40,27 @@ export default function Home() {
             )
         }
 
-    return (
-        <div id="multi-item-example" className="container carousel slide carousel-multi-item" data-ride="carousel">
-            {/* <!--Controls--> */}
-            <div className="controls-top">
-                <a className="btn-floating" href="#multi-item-example" data-slide="prev"><i className="fa fa-chevron-left"></i></a>
-                <a className="btn-floating" href="#multi-item-example" data-slide="next"><i className="fa fa-chevron-right"></i></a>
-            </div>
-            {/* <!--Indicators--> */}
-            <ol className="carousel-indicators">
-                <li data-target="#multi-item-example" data-slide-to="0" className="active"></li>
-                <li data-target="#multi-item-example" data-slide-to="1"></li>
-            </ol>
+        return (
+            <div id="multi-item-example" className="container carousel slide carousel-multi-item" data-ride="carousel">
+                {/* <!--Controls--> */}
+                <div className="controls-top">
+                    <a className="btn-floating" href="#multi-item-example" data-slide="prev"><i className="fa fa-chevron-left"></i></a>
+                    <a className="btn-floating" href="#multi-item-example" data-slide="next"><i className="fa fa-chevron-right"></i></a>
+                </div>
+                {/* <!--Indicators--> */}
+                <ol className="carousel-indicators">
+                    <li data-target="#multi-item-example" data-slide-to="0" className="active"></li>
+                    <li data-target="#multi-item-example" data-slide-to="1"></li>
+                </ol>
 
-            {/* <!--Slides--> */}
-            <div className="carousel-inner" role="listbox">
-                {sliders}
+                {/* <!--Slides--> */}
+                <div className="carousel-inner" role="listbox">
+                    {sliders}
+                </div>
+                {/* <!--/.Slides--> */}
             </div>
-            {/* <!--/.Slides--> */}
-        </div>
-    // {/* <!--/.Carousel Wrapper--> */}
-    )  
-}
+        )  
+    }
 
 
     return (

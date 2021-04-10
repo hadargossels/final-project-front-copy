@@ -3,10 +3,23 @@ import ReactDOM from 'react-dom';
 import './css/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { AuthProvider } from "./context/AuthContext";
+import { StoreProvider } from "./context/StoreContext";
+import { CartProvider } from "./context/CartContext";
+import { FavoritesProvider } from "./context/FavoritesContext";
+
 
 ReactDOM.render(
   <React.StrictMode>
-      <App />
+    <AuthProvider>
+      <StoreProvider>
+        <CartProvider>
+          <FavoritesProvider>
+            <App />
+          </FavoritesProvider>
+        </CartProvider>
+      </StoreProvider>
+    </AuthProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

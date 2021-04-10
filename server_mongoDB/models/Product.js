@@ -42,7 +42,7 @@ const productSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    actual_price: {
+    actualPrice: {
         type: Number,
         required: true
     },
@@ -57,7 +57,7 @@ const productSchema = mongoose.Schema({
         }
     },
     category: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Category'
     },
