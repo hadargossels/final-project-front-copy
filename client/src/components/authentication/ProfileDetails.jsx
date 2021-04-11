@@ -1,8 +1,8 @@
 import React, {useState, useRef, useEffect} from 'react'
 import {Container, Card, Button, Alert, Form, Col, Row} from 'react-bootstrap'
 import {useAuth} from '../../context/AuthContext';
-import {firebasedb} from '../../firebase';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 export default function ProfileDetails() {
@@ -10,43 +10,23 @@ export default function ProfileDetails() {
     const lastNameRef = useRef();
     const emailRef = useRef();
     const phoneRef = useRef();
-    const passwordRef = useRef();
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    const { currentUser, updateMyEmail, updateDetails } = useAuth();
+    const { currentUser, getAuthHeaders } = useAuth();
     const [loading, setLoading]= useState(false);
-    const [myUser, setMyUser] = useState();
-
-
-    useEffect(() => {
-        if (currentUser){
-            const fetchData = async () => {
-                const snapshot = await firebasedb.ref('users').child(currentUser.uid).get()
-                setMyUser(snapshot.val());
-            };
-            
-            fetchData();
-        }
-    }, [currentUser])
-
 
     async function handleSubmit(e) {
         e.preventDefault()
         setLoading(true)
 
         try {
-            await updateMyEmail(passwordRef.current.value, emailRef.current.value);
-        
-            const updates = {};
-            if(firstNameRef.current.value)
-                updates['/users/' + currentUser.uid + '/firstName'] = firstNameRef.current.value;
-            if(lastNameRef.current.value)
-                updates['/users/' + currentUser.uid + '/lastName'] = lastNameRef.current.value;
-            if(phoneRef.current.value)
-                updates['/users/' + currentUser.uid + '/phone'] = phoneRef.current.value;
-            if(emailRef.current.value)
-                updates['/users/' + currentUser.uid + '/email'] = emailRef.current.value;
-            updateDetails(passwordRef.current.value, updates);
+            await axios.patch(`${process.env.REACT_APP_PROXY}/users/details/${currentUser._id}`, {
+                email: emailRef.current.value,
+                firstName: firstNameRef.current.value,
+                lastName: lastNameRef.current.value,
+                phone: phoneRef.current.value,
+            },
+            {headers: getAuthHeaders()})
 
             setSuccess('Details updated successfully')
         }
@@ -76,13 +56,13 @@ export default function ProfileDetails() {
                                     <Col>
                                         <Form.Group id="firstName">
                                             <Form.Label>First name</Form.Label>
-                                            <Form.Control type="text" ref={firstNameRef} defaultValue={myUser ? myUser.firstName : ''}></Form.Control>
+                                            <Form.Control type="text" ref={firstNameRef} defaultValue={currentUser ? currentUser.firstName : ''}></Form.Control>
                                         </Form.Group>
                                     </Col>
                                     <Col>
                                         <Form.Group id="lastName">
                                             <Form.Label>Last name</Form.Label>
-                                            <Form.Control type="text" ref={lastNameRef} defaultValue={myUser ? myUser.lastName : ''}></Form.Control>
+                                            <Form.Control type="text" ref={lastNameRef} defaultValue={currentUser ? currentUser.lastName : ''}></Form.Control>
                                         </Form.Group>
                                     </Col>
                                 </Row>
@@ -90,24 +70,24 @@ export default function ProfileDetails() {
                                     <Col>
                                         <Form.Group id="email">
                                             <Form.Label>Email</Form.Label>
-                                            <Form.Control type="email" ref={emailRef} defaultValue={currentUser.email} ></Form.Control>
+                                            <Form.Control type="email" ref={emailRef} defaultValue={currentUser ? currentUser.email : ''} ></Form.Control>
                                         </Form.Group>
                                     </Col>
                                     <Col>
                                         <Form.Group id="phone">
                                             <Form.Label>Phone</Form.Label>
-                                            <Form.Control type="tel" ref={phoneRef} defaultValue={myUser ? myUser.phone : ''}></Form.Control>
+                                            <Form.Control type="tel" ref={phoneRef} defaultValue={(currentUser && currentUser.phone) ? currentUser.phone : ''}></Form.Control>
                                         </Form.Group>
                                     </Col>
                                 </Row>
-                                <Row>
+                                {/* <Row>
                                     <Col>
                                         <Form.Group id="password">
                                             <Form.Label>Password</Form.Label>
                                             <Form.Control type="password" ref={passwordRef} ></Form.Control>
                                         </Form.Group>
                                     </Col>
-                                </Row>
+                                </Row> */}
                                 <Button disabled={loading} className="w-100" type="submit">SAVE CHANGES</Button>
                             </Form>
                             <div className="w-100 text-center mt-2">

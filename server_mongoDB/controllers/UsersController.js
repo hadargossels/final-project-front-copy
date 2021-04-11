@@ -1,11 +1,19 @@
-const User = require("../models/User")
-const mongoose = require("mongoose")
-const bcrypt = require("bcrypt")
-const jwt = require("jsonwebtoken")
+const User = require("../models/User");
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
+
+const transporter = nodemailer.createTransport(sendgridTransport({
+    auth: {
+        api_key: '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'
+    }
+}));
 
 
 exports.signup = async function (req, res) {
-    userExist = await User.findOne({email: req.body.email})
+    const userExist = await User.findOne({email: req.body.email})
 
     if(!userExist) {
         bcrypt.hash(req.body.password, 10, (err, hash) => {
@@ -17,11 +25,20 @@ exports.signup = async function (req, res) {
                 const user = new User ({
                     _id: new mongoose.Types.ObjectId(),
                     email: req.body.email,
-                    password: hash
+                    password: hash,
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName
                 })
                 user.save()
                 .then( result => {
-                    res.status(201).json( {message: 'User created successfully'} )
+                    res.status(201).json( {message: 'User created successfully'} );
+                    
+                    transporter.sendMail({
+                        to: req.body.email,
+                        from: process.env.EMAIL_ADDRESS,
+                        subject: "Home Style - Signup",
+                        html: "<h1>You successfully signed up to Home Style store!</h1>"
+                    })
                 })
                 .catch(err => {
                     console.log(err)
@@ -31,32 +48,39 @@ exports.signup = async function (req, res) {
         })
     }
     else {
-        res.status(500).json({error: "enail allready exist"})
+        res.status(500).json({error: "Email already exist"});
     }
 
     
 }
 
 exports.login = async function (req, res) {
-    user = await User.findOne({email: req.body.email})
+    const user = await User.findOne({email: req.body.email})
 
-    bcrypt.hash(req.body.password, user.password, (err, result) => {
-            if (err){
+    if (user) {
+        bcrypt.compare(req.body.password, user.password, (err, result) => {
+            if (err || !result) {
                 console.log(err);
-                return res.status(401).json({message: 'Auth failed'})
+                res.status(401).json({message: 'Authentication failed'})
             }
-            if (result) {
+            else {
                 const token = jwt.sign( 
                     { email: user.email, userId: user._id }, 
                     process.env.JWT_KEY,
                     { expiresIn: "1h"}
                 );
-                return res.status(200).json({
-                    message: 'Auth successful',
-                    token : token
+                
+                res.status(200).json({
+                    message: 'Authentication successful',
+                    token : token,
+                    user: user
                 })
             }
         })
+    }
+    else {
+        res.status(500).json({error: "User not exist"})
+    }
 }
 
 exports.findAll = async (req, res) => {
@@ -142,6 +166,119 @@ exports.findOne = async function (req, res) {
     } 
 }
 
+exports.update = async function (req, res) {
+    const currentUser = await User.findOne({_id: req.params.id});
+
+    const updatedUser = {};
+    for (const [key, value] of Object.entries(req.body)) {
+        if (req.body[key]){
+            if (key == 'email') {
+                const userExist = await User.findOne({email: req.body.email})
+
+                if ( (currentUser.email != req.body.email) && userExist) {
+                    return res.status(500).json({error: 'Email allready exist'})
+                }
+                else {
+                    updatedUser[key] = req.body[key]
+                }
+            }
+            else if (key === 'firstName' || key === 'lastName' || key === 'phone') {
+                updatedUser[key] = req.body[key]
+                updatedUser["updateDate"] = Date.now()
+            }
+            else {
+                return res.status(500).json({error: 'Fields are invalid to be updated'})
+            }
+        }
+    }
+
+    try {
+        await User.updateOne({_id: req.params.id} ,{$set: updatedUser});
+        res.status(201).json({
+            message: 'User details were updated',
+            userId: req.params.id
+        })
+    }
+    catch(err) {
+        console.log(err)
+        res.status(500).json({error: err})
+    }
+}
+
+exports.updatePassword = async function (req, res) {
+    const user = await User.findOne({_id: req.params.id});
+
+    //Compare provided currnt password to database currnt password
+    bcrypt.compare(req.body.currentPassword, user.password, (err, result) => {
+        if (err){
+            console.log(err);
+            return res.status(401).json({message: 'Authentication failed'})
+        }
+        else if (!result) {
+            return res.status(401).json({message: 'Authentication failed - Wrong password'})
+        }
+    })
+
+    //Create new password
+    bcrypt.hash(req.body.newPassword, 10, (err, hash) => {
+        if (err){
+            console.log(err);
+            return res.status(500).json({error: err})
+        }
+        else {
+            User.updateOne({_id: req.params.id} ,{$set: {password: hash}})
+            .then( result => {
+                return res.status(201).json({
+                    message: 'Password updated successfully',
+                    userId: req.params.id
+                })
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({error: err})
+            })
+        }
+    })
+    
+}
+
+    // const currentUser = await User.findOne({_id: req.params.id});
+
+    // const updatedUser = {};
+    // for (const [key, value] of Object.entries(req.body)) {
+    //     if (req.body[key]){
+    //         if (key == 'email') {
+    //             const userExist = await User.findOne({email: req.body.email})
+
+    //             if ( (currentUser.email != req.body.email) && userExist) {
+    //                 return res.status(500).json({error: 'Email allready exist'})
+    //             }
+    //             else {
+    //                 updatedUser[key] = req.body[key]
+    //             }
+    //         }
+    //         else if (key === 'firstName' || key === 'lastName' || key === 'phone') {
+    //             updatedUser[key] = req.body[key]
+    //             updatedUser["updateDate"] = Date.now()
+    //         }
+    //         else {
+    //             return res.status(500).json({error: 'Fields are invalid to be updated'})
+    //         }
+    //     }
+    // }
+
+    // try {
+    //     await User.updateOne({_id: req.params.id} ,{$set: updatedUser});
+    //     res.status(201).json({
+    //         message: 'User details were updated',
+    //         userId: req.params.id
+    //     })
+    // }
+    // catch(err) {
+    //     console.log(err)
+    //     res.status(500).json({error: err})
+    // }
+// }
 
 
 

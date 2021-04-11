@@ -24,26 +24,16 @@ import Payment from './components/cart-and-payment/Payment.jsx';
 import Favorites from './components/favorites/Favorites';
 import WebsiteAdmin from './components/admin/WebsiteAdmin';
 import PageNotFound from './components/PageNotFound.jsx';
-import { firebasedb } from './firebase';
 import OrderConfirmation from './components/cart-and-payment/OrderConfirmation.jsx';
 import { useStore } from './context/StoreContext';
+import { useBlog } from './context/BlogContext';
+
 
 
 export default function App() {
 
   const { products } = useStore();
-
-  const [articles, setArticles] = useState([]);
-
-  useEffect(() => {
-
-    firebasedb.ref('articles').get()
-    .then( snapshot => {
-      setArticles(snapshot.val())
-    });
-
-  }, [])
-
+  const { posts } = useBlog();
 
   return (
       <Router>
@@ -53,7 +43,7 @@ export default function App() {
         <AlertBox />
         
         <Switch>
-          <PrivateRoute path="/profile" component={Profile} />
+          <Route path="/profile" component={Profile} />
           <Route path="/admin" component={WebsiteAdmin} />
           <Route exact path="/" component={Home} />
           <Route path="/signup" component={SignUp} />
@@ -69,15 +59,15 @@ export default function App() {
           <Route path="/favorites" component={Favorites} />
           <Route path="/order-confirmation" component={OrderConfirmation} />
           
-          {products.map(product => 
+          {products && products.map(product => 
             <Route path={`/${product.name.replace(' ', '_')}`} key={product.id} component={() => 
               <ProductPage product={product} />
             } />
           )}
 
-          {articles.map(article => 
-            <Route path={`/article-${article.id}`} key={article.id}>
-              <ArticlePage article={article}></ArticlePage>
+          {posts && posts.map(post => 
+            <Route path={`/posts/${post._id}`} key={post._id}>
+                <ArticlePage post={post}></ArticlePage>
             </Route>
           )}
             

@@ -7,6 +7,8 @@ import { AuthProvider } from "./context/AuthContext";
 import { StoreProvider } from "./context/StoreContext";
 import { CartProvider } from "./context/CartContext";
 import { FavoritesProvider } from "./context/FavoritesContext";
+import { BlogProvider } from "./context/BlogContext";
+
 
 
 ReactDOM.render(
@@ -15,7 +17,11 @@ ReactDOM.render(
       <StoreProvider>
         <CartProvider>
           <FavoritesProvider>
-            <App />
+            <BlogProvider>
+
+              <App />
+
+            </BlogProvider>
           </FavoritesProvider>
         </CartProvider>
       </StoreProvider>

@@ -4,6 +4,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import {auth, signInOptions} from "../../firebase"
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth"
+import axios from 'axios';
 
 
 export default function Login() {
@@ -27,6 +28,13 @@ export default function Login() {
         try{
             setError('')
             setLoading(true)
+
+            // const resp = await axios.post(`${process.env.REACT_APP_PROXY}/users/login`, {
+            //     email: emailRef.current.value,
+            //     password: passwordRef.current.value
+            // })
+            // console.log(resp.data)
+            // localStorage.setItem("token", resp.data.token);
             await login(emailRef.current.value, passwordRef.current.value)
             history.push("/")
         } catch(err) {

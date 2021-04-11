@@ -1,32 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useStore } from '../../context/StoreContext';
-import { firebasedb } from '../../firebase';
 import { Container, Table } from 'react-bootstrap'
+import axios from 'axios';
+
 
 export default function ProfileOrders() {
-    const { currentUser } = useAuth();
+    const { currentUser, getAuthHeaders } = useAuth();
     const [myUser, setMyUser] = useState();
-    const [userOrders, setuserOrders] = useState([]);
+    const [userOrders, setUserOrders] = useState([]);
     const {orders} = useStore();
 
     useEffect(() => {
         if (currentUser){
-            firebasedb.ref('users').child(currentUser.uid).get()
-            .then (snapshot => {
-                setMyUser(snapshot.val());
-            }) 
-
-            firebasedb.ref('orders').get()
-            .then (snapshot => {
-                const userOrders = [];
-                for (let key in snapshot.val()){
-                    if(snapshot.val()[key].customer_details.user_id == currentUser.uid){
-                        userOrders.push(snapshot.val()[key])
-                    }
-                }
-                setuserOrders(userOrders);
-            }) 
+            axios.get(`${process.env.REACT_APP_PROXY}/orders/user/${currentUser._id}`, {}, {headers: getAuthHeaders()})
+            .then(res => {
+                console.log(res.data)
+                setUserOrders(res.data);        
+            })
         }
     }, [currentUser])
 
@@ -38,9 +29,9 @@ export default function ProfileOrders() {
                     {userOrders.map(order => (
                         <div className="mb-4">
                             <div className="d-flex">
-                                <p><b>Order Id: </b>{order.id}</p>
-                                <p className="ml-3"><b>Status: </b> {order.order_details.status}</p>
-                                <p className="ml-3"><b>Total: </b>${order.order_details.total_amount.value}</p>
+                                <p><b>Order Id: </b>{order._id}</p>
+                                <p className="ml-3"><b>Status: </b> {order.status}</p>
+                                <p className="ml-3"><b>Total: </b>${order.totalAmount}</p>
                                 <p></p>
                             </div>
 
@@ -55,7 +46,7 @@ export default function ProfileOrders() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {order.order_details.products.map((product, index) => (
+                                {order.products.map((product, index) => (
                                     <tr>
                                         <td>{index + 1}</td>
                                         <td>{product.name}</td>

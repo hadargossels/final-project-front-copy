@@ -128,9 +128,12 @@ export const ProductCreate = props => (
             <NumberInput source="stars" validate={[required(invalidMessages.required), maxValue(5, invalidMessages.maxStars)]} />
             <ArrayInput source="product_images" validate={[required(invalidMessages.required)]}>
                 <SimpleFormIterator>
-                    <ImageInput/>
+                    <ImageInput source="product_images">
+                        <ImageField source="path"/>
+                    </ImageInput>
                 </SimpleFormIterator>
             </ArrayInput>
+            
         </SimpleForm>
     </Create>
 );

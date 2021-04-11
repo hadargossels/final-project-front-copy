@@ -1,15 +1,14 @@
 import React, { useRef, useState } from 'react'
 import { Container, Form, Button, Card, Alert } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom';
-import {firebasedb} from '../../firebase';
-import {auth} from '../../firebase';
+import axios from 'axios';
+
 
 
 export default function SignUp() {
     const firstNameRef = useRef();
     const lastNameRef = useRef();
     const emailRef = useRef();
-    const phoneRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
     const [error, setError] = useState('');
@@ -26,23 +25,20 @@ export default function SignUp() {
         try{
             setError('')
             setLoading(true)
-            const a = await auth.createUserWithEmailAndPassword(emailRef.current.value, passwordRef.current.value)
-            await auth.onAuthStateChanged((user)  => {
-                firebasedb.ref('users').child(user.uid).set(
-                    {
-                        id: user.uid,
-                        email: user.email,
-                        role: "client",
-                        active: true
-                    }
-                )
-            })
-            const updates = {};
-            updates['/users/' + a.user.uid + '/firstName'] = firstNameRef.current.value;
-            updates['/users/' + a.user.uid + '/lastName'] = lastNameRef.current.value;
-            updates['/users/' + a.user.uid + '/phone'] = phoneRef.current.value;
-            firebasedb.ref().update(updates);
 
+            await axios.post(`${process.env.REACT_APP_PROXY}/users/signup`, {
+                firstName: firstNameRef.current.value,
+                lastName: lastNameRef.current.value,
+                email: emailRef.current.value,
+                password: passwordRef.current.value
+            })
+            const respLogin = await axios.post(`${process.env.REACT_APP_PROXY}/users/login`, {
+                email: emailRef.current.value,
+                password: passwordRef.current.value,
+
+            })
+
+            localStorage.setItem("token", respLogin.data.token);
             history.push("/")
         } 
         catch(err) {
@@ -75,9 +71,9 @@ export default function SignUp() {
                                     <Form.Control type="email" placeholder="Email" ref={emailRef} required></Form.Control>
                                 </Form.Group>
 
-                                <Form.Group id="phone">
+                                {/* <Form.Group id="phone">
                                     <Form.Control type="tel" placeholder="Phone" ref={phoneRef} required></Form.Control>
-                                </Form.Group>
+                                </Form.Group> */}
 
                                 <Form.Group id="password">
                                     <Form.Control type="password" placeholder="Password" ref={passwordRef} required></Form.Control>

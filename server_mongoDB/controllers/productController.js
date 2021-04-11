@@ -158,7 +158,6 @@ exports.findCategoryProducts = async (req, res) => {
     try {
         const myAggregate = Product.aggregate(aggregate_options);
         let result = await Product.aggregatePaginate(myAggregate, options);
-        result['products'].forEach(element => element.id = element._id); 
         
         res.setHeader('Content-Range', `${result.products.length}`)
         res.status(200).json(result.products);

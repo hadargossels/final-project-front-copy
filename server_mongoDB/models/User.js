@@ -11,12 +11,12 @@ const userSchema = mongoose.Schema({
         type: String, 
         require: true, 
         unique: true, 
-        match: emailPattern
+        // match: emailPattern
     },
     password: {
         type: String, 
         require: true,
-        match: passwordPattern
+        // match: passwordPattern
     },
     active: {
         type: Boolean,

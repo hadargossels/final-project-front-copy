@@ -68,15 +68,15 @@ export default function Home() {
             <div className="container-fluid">
                 <div className="d-flex flex-column align-items-center justify-content-center" id="major">
                     <h1 className="mb-4">UP TO 30% OFF</h1>
-                    <Link to="/store">
+                    {/* <Link to="/products">
                         <button type="button" className="btn btn-outline-secondary" style={{backgroundColor: `rgb(204, 204, 204, 0.8)`}}>SHOP</button>
-                    </Link>
+                    </Link> */}
                 </div>
             </div>
             <div className="container-fluid py-4">
                 <div className="row text-center categories">
                     <div className="col-12 col-md-4 my-2">
-                        <Link to="/store/bedroom" style={{color: 'black', textDecoration: 'none'}}>
+                        <Link to="/products/bedroom" style={{color: 'black', textDecoration: 'none'}}>
                             <div className="box" id="bedroom">
                                 <h1 className="display-4 pt-3" style={{fontWeight: "400", fontSize: "40px"}}>BEDROOM</h1>
                             </div>
@@ -84,14 +84,14 @@ export default function Home() {
                     </div>
                     
                     <div className="col-12 col-md-4 my-2">
-                        <Link to="/store/bathroom" style={{color: 'black', textDecoration: 'none'}}>
+                        <Link to="/products/bathroom" style={{color: 'black', textDecoration: 'none'}}>
                             <div className="box" id="bathroom">
                                 <h1 className="display-4 pt-3" style={{fontWeight: "400", fontSize: "40px"}}>BATHROOM</h1>
                             </div>
                         </Link>
                     </div>
                     <div className="col-12 col-md-4 my-2">
-                        <Link to="/store/livingroom" style={{color: 'black', textDecoration: 'none'}}>
+                        <Link to="/products/living-room" style={{color: 'black', textDecoration: 'none'}}>
                             <div className="box" id="living_room">
                                 <h1 className="display-4 pt-3" style={{fontWeight: "400", fontSize: "40px"}}>LIVING ROOM</h1>
                             </div>
@@ -104,7 +104,7 @@ export default function Home() {
                     <h1 style={{fontSize: "100px", color: "red"}}>Sale!</h1>
                     <h1 style={{fontSize: "80px", color: "red"}}>Up to 30%</h1>
                 </div>
-                <Link to={{pathname: "/store/sale", onSale: true}} style={{color: 'white', textDecoration: 'none'}}>
+                <Link to={{pathname: "/products/sale", onSale: true}} style={{color: 'white', textDecoration: 'none'}}>
                     <h1 className="display-3" style={{fontWeight: "400"}}>See Products</h1>
                 </Link>
             </div>

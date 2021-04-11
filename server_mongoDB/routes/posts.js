@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const postController = require('../controllers/postController');
-const checkAuth = require("../middleware/check-aouth")
+const checkAuth = require("../middleware/check-auth")
 
 
 router.get('/', postController.findAll);
@@ -20,6 +20,8 @@ router.delete('/:postId', postController.delete);
 router.post('/:postId', postController.createComment);
 
 router.patch('/:postId/:commentId', postController.updateComment);
+
+router.delete('/:postId/:commentId', postController.deleteComment);
 
 
 

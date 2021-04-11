@@ -9,7 +9,6 @@ const connectionDB = require('./data/database')
 
 const indexRouter = require('./routes/index');
 const productsRouter = require('./routes/products');
-const storeRouter = require('./routes/store');
 const ordersRouter = require('./routes/orders');
 const usersRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');
@@ -47,7 +46,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/', indexRouter);
 app.use('/products', productsRouter);
-app.use('/store', storeRouter);
 app.use('/orders', ordersRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);

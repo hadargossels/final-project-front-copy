@@ -1,49 +1,50 @@
 import React, { useRef, useState, useEffect } from 'react';
 import ArticleComment from './ArticleComment';
-import { firebasedb } from '../../firebase';
+import {useAuth} from '../../context/AuthContext';
+
+import axios from 'axios';
+
 
 
 export default function ArticlePage(props) {
     const fullNameRef = useRef();
     const emailRef = useRef();
+    const titleRef = useRef();
     const notesRef = useRef();
     const [messageFullName, setMessageFullName] = useState();
     const [messageEmail, setMessageEmail] = useState();
     const [messageNotes, setMessageNotes] = useState();
     const [comments, setComments] = useState();
+    const { currentUser, getAuthHeaders } = useAuth();
+
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        console.log(props.post)
 
-        firebasedb.ref('articles_comments').get()
-        .then( snapshot => {
-            const comments = [];
-            if (snapshot.val())
-                for (let key in snapshot.val()) {
-                    if (snapshot.val()[key].articleId === props.article.id){
-                        comments.push(snapshot.val()[key]);
-                    }
-                }
-            setComments(comments)
-        }) 
+        axios.get(`${process.env.REACT_APP_PROXY}/posts/${props.post._id}`)
+        .then(res => {
+            setComments(res.data[0].comments);
+        })
+
     }, [])
 
     function createArticleBody(){
         let articleBody = []
-        let paragraphs = props.article.body.split('\n');
-        let imgURL = props.article.img;
+        let paragraphs = props.post.body.split('\n');
+        // let imgURL = props.article.img;
 
         for(let i = 0; i < paragraphs.length; i++) {
-            if(i === Math.floor(paragraphs.length / 2)){
-                articleBody.push(<div className="text-center my-5" key='image'><img src={imgURL} alt="articleBody"></img></div>)
-            }
+            // if(i === Math.floor(paragraphs.length / 2)){
+            //     articleBody.push(<div className="text-center my-5" key='image'><img src={imgURL} alt="articleBody"></img></div>)
+            // }
             articleBody.push(<p key={i}>{paragraphs[i]}</p>);
         }
         
         return articleBody;
     }
 
-    const submitContact = (event) => {
+    const submitContact = async (event) => {
         event.preventDefault();
 
         const invalidMessages= {required: "This field is required", 
@@ -53,29 +54,39 @@ export default function ArticlePage(props) {
         const emailPattern = /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/;
         let correctInputs = true;
 
-        if (fullNameRef.current.validity.valueMissing){
-            fullNameRef.current.style.borderColor = 'red';
+        // if (fullNameRef.current.validity.valueMissing){
+        //     fullNameRef.current.style.borderColor = 'red';
+        //     correctInputs = false;
+        //     setMessageFullName(invalidMessages.required);
+        // }
+        // else{
+        //     setMessageFullName('');
+        //     fullNameRef.current.style.borderColor = 'green';
+        // }
+        
+        // if (!emailRef.current.value){
+        //     emailRef.current.style.borderColor = 'red';
+        //     correctInputs = false;
+        //     setMessageEmail(invalidMessages.required);
+        // } 
+        // else if (!emailRef.current.value.match(emailPattern)){
+        //     emailRef.current.style.borderColor = 'red';
+        //     correctInputs = false;
+        //     setMessageEmail(invalidMessages.emailPattern);
+        // }
+        // else {
+        //     setMessageEmail('');
+        //     emailRef.current.style.borderColor = 'green';
+        // }
+
+        if (titleRef.current.validity.valueMissing){
+            notesRef.current.style.borderColor = 'red';
             correctInputs = false;
-            setMessageFullName(invalidMessages.required);
+            setMessageNotes(invalidMessages.required);
         }
         else{
-            setMessageFullName('');
-            fullNameRef.current.style.borderColor = 'green';
-        }
-        
-        if (!emailRef.current.value){
-            emailRef.current.style.borderColor = 'red';
-            correctInputs = false;
-            setMessageEmail(invalidMessages.required);
-        } 
-        else if (!emailRef.current.value.match(emailPattern)){
-            emailRef.current.style.borderColor = 'red';
-            correctInputs = false;
-            setMessageEmail(invalidMessages.emailPattern);
-        }
-        else {
-            setMessageEmail('');
-            emailRef.current.style.borderColor = 'green';
+            setMessageNotes('');
+            notesRef.current.style.borderColor = 'green';
         }
 
         if (notesRef.current.validity.valueMissing){
@@ -89,27 +100,32 @@ export default function ArticlePage(props) {
         }
     
         if (correctInputs) {
-            let newDate = new Date();
-            let day = newDate.getDate();
-            let mounth = newDate.getMonth() + 1;
-            let year = newDate.getFullYear();
-            newDate= day + '/' + mounth + '/' + year;
+            const resp = await axios.post(`${process.env.REACT_APP_PROXY}/posts/${props.post._id}`, {
+                userId: currentUser._id,
+                title: titleRef.current.value,
+                body: notesRef.current.value
+            },  {headers: getAuthHeaders()})
+            // let newDate = new Date();
+            // let day = newDate.getDate();
+            // let mounth = newDate.getMonth() + 1;
+            // let year = newDate.getFullYear();
+            // newDate= day + '/' + mounth + '/' + year;
             
-            let newComment = {name: fullNameRef.current.value, date: newDate, comment: notesRef.current.value};
+            // let newComment = {name: fullNameRef.current.value, date: newDate, comment: notesRef.current.value};
 
-            setComments(prevComments => ([...prevComments, newComment]))
-            // saving comment to database
-            var commentsRef = firebasedb.ref('articles_comments');
-            var commentsUpdate = {};
-            commentsUpdate[commentsRef.push().key] = { ...newComment, articleId: props.article.id };
-            commentsRef.update(commentsUpdate);
+            // setComments(prevComments => ([...prevComments, newComment]))
+            // // saving comment to database
+            // var commentsRef = firebasedb.ref('articles_comments');
+            // var commentsUpdate = {};
+            // commentsUpdate[commentsRef.push().key] = { ...newComment, articleId: props.article.id };
+            // commentsRef.update(commentsUpdate);
         }
     }
 
     return (
         <div className="articlePage">
-            <div className="container text-justify">
-                <h1 className="display-4 mb-5 mt-3">{props.article.title}</h1>
+            <div className="container text-justify py-5">
+                <h1 className="display-4 mb-5 mt-3">{props.post.title}</h1>
                 {createArticleBody()}
             </div>
 
@@ -127,35 +143,44 @@ export default function ArticlePage(props) {
                         }
                 </div>
             </div>
+            
+            { currentUser &&
+                <div className="container-fluid mt-4 py-5 d-flex justify-content-center" style={{backgroundColor: "#f2f2f2"}}>
+                    <div className="d-flex flex-column justify-content-center align-items-center" style={{width: "800px"}}>
+                        <h4>Leave a comment</h4>
+                        <form style={{width: "80%"}}>
+                            {/* <label htmlFor="fullName">Full name: </label>
+                            <input type="text" className="form-control" ref={fullNameRef} required></input>
+                            <div className="invalidMassege text-danger">
+                                {messageFullName}
+                            </div>
 
-            <div className="container-fluid mt-4 py-5 d-flex justify-content-center" style={{backgroundColor: "#f2f2f2"}}>
-                <div className="d-flex flex-column justify-content-center align-items-center" style={{width: "800px"}}>
-                    <h4>Leave a comment</h4>
-                    <form style={{width: "80%"}}>
-                        <label htmlFor="fullName">Full name: </label>
-                        <input type="text" className="form-control" ref={fullNameRef} required></input>
-                        <div className="invalidMassege text-danger">
-                            {messageFullName}
-                        </div>
+                            <label htmlFor="email">Email: </label>
+                            <input type="mail" className="form-control" ref={emailRef} required></input>
+                            <div className="invalidMassege text-danger">
+                                {messageEmail}
+                            </div> */}
 
-                        <label htmlFor="email">Email: </label>
-                        <input type="mail" className="form-control" ref={emailRef} required></input>
-                        <div className="invalidMassege text-danger">
-                            {messageEmail}
-                        </div>
+                            <label htmlFor="notes">Title: </label>
+                            <textarea className="form-control" ref={titleRef} rows="3" required></textarea>
+                            <div className="invalidMassege text-danger">
+                                {messageNotes}
+                            </div>
 
-                        <label htmlFor="notes">Comment: </label>
-                        <textarea className="form-control" ref={notesRef} rows="3" required></textarea>
-                        <div className="invalidMassege text-danger">
-                            {messageNotes}
-                        </div>
+                            <label htmlFor="notes">Comment: </label>
+                            <textarea className="form-control" ref={notesRef} rows="3" required></textarea>
+                            <div className="invalidMassege text-danger">
+                                {messageNotes}
+                            </div>
 
-                        <div className="d-flex justify-content-center mt-3">
-                        <button type="submit" className="btn btn-primary align-middle" onClick={submitContact}>Submit</button>
-                        </div>
-                    </form>
-                </div> 
-            </div>
+                            <div className="d-flex justify-content-center mt-3">
+                            <button type="submit" className="btn btn-primary align-middle" onClick={submitContact}>Submit</button>
+                            </div>
+                        </form>
+                    </div> 
+                </div>
+            }
+            
 
         </div>
     );

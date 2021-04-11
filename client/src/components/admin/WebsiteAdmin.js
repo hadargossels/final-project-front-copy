@@ -25,7 +25,7 @@ const WebsiteAdmin = () => {
         <Resource name="products" list={ProductList} edit={ProductEdit} create={ProductCreate} />
         <Resource name="coupons" list={CouponList} edit={CouponEdit} create={CouponCreate} icon={MoneyOffIcon}/>
         <Resource name="orders" list={OrderList} show={OrderShow} edit={OrderEdit} icon={MonetizationOnIcon}/>
-        <Resource name="articles" list={ArticleList} edit={ArticleEdit} create={ArticleCreate} icon={PostIcon}/>
+        {/* <Resource name="articles" list={ArticleList} edit={ArticleEdit} create={ArticleCreate} icon={PostIcon}/> */}
         {/* <Resource name="posts" list={PostList} edit={PostEdit} create={PostCreate} icon={PostIcon} /> */}
     </Admin>
   );

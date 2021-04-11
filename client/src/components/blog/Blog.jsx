@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Article from './Article';
-import { firebasedb } from '../../firebase';
+import { useBlog } from '../../context/BlogContext';
 
 
 export default function Blog() {
 
-    const [articles, setArticles] = useState();
+    const { posts } = useBlog();
 
-
-    useEffect(() => {
-        firebasedb.ref('articles').get()
-        .then( snapshot => {
-            setArticles(snapshot.val())
-        })
-
-    }, [])
 
     return (
         <div>
@@ -27,9 +19,9 @@ export default function Blog() {
             <div className="d-flex flex-column align-items-center justify-content-center my-5" id="articles">
                 <div className="container-lg py-3" id="container-articles">
                     
-                    {articles ? 
-                        articles.map(article => 
-                            <Article key={article.id} article={article}/>
+                    {posts ? 
+                        posts.map(post => 
+                            <Article key={post._id} post={post}/>
                         )
                     : null
                     }

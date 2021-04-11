@@ -27,16 +27,31 @@ exports.findAll = async (req, res) => {
         }   
     }
 
-    //deconstruct the $categories array using $unwind(aggregation).
+    // deconstruct the $categories array using $unwind(aggregation).
     // aggregate_options.push({$unwind: {path: "$products", preserveNullAndEmptyArrays: true}});
 
-    //2 - LOOKUP/JOIN - use $lookup(aggregation) to get the relationship from event to categories (one to many).
+    // 2 - LOOKUP/JOIN - use $lookup(aggregation) to get the relationship from event to categories (one to many).
+    aggregate_options.push({
+        $lookup: {
+            from: 'products',
+            localField: "products.productId",
+            foreignField: "_id",
+            as: "products"
+        }
+    });
+
     // aggregate_options.push({
-    //     $lookup: {
-    //         from: 'products',
-    //         localField: "products.productId",
-    //         foreignField: "_id",
-    //         as: "products"
+    //     $project: {
+    //         products: { 
+    //             $map: { 
+    //                 input: "$products", 
+    //                 as: "product", 
+    //                 in: { 
+    //                     name: "$$products.name", 
+    //                     price: "$$products.price" 
+    //                 } 
+    //             } 
+    //        } 
     //     }
     // });
 
@@ -179,5 +194,55 @@ exports.delete = async function (req, res) {
         console.log(err)
         res.status(500).json({error: err})
     } 
+}
+
+exports.findUserOrders = async function (req, res) {
+    console.log(req.params)
+    const aggregate_options = [];
+
+    const options = {
+        collation: {locale: 'en'},
+        customLabels: {
+            totalDocs: 'totalResults',
+            docs: 'orders'
+        }   
+    }
+
+    // 2 - LOOKUP/JOIN - use $lookup(aggregation) to get the relationship from event to categories (one to many).
+    aggregate_options.push({
+        $lookup: {
+            from: 'products',
+            localField: "products.productId",
+            foreignField: "_id",
+            as: "productsDetails"
+        }
+    });
+    
+    //FILTER BY USER ID 
+    aggregate_options.push({$match: {"userId" : mongoose.Types.ObjectId(req.params.userId) }});
+
+    //SORT BY DATE
+    aggregate_options.push({$sort: {"createdAt": 1}});
+
+    try {
+        const myAggregate = Order.aggregate(aggregate_options);
+        const result = await Order.aggregatePaginate(myAggregate, options);
+        
+        // combining products  and productsDetails by ID        
+        result.orders.forEach(order => {
+            order.products = order.products.map(product => ({
+                ...product,
+                ...order.productsDetails.find(productsDetail => productsDetail._id.toString() === product.productId.toString())
+            }));
+        })
+
+        res.setHeader('Content-Range', `${result.orders.length}`)
+        res.status(200).json(result.orders);
+    }
+    catch(err) {
+        console.log(err)
+        res.status(500).json({error: err})
+    }
+    
 }
 

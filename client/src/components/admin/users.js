@@ -19,7 +19,6 @@ import {
     TextInput,
     BooleanInput,
     Filter,
-    SimpleShowLayout,
     PasswordInput
 } from 'react-admin';
 

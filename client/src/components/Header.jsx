@@ -6,14 +6,13 @@ import 'bootstrap/js/dist/collapse';
 import '../css/header.css';
 import $ from 'jquery';
 import CartProduct from './cart-and-payment/CartProduct.jsx';
-import { firebasedb } from '../firebase'
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useFavorites } from '../context/FavoritesContext';
 
 
 export default function Header() {
-    const { currentUser, logout, userFirstName, currentUserDB } = useAuth();
+    const { currentUser, logout } = useAuth();
     const { cartProducts, calculateSumQtyCart } = useCart();
     const { favoriteProducts } = useFavorites();
     const history = useHistory();
@@ -22,18 +21,7 @@ export default function Header() {
     const modalCartRef = useRef();
 
     const [searchInput, setSearchInput] = useState('')
-    const [myUser, setMyUser] = useState();
     
-    useEffect(() => {
-        if (currentUser){
-            const fetchData = async () => {
-                const snapshot = await firebasedb.ref('users').child(currentUser.uid).get()
-                setMyUser(snapshot.val());
-            };
-            
-            fetchData();
-        }
-    }, [currentUser])
 
     async function handleLogout() {
         try {
@@ -119,7 +107,7 @@ export default function Header() {
                                 </span>
                             </Link>
 
-                            {(currentUser && currentUserDB) ? <div> Hello {currentUserDB.firstName}</div> : ''}
+                            {currentUser ? <div> Hello {currentUser.firstName}</div> : ''}
 
                             <div className="nav-item dropdown mx-2">
                                 <div className="nav-link dropdown-toggle px-0 py-1" id="loginNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -137,7 +125,7 @@ export default function Header() {
                                             <button type="button" className="btn btn-light"><Link to="/signup">Sign Up</Link></button>
                                         </div>
                                     }
-                                    {(currentUser && currentUserDB && currentUserDB.role === 'admin') ?
+                                    {(currentUser && currentUser.role === 'admin') ?
                                         <button type="button" className="btn btn-light"><Link to="/admin">Admin</Link></button>
                                     : ''
                                     }

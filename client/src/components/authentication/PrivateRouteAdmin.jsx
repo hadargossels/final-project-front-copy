@@ -2,13 +2,13 @@ import {Redirect, Route} from 'react-router-dom'
 import {useAuth} from '../../context/AuthContext'
 
 export default function PrivateRoute({component: Component, ...rest}) {
-    const { currentUser, currentUserDB } = useAuth()
+    const { currentUser } = useAuth()
     
     return (
         <Route
             {...rest}
             render={props => {
-                return (currentUser && currentUserDB && currentUserDB.role === 'admin') ? 
+                return (currentUser && currentUser.role === 'admin') ? 
                     <Component {...props} /> : <Redirect to="/login" />
             }}
         >
