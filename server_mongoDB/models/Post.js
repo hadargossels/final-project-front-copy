@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const aggregatePaginate = require("mongoose-aggregate-paginate-v2");
+
 
 const commentsSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
@@ -6,7 +8,7 @@ const commentsSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    commentBody: {
+    body: {
         type: String,
         required: true
     },
@@ -17,7 +19,6 @@ const commentsSchema = mongoose.Schema({
     },
     date: {
         type: Date,
-        required: true,
         default: Date.now
     }
 });
@@ -28,9 +29,8 @@ const postSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    date: {
+    createdate: {
         type: Date,
-        required: true,
         default: Date.now
     },
     updateDate: {
@@ -40,7 +40,7 @@ const postSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    postBody: {
+    body: {
         type: String,
         required: true
     },
@@ -49,7 +49,9 @@ const postSchema = mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    comments: [ commentsSchema ]
+    comments: [ commentsSchema ],
 });
+
+postSchema.plugin(aggregatePaginate);
 
 module.exports = mongoose.model('posts', postSchema);

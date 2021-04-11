@@ -6,7 +6,6 @@ import PayPalBtn from './PayPalBtn';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import {useHistory} from 'react-router-dom';
-import {firebasedb} from '../../firebase';
 import { emailPattern, phonePattrern} from '../../data/constants';
 import axios from 'axios';
 

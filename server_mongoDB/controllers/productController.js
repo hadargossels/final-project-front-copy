@@ -3,8 +3,7 @@ const mongoose = require("mongoose")
 
 
 exports.findAll = async (req, res) => {
-    console.log(req.params)
-    const limit_ = 5;
+    const limit_ = 10;
     const aggregate_options = [];
 
     //1- PAGINATION - set the options for pagination
@@ -53,16 +52,18 @@ exports.findAll = async (req, res) => {
                 case "inStock":
                     match["inStock"] = search[key];
                     break;
-                // case "price":
-                //     match["price"] = { $lte: search[key] };
-                //     break;
                 default:
                     match[key] = { $regex: search[key], $options: 'i' };
                     break;
             }
         }
         aggregate_options.push({$match: match});
-    } 
+    }
+    
+    //SEARH QUERY
+    if(req.query.q){
+        aggregate_options.push({$match: {description: {$regex : req.query.q, $options: 'i'} } });
+    }
 
     //4 - SORT
     if (req.query.sort) {
@@ -70,12 +71,11 @@ exports.findAll = async (req, res) => {
         sortProduct = sortProduct.toLowerCase() === 'asc'? 1 : -1
         aggregate_options.push({$sort: {[sortBy]: sortProduct}});
     }
-    
 
     try {
-        console.log(aggregate_options)
         const myAggregate = Product.aggregate(aggregate_options);
         const result = await Product.aggregatePaginate(myAggregate, options);
+        result['products'].forEach(element => element.id = element._id);
         
         res.setHeader('Content-Range', `${result.products.length}`)
         res.status(200).json(result.products);
@@ -84,24 +84,9 @@ exports.findAll = async (req, res) => {
         console.log(err)
         res.status(500).json({error: err})
     }
-    
-    // try{
-    //     const products = await Product.find({});
-    //     res.setHeader("Content-Range", `${products.length}`);
-    //     res.status(200).json(
-    //         // count: products.length,
-    //         // products: products
-    //         products
-    //     );
-    // }
-    // catch(err){
-    //     console.log(err);
-    // }
-    
 }
 
 exports.findCategoryProducts = async (req, res) => {
-    console.log(req.query)
     const limit_ = 5;
     const aggregate_options = [];
 
@@ -151,8 +136,8 @@ exports.findCategoryProducts = async (req, res) => {
     }
 
     //FILTER BY INSTOCK QUERY
-    if(req.query.inStock) {
-        aggregate_options.push({$match: {"inStock" : (req.query.inStock == 'true') }});
+    if(req.query.onSale == 'true') {
+        aggregate_options.push({$match: {"discount" : {$gt: 0} }});
     }
 
     //FILTER BY PRICE QUERY
@@ -172,7 +157,8 @@ exports.findCategoryProducts = async (req, res) => {
  
     try {
         const myAggregate = Product.aggregate(aggregate_options);
-        const result = await Product.aggregatePaginate(myAggregate, options);
+        let result = await Product.aggregatePaginate(myAggregate, options);
+        result['products'].forEach(element => element.id = element._id); 
         
         res.setHeader('Content-Range', `${result.products.length}`)
         res.status(200).json(result.products);
@@ -183,9 +169,12 @@ exports.findCategoryProducts = async (req, res) => {
     }  
 }
 
-exports.findOneProduct = async function (req, res) {
+exports.findOne = async function (req, res) {
     try{
-        const product = await Product.findById(req.params.id);
+        let product = await Product.findById(req.params.id);
+        product = {...product, id: product._id};
+        console.log(product);
+
         if (product){
             res.status(200).json(product);
         }
@@ -217,7 +206,7 @@ exports.create = async function (req, res) {
         stars: req.body.stars,
         category: req.body.category,
         subcategory: req.body.subcategory,
-        inStock: req.body.inStock,
+        // inStock: req.body.inStock,
         product_images: product_images,
     })
     

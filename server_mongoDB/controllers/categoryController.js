@@ -45,11 +45,17 @@ exports.findAll = async (req, res) => {
         sortCategory = sortCategory.toLowerCase()==='desc'? -1 :1
         aggregate_options.push({$sort: {[sortBy]: sortCategory}});
     }
+
+    //FILTER BY PARENT
+    if (req.query.category){
+        aggregate_options.push({$match: { parent: { $regex: req.query.category, $options: 'i' }} });
+    }
     
 
     try {
         const myAggregate = Category.aggregate(aggregate_options);
         const result = await Category.aggregatePaginate(myAggregate, options);
+        result['categories'].forEach(element => element.id = element._id); 
         
         res.setHeader('Content-Range', `${result.categories.length}`)
         res.status(200).json(result.categories);
@@ -57,24 +63,14 @@ exports.findAll = async (req, res) => {
     catch(err) {
         console.log(err)
         res.status(500).json({error: err})
-    }
-
-    // try{
-    //     const categories = await Category.find({});
-    //     res.status(200).json({
-    //         count: categories.length,
-    //         categories: categories
-    //     });
-    // }
-    // catch(err){
-    //     console.log(err);
-    // }
-    
+    }  
 }
 
 exports.findOne = async function (req, res) {
     try {
-        const category = await Category.findById(req.params.id);
+        let category = await Category.findById(req.params.id);
+        category = {...category, id: category._id};
+
         if (category){
             res.status(200).json(category);
         }

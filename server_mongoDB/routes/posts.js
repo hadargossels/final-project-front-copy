@@ -1,19 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const postConrtoller = require('../controllers/postConrtoller');
+const postController = require('../controllers/postController');
 const checkAuth = require("../middleware/check-aouth")
 
 
-router.get('/', postConrtoller.findAll);
+router.get('/', postController.findAll);
 
-router.get('/:id', postConrtoller.findOne);
+router.post('/', postController.create);
 
-router.post('/', postConrtoller.create);
+router.get('/:postId', postController.findOne);
 
-router.patch('/:id', postConrtoller.update);
+router.patch('/:postId', postController.update);
 
-router.delete('/:id', postConrtoller.delete);
+router.delete('/:postId', postController.delete);
 
-// router.post('/:id', postConrtoller.createComment);
+
+// router.get('/:postId/:commentId', postController.findOne);
+
+router.post('/:postId', postController.createComment);
+
+router.patch('/:postId/:commentId', postController.updateComment);
+
+
 
 module.exports = router;

@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
 const multer = require('multer');
-const path = require('path');
 const checkAuth = require("../middleware/check-aouth")
 
 const storage = multer.diskStorage({
@@ -26,11 +25,9 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 router.get('/', productController.findAll);
 
-router.get('/:category', productController.findCategoryProducts);
+router.get('/:id', productController.findOne);
 
-router.get('/:category/:id', productController.findOneProduct);
-
-router.post('/', upload.array('product_images'), productController.create);
+router.post('/',checkAuth, upload.array('product_images'), productController.create);
 
 router.patch('/:id', checkAuth, upload.array('product_images'), productController.update);
 

@@ -1,28 +1,6 @@
 const mongoose = require('mongoose');
 const aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 
-// const categorySchema = mongoose.Schema({
-//     category: {
-//         type: String,
-//         required: true,
-//         validate: {
-//             validator: function(category) {
-//                 return category === 'Bedroom' || category === 'Bathroom' || category === 'Living-room';
-//             },
-//             message: 'You must provide a valid category'
-//         }
-//     },
-//     subcategory: {
-//         type: String,
-//         required: true,
-//         validate: {
-//             validator: function(category) {
-//                 return category === 'Bedroom' || category === 'Bathroom' || category === 'Living-room';
-//             },
-//             message: 'You must provide a valid category'
-//         }
-//     }
-// });
 
 const productSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
@@ -63,7 +41,7 @@ const productSchema = mongoose.Schema({
     },
     inStock: {
         type: Boolean,
-        required: true
+        default: true
     },
     createdAt: {
         type: Date,

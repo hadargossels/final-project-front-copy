@@ -1,6 +1,6 @@
-const Order = require("../models/Order")
+const Post = require("../models/Post")
 const mongoose = require("mongoose")
-
+const path = require('path');
 
 exports.findAll = async (req, res) => {
     const limit_ = 5;
@@ -16,14 +16,13 @@ exports.findAll = async (req, res) => {
         page = (to + 1) / limit
     }
 
-    
     const options = {
         page, 
         limit,
         collation: {locale: 'en'},
         customLabels: {
             totalDocs: 'totalResults',
-            docs: 'orders'
+            docs: 'posts'
         }   
     }
 
@@ -31,14 +30,14 @@ exports.findAll = async (req, res) => {
     // aggregate_options.push({$unwind: {path: "$products", preserveNullAndEmptyArrays: true}});
 
     //2 - LOOKUP/JOIN - use $lookup(aggregation) to get the relationship from event to categories (one to many).
-    // aggregate_options.push({
-    //     $lookup: {
-    //         from: 'products',
-    //         localField: "products.productId",
-    //         foreignField: "_id",
-    //         as: "products"
-    //     }
-    // });
+    aggregate_options.push({
+        $lookup: {
+            from: 'users',
+            localField: "author",
+            foreignField: "_id",
+            as: "author"
+        }
+    });
 
     // aggregate_options.push({
     //     $group: {
@@ -69,9 +68,8 @@ exports.findAll = async (req, res) => {
                     break;
             }
         }
-        console.log(match);
         aggregate_options.push({$match: match});
-    } 
+    }
 
     //4 - SORT
     if (req.query.sort) {
@@ -97,14 +95,14 @@ exports.findAll = async (req, res) => {
 
 exports.findOne = async function (req, res) {
     try{
-        let order = await Order.findById(req.params.id);
-        order = {...order, id: order._id};
+        let post = await Post.findById(req.params.postId);
+        post = {...post, id: post._id};
 
-        if (order){
-            res.status(200).json(order);
+        if (post){
+            res.status(200).json(post);
         }
         else{
-            res.status(404).json({message: 'Order not found'})
+            res.status(404).json({message: 'Post not found'})
         } 
     }
     catch(err){
@@ -115,25 +113,20 @@ exports.findOne = async function (req, res) {
 
 exports.create = async function (req, res) {
 
-    const order = new Order({
+    const post = new Post({
         _id: new mongoose.Types.ObjectId,
-        subtotalAmount: req.body.subtotalAmount,
-        taxesAmount: req.body.taxesAmount,
-        couponCode: req.body.couponCode,
-        couponDiscountAmount: req.body.couponDiscountAmount,
-        deliveryAmount: req.body.deliveryAmount,
-        totalAmount: req.body.totalAmount,
-        deliveryMethod: req.body.deliveryMethod,
-        products: req.body.products,
-        recipient: req.body.recipient,
-        userId: req.body.userId
+        title: req.body.title,
+        brief: req.body.brief,
+        body: req.body.postBody,
+        author: req.body.author,
+        comments: []
     })
     
     try{
-        const newOrder = await order.save();
+        const newPost = await post.save();
         res.status(201).json({
-            message: 'Order was created',
-            create_order: newOrder
+            message: 'Post was created',
+            create_post: newPost
         })
     }
     catch(err){
@@ -143,41 +136,99 @@ exports.create = async function (req, res) {
 }
 
 exports.update = async function (req, res) {
-    const updatedOrder = {};
+    const updatedPost = {};
 
     for (const [key, value] of Object.entries(req.body)) {
-        if (req.body[key] && (key === 'status' || key === 'recipient')){
-            updatedOrder[key] = req.body[key]
-        }
-        else if(key !== 'status' || key !== 'recipient'){
-            return res.status(500).json({error: 'Fields are invalid to be updated'})
+        if (req.body[key]){
+            if (key === 'title' || key === 'brief' || key === 'body') {
+                updatedPost[key] = req.body[key]
+                updatedPost["updateDate"] = Date.now()
+            }
+            else {
+                return res.status(500).json({error: 'Fields are invalid to be updated'})
+            }
         }
     }
 
-    try{
-        await Order.updateOne({_id: req.params.id} ,{$set: updatedOrder});
+    try {
+        await Post.updateOne({_id: req.params.postId} ,{$set: updatedPost});
         res.status(201).json({
-            message: 'Order was updated',
-            orderId: req.params.id
+            message: 'Post was updated',
+            postId: req.params.id
         })
     }
-    catch(err){
+    catch(err) {
         console.log(err)
         res.status(500).json({error: err})
     }
 }
 
 exports.delete = async function (req, res) {
-    try{
-        await Order.deleteOne({_id: req.params.id});
+    try {
+        const result = await Post.deleteOne({_id: req.params.postId});
         res.status(200).json({
-            message: 'Order was deleted',
-            orderId: req.params.id
+            message: 'Post was deleted',
+            postId: req.params.id
         })
     }
-    catch(err){
+    catch(err) {
         console.log(err)
         res.status(500).json({error: err})
     } 
 }
+
+exports.createComment = async function (req, res) {
+    const comment = {
+        _id: new mongoose.Types.ObjectId,
+        title: req.body.title,
+        body: req.body.body,
+        userId: req.body.userId
+    }
+    
+    try {
+        await Post.updateOne(
+            { _id: req.params.postId },
+            { $push: {
+                comments: {
+                    $each: [comment],
+                    $position: 0
+                }
+            }}
+        );
+        res.status(201).json({
+            message: 'Comment was created',
+            create_comment: comment
+        })
+    }
+    catch(err) {
+        console.log(err)
+        res.status(500).json({error: err})
+    } 
+}
+
+exports.updateComment = async function (req, res) {
+    const updateComment = {};
+    for (const [key, value] of Object.entries(req.body)) {
+        if (req.body[key] && (key == 'title' || key == 'body')){
+            const updateKey = `comments.$.${key}`
+            updateComment[updateKey] = req.body[key] 
+        }
+    }
+
+    try {
+        await Post.updateOne(
+            { "_id": req.params.postId, "comments._id" : req.params.commentId },
+            { $set: updateComment }
+        );
+        res.status(200).json({
+            message: 'Comment was updated'
+            // update_comment: result
+        })
+    }
+    catch(err) {
+        console.log(err)
+        res.status(500).json({error: err})
+    } 
+}
+
 

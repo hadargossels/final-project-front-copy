@@ -25,7 +25,8 @@ export function StoreProvider({children}) {
 
         axios.get(`${process.env.REACT_APP_PROXY}/orders`)
         .then(res => {
-            setOrders(res.data);        })
+            setOrders(res.data);        
+        })
     }, [])
 
 

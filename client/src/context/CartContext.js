@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect} from 'react';
-import {firebasedb} from '../firebase';
+import axios from 'axios';
 
 const CartContext = React.createContext();
 
@@ -14,22 +14,16 @@ export function CartProvider({children}) {
     const [myCoupon, setMyCoupon] = useState({});
     const tax = 0.17;
 
-    // const [totalAmount, setTotalAmount] = useState(0);
-    // const [taxesAmount, setTaxesAmount] = useState(0);
-    // const [totalAfterCoupon, setTotalAfterCoupon] = useState(0);
-    // const [totalAfterDelivery, setTotalAfterDelivery] = useState(0);
-
     useEffect(() => {
         const cartProducts = JSON.parse(localStorage.getItem('cartProducts'));
         if (cartProducts !== null) {
             setCartProducts(cartProducts)
         }
 
-        firebasedb.ref('coupons').get()
-        .then ( snapshot => {
-            setCoupons(snapshot.val())
-            } 
-        )
+        axios.get(`${process.env.REACT_APP_PROXY}/coupons`)
+        .then(res => {
+            setCoupons(res.data);        
+        })
 
         const coupon = JSON.parse(localStorage.getItem('myCoupon'));
         if (coupon){
@@ -110,9 +104,9 @@ export function CartProvider({children}) {
 
     const activateCoupon = (couponCode) => {
         
-        Object.keys(coupons).forEach(element => {
-            if (element === couponCode) {
-                const coupon = {code: element, discount: coupons[element]}
+        coupons.forEach(element => {
+            if (element.code === couponCode) {
+                const coupon = {code: element.code, discount: element.discount}
                 setMyCoupon(coupon);
                 localStorage.setItem('myCoupon', JSON.stringify(coupon));
                 return true

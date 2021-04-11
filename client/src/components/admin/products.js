@@ -97,7 +97,9 @@ export const ProductEdit = props => (
     <Edit {...props}>
         <SimpleForm>
             <TextInput disabled source="id" />
-            <ReferenceInput source="category" reference="categories" validate={[required(invalidMessages.required)]} />
+            <ReferenceInput source="category" reference="categories" validate={[required(invalidMessages.required)]}>
+                <SelectInput optionText="name" />
+            </ReferenceInput>
             <BooleanInput source="inStock" label="In stock" />
             <TextInput source="name" />
             <NumberInput source="price" />
@@ -116,7 +118,7 @@ export const ProductCreate = props => (
     <Create {...props}>
         <SimpleForm>
             <ReferenceInput source="category" reference="categories" validate={[required(invalidMessages.required)]}>
-            <SelectInput optionText="name" />
+                <SelectInput optionText="name" />
             </ReferenceInput>
             <BooleanInput source="inStock" label="In stock" defaultValue="true" />
             <TextInput source="name" validate={[required(invalidMessages.required)]} />

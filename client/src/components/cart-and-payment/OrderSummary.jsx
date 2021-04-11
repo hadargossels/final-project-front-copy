@@ -16,10 +16,10 @@ export default function OrderSummary() {
         
         if (cuponInputRef.current.value) {   
             let cuponConfirmed = false
-            Object.keys(coupons).forEach(element => {
-                if (element === cuponInputRef.current.value){
+            coupons.forEach(element => {
+                if (element.code === cuponInputRef.current.value){
                     cuponConfirmed = true;
-                    const coupon = {code: element, discount: coupons[element]}
+                    const coupon = {code: element.code, discount: element.discount}
                     setMyCoupon(coupon);
                     localStorage.setItem('myCoupon', JSON.stringify(coupon));
                     totalAmountRef.current.style.textDecorationLine = "line-through";

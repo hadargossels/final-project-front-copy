@@ -11,7 +11,6 @@ export default function ProfileOrders() {
     const {orders} = useStore();
 
     useEffect(() => {
-        console.log(orders)
         if (currentUser){
             firebasedb.ref('users').child(currentUser.uid).get()
             .then (snapshot => {
@@ -21,10 +20,7 @@ export default function ProfileOrders() {
             firebasedb.ref('orders').get()
             .then (snapshot => {
                 const userOrders = [];
-                console.log("-------------------------------------")
-                console.log(snapshot.val())
                 for (let key in snapshot.val()){
-                    console.log(key)
                     if(snapshot.val()[key].customer_details.user_id == currentUser.uid){
                         userOrders.push(snapshot.val()[key])
                     }
@@ -33,8 +29,6 @@ export default function ProfileOrders() {
             }) 
         }
     }, [currentUser])
-
-
 
     return (
         <div>
