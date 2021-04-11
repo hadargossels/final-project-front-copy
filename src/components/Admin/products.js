@@ -1,5 +1,6 @@
 import * as React from "react";
 
+
 import { List,
      Datagrid,
       TextField, 
@@ -9,17 +10,22 @@ import { List,
         SelectInput,
         NumberInput,
         EditButton,
+        DeleteButton,
+        Pagination,
     SimpleForm} from 'react-admin';
 
+    const PostPagination = props => <Pagination rowsPerPageOptions={[5, 10]} {...props} />;
+
 export const ProductList = props => (
-    <List {...props}>
+    <List {...props} pagination={<PostPagination />}>
         <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="price" />
             <TextField source="rating" />
             <TextField source="title" />
             <TextField source="description" />
-            <EditButton basepath="/products" />
+            <EditButton />
+            <DeleteButton mutationMode="false"/>
         </Datagrid>
     </List>
 );
@@ -28,20 +34,17 @@ export const ProductCreate = props => (
     <Create {...props}>
         <SimpleForm>
             <TextInput source="title" />
-            <NumberInput source="onsale" />
             <TextInput source="description" />
-            <TextInput source="image" />
-            <NumberInput source="price" />
-            <NumberInput source="rating" />
-
+            
             <SelectInput source="hardware" choices={[
                 { id: 'true', name: 'True' },
                 { id: 'false', name: 'False' },
-            ]} /> 
-        <SelectInput source="accessories" choices={[
-                { id: 'true', name: 'True' },
-                { id: 'false', name: 'False' },
-            ]} /> 
+            ]} />
+            <TextInput source="image" />
+            <NumberInput source="onsale" />
+            <NumberInput source="price" />
+            <NumberInput source="rating" />
+             
         </SimpleForm>
     </Create>
 );
@@ -58,15 +61,11 @@ export const ProductEdit = props => (
             <TextInput source="image" />
             <TextInput source="price" />
             <TextInput source="rating" />
-
             <SelectInput source="hardware" choices={[
                 { id: 'true', name: 'True' },
                 { id: 'false', name: 'False' },
             ]} /> 
-        <SelectInput source="accessories" choices={[
-                { id: 'true', name: 'True' },
-                { id: 'false', name: 'False' },
-            ]} /> 
+
         </SimpleForm>
     </Edit>
 );

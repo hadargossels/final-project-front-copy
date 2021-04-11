@@ -1,4 +1,4 @@
-import React, { useRef,useState,useEffect} from 'react';
+import React, { useRef,useState} from 'react';
 import './Header.css';
 import {Link,NavLink} from "react-router-dom";
 import Logo from "../../pictures/bitcoinLogo.png";
@@ -11,28 +11,14 @@ import {useAuth} from '../../context/AuthShopContext'
 export default function Header (){
 
     const [urlValue,setUrlValue]=useState()
-    const [userNow,setUserNow]=useState([])
     const callRef = useRef();
     const {cart}=useAuth()
     const {currentUser}=useAuth()
-    const {users}=useAuth()
-
-    useEffect(()=>{
-
-        if(currentUser){
-            for (let i=0;i<users.length;i++) {
-                if(users[i].email===currentUser.email)
-                    setUserNow(users[i])
-            }
-        }
-
-    },[currentUser,users])
-    
 
   function setUrl(){
     setUrlValue(callRef.current.value)
-    }
-    
+    }   
+
     return(
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
@@ -44,13 +30,13 @@ export default function Header (){
                 </button>
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <div className="navbar-brand">
                             <div className="cursor">
                                 <i className="fas fa-wallet"></i>
                             </div>
                         </div>
-                    </li>
+                    </li> */}
                     <li>
 
                     <OverlayTrigger
@@ -76,13 +62,13 @@ export default function Header (){
                         <div className="nav-link"><NavLink to="/home" style={{color:"black"}} activeStyle={{color: "orange"}}>Home</NavLink></div>
                     </li>
                     {!currentUser &&<li className="nav-item">
-                        <div className="nav-link"><NavLink to="/login" style={{color:"black"}} activeStyle={{color: "orange"}}>Login</NavLink></div>
+                        <div className="nav-link"><NavLink to="/" style={{color:"black"}} activeStyle={{color: "orange"}}>Login</NavLink></div>
                     </li>}
                     <li className="nav-item">
                         <div className="nav-link"><NavLink to="/register" style={{color:"black"}} activeStyle={{color: "orange"}}>Register</NavLink></div>
                     </li>
                     <li className="nav-item">
-                        <div className="nav-link" ><NavLink to="/" style={{color:"black"}} exact activeStyle={{color: "orange"}}>Store</NavLink></div>
+                        <div className="nav-link" ><NavLink to="/catalog" style={{color:"black"}} exact activeStyle={{color: "orange"}}>Store</NavLink></div>
                     </li>
                     <li className="nav-item">
                         <div className="nav-link"><NavLink to="/contactUs" style={{color:"black"}} activeStyle={{color: "orange"}}>Contact-Us</NavLink></div>
@@ -93,18 +79,14 @@ export default function Header (){
                     <li className="nav-item">
                         <div className="nav-link"><NavLink to="/blog" style={{color:"black"}} activeStyle={{color: "orange"}}>Blogs</NavLink></div>
                     </li>
-                    {/* <li className="nav-item">
-                        <div className="nav-link"><NavLink to="/info" style={{color:"black"}} activeStyle={{color: "orange"}}>what is hardware wallet?</NavLink></div>
-                    </li> */}
                 </ul>
             </div>
-            {currentUser && userNow.role==="Admin" && <NavLink to="/admin" className="nav-link" style={{color:"black"}} activeStyle={{color: "orange"}}>Admin</NavLink> }
-            {currentUser && <NavLink to="/account/profile" className="nav-link" style={{color:"black",width:"170px"}} activeStyle={{color: "orange"}}> {currentUser.displayName || userNow.username}</NavLink>}  
-            {/* <NavLink to="/dashboard" className="nav-link" style={{color:"black"}} activeStyle={{color: "orange"}}>Dashboard</NavLink>       */}
-          
+            {currentUser && <NavLink to="/account/profile" className="nav-link text-center" style={{color:"black"}} activeStyle={{color: "orange"}}> {currentUser.username}</NavLink>}  
+            {currentUser && currentUser.role==="Admin" && <NavLink to="/admin" className="nav-link" style={{color:"black"}} activeStyle={{color: "orange"}}><i className="fas fa-user-cog"></i></NavLink> }
+                      
             <input id="searcBox" className="me-2" style={{width:"130px"}} type="search" placeholder="Search" ref={callRef} onChange={()=>setUrl()} aria-label="Search"></input>
             
-            <Link className="btn" to={"/?q="+urlValue} style={{color:"black"}}>Search</Link>
+            <Link className="btn" to={"/catalog?q="+urlValue} style={{color:"black"}}>Search</Link>
             
         
         </div>

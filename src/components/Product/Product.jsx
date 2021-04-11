@@ -6,8 +6,8 @@ import T1_scale2 from '../../pictures/T1_scale2.jpg'
 import T1_scale3 from '../../pictures/T1_scale3.jpg'
 import T1_scale4 from '../../pictures/T1_scale4.jpg'
 import Rating from '../Catalog/Rating'
-import {db} from '../../firebase'
-
+// import {db} from '../../firebase'
+import axios from 'axios'
 
 let arrProd = JSON.parse(localStorage.getItem('products')) || [];
 
@@ -24,16 +24,18 @@ export default function Product (props){
    })[0];
 
    useEffect(()=>{
-
-      db.ref('products').on('value', (snapshot)=>{
-         if(snapshot.val()!=null){
-         let arrProducts = []
-         for (let obj in snapshot.val()) {
-             arrProducts.push(snapshot.val()[obj])
-         }
-         setProducts(arrProducts)
-         }
-      })
+      axios.get(`${process.env.REACT_APP_PROXY}/products`).then((response)=>{
+         setProducts(response.data)
+     })
+      // db.ref('products').on('value', (snapshot)=>{
+      //    if(snapshot.val()!=null){
+      //    let arrProducts = []
+      //    for (let obj in snapshot.val()) {
+      //        arrProducts.push(snapshot.val()[obj])
+      //    }
+      //    setProducts(arrProducts)
+      //    }
+      // })
    },[])
 
   function updateState(e){

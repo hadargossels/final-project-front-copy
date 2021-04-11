@@ -3,8 +3,8 @@ import './Cart.css'
 import Item from './Item'
 import {Link} from "react-router-dom"
 import CartEmpty from '../../pictures/cartEmpty.png'
-import {db} from '../../firebase'
-
+// import {db} from '../../firebase'
+import axios from 'axios'
 export default class Cart extends Component {
     constructor(){
         super()
@@ -13,19 +13,22 @@ export default class Cart extends Component {
             country:"Israel",
             myProducts:[]
         }
-     
+        
     }
     componentDidMount(){
-        db.ref('products').on('value', (snapshot)=>{
-            if(snapshot.val()!=null){
-            let arrProducts = []
-            for (let obj in snapshot.val()) {
-                arrProducts.push(snapshot.val()[obj])
-            }
-            this.setState({
-              myProducts: arrProducts,
-            })
-        }})
+        axios.get(`${process.env.REACT_APP_PROXY}/products`).then((response)=>{
+            this.setState({myProducts:response.data})
+        })
+        // db.ref('products').on('value', (snapshot)=>{
+        //     if(snapshot.val()!=null){
+        //     let arrProducts = []
+        //     for (let obj in snapshot.val()) {
+        //         arrProducts.push(snapshot.val()[obj])
+        //     }
+        //     this.setState({
+        //       myProducts: arrProducts,
+        //     })
+        // }})
     }
 
     priceCalculation(){
@@ -37,7 +40,7 @@ export default class Cart extends Component {
     return totalsum
 
     }
-   
+  
     render() {
         return (
             <div className="container-fluid">

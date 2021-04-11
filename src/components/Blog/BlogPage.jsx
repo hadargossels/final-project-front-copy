@@ -1,6 +1,5 @@
 import React,{Component} from 'react'
-import {db} from '../../firebase'
-
+import axios from 'axios'
 export default class BlogPage extends Component {
     constructor(props){
         super(props)
@@ -8,31 +7,30 @@ export default class BlogPage extends Component {
         this.state={
             arrBlog:JSON.parse(localStorage.getItem('comments')) || [],
             blogs:[],
-            posts:[]
+            posts:[],
+            comments:[]
         }
 
         this.callRef = React.createRef();
         this.updateState=this.updateState.bind(this)
-
         this.choosen=this.props.match.params.id;
     }
     
     componentDidMount(){
-        db.ref('blogs').on('value', (snapshot)=>{if(snapshot.val()!=null)
-            this.setState({
-              blogs: snapshot.val()
+        axios.get(`${process.env.REACT_APP_PROXY}/blogs`).then((response)=>{ 
+            this.setState({blogs:response.data})
             })
-          })
-        db.ref('posts').on('value', (snapshot)=>{if(snapshot.val()!=null)
-            this.setState({
-              posts: snapshot.val()
+        axios.get(`${process.env.REACT_APP_PROXY}/posts`).then((response)=>{    
+            this.setState({posts:response.data})
             })
-          })
+        axios.get(`${process.env.REACT_APP_PROXY}/comments`).then((response)=>{    
+            this.setState({comments:response.data})
+            })
     }
 
     updateState(e){
         let blog = this.state.blogs.filter((blog)=> {
-            return blog.id === Number(this.choosen);
+            return blog.id === this.choosen;
             })[0];
 
         let arr=[...this.state.arrBlog]
@@ -45,7 +43,7 @@ export default class BlogPage extends Component {
 
    render(){
     let blog = this.state.blogs.filter((blog)=> {
-        return blog.id === Number(this.choosen);
+        return blog.id === this.choosen;
         })[0];
     return (
         <div>
@@ -60,16 +58,31 @@ export default class BlogPage extends Component {
            <br/>
             <label>Add a public comment: </label><br/>
            <input type="text" style={{width:"600px"}} ref={this.callRef}/><br/>
-           <button type="submit" onClick={this.updateState}>add a comment</button><br/>
+           <button type="submit" className="mb-3" onClick={this.updateState}>add a comment</button><br/>
+           <br/>
+           <h4>Comments:</h4>
+           <div className="container border border-success rounded-end rounded-3 mb-4 ">
            {
                
-               this.state.posts.length>0 && this.state.posts.filter((obj)=>{return obj.blogId===Number(this.choosen)}).map((obj)=>
-               <div key={obj.id}><b>{obj.userId}</b>
-               <div><b>Title: {obj.title}</b></div>
-                <div>Comment: {obj.body}</div> 
+               this.state.posts.length>0 && this.state.posts.filter((obj)=>{return obj.blogId===this.choosen}).map((obj)=>
+                <div key={obj.id} className="mb-3">
+                <div><b></b></div>
+                <div><b>User {obj.userId} : {obj.title}</b></div>
+                <div>{obj.body}</div>
+                    <div className="container text-start">
+                    
+                    {this.state.comments.length>0 && this.state.comments.filter((comment)=>{return comment.postId===obj.id}).map((comment)=>
+                        <div key={comment.id}>
+                        <div><b>User {comment.userId} </b>: {comment.body}</div>
+                        <div></div>
+                        </div>
+                    
+                    )}
+            
+                    </div>
                 </div>
-               )
-           }
+               )}
+            </div>
         </div>
     )
 }

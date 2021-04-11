@@ -4,9 +4,8 @@ import {
     Datagrid,
     TextField,
     NumberField,
-    EditButton,
+    DeleteButton,
     Edit,
-    Create,
     SimpleForm,
     ReferenceInput,
     SelectInput,
@@ -37,7 +36,7 @@ export const PostList = (props) => {
                     <NumberField source="blogId" />
                     <TextField source="title" />
                     <TextField source="body" />
-                    <EditButton />
+                    <DeleteButton mutationMode="false"/>
                 </Datagrid>
             )}
         </List>
@@ -56,15 +55,3 @@ export const PostEdit = props => (
         </SimpleForm>
     </Edit>
 );
-
-export const PostCreate = props => (
-        <Create {...props}>
-            <SimpleForm>
-                <ReferenceInput source="userId" reference="users">
-                    <SelectInput optionText="name" />
-                </ReferenceInput>
-                <TextInput source="title" />
-                <TextInput multiline source="body" />
-            </SimpleForm>
-        </Create>
-    );

@@ -1,9 +1,7 @@
-import React, { useState,useEffect} from 'react'
-import {auth,db} from '../../firebase'
-import {Link} from "react-router-dom"
+import React, { useState,useEffect,useRef} from 'react'
 import Auth from '../../Auth'
 import {useAuth} from '../../context/AuthShopContext'
-
+import axios from 'axios'
 
 export default function Account(props) {
 
@@ -11,82 +9,93 @@ export default function Account(props) {
     const [phone,setPhone]=useState("")
     const [lastName,setLastName]=useState("")
     const [country,setCountry]=useState("")
-    const [username,setUsername]=useState()
-    const [userNow,setUserNow]=useState([])
     const [order,setOrder]=useState([])
     const {currentUser}=useAuth()
-    const {users}=useAuth()
     const {orders}=useAuth()
-   
-
+    const imgRef = useRef(null)
     useEffect(()=>{
 
         if(currentUser){
-            for (let i=0;i<users.length;i++) {
-                if(users[i].email===currentUser.email)
-                    setUserNow(users[i])
-            }
             let arrOrder = []
             for (let i=0;i<orders.length;i++) {
-                if(orders[i].customer===currentUser.email)
+                if(orders[i].userID===currentUser._Id)
                     arrOrder.push(orders[i])       
             }
             setOrder(arrOrder)
-        }
-        
-    },[currentUser,users,orders])
+    }
+    },[currentUser,orders])
+
+    function submitAdd(e){
+        var formData = new FormData();
+        var imagefile = imgRef.current.files[0]
+        formData.append("yourImage", imagefile);
+        axios.post(`${process.env.REACT_APP_PROXY}/image`, formData).then(
+            response => {
+                if (response.data.error){
+                    console.log(response.data.message)
+                }
+                else{
+                    alert(response.data.message)
+                    const user={
+                        ...currentUser,
+                        profileImage: imagefile.name,
+                    }
+                    axios.put(`${process.env.REACT_APP_PROXY}/users/${currentUser._id}`,user)
+                      .then(function (response) {
+                        console.log(response.data);
+                      })
+                      .catch(function (error) {
+                        console.log(error);
+                      });    
+                }
+            }
+        )
+    }
+
+
 
     function userSignOut(){
-        auth.signOut().then(() => {
-            Auth.logout(()=>props.history.push("/login"))
-          }).catch((error) => {
-            console.log("something wrong happened")
-          });
+            localStorage.removeItem("token")
+            Auth.logout(()=>props.history.push("/"))
         }
     function changeValue(e){
         if(e.target.id==="phoneNumber") setPhone(e.target.value)
         if(e.target.id==="country") setCountry(e.target.value)
         if(e.target.id==="firstName") setFirstName(e.target.value)
         if(e.target.id==="lastName") setLastName(e.target.value)
-        if(e.target.id==="userName") setUsername(e.target.value)
      }
     function handleForm(e){
         e.preventDefault()
- 
-        var userData = {
+        axios.put(`${process.env.REACT_APP_PROXY}/users/${currentUser._id}`,{
+            ...currentUser,
             firstName: firstName,
             lastName: lastName,
-            country:country,
-            username: username || userNow.username,
-            phone: phone,
-            id:userNow.id,
-            email:userNow.email,
-            role:userNow.role,
-            activity:userNow.activity,
-            date:userNow.date
-
-          };
-        var updates = {};
-        updates['/users/' + userNow.id] = userData;
-
-        db.ref().update(updates).then(()=>alert("user updated successfully"))
-        .catch(()=>alert("issue with updating"))
+            phoneNumber: phone,
+            country: country,
+          })
+          .then(function (response) {
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });    
     }
 
-  
+
+    
     return (
         <div className="container">
-            <h1 className="text-center mt-4">Hello, {currentUser && (currentUser.displayName || userNow.username) }</h1>
+            <h1 className="text-center mt-4">Hello, {currentUser && currentUser.username }</h1>
             <div className="row">
                 <div className="col-4">
                     <div className="container border rounded mt-4 mb-4 p-3 text-center">
-                            <img src={currentUser && currentUser.photoURL} name="img" alt="..."></img>
-                            <h2>{currentUser && (currentUser.displayName || userNow.username) }</h2>
-                            <p>{currentUser && (currentUser.metadata.creationTime|| userNow.date)}</p>
+                            <img src={currentUser && `${process.env.REACT_APP_PROXY}/image/${currentUser.profileImage}`} style={{width:"150px",height:"180px"}} name="img" alt="..." ></img>
+                            <h2>{currentUser && (currentUser.username) }</h2>
+                            <p>{currentUser && (currentUser.createdAt.substring(0, 10))}</p>
                             <hr/>
                             <label htmlFor="img">Select image:</label>
-                            {/* <input type="file" id="img" name="img" accept="image/*"/> */}
-                            <button className="btn btn-warning d-block mx-auto">UPLOAD PICTURE</button>
+                            <input type="file" ref={imgRef} name="yourImage" defaultValue="" />                            
+                            <button onClick={(e)=>submitAdd(e)} className="btn btn-warning d-block mx-auto">UPLOAD PICTURE</button>
                     </div>
 
                 </div>
@@ -100,57 +109,54 @@ export default function Account(props) {
                         <div className="col">
                         <div className="mb-3">
                             <label htmlFor="firstName" className="form-label">First name</label>
-                            <input type="text" className="form-control" id="firstName" onChange={(event)=>changeValue(event)} defaultValue={userNow.firstName} disabled= {currentUser && (currentUser.providerData[0].providerId!=="password"? true:false)}/>
+                            <input type="text" className="form-control" id="firstName" onChange={(event)=>changeValue(event)} defaultValue={currentUser.firstName} />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="emailAddress" className="form-label">Email address</label>
-                            <input type="email" className="form-control" id="emailAddress" value={currentUser ?currentUser.email:""} disabled />
+                            <input type="email" className="form-control" id="emailAddress" value={currentUser && currentUser.email} disabled />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="country" className="form-label">Country</label>
-                            <input type="text" className="form-control" id="country" onChange={(event)=>changeValue(event)} defaultValue={userNow.country} disabled= {currentUser && (currentUser.providerData[0].providerId!=="password"? true:false)}/>
+                            <input type="text" className="form-control" id="country" onChange={(event)=>changeValue(event)} defaultValue={currentUser.country}/>
                         </div>
                         </div>
                         <div className="col">
                         <div className="mb-3">
                             <label htmlFor="laseName" className="form-label">Last name</label>
-                            <input type="text" className="form-control" id="lastName" onChange={(event)=>changeValue(event)} defaultValue={userNow.lastName} disabled= {currentUser && (currentUser.providerData[0].providerId!=="password"? true:false)}/>
+                            <input type="text" className="form-control" id="lastName" onChange={(event)=>changeValue(event)} defaultValue={currentUser.lastName}/>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="phoneNumber" className="form-label">Phone number</label>
-                            <input type="text" className="form-control" id="phoneNumber" onChange={(event)=>changeValue(event)} defaultValue={userNow.phone}  disabled= {currentUser && (currentUser.providerData[0].providerId!=="password"? true:false)}/>
+                            <input type="text" className="form-control" id="phoneNumber" onChange={(event)=>changeValue(event)} defaultValue={currentUser.phoneNumber} />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="userName" className="form-label">User name</label>
-                            <input type="text" className="form-control" id="userName" onChange={(event)=>changeValue(event)} defaultValue={userNow.username} disabled= {currentUser && (currentUser.providerData[0].providerId!=="password"? true:false)}/>
+                            <input type="text" className="form-control" id="userName" defaultValue={currentUser.username} disabled/>
                         </div>
                         </div>
                         <hr/>
-                        <button type="submit"style={{width:"200px"}} className="btn btn-warning d-block mx-auto" disabled= {currentUser && (currentUser.providerData[0].providerId!=="password"? true:false)}>Update Details</button>
+                        <button type="submit"style={{width:"200px"}} className="btn btn-warning d-block mx-auto mb-1">Update Details</button>
                         </div>
                         </div>
                         </form>
-                        
                 </div>
-                    
                 </div>
             </div>
             <div>
-
             </div>
-
+            <div className="container d-flex ">
             {order && order.map((obj)=>
-            <div key={obj.id} className="container border">
-            <div>You have purchased: {obj.products.map((item)=><div key={item.title}><b>{item.item} units of {item.title} </b></div>)}</div>
-            <p>Total price: <b>${obj.total}</b></p>
-            <p>Order number: <b>{obj.reference}</b></p>
-            <p>Status: <b>{obj.status}</b></p>    
+            <div key={obj.id} className="container border border-dark" style={{width:"400px"}}>
+            <div className="mb-2"><span style={{color:"blue",fontWeight:"bold"}}>You have purchased:</span> {obj.products.map((item)=><div key={item.title}>{item.item} units of {item.title} </div>)}</div>
+            <p><span style={{color:"blue",fontWeight:"bold"}}>Total price: </span>${obj.total}</p>
+            <p><span style={{color:"blue",fontWeight:"bold"}}>Order number: </span>{obj.reference}</p>
+            <p><span style={{color:"blue",fontWeight:"bold"}}>Status: </span>{obj.status}</p>    
             </div>
             
             )}
+            </div>
 
-
-            <Link to='/login' onClick={(e)=>userSignOut(e)} style={{width:"150px"}} className="btn d-block mx-auto btn-primary mb-3 mt-3">Sign out</Link>
+            <button onClick={(e)=>userSignOut(e)} style={{width:"150px"}} className="btn d-block mx-auto btn-primary mb-3 mt-3">Sign out</button>
 
         </div>
         

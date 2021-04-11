@@ -1,21 +1,23 @@
 import React, { Component } from "react";
 import "./Checkout.css";
 import Paypal from "./PayPal";
-import { db } from "../../firebase";
-
+// import { db } from "../../firebase";
+import axios from 'axios'
 let arrProd = JSON.parse(localStorage.getItem("products")) || [];
+let Authorization = `bearer ${JSON.parse(localStorage.getItem("token"))}`
 
 export default class Checkout extends Component {
   constructor(props) {
     super(props);
     this.state = {
       shippingOption: 0,
-      messageName: "",
-      messageStreet: "",
-      messageCity: "",
-      messageHouseNum: "",
-      messageEmail: "",
+      messageName: null,
+      messageStreet: null,
+      messageCity: null,
+      messageHouseNum: null,
+      messageEmail: null,
       myProducts: [],
+      currentUser:null,
     };
     this.emailRef = React.createRef();
     this.shipmentRef = React.createRef();
@@ -27,22 +29,17 @@ export default class Checkout extends Component {
   }
 
   componentDidMount() {
-    db.ref("products").on("value", (snapshot) => {
-      if (snapshot.val() != null) {
-        let arrProducts = [];
-        for (let obj in snapshot.val()) {
-          arrProducts.push(snapshot.val()[obj]);
-        }
-        this.setState({
-          myProducts: arrProducts,
-        });
-      }
-    });
+    axios.get(`${process.env.REACT_APP_PROXY}/products`).then((response)=>{
+      this.setState({myProducts:response.data})
+    })
+
+    axios.get(`${process.env.REACT_APP_PROXY}/current`, {headers: {Authorization}}).then((response)=>{ 
+      this.setState({currentUser:response.data})
+  })
+ 
   }
   onChangeValue(event) {
-    this.setState({
-      shippingOption: Number(event.target.value),
-    });
+    this.setState({shippingOption: Number(event.target.value)});
   }
   priceCalculation() {
     let totalsum = 0;
@@ -52,7 +49,9 @@ export default class Checkout extends Component {
           totalsum += this.state.myProducts[j].onsale * arrProd[i].item;
     return totalsum;
   }
+  
   placeOrder(e) {
+    e.preventDefault()
     let fullName = this.fullNameRef.current;
     let houseNumber = this.houseNumberRef.current;
     let cityName = this.cityNameRef.current;
@@ -120,40 +119,37 @@ export default class Checkout extends Component {
     }
 
     if (flag1 === 1 && flag2 === 1 && flag3 === 1 && flag4 === 1 && flag5===1) {
-      let ref = Math.floor(Math.random() * 10000 + 1);
-      let time = new Date().toUTCString();
-      var newPostKey = db.ref().child("orders").push().key;
-      db.ref()
-        .child("orders")
-        .child(newPostKey)
-        .set({
-          id: newPostKey,
-          date: time,
-          reference: ref,
-          customer: this.emailRef.current.value,
-          address: {
-            city: this.cityNameRef.current.value,
-            street: this.streetAddRef.current.value,
-            housenum: this.houseNumberRef.current.value,
-          },
-          total: this.priceCalculation(),
-          status: "Order Recieved",
-          products: arrProd,
-        });
-      localStorage.setItem("products", JSON.stringify([]));
-      window.location.href = "/success/" + ref;
+      axios.post(`${process.env.REACT_APP_PROXY}/orders`,{
+
+        userId: this.state.currentUser._id,
+        products: arrProd,
+        city: this.cityNameRef.current.value,
+        street: this.streetAddRef.current.value,
+        house_number: this.houseNumberRef.current.value,
+        total:this.priceCalculation()
+      })
+      .then(function (response) {
+        localStorage.setItem("products", JSON.stringify([]));
+        window.location.href = "/success/" + response.data.reference;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });    
     }
+   
   }
 
   render() {
+
     return (
       <div>
         <div className="container-fluid">
+        <form onSubmit={(e)=>this.placeOrder(e)}>
           <div className="row">
             <div className="col-9">
               <br />
               <h2 className="text-center ">Enter your shipping address</h2>
-              <form>
+              
                 <div className="formChk">
                   <label className="lbl">Country</label>
                   <br />
@@ -177,6 +173,7 @@ export default class Checkout extends Component {
                     ref={this.fullNameRef}
                   ></input>
                   <br />
+                  {this.state.messageName && <div style={{color:"red"}}>{this.state.messageName}</div>}
                   <label className="lbl">Email *</label>
                   <br />
                   <input
@@ -185,6 +182,8 @@ export default class Checkout extends Component {
                     ref={this.emailRef}
                   ></input>
                   <br />
+                  {this.state.messageEmail && <div style={{color:"red"}}>{this.state.messageEmail}</div>}
+
                   <label className="lbl">Street address *</label>
                   <br />
                   <input
@@ -193,6 +192,8 @@ export default class Checkout extends Component {
                     ref={this.streetAddRef}
                   ></input>
                   <br />
+                  {this.state.messageStreet && <div style={{color:"red"}}>{this.state.messageStreet}</div>}
+
                   <label className="lbl">House number *</label>
                   <br />
                   <input
@@ -201,6 +202,7 @@ export default class Checkout extends Component {
                     ref={this.houseNumberRef}
                   ></input>
                   <br />
+                  {this.state.messageHouseNum && <div style={{color:"red"}}>{this.state.messageHouseNum}</div>}
                   <label className="lbl">City *</label>
                   <br />
                   <input
@@ -209,6 +211,8 @@ export default class Checkout extends Component {
                     ref={this.cityNameRef}
                   ></input>
                   <br />
+                  {this.state.messageCity && <div style={{color:"red"}}>{this.state.messageCity}</div>}
+
                   <label className="lbl">Postal code (optional)</label>
                   <br />
                   <input type="text" className="inp"></input>
@@ -226,7 +230,7 @@ export default class Checkout extends Component {
                 <br />
 
                 <Paypal />
-              </form>
+              
             </div>
             <div className="col-3">
               <div className="orderDetails">
@@ -351,12 +355,12 @@ export default class Checkout extends Component {
                   id="checkoutBtn"
                   className="d-block mx-auto"
                   style={{ color: "white" }}
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
+                  // data-bs-toggle="modal"
+                  // data-bs-target="#exampleModal"
                 >
                   Place order
                 </button>
-
+{/* 
                 <div
                   className="modal fade"
                   id="exampleModal"
@@ -396,14 +400,15 @@ export default class Checkout extends Component {
                           Close
                         </button>
                       </div>
-                    </div>
-                  </div>
-                </div>
+                    </div> */}
+                  {/* </div> */}
+                {/* </div> */}
 
                 <br />
               </div>
             </div>
           </div>
+          </form>
         </div>
       </div>
     );

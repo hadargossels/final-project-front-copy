@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './Catalog.css';
 import Prod from './Prod';
-import {db} from '../../firebase'
+import axios from 'axios'
 
 export default class Catalog extends Component {
     constructor(props){
@@ -10,12 +10,11 @@ export default class Catalog extends Component {
         this.state = {
             Products:[],
             priceBTC:"",
-            allProducts:[]
+            list:[]
         }
         
         this.updateState = this.updateState.bind(this)
         this.updateStateSearch = this.updateStateSearch.bind(this)
-
         this.price0=React.createRef()
         this.price1=React.createRef()
         this.price2=React.createRef()
@@ -27,53 +26,27 @@ export default class Catalog extends Component {
         this.rate2=React.createRef()
         this.rate3=React.createRef()
         this.rate4=React.createRef()
-        this.typeRef1=React.createRef()
-        this.typeRef2=React.createRef()
-        this.typeRef3=React.createRef()
-
+        this.typeRefHard=React.createRef()
+        this.typeRefAcc=React.createRef()
         this.searchRef=React.createRef()
     }
 
     componentDidUpdate(prevProps) {    
     if(this.props.location.search!==prevProps.location.search){
         this.searchRef.current.value=window.location.search.slice(3)
-        let myArr =[...this.state.allProducts]
-        myArr = myArr.filter((prod) => {
-            return (prod.description.toLowerCase().includes(this.searchRef.current.value.toLowerCase())
-            || prod.title.toLowerCase().includes(this.searchRef.current.value.toLowerCase()))     
-        }); 
-        myArr.sort(function(a,b){
-            return b.price-a.price})
-        this.setState({ Products: myArr})
-        }
+        axios.get(`${process.env.REACT_APP_PROXY}/products?q=${this.searchRef.current.value}`).then((response)=>{
+            
+            this.setState({list:response.data})
+                })
+            }
     }
 
     componentDidMount(){
 
-        db.ref('products').on('value', (snapshot)=>{
-            if(snapshot.val()!=null){
-            let arrProducts = []
-            let arrAllProducts = []
-            for (let obj in snapshot.val()) {
-                arrProducts.push(snapshot.val()[obj])
-                arrAllProducts.push(snapshot.val()[obj])
-            }
-            
-        if(window.location.search!==""){
-            this.searchRef.current.value=window.location.search.slice(3)
-            let myArr =[...arrAllProducts]
-            myArr = myArr.filter((prod) => {
-                return (prod.description.toLowerCase().includes(this.searchRef.current.value.toLowerCase())
-                || prod.title.toLowerCase().includes(this.searchRef.current.value.toLowerCase()))     
-            }); 
-            myArr.sort(function(a,b){
-                return b.price-a.price})
-            this.setState({ Products: myArr,allProducts:arrAllProducts })
-            }
-        else
-            this.setState({Products: arrProducts,allProducts:arrAllProducts})}})
-
-
+        this.searchRef.current.value=window.location.search.slice(3)
+        axios.get(`${process.env.REACT_APP_PROXY}/products?q=${this.searchRef.current.value}`).then((response)=>{ 
+        this.setState({list:response.data})
+        })
 
         fetch("https://api.coincap.io/v2/assets")
         .then(res => res.json())
@@ -86,81 +59,86 @@ export default class Catalog extends Component {
             console.log("error")
           }
         )
-        // if(this.cbRef){
-        //     let myArr =[...this.state.allProducts]
-        //     this.cbRef.value=window.location.search.slice(3)
-        //     myArr = myArr.filter((prod) => {
-        //         return (prod.title.toLowerCase().includes(this.cbRef.value.toLowerCase())
-        //         || prod.description.toLowerCase().includes(this.cbRef.value.toLowerCase()))     
-        //     });
-        //     myArr.sort(function(a,b){
-        //         return b.price-a.price})
-        //     this.setState({ Products: myArr })
-        // }
     }
     
     updateStateSearch(e){
-        let myArr =[...this.state.allProducts]
-        if(e.target.id === "search")
-        myArr = myArr.filter((prod) => {
-            return (prod.title.toLowerCase().includes(e.target.value.toLowerCase())
-                || prod.description.toLowerCase().includes(e.target.value.toLowerCase())
-            )     
-        });
-        this.setState({ Products: myArr })
+        axios.get(`${process.env.REACT_APP_PROXY}/products?q=${e.target.value}`).then((response)=>{
+            this.setState({list:response.data})
+        })
+
     }
     updateState(e){
-        
-        let myArr =[...this.state.allProducts]
+        let min=1000
+        let max=0
+        let rate=0
+        let hardware=""
 
-        let arrprice=[]
-        if (this.price0.current.checked) arrprice.push([0,10])
-        if (this.price1.current.checked) arrprice.push([10,20])
-        if (this.price2.current.checked) arrprice.push([20,30])
-        if (this.price3.current.checked) arrprice.push([30,50])
-        if (this.price4.current.checked) arrprice.push([50,100])
-        if (this.price5.current.checked) arrprice.push([100,1000])
+        if (this.price0.current.checked){
+            if(min>0)
+                min=0
+            if(max<10)
+                max=10
 
-        let arrRate=[]
-        if (this.rate0.current.checked) arrRate.push(4)
-        if (this.rate1.current.checked) arrRate.push(3)
-        if (this.rate2.current.checked) arrRate.push(2)
-        if (this.rate3.current.checked) arrRate.push(1)
-        if (this.rate4.current.checked) arrRate.push(0)
+        }
+        if (this.price1.current.checked){
+            if(min>10)
+                min=10
+            if(max<20)
+                max=20
 
-        
-       let arrNew=[]
-       for (let i=0;i<myArr.length;i++)
-            for(let j=0;j<arrprice.length;j++)
-                if(myArr[i].price>arrprice[j][0]&& myArr[i].price<arrprice[j][1] && !arrNew.includes(myArr[i]) )
-                    arrNew.push(myArr[i])
-        
+        }
+        if (this.price2.current.checked){
+            if(min>20)
+                min=20
+            if(max<30)
+                max=30
 
-        for (let i=0;i<myArr.length;i++)
-            for(let j=0;j<arrRate.length;j++)
-                if(myArr[i].rating>arrRate[j] && !arrNew.includes(myArr[i]))
-                    arrNew.push(myArr[i])
-        
-        for (let i=0;i<myArr.length;i++)
-            if(this.typeRef2.current.checked && myArr[i].hardware===true && !arrNew.includes(myArr[i]))
-                arrNew.push(myArr[i])
+        }
+        if (this.price3.current.checked){
+            if(min>30)
+                min=30
+            if(max<50)
+                max=50
 
-        for (let i=0;i<myArr.length;i++)
-            if(this.typeRef3.current.checked && myArr[i].accessories===true && !arrNew.includes(myArr[i]))
-                arrNew.push(myArr[i])
-     
-        if(this.typeRef1.current.checked)
-            arrNew=[...this.state.allProducts]
+        }
+        if (this.price4.current.checked){
+            if(min>50)
+                min=50
+            if(max<100)
+                max=100
+
+        }
+        if (this.price5.current.checked){
+            if(min>100)
+                min=100
+            if(max<1000)
+                max=1000
+
+        }    
+        if(min>max){
+            min=0
+            max=1000
+        }
+        if (this.rate0.current.checked) rate=4
+        if (this.rate1.current.checked) rate=3
+        if (this.rate2.current.checked) rate=2
+        if (this.rate3.current.checked) rate=1
+        if (this.rate4.current.checked) rate=0
         
-        arrNew.sort(function(a,b){
-            return a.price-b.price})
-        
-        this.setState({ Products: arrNew })
+        if(this.typeRefHard.current.checked && !this.typeRefAcc.current.checked) 
+            hardware=true
+        if(this.typeRefAcc.current.checked && !this.typeRefHard.current.checked) 
+            hardware=false
+
+
+        axios.get(`${process.env.REACT_APP_PROXY}/products?q=${this.searchRef.current.value}&price=[${min},${max}]&rate=${rate}&hardware=${hardware}`).then((response)=>{ 
+            this.setState({list:response.data})
+            })
+
     }
  
 
     render() {
-       
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -177,27 +155,20 @@ export default class Catalog extends Component {
                         <div className="container-sm" onChange={this.updateState}>
                             <div className="row">
                             <div className="form-check col-6">
-                            <input className="form-check-input" ref={this.typeRef1} type="checkbox" value="all" id="flexCheckDefault"/>
-                            <label className="form-check-label" htmlFor="flexCheckDefault">
-                                All
-                            </label>
-                            </div>
-                            <p className="col-6 text-end">{this.state.allProducts.length}</p>
-                            <div className="form-check col-6">
-                            <input className="form-check-input" ref={this.typeRef2} type="checkbox" value="hardware" id="flexCheckDefault" />
+                            <input className="form-check-input" ref={this.typeRefHard} type="checkbox" value="hardware" id="flexCheckDefault" />
                             <label className="form-check-label" htmlFor="flexCheckDefault">
                                 hardware wallet
                             </label>
                             </div>
-                            <p className="col-6 text-end">{this.state.allProducts.filter((obj)=>{return obj.hardware===true}).length}</p>
+                            <p className="col-6 text-end">{this.state.list.filter((obj)=>{return obj.hardware===true}).length}</p>
 
                             <div className="form-check col-6">
-                            <input className="form-check-input" ref={this.typeRef3} type="checkbox" name="accessories" id="flexCheckDefault" />
+                            <input className="form-check-input" ref={this.typeRefAcc} type="checkbox" name="accessories" id="flexCheckDefault" />
                             <label className="form-check-label" htmlFor="flexCheckDefault">
                                 accessories
                             </label>
                             </div>
-                            <p className="col-6 text-end">{this.state.allProducts.filter((obj)=>{return obj.hardware===false}).length}</p>
+                            <p className="col-6 text-end">{this.state.list.filter((obj)=>{return obj.hardware===false}).length}</p>
 
                             </div>
                         </div>
@@ -208,47 +179,47 @@ export default class Catalog extends Component {
                         <div className="container-sm" onChange={this.updateState}>
                             <div className="row">
                                 <div className="form-check col-9">
-                                <input className="form-check-input" type="checkbox" value="10" ref={this.price0} id="flexCheckDefault"/>
+                                <input className="form-check-input" type="checkbox" value="10" ref={this.price0} id="flexCheckDefault" onChange={this.updateState}/>
                                 <label className="form-check-label  mb-2" htmlFor="flexCheckDefault">
                                     under $10
                                 </label>
                                 </div>
-                                <div className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.price<10}).length}</div>
+                                <div className="col-3 text-end">{this.state.list.filter((obj)=>{return obj.price<10}).length}</div>
                                 <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="20" ref={this.price1} id="flexCheckChecked"/>
                                 <label className="form-check-label  mb-2" htmlFor="flexCheckChecked">
                                     $10 to $20
                                 </label>
                                 </div>
-                                <div className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.price>=10 && obj.price<20}).length}</div>
+                                <div className="col-3 text-end">{this.state.list.filter((obj)=>{return obj.price>=10 && obj.price<20}).length}</div>
                                 <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="30" ref={this.price2} id="flexCheckChecked"/>
                                 <label className="form-check-label  mb-2" htmlFor="flexCheckChecked">
                                     $20 to $30
                                 </label>
                                 </div>
-                                <div className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.price>=20 && obj.price<30}).length}</div>
+                                <div className="col-3 text-end">{this.state.list.filter((obj)=>{return obj.price>=20 && obj.price<30}).length}</div>
                                 <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="50" ref={this.price3} id="flexCheckChecked"/>
                                 <label className="form-check-label mb-2" htmlFor="flexCheckChecked">
                                     $30 to $50
                                 </label>
                                 </div>
-                                <div className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.price>=30 && obj.price<50}).length}</div>
+                                <div className="col-3 text-end">{this.state.list.filter((obj)=>{return obj.price>=30 && obj.price<50}).length}</div>
                                 <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="100" ref={this.price4} id="flexCheckChecked"/>
                                 <label className="form-check-label  mb-2" htmlFor="flexCheckChecked">
                                     $50 to $100
                                 </label>
                                 </div>
-                                <div className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.price>=50 && obj.price<100}).length}</div>
+                                <div className="col-3 text-end">{this.state.list.filter((obj)=>{return obj.price>=50 && obj.price<100}).length}</div>
                                 <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="1000" ref={this.price5} id="flexCheckChecked"/>
                                 <label className="form-check-label  mb-2" htmlFor="flexCheckChecked">
                                      $100 &#38; above
                                 </label>
                                 </div>
-                                <div className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.price>=100}).length}</div>
+                                <div className="col-3 text-end">{this.state.list.filter((obj)=>{return obj.price>=100}).length}</div>
                                 </div>
                         </div>
                         <br/>
@@ -261,7 +232,7 @@ export default class Catalog extends Component {
                                 <span className="stars">★★★★</span><span className="starsNot">★</span> &#38; up
                                 </label>
                                 </div>
-                                <p className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.rating>=4}).length}</p>
+                                <p className="col-3 text-end">{this.state.list.filter((obj)=>{return obj.rating>=4}).length}</p>
 
                                 <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="2" ref={this.rate1} id="flexCheckChecked"/>
@@ -269,28 +240,28 @@ export default class Catalog extends Component {
                                     <span className="stars">★★★</span><span className="starsNot">★★</span> &#38; up
                                 </label>
                                 </div>
-                                <p className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.rating>=3}).length}</p>
+                                <p className="col-3 text-end">{this.state.list.filter((obj)=>{return obj.rating>=3}).length}</p>
                                 <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="3" ref={this.rate2} id="flexCheckChecked"/>
                                 <label className="form-check-label" htmlFor="flexCheckChecked">
                                 <span className="stars">★★</span><span className="starsNot">★★★</span> &#38; up
                                 </label>
                                 </div>
-                                <p className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.rating>=2}).length}</p>
+                                <p className="col-3 text-end">{this.state.list.filter((obj)=>{return obj.rating>=2}).length}</p>
                                 <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="4" ref={this.rate3} id="flexCheckChecked"/>
                                 <label className="form-check-label" htmlFor="flexCheckChecked">
                                 <span className="stars">★</span><span className="starsNot">★★★★</span> &#38; up
                                 </label>
                                 </div>
-                                <p className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.rating>=1}).length}</p>
+                                <p className="col-3 text-end">{this.state.list.filter((obj)=>{return obj.rating>=1}).length}</p>
                                 <div className="form-check col-9">
                                 <input className="form-check-input" type="checkbox" value="5" ref={this.rate4} id="flexCheckChecked"/>
                                 <label className="form-check-label" htmlFor="flexCheckChecked">
                                 <span className="stars"></span><span className="starsNot">★★★★★</span> &#38; up
                                 </label>
                                 </div>
-                                <p className="col-3 text-end">{this.state.allProducts.filter((obj)=>{return obj.rating>=0}).length}</p>
+                                <p className="col-3 text-end">{this.state.list.filter((obj)=>{return obj.rating>=0}).length}</p>
                                 </div>
                         </div>
                     
@@ -300,8 +271,8 @@ export default class Catalog extends Component {
                         <br/>
                         <div className="container d-flex justify-content-center flex-wrap">
                             {
-                                this.state.Products.length>0
-                                ?this.state.Products.map((prod) =>
+                                this.state.list.length>0
+                                ?this.state.list.map((prod) =>
                                     <Prod key={prod.title} priceBTC={this.state.priceBTC} id={prod.id} rating={prod.rating} price={prod.price} title={prod.title} image={prod.image} desc={prod.description} onsale={prod.onsale}/>
                                     )
                                 :<h1>No products to be shown</h1>

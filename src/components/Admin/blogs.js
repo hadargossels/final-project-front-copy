@@ -8,7 +8,8 @@ import {
     Create,
     SimpleForm,
     TextInput,
-    SimpleList
+    SimpleList,
+    DeleteButton
 } from 'react-admin';
 import { useMediaQuery } from '@material-ui/core';
 
@@ -32,6 +33,7 @@ export const BlogList = (props) => {
                     <TextField source="title" />
                     <TextField source="author" />
                     <EditButton />
+                    <DeleteButton mutationMode="false"/>
                 </Datagrid>
             )}
         </List>

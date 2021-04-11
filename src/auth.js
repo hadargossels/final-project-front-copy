@@ -1,15 +1,18 @@
-import firebase from 'firebase/app'
+// import firebase from 'firebase/app'
 import 'firebase/auth'
+import axios from 'axios'
+
+let Authorization = `bearer ${JSON.parse(localStorage.getItem("token"))}`
 
 class Auth{
     constructor(){
-        firebase.auth().onAuthStateChanged(function(user) {
+        axios.get(`${process.env.REACT_APP_PROXY}/current`, {headers: {Authorization}}).then((user)=>{
             if (user) {
                 this.authenticated=true
             } else {
                 this.authenticated=false
             }
-          });
+        });
     }
     login(cb){
         this.authenticated=true

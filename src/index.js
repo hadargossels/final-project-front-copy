@@ -9,10 +9,8 @@ import Catalog from './components/Catalog/Catalog';
 import Home from './components/Home/Home';
 import Register from './components/Register/Register';
 import Login from './components/Login/Login';
-import Info from './components/Info/Info';
 import PageNotFound from './components/404/PageNotFound';
 import ContactUs from './components/ContactUs/ContactUs';
-import Dashboard from './components/Dashboard/Dashboard';
 import Cart from './components/Cart/Cart';
 import Checkout from './components/Checkout/Checkout';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -34,21 +32,19 @@ ReactDOM.render(
     <AuthShopProvider>
     <Header/>
       <Switch>  
-          <ProtectedRouteAdmin exact path="/dashboard" component={Dashboard}/>
+          <ProtectedRouteAdmin exact path="/admin" component={Admin}/>
           <ProtectedRoute exact path="/account/profile" component={Account}/>
-          <Route exact path="/" component={Catalog}/>
+          <Route exact path="/catalog" component={Catalog}/>
           <Route exact path="/cart" component={Cart}/>
           <Route exact path="/home" component={Home}/>
           <Route exact path="/contactUs" component={ContactUs}/>
-          <Route exact path="/login" component={Login}/>
+          <Route exact path="/" component={Login}/>
           <Route exact path="/register" component={Register}/>
           <Route path="/product/:title" component={Product}/>
-          <Route exact path="/info" component={Info}/>
           <Route exact path="/checkout" component={Checkout}/>
           <Route exact path="/success/:ref" component={Success}/>
           <Route exact path="/aboutUs" component={AboutUs}/>
           <Route exact path="/blog" component={Blog}/>
-          <Route exact path="/admin" component={Admin}/>
           <Route exact path="/blogPage/:id" component={BlogPage}/>
           <Route component={PageNotFound}/>
       </Switch>

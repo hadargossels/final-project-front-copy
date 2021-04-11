@@ -1,7 +1,8 @@
 import React, { useRef,useState} from "react";
 import { Form, Button, Card, Container,Alert } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import {auth,db} from "../../firebase"
+// import {auth,db} from "../../firebase"
+import axios from 'axios'
 
 export default function Register() {
       const usernameRef=useRef()
@@ -24,26 +25,19 @@ export default function Register() {
     if(passwordRef.current.value!==passConfirmRef.current.value)
         return setError('passwords do not match')
     
-        auth.createUserWithEmailAndPassword(emailRef.current.value, passwordRef.current.value)
-        .then(() => {
-
-            auth.onAuthStateChanged((user)=>{
-                let time=(new Date()).toUTCString()
-                db.ref().child('users').child(user.uid).set({
-                    id:user.uid,
-                    username:usernameRef.current.value,
-                    email:emailRef.current.value,
-                    role:"User",
-                    activity:"Active",
-                    date:time
-                })
-                history.push('/account/profile')
-            })     
+    axios.post(`${process.env.REACT_APP_PROXY}/users`,{
+        email: emailRef.current.value,
+        username: usernameRef.current.value,
+        password: passwordRef.current.value,
+      })
+      .then(function (response) {
+        console.log(response.data)
+        history.push('/')
+      })
+      .catch(function (error) {
+        console.log(error);
+      });    
        
-        })  
-        .catch(() => {
-            setError('Failed to create an account')
-        });
     }
 
   return (
@@ -76,7 +70,7 @@ export default function Register() {
             </Card> 
             </Container>
           <div className="text-center mb-4">
-              Already have an account? <Link to="/login">Login</Link>
+              Already have an account? <Link to="/">Login</Link>
         </div>
     </div>
   );

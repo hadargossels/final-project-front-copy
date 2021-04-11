@@ -1,16 +1,14 @@
 import React from 'react'
 import {Route,Redirect} from 'react-router-dom'
-import {auth} from '../firebase'
-// import firebase from 'firebase/app'
-// import Auth from '../../Auth'
+import {useAuth} from '../context/AuthShopContext'
 
 export default function ProtectedRoute({component:Component,...rest}) {
-  
+  const {currentUser}=useAuth()
     return(
         <Route {...rest} render={(props)=>{ 
-        return auth.currentUser
+        return currentUser
         ?<Component {...props}/>
-        :<Redirect to="/login" />
+        :<Redirect to="/" />
         }}/>
       )
 }

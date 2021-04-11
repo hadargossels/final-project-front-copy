@@ -1,7 +1,7 @@
 import * as React from "react";
-import {useNotify, useRedirect, SelectInput, List, Create, TextInput, Datagrid, TextField, EmailField,Edit, SimpleForm,EditButton } from 'react-admin';
+import {SelectInput, List, Create, TextInput, Datagrid, TextField, EmailField,Edit, SimpleForm,EditButton, DeleteButton } from 'react-admin';
 import MyUserField from './MyUserField';
-import {auth,db} from "../../firebase"
+// import {auth,db} from "../../firebase"
 
 export const UserList = props => (
     <List {...props}>
@@ -12,7 +12,8 @@ export const UserList = props => (
             <TextField source="phone" />
             <TextField source="role" />
             <MyUserField source="activity" />
-            <EditButton basepath="/users" />
+            <EditButton />
+            <DeleteButton mutationMode="false"/>
         </Datagrid>
     </List>
 );
@@ -37,34 +38,12 @@ export const UserEdit = props => (
 
 
 export const UserCreate = props =>{
-    const redirect = useRedirect();
-    const notify = useNotify();
-
-
-    function addUser(userData){
-        auth.createUserWithEmailAndPassword(userData.email, userData.password)
-        .then(() => {
-
-            auth.onAuthStateChanged((user)=>{
-                db.ref().child('users').child(user.uid).set({
-                    id:user.uid,
-                    username:userData.username,
-                    email:userData.email,
-                    role:"User",
-                    activity:"Active"
-                })
-                 redirect('/users');
-            })     
-       
-        })  
-        .catch((error) => {
-            notify(`Could not add user: ${error.message}`)
-        });
-    }
+    // const redirect = useRedirect();
+    // const notify = useNotify();
 
     return (
     <Create {...props} >
-        <SimpleForm save={(userData)=>addUser(userData)}>
+        <SimpleForm >
             <TextInput source="username" />
             <TextInput source="email" />
             <TextInput source="password" />

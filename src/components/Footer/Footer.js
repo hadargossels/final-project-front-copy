@@ -14,7 +14,8 @@ export default function Footer (){
           <a href="https://www.youtube.com/"><i className="fab fa-youtube cursor"></i></a>
         </div>
          <br></br>
-        <p> כל הזכויות שמורות ליוני טוקן בע"מ&#169; </p>
+         
+        <p>  &#169; 2021 Yoni Token.  All rights reserved.</p>
       </footer>
         </div>
       )

@@ -5,25 +5,25 @@ import {
   Datagrid,
   TextField,
   Edit,
-  ArrayField,
+  DeleteButton,
   NumberField,
   EditButton,
   SimpleForm,
   SelectInput,
-  TextInput,
+  ArrayField
 } from "react-admin";
 
-const FullAddressField = ({record = {} }) => <span>{record.address.city}, {record.address.street} {record.address.housenum}</span>;
-FullAddressField.defaultProps = { label: 'Address',source: "address"};
+// const FullAddressField = ({record = {} }) => <span>{record.address.city}, {record.address.street} {record.address.house_number}</span>;
+// FullAddressField.defaultProps = { label: 'Address',source: "address"};
 
 
 export const OrderList = (props) => (
   <List {...props}>
     <Datagrid rowClick="edit">
-      <TextField source="date" />
+      <TextField source="createdAt" />
       <NumberField source="reference" />
-      <TextField source="customer" />
-      <FullAddressField />
+      <TextField source="userId" />
+      {/* <FullAddressField /> */}
     <ArrayField source="products">
         <Datagrid>
             <TextField source="title" />
@@ -32,7 +32,8 @@ export const OrderList = (props) => (
     </ArrayField>
       <NumberField source="total" />
       <TextField source="status" />
-      <EditButton basepath="/orders" />
+      <EditButton/>
+      <DeleteButton mutationMode="false"/>
     </Datagrid>
   </List>
 );
@@ -41,7 +42,6 @@ export const OrderList = (props) => (
 export const OrderEdit = props => (
   <Edit {...props}>
     <SimpleForm>
-    <TextInput source="status" />
         <SelectInput source="status" choices={[
                 { id: 'Order Recieved', name: 'Order Recieved' },
                 { id: 'In progress', name: 'In progress' },

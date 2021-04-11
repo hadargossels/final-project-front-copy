@@ -6,12 +6,14 @@ import Auth from '../../Auth'
 import {auth,db} from '../../firebase'
 import 'firebase/auth'
 import firebase from 'firebase/app'
+import axios from 'axios'
+
 
 export default function Login (props) {
-
+    // let Authorization = `bearer ${JSON.parse(localStorage.getItem("token"))}`
     const emailRef=useRef()
     const passwordRef=useRef()
-  
+
     const [error,setError] = useState('')
 
     function GoogleLogin(){
@@ -85,18 +87,27 @@ export default function Login (props) {
         });
     }
 
-
-
     function userLogin(e){
     e.preventDefault()
+    axios.post(`${process.env.REACT_APP_PROXY}/jwt`,{
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
+      })
+      .then(function (response) {
+        localStorage.setItem("token",JSON.stringify(response.data.token))
+        Auth.login(()=>props.history.push("/home"))
+      })
+      .catch(function (error) {
+        setError('Failed to sign in');
+      });    
 
-        auth.signInWithEmailAndPassword(emailRef.current.value,passwordRef.current.value)
-            .then(() => {
-                Auth.login(()=>props.history.push("/account/profile"))
-            })
-            .catch(() => {
-                setError('Failed to sign in');
-        });
+        // auth.signInWithEmailAndPassword(emailRef.current.value,passwordRef.current.value)
+        //     .then(() => {
+        //         Auth.login(()=>props.history.push("/account/profile"))
+        //     })
+        //     .catch(() => {
+        //         setError('Failed to sign in');
+        // });
     }
 
         return (
@@ -122,12 +133,12 @@ export default function Login (props) {
                             <button onClick={(e)=>GoogleLogin(e)} className="loginBtn loginBtn--google d-block mx-auto mb-3 mt-3">
                             Login with Google
                             </button>
-                            <button onClick={(e)=>FacebookLogin(e)} className="loginBtn loginBtn--facebook d-block mx-auto">
+                            {/* <button onClick={(e)=>FacebookLogin(e)} className="loginBtn loginBtn--facebook d-block mx-auto">
                             Login with Facebook
                             </button>
                             <button onClick={(e)=>GithubLogin(e)} className="btn-github btn-social d-block mx-auto mb-3 mt-3">
                             <i className="fab fa-github"></i> Login with Github
-                            </button>
+                            </button> */}
                     </Card.Body>
                 </Card> 
                 </Container>
