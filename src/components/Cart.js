@@ -126,7 +126,7 @@ export default class Cart extends Component {
 
                     <div className="btnRow">
 
-                        <NavLink to="/Catalog" ><button type="button" style={{backgroundColor:"rgb(155,23,80)"}}> <b>חזרה לחנות</b></button></NavLink>
+                        <NavLink to="/Catalog/page/1" ><button type="button" style={{backgroundColor:"rgb(155,23,80)"}}> <b>חזרה לחנות</b></button></NavLink>
                     <button type="button" onClick={this.removeAll} style={{backgroundColor:"rgb(93,0,29)"}}> <b>רוקן את העגלה</b></button>
 
                     </div>

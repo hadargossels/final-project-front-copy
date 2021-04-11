@@ -76,6 +76,44 @@
 
 }
 
+
+/*//////////////////////   pagination /////////////////*/
+
+.rowPaginationButton{
+
+    max-width: 1200px;
+    margin: auto ;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 150px;
+    align-items: center;
+    justify-content: center;
+}
+
+.pageArrowBtn{
+    
+    font-size: 20px;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    border-color: rgb(227,175,188);
+    background-color: rgb(235, 121, 229);
+    
+}
+.pageCurrectBtn{
+
+    font-size: 20px;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    border-color: rgb(227,175,188);
+    background-color: rgb(235, 121, 229);
+    opacity: 0.5;
+}
+
+/*//////////////////////   pagination  end   /////////////////*/
+
 @media only screen and (max-width: 1000px) {
     .myBox{
         width: 40%;

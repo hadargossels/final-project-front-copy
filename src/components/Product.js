@@ -339,7 +339,7 @@ myFunction() {
 
                         
                         <div>
-                            <NavLink to="/Catalog"  href="#" ><button type="button" id="btnShop" style={{backgroundColor:"rgb(155,23,80)"}}> <b>חזרה לחנות</b></button></NavLink>
+                            <NavLink to="/Catalog/page/1"  href="#" ><button type="button" id="btnShop" style={{backgroundColor:"rgb(155,23,80)"}}> <b>חזרה לחנות</b></button></NavLink>
                             
                             <div className="btn-group mr-2 ms-5" role="group" aria-label="First group" >
                                 <button type="button" className="btn btn-warning mt-2 mb-2 fs-4" value="-" onClick={(e)=>this.quantity(e.target)}>-</button>

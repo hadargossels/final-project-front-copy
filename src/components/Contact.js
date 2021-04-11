@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import Map from './Map'
-
+import axios from 'axios'
 import './Contact.css'
 
 
@@ -14,8 +14,6 @@ export default class Contact extends Component {
 
         this.state={
             validForm:"",
-            counter:1,
-            arrayOfMassege:[],
         }
 
         this.mailRef = React.createRef()
@@ -30,14 +28,14 @@ export default class Contact extends Component {
         this.addressRef = React.createRef()
         this.addressMassegeRef= React.createRef()
         this.textInputRef= React.createRef()
-        this.textMassegeRef= React.createRef()
+        this.textMessageRef= React.createRef()
 
         this.inputValid=this.inputValid.bind(this)
     }
 
     componentDidMount(){
 
-        this.textMassegeRef.current.style.visibility="hidden"
+        this.textMessageRef.current.style.visibility="hidden"
         this.addressMassegeRef.current.style.visibility="hidden"
         this.cityMassegeRef.current.style.visibility="hidden"
         this.mailMassegeRef.current.style.visibility="hidden"
@@ -52,7 +50,7 @@ export default class Contact extends Component {
         let flag=true
 
         const textInput =this.textInputRef.current
-        const textMassege =this.textMassegeRef.current
+        const textMessage =this.textMessageRef.current
 
         const addressInput = this.addressRef.current
         const addressMassege = this.addressMassegeRef.current
@@ -128,28 +126,25 @@ export default class Contact extends Component {
 
         if(textInput.value.length<2){
             flag=false
-            textMassege.style.visibility="visible"
+            textMessage.style.visibility="visible"
         }
         else
-        textMassege.style.visibility="hidden"
+        textMessage.style.visibility="hidden"
 
 
         this.setState({validForm:flag})
 
         if(flag){
 
-            let storage=JSON.parse(localStorage.getItem("massegeStorage")||"[]")
-            let tempArray=this.state.arrayOfMassege
-            let count=this.state.counter
-            let massege={id:this.state.counter,fname:fnameInput.value,lname:lnameInput.value,mail:mailInput.value,city:cityInput.value,address:addressInput.value,phone:phoneInput.value,textMassege:textInput.value}
-            count++
-            tempArray.push(massege)
-            storage.push(massege)
-
-            localStorage.setItem("massegeStorage",JSON.stringify(storage))
-            this.setState({counter:count})
-            this.setState({arrayOfMassege:tempArray})
-            window.alert("ההודעה נשלחה בהצלחה")
+            let message={id:"",fname:fnameInput.value,lname:lnameInput.value,mail:mailInput.value,city:cityInput.value,address:addressInput.value,phone:phoneInput.value,textMessage:textInput.value}
+            axios.post(`${process.env.REACT_APP_MONGO_DATABASE}/api/contactMails`,message)
+            .then(function (response) {
+                window.alert("ההודעה נשלחה בהצלחה")
+            })
+            .catch(function (error) {
+            console.log(error);
+            });
+            
         }
     }
     
@@ -246,7 +241,7 @@ export default class Contact extends Component {
 
                                 <div className="form-group  ">
                                    <textarea required className="form-control " placeholder=" הודעה *" rows="10" ref={this.textInputRef}></textarea>
-                                   <p id="usercheck" style={{color: "red"}} ref={this.textMassegeRef} className="vlidMassege mb-4">**חובה למלא תוכן הודעה  </p>
+                                   <p id="usercheck" style={{color: "red"}} ref={this.textMessageRef} className="vlidMassege mb-4">**חובה למלא תוכן הודעה  </p>
                                 </div>
 
 

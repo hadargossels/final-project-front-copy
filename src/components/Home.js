@@ -125,7 +125,7 @@ export default class Home extends Component {
             <div>
 
                 <div className="myContainer">
-                    <div id="imageHpmePage"> <NavLink to="/Catalog" className="nav-link" href="#" ><button type="button" > <b>לחנות</b></button></NavLink></div>
+                    <div id="imageHpmePage"> <NavLink to="/Catalog/page/1" className="nav-link" href="#" ><button type="button" > <b>לחנות</b></button></NavLink></div>
                         <div className="myRow" style={{marginBottom:"60px"}}>
                             <div className="textOnMe">
                                 <h3>קצת עלי</h3>

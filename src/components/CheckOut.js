@@ -388,6 +388,12 @@ export default class CheckOut extends Component {
             axios.post(`${process.env.REACT_APP_MONGO_DATABASE}/api/orders`, data ,{ 'headers': { 'Authorization': this.state.token } })
               .then(function (response) {
                 console.log(response);
+                    axios.post(`${process.env.REACT_APP_MONGO_DATABASE}/api/orderMails`,data)
+                        .then(function (response) {
+                        })
+                        .catch(function (error) {
+                        console.log(error);
+                        });
               })
               .catch(function (error) {
                 console.log(error);
@@ -450,7 +456,7 @@ export default class CheckOut extends Component {
                 </div>
 
                 <div className="btnRow mb-3">
-                    <NavLink to="/Catalog" ><button type="button" style={{backgroundColor:"rgb(155,23,80)"}}> <b>חזרה לחנות</b></button></NavLink>
+                    <NavLink to="/Catalog/page/1" ><button type="button" style={{backgroundColor:"rgb(155,23,80)"}}> <b>חזרה לחנות</b></button></NavLink>
                     <NavLink to="/Cart" ><button type="button" style={{backgroundColor:"rgb(93,0,29)"}}> <b> חזרה לעגלה </b></button></NavLink>
                 </div>
 

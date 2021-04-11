@@ -54,6 +54,7 @@ updatItemsFromLocalStorage(){
         <Header cartCounter={this.state.cartCounter}/>
         <Switch>
           <Route exact path="/" render={(props) => (<Home {...props} isAuthed={true}   updatItemsFromLocalStorage={this.updatItemsFromLocalStorage}/>)} />
+          <Route path="/Catalog/page/:number" component={Catalog}/>
           <Route path="/Catalog/:ProductName"  render={(props) => (<Product {...props} isAuthed={true}   updatItemsFromLocalStorage={this.updatItemsFromLocalStorage}/>)}/>
           <Route path="/Catalog" exact component={Catalog}/>
           <Route path="/Recipes" exact component={Recipes}/>

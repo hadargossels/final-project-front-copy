@@ -19,6 +19,9 @@ class Catalog extends Component {
          priceMin:"",
          priceMax:"",
          urlSearch:"",
+         page:this.props.match.params.number,
+         maxPage:1,
+         productInPage:9,
       }
       this.sortFunc=this.sortFunc.bind(this)
       this.addFilter=this.addFilter.bind(this)
@@ -41,8 +44,26 @@ class Catalog extends Component {
 
     async getDataFromMongoDB(){
 
+      let productInPage= this.state.productInPage
+      let currectPage=this.state.page
+
       try{
-         let response=await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/products`)
+         let response=await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/productsPages`)
+         let pages=Math.ceil(response.data[0]/productInPage)
+         this.setState({maxPage:pages})
+
+      }catch(err){
+         console.log(err);
+      }
+
+      try{
+
+         let response
+            if(currectPage){
+                response=await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/products?range=[${currectPage*productInPage-productInPage},${currectPage*productInPage-1}]`)
+            }else{
+                response=await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/products`)
+            }
          cakeArr = response.data
          let updateproducts=[...cakeArr.reverse()]
          this.setState({Arr:updateproducts})
@@ -183,6 +204,35 @@ class Catalog extends Component {
       this.filtering(copyFilterArr)
          
   }
+  async prevPage(){
+
+      let page= this.state.page
+      if(page>1){
+         page--
+         await this.setState({page})
+         this.props.history.push(`/Catalog/page/${page}`)
+         this.getDataFromMongoDB()
+      }
+  }
+  async nextPage(){
+
+   let page= this.state.page
+   if(page<this.state.maxPage){
+      page++
+      await this.setState({page})
+      this.props.history.push(`/Catalog/page/${page}`)
+      this.getDataFromMongoDB()
+   }
+
+  }
+  async currectPage(e){
+
+   let page= e.value
+   await this.setState({page})
+   this.props.history.push(`/Catalog/page/${page}`)
+   this.getDataFromMongoDB()
+  }
+
 
    render() {
       return (
@@ -201,6 +251,16 @@ class Catalog extends Component {
                   </Link>
                ))}
             </div>
+            {(this.state.maxPage>1) && <div className="rowPaginationButton">
+                  <button className="pageArrowBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.prevPage(e.target)} ><i className="fas fa-arrow-left"></i></button>
+                  {(Array(this.state.maxPage).fill(0)).map((element,index) =>{
+                     if(this.state.page==(index+1))
+                        return <button key={index+1} value={index+1} onClick={(e)=>this.currectPage(e.target)} className="pageCurrectBtn" disabled>{index+1} </button>
+                     else
+                        return <button key={index+1} value={index+1} onClick={(e)=>this.currectPage(e.target)} className="pageArrowBtn">{index+1}</button>
+                  })}
+                  <button className="pageArrowBtn" style={{backgroundColor:"rgb(155,23,80)"}} onClick={(e)=>this.nextPage(e.target)}><i className="fas fa-arrow-right"></i></button>
+            </div>}
          </div>
         
       );

@@ -337,7 +337,7 @@ class Header extends Component{
                   <NavLink to="/" className="nav-link active" aria-current="page" href="#" onClick={this.resetUrl}>ראשי</NavLink>
                </li>
                <li className="nav-item ms-3">
-                  <NavLink to="/Catalog" className="nav-link" href="#" onClick={this.resetUrl,this.props.filterSearch}>המוצרים שלנו</NavLink>
+                  <NavLink to="/Catalog/page/1" className="nav-link" href="#" onClick={this.resetUrl,this.props.filterSearch}>המוצרים שלנו</NavLink>
                </li>
                <li className="nav-item ms-3">
                   <NavLink to="/Recipes" className="nav-link" href="#" onClick={this.resetUrl}>מתכונים</NavLink>

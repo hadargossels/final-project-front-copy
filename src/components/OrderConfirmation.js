@@ -33,9 +33,9 @@ export default class OrderConfirmation extends Component {
                                                     <td align="right" valign="top" style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "48px", fontWeight: "400", lineHeight: "48px"}}>
                                                         <table cellSpacing="0" cellPadding="0" border="0" align="right">
                                                             <tr >
-                                                            <td style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize:" 18px", fontWeight: "400", lineHeight: "24px"}}> <NavLink to="/Catalog" href="#" target="_blank" style={{color: "#ffffff", textDecoration: "none"}}><img src="https://img.icons8.com/color/48/000000/small-business.png" alt="to shop" width="40" height="33" style={{display: "block", border: "0px",marginRight:"20px"}} /></NavLink> </td>
+                                                            <td style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize:" 18px", fontWeight: "400", lineHeight: "24px"}}> <NavLink to="/Catalog/page/1" href="#" target="_blank" style={{color: "#ffffff", textDecoration: "none"}}><img src="https://img.icons8.com/color/48/000000/small-business.png" alt="to shop" width="40" height="33" style={{display: "block", border: "0px",marginRight:"20px"}} /></NavLink> </td>
                                                                 <td style={{fontFamily: "Open Sans, Helvetica, Arial, sans-serif", fontSize: "18px", fontWeight: "400"}}>
-                                                                    <p style={{fontSize: "24px", fontWeight: "600", margin: "0", color: "#ffffff"}}><NavLink to="/Catalog" href="#" target="_blank" style={{color: "#ffffff", textDecoration: "none"}}>לחנות &nbsp;</NavLink></p>
+                                                                    <p style={{fontSize: "24px", fontWeight: "600", margin: "0", color: "#ffffff"}}><NavLink to="/Catalog/page/1" href="#" target="_blank" style={{color: "#ffffff", textDecoration: "none"}}>לחנות &nbsp;</NavLink></p>
                                                                 </td>
                                                                 
                                                             </tr>
@@ -132,7 +132,7 @@ export default class OrderConfirmation extends Component {
                                                 <td align="center" style={{padding: "25px 0 15px 0"}}>
                                                     <table border="0" cellSpacing="0" cellPadding="0">
                                                         <tr>
-                                                            <td align="center" style={{borderRadius: "5px"}} bgcolor="#66b3b7"> <NavLink to="/Catalog" href="#" target="_blank" style={{fontSize: "18px", fontFamily: "Open Sans, Helvetica, Arial, sans-serif", color: "#ffffff", textDecoration: "none", borderRadius: "5px", backgroundColor: "#5D001D", padding: "15px 30px", border: "1px solid #F44336", display: "block"}}>Shop Again</NavLink> </td>
+                                                            <td align="center" style={{borderRadius: "5px"}} bgcolor="#66b3b7"> <NavLink to="/Catalog/page/1" href="#" target="_blank" style={{fontSize: "18px", fontFamily: "Open Sans, Helvetica, Arial, sans-serif", color: "#ffffff", textDecoration: "none", borderRadius: "5px", backgroundColor: "#5D001D", padding: "15px 30px", border: "1px solid #F44336", display: "block"}}>Shop Again</NavLink> </td>
                                                         </tr>
                                                     </table>
                                                 </td>
