@@ -3,90 +3,49 @@ import './Login.css';
 import { Form, Button, Card, Container,Alert } from "react-bootstrap";
 import {Link} from "react-router-dom"
 import Auth from '../../Auth'
-import {auth,db} from '../../firebase'
-import 'firebase/auth'
-import firebase from 'firebase/app'
 import axios from 'axios'
 
 
 export default function Login (props) {
-    // let Authorization = `bearer ${JSON.parse(localStorage.getItem("token"))}`
+
     const emailRef=useRef()
     const passwordRef=useRef()
 
     const [error,setError] = useState('')
 
-    function GoogleLogin(){
-        var provider = new firebase.auth.GoogleAuthProvider();
-        auth.signInWithPopup(provider)
-        .then((result) => {
-            if(result.additionalUserInfo.isNewUser){
-                auth.onAuthStateChanged((user)=>{
-                    let time=(new Date()).toUTCString()
-                    db.ref().child('users').child(user.uid).set({
-                        id:user.uid,
-                        username:user.displayName,
-                        email:user.email,
-                        role:"User",
-                        activity:"Active",
-                        date:time
-                    })
-                })     
-            }
-            Auth.login(()=>props.history.push("/account/profile"))
-      
-        }).catch((error) => {
-          console.log("error")
-        });
-    }
-    function FacebookLogin(){
-        var provider = new firebase.auth.FacebookAuthProvider();
-        auth.signInWithPopup(provider)
-        .then((result) => {
-            if(result.additionalUserInfo.isNewUser){
-                auth.onAuthStateChanged((user)=>{
-                    let time=(new Date()).toUTCString()
-                    db.ref().child('users').child(user.uid).set({
-                        id:user.uid,
-                        username:user.displayName,
-                        email:user.email,
-                        role:"User",
-                        activity:"Active",
-                        date:time
-                    })
-                })     
-            }
-            Auth.login(()=>props.history.push("/account/profile"))
-      
-        }).catch((error) => {
-          console.log("error")
-        });
-    }
-    
-    function GithubLogin(){
-        var provider = new firebase.auth.GithubAuthProvider();
-        auth.signInWithPopup(provider)
-        .then((result) => {
-            if(result.additionalUserInfo.isNewUser){
-                auth.onAuthStateChanged((user)=>{
-                    let time=(new Date()).toUTCString()
-                    db.ref().child('users').child(user.uid).set({
-                        id:user.uid,
-                        username:user.displayName,
-                        email:user.email,
-                        role:"User",
-                        activity:"Active",
-                        date:time
-                    })
-                })     
-            }
-            Auth.login(()=>props.history.push("/account/profile"))
-      
-        }).catch((error) => {
-          console.log("error")
-        });
-    }
+    // function GoogleLogin(){
+    //     axios.get(`${process.env.REACT_APP_PROXY}/google`)
+    //       .then(function (response) {
+    //         console.log(response)
+    //         // Auth.login(()=>props.history.push("/home"))
+    //       })
+    //       .catch(function (error) {
+    //         setError('Failed to sign in');
+    //       });   
 
+        // var provider = new firebase.auth.GoogleAuthProvider();
+        // auth.signInWithPopup(provider)
+        // .then((result) => {
+        //     if(result.additionalUserInfo.isNewUser){
+        //         auth.onAuthStateChanged((user)=>{
+        //             let time=(new Date()).toUTCString()
+        //             db.ref().child('users').child(user.uid).set({
+        //                 id:user.uid,
+        //                 username:user.displayName,
+        //                 email:user.email,
+        //                 role:"User",
+        //                 activity:"Active",
+        //                 date:time
+        //             })
+        //         })     
+        //     }
+        //     Auth.login(()=>props.history.push("/account/profile"))
+      
+        // }).catch((error) => {
+        //   console.log("error")
+        // });
+    // }
+    
     function userLogin(e){
     e.preventDefault()
     axios.post(`${process.env.REACT_APP_PROXY}/jwt`,{
@@ -101,13 +60,6 @@ export default function Login (props) {
         setError('Failed to sign in');
       });    
 
-        // auth.signInWithEmailAndPassword(emailRef.current.value,passwordRef.current.value)
-        //     .then(() => {
-        //         Auth.login(()=>props.history.push("/account/profile"))
-        //     })
-        //     .catch(() => {
-        //         setError('Failed to sign in');
-        // });
     }
 
         return (
@@ -130,9 +82,9 @@ export default function Login (props) {
                          </Form>
                         
 
-                            <button onClick={(e)=>GoogleLogin(e)} className="loginBtn loginBtn--google d-block mx-auto mb-3 mt-3">
+                            {/* <button onClick={(e)=>GoogleLogin(e)} className="loginBtn loginBtn--google d-block mx-auto mb-3 mt-3">
                             Login with Google
-                            </button>
+                            </button> */}
                             {/* <button onClick={(e)=>FacebookLogin(e)} className="loginBtn loginBtn--facebook d-block mx-auto">
                             Login with Facebook
                             </button>
