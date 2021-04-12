@@ -5,6 +5,8 @@ import ratingStars from '../../../functions/ratingStars';
 import ProductsList from '../../../components/Shop/ProductsList/ProductsList';
 import ProductsFilter from '../../../components/Shop/ProductsFilter/ProductsFilter';
 import { connect } from 'react-redux';
+import axios from 'axios';
+import Spinner from '../../../components/Spinner/Spinner';
 
 class Products extends Component {
 
@@ -19,7 +21,7 @@ class Products extends Component {
                         filterArrCat: [], arrCat: [], filterArrSub: [], arrSub: [], filterArrType: [], arrType: [], filterArrBrand: [], arrBrand: [],
                         callRefHardware: React.createRef(), callRefLaptops: React.createRef(), callRefPeripheral: React.createRef(), callRefSoftwares: React.createRef(),
                         callRefSub: React.createRef(), callRefType: React.createRef(), callRefBrand: React.createRef(),
-                        addProductCart: this.props.addProductCart
+                        addProductCart: this.props.addProductCart, loading: false
                     };
 
         this.lowPrice = this.lowPrice.bind(this);
@@ -100,7 +102,7 @@ class Products extends Component {
 
         let newArr = this.state.displayArr;
 
-        newArr = newArr.sort((a,b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0));
+        newArr = newArr.sort((a,b) => (a.title.toLowerCase() > b.title.toLowerCase()) ? 1 : ((b.title.toLowerCase() > a.title.toLowerCase()) ? -1 : 0));
 
         this.setState({displayArr: newArr});
     }
@@ -160,7 +162,7 @@ class Products extends Component {
 
            arr = arr.filter(prod => {
 
-                if ((filterArr.indexOf(prod.subCategory) !== -1))
+                if ((filterArr.indexOf(prod.subcategory) !== -1))
                     return prod;
             }); 
         }
@@ -313,6 +315,19 @@ class Products extends Component {
 
         window.scrollTo(0, 0);
     }
+    
+    loadMore() {
+
+        this.setState({ loading: true })
+        
+        axios({
+            url: `${process.env.REACT_APP_PROXY_PUBLIC}/products?limit=${this.state.displayArrLen + 3}`,
+            method: "GET",
+            headers: { authorization: process.env.REACT_APP_BEARER_TOKEN_PUBLIC }
+          })
+          .then(res => this.setState({ prodsArr: res.data, displayArr: res.data,  displayArrLen: res.data.length, loading: false }))
+          .catch(err => { this.setState({ loading: false }) ; console.log(err) })
+    }
 
     componentDidUpdate() {
 
@@ -374,6 +389,7 @@ class Products extends Component {
     }
 
    render(){
+    if (!this.state.loading) {
       return(
          <main role="main" className="lead" style={{width: "95%", margin: "0 auto"}}>
 
@@ -430,7 +446,7 @@ class Products extends Component {
                     {
                         this.state.filterArrSub.map((prod, index) =>
                         <ProductsFilter
-                            key={index} category={"subCategory"} filter={prod} filterCategories={this.filterCategoriesType.bind(this)} ref={this.state.callRefType} products={this.state.prodsArr}
+                            key={index} category={"subcategory"} filter={prod} filterCategories={this.filterCategoriesType.bind(this)} ref={this.state.callRefType} products={this.state.prodsArr}
                         />)
                     }
                     </ul>
@@ -565,7 +581,7 @@ class Products extends Component {
                 <div className="d-flex justify-content-center">
                     <nav aria-label="Page navigation example">
                         <ul className="pagination">
-                            <li className="page-item">
+                            {/* <li className="page-item">
                             <a className="page-link" href="#" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                                 <span className="sr-only">Previous</span>
@@ -579,7 +595,8 @@ class Products extends Component {
                                 <span aria-hidden="true">&raquo;</span>
                                 <span className="sr-only">Next</span>
                             </a>
-                            </li>
+                            </li> */}
+                            <li className="page-item"><a className="page-link" type="button" onClick={() => this.loadMore()}>Load More</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -590,6 +607,10 @@ class Products extends Component {
             <br /><br />
        </main>
       );
+    }
+    else {
+        return <Spinner/>
+    }
    }
 }
 

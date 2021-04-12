@@ -4,8 +4,7 @@ import './Header.css';
 import CartQuickView from '../Cart/CartQuickView/CartQuickView';
 import { connect } from 'react-redux';
 import { updateUserNavbar } from '../../actions/actions';
-import { auth, db } from '../../functions/firebase';
-import 'firebase/auth';
+import axios from 'axios'
 
 class Header extends Component {
 
@@ -35,7 +34,7 @@ class Header extends Component {
 
         this.props.updateUserNavbar(null);
 
-        auth().signOut();
+        window.localStorage.removeItem(process.env.REACT_APP_STORE_NAME);
     }
     
     else {
@@ -43,25 +42,28 @@ class Header extends Component {
     }
   }
 
-  async componentDidMount() {
+  componentDidMount() {
 
-    auth().onAuthStateChanged(async (user) => {
+    const token = window.localStorage.getItem(process.env.REACT_APP_STORE_NAME)
 
-        if (user) {
+    if (token) {
 
-            let data;
-
-            await db.on("value", async (snapshot) => {
-
-                data = await (snapshot.val().users);
-                data = await data[user.uid];
-
-                const name = await data.fname || data.email;
-                this.props.updateUserNavbar(name);
-            })
-        }
-           
-    })
+      axios({
+        url: `${process.env.REACT_APP_PROXY_PUBLIC}/users/user-name`,
+        method: "POST",
+        headers: { authorization: process.env.REACT_APP_BEARER_TOKEN_PUBLIC },
+        data: { token }
+      })
+      .then(res => {
+        
+        if (res.data.error)
+          window.alert(res.data.message)
+        
+        else
+          this.props.updateUserNavbar(res.data.name);
+      })
+      .catch(err => console.log(err))
+    }
   }
 
   render(){

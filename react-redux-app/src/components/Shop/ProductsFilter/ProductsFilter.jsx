@@ -19,22 +19,22 @@ export default class ProductsFilter extends Component {
 
                 if (prod.category === this.state.filter) {
     
-                    this.dict[prod.subCategory] = 1 + (this.dict[prod.subCategory] === undefined ? 0 : this.dict[prod.subCategory]);
+                    this.dict[prod.subcategory] = 1 + (this.dict[prod.subcategory] === undefined ? 0 : this.dict[prod.subcategory]);
                     
-                    if (this.arr.indexOf(prod.subCategory) === -1) {
+                    if (this.arr.indexOf(prod.subcategory) === -1) {
     
-                        this.arr.push(prod.subCategory);
+                        this.arr.push(prod.subcategory);
                     }
                 }  
             });
 
             break;
 
-        case "subCategory":
+        case "subcategory":
 
             this.props.products.filter(prod => {
 
-                if (prod.subCategory === this.state.filter) {
+                if (prod.subcategory === this.state.filter) {
     
                     this.dict[prod.type] = 1 + (this.dict[prod.type] === undefined ? 0 : this.dict[prod.type]);
                     

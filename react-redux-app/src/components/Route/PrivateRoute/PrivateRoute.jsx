@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { auth, db } from '../../../functions/firebase';
+import axios from 'axios'
 import Spinner from '../../Spinner/Spinner';
 
 export default class PrivateRoute extends Component {
@@ -14,44 +14,49 @@ export default class PrivateRoute extends Component {
 
     componentDidMount() {
 
-        auth().onAuthStateChanged(async (user) => {
+        const token = window.localStorage.getItem(process.env.REACT_APP_STORE_NAME)
 
-            if (user) {
+        if (token) {
+    
+          axios({
+            url: `${process.env.REACT_APP_PROXY_PUBLIC}/users/user-data`,
+            method: "POST",
+            headers: { authorization: process.env.REACT_APP_BEARER_TOKEN_PUBLIC },
+            data: { token }
+          })
+          .then(res => {
+            
+            if (res.data.error) {
 
-                let data;
+                window.localStorage.removeItem(process.env.REACT_APP_STORE_NAME)
 
-                await db.on("value", async (snapshot) => {
+                window.alert(res.data.message)
+                //window.location.reload()
 
-                    data = await (snapshot.val().users);
-                    data = await data[user.uid];
-
-                    this.setState({user: data});
-                })
+                this.props.history.push("/sign-in-up")
             }
-               
-        })
+              
+            
+            else
+                this.setState({user: res.data.user});
+          })
+          .catch(err => {
+              window.alert(err)
+              this.setState({ timeout: true })
+            })
+        }
 
-        setTimeout(() => { this.setState({timeout: true}); }, 1000);
+        else {
+
+            this.setState({ timeout: true })
+        }
     }
 
     render() {
 
         if (this.state.user) {
 
-            if (this.state.user.active) {
-
-                return <Route {...this.props} component={(props) => <this.props.component {...props} user={this.state.user}/>}/>
-            }
-
-            else {
-
-                auth().signOut();
-
-                window.alert("This user has been disabled due to inactivity.\nPlease contact with the store for reactivating.");
-                window.location.reload();
-                
-                return <Redirect to={{pathname: "/sign-in-up"}}/> 
-            }
+            return <Route {...this.props} component={(props) => <this.props.component {...props} user={this.state.user}/>}/>
         }
 
         else if (!this.state.user && this.state.timeout) {

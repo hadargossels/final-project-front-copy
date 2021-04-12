@@ -20,7 +20,7 @@ function PayPal(props) {
 
             {checkout ? 
                 <div>
-                    <div id="beforePayPal" style={{display: "block"}}><PayPalButton amount={amount} params={props.params} review={props.review}/></div>
+                    <div id="beforePayPal" style={{display: "block"}}><PayPalButton amount={amount} params={props.params} review={props.review} user={props.user}/></div>
                     <div id="afterPayPal" style={{display: "none"}}><h1 style={{color: "black", textAlign: "center"}}>Please wait...</h1><Spinner/></div>
                 </div>
                 : <button className='btn btn-primary' onClick={()=> { setCheckOut(true) }}> Checkout with PayPal / Credit Card </button>

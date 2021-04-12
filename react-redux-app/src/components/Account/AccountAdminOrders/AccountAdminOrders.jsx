@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { BulkDeleteWithConfirmButton } from 'react-admin';
+import { CustomFilter, CustomActionsButtonsWithoutCreate } from '../CustomFields/CustomFields'
 import SimpleChipField from "../SimpleChipField/SimpleChipField";
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import { 
@@ -7,7 +7,6 @@ import {
     Datagrid,
     TextField,
     EditButton,
-    DeleteWithConfirmButton,
     Edit,
     SimpleForm,
     TextInput,
@@ -15,44 +14,22 @@ import {
     Toolbar,
     SaveButton,
     SelectInput,
-    RefreshButton,
-    ExportButton,
-    Filter,
-    CreateButton,
     ArrayField,
     SingleFieldList,
     ArrayInput,
     SimpleFormIterator,
     Show,
     SimpleShowLayout,
-    Button
+    Button,
+    BooleanField,
+    ReferenceInput,
+    ChipField
 } from 'react-admin';
-
-const OrderBulkActionButtons = props => (
-    <Fragment>
-        <BulkDeleteWithConfirmButton {...props} />
-    </Fragment>
-);
-
-const OrderActionsButtons = props => (
-    <div>
-        <RefreshButton {...props}/>
-        <CreateButton {...props} />
-        <ExportButton {...props}/>
-    </div>
-);
-
-const OrderFilter = props => (
-    <Filter {...props}>
-        <TextInput label="Search" source="q" alwaysOn />
-    </Filter>
-);
 
 const OrderEditToolbar = props => (
     <Toolbar {...props} >
         <SaveButton />
         <Button label="REFUND" icon={AttachMoneyIcon} className="text-warning btn-warning"/>
-        <DeleteWithConfirmButton/>
     </Toolbar>
 );
 
@@ -61,10 +38,10 @@ const OrderPanel  = props => (
         <SimpleShowLayout>
             <TextField source="id" />
             <TextField source="datetime" />
-            <TextField label="User Id" source="uid" />
+            <TextField label="User Id" source="uid.id" />
             <ArrayField source="productsInCart">
                 <Datagrid>
-                    <TextField label="Product" source="prodId" />
+                    <TextField label="Product" source="prodId.title" />
                     <TextField label="Quantity" source="prodQuantity" />
                 </Datagrid>
             </ArrayField>
@@ -80,32 +57,23 @@ const OrderPanel  = props => (
             </ArrayField>
             <TextField source="payment" />
             <TextField source="total" />
-            <TextField source="status" />
+            <ChipField label="Status" source="status.name" />
+            <BooleanField source="refund" />
         </SimpleShowLayout>
     </Show>
 );
 
 export const OrderList = props => (
-    <List {...props} filters={<OrderFilter/>} actions={<OrderActionsButtons/>} bulkActionButtons={<OrderBulkActionButtons />} >
+    <List {...props} filters={<CustomFilter/>} actions={<CustomActionsButtonsWithoutCreate/>} bulkActionButtons={<Fragment/>} >
         <Datagrid rowClick="expand" expand={<OrderPanel />}>
             <TextField source="id" />
             <TextField source="datetime" />
-            <TextField label="User Id" source="uid" />
-            {/* <ArrayField source="coupons" >
-                <SingleFieldList >
-                    <SimpleChipField />
-                </SingleFieldList>
-            </ArrayField> */}
-            {/* <ArrayField source="shipping" >
-                <SingleFieldList >
-                    <SimpleChipField />
-                </SingleFieldList>
-            </ArrayField> */}
+            <TextField label="User Id" source="uid.id" />
             <TextField source="payment" />
             <TextField source="total" />
-            <TextField source="status" />
+            <ChipField label="Status" source="status.name" />
+            <BooleanField source="refund" />
             <EditButton />
-            <DeleteWithConfirmButton />
         </Datagrid>
     </List>
 );
@@ -115,10 +83,10 @@ export const OrderEdit = props => (
         <SimpleForm toolbar={<OrderEditToolbar />} redirect="list">
             <TextInput source="id" disabled />
             <TextInput source="datetime" disabled />
-            <TextInput label="User Id" source="uid" disabled />
+            <TextInput label="User Id" source="uid.id" disabled />
             <ArrayInput source="productsInCart" disabled>
                 <SimpleFormIterator>
-                    <TextInput label="Product" source="prodId"/>
+                    <TextInput label="Product" source="prodId.title"/>
                     <TextInput label="Quantity" source="prodQuantity" />
                 </SimpleFormIterator>
             </ArrayInput>
@@ -134,14 +102,9 @@ export const OrderEdit = props => (
             </ArrayInput>
             <TextInput source="payment" disabled />
             <TextInput source="total" disabled />
-            <SelectInput source="status" validate={[required()]} choices={[
-                { id: 'Received', name: 'Received' },
-                { id: 'In progress', name: 'In progress' },
-                { id: 'Confirmed', name: 'Confirmed' },
-                { id: 'Dispatched', name: 'Dispatched' },
-                { id: 'Delivered', name: 'Delivered' },
-                { id: 'Canceled', name: 'Canceled' }
-            ]}/>
+            <ReferenceInput label="Status" source="status.id" reference="orders-status" sort={{ field: 'name', order: 'ASC' }}>
+                <SelectInput optionText="name" validate={[required()]}/>
+            </ReferenceInput>
         </SimpleForm>
     </Edit>
 );

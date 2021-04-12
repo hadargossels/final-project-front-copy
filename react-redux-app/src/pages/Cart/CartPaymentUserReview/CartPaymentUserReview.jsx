@@ -30,7 +30,7 @@ class CartPaymentUserReview extends Component {
   componentDidMount() {
 
     if (this.props.location.params)
-      this.setState({paypal: <PayPal total={this.state.callRef} params={this.props.location.params} review={this.props.location.review}/>})
+      this.setState({paypal: <PayPal total={this.state.callRef} params={this.props.location.params} review={this.props.location.review} user={this.props.user}/>})
   }
 
   render() {

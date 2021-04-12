@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { setLoading } from '../../../actions/actions';
-import { auth, db } from '../../../functions/firebase';
+import axios from 'axios'
 
 function PayPalButton(props) {
 
@@ -43,31 +43,40 @@ function PayPalButton(props) {
                 props.setLoading();
 
                 const order = await actions.order.capture()
-                // console.log("order", order)
-                // console.log("data", data)
 
-                await auth().onAuthStateChanged(async (user) => {
+                const newOrder = {
 
-                    if (user) {
-        
-                        await db.child("orders").child(order.id).set({
+                    "id": order.id,
+                    "datetime": order.create_time,
+                    "uid": props.user.id,
+                    "total": "₪" + props.amount,
+                    "coupons": props.params.couponsArr,
+                    "productsInCart": products,
+                    "shipping": shipping,
+                    "payment": props.review[3].value,
+                    "refund": false
+                }
 
-                            "id": order.id,
-                            "datetime": order.create_time,
-                            "uid": user.uid,
-                            "total": "₪" + props.amount,
-                            "coupons": props.params.couponsArr,
-                            "productsInCart": products,
-                            "shipping": shipping,
-                            "payment": props.review[3].value,
-                            "status": "Received"
-                        });
-                    }
+                const token = window.localStorage.getItem(process.env.REACT_APP_STORE_NAME)
 
-                })
-                
-                localStorage.setItem("Order", JSON.stringify(order))
-                //alert("The payment has been received successfully")
+                if (token) {
+
+                    axios({
+                      url: `${process.env.REACT_APP_PROXY_PUBLIC}/users/add-order`,
+                      method: "POST",
+                      headers: { authorization: process.env.REACT_APP_BEARER_TOKEN_PUBLIC },
+                      data: { token, order: newOrder }
+                    })
+                    .then(res => {
+                      
+                      if (res.data.err)
+                        window.alert(res.data.err)
+                      
+                      else
+                        localStorage.setItem("Order", JSON.stringify(order))
+                    })
+                    .catch(err => window.alert(err))
+                }   
             },
             onError: (err)=>{
                 localStorage.setItem("Order",null)

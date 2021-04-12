@@ -1,7 +1,17 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import AccountMenu from '../../../components/Account/AccountMenu/AccountMenu';
-import { db } from '../../../functions/firebase';
+import axios from 'axios';
+
+const toBase64 = file => new Promise((resolve, reject) => {
+
+    const reader = new FileReader();
+    
+    reader.readAsDataURL(file);
+
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+});
 
 export default class App extends Component {
 
@@ -84,7 +94,7 @@ export default class App extends Component {
             flag = false;
         }
 
-        if (/^[0-9]+$/.test(form[7].value) && form[7].value.length === "7") {
+        if (/^[0-9]+$/.test(form[7].value) && form[7].value.length === 7) {
 
             document.querySelector("#formZipCode").style.display = "none";
         }
@@ -93,15 +103,12 @@ export default class App extends Component {
 
             document.querySelector("#formZipCode").style.display = "block";
             flag = false;
+            console.log(form[7].value)
         }
 
         if (flag) {
 
             const user = {
-                "id": this.state.user.id, "email": this.state.user.email, "fname": form[1].value, "lname": form[2].value, "mobile": form[3].value, "address": form[4].value, "city": form[5].value, "country": form[6].value
-            };
-
-            await db.child("users").child(this.state.user.id).update({
 
                 "fname": form[1].value,
                 "lname": form[2].value,
@@ -110,11 +117,38 @@ export default class App extends Component {
                 "city": form[5].value,
                 "country": form[6].value,
                 "zipcode": form[7].value
-            });
+            };
 
-            await this.setState({ user });
+            if (form[8].files.length) {
 
-            window.alert("The profile has been updated successfully");
+                const photo = await toBase64(form[8].files[0])
+
+                user.photo = { title: `${this.state.user.id}.${form[8].files[0].name.split(/\.(?=[^\.]+$)/)[1]}`, picture: photo }
+            }
+                
+
+            const token = window.localStorage.getItem(process.env.REACT_APP_STORE_NAME)
+
+            if (token) {
+        
+              axios({
+                url: `${process.env.REACT_APP_PROXY_PUBLIC}/users/user-update/${this.state.user.id}`,
+                method: "PUT",
+                headers: { authorization: process.env.REACT_APP_BEARER_TOKEN_PUBLIC },
+                data: { token, user }
+              })
+              .then(async (res) => {
+                
+                if (res.data.error)
+                  window.alert(res.data.message)
+                
+                else {                
+                    window.alert("The profile has been updated successfully");
+                    window.location.href = `${process.env.REACT_APP_SERVER}/account/`
+                }
+              })
+              .catch(err => window.alert(err))
+            }
         }
     }
 
@@ -137,7 +171,7 @@ export default class App extends Component {
                         <AccountMenu {...this.props} />
 
                         <div className="col-md-10">
-                        <form method="POST" onSubmit={(e) => { e.preventDefault(); this.updateDetails(e.target); }}>
+                        <form method="POST" encType='multipart/form-data' onSubmit={(e) => { e.preventDefault(); this.updateDetails(e.target); }}>
                             <div className="card mb-3">
                                 <div className="card-body">
                                 <div className="row">
@@ -214,8 +248,17 @@ export default class App extends Component {
                                     <h5 className="mb-0">Zip Code</h5>
                                     </div>
                                     <div className="col-sm-9 text-secondary">
-                                    <input type="text" className="form-control" defaultValue={this.state.user.zipcode} style={{textAlign: "center", width: "30%", margin: "0 auto", fontSize: "large"}} required/>
+                                    <input type="text" className="form-control" defaultValue={this.state.user.zipcode} style={{textAlign: "center", width: "30%", margin: "0 auto", fontSize: "large"}} required minLength='7' maxLength='7'/>
                                     <p className="text-danger" id="formZipCode" style={{display: "none"}}>Please enter a valid zip code</p>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div className="row">
+                                    <div className="col-sm-3">
+                                    <h5 className="mb-0">Avatar</h5>
+                                    </div>
+                                    <div className="col-sm-9 text-secondary">
+                                    <input type="file" className="form-control-file" id="exampleFormControlFile1" style={{textAlign: "center", width: "30%", margin: "0 auto", fontSize: "large"}}/>
                                     </div>
                                 </div>
                                 <hr/>

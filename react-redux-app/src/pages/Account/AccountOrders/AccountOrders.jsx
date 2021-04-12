@@ -1,41 +1,16 @@
 import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
 import AccountMenu from '../../../components/Account/AccountMenu/AccountMenu';
-import { db } from '../../../functions/firebase';
+import axios from 'axios';
 export default class AccountOrders extends Component {
 
     constructor(props) {
 
         super(props);
 
-        this.state = {orders: []};
-
-        this.idToTitle = this.idToTitle.bind(this);
-        this.cancelOrder = this.cancelOrder.bind(this);
-    }
-
-    idToTitle(prodId, index) {
-
-        let data;
+        this.state = { orders: [] };
         
-        db.on("value", async (snapshot) => {
-
-            data = await (snapshot.val().products);
-            
-            if (data) {
-                
-                for await (const [key, value] of Object.entries(data)) {
-                
-                    if (data[key].id === prodId) {
-
-                        if (document.querySelector("#prodID_" + index + "_" + prodId)) {
-
-                            document.querySelector("#prodID_" + index + "_" + prodId).innerText = data[key].title
-                        }
-                    }
-                }
-            }
-        });
+        this.cancelOrder = this.cancelOrder.bind(this);
     }
 
     cancelOrder(orderID) {
@@ -43,31 +18,33 @@ export default class AccountOrders extends Component {
         window.confirm("Are you sure?");
     }
 
-    async componentDidMount() {
+    componentDidMount() {
 
-        let data;
-        let orders = [];
+        const token = window.localStorage.getItem(process.env.REACT_APP_STORE_NAME)
 
-        await db.on("value", async (snapshot) => {
-
-            data = await (snapshot.val().orders);
+        if (token) {
+    
+          axios({
+            url: `${process.env.REACT_APP_PROXY_PUBLIC}/users/get-orders`,
+            method: "POST",
+            headers: { authorization: process.env.REACT_APP_BEARER_TOKEN_PUBLIC },
+            data: { token, user: this.props.user._id }
+          })
+          .then(res => {
             
-            if (data) {
-                
-                for await (const [key, value] of Object.entries(data)) {
-                
-                    if (data[key].uid === this.props.user.id)
-                        orders.push(data[key])
-                }
-
-                orders = orders.sort((a,b) => {
+            if (res.data.error)
+              window.alert(res.data.message)
+            
+            else {
+                const orders = res.data.orders.sort((a,b) => {
         
                     return (a.datetime > b.datetime) ? 1 : ((b.datetime > a.datetime) ? -1 : 0)
                 });
-
                 this.setState({ orders });
             }
-        });
+          })
+          .catch(err => console.log(err))
+        }
     }
 
     render() {
@@ -114,7 +91,7 @@ export default class AccountOrders extends Component {
                                                             <td>{order.datetime}</td>
                                                             <td>
                                                                 {order.productsInCart.map((prod, count) => {
-                                                                    return <p key={count}><span id={"prodID_" + index + "_" + prod.prodId}>{this.idToTitle(prod.prodId, index)}</span>&nbsp;x{prod.prodQuantity}</p>
+                                                                    return <p key={count}><span>{prod.prodId.title}</span>&nbsp;x{prod.prodQuantity}</p>
                                                                 })}
                                                             </td>
                                                             <td>{order.shipping[0] + ": " + order.shipping[1]}</td>

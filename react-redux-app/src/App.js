@@ -38,30 +38,52 @@ import { GetRequest } from './functions/ApiServices';
 import { db } from './functions/firebase'
 import { fetchData, closeProductAlert } from '../src/actions/actions';
 
+import axios from 'axios'
+
 class App extends Component {
 
   async componentDidMount() {
 
-    let data;
+    let data = {};
     
-    // await GetRequest('http://localhost:3001/','db').then(res => { data = res.data });
-
-    await db.on("value", async (snapshot) => {
-
-      data = await (snapshot.val());
+    await Promise.all([
       
-      for (const [key, value] of Object.entries(data)) {
+      db.on("value", async (snapshot) => {
+
+        let posts = await (snapshot.val().posts)
         
-        data[key] = Object.keys(data[key]).map((iKey) => data[key][iKey])
-      }
-      
-      this.props.fetchData(data);
+        posts = Object.keys(posts).map(key => posts[key])
 
-    }, function (errorObject) {
-      console.log("The read failed: " + errorObject.code);
-    });
+        data.posts = posts
+  
+      }, (errorObject) => {
+        console.log("The read failed: " + errorObject.code);
+      })
+      ,
+      axios({
+        url: `${process.env.REACT_APP_PROXY_PUBLIC}/coupons`,
+        method: "GET",
+        headers: { authorization: process.env.REACT_APP_BEARER_TOKEN_PUBLIC }
+      })
+      .then(res => data.coupons = res.data)
+      .catch(err => console.log(err))
+      ,
+      axios({
+        url: `${process.env.REACT_APP_PROXY_PUBLIC}/products?limit=9`,
+        method: "GET",
+        headers: { authorization: process.env.REACT_APP_BEARER_TOKEN_PUBLIC }
+      })
+      .then(res => data.products = res.data)
+      .catch(err => console.log(err))
+    ])
     
-    // this.props.fetchData(data);
+    const dataInterval = setInterval(() => {
+
+      if (Object.keys(data).length === 3) {
+          clearInterval(dataInterval)
+          this.props.fetchData(data)
+      }
+    },0)
   }
 
   render() {
@@ -92,11 +114,11 @@ class App extends Component {
               <PrivateRoute exact path="/account/admin" component={(props) => (<AccountAdmin {...props}/>)}/>
 
               <Route exact path="/cart" component={() => (<Cart/>)}/>
-              <Route exact path="/cart/guest" component={CartPaymentGuest}/>
-              <Route exact path="/cart/guest/payment" component={(props) => (<CartPaymentGuestReview {...props}/>)}/>
-              <Route exact path="/cart/user" component={(props) => (<CartPaymentUser {...props}/>)}/>
-              <Route exact path="/cart/user/payment" component={(props) => (<CartPaymentUserReview {...props}/>)}/>
-              <Route exact path="/confirmation" component={(props) => (<Confirmation {...props}/>)}/>
+              {/* <Route exact path="/cart/guest" component={CartPaymentGuest}/>
+              <Route exact path="/cart/guest/payment" component={(props) => (<CartPaymentGuestReview {...props}/>)}/> */}
+              <PrivateRoute exact path="/cart/user" component={(props) => (<CartPaymentUser {...props}/>)}/>
+              <PrivateRoute exact path="/cart/user/payment" component={(props) => (<CartPaymentUserReview {...props}/>)}/>
+              <PrivateRoute exact path="/confirmation" component={(props) => (<Confirmation {...props}/>)}/>
             
               <Route component={NotFound}/>
           </Switch>
