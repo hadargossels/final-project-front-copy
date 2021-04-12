@@ -3,11 +3,9 @@ import React, { Component } from 'react';
 import './Header.css';
 import { Link,NavLink } from 'react-router-dom';
 import {withRouter} from 'react-router'
-import {auth} from '../firebase'
+import GoogleLogin from 'react-google-login'
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import Auth from './auth'
-import firebase from 'firebase/app'
-import 'firebase/auth'
-import "firebase/database";
 import axios from "axios"
 
 
@@ -39,8 +37,6 @@ class Header extends Component{
       this.resetUrl=this.resetUrl.bind(this)
       this.logIn=this.logIn.bind(this)
       this.signOut=this.signOut.bind(this)
-      this.logInGoogle=this.logInGoogle.bind(this)
-      this.logInFaceBook=this.logInFaceBook.bind(this)
       this.loginAfterRefresh=this.loginAfterRefresh.bind(this)
       
    }
@@ -127,7 +123,7 @@ class Header extends Component{
          })
           .catch(function (error) {
             console.log(error);
-            var errorMessage = error.message;
+            var errorMessage = "Invalid email or password";
 
             msg.innerHTML= errorMessage
             setTimeout(() => {
@@ -231,94 +227,159 @@ class Header extends Component{
          }, 2500);
         
     }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    logInGoogle(e){
+
+   responseGoogle=async (respons)=>{
       
-            const msg=this.errorMessageRef.current
-            const welcome=this.welcomeRef.current
-            const login =this.LogInRef.current
-
-            var provider = new firebase.auth.GoogleAuthProvider();
-
-            auth
-            .signInWithPopup(provider)
-            .then((result) => {
-               /** @type {firebase.auth.OAuthCredential} */
-               var credential = result.credential;
-
-               // This gives you a Google Access Token. You can use it to access the Google API.
-               var token = credential.accessToken;
-               // The signed-in user info.
-               var user = result.user;
-               // ...
-               Auth.setName(user.displayName)
-               Auth.login()
-               this.setState({name:Auth.getName()})
-               this.setState({well:"שלום"})
-
-            login.style.display="none"
-            welcome.style.display="block"
-            }).catch((error) => {
-               // Handle Errors here.
-               //var errorCode = error.code;
-               var errorMessage = error.message;
-               // The email of the user's account used.
-               //var email = error.email;
-               // The firebase.auth.AuthCredential type that was used.
-               //var credential = error.credential;
-               // ...
-               console.log(errorMessage)
-               msg.innerHTML= errorMessage
-               setTimeout(() => {
-                  msg.innerHTML= ""
-               }, 4000);
-                  });
-         }
-
-   logInFaceBook(){
-
-      const msg=this.errorMessageRef.current
       const welcome=this.welcomeRef.current
-      const login =this.LogInRef.current
-      var provider = new firebase.auth.FacebookAuthProvider();
+      const Signup= this.SignUpRef.current
+      const msg=this.errorMessageRef.current
+      //const login =this.LogInRef.current
+      const that=this
+      let flagExistAccount
 
-          
-      auth
-      .signInWithPopup(provider)
-      .then((result) => {
-         /** @type {firebase.auth.OAuthCredential} */
-         var credential = result.credential;
+      if(respons.profileObj.googleId){
 
-         // The signed-in user info.
-         var user = result.user;
+         let data={
+            "id":"",
+            "firstName":respons.profileObj.givenName,
+            "lastName":respons.profileObj.familyName,
+            "email":respons.profileObj.email,
+            "img":respons.profileObj.imageUrl,
+            "phone":"",
+            "address":{
+               "street":"",
+               "city":"",
+               "houseType":"",
+               "zipcode":""
+            },
+            "password":respons.profileObj.googleId,
+            "role":"user",
+            "active":true
+          }
 
-         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-         var accessToken = credential.accessToken;
-         Auth.setName(user.displayName)
-         Auth.login()
-         this.setState({name:Auth.getName()})
-         this.setState({well:"שלום"})
+          await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/users?email=${data.email}`
+          ).then((respons)=>{
+             flagExistAccount=respons.data.length
+          }).catch((err)=>{
+            flagExistAccount=false
+          })
 
-         login.style.display="none"
-         welcome.style.display="block"
-      })
-      .catch((error) => {
-         // Handle Errors here.
-         var errorCode = error.code;
-         var errorMessage = error.message;
-         // The email of the user's account used.
-         var email = error.email;
-         // The firebase.auth.AuthCredential type that was used.
-         var credential = error.credential;
-         msg.innerHTML= errorMessage
-           setTimeout(() => {
-            msg.innerHTML= ""
-         }, 4000);
+          if(flagExistAccount){
 
-         // ...
-      });
-      
+            that.logIn(["",{value:data.email},{value:data.password}])
+
+            that.setState({well:"המשתמש הוסף בהצלחה"})
+
+            Signup.style.display="none"
+            welcome.style.display="block"
+
+          }else{
+
+            axios.post(`${process.env.REACT_APP_MONGO_DATABASE}/api/users`, data)
+            .then(function (response) {
+              that.logIn(["",{value:data.email},{value:data.password}])
+  
+              that.setState({well:"המשתמש הוסף בהצלחה"})
+  
+              Signup.style.display="none"
+              welcome.style.display="block"
+        
+            })
+            .catch(function (error) {
+              console.log(error);
+  
+              var errorMessage = error.message;
+   
+              msg.innerHTML= errorMessage
+              setTimeout(() => {
+               msg.innerHTML= ""
+            }, 4000);
+  
+            });  
+          }
+         }
    }
+
+
+   responseFacebook= async (responses)=>{
+       
+      const welcome=this.welcomeRef.current
+      const Signup= this.SignUpRef.current
+      const msg=this.errorMessageRef.current
+      //const login =this.LogInRef.current
+      const that=this
+      let flagExistAccount
+
+      
+      if(responses.userID){
+
+         let arrayName=responses.name.split(" ")
+         let firstName=arrayName[0]
+         arrayName.shift()
+         let lastName=arrayName.join(" ")
+
+         let data={
+            "id":"",
+            "firstName":firstName,
+            "lastName":lastName,
+            "email":responses.email,
+            "img":responses.picture.data.url,
+            "phone":"",
+            "address":{
+               "street":"",
+               "city":"",
+               "houseType":"",
+               "zipcode":""
+            },
+            "password":responses.userID,
+            "role":"user",
+            "active":true
+          }
+
+          await axios.get(`${process.env.REACT_APP_MONGO_DATABASE}/api/users?email=${data.email}`
+          ).then((respons)=>{
+             flagExistAccount=respons.data.length
+          }).catch((err)=>{
+            flagExistAccount=false
+          })
+
+          if(flagExistAccount){
+
+            that.logIn(["",{value:data.email},{value:data.password}])
+
+            that.setState({well:"המשתמש הוסף בהצלחה"})
+
+            Signup.style.display="none"
+            welcome.style.display="block"
+
+          }else{
+
+            axios.post(`${process.env.REACT_APP_MONGO_DATABASE}/api/users`, data)
+            .then(function (response) {
+              that.logIn(["",{value:data.email},{value:data.password}])
+  
+              that.setState({well:"המשתמש הוסף בהצלחה"})
+  
+              Signup.style.display="none"
+              welcome.style.display="block"
+        
+            })
+            .catch(function (error) {
+              console.log(error);
+  
+              var errorMessage = error.message;
+   
+              msg.innerHTML= errorMessage
+              setTimeout(() => {
+               msg.innerHTML= ""
+            }, 4000);
+  
+            });  
+          }
+         }
+    }
+
+   
    
    render() {
 
@@ -399,8 +460,26 @@ class Header extends Component{
                      <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">סגור</button>
                      <button type="submit" className="btn btn-primary" id="signIn">התחבר</button>
                   </div>
-                  <button type="button" className="btn btn-danger p-2 fs-5" id="googleBtn" onClick={(e)=>this.logInGoogle(e)}><i style={{fontSize:"35px",marginRight:"15px"}} className="fab fa-google-plus-g"></i> התחבר דרך חשבון גוגל </button>
-                  <button type="button" className="btn btn-primary p-2 fs-5" id="faceBookBtn" onClick={(e)=>this.logInFaceBook(e)}><i style={{fontSize:"35px",marginRight:"15px"}} className="fab fa-facebook-f"></i>התחבר דרך חשבון פייסבוק</button>
+                  <GoogleLogin
+                     clientId={process.env.REACT_APP_GOOGLE_LOGIN}
+                     buttonText="Login"
+                     onSuccess={this.responseGoogle}
+                     onFailure={this.responseGoogle}
+                     cookiePolicy={'single_host_origin'}
+                     render={renderProps => (
+                        <button onClick={renderProps.onClick} type="button" className="btn btn-danger p-2 fs-5" id="googleBtn"><i style={{fontSize:"35px",marginRight:"15px"}} className="fab fa-google-plus-g"></i> התחבר דרך חשבון גוגל </button>
+                      )}
+                  />
+                  <FacebookLogin
+                     appId={process.env.REACT_APP_FACEBOOK_LOGIN}
+                     autoLoad={false}
+                     fields="name,email,picture"
+                     // onClick={componentClicked}
+                     callback={this.responseFacebook}
+                     render={renderProps => (
+                        <button onClick={renderProps.onClick} type="button" className="btn btn-primary p-2 fs-5" id="faceBookBtn" ><i style={{fontSize:"35px",marginRight:"15px"}} className="fab fa-facebook-f"></i>התחבר דרך חשבון פייסבוק</button>
+                      )}
+                      />
                </form>
                
                

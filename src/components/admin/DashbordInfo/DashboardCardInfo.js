@@ -6,11 +6,6 @@ import './DashboardCardInfo.css'
 
 export default class DashboardCardInfo extends Component {
 
-    
-    constructor(props){
-        super(props)
-    }
-
     render() {
         return (
             <div>

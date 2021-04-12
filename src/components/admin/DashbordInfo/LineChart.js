@@ -6,10 +6,6 @@ import { Line} from 'react-chartjs-2';
 
 export default class LineChart extends Component {
 
-    constructor(props){
-        super(props)
-    }
-
     render() {
         return (
             <div>
@@ -18,7 +14,7 @@ export default class LineChart extends Component {
                      data= {{
                          labels: this.props.dateArry,
                          datasets: [{
-                             label: 'מחירות ליום',
+                             label: 'מכירות ליום',
                              data: this.props.countOrderDay,
                              backgroundColor: 'rgba(255, 99, 132, 0.2)',
                              borderColor: 'rgba(255, 99, 132, 1)',
