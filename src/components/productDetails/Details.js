@@ -2,43 +2,54 @@ import React, { Component } from 'react'
 import {ProductConsumer} from '../context/context';
 import {Link} from 'react-router-dom';
 import {ButtonContainer} from '../additionsComp/Button';
-import {db} from '../../firebase'
+//import {db} from '../../firebase'
 import {Spinner} from '../additionsComp/Spinner'
+import axios from 'axios';
+
 export default class Details extends Component {
     constructor(props){
         super(props)
         this.state = {
-            product: null
+            product: null,
+            error:null
         }
     }
 
     componentDidMount(){
-        const tempId = this.props.match.params.id;
-        if(tempId){
+        axios.get(`/api/product/${this.props.match.params.id}`).then((res)=>{
+            // if(res.data.error){
+            //     this.setState({error:res.data.message})
+            // }
+            // else{
+                this.setState({error:null,product:res.data})
+            // }
+        })
+        // const tempId = this.props.match.params.id;
+        // if(tempId){
 
-            db.ref('storeProducts').on('value', (snapshot)=>{
-                let arr = [];
-                for (let obj in snapshot.val()) {
-                    arr.push(snapshot.val()[obj])
-                }
-                for(let i=0;i<arr.length;i++){
-                    if(arr[i].id===tempId){
-                        this.setState({
-                            product:arr[i]
-                        }) 
-                    }
-                }
+            // db.ref('storeProducts').on('value', (snapshot)=>{
+            //     let arr = [];
+            //     for (let obj in snapshot.val()) {
+            //         arr.push(snapshot.val()[obj])
+            //     }
+            //     for(let i=0;i<arr.length;i++){
+            //         if(arr[i].id===tempId){
+            //             this.setState({
+            //                 product:arr[i]
+            //             }) 
+            //         }
+            //     }
                 
             
-            })
-        }
+            // })
+       // }
 
     }
     render() {
         return (this.state.product) ? (
             <ProductConsumer>
                 {(value)=>{
-                    const {id,company,img,info,price,title,inCart}=
+                    const {_id,company,img,info,price,title,inCart}=
                     this.state.product
                     return(
                         <div className="container py-5">
@@ -82,8 +93,8 @@ export default class Details extends Component {
                                         cart
                                         disabled = {inCart?true:false}
                                         onClick={()=>{
-                                            value.addToCart(id);
-                                            value.openModal(id);
+                                            value.addToCart(_id);
+                                            value.openModal(_id);
 
                                         }}>
                                             

@@ -7,12 +7,13 @@ import React,{Component} from "react";
 import { MDBRow, MDBCol, MDBCard, MDBCardBody, MDBMask, MDBView } from "mdbreact";
 import Title from '../additionsComp/Title'
 import './blog.css';
-// import { FORMERR } from "dns";
+import axios from 'axios'
 let likeOfComment;
 export default class Blog extends Component{
     
     constructor (props) {
         super(props);
+        
         this.addLike = this.addLike.bind(this);
         this.addComment = this.addComment.bind(this);
         this.cancel = this.cancel.bind(this);
@@ -25,10 +26,32 @@ export default class Blog extends Component{
             [{postsAndCommentsArr:"first comment",like:0,id:"1"}],
             [{postsAndCommentsArr:"first comment",like:0,id:"1"}],
             [{postsAndCommentsArr:"first comment",like:0,id:"1"}]],
+            userProfile:null
 
        
         }
       }
+
+      componentDidMount(){
+        const fetchData = async () => {
+            // const response = await axios.get("/post/posts" );//, { 'headers': { 'Authorization':'Bearer '+ localStorage.getItem('token') } });
+            // this.setState({
+            //     products: response.data,
+            //     origProducts: response.data
+            // })
+            let userId = JSON.parse(localStorage.getItem("usernameID"))
+            console.log(userId)
+            await axios.get(`http://localhost:5000/api/user/${userId}`, {userId:userId}).then(response=>{
+                this.setState({userProfile:response.data})
+            })
+            console.log(this.state.userProfile)
+        }
+        fetchData()
+        console.log(this.state.userProfile)
+
+      }
+
+
     addLike(e){
         let tempPost = [...this.state.posts];
         switch (likeOfComment) {
@@ -179,7 +202,8 @@ export default class Blog extends Component{
                                                                 {this.state.posts[0].map(post=> (
                                                                     <>
                                                                         <div></div>
-                                                                        <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                        <img alt="userPic" className="rounded-circle" src={`https://newevolutiondesigns.com/images/freebies/cool-wallpaper-1.jpg`} width="40"/>
+                                                                        {/* src={`http://localhost:5000/uploads/${this.state.userProfile.yourImage}`} width="40"/> */}
                                                                         <div className="d-flex flex-column justify-content-start ml-2">
                                                                             <span className="d-block font-weight-bold name">Marry Andrews</span>
                                                                             <span className="date text-black-50">posted at:&nbsp;{date.getHours()}:{date.getMinutes()} - {date.getDate()}/{date.getMonth()+1}/{date.getYear()}</span>
@@ -201,7 +225,8 @@ export default class Blog extends Component{
 
                                                             <div className="bg-light p-2">
                                                                 <div className="d-flex flex-row align-items-start">
-                                                                    <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                    <img alt="userPic" className="rounded-circle" src={`https://newevolutiondesigns.com/images/freebies/cool-wallpaper-1.jpg`} width="40"/>
+                                                                        {/* src={`http://localhost:5000/uploads/${this.state.userProfile.yourImage}`} width="40"/> */}
                                                                     <textarea id="postText1" className="form-control ml-1 shadow-none textarea"></textarea>
                                                                 </div>
                                                             <div className="mt-2 text-right">
@@ -276,7 +301,8 @@ export default class Blog extends Component{
                                                                 {this.state.posts[1].map(post=> (
                                                                     <>   
                                                                         <div></div>
-                                                                        <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                        <img alt="userPic" className="rounded-circle" src={`https://newevolutiondesigns.com/images/freebies/cool-wallpaper-1.jpg`} width="40"/>
+                                                                        {/* src={`http://localhost:5000/uploads/${this.state.userProfile.yourImage}`} width="40"/> */}
                                                                         <div className="d-flex flex-column justify-content-start ml-2">
                                                                             <span className="d-block font-weight-bold name">Marry Andrews</span>
                                                                             <span className="date text-black-50">posted at:&nbsp;{date.getHours()}:{date.getMinutes()} - {date.getDate()}/{date.getMonth()+1}/{date.getFullYear()}</span>
@@ -294,7 +320,8 @@ export default class Blog extends Component{
                                                             </div> 
                                                             <div className="bg-light p-2">
                                                                 <div className="d-flex flex-row align-items-start">
-                                                                    <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                    <img alt="userPic" className="rounded-circle" src={`https://newevolutiondesigns.com/images/freebies/cool-wallpaper-1.jpg`} width="40"/>
+                                                                        {/* src={`http://localhost:5000/uploads/${this.state.userProfile.yourImage}`} width="40"/> */}
                                                                     <textarea id="postText2" className="form-control ml-1 shadow-none textarea"></textarea>
                                                                 </div>
                                                             <div className="mt-2 text-right">
@@ -368,7 +395,8 @@ export default class Blog extends Component{
                                                                 {this.state.posts[2].map(post=> (
                                                                     <>   
                                                                         <div></div>
-                                                                        <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                        <img alt="userPic" className="rounded-circle" src={`https://newevolutiondesigns.com/images/freebies/cool-wallpaper-1.jpg`} width="40"/>
+                                                                        {/* src={`http://localhost:5000/uploads/${this.state.userProfile.yourImage}`} width="40"/> */}
                                                                         <div className="d-flex flex-column justify-content-start ml-2">
                                                                             <span className="d-block font-weight-bold name">Marry Andrews</span>
                                                                             <span className="date text-black-50">posted at:&nbsp;{date.getHours()}:{date.getMinutes()} - {date.getDate()}/{date.getMonth()+1}/{date.getFullYear()}</span>
@@ -386,7 +414,8 @@ export default class Blog extends Component{
                                                             </div>
                                                             <div className="bg-light p-2">
                                                                 <div className="d-flex flex-row align-items-start">
-                                                                    <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                    <img alt="userPic" className="rounded-circle" src={`https://newevolutiondesigns.com/images/freebies/cool-wallpaper-1.jpg`} width="40"/>
+                                                                        {/* src={`http://localhost:5000/uploads/${this.state.userProfile.yourImage}`} width="40"/> */}
                                                                     <textarea id="postText3" className="form-control ml-1 shadow-none textarea"></textarea>
                                                                 </div>
                                                             <div className="mt-2 text-right">
@@ -460,7 +489,8 @@ export default class Blog extends Component{
                                                                 {this.state.posts[3].map(post=> (
                                                                     <>   
                                                                         <div></div>
-                                                                        <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                        <img alt="userPic" className="rounded-circle" src={`https://newevolutiondesigns.com/images/freebies/cool-wallpaper-1.jpg`} width="40"/>
+                                                                        {/* src={`http://localhost:5000/uploads/${this.state.userProfile.yourImage}`} width="40"/> */}
                                                                         <div className="d-flex flex-column justify-content-start ml-2">
                                                                             <span className="d-block font-weight-bold name">Marry Andrews</span>
                                                                             <span className="date text-black-50">posted at:&nbsp;{date.getHours()}:{date.getMinutes()} - {date.getDate()}/{date.getMonth()+1}/{date.getFullYear()}</span>
@@ -479,7 +509,8 @@ export default class Blog extends Component{
                                                             </div>
                                                             <div className="bg-light p-2">
                                                                 <div className="d-flex flex-row align-items-start">
-                                                                    <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                    <img alt="userPic" className="rounded-circle" src={`https://newevolutiondesigns.com/images/freebies/cool-wallpaper-1.jpg`} width="40"/>
+                                                                        {/* src={`http://localhost:5000/uploads/${this.state.userProfile.yourImage}`} width="40"/> */}
                                                                     <textarea id="postText4" className="form-control ml-1 shadow-none textarea"></textarea>
                                                                 </div>
                                                             <div className="mt-2 text-right">
@@ -552,7 +583,8 @@ export default class Blog extends Component{
                                                                 {this.state.posts[4].map(post=> (
                                                                     <>   
                                                                         <div></div>
-                                                                        <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                        <img alt="userPic" className="rounded-circle"src={`https://newevolutiondesigns.com/images/freebies/cool-wallpaper-1.jpg`} width="40"/>
+                                                                        {/* src={`http://localhost:5000/uploads/${this.state.userProfile.yourImage}`} width="40"/> */}
                                                                         <div className="d-flex flex-column justify-content-start ml-2">
                                                                             <span className="d-block font-weight-bold name">Marry Andrews</span>
                                                                             <span className="date text-black-50">posted at:&nbsp;{date.getHours()}:{date.getMinutes()} - {date.getDate()}/{date.getMonth()+1}/{date.getFullYear()}</span>
@@ -574,7 +606,8 @@ export default class Blog extends Component{
 
                                                             <div className="bg-light p-2">
                                                                 <div className="d-flex flex-row align-items-start">
-                                                                    <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                    <img alt="userPic" className="rounded-circle" src={`https://newevolutiondesigns.com/images/freebies/cool-wallpaper-1.jpg`} width="40"/>
+                                                                        {/* src={`http://localhost:5000/uploads/${this.state.userProfile.yourImage}`} width="40"/> */}
                                                                     <textarea id="postText5" className="form-control ml-1 shadow-none textarea"></textarea>
                                                                 </div>
                                                             <div className="mt-2 text-right">
@@ -648,7 +681,8 @@ export default class Blog extends Component{
                                                                 {this.state.posts[5].map(post=> (
                                                                     <>   
                                                                         <div></div>
-                                                                        <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                        <img alt="userPic" className="rounded-circle" src={`https://newevolutiondesigns.com/images/freebies/cool-wallpaper-1.jpg`} width="40"/>
+                                                                        {/* src={`http://localhost:5000/uploads/${this.state.userProfile.yourImage}`} width="40"/> */}
                                                                         <div className="d-flex flex-column justify-content-start ml-2">
                                                                             <span className="d-block font-weight-bold name">Marry Andrews</span>
                                                                             <span className="date text-black-50">posted at:&nbsp;{date.getHours()}:{date.getMinutes()} - {date.getDate()}/{date.getMonth()+1}/{date.getFullYear()}</span>
@@ -668,7 +702,8 @@ export default class Blog extends Component{
 
                                                             <div className="bg-light p-2">
                                                                 <div className="d-flex flex-row align-items-start">
-                                                                    <img alt="userPic" className="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"/>
+                                                                    <img alt="userPic" className="rounded-circle" src={`https://newevolutiondesigns.com/images/freebies/cool-wallpaper-1.jpg`} width="40"/>
+                                                                        {/* src={`http://localhost:5000/uploads/${this.state.userProfile.yourImage}`} width="40"/> */}
                                                                     <textarea id="postText6" className="form-control ml-1 shadow-none textarea"></textarea>
                                                                 </div>
                                                             <div className="mt-2 text-right">
@@ -701,3 +736,4 @@ export default class Blog extends Component{
         }
 
 }
+

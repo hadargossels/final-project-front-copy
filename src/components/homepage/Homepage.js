@@ -6,10 +6,17 @@ import './Homepage.css';
 import {Link} from 'react-router-dom';
 
 export default class Homepage extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            userEmail: null
+        }
+    }
     render() {
-
+        if(this.state.userEmail)return<p>{this.props.userEmail}</p>
         return (
             <React.Fragment>
+                
             <ProductConsumer>
                 {value=>{ 
                     return (<React.Fragment>
@@ -19,8 +26,8 @@ export default class Homepage extends Component {
                               <div className="row">
                                   <br/><br/><br/><br/><br/><br/><br/>
                                   <Carousel>
-                                    {value.getHomepageProducts().map( product =>                                      
-                                        <Carousel.Item key={product.id} onClick={()=>
+                                    {value.getHomepageProducts().map( (product,index) =>                                      
+                                        <Carousel.Item key={index} onClick={()=>
                                             value.handleDetail(product.id)}>
                                             <div className="container text-center" >
                                                 <Link to={'/details/' +product.id}>

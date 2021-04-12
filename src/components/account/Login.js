@@ -1,4 +1,4 @@
-import React, { useRef,useState } from 'react'
+import React, { useRef,useState ,useEffect} from 'react'
 import './login.css';
 import Title from '../additionsComp/Title'
 import { Form, Button, Card, Alert } from "react-bootstrap"
@@ -6,9 +6,9 @@ import { useAuth } from "../context/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 // import { auth } from "../../firebase"
 // import firebase from "firebase/app"
-import "firebase/auth"
-
-export default function Login() {
+//import "firebase/auth"
+import axios from 'axios'
+export default function Login(props) {
     const emailRef = useRef();
     const passwordRef = useRef();
     const { login } = useAuth()
@@ -17,18 +17,49 @@ export default function Login() {
     const { loginGoogle , loginFacebook , loginGitHub } = useAuth()
     const history = useHistory();
 
+
+  //   useEffect(() => {
+  //     if (props.match.params.token){
+  //         localStorage.setItem("token",JSON.stringify(props.match.params.token))
+  //     }
+
+  // }, [props])
+
+     function googleLogin (){
+       window.location.href = "http://localhost:5000/auth/google"
+      }
     async function handleSubmit(e) {
         e.preventDefault()
-        
+
+        // let Authorization = `bearer ${JSON.parse(localStorage.getItem("token"))}`
+
         try {
-          setError("")
-          setLoading(true)
-          await login(emailRef.current.value, passwordRef.current.value)
-          history.push("/")
+          // setError("")
+          // setLoading(true)
+          // await login(emailRef.current.value, passwordRef.current.value)
+          console.log(emailRef.current.value,passwordRef.current.value)
+          await axios.post("/auth/login", {email:emailRef.current.value, password:passwordRef.current.value})
+          .then(
+            async (response)  =>{
+              console.log(response)
+              let userEmail = response.config.data
+              userEmail = JSON.parse(userEmail);
+                if (response.data.token){
+                    localStorage.setItem("token",JSON.stringify(response.data.token))
+                    localStorage.setItem("username",JSON.stringify(response.data.username))
+                    localStorage.setItem("usernameID",JSON.stringify(response.data.userId))
+                    window.location.href = "/";
+
+                }
+                else{
+                    console.log(response.data.message)
+                }
+            }
+          )
         } catch {
           setError("Failed to log in")
         }
-    
+        
         setLoading(false)
       }
         return (
@@ -51,7 +82,10 @@ export default function Login() {
                     Log In
                     </Button>
               </Form>
-              <Button className="google-btn btn-warning mt-3 w-100" onClick = {loginGoogle}>
+              <Button className="google-btn btn-warning mt-3 w-100" 
+                        onClick={(e)=> {
+                          googleLogin(e);
+                            }}>
                         <div className="google-icon-wrapper">
                             <img alt="google-icon" className="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
                         </div>

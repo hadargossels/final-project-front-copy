@@ -6,8 +6,6 @@ import SideMenu from '../sideMenu/SideMenu';
 import Clock from 'react-live-clock'
 import {ProductConsumer} from '../context/context';
 import CartDropdown from '../Cart/CartDropdown'
-// import Dashboard from './Dashboard'
-import { auth } from "../../firebase"
 
 
 export default class Navbar extends Component {
@@ -66,23 +64,26 @@ export default class Navbar extends Component {
                     )}
          }
     componentDidMount() {
-
-        auth.onAuthStateChanged((user) => {
-            console.log(user)
-            if (user)
-            this.setState({email: user.email});
-            else
+        var username = localStorage.getItem("username");
+        if (username)
+            this.setState({email: username});
+        else
             this.setState({email:"welcome visitor"})
-        })
+
+
     }
     logout() {
-         var user = auth.currentUser;
+         //var user = auth.currentUser;
             // user.delete().then(function() {
             //     // User deleted.
             // }).catch(function(error) {
             //     console.log("error")
             // });
-        return auth.signOut()
+        //return auth.signOut()
+        localStorage.removeItem('username');
+        localStorage.removeItem('token');
+        localStorage.removeItem('usernameID');
+        this.setState({email:"welcome visitor"})
       }
     render() {
        

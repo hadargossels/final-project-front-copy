@@ -1,12 +1,10 @@
 import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
-import { useAuth } from "../context/AuthContext"
 import { Link } from "react-router-dom"
 import Title from '../additionsComp/Title'
-
+import axios from 'axios'
 export default function ForgotPassword() {
   const emailRef = useRef()
-  const { resetPassword } = useAuth()
   const [error, setError] = useState("")
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
@@ -18,8 +16,8 @@ export default function ForgotPassword() {
       setMessage("")
       setError("")
       setLoading(true)
-      await resetPassword(emailRef.current.value)
-      setMessage("Check your inbox for further instructions")
+      await axios.put("http://localhost:5000/api/forgotpass",{email: emailRef.current.value})
+      setMessage("Check your email inbox for further instructions")
     } catch {
       setError("Failed to reset password")
     }

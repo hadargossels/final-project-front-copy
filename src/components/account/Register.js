@@ -1,9 +1,9 @@
 import Title from '../additionsComp/Title'
 import React, { useRef, useState } from "react"
 import {  Alert } from "react-bootstrap"
-import { useAuth } from "../context/AuthContext"
 import {  useHistory } from "react-router-dom"
-// import { auth } from "../../firebase"
+import axios from 'axios';
+
 export default function Signup() {
   const firstNameRef = useRef()
   const lastNameRef = useRef()
@@ -15,7 +15,7 @@ export default function Signup() {
   const zipRef = useRef()
   const addressRef = useRef()
   const passwordConfirmRef = useRef()
-  const { signup, otherSignUpFields} = useAuth()
+  const imgRef = useRef()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const history = useHistory()
@@ -42,23 +42,26 @@ export default function Signup() {
       if (passwordRef.current.value !== passwordConfirmRef.current.value) {
         return setError("Passwords do not match")
       }
-  
-
+      var formData = new FormData();
+      var imagefile = imgRef.current.files[0]
+      formData.append("yourImage", imagefile);
+      formData.append("email", emailRef.current.value)
+      formData.append("password", passwordRef.current.value)
+      formData.append("firstName", firstNameRef.current.value)
+      formData.append("lastName", lastNameRef.current.value)
+      formData.append("phone", phoneNumberRef.current.value)
+      formData.append("state", stateRef.current.value)
+      formData.append("city", cityRef.current.value)
+      formData.append("zip", zipRef.current.value)
+      formData.append("address", addressRef.current.value)
       try {
         setError("")
         setLoading(true)
-        await signup(emailRef.current.value, passwordRef.current.value,
-          firstNameRef.current.value,lastNameRef.current.value,
-          emailRef.current.value, passwordRef.current.value,phoneNumberRef.current.value,
-          stateRef.current.value,cityRef.current.value,zipRef.current.value,addressRef.current.value)
-        // await otherSignUpFields(auth.currentUser.uid,
-        //   firstNameRef.current.value,lastNameRef.current.value,
-        //   emailRef.current.value, passwordRef.current.value,phoneNumberRef.current.value,
-        //   stateRef.current.value,cityRef.current.value,zipRef.current.value,addressRef.current.value)
-        
-        // updateNewSingup(stateRef.current.value,zipRef.current.value,addressRef.current.value,cityRef.current.value)
-        
-        history.push("/")
+        await axios.post("/auth/signup",formData ,{headers:{'Content-Type': 'multipart/form-data'}})
+        .then((response)=>{
+            localStorage.setItem("token",response.data.token);
+          }).catch((err)=>{  setError({error:err})})
+        history.push("/login")
       } catch {
         setError("Failed to create an account - password or email already exist")
       }
@@ -68,6 +71,10 @@ export default function Signup() {
     else{
       setError("Failed to create an account")      
     }
+
+    
+
+
   }
   function emailValidation(event){
     
@@ -190,6 +197,8 @@ function zipValidation (event){
      
   }
 }
+
+
   return (
     <>
       <div className="container">
@@ -199,21 +208,21 @@ function zipValidation (event){
                         <div className="row">
                                 <div className="form-group col-md-4 p-0">
                                 <label htmlFor="inputFirstName4" required>First Name</label>
-                                <input ref={firstNameRef} type="text" className="form-control" id="inputFirstName4" placeholder="First Name" required
+                                <input ref={firstNameRef} name="firstName" type="text" className="form-control" id="inputFirstName4" placeholder="First Name" required
                                 onChange={(e)=> {
                                   firstNameValidation(e);
                                     }}/>
                                 </div>
                                 <div className="form-group col-md-4 p-0">
                                 <label htmlFor="inputLastName4" required>Last Name</label>
-                                <input ref={lastNameRef} type="text" className="form-control" id="inputLastName4" placeholder="Last Name" required
+                                <input ref={lastNameRef} name="lastName"  type="text" className="form-control" id="inputLastName4" placeholder="Last Name" required
                                 onChange={(e)=> {
                                   lastNameValidation(e);
                                     }}/>
                                 </div>
                                 <div className="form-group col-md-4 p-0">
                                 <label htmlFor="inputPhoneNumber4" required>Phone Number</label>
-                                <input ref={phoneNumberRef} type="number" className="form-control" id="inputPhoneNumber4" placeholder="Phone Number" required
+                                <input ref={phoneNumberRef} name='phoneNumber' type="number" className="form-control" id="inputPhoneNumber4" placeholder="Phone Number" required
                                 onChange={(e)=> {
                                   phoneNumberValidation(e);
                                     }}/>
@@ -222,14 +231,14 @@ function zipValidation (event){
                          <div className="row">
                              <div className="form-group col-md-6 p-0">
                             <label htmlFor="inputEmail4" required>Email</label>
-                             <input ref={emailRef} type="email" className="form-control" id="inputEmail4" placeholder="Email" required
+                             <input ref={emailRef} name='email' type="email" className="form-control" id="inputEmail4" placeholder="Email" required
                             onChange={(e)=> {
                                 emailValidation(e);
                                 }}/>
                             </div>
                             <div className="form-group col-md-6">
                             <label htmlFor="inputState">State</label>
-                            <select ref={stateRef} id="inputState" className="form-control" required>
+                            <select ref={stateRef} name="state" id="inputState" className="form-control" required>
                                 <option >USA</option>
                                 <option>Israel</option>
                                 <option>French</option>
@@ -240,7 +249,7 @@ function zipValidation (event){
                         <div className="row">
                             <div className="form-group col-md-6 p-0">
                             <label htmlFor="inputPassword4" required>Password</label>
-                            <input  ref={passwordRef} type="password" className="form-control" id="password" placeholder="Password" required
+                            <input  ref={passwordRef} name ="password" type="password" className="form-control" id="password" placeholder="Password" required
                             onChange={(e)=> {
                                 passwordValidation(e);
                                 }}/>
@@ -248,7 +257,7 @@ function zipValidation (event){
                             
                             <div className="form-group col-md-6">
                             <label htmlFor="inputCity">City</label>
-                            <input ref={cityRef} type="text" className="form-control" id="inputCity" placeholder="City" required
+                            <input ref={cityRef} name ="city" type="text" className="form-control" id="inputCity" placeholder="City" required
                             onChange={(e)=> {
                                 cityValidation(e);
                                 }}/>
@@ -264,7 +273,7 @@ function zipValidation (event){
                             </div>
                             <div className="form-group col-md-2">
                             <label htmlFor="inputZip" required>Zip</label>
-                            <input ref={zipRef} type="text" className="form-control" id="inputZip" placeholder="Zip" required
+                            <input ref={zipRef} name ="zip" type="text" className="form-control" id="inputZip" placeholder="Zip" required
                             onChange={(e)=> {
                                 zipValidation(e);
                                 }}/>
@@ -272,7 +281,7 @@ function zipValidation (event){
                         </div>
                         <div className="form-group">
                             <label htmlFor="inputAddress">Address</label>
-                            <input ref={addressRef} type="text" className="form-control" id="inputAddress" placeholder="1234 Main St" required
+                            <input ref={addressRef} name ="address" type="text" className="form-control" id="inputAddress" placeholder="1234 Main St" required
                             onChange={(e)=> {
                                 addressValidation(e);
                                 }}/>
@@ -283,6 +292,10 @@ function zipValidation (event){
                             onChange={(e)=> {
                                 addressValidation(e);
                                 }}/>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="img">Your image</label>
+                            <input  ref={imgRef} type="file" className="form-control" name="yourImage" defaultValue=""/>
                         </div>
                         <div className="form-group">
                             <div className="form-check">

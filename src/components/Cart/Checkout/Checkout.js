@@ -4,22 +4,27 @@ import React, { Component } from 'react';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import PayPal from "./PayPal";
 import Title from '../../additionsComp/Title'
-import axios from 'axios';
+import axios from 'axios'
 
-let targetId="" ,shippingSelect;
-
+let shippingSelect;
+let usedCoupon = false
     export default class Checkout extends  Component{
         constructor (props) {
             super(props);
+            this.couponRef = React.createRef();
+            this.userReqRef = React.createRef();
             this.setNewTotalShippment = this.setNewTotalShippment.bind(this);
             this.nameValidation = this.nameValidation.bind(this);
             this.emailValidation = this.emailValidation.bind(this);
             this.phoneValidation = this.phoneValidation.bind(this);
             this.addressValidation = this.addressValidation.bind(this);
             this.postalCodeValidation = this.postalCodeValidation.bind(this);
-            this.state = { 
+            this.choosePaymentCard = this.choosePaymentCard.bind(this);
+            this.state = {
+                couponDiscount:0, 
                 country: '',
                 region: '' ,
+                continueToPayment:false,
                 coupons:[],
                 priceAfterCoupon:<ProductConsumer>{value =>value.cartTotal}</ProductConsumer>,
                 filldsArray : [{filld:"name",isFilled:false},
@@ -30,17 +35,21 @@ let targetId="" ,shippingSelect;
                 {filld:"address",isFilled:false},
                 {filld:"potalCode",isFilled:false},]
 
+                
+
             };
      
           }
-        //   componentDidMount(){
-                // axios.get("http://localhost:3002/coupons")
-                // .then(
-                //     (response)=>{this.setState({coupons:response.data})}
-                //     );
-                
-                // }
-            
+        componentDidMount(){
+            const fetchData = async () => {
+                const coupons = await axios.get("/api/coupon" )//, { 'headers': { 'Authorization':'Bearer '+ localStorage.getItem('token') } }
+                this.setState({
+                    coupons:coupons.data
+                })
+
+            }                
+            fetchData()
+        }
           selectCountry (val) {
             this.setState({ country: val });
           }
@@ -49,49 +58,38 @@ let targetId="" ,shippingSelect;
             this.setState({ region: val });
           }
           
-          
           setNewTotalShippment(event,cartTotal){
+              if(this.state.priceAfterCoupon==null){
+                this.setState({priceAfterCoupon:cartTotal})
+              }
+                const couponNumber =this.couponRef.current.value;
               if(event.target.id==="registeredAddress"){
-                targetId = "registeredAddress";
-                alert("please insert coupon again if you have one");
-                shippingSelect={priceAfterCoupon: (parseFloat(cartTotal)+20).toFixed(2)}
-                this.setState({priceAfterCoupon: (parseFloat(cartTotal)+20).toFixed(2)});
+                this.setState({priceAfterCoupon: ((parseFloat(cartTotal)+20)-this.state.couponDiscount).toFixed(2)});
+                shippingSelect="choosed"
               }
               if(event.target.id==="postOffice"){
-                targetId = "postOffice";
-                alert("please insert coupon again if you have one");
-                shippingSelect={priceAfterCoupon: (parseFloat(cartTotal)+10).toFixed(2)}
-                this.setState({priceAfterCoupon: (parseFloat(cartTotal)+10).toFixed(2)});
+                this.setState({priceAfterCoupon: ((parseFloat(cartTotal)+10)-this.state.couponDiscount).toFixed(2)});
+                shippingSelect = "choosed"
               }
-              if(event.target.id==="inputCoupon" && targetId === "registeredAddress"){
-                  console.log(this.state.coupons);
-                if(event.target.value==="12345"){
-                    shippingSelect={priceAfterCoupon: (parseFloat(cartTotal)+20-(parseFloat(cartTotal)+20)*0.1).toFixed(2) }
-                    this.setState({priceAfterCoupon: (parseFloat(cartTotal)+20-(parseFloat(cartTotal)+20)*0.1).toFixed(2) });
+              if(event.target.id==="inputCoupon" ){
+
+                  if(usedCoupon){
+                    return;
                   }
-                  else{
-                    shippingSelect={priceAfterCoupon: (parseFloat(cartTotal)+20).toFixed(2)}
-                    this.setState({priceAfterCoupon: (parseFloat(cartTotal)+20).toFixed(2)});
-                  }
-              }
-              if(event.target.id==="inputCoupon" && targetId === "postOffice"){
-                if(event.target.value==="12345"){
-                    shippingSelect={priceAfterCoupon: (parseFloat(cartTotal)+10-(parseFloat(cartTotal)+10)*0.1).toFixed(2) }
-                    this.setState({priceAfterCoupon: (parseFloat(cartTotal)+10-(parseFloat(cartTotal)+10)*0.1).toFixed(2) });
-                  }
-                  else{
-                    shippingSelect={priceAfterCoupon: (parseFloat(cartTotal)+10).toFixed(2)}
-                    this.setState({priceAfterCoupon: (parseFloat(cartTotal)+10).toFixed(2)});
-                  }
-              }
-              if(event.target.id==="inputCoupon" && targetId === ""){
-                if(event.target.value==="12345"){
-                    shippingSelect=(parseFloat(cartTotal)-parseFloat(cartTotal)*0.1).toFixed(2);
-                    this.setState({priceAfterCoupon: (parseFloat(cartTotal)-parseFloat(cartTotal)*0.1).toFixed(2) });
-                  }
-                else{
-                    shippingSelect={priceAfterCoupon: cartTotal}
-                    this.setState({priceAfterCoupon: cartTotal});
+                for(let i=0;i<this.state.coupons.length;i++){
+                    if(couponNumber==this.state.coupons[i].id){
+                        
+                        let dicount=((parseFloat(cartTotal)*parseFloat(this.state.coupons[i].couponSize))/100).toFixed(2);
+                        this.setState({couponDiscount: dicount})
+                       if(this.state.priceAfterCoupon == parseFloat(cartTotal)+10)
+                            this.setState({priceAfterCoupon: ((parseFloat(cartTotal)+10)-dicount).toFixed(2)});
+                        else if(this.state.priceAfterCoupon == parseFloat(cartTotal)+20)
+                            this.setState({priceAfterCoupon: ((parseFloat(cartTotal)+20)-dicount).toFixed(2)});
+                        else
+                        this.setState({priceAfterCoupon: ((parseFloat(cartTotal))-dicount).toFixed(2)});
+
+                        break
+                    }
                 }
               }  
             }
@@ -194,7 +192,9 @@ let targetId="" ,shippingSelect;
                 }
             }
             
-        
+            choosePaymentCard(event){
+                this.setState({continueToPayment:true})
+            }
 
 render() {
     
@@ -280,14 +280,16 @@ render() {
                                 </div>
                                 <div className="col-11 p-0">
                                     <p>I want to receive updates to my email.</p>
-                                    <textarea maxLength="50" style={{resize: "none"}} rows="4" cols="50" placeholder="Add a special request for delivery"></textarea>
+                                    <textarea ref={this.userReqRef} maxLength="50" style={{resize: "none"}} rows="4" cols="50" placeholder="Add a special request for delivery"
+                                    ></textarea>
 
                                 </div> 
                             </div>
                         </div>
 
                             <div className="ml-auto p-2">
-                                 <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Continue to payment</button>
+                                 <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"
+                                 onClick={(e)=>{this.choosePaymentCard(e)}}>Continue to payment</button>
                             </div>
                             <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div className="modal-dialog modal-dialog-centered" role="document">
@@ -298,7 +300,8 @@ render() {
                                              <div className="row row-1 pt-3">
 
                                             <ProductConsumer>
-                                            {value => { if(value.cartTotal!==0){
+                                            {value => {
+                                                 if(value.cartTotal!==0){
                                                 if(shippingSelect!==undefined && country!=='' && region!==''
                                                     && this.state.filldsArray[0].isFilled 
                                                     && this.state.filldsArray[1].isFilled
@@ -306,14 +309,17 @@ render() {
                                                     && this.state.filldsArray[3].isFilled
                                                     && this.state.filldsArray[4].isFilled
                                                     && this.state.filldsArray[5].isFilled
-                                                    && this.state.filldsArray[6].isFilled){
+                                                    && this.state.filldsArray[6].isFilled
+                                                    && this.state.continueToPayment){
                                                     return( 
+                                                        // <PayPal  total={100} clearCart={value.clearCart} setOrder={value.setOrder} orderCart={value.cart}></PayPal>
                                                         
-                                                        <PayPal  total={parseFloat(shippingSelect.priceAfterCoupon)} clearCart={value.clearCart} setOrder={value.setOrder} orderCart={value.cart}></PayPal>
-                                                    // <PaypalButton total={parseFloat(shippingSelect.priceAfterCoupon)} clearCart={value.clearCart} history={value.history}/> 
+                                                        <PayPal 
+                                                        textAreaReq = {this.userReqRef.current.value} total={parseFloat(this.state.priceAfterCoupon)} clearCart={value.clearCart} setOrder={value.setOrder} orderCart={value.cart}></PayPal>
                                                 )}
                                                 
                                                 else{
+                                                    // return(<PayPal setOrder={value.setOrder}></PayPal>)
                                                     return( <div>
                                                          <h1>Opps forgot form filled with uncorrect values</h1>
                                                         <p>Please check if all requireds fields are filled and which shippment way you want</p>
@@ -328,7 +334,6 @@ render() {
                                         </div>
                                         <div className="modal-footer">
                                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            {/* <button type="button" className="btn btn-primary">Save changes</button> */}
                                         </div>
                                     </div>
                                 </div>
@@ -361,10 +366,14 @@ render() {
                                                     </div>
                                                     <div className="p-2 d-flex">
                                                         <label className="pt-2" htmlFor="inputPostalCode" >Coupon</label>
-                                                        <input  type="text" className="form-control" id="inputCoupon" placeholder="Coupon Number"
-                                                         onChange={(e)=> {
-                                                            this.setNewTotalShippment(e, value.cartTotal) }}/>          
+                                                        <input ref={this.couponRef} type="text" className="form-control"  placeholder="Coupon Number"/>
                                                     </div>
+                                                    <div className="p-2 d-flex">
+
+                                                        <button type="button" id="inputCoupon" className="btn btn-primary" 
+                                                         onClick={(e)=> {
+                                                            this.setNewTotalShippment(e, value.cartTotal) }}>check coupon</button>
+                                                        </div>
                                                     <hr/>
                                                     <div className="bg-light">
                                                         <form className="form-control" action="">

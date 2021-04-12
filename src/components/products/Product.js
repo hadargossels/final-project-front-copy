@@ -36,21 +36,21 @@ function setPrice(p,s){
 export default class Product extends Component {
     
     render() {
-        const {id, title, img, price, inCart,rating,sale} =this.props.product;
+        const {_id, title, img, price, inCart,rating,sale} =this.props.product;
         return (
             <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
                 <div className="card">
                     <ProductConsumer>
                     {(value) =>(
                     <div className="img-container p-5" onClick={()=>
-                        value.handleDetail(id)}>
-                       <Link to={'/details/' +id}>
+                        value.handleDetail(_id)}>
+                       <Link to={'/details/' +_id}>
                             <img src={img} height='120px' alt="product" className="card-img-top"/>
                         </Link> 
                     <button className="cart-btn" disabled={inCart ? true:false}
                              onClick={()=>
-                                {value.addToCart(id)
-                                value.openModal(id)}}>
+                                {value.addToCart(_id)
+                                value.openModal(_id)}}>
                         {inCart?(
                                 <p className="text-capitalize mb-0" disabled>
                                 in Cart</p>
@@ -91,7 +91,7 @@ export default class Product extends Component {
 //check if the data,js has the right src for every elemnt
 Product.propTypes ={
     product:PropTypes.shape({
-        id:PropTypes.number,
+        _id:PropTypes.string,
         img:PropTypes.string,
         title:PropTypes.string,
         price:PropTypes.number,

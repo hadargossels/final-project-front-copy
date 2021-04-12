@@ -97,7 +97,7 @@ render() {
                                         <div className="row">
                                          
                                         {value.getProducts(search).map(product =>{
-                                            return <Product key={product.id} product={product}/>
+                                            return <Product key={product._id} product={product}/>
                                         })}
                                           {checkIfEmpty(value.getProducts(search))}
                                         </div>

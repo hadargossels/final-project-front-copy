@@ -11,7 +11,6 @@ import Modal from './components/modal/Modal';
 import Homepage from './components/homepage/Homepage';
 import Register from './components/account/Register';
 import Login from './components/account/Login';
-import UpdateProfile from './components/account/UpdateProfile';
 import Profile from './components/account/Profile';
 import Checkout from './components/Cart/Checkout/Checkout';
 import About from './components/about/About';
@@ -26,13 +25,11 @@ import AdminApp from './components/admin/AdminApp';
 
 class App extends Component{
 
- 
 
   render() {
    return ( 
-    <React.Fragment>{/*just instend of div, this does not doing anything */}
+    <React.Fragment>
       <Router>
-
         <Navbar/>
          <AuthProvider>
           <Switch>
@@ -50,16 +47,10 @@ class App extends Component{
               <Route exact path="/login" component={Login}/>
               <Route exact path="/register" component={Register}/>
               <PrivateRoute path="/account/profile" component={Profile} />
-              <PrivateRoute path="/account/profile-update" component={UpdateProfile} />
               <PrivateRoute  path="/admin" component={AdminApp}/>
               <Route component={Default}/>
             </Switch>
           </AuthProvider>
-         
-
-
-
-
         <Modal/>
         <Footer/>
       </Router>

@@ -1,12 +1,5 @@
-// import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 import React, { Component } from 'react'
-// import faker from  'faker';
-// import {storeProducts, detailProduct} from '../db.json'
-// import axios from axios
-import {db,auth} from '../../firebase'
 const ProductContext = React.createContext();
-
-// const storeProducts= []
 const axios = require('axios').default;
 let cartSubTotal = 0, cartTax = 0, cartTotal = 0;
 let cart = [];
@@ -26,29 +19,6 @@ class ProductProvider extends Component {
     
     constructor(props) {
         super(props);
-        
-        // storeProducts ;
-        // if (localStorage.cart != null) {
-
-        //     cart = JSON.parse(localStorage.cart);
-
-        //     let total = JSON.parse(localStorage.totals);
-        //     cartSubTotal = total.cartSubTotal;
-        //     cartTax = total.cartTax;
-        //     cartTotal = total.cartTotal;
-
-        //     for(let i=0;i<storeProducts.length;i++){
-                
-        //         for(let j=0;j<cart.length;j++){
-                  
-
-        //             if(storeProducts[i].id===cart[j].id){
-                        
-        //                 storeProducts[i].inCart = cart[j].inCart;     
-        //             }
-        //         }
-        //     }
-        // }
         
         this.state = {
             products:[],
@@ -106,30 +76,21 @@ class ProductProvider extends Component {
         return found;
       }
 
-     setOrder = (order, orderCart) =>{
-         let tempArr = [...this.state.orders];
-         tempArr.push(order);
+     setOrder = (order, orderCart,specialReq,total) =>{
+         let tempOrderArr = [...this.state.orders];
+         tempOrderArr.push(order);
          this.setState({
-             orders:tempArr
+             orders:tempOrderArr
          })
-         let subTotal = this.state.cartSubTotal;
-         subTotal = subTotal.toString();
-         let tempTax = this.state.cartTax;
-         tempTax = tempTax.toString();
-         auth.onAuthStateChanged(()=>{
-            db.ref().child('orders').child(order.id).set({              
-              user:auth.currentUser.email,
-              userId:auth.currentUser.uid,
-              createTime:order.create_time,
-              id:order.id,
-              cart: orderCart,
-              price:order.purchase_units[0].amount.value,
-              orderStatus:"Processing",
-              subTotal: subTotal,
-              tax:tempTax
-
-            })
-        })   
+        console.log(total)
+         axios.post("/api/order",{order:order,specialReq:specialReq,orderCart:orderCart,cartTotal:total,userId:JSON.parse(localStorage.getItem("usernameID"))}) 
+         .then(
+             response => {
+                 console.log(response.statusText)
+             }
+         ).catch(
+             err => console.log(err)
+         )
      }
 
       setFilter = (filterName) => {
@@ -158,68 +119,33 @@ class ProductProvider extends Component {
         this.setProducts();
     }
     dbLoad = () =>{
-
-
-        // db.ref("storeProducts").on("value", (snapshot) =>{
-        //     let myData = ""
-        //     myData = (snapshot.val())
-    
-        //     for (const [key, value] of Object.entries(myData)) {
-            
-        //         myData[key] = Object.keys(myData[key]).map((iKey) => myData[key][iKey])
-        //       }
-        //       console.log("asdasda"+myData)
-        //     myData = (myData.products)
-        //     this.setState({
-        //               products: myData,
-        //               origProducts: myData
-        //             })
-        //         })
-       
-        db.ref('storeProducts').on('value', (snapshot)=>{
-            let arr = [];
-            for (let obj in snapshot.val()) {
-                arr.push(snapshot.val()[obj])
-            }
+        const fetchData = async () => {
+            const response = await axios.get("/api/product" );//, { 'headers': { 'Authorization':'Bearer '+ localStorage.getItem('token') } });
             this.setState({
-                products: arr,
-                origProducts: arr
+                products: response.data,
+                origProducts: response.data
             })
-        if(localStorage.cart !==undefined){
-            if (localStorage.cart.length !== 2) {
-                storeProducts = [...this.state.origProducts];
-                cart = JSON.parse(localStorage.cart);
-                let total = JSON.parse(localStorage.totals);
-                cartSubTotal = total.cartSubTotal;
-                cartTax = total.cartTax;
-                cartTotal = total.cartTotal;
-                this.setState({cart , cartSubTotal,cartTax,cartTotal});
-
-                for(let i=0;i<storeProducts.length;i++){
-                    
-                     for(let j=0;j<cart.length;j++){
-                      
-
-                        if(storeProducts[i].id===cart[j].id){
-                            
-                             storeProducts[i].inCart = cart[j].inCart;    
-
-                        }
+            if(localStorage.cart !==undefined){
+                if (localStorage.cart.length !== 2) {
+                    storeProducts = [...this.state.origProducts];
+                    cart = JSON.parse(localStorage.cart);
+                    let total = JSON.parse(localStorage.totals);
+                    cartSubTotal = total.cartSubTotal;
+                    cartTax = total.cartTax;
+                    cartTotal = total.cartTotal;
+                    this.setState({cart , cartSubTotal,cartTax,cartTotal});
+                    for(let i=0;i<storeProducts.length;i++){
+                         for(let j=0;j<cart.length;j++){
+                            if(storeProducts[i]._id===cart[j]._id){
+                                storeProducts[i].inCart = cart[j].inCart;    
+                            }
+                         }
                      }
-                 }
-                 this.setState({products:storeProducts,origProducts:storeProducts})
-
-           }
-        }   
-              })
-          //  }
-    
-      
-                
-            
-            //}
-        // ).catch(()=>{console.log("error")
-        // })
+                     this.setState({products:storeProducts,origProducts:storeProducts})
+               }
+            } 
+        }
+        fetchData()
 
     }
     setProducts = () => {
@@ -234,7 +160,7 @@ class ProductProvider extends Component {
     };
 
     getItem = (id) =>{
-    const product = this.state.products.find(item => item.id===id);
+    const product = this.state.products.find(item => item._id===id);
         return product;
     };
     handleDetail = (id) =>{
@@ -249,10 +175,15 @@ class ProductProvider extends Component {
         product.count = 1;
         const price = product.price;
         product.total = price;
-
         localStorage.cart = JSON.stringify([...this.state.cart , product]);
         this.setState({products:tempProducts ,cart:[...this.state.cart , product]},()=> {this.addTotals()});
-
+        axios.post("/api/postCart",{product:product}) 
+        .then(
+            response => {
+            }
+        ).catch(
+            err => console.log(err)
+        )
     };
     openModal = id =>{
         const product = this.getItem(id);
@@ -265,7 +196,7 @@ class ProductProvider extends Component {
     }
     increment = (id) =>{
         let tempCart=[...this.state.cart];
-        const selectedProduct = tempCart.find(item=>item.id ===id);
+        const selectedProduct = tempCart.find(item=>item._id ===id);
         const index = tempCart.indexOf(selectedProduct);
         const product = tempCart[index];
         product.count = product.count +1;
@@ -273,16 +204,24 @@ class ProductProvider extends Component {
         localStorage.cart = JSON.stringify([...tempCart]);
         this.setState(()=>{return{cart:[...tempCart]}
         },()=>{this.addTotals()})
+        axios.post("/api/postCart",{product:product,action:"increment"}) 
+        .then(
+            response => {
+            }
+        ).catch(
+            err => console.log(err)
+        )
     };
    decrement = (id) =>{
         let tempCart=[...this.state.cart];
-        const selectedProduct = tempCart.find(item=>item.id ===id);
+        const selectedProduct = tempCart.find(item=>item._id ===id);
         const index = tempCart.indexOf(selectedProduct);
         const product = tempCart[index];
-
+        let removeFromCart=false
         product.count = product.count - 1;
         if(product.count ===0){
             this.removeItem(id);
+            removeFromCart = true
         }
         else{
             product.total = product.count*product.price;
@@ -290,11 +229,19 @@ class ProductProvider extends Component {
             this.setState(()=>{return{cart:[...tempCart]}
             },()=>{this.addTotals()})
         }
+        axios.post("/api/postCart",{product:product,action:"decrement",removeFromCart:removeFromCart}) 
+        .then(
+            response => {
+            }
+        ).catch(
+            err => console.log(err)
+        )
     };
     removeItem = (id) =>{
         let tempProducts = [...this.state.products];
+        const selectedProduct = tempProducts.find(item=>item._id ===id);
         let tempCart = [...this.state.cart];
-        tempCart = tempCart.filter(item=> item.id !== id);
+        tempCart = tempCart.filter(item=> item._id !== id);
         const index = tempProducts.indexOf(this.getItem(id));
         let removedProduct = tempProducts[index];
         removedProduct.inCart=false;
@@ -310,27 +257,44 @@ class ProductProvider extends Component {
         },()=>{
             this.addTotals();
         })
+        axios.post("/api/postCart",{product:selectedProduct,action:"removeItem"}) 
+        .then(
+            response => {
+            }
+        ).catch(
+            err => console.log(err)
+        )
     };
     clearCart = () =>{
         localStorage.cart = [JSON.stringify([])];
         localStorage.total = [JSON.stringify([])];
-        this.setState(() =>{
-            return {cart:[]};
-        },()=>{
-            let arr = [...this.state.products];
-        
+        this.setState({cart:[]})
+        let arr = [...this.state.products];
         arr.forEach(item => {
-                item.inCart = false;   
-        });
-            this.setState(
-                {products:arr}
-            )
-        }
-        ,()=>{
+            item.inCart = false;   
+        });    
+        this.setState({products:arr});
             this.setProducts();
             this.addTotals();
-        });
-    };
+            axios.post("/api/clearAllCart",{userId:JSON.parse(localStorage.getItem("usernameID"))}) 
+            .then(
+                response => {
+                }
+            ).catch(
+                err => console.log(err)
+            )
+
+            const fetchData = async () => {
+                const response = await axios.get("/api/product" )//, { 'headers': { 'Authorization':'Bearer '+ localStorage.getItem('token') } });
+                this.setState({
+                    products: response.data,
+                    origProducts: response.data
+                })
+            }
+            fetchData()
+        };
+        
+    
     addTotals =() =>{
         let subTotal =0;
         this.state.cart.map(item =>{return(subTotal +=item.total*1)})
@@ -361,7 +325,6 @@ class ProductProvider extends Component {
         
     }
     getHomepageProducts = ()=> {
-
         this.state.products = [...this.state.origProducts];
         return this.state.products.filter((item)=>{
             return item.sale;
@@ -441,122 +404,8 @@ class ProductProvider extends Component {
     }
     loadComments = () =>{
         return this.state.posts[0].postsAndCommentsArr
-        // for(let i=0;i<this.state.posts[0].postsAndCommentsArr.length;i++){
-
-        // }
-        // this.state.posts[0];
     }
-    //  setBoardItemsFunction =() =>  {
-    //                 let list = []
-    //                 for(var i=pageNum1*10;i<(pageNum1+1)*10;i++) {
-    //                   list.push(this.state.products[i])
-    //                 this.setState({boardProducts:list})
-    //               }
-    //             }
-    // onOpen = (event) => {
-    //             pageNum1 = event.page
-    //                 // console.log(event.page + " event page");
-    //             this.setState({first:event.first});
-    //             this.setState({rows:event.rows})
-    //             this.setBoardItemsFunction()
-    //     }
-    //        sortLowtoHigh = () => {
-    //         var itemList = [...this.products];
-    //         var array = []
-    //         for (var i of itemList) {
-    //           for(var j of itemList) {
     
-    //           }
-    //         }
-    //       }
-    //        sortFunction = (e) => {
-    //            this.setState({sortValue: e.value})
-    //           if(e.value == 'LH') {
-    //                 var list1 = []
-    //                 list1 = [...this.state.products]
-    //                 var list2 = []
-    //                 var min ;
-    //                 var index = 0;
-    //                 var a = list1.length
-    //                 var count= 0
-    //                       var smallest = {}
-    //                       var index
-    //                       for(var b = 0;b<a;b++) {
-    //                           index = 0   
-    //                           for(var g=0;g<list1.length;g++) {   
-    //                               if(list1[index].price > list1[g].price) {
-    //                                   index = g
-    //                               }
-    //                           }      
-    //                           list2.push(list1[index])
-    //                           list1.splice(index,1);
-    //                        }
-    //               this.setState({products:list2});
-    //           }
-    //           else if (e.value == 'HL') {
-    //             var list1 = []
-    //             list1 = [...this.state.products]
-    //             var list2 = []
-    //             var min ;
-    //             var index = 0;
-    //             var a = list1.length
-    //             var count= 0
-    //                   var smallest = {}
-    //                   var index
-    //                   for(var b = 0;b<a;b++) {
-    //                       index = 0   
-    //                       for(var g=0;g<list1.length;g++) {   
-    //                           if(list1[index].price < list1[g].price) {
-    //                               index = g
-    //                           }
-    //                       }      
-    //                       list2.push(list1[index])
-    //                       list1.splice(index,1);
-    //                    }
-    //                    this.setState({products:list2});
-    //                 }
-    //           else if (e.value == 'MT') {
-    
-    //             var list1 = []
-    //             list1 = [...this.state.products]
-    //             var list2 = []
-    //             var min ;
-    //             var index = 0;
-    //             var a = list1.length
-    //             var count= 0
-    //                   var smallest = {}
-    //                   var index
-    //                   for(var b = 0;b<a;b++) {
-    //                       index = 0   
-    //                       for(var g=0;g<list1.length;g++) {   
-    //                           if(list1[index].rating < list1[g].rating) {
-    //                               index = g
-    //                           }
-    //                       }      
-    //                       list2.push(list1[index])
-    //                       list1.splice(index,1);
-    //                    }
-    //                    this.setState({products:list2});
-    //                 }
-    
-    //        }
-    
-    //        filterUpto = (top) => {
-    //         if(top == '' || top == null || top == undefined) {
-    //         this.setState({products: this.state.origProducts});
-
-    //         } else {
-    //         var itemList = [...this.state.itemsOrig]
-    //         var array = []
-    //         for(var i of itemList) {
-    //                 if(i.price <= top) {
-    //                 array.push(i)
-    //                 }
-    //         }
-    //         this.setState({itemsOrig:array});
-
-    //       }
-    //     }
     
     
     render() {

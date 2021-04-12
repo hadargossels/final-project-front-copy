@@ -5,8 +5,8 @@ import {Link} from 'react-router-dom';
 
 
 export default function CartDropdown(props) {
-  
-        const allCartItems = props.cartArrDropdown.map(item=>{return(
+        const allCartItems = props.cartArrDropdown.map(item=>{
+        return(
         <div className="row" style={{fontSize:"20px"}} key={item.id}>
             <div className="col-lg-4 col-sm-4 col-4 cart-detail-img">
                 <img alt="item" src={item.img} />
