@@ -17,7 +17,6 @@ import About from './components/about/About';
 import Blog from './components/blog/Blog';
 import Contact from './components/contact/Contact';
 import Succeeded from './components/Cart/Checkout/Succeeded';
-import { AuthProvider } from "./components/context/AuthContext"
 import ForgotPassword from "./components/forgotPassword/ForgotPassword"
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import PrivateRoute from "./components/router/PrivateRoute"
@@ -31,7 +30,6 @@ class App extends Component{
     <React.Fragment>
       <Router>
         <Navbar/>
-         <AuthProvider>
           <Switch>
               <Route exact path="/details/:id" component={Details}/>
               <Route exact path="/" component={Homepage}/>
@@ -50,7 +48,6 @@ class App extends Component{
               <PrivateRoute  path="/admin" component={AdminApp}/>
               <Route component={Default}/>
             </Switch>
-          </AuthProvider>
         <Modal/>
         <Footer/>
       </Router>

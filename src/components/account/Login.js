@@ -1,30 +1,14 @@
-import React, { useRef,useState ,useEffect} from 'react'
+import React, { useRef,useState } from 'react'
 import './login.css';
 import Title from '../additionsComp/Title'
 import { Form, Button, Card, Alert } from "react-bootstrap"
-import { useAuth } from "../context/AuthContext"
-import { Link, useHistory } from "react-router-dom"
-// import { auth } from "../../firebase"
-// import firebase from "firebase/app"
-//import "firebase/auth"
+import { Link } from "react-router-dom"
 import axios from 'axios'
 export default function Login(props) {
     const emailRef = useRef();
     const passwordRef = useRef();
-    const { login } = useAuth()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
-    const { loginGoogle , loginFacebook , loginGitHub } = useAuth()
-    const history = useHistory();
-
-
-  //   useEffect(() => {
-  //     if (props.match.params.token){
-  //         localStorage.setItem("token",JSON.stringify(props.match.params.token))
-  //     }
-
-  // }, [props])
-
      function googleLogin (){
        window.location.href = "http://localhost:5000/auth/google"
       }
@@ -34,16 +18,12 @@ export default function Login(props) {
         // let Authorization = `bearer ${JSON.parse(localStorage.getItem("token"))}`
 
         try {
-          // setError("")
-          // setLoading(true)
-          // await login(emailRef.current.value, passwordRef.current.value)
-          console.log(emailRef.current.value,passwordRef.current.value)
           await axios.post("/auth/login", {email:emailRef.current.value, password:passwordRef.current.value})
           .then(
             async (response)  =>{
-              console.log(response)
-              let userEmail = response.config.data
-              userEmail = JSON.parse(userEmail);
+              // console.log(response)
+              // let userEmail = response.config.data
+              // userEmail = JSON.parse(userEmail);
                 if (response.data.token){
                     localStorage.setItem("token",JSON.stringify(response.data.token))
                     localStorage.setItem("username",JSON.stringify(response.data.username))
@@ -91,7 +71,7 @@ export default function Login(props) {
                         </div>
                         <p className="btn-text">Log in with google</p>
                 </Button>
-                <Button className="google-btn btn-primary mt-3 w-100" onClick = {loginFacebook}>
+                {/* <Button className="google-btn btn-primary mt-3 w-100" onClick = {loginFacebook}>
                         <div className="google-icon-wrapper">
                             <img alt="facebook-icon" style = {{width:"25px" , height:"25px" , marginBottom:"3px"}}className="google-icon" src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Facebook_colored_svg_copy-512.png"/>
                         </div>
@@ -102,7 +82,7 @@ export default function Login(props) {
                             <img alt="github-icon" style = {{width:"25px" , height:"25px" , marginBottom:"3px"}}className="google-icon" src="https://image.flaticon.com/icons/png/512/25/25231.png"/>
                         </div>
                         <p className="btn-text">Log in with github</p>
-                </Button>
+                </Button> */}
               <div className="w-100 text-center mt-3">
                 <Link to="/forgot-password">Forgot Password?</Link>
               </div>

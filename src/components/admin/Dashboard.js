@@ -11,7 +11,6 @@ const Dashboard = () => {
   const [ordersIncome, setOrder] = useState("")
   const [AmontsOfItemsInCart, setAmontsOfItemsInCart] = useState("")
   const [amountOfUsers, setAmountOfUsers] = useState("")
-  const [allProducts, setAllProducts] = useState("")
   const [numberOfHelmets, setnumberOfHelmets] = useState("")
   const [numberOfScooters, setAllScooters] = useState("")
   const [numberOfCubs, setAllCubs] = useState("")
@@ -39,20 +38,19 @@ const Dashboard = () => {
       setAmontsOfItemsInCart(AmountOfProductsInCarts)
       let products = await axios.get("/api/product" );//, { 'headers': { 'Authorization':'Bearer '+ localStorage.getItem('token') } });
       products = products.data
-      setAllProducts(products)
       let helmets = 0 , scooters=0,cubs=0,bikes=0;
 
       for(let i =0;i<products.length;i++){
-        if(products[i].type=='helmet'){
+        if(products[i].type==='helmet'){
           helmets++;
         }
-        else if(products[i].type=='cub'){
+        else if(products[i].type==='cub'){
           cubs++;
         }
-        else if(products[i].type=='scooter'){
+        else if(products[i].type==='scooter'){
           scooters++;
         }
-        else if(products[i].type=='bike'){
+        else if(products[i].type==='bike'){
           bikes++;
         }
       }
@@ -64,8 +62,8 @@ const Dashboard = () => {
   fetchData()
   })
   const rand = () => Math.round(Math.random() * 10)
-  const colors = ["white", "black", "green", 'yellow', "blue", "pink", "purple" , "brown", "Aqua","orange"]
-  const backgourdColors = ["black","white", "blue" , "green", 'yellow', "purple", "Aqua","orange"]
+  // const colors = ["white", "black", "green", 'yellow', "blue", "pink", "purple" , "brown", "Aqua","orange"]
+  // const backgourdColors = ["black","white", "blue" , "green", 'yellow', "purple", "Aqua","orange"]
     const data = {
         labels: ["Jan", "Feb", "Mar", "Apr"],
         datasets: [

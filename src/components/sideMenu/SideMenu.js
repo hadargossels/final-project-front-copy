@@ -19,11 +19,9 @@ class SideMenu extends React.Component {
   };
 
   render() {
-    // let sideDrawer;
     let backdrop;
 
     if (this.state.sideDrawerOpen) {
-      // sideDrawer = <SideDrawer />;
       backdrop = <BackDrop click={this.backDropClickHandler} />;
     }
     return (

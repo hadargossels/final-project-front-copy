@@ -64,22 +64,13 @@ export default class Navbar extends Component {
                     )}
          }
     componentDidMount() {
-        var username = localStorage.getItem("username");
-        if (username)
-            this.setState({email: username});
+        if (localStorage.getItem("username"))
+            this.setState({email:  localStorage.getItem("username").slice(1, localStorage.getItem("username").length-1)});
         else
             this.setState({email:"welcome visitor"})
 
-
     }
     logout() {
-         //var user = auth.currentUser;
-            // user.delete().then(function() {
-            //     // User deleted.
-            // }).catch(function(error) {
-            //     console.log("error")
-            // });
-        //return auth.signOut()
         localStorage.removeItem('username');
         localStorage.removeItem('token');
         localStorage.removeItem('usernameID');

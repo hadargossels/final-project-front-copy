@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react"
 import "./drawerStyle.css";
-import { auth } from "../../firebase"
 
 
 export default function SideDrawer(props) {
-  const [loading, setLoading] = useState(true)
+ 
   const [currentUser, setCurrentUser] = useState();
 
   let drawerClasses = ["side-drawer"];
@@ -19,25 +18,21 @@ export default function SideDrawer(props) {
       window.location.href = "/search?q=" + node;
   }
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      setCurrentUser(user)
-      setLoading(false)
-    })
+      if(! localStorage.getItem("username"))
+        setCurrentUser("visitor")
+      else
+      setCurrentUser( localStorage.getItem("username").slice(1, localStorage.getItem("username").length-1))
 
-    return unsubscribe
   }, [])
 
-   function userShow(){
-            if(currentUser)
-              return currentUser.email
-              else
-            return "Visitor"
-        }
     function logout() {
-          return auth.signOut()
+      localStorage.removeItem('username');
+      localStorage.removeItem('token');
+      localStorage.removeItem('usernameID');
+      setCurrentUser("visitor")
     }
     function userOptionsShow(){
-      if(currentUser)
+      if(currentUser !== 'visitor')
         return (<li><a href="/" onClick={() => {logout() }}>Logout</a></li>)
       else
         return (<li><a href="/login">Login</a> <a style={{marginLeft:"60%"}} href="/register">Register</a> </li>)
@@ -45,7 +40,6 @@ export default function SideDrawer(props) {
     
   return (
     <nav className={drawerClasses.join(" ")}>
-       {/* {userOptionsShow } */}
 
       <ul>
           <li className="input-group" >
@@ -57,11 +51,10 @@ export default function SideDrawer(props) {
             </div>
           </li>
           <li>
-            <h3>Welcome&nbsp; {userShow()}</h3>
+            <h3>Welcome&nbsp; {currentUser}</h3>
           </li>
           
             {userOptionsShow()}
-            {/* <a href="/login">Login</a> <a style={{marginLeft:"60%"}} href="/register">Register</a> */}
           
           <li>
             <a href="/">Home</a><a style={{marginLeft:"25%"}} href="/Shop">Shop</a><a style={{marginLeft:"26%"}} href="/cart">Cart</a>       

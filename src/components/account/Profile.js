@@ -18,7 +18,6 @@ export default function Profile() {
   // const { currentUser, updatePassword, updateEmail } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  // const history = useHistory()
   const [user, setUser] = useState("")
   // const [photo, setPhoto] = useState("")
   let userId;
@@ -75,20 +74,12 @@ export default function Profile() {
         })//,{headers:{'Content-Type': 'multipart/form-data;boundary=<calculated when request is sent>'},'Authorization':'Bearer '+ localStorage.getItem('token') })//,'headers': { 'Authorization':'Bearer '+ localStorage.getItem('token') }}//{ 'headers': { 'Authorization':'Bearer '+ localStorage.getItem('token') } }
       .then(() =>{
         alert("Profile Updated")
+        setLoading(false)
       })
       .catch(err=>{
         console.log(err)
+
       })
-     // } catch {
-       // setError("Failed to create an account - password or email already exist")
-      //}
-      // .then(response=>{
-      //   console.log(response.data)
-      //   setUser(response.data)
-      //   // setPhoto(response.data.yourImage)
-        
-      //   setLoading(false)
-      // })
     
   }
   function clear(){

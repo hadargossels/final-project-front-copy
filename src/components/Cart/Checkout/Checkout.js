@@ -59,7 +59,7 @@ let usedCoupon = false
           }
           
           setNewTotalShippment(event,cartTotal){
-              if(this.state.priceAfterCoupon==null){
+              if(this.state.priceAfterCoupon===null){
                 this.setState({priceAfterCoupon:cartTotal})
               }
                 const couponNumber =this.couponRef.current.value;
@@ -77,13 +77,13 @@ let usedCoupon = false
                     return;
                   }
                 for(let i=0;i<this.state.coupons.length;i++){
-                    if(couponNumber==this.state.coupons[i].id){
+                    if(couponNumber===this.state.coupons[i].id){
                         
                         let dicount=((parseFloat(cartTotal)*parseFloat(this.state.coupons[i].couponSize))/100).toFixed(2);
                         this.setState({couponDiscount: dicount})
-                       if(this.state.priceAfterCoupon == parseFloat(cartTotal)+10)
+                       if(this.state.priceAfterCoupon === parseFloat(cartTotal)+10)
                             this.setState({priceAfterCoupon: ((parseFloat(cartTotal)+10)-dicount).toFixed(2)});
-                        else if(this.state.priceAfterCoupon == parseFloat(cartTotal)+20)
+                        else if(this.state.priceAfterCoupon === parseFloat(cartTotal)+20)
                             this.setState({priceAfterCoupon: ((parseFloat(cartTotal)+20)-dicount).toFixed(2)});
                         else
                         this.setState({priceAfterCoupon: ((parseFloat(cartTotal))-dicount).toFixed(2)});
