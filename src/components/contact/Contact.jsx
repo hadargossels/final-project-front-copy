@@ -1,38 +1,7 @@
 import React, { Component } from 'react'
 import './Contact.css'
-import {
-    GoogleMap,
-    withGoogleMap,
-    withScriptjs,
-    Marker,
-    InfoWindow,
-  } from "react-google-maps";
-
-  const MyGoogleMap = withScriptjs(
-    withGoogleMap((props) => (
-      <GoogleMap
-        defaultZoom={14}
-        defaultCenter={{ lat: 31.7773702, lng: 35.22302 }}
-      >
-        
-          <Marker
-            onClick={props.onToggleOpen}
-            position={{ lat: 31.7773702, lng: 35.22302 }}
-          >
-            {props.isOpen && (
-             <InfoWindow onClick={props.onToggleOpen}>
-                <div style={{padding: "25px"}}> 
-                  <h3>Stationery Store</h3>              
-                  <h6>8, ALROV MAMILLA AVENUE, Jerusalem</h6>
-                  <img src='/img/plh-crd-mamilla-mall-ministry-of-tourism-2.jpg' alt="img" height="150px" />
-                </div>
-              </InfoWindow>
-            )}
-         </Marker>
-        
-      </GoogleMap>
-    ))
-  );
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import axios from 'axios';
   
 export default class Contact extends Component {
 
@@ -41,8 +10,31 @@ export default class Contact extends Component {
         this.state = {
             ticketInfo: [],
             isOpen:false,
+            messege: '',
+            color: "white",
+            info: {}
 
         }
+        this.nameRef = React.createRef();
+        this.emailRef = React.createRef();
+        this.phoneRef = React.createRef();
+        this.messegeRef = React.createRef();
+        this.subjectRef = React.createRef();
+    }
+
+    componentWillMount () {
+      this.getStoreInfo()
+      
+    }
+    
+    async getStoreInfo() {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_URL}/storeInfo/`);
+        let info = response.data;
+        this.setState({info: info[0]})
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     onToggleOpen=()=>{
@@ -51,17 +43,35 @@ export default class Contact extends Component {
         this.setState({isOpen})
       }
 
-    ticket (e) {
-        e.preventDefault()
-        let ticketInfo = []
-        for (let i = 0; i < 20; i+=5) {
-           let title = e.target.childNodes[i].innerText
-           let value = e.target.childNodes[i+2].value
-           let ticketObj = {title, value}
-           ticketInfo.push(ticketObj)
-        }
-        setTimeout(()=>{this.setState({ticketInfo});console.log(this.state.ticketInfo);},5);
-    }
+    async handleTicket(e) {
+      e.preventDefault()
+      let name = this.nameRef.current.value
+      let email = this.emailRef.current.value
+      let phone = this.phoneRef.current.value
+      let messege = `${this.messegeRef.current.value}
+      
+      custumer phone: ${phone}`
+      let subject = this.subjectRef.current.value
+      try {await axios.post(`${process.env.REACT_APP_URL}/mail/sendMailFromClient`, {
+          from: email,
+          name: name,
+          subject: subject,
+          text: messege,
+        })
+        .then((response) => {
+          this.setState({messege: 'Ticket sent succesfully', color: "green"})
+        }, (error) => {
+          console.error('axios error ' + error);
+        });
+
+      }
+      catch {
+          console.error('Faild to send ticket')
+          this.setState({messege: 'Faild to send ticket', color: "red"})
+      }
+      
+  }
+
 
     render() {
         return (
@@ -70,47 +80,47 @@ export default class Contact extends Component {
             <div className='contInner'>
             <h1>CONTACT US</h1>
                 <span style={{color: 'red'}}>* required</span>
-                <form onSubmit={(e)=>{this.ticket(e)}}>
+                <form onSubmit={(e)=>{this.handleTicket(e)}}>
                 <label htmlFor="name">Name: *</label><br/>
-                <input type="name" id="contname" name="name" required/><br/><br/>
+                <input ref={this.nameRef} type="name" id="contname" name="name" required/><br/><br/>
                 <label htmlFor="email">Email: *</label><br/>
-                <input type="email" id="contemail" name="email" required/><br/><br/>
+                <input ref={this.emailRef} type="email" id="contemail" name="email" required/><br/><br/>
                 <label htmlFor="phone">Phone number: *</label><br/>
-                <input type="tel" id="phone" name="phone" required/><br/><br/>
+                <input ref={this.phoneRef} type="tel" id="phone" name="phone" required/><br/><br/>
+                <label htmlFor="subject">Subject: *</label><br/>
+                <input ref={this.subjectRef} type="text" id="contsubject" name="subject" required/><br/><br/>
                 <label htmlFor="messege">Messege: *</label><br/>
-                <textarea id="messege" name="messege" rows="4" cols="50" required></textarea><br/><br/>
+                <textarea id="messege" name="messege" rows="4" cols="50" required ref={this.messegeRef}></textarea><br/><br/>
                 <input type="submit" id="submsg" value="SUBMIT"></input><br/><br/>
-                </form>
+                </form><br/>
+                <span style={{color: this.state.color}}>{this.state.messege}</span>
             </div>
 
             <div className="location contInner">
-            <div>
-                    Stationery Store,<br/>
-                    8, ALROV MAMILLA AVENUE, Jerusalem<br/>
+
+                  <MapContainer center={[31.7773702, 35.22302]} zoom={13} scrollWheelZoom={false}>
+                    <TileLayer
+                      attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={[31.7773702, 35.22302]}>
+                      <Popup>
+                        <div style={{padding: "25px"}}> 
+                          <h5>{this.state.info.name}</h5>              
+                          <h6>{this.state.info.address}</h6>
+                          <img src='/img/plh-crd-mamilla-mall-ministry-of-tourism-2.jpg' alt="img" height="80px" />
+                        </div>
+                      </Popup>
+                    </Marker>
+                  </MapContainer><br/>
+                  <div>
+                    {this.state.info.name},<br/>
+                    {this.state.info.address}<br/>
                     Opening Hours: <br/>
-                    10am - 10pm<br/>
-                    Telephone: 111-1111111<br/>
-                    Email: email@email.com<br/>
+                    {this.state.info.opening}<br/>
+                    Telephone: {this.state.info.phone}<br/>
+                    Email: {this.state.info.email}<br/>
                 </div>
-                <MyGoogleMap
-                    loadingElement={<div>Loading....</div>}
-                    containerElement={
-                        <div style={{ height: "100%" }} className="map"></div>
-                    }
-                    mapElement={
-                        <div style={{ height: "400px", width: "500px" }} className="inner-map"></div>
-                        
-                    }
-                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVtHhDa2ErB1UuzEc1t3dXozBGaSHiQZk&v=3.exp&libraries=geometry,drawing,places"
-                    isMarkerShown={this.state.isMarkerShown}
-                    onMarkerClick={this.handleMarkerClick}
-                    onToggleOpen={this.onToggleOpen}
-                    isOpen={this.state.isOpen}
-                    withScriptjs
-                />
-
-
-
             </div>
         </div>
 

@@ -1,0 +1,22 @@
+.shippingCont {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    justify-content: center;
+    width: 70%;
+    font-family: 'Yusei Magic', sans-serif;
+}
+
+.shippTable {
+    text-align: center;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+.shipphead {
+    text-align: center;
+    padding: 30px;
+    color: #64495c;
+}

@@ -28,6 +28,10 @@ import PrivateRoute from "./components/PrivateRoute";
 import ForgotPassword from "./components/ForgotPassword";
 import UpdateProfile from "./components/UpdateProfile";
 import Administrator from './components/admin/Administrator';
+import Profile from './components/Profile';
+import Demo from './react-admin-demo-js/App';
+
+
 
 localStorage.setItem("orderErr","")
 localStorage.setItem("orderId","")
@@ -77,9 +81,11 @@ const router = (
      <Route exact path = "/Post/:postid" component={Post}/>
      <PrivateRoute exact path="/Dashboard" component={Dashboard}/>
     <PrivateRoute exact path="/update-profile" component={UpdateProfile}/>
+    <PrivateRoute exact path="/profile" component={Profile}/>
     <Route exact path='/signup' component={Signup}/>
     <Route exact path='/login' component={Login}/>
     <Route exact path='/forgot-password' component={ForgotPassword}/>
+    <Route exact path='/demo' component={Demo}/>
      <Route component={NotFound}/>
   </Switch>
   <Footer/>

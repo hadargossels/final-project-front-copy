@@ -1,44 +1,45 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import './Product.css';
 import axios from 'axios'
+import { NavLink } from 'react-router-dom';
 
-class Product extends Component {
+class Product extends PureComponent {
    constructor(props) {
       super(props);
 
       this.state = {
       product: [],
+      relatedItems: [],
+      pageNum: this.props.match.params.productid,
       i: 0,
       cart: JSON.parse(localStorage.getItem("cart")),
       addMsg: ""
     }
     this.findIndex = this.findIndex.bind(this);
     this.addToCart = this.addToCart.bind(this);
-   this.findIndex()
+    this.related = this.related.bind(this);
+
    
       }
 
-
-      componentDidMount () {
-         this.getProduct();
-      }
-
-
-      
-      async getProduct() {
-      try {
-         const response = await axios.get('http://localhost:3000/product');
-         console.log("response from db",response.data);
-         this.setState({product: response.data}, () => {
-            this.findIndex()
-            console.log("data from db",this.state.product)
-         });
+      componentWillMount () {
+         this.getStore()
          
-         
-      } catch (error) {
-         console.error(error);
-      }
-      }
+       }
+       
+       async getStore() {
+         try {
+           await axios.get(`${process.env.REACT_APP_URL}/product/`)
+           .then((response)=>{
+            let product = response.data;
+           this.setState({product})
+           this.findIndex()
+           })
+         } catch (error) {
+           console.error(error);
+         }
+       }
+
 
    addMsg () {
       setTimeout(()=>{this.setState({addMsg: "Item added to cart"})},5)
@@ -47,24 +48,25 @@ class Product extends Component {
 
    findIndex () {
       let i = 0;
+      let pageNum = this.state.pageNum
       for (const element of this.state.product) {
-         if (this.props.match.params.productid == element.id)
-         {i = element.id - 1; }
+         if (pageNum == element.id + 1)
+         {i = element.id}
       }
-      setTimeout(()=>
-      {this.setState({i}); console.log(this.state.i)},5) 
+      
+      this.setState({i})
+      this.related()
+      
    }
 
    addToCart (e) {
       let itemId = e.target.id
       let quantity = e.target.previousElementSibling.value
-      console.log(this.state.cart)
       let cart = [];
       if (this.state.cart !== null) {
         cart = [...this.state.cart]
       }
       let src = e.target.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].childNodes[0].src
-      src = src.substring(21)
       let name = e.target.parentNode.parentNode.parentNode.parentNode.childNodes[1].childNodes[1].childNodes[0].innerText
       let price = e.target.parentNode.parentNode.parentNode.parentNode.childNodes[1].childNodes[1].childNodes[5].innerText
       price = price.substring(7, price.length-1)
@@ -91,11 +93,27 @@ class Product extends Component {
       this.addMsg()
    },5)
     }
-   
+
+    related () {
+      let product = [...this.state.product]
+       let category = product[this.state.i].category
+       let related = []
+       product.forEach(element => {
+          if (element.category === category) {
+            
+             related.push(element)
+             
+          }
+          
+       });
+       this.setState({relatedItems:related})
+
+      
+    }
    
    render() {
-      return (this.state.product[this.state.i]) ? (
-         <div className='prodCont'>
+      return (this.state.product[this.state.i] && this.state.relatedItems[2] !== undefined) ? (
+         <div className='prodCont' key={this.props.match.params.productid}>
          <div className='prodImg'>
             <div className='mainImg'>
                <img src={this.state.product[this.state.i].src} alt="product" />
@@ -127,11 +145,14 @@ class Product extends Component {
             </div><br />
             <span className='addMsg'>{this.state.addMsg}</span><br />
             <span>RELATED ITEMS</span>
-            <div className='related'>
-               <img src={this.state.product[this.state.i].related1} alt="product" />
-               <img src={this.state.product[this.state.i].related2} alt="product" />
-               <img src={this.state.product[this.state.i].related3} alt="product" />
-            </div>
+            {this.state.relatedItems !== [] ? 
+                     (<div className='related'> 
+                     <a href={"/Product/"+this.state.relatedItems[0].id}><img src={this.state.relatedItems[0].src} alt="product" /></a>
+                     <a href={"/Product/"+this.state.relatedItems[1].id}><img src={this.state.relatedItems[1].src} alt="product" /></a>
+                     <a href={"/Product/"+this.state.relatedItems[2].id}><img src={this.state.relatedItems[2].src} alt="product" /></a>
+                     </div> )
+                     : (<div>Loading</div>)
+            }
          </div>
       </div>
       ) : (<div>Loading...</div>)

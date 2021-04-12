@@ -13,6 +13,7 @@ class Store extends Component{
       this.state = {
       product: product,
       display: product,
+      pages: [],
       checked: [],
       searchKey: "",
       results: [],
@@ -35,14 +36,15 @@ class Store extends Component{
 
 componentWillMount () {
   this.getStore()
+  
 }
 
 async getStore() {
   try {
-    const response = await axios.get('http://localhost:3000/store');
-    product = response.data;
+    const response = await axios.get(`${process.env.REACT_APP_URL}/product/`);
+    let product = response.data;
     this.setState({product, display: product})
-    console.log(product);
+    this.paginationSetup()
   } catch (error) {
     console.error(error);
   }
@@ -63,7 +65,6 @@ async getStore() {
         cart = [...this.state.cart]
       }
       let src = e.target.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].src
-      src = src.substring(21)
       let name = e.target.parentNode.parentNode.parentNode.parentNode.childNodes[1].innerText
       let price = e.target.parentNode.parentNode.parentNode.parentNode.childNodes[2].childNodes[0].childNodes[1].innerText
       price = price.substring(0, price.length-1)
@@ -95,7 +96,6 @@ async getStore() {
       e.target.style.color = 'red'
       let itemId = e.target.id
       let src = e.target.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].src
-      src = src.substring(21)
       let price = e.target.parentNode.parentNode.parentNode.parentNode.childNodes[2].childNodes[0].childNodes[1].innerText
       price = price.substring(0, price.length-1)
       let name = e.target.parentNode.parentNode.parentNode.parentNode.childNodes[1].innerText
@@ -160,6 +160,7 @@ async getStore() {
 
     filter (e) {
       let display = [...this.state.display];
+      let product = [...this.state.product]
       let filterThat = [...this.state.product];
       let filtered = [];
       let name = e.target.name
@@ -184,7 +185,6 @@ async getStore() {
         }
       }
       else if (name === 'priceRange'){
-        console.log(name)
         for (let i = 0; i<filterby.length; i++){
           filtered = filterThat.filter((v)=> {return v.priceRange === filterby[i]}) 
           filtered.forEach(element => {display.push(element)});         
@@ -219,7 +219,6 @@ async getStore() {
         let re = new RegExp (this.state.searchKey, "g")
         for (const element of product) {
         if (re.test(element.name) || re.test(element.description)){
-          console.log(re.test(element.name))
           display.push(element);
           results.push(element);
         }
@@ -229,16 +228,40 @@ async getStore() {
             this.setState({filterDis: "none"})
           this.setState({storeDis: "none"})
           this.setState({errorDis: "flex"})
-          console.log(this.state.storeDis)
           },5)
         }
-        console.log(this.state.searchKey)
-      console.log(this.state.results.length)
         setTimeout(()=>{
           this.setState({display: display})
           this.setState({results:results})
         },5)
       }
+    }
+
+    pagination (e) {
+      let currentPage = parseInt(e.target.innerText)
+      let productPerPage = 10
+      let endIndex = productPerPage * currentPage
+      let startIndex = endIndex - productPerPage
+      let product = [...this.state.product]
+      let display = product.slice(startIndex, endIndex)
+      this.setState({display})
+
+    }
+
+    paginationSetup () {
+      let currentPage = 1
+      let productPerPage = 10
+      let endIndex = productPerPage * currentPage
+      let startIndex = endIndex - productPerPage
+      let product = [...this.state.product]
+      let display = product.slice(startIndex, endIndex)
+      let lastPage = Math.ceil(product.length / productPerPage)
+      let pages = []
+      for (let index = 1; index < lastPage+1; index++) {
+        pages.push(index)
+        
+      }
+      this.setState({display, pages})
     }
 
     
@@ -361,6 +384,16 @@ async getStore() {
                 </div>
               </div>)}                  
               </div>
+              <br/>
+              <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <li class="page-item"><button class="page-link" href="#">Previous</button></li>
+                  {this.state.pages.map((v) => 
+                  <li class="page-item" key={v}><button class="page-link" onClick={(e)=>{this.pagination(e)}}>{v}</button></li>
+                  )}                  
+                  <li class="page-item"><button class="page-link" href="#">Next</button></li>
+                </ul>
+              </nav>
           </div>
         
 

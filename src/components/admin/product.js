@@ -1,6 +1,6 @@
 import * as React from "react";
 import { List, Datagrid, TextField, EditButton, ImageField,
-    Edit, SimpleForm, TextInput, Create } from 'react-admin';
+    Edit, SimpleForm, TextInput, Create, DateField, DateInput } from 'react-admin';
 
 export const productList = props => (
     <List {...props}>
@@ -19,6 +19,12 @@ export const productList = props => (
             <ImageField source="related1" title="title"/>
             <ImageField source="related2" title="title"/>
             <ImageField source="related3" title="title"/>
+            <TextField source="category" />
+            <TextField source="brand" />
+            <TextField source="color" />
+            <TextField source="priceRange" />
+            <DateField source="date"/>
+            <TextField source="featured" />
             <EditButton />
         </Datagrid>
     </List>
@@ -41,6 +47,12 @@ export const productEdit = props => (
             <TextInput source="related1" />
             <TextInput source="related2" />
             <TextInput source="related3" />
+            <TextInput source="category" />
+            <TextInput source="brand" />
+            <TextInput source="color" />
+            <TextInput source="priceRange" />
+            <DateInput source="date"/>
+            <TextInput source="featured" />
         </SimpleForm>
     </Edit>
 );
@@ -62,6 +74,12 @@ export const productCreate = props => (
             <TextInput source="related1" />
             <TextInput source="related2" />
             <TextInput source="related3" />
+            <TextInput source="category" />
+            <TextInput source="brand" />
+            <TextInput source="color" />
+            <TextInput source="priceRange" />
+            <DateInput source="date"/>
+            <TextInput source="featured" />
             </SimpleForm>
         </Create>
     );

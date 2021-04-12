@@ -221,7 +221,7 @@ export class Cart extends Component {
                                     <td className="right">{this.state.total + this.state.shipping + this.state.discount}$</td>
                                 </tr>
                                 <tr>
-                                <td colSpan="2" ><NavLink exact to="/Payment" ><button className='ckotBtn' onClick={()=>{this.totalPay()}}>CHECKOUT</button></NavLink></td>
+                                <td colSpan="2" ><NavLink to={{pathname:"/Payment", paymentProps: {shipping: this.state.shipping, total: this.state.total}}}  ><button className='ckotBtn' onClick={()=>{this.totalPay()}} disabled={this.state.amount === 0 ? true : false}>CHECKOUT</button></NavLink></td>
                                 </tr>
                             </tfoot>
                         </table>                        

@@ -15,17 +15,16 @@ export class Blog extends Component {
     componentDidMount () {
         this.getBlog();
      }
-
-
      
      async getBlog() {
      try {
-        const response = await axios.get('http://localhost:3000/blog');
+        const response = await axios.get(`${process.env.REACT_APP_URL}/blog/`);
         this.setState({blog: response.data}, () => {});
      } catch (error) {
         console.error(error);
      }
      }
+
 
     render() {
         return (

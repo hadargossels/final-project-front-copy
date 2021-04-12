@@ -1,0 +1,21 @@
+.wishbtn {
+    border: none;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.wishCont {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    justify-content: center;
+    text-align: center;
+}
+
+.wishCont h1 {
+    padding: 30px 0px;
+}
+
+.wishCont table {
+    font-size: 16px;
+}

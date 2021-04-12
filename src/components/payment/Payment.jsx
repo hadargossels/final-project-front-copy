@@ -1,10 +1,16 @@
 import React, {Component} from 'react'
 import Dropdown from '../dropdown/Dropdown'
-import Login from '../login/Login'
 import Paypal from '../Paypal'
 import Success from '../Success/Success'
 import Fail from '../Fail/Fail'
 import './Payment.css'
+import {db} from '../../firebase'
+import UpdateProfile from '../UpdateProfile'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
+import {Form, Button, Card, Alert} from 'react-bootstrap'
+
+
 
 export class Payment extends Component {
     constructor(props) {
@@ -12,141 +18,122 @@ export class Payment extends Component {
         this.state = {
             payment: true,
             shippingInfo: [],
-            email: "",
-            firstName: "",
-            lastName: "",
-            email1: "",
-            phone: "",
-            country: "",
-            city: "",
-            address: "",
-            zip: "",
-            paypal: true
+            invoice: [],
+            token: localStorage.getItem("token"),
+            payload: {},
+            error: ''
 
         }
-        console.log(this.state.shippingInfo)
+        this.firstNameRef = React.createRef();
+        this.lastNameRef = React.createRef();
+        this.emailRef = React.createRef();
+        this.countryRef = React.createRef();
+        this.cityRef = React.createRef();
+        this.addressRef = React.createRef();
+        this.zipRef = React.createRef();
+        this.phoneRef = React.createRef();
     }
 
-    shipping (e) {
+parseJwt () {
+    let token = localStorage.getItem("token")
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    this.setState({payload: JSON.parse(jsonPayload)})
+};
+
+    componentWillMount () {
+        this.parseJwt()
+        this.getInvoice()        
+      }
+
+      async handleSubmit(e) {
         e.preventDefault()
-        let shippingInfo = []
-        for (let i =0; i<4; i++) {
-            for (let j=0; j<2; j++) {
-                let titel = e.target.childNodes[3].childNodes[0].childNodes[i].childNodes[j].childNodes[0].innerText
-                let value = e.target.childNodes[3].childNodes[0].childNodes[i].childNodes[j].childNodes[2].value
-                let shippingObject = {titel, value}
-                shippingInfo.push(shippingObject)
-            }
-        }
-        let note = e.target.childNodes[3].childNodes[0].childNodes[4].childNodes[0].childNodes[2].value
-        let noteObj = {title: 'note', value: note}
-        shippingInfo.push(noteObj)
+        let payload = this.state.payload
+        this.setState({error: ''})
+        let id = payload.id
+        let firstName =  this.firstNameRef.current.value 
+        let lastName = this.lastNameRef.current.value  
+        let email = this.emailRef.current.value 
+        let country = this.countryRef.current.value 
+        let city = this.cityRef.current.value 
+        let address = this.addressRef.current.value
+        let zip = this.zipRef.current.value
+        let phone = this.phoneRef.current.value
 
-        let email = e.target.childNodes[3].childNodes[0].childNodes[1].childNodes[0].childNodes[2].value
-        setTimeout(()=>{this.setState({shippingInfo, email, paypal: false})},5)
-    }
-
-    validate (e) {
-        if (e.target.id === 'firstName') {
-            var patt = /[0-9]+/gm
-            var value = e.target.value
-            var res = patt.test(value);
-            console.log(res)
-            console.log(value)
-            if (res === true || value === "") {
-                setTimeout(()=>{this.setState({firstName: 'is-invalid'});},5)
+        try {
+            const response = await axios.put(`${process.env.REACT_APP_URL}/user/${id}`, 
+            {
+                id:id,
+                firstName: firstName,
+                lastName: lastName,
+                address: address,
+                email: email,
+                country: country,
+                city: city,
+                zip: zip,
+                phone: phone,
+                role: 'custumer',
+                active: true
             }
-            else {
-                setTimeout(()=>{this.setState({firstName: 'is-valid'});},5)
-            } 
-        }
-        if (e.target.id === 'lastName') {
-            var patt = /[0-9]+/gm
-            var value = e.target.value
-            var res = patt.test(value);
-            console.log(res)
-            console.log(value)
-            if (res === true || value === "") {
-                setTimeout(()=>{this.setState({lastName: 'is-invalid'});},5)
-            }
-            else {
-                setTimeout(()=>{this.setState({lastName: 'is-valid'});},5)
-            } 
-        }
-        if (e.target.id === 'email1') {
-            var patt = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/gm
-            var value = e.target.value
-            var res = patt.test(value);
-            console.log(res)
-            console.log(value)
-            if (res === true) {
-                setTimeout(()=>{this.setState({email1: 'is-valid'});},5)
-            }
-            else if (res === false || value === "") {
-                setTimeout(()=>{this.setState({email1: 'is-invalid'});},5)
-            } 
-        }
-        if (e.target.id === 'phone1') {
-            var patt = /[a-z,A-Z]+/gm
-            var value = e.target.value
-            var res = patt.test(value);
-            console.log(res)
-            console.log(value)
-            if (res === true || value === "" || value.length < 10) {
-                setTimeout(()=>{this.setState({phone: 'is-invalid'});},5)
-            }
-            else {
-                setTimeout(()=>{this.setState({phone: 'is-valid'});},5)
-            } 
-        }
-        if (e.target.id === 'country') {
-            var patt = /[0-9]+/gm
-            var value = e.target.value
-            var res = patt.test(value);
-            console.log(res)
-            console.log(value)
-            if (res === true || value === "") {
-                setTimeout(()=>{this.setState({country: 'is-invalid'});},5)
-            }
-            else {
-                setTimeout(()=>{this.setState({country: 'is-valid'});},5)
-            } 
-        }
-        if (e.target.id === 'city') {
-            var patt = /[0-9]+/gm
-            var value = e.target.value
-            var res = patt.test(value);
-            console.log(res)
-            console.log(value)
-            if (res === true || value === "") {
-                setTimeout(()=>{this.setState({city: 'is-invalid'});},5)
-            }
-            else {
-                setTimeout(()=>{this.setState({city: 'is-valid'});},5)
-            } 
-        }
-        if (e.target.id === 'address') {
-            if (value === "") {
-                setTimeout(()=>{this.setState({address: 'is-invalid'});},5)
-            }
-            else {
-                setTimeout(()=>{this.setState({address: 'is-valid'});},5)
-            } 
-        }
-        if (e.target.id === 'zip') {
-            var patt = /[a-z,A-Z]+/gm
-            var value = e.target.value
-            var res = patt.test(value);
-            console.log(res)
-            console.log(value)
-            if (res === true || value === "") {
-                setTimeout(()=>{this.setState({zip: 'is-invalid'});},5)
-            }
-            else {
-                setTimeout(()=>{this.setState({zip: 'is-valid'});},5)
-            } 
+            )
+            .then((response) => {console.log(response)}, (error) => {console.log('axios error ' + error)})  
+        } 
+        catch (error) {
+            this.setState({error})
         }
     }
+      
+    async getInvoice() {
+        try {
+            await axios.get(`${process.env.REACT_APP_URL}/invoice/`)
+            .then((response)=>{this.setState({invoice:response.data})})
+        } catch (error) {
+            console.error(error);
+        }
+        }
+
+      async createInvoice(e) {
+        e.preventDefault();
+        let basket = [...localStorage.getItem("cart")]
+        let payload = {...this.state.payload}
+        let shipping = this.props.location.paymentProps.shipping
+        let tax_rate = 0.18
+        let total = this.props.location.paymentProps.total
+        let taxes = total * tax_rate
+        let total_ex_taxes = total - taxes
+        let invoice = [...this.state.invoice]
+        let id = parseInt(invoice[invoice.length-1].id + 1) 
+        try {await axios.post(`${process.env.REACT_APP_URL}/invoice/`, {
+                basket : basket,
+                id : id,
+                customer_id : payload.id,
+                date : new Date (),
+                delivery_fees : shipping,
+                reference : localStorage.getItem("orderId"),
+                returned : "false",
+                status : "ordered",
+                tax_rate : tax_rate,
+                total : total, 
+                taxes : taxes,
+                total_ex_taxes : total_ex_taxes
+          })
+          .then((response) => {
+            console.log(response);
+            localStorage.setItem("cart", [])
+          }, (error) => {
+            console.log('axios error ' + error);
+          });
+        }
+        catch {
+           console.error('Faild to complete order')
+        }
+      }
+
+
     render() {
         
         return (
@@ -155,70 +142,70 @@ export class Payment extends Component {
                     <div className="summery">
                         <h3>Summery</h3>
                         <Dropdown/>
-                    </div>
-                    {localStorage.getItem("user").length === 0 ? <div>
-                        <h3>Sign in to proceed</h3>
-                        <Login/>
-                    </div> : null}
-                    {localStorage.getItem("user").length > 0 ? 
-                    <div className="shippingI">
-                        <form onSubmit={(e)=>{this.shipping(e)}}>
-                        <h3>Shipping information</h3><br/>
-                        <span style={{color: 'red'}}>* required</span>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td><label htmlFor="firstName" className="form-label">First name *</label><br/>
-                                <input type="text" className={"form-control "+this.state.firstName} onChange={(e)=>{this.validate(e)}} id="firstName" required/></td>
-                                <td><label htmlFor="lastName" className="form-label">Last name *</label><br/>
-                                <input type="text" className={"form-control "+this.state.lastName} onChange={(e)=>{this.validate(e)}} id="lastName" required/></td>
-                            </tr>
-                            <tr>
-                                <td><label htmlFor="email1" className="form-label">Email *</label><br/>
-                                <input type="text" className={"form-control "+this.state.email1} onChange={(e)=>{this.validate(e)}} id="email1" required/></td>
-                                <td><label htmlFor="phone1" className="form-label">Phone</label><br/>
-                                <input type="text" className={"form-control "+this.state.phone} onChange={(e)=>{this.validate(e)}} id="phone1" required/></td>
-                            </tr>
-                            <tr>
-                            <td><label htmlFor="country" className="form-label">Country *</label><br/>
-                                <input type="text" className={"form-control "+this.state.country} onChange={(e)=>{this.validate(e)}} id="country" required/></td>
-                                <td><label htmlFor="city" className="form-label">City *</label><br/>
-                                <input type="text" className={"form-control "+this.state.city} onChange={(e)=>{this.validate(e)}} id="city" required/></td>
-                            </tr>
-                            <tr>
-                            <td><label htmlFor="address" className="form-label">Address *</label><br/>
-                                <input type="text" className={"form-control "+this.state.address} onChange={(e)=>{this.validate(e)}} id="address" required/></td>
-                                <td><label htmlFor="zip" className="form-label">Zip *</label><br/>
-                                <input type="text" className={"form-control "+this.state.zip} onChange={(e)=>{this.validate(e)}} id="zip" required/></td>
-                            </tr>
-                            <tr>
-                                <td colSpan='2'><label htmlFor="notesarea">Notes:</label><br/>
-                                <textarea className='form-control' id="notesarea" name="notesarea" rows="4" cols="55"></textarea></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div className="shippingI">
-                        <input type="submit" className='payBtn' value="Submit your shipping information"/>
-                    </div>
-                    </form><br/>
+                    </div><br/>
+                    <div>
+                        <h3>Shipping Details</h3>
+                        <>
+{this.state.payload ? 
+    <>
+  <Card style={{maxWidth: '400px', margin: '15px auto'}} className='d-flex justify-content-center'>
+            <Card.Body>
+                {this.state.error && <Alert variant='danger'>{this.state.error}</Alert>}
+                <Form onSubmit={(e)=>{this.handleSubmit(e)}}>
+                    <Form.Group id="email">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control type="email" ref={this.emailRef} required defaultValue={this.state.payload.email}/>
+                    </Form.Group>                    
+                    <Form.Group id="firstName">
+                        <Form.Label>First Name</Form.Label>
+                        <Form.Control type="text" ref={this.firstNameRef} defaultValue={this.state.payload.firstName}/>
+                    </Form.Group>
+                    <Form.Group id="lastName">
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control type="text" ref={this.lastNameRef} defaultValue={this.state.payload.lastName}/>
+                    </Form.Group>
+                    <Form.Group id="country">
+                        <Form.Label>country</Form.Label>
+                        <Form.Control type="text" ref={this.countryRef} defaultValue={this.state.payload.country}/>
+                    </Form.Group>
+                    <Form.Group id="city">
+                        <Form.Label>city</Form.Label>
+                        <Form.Control type="text" ref={this.cityRef} defaultValue={this.state.payload.city}/>
+                    </Form.Group>
+                    <Form.Group id="address">
+                        <Form.Label>address</Form.Label>
+                        <Form.Control type="text" ref={this.addressRef} defaultValue={this.state.payload.address}/>
+                    </Form.Group>
+                    <Form.Group id="zip">
+                        <Form.Label>zip</Form.Label>
+                        <Form.Control type="text" ref={this.zipRef} defaultValue={this.state.payload.zip}/>
+                    </Form.Group>
+                    <Form.Group id="phone">
+                        <Form.Label>phone</Form.Label>
+                        <Form.Control type="text" ref={this.phoneRef} defaultValue={this.state.payload.phone}/>
+                    </Form.Group><br/>
+                    <Button className='w-100' type='submit'>Update</Button><br/><br/>
+                </Form>
+            </Card.Body>
+        </Card>
+        </> : <div>Loading...</div>}
+        </>
+                    </div><br/>
                     <div><h3>Payment method:</h3> <br/>
                         <Paypal/></div>
-                    <button  className='payBtn' data-bs-toggle="modal" data-bs-target={"#modalPay"} disabled={this.state.paypal}>Submit your order</button>
+                    <button  className='payBtn' data-bs-toggle="modal" data-bs-target={"#modalPay"} disabled={false} onClick={(e)=>{this.createInvoice(e)}}>Submit your order</button>
                     <div className="modal fade" id={"modalPay"} tabIndex="-1" aria-labelledby={"exampleModalLabel"} aria-hidden="true">
                     <div className="modal-dialog">
                         <div className="modal-content">
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             <div>
-                                {localStorage.getItem("orderErr").length === 0 ? <Success email={this.state.email}/> : <Fail/>}
+                                {localStorage.getItem("orderErr").length === 0 ? <Success email={this.emailRef.current ? this.emailRef.current.value : null}/> : <Fail/>}
+                                <Link to="/"><button data-bs-dismiss="modal" aria-label="Close">Back to home page</button></Link>
                             </div>
                         </div>
                         </div>
                         </div>
                     </div>
-                    : null}
-                    
-                </div>
-
             </div>
         )
     }

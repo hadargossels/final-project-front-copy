@@ -21,7 +21,7 @@ function generateData () {
     let content = faker.lorem.paragraph()
     let date = faker.date.past()
     let comments = faker.random.number(10)
-    let src = faker.image.image()
+    let src = faker.image.imageUrl()
     blog.push({
         "id": id,
         "title": title,
@@ -33,19 +33,25 @@ function generateData () {
   }
   let product = []
   for (let id = 1; id < 50; id++) {
-    let src = faker.image.image()
+    let src = faker.image.imageUrl()
     let price = faker.commerce.price(1,40)
     let name = faker.commerce.productName()
-    let gallery1 = faker.image.image()
-    let gallery2 = faker.image.image()
-    let gallery3 = faker.image.image() 
+    let gallery1 = faker.image.imageUrl()
+    let gallery2 = faker.image.imageUrl()
+    let gallery3 = faker.image.imageUrl() 
     let description = faker.commerce.productDescription()
     let stock = "IN STOCK"
     let rating = faker.random.number(5)
     let raters = faker.random.number()
-    let related1 = faker.image.image()
-    let related2 = faker.image.image()
-    let related3 = faker.image.image()
+    let related1 = faker.image.imageUrl()
+    let related2 = faker.image.imageUrl()
+    let related3 = faker.image.imageUrl()
+    let category = faker.random.arrayElement(["pens","pencils","diaries","notebooks","school","folders"])
+    let brand = faker.random.arrayElement(["brandA","brandB","brandC","brandD"])
+    let color = faker.commerce.color()
+    let priceRange = faker.random.arrayElement(["0-10","11-20","21-30","31-40","41-50"])
+    let date = faker.date.past()
+    let featured = faker.random.number()
     product.push({
         "src": src,
         "price": price,
@@ -66,7 +72,7 @@ function generateData () {
 
   let store = []
   for (let id = 1; id < 50; id++) {
-    let src = faker.image.image()
+    let src = faker.image.imageUrl()
     let category = faker.random.arrayElement(["pens","pencils","diaries","notebooks","school","folders"])
     let brand = faker.random.arrayElement(["brandA","brandB","brandC","brandD"])
     let color = faker.commerce.color()
@@ -101,7 +107,7 @@ for (let id = 1; id < 50; id++) {
   let addressStreet = faker.address.streetAddress()
   let zip = faker.address.zipCode()
   let phone = faker.phone.phoneNumber()
-  let role = faker.random.arrayElement(['admin', 'client', 'guest'])
+  let role = faker.random.arrayElement(['admin', 'client'])
   let active = faker.random.boolean()
   users.push({
     "id": id,

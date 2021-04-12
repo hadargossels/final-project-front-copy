@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from "react";
+
 export default function Paypal() {
 
 const totalF = JSON.parse(localStorage.getItem("total"))
@@ -7,7 +8,7 @@ let items = JSON.parse(localStorage.getItem("cart")).length
 
 let orderId = 0
 
-  const paypal = useRef();
+const paypal = useRef();
 
   useEffect(() => {
     window.paypal

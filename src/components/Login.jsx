@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, {useRef, useState} from 'react'
 import {Form, Button, Card, Alert} from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
@@ -6,18 +7,26 @@ import { useAuth } from '../AuthContext'
 export default function Login() {
     const emailRef = useRef()
     const passwordRef = useRef()
-    const {login} = useAuth()
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const history = useHistory()
 
    async function handleSubmit(e) {
         e.preventDefault()
-        try {
-            setError('')
-            setLoading(true)
-           await login(emailRef.current.value, passwordRef.current.value)
-           history.push('/Dashboard')
+        let email = emailRef.current.value
+        let password = passwordRef.current.value
+        try {await axios.post(`${process.env.REACT_APP_URL}/auth/login`, {
+            email: email,
+            password: password,
+          })
+          .then((response) => {
+            console.log(response);
+            localStorage.setItem('token', response.data.token)
+            localStorage.setItem('currentUser', JSON.stringify({user: response.data.user.email, role: response.data.user.role}))
+            history.push('/Dashboard')
+          }, (error) => {
+            console.log('axios error ' + error);
+          });
         }
         catch {
             setError('Faild to sign in')

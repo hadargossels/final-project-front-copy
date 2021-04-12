@@ -26,7 +26,7 @@ export class Post extends Component {
      
      async getBlog() {
      try {
-        const response = await axios.get('http://localhost:3000/blog');
+        const response = await axios.get(`${process.env.REACT_APP_URL}/blog/`);
         this.setState({blog: response.data}, () => {
            this.findIndex()
         });        
@@ -37,7 +37,7 @@ export class Post extends Component {
 
      async getComments() {
         try {
-           const response = await axios.get('http://localhost:3000/comments');
+           const response = await axios.get(`${process.env.REACT_APP_URL}/comment/`);
            this.setState({comments: response.data}, () => {this.commentCount()});        
         } catch (error) {
            console.error(error);
@@ -68,7 +68,7 @@ export class Post extends Component {
          let comment = e.target.childNodes[8].value
          let commentObj = {postId:postId, id:id, name:name, date:date, comment:comment}
          comments.push(commentObj)
-         axios.post('http://localhost:3000/comments', {
+         axios.post(`${process.env.REACT_APP_URL}/comment/`, {
              postId:postId,
              id:id,
              name:name,

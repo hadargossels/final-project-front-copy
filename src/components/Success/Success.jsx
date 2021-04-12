@@ -6,7 +6,7 @@ export class Success extends Component {
         return (
             <div className='success'>
                 Order completed successfully!<br/>
-                Your order number is: <strong>{orderId}</strong><br/>
+                Your order number is: <strong>{localStorage.getItem("orderId")}</strong><br/>
                 Confirmation mail was sent to <strong>{this.props.email}</strong>               
             </div>
         )

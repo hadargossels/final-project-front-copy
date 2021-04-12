@@ -3,13 +3,11 @@ import { Redirect, Route } from 'react-router-dom'
 import {useAuth} from '../AuthContext'
 
 export default function PrivateRoute({component: Component, ...rest}) {
-    const {currentUser} = useAuth()
+    // const currentUser = JSON.parse(localStorage.getItem("currentUser"))
+    const currentUser = localStorage.getItem("currentUser")
     return (
         <Route {...rest}
         render={props => {
-            if (currentUser.email === 'admin@admin.com') {
-                return <Redirect to="/admin"/>
-            }
             if (currentUser) {
                 return <Component {...props}/>
             }
