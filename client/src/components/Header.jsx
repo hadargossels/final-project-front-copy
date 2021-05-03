@@ -36,6 +36,7 @@ export default function Header() {
     const onSetSearchInput = () => {
         var value = searchInputRef.current.value.replace(/[^A-Za-z]/ig, '');
         searchInputRef.current.value = value;
+        console.log(value)
         setSearchInput(value);
     }
 
@@ -87,9 +88,9 @@ export default function Header() {
                         <li className="nav-item dropdown">
                             <div className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Store</div>
                             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <Link to={{pathname: "/products/bedroom", category: "Bedroom"}} className="dropdown-item">Bedroom</Link>
-                                <Link to={{pathname: "/products/bathroom", category: "Bathroom"}} className="dropdown-item">Bathroom</Link>
-                                <Link to={{pathname: "/products/living-room", category: "Living-room"}} className="dropdown-item">Living Room</Link>
+                                <Link to={{pathname: "/store/bedroom", category: "Bedroom"}} className="dropdown-item">Bedroom</Link>
+                                <Link to={{pathname: "/store/bathroom", category: "Bathroom"}} className="dropdown-item">Bathroom</Link>
+                                <Link to={{pathname: "/store/living-room", category: "Living-room"}} className="dropdown-item">Living Room</Link>
                             </div>
 
                         </li>
@@ -133,7 +134,7 @@ export default function Header() {
                             </div>
                         </div>
                         <input className="form-control mr-sm-2" placeholder="Search" aria-label="Search" ref={searchInputRef} onChange={onSetSearchInput}></input >
-                        <Link to={`/products?q=${searchInput}`} type="button" className="btn btn-outline-dark my-2 my-sm-0">Search</Link>
+                        <Link to={`/store?q=${searchInput}`} type="button" className="btn btn-outline-dark my-2 my-sm-0">Search</Link>
                     </form>
                 </div>
             </nav>

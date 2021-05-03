@@ -9,13 +9,19 @@ export default function Favorites() {
 
     return (
         <div>
+            {console.log(favoriteProducts)}
             <Container className="d-flex flex-column justify-content-center align-items-center py-5">
                 <h1>WISHLIST</h1>
-                <div className="row py-5">
-                    {favoriteProducts.map((favoriteProduct, index) =>
-                        <FavoriteProduct key={index} favoriteProduct={favoriteProduct} />
-                    )}
-                </div>
+                {
+                    favoriteProducts.length > 0 ? 
+                    <div className="row py-5">
+                        {favoriteProducts.map((favoriteProduct, index) =>
+                            <FavoriteProduct key={index} favoriteProduct={favoriteProduct} />
+                        )}
+                    </div>
+                    : 
+                    <p className="py-4">There are no products on your whshlist</p>
+                } 
             </Container>
         </div>
     )

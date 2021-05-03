@@ -8,13 +8,13 @@ router.get('/', orderController.findAll);
 
 router.get('/:id', orderController.findOne);
 
-router.post('/', orderController.create);
+router.post('/',checkAuth, orderController.create);
 
 router.patch('/:id', orderController.update);
 
 router.delete('/:id', orderController.delete);
 
 
-router.get('/user/:userId', checkAuth, orderController.findUserOrders);
+router.get('/user/:userId', orderController.findUserOrders);
 
 module.exports = router;

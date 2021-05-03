@@ -16,22 +16,6 @@ export function AuthProvider({children}) {
         return {'Content-Type': 'application/json', 'Authorization': token ? `Bearer ${token}` : ""};
     }
 
-    const login = async (email, password) =>{
-        try {
-            const resp = await axios.post(`${process.env.REACT_APP_PROXY}/users/login`, {
-                email, 
-                password
-            })
-            localStorage.setItem("token", resp.data.token);
-            setCurrentUser(resp.data.user)
-            return resp;
-        }
-        catch(err) {
-            console.log(err)
-            return err
-        }
-    }
-
     function logout() {
         setCurrentUser(null);
     }
@@ -44,7 +28,6 @@ export function AuthProvider({children}) {
     const value = {
         currentUser,
         setCurrentUser,
-        login,
         logout,
         getAuthHeaders
     }

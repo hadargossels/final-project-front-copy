@@ -11,10 +11,13 @@ export default function ArticlePage(props) {
     const emailRef = useRef();
     const titleRef = useRef();
     const notesRef = useRef();
+    
     const [messageFullName, setMessageFullName] = useState();
     const [messageEmail, setMessageEmail] = useState();
     const [messageNotes, setMessageNotes] = useState();
     const [comments, setComments] = useState();
+    const [alertComment, setAlertComment] = useState();
+    
     const { currentUser, getAuthHeaders } = useAuth();
 
 
@@ -54,31 +57,6 @@ export default function ArticlePage(props) {
         const emailPattern = /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/;
         let correctInputs = true;
 
-        // if (fullNameRef.current.validity.valueMissing){
-        //     fullNameRef.current.style.borderColor = 'red';
-        //     correctInputs = false;
-        //     setMessageFullName(invalidMessages.required);
-        // }
-        // else{
-        //     setMessageFullName('');
-        //     fullNameRef.current.style.borderColor = 'green';
-        // }
-        
-        // if (!emailRef.current.value){
-        //     emailRef.current.style.borderColor = 'red';
-        //     correctInputs = false;
-        //     setMessageEmail(invalidMessages.required);
-        // } 
-        // else if (!emailRef.current.value.match(emailPattern)){
-        //     emailRef.current.style.borderColor = 'red';
-        //     correctInputs = false;
-        //     setMessageEmail(invalidMessages.emailPattern);
-        // }
-        // else {
-        //     setMessageEmail('');
-        //     emailRef.current.style.borderColor = 'green';
-        // }
-
         if (titleRef.current.validity.valueMissing){
             notesRef.current.style.borderColor = 'red';
             correctInputs = false;
@@ -100,25 +78,19 @@ export default function ArticlePage(props) {
         }
     
         if (correctInputs) {
-            const resp = await axios.post(`${process.env.REACT_APP_PROXY}/posts/${props.post._id}`, {
-                userId: currentUser._id,
-                title: titleRef.current.value,
-                body: notesRef.current.value
-            },  {headers: getAuthHeaders()})
-            // let newDate = new Date();
-            // let day = newDate.getDate();
-            // let mounth = newDate.getMonth() + 1;
-            // let year = newDate.getFullYear();
-            // newDate= day + '/' + mounth + '/' + year;
-            
-            // let newComment = {name: fullNameRef.current.value, date: newDate, comment: notesRef.current.value};
+            try {
+                const resp = await axios.post(`${process.env.REACT_APP_PROXY}/posts/${props.post._id}`, {
+                    userId: currentUser._id,
+                    title: titleRef.current.value,
+                    body: notesRef.current.value
+                },  {headers: getAuthHeaders()})
 
-            // setComments(prevComments => ([...prevComments, newComment]))
-            // // saving comment to database
-            // var commentsRef = firebasedb.ref('articles_comments');
-            // var commentsUpdate = {};
-            // commentsUpdate[commentsRef.push().key] = { ...newComment, articleId: props.article.id };
-            // commentsRef.update(commentsUpdate);
+                setAlertComment('success')
+            }
+            catch(err) {
+                console.log(err)
+            }
+
         }
     }
 
@@ -173,7 +145,14 @@ export default function ArticlePage(props) {
                                 {messageNotes}
                             </div>
 
-                            <div className="d-flex justify-content-center mt-3">
+                            <div className="d-flex flex-column justify-content-center mt-3">
+                            {
+                                alertComment && alertComment === 'success' ? 
+                                <div class="alert alert-success" role="alert">
+                                    Your response has been recorded 
+                                </div>
+                                : ''
+                            }
                             <button type="submit" className="btn btn-primary align-middle" onClick={submitContact}>Submit</button>
                             </div>
                         </form>

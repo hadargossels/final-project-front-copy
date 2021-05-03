@@ -21,9 +21,8 @@ export default function Store(props) {
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        const path = props.location.pathname.split('/');
-        if (path.length >= 3){
-            const category = path[2];
+        if (props.location.category){
+            const category = props.location.category;
             setCategory(category);
 
             axios.get(`${process.env.REACT_APP_PROXY}/products/category/${category}`)
@@ -40,17 +39,16 @@ export default function Store(props) {
             })
 
         }
-        
-    }, [props.location.pathname, categories, products])
 
-    useEffect(() => {
         if (props.location.search) {
-            axios.get(`${process.env.REACT_APP_PROXY}/products/category/${props.location.search}`)
+            axios.get(`${process.env.REACT_APP_PROXY}/products/${props.location.search}`)
                 .then(res => {
                 setDisplayProducts(res.data);
         })
         }
-    }, [props.location.search, products])
+        
+    }, [props.location.category, props.location.search])
+
 
     const setPriceValue = (event) => {
         setValuePriceSelect(event.target.value);
@@ -67,6 +65,7 @@ export default function Store(props) {
         const sort = sortRef.current.value ? `sort=${sortRef.current.value}&` : "";
         const checkedSubcategories = subcategories.filter(element => element.isChecked).map(element => element.name);
         const subcategory = checkedSubcategories.length > 0 ? `subcategory=${checkedSubcategories.join(',')}&` : "";
+        
         axios.get(`${process.env.REACT_APP_PROXY}/products/category/${category}/?${sort}${subcategory}onSale=${onSaleRef.current.checked}&price=${valuePriceSelect}`)
         .then(res => {
             setDisplayProducts(res.data);

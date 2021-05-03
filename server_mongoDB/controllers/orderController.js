@@ -146,6 +146,7 @@ exports.create = async function (req, res) {
     
     try{
         const newOrder = await order.save();
+        console.log(newOrder)
         res.status(201).json({
             message: 'Order was created',
             create_order: newOrder

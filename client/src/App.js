@@ -43,14 +43,14 @@ export default function App() {
         <AlertBox />
         
         <Switch>
-          <Route path="/profile" component={Profile} />
-          <Route path="/admin" component={WebsiteAdmin} />
+          <PrivateRoute path="/profile" component={Profile} />
+          <PrivateRouteAdmin path="/admin" component={WebsiteAdmin} />
           <Route exact path="/" component={Home} />
           <Route path="/signup" component={SignUp} />
           <Route path="/login" component={Login} />
           <Route path="/forgot-password" component={ForgotPassword} />
           <Route path="/change-password" component={ChangePassword} />
-          <Route path="/products" component={Store} />
+          <Route path="/store" component={Store} />
           <Route path="/contact" component={Contact} /> 
           <Route path="/about" component={About} /> 
           <Route path="/blog" component={Blog} /> 

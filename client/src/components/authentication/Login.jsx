@@ -10,7 +10,7 @@ import axios from 'axios';
 export default function Login() {
     const emailRef = useRef();
     const passwordRef = useRef();
-    const { login } = useAuth();
+    const { setCurrentUser } = useAuth();
     const [error, setError] = useState('');
     const [loading, setLoading]= useState(false);
     const history = useHistory();
@@ -29,13 +29,13 @@ export default function Login() {
             setError('')
             setLoading(true)
 
-            // const resp = await axios.post(`${process.env.REACT_APP_PROXY}/users/login`, {
-            //     email: emailRef.current.value,
-            //     password: passwordRef.current.value
-            // })
-            // console.log(resp.data)
-            // localStorage.setItem("token", resp.data.token);
-            await login(emailRef.current.value, passwordRef.current.value)
+            const resp = await axios.post(`${process.env.REACT_APP_PROXY}/users/login`, {
+                email: emailRef.current.value,
+                password: passwordRef.current.value
+            })
+
+            localStorage.setItem("token", resp.data.token);
+            setCurrentUser(resp.data.user)
             history.push("/")
         } catch(err) {
             console.log(err);
@@ -46,7 +46,7 @@ export default function Login() {
 
     return (
         <>
-            <Container className="d-flex justify-content-center align-items-center" style={{minHeight: "80vh"}}>
+            <Container className="d-flex justify-content-center align-items-center py-5" style={{minHeight: "80vh"}}>
                 <div className="w-100" style={{maxWidth: "400px"}}>
                     <Card>
                         <Card.Body>
