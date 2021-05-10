@@ -7,13 +7,9 @@ import axios from 'axios';
 
 
 export default function ArticlePage(props) {
-    const fullNameRef = useRef();
-    const emailRef = useRef();
     const titleRef = useRef();
     const notesRef = useRef();
     
-    const [messageFullName, setMessageFullName] = useState();
-    const [messageEmail, setMessageEmail] = useState();
     const [messageNotes, setMessageNotes] = useState();
     const [comments, setComments] = useState();
     const [alertComment, setAlertComment] = useState();
@@ -23,14 +19,13 @@ export default function ArticlePage(props) {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        console.log(props.post)
 
         axios.get(`${process.env.REACT_APP_PROXY}/posts/${props.post._id}`)
         .then(res => {
             setComments(res.data[0].comments);
         })
 
-    }, [])
+    }, [props.post])
 
     function createArticleBody(){
         let articleBody = []
@@ -54,7 +49,6 @@ export default function ArticlePage(props) {
                                 emailPattern: "Please provide a valid email",
                                 phonePattern: "Please provide a valid phone number"                           
                                 };
-        const emailPattern = /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/;
         let correctInputs = true;
 
         if (titleRef.current.validity.valueMissing){
@@ -79,7 +73,7 @@ export default function ArticlePage(props) {
     
         if (correctInputs) {
             try {
-                const resp = await axios.post(`${process.env.REACT_APP_PROXY}/posts/${props.post._id}`, {
+                await axios.post(`${process.env.REACT_APP_PROXY}/posts/${props.post._id}`, {
                     userId: currentUser._id,
                     title: titleRef.current.value,
                     body: notesRef.current.value
@@ -103,7 +97,7 @@ export default function ArticlePage(props) {
 
             <div className="container-fluid d-flex justify-content-center" style={{backgroundColor: "#f2f2f2"}}>
                 <div className="container">
-                        <h4 className="text-center">Comments</h4>
+                        <h4 className="text-center pt-4">Comments</h4>
                         {comments ?
                             comments.map((comment, index) => 
                                 <ArticleComment

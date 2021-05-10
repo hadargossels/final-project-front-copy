@@ -4,9 +4,12 @@ const usersController = require('../controllers/UsersController');
 const checkAuth = require("../middleware/check-auth")
 
 
+
 router.post('/signup', usersController.signup);
 
 router.post('/login', usersController.login);
+
+router.post('/loginGoogle', usersController.loginGoogle);
 
 router.get('/', usersController.findAll);
 

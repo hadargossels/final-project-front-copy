@@ -3,7 +3,7 @@ import { useCart } from '../../context/CartContext';
 
 
 export default function OrderSummary() {
-    const { myCoupon, coupons, activateCoupon, cancelCoupon, getSubTotalAmount, getTaxesAmount, getTotalAfterTaxes, getTotalBeforeDelivert, setMyCoupon } = useCart();
+    const { myCoupon, coupons, getSubTotalAmount, getTaxesAmount, getTotalAfterTaxes, getTotalBeforeDelivert, setMyCoupon } = useCart();
 
     const cuponInputRef = useRef();
     const cuponDiscountRef = useRef();

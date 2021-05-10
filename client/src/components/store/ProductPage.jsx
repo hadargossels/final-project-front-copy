@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import {Form, Button} from 'react-bootstrap';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import { Carousel } from 'react-responsive-carousel';
@@ -73,8 +73,9 @@ export default function ProductPage(props) {
     }
 
     function getRelatedProducts() {
+        console.log(products)
         if (products)
-            return products.filter(element => element.category === props.product.category && element.id !== props.product.id);
+            return products.filter(element => element.categories.parent === props.product.categories.parent && element._id !== props.product._id);
         return [];
     }
 
@@ -116,7 +117,6 @@ export default function ProductPage(props) {
                     <div id="ProductOtherDetails" className="mt-5">
                         {isInStock()}
                         <p><strong>Description:</strong> {props.product.description}</p>
-                        <p><strong>Category:</strong> {props.product.category}</p>
                     </div>
                     <div>
                         <p className="mb-2">

@@ -50,7 +50,14 @@ exports.findAll = async (req, res) => {
     if (req.query.category){
         aggregate_options.push({$match: { parent: { $regex: req.query.category, $options: 'i' }} });
     }
-    
+
+    //FILTER TO GET ALL SUBCATEGORIES
+    if (req.query.allSubCategories){
+        aggregate_options.push({$match: { parent: { 
+            "$exists": true, 
+            "$ne": null 
+        } }});
+    }
 
     try {
         const myAggregate = Category.aggregate(aggregate_options);

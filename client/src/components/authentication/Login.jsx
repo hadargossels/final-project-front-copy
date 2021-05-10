@@ -2,8 +2,7 @@ import React, { useRef, useState } from 'react'
 import { Container, Form, Button, Card, Alert } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import {auth, signInOptions} from "../../firebase"
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth"
+import GoogleLogin from 'react-google-login'
 import axios from 'axios';
 
 
@@ -16,13 +15,14 @@ export default function Login() {
     const history = useHistory();
 
     //login with google/facebook
-    const uiConfig = {
-        signInFlow: "popup",
-        signInOptions: signInOptions,
-        callbacks: { signInSuccess: () => history.push("") }
-    }
+    // const uiConfig = {
+    //     signInFlow: "popup",
+    //     signInOptions: signInOptions,
+    //     callbacks: { signInSuccess: () => history.push("") }
+    // }
+
   
-    async function handleSubmit(e) {
+    async function handleLogin(e) {
         e.preventDefault()
 
         try{
@@ -36,12 +36,26 @@ export default function Login() {
 
             localStorage.setItem("token", resp.data.token);
             setCurrentUser(resp.data.user)
+            localStorage.setItem("userId", resp.data.user._id);
             history.push("/")
+
         } catch(err) {
             console.log(err);
             setError('Failed to log in')
         }
         setLoading(false)
+    }
+
+    const handleLoginGoogle = async (resp) => {
+        try {
+            const googledata = await axios.post(`${process.env.REACT_APP_PROXY}/users/loginGoogle`, { tokenGoogle: resp.tokenId })
+            localStorage.setItem("token", googledata.data.token);
+            setCurrentUser(googledata.data.user)
+            history.push("/")
+        }
+        catch(err) {
+            console.log(err)
+        }
     }
 
     return (
@@ -52,7 +66,7 @@ export default function Login() {
                         <Card.Body>
                             <h2 className="text-center mb-4">Log In</h2>
                             {error && <Alert variant="danger">{error}</Alert>}
-                            <Form onSubmit={handleSubmit}>
+                            <Form onSubmit={handleLogin}>
                                 <Form.Group id="email">
                                     <Form.Label>Email</Form.Label>
                                     <Form.Control type="email" ref={emailRef} required></Form.Control>
@@ -64,11 +78,16 @@ export default function Login() {
                                 <Button disabled={loading} className="w-100" type="submit">Log In</Button>
                             </Form>
 
-                            {/* login with google/facebook */}
-                            <StyledFirebaseAuth
-                                uiConfig={uiConfig}
-                                firebaseAuth={auth}
-                            />
+                            <div className="text-center mt-4">
+                                <GoogleLogin
+                                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                                    buttonText="Log in with Google"
+                                    onSuccess={handleLoginGoogle}
+                                    onFailure={handleLoginGoogle}
+                                    cookiePolicy={'single_host_origin'}
+                                ></GoogleLogin>
+                            </div>
+                            
 
                             <div className="w-100 text-center mt-3">
                                 <Link to="/forgot-password">Forgot Password?</Link>

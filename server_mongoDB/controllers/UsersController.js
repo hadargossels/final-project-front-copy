@@ -4,6 +4,10 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
+const { OAuth2Client } = require('google-auth-library');
+const { use } = require("../routes/users");
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
 const transporter = nodemailer.createTransport(sendgridTransport({
     auth: {
@@ -57,7 +61,7 @@ exports.signup = async function (req, res) {
 exports.login = async function (req, res) {
     const user = await User.findOne({email: req.body.email})
 
-    if (user) {
+    if (user && !user.googleUser) {
         bcrypt.compare(req.body.password, user.password, (err, result) => {
             if (err || !result) {
                 console.log(err);
@@ -80,6 +84,48 @@ exports.login = async function (req, res) {
     }
     else {
         res.status(500).json({error: "User not exist"})
+    }
+}
+
+exports.loginGoogle = async function (req, res) {
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken: req.body.tokenGoogle,
+            audience: process.env.GOOGLE_CLIENT_ID
+        });
+        const { email, given_name, family_name } = ticket.getPayload();
+
+        await User.updateOne( 
+            { email: email },
+            { 
+                email: email,
+                firstName: given_name,
+                lastName: family_name,
+                active: true,
+                role: 'client',
+                password: null,
+                googleUser: true
+            },
+            { upsert: true }
+        )
+
+        const user = await User.findOne({email: email})
+        
+        const token = jwt.sign( 
+            { email: user.email, userId: user._id }, 
+            process.env.JWT_KEY,
+            { expiresIn: "1h"}
+        );
+        
+        res.status(200).json({
+            message: 'Authentication successful',
+            token : token,
+            user: user
+        })
+    } 
+    catch(err) { 
+        console.log(err)
+        return res.status(401).json({ message: 'Auth failed'})
     }
 }
 
@@ -138,6 +184,8 @@ exports.findAll = async (req, res) => {
     try {
         const myAggregate = User.aggregate(aggregate_options);
         const result = await User.aggregatePaginate(myAggregate, options);
+        result['users'].forEach(element => element.id = element._id); 
+
         
         res.setHeader('Content-Range', `${result.users.length}`)
         res.status(200).json(result.users);
@@ -241,59 +289,3 @@ exports.updatePassword = async function (req, res) {
     })
     
 }
-
-    // const currentUser = await User.findOne({_id: req.params.id});
-
-    // const updatedUser = {};
-    // for (const [key, value] of Object.entries(req.body)) {
-    //     if (req.body[key]){
-    //         if (key == 'email') {
-    //             const userExist = await User.findOne({email: req.body.email})
-
-    //             if ( (currentUser.email != req.body.email) && userExist) {
-    //                 return res.status(500).json({error: 'Email allready exist'})
-    //             }
-    //             else {
-    //                 updatedUser[key] = req.body[key]
-    //             }
-    //         }
-    //         else if (key === 'firstName' || key === 'lastName' || key === 'phone') {
-    //             updatedUser[key] = req.body[key]
-    //             updatedUser["updateDate"] = Date.now()
-    //         }
-    //         else {
-    //             return res.status(500).json({error: 'Fields are invalid to be updated'})
-    //         }
-    //     }
-    // }
-
-    // try {
-    //     await User.updateOne({_id: req.params.id} ,{$set: updatedUser});
-    //     res.status(201).json({
-    //         message: 'User details were updated',
-    //         userId: req.params.id
-    //     })
-    // }
-    // catch(err) {
-    //     console.log(err)
-    //     res.status(500).json({error: err})
-    // }
-// }
-
-
-
-
-// exports.delete = async function (req, res) {
-//     try{
-//         const result = await Employee.deleteOne({_id: req.params.id});
-//         res.status(200).json({
-//             message: 'Employee was deleted',
-//             employeeId: req.params.id
-//         })
-//     }
-//     catch(err){
-//         console.log(err)
-//         res.status(500).json({error: err})
-//     } 
-// }
-

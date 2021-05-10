@@ -131,26 +131,6 @@ exports.findOne = async function (req, res) {
         console.log(err)
         res.status(500).json({error: err})
     }
-    
-
-    // try{
-    //     console.log(req.params.postId)
-    //     let post = await Post.findById(req.params.postId);
-    //     console.log(post)
-    //     post = {...post, id: post._id};
-        
-
-    //     if (post){
-    //         res.status(200).json(post);
-    //     }
-    //     else{
-    //         res.status(404).json({message: 'Post not found'})
-    //     } 
-    // }
-    // catch(err){
-    //     console.log(err)
-    //     res.status(500).json({error: err})
-    // } 
 }
 
 exports.create = async function (req, res) {

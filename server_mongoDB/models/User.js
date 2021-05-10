@@ -35,6 +35,10 @@ const userSchema = mongoose.Schema({
     phone: {
         type: String,
         match: phonePattrern
+    },
+    googleUser: {
+        type: Boolean,
+        default: false
     }
 });
 

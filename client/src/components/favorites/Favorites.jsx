@@ -9,7 +9,6 @@ export default function Favorites() {
 
     return (
         <div>
-            {console.log(favoriteProducts)}
             <Container className="d-flex flex-column justify-content-center align-items-center py-5">
                 <h1>WISHLIST</h1>
                 {

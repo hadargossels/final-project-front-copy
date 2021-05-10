@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect} from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 
 const AuthContext = React.createContext();
@@ -10,6 +11,17 @@ export function useAuth() {
 
 export function AuthProvider({children}) {
     const [currentUser, setCurrentUser] = useState()
+    const history = useHistory();
+
+    useEffect( () => {
+        const userId = localStorage.getItem('userId')
+        if (userId) {
+            axios.get(`${process.env.REACT_APP_PROXY}/users/${userId}`, {}, {headers: getAuthHeaders()})
+            .then(res => {
+                setCurrentUser(res.data)
+            })
+        }
+    },[])
     
     const getAuthHeaders = () => {
         const token = localStorage.getItem('token');
@@ -18,12 +30,10 @@ export function AuthProvider({children}) {
 
     function logout() {
         setCurrentUser(null);
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        history.push('/')
     }
-
-    // function resetPassword(email) {
-    //     return auth.sendPasswordResetEmail(email) 
-    // }
-    
 
     const value = {
         currentUser,

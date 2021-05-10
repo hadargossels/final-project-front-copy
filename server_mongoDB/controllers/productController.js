@@ -37,16 +37,46 @@ exports.findAll = async (req, res) => {
     });
     //deconstruct the $categories array using $unwind(aggregation).
     aggregate_options.push({$unwind: {path: "$categories", preserveNullAndEmptyArrays: true}});
+    
+    //3 - FILTER
+    //SEARH QUERY
+    if(req.query.q){
+        aggregate_options.push({$match: {description: {$regex : req.query.q, $options: 'i'} } });
+    }
 
+    //FILTER BY INSTOCK QUERY
+    if(req.query.onSale == 'true') {
+        aggregate_options.push({$match: {"discount" : {$gt: 0} }});
+    }
 
-    //3 - FILTERING TEXT SEARCH
+    //FILTER BY CATEGORY QUERY
+    if(req.query.category){
+        aggregate_options.push({$match: {"categories.parent": {$regex : req.query.category, $options: 'i'} } });
+    }
+
+    //FILTER BY SUBCATEGORY QUERY
+    if(req.query.subcategory) {
+        const match = {};
+        const query = req.query.subcategory.split(',').map(element => {
+            return {"categories.name": {$regex : element, $options: 'i'} }
+        })
+        match["$or"] = query
+        aggregate_options.push({$match: match});
+    }
+
+    //FILTER BY PRICE QUERY
+    if(req.query.price && req.query.price > 0) {
+        aggregate_options.push({$match: {actualPrice: {$lte: parseFloat(req.query.price) } }});
+    }
+
+    //5 - FILTERING TEXT SEARCH FOR REACT ADMIN
     if (req.query.filter && Object.keys(JSON.parse(req.query.filter)).length) {
         let search = JSON.parse(req.query.filter);
 
         let match = {};
         for (let key in search) {
             switch(key) {
-                case " category":
+                case "category":
                     match["categories.id"] = { $regex: search[key], $options: 'i' };
                     break;
                 case "inStock":
@@ -59,13 +89,8 @@ exports.findAll = async (req, res) => {
         }
         aggregate_options.push({$match: match});
     }
-    
-    //SEARH QUERY
-    if(req.query.q){
-        aggregate_options.push({$match: {description: {$regex : req.query.q, $options: 'i'} } });
-    }
 
-    //4 - SORT
+    //6 - SORT
     if (req.query.sort) {
         let [sortBy, sortProduct] = JSON.parse(req.query.sort)
         sortProduct = sortProduct.toLowerCase() === 'asc'? 1 : -1
@@ -86,93 +111,10 @@ exports.findAll = async (req, res) => {
     }
 }
 
-exports.findCategoryProducts = async (req, res) => {
-    const limit_ = 5;
-    const aggregate_options = [];
-
-    //1- PAGINATION - set the options for pagination
-    let page = parseInt(req.query.page) || 1;
-    let limit = parseInt(req.query.limit) || limit_;
-
-    if (req.query.range){
-        let [from, to] = JSON.parse(req.query.range)
-        limit = to + 1 - from
-        page = (to + 1) / limit
-    }
-
-    const options = {
-        page, 
-        limit,
-        collation: {locale: 'en'},
-        customLabels: {
-            totalDocs: 'totalResults',
-            docs: 'products'
-        }   
-    }
-
-    //2 - LOOKUP/JOIN - use $lookup(aggregation) to get the relationship from event to categories (one to many).
-    aggregate_options.push({
-        $lookup: {
-            from: 'categories',
-            localField: "category",
-            foreignField: "_id",
-            as: "categories"
-        }
-    });
-    //deconstruct the $categories array using $unwind(aggregation).
-    aggregate_options.push({$unwind: {path: "$categories", preserveNullAndEmptyArrays: true}});
-    
-    //FILTER BY CATEGORY PARAMS
-    aggregate_options.push({$match: {"categories.parent": {$regex : req.params.category, $options: 'i'} } });
-
-    //FILTER BY SUBCATEGORY QUERY
-    if(req.query.subcategory) {
-        const match = {};
-        const query = req.query.subcategory.split(',').map(element => {
-            return {"categories.name": {$regex : element, $options: 'i'} }
-        })
-        match["$or"] = query
-        aggregate_options.push({$match: match});
-    }
-
-    //FILTER BY INSTOCK QUERY
-    if(req.query.onSale == 'true') {
-        aggregate_options.push({$match: {"discount" : {$gt: 0} }});
-    }
-
-    //FILTER BY PRICE QUERY
-    if(req.query.price && req.query.price > 0) {
-        aggregate_options.push({$match: {actualPrice: {$lte: parseFloat(req.query.price) } }});
-    }
-
-    //SORT
-    if(req.query.sort){
-        const sortProduct = req.query.sort.toLowerCase() === 'asc'? 1 : -1
-        aggregate_options.push({$sort: {"actualPrice": sortProduct}});
-    }
-    else{
-        aggregate_options.push({$sort: {"createdAt": -1}});
-    }
-    
- 
-    try {
-        const myAggregate = Product.aggregate(aggregate_options);
-        let result = await Product.aggregatePaginate(myAggregate, options);
-        
-        res.setHeader('Content-Range', `${result.products.length}`)
-        res.status(200).json(result.products);
-    }
-    catch(err) {
-        console.log(err)
-        res.status(500).json({error: err})
-    }  
-}
-
 exports.findOne = async function (req, res) {
     try{
         let product = await Product.findById(req.params.id);
         product = {...product, id: product._id};
-        console.log(product);
 
         if (product){
             res.status(200).json(product);
@@ -232,7 +174,7 @@ exports.update = async function (req, res) {
         }
     }
     
-    if(req.files){
+    if (req.files){
         req.files.forEach(element => {
             const path = 'http://localhost:8080/images/product_images/' + element.originalname
             updated_product_images.push(path)
@@ -240,14 +182,20 @@ exports.update = async function (req, res) {
         updatedProduct.product_images = updated_product_images
     }
 
-    try{
+    if (req.qtyOrdered) {
+        const product = await Product.findById(req.params.id);
+        const qtyOrdered = product.qtyOrdered + req.qtyOrdered;
+        updatedProduct.qtyOrdered = qtyOrdered
+    }
+
+    try {
         await Product.updateOne({_id: req.params.id} ,{$set: updatedProduct});
         res.status(201).json({
             message: 'Product was updated',
             productId: req.params.id
         })
     }
-    catch(err){
+    catch(err) {
         console.log(err)
         res.status(500).json({error: err})
     }

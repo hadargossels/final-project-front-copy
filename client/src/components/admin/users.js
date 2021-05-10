@@ -1,8 +1,5 @@
 import * as React from "react";
-import DeleteWithCustomConfirmButton from 'ra-delete-with-custom-confirm-button';
-import Delete from '@material-ui/icons/Delete';
-import ErrorOutline from '@material-ui/icons/ErrorOutline';
-import { auth, firebasedb } from '../../firebase';
+import axios from 'axios';
 import {
     required,
     minLength,
@@ -28,25 +25,22 @@ const roleOptions = [
     { id: 'client', name: 'client' }
 ]
 
-const UserCreateAuth = (data) => (
-    auth.createUserWithEmailAndPassword(data.email, data.password)
-    .then(async (userCredential) => {
-        // Signed in 
-        let user = userCredential.user;
-        firebasedb.ref('users').child(user.uid).set({
-            "id": user.uid,
-            "active": true,
-            "email": data.email,
-            "firstName": data.firstName,
-            "lastName": data.lastName,
-            "phone": data.phone,
-            "role": data.role
+const UserCreateAuth = async (data) => {
+    try {
+        await axios.post(`${process.env.REACT_APP_PROXY}/users/signup`, {
+            email: data.email,
+            password: data.password,
+            active: true,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            phone: data.phone,
+            role: data.role
         })
-    })
-    .catch((error) => {
-        window.alert(error.message);
-    })
-)
+    }
+    catch (err) {
+        window.alert(err.message);
+    }
+}
 
 // const DeleteConfirmTitle = 'Are you sure you want to delete this user?';
 

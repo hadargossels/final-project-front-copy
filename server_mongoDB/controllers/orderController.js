@@ -1,5 +1,13 @@
 const Order = require("../models/Order")
 const mongoose = require("mongoose")
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
+
+const transporter = nodemailer.createTransport(sendgridTransport({
+    auth: {
+        api_key: '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'
+    }
+}));
 
 
 exports.findAll = async (req, res) => {
@@ -84,7 +92,7 @@ exports.findAll = async (req, res) => {
                     break;
             }
         }
-        console.log(match);
+
         aggregate_options.push({$match: match});
     } 
 
@@ -144,9 +152,16 @@ exports.create = async function (req, res) {
         userId: req.body.userId
     })
     
-    try{
+    try {
         const newOrder = await order.save();
-        console.log(newOrder)
+
+        transporter.sendMail({
+            to: req.body.email,
+            from: process.env.EMAIL_ADDRESS,
+            subject: "Home Style - Order Confirmation",
+            html: `<h2>Your order was successfully placed.</h2><h3>Order Id:</h3><h3>${order._id}`
+        })
+
         res.status(201).json({
             message: 'Order was created',
             create_order: newOrder
@@ -198,7 +213,6 @@ exports.delete = async function (req, res) {
 }
 
 exports.findUserOrders = async function (req, res) {
-    console.log(req.params)
     const aggregate_options = [];
 
     const options = {

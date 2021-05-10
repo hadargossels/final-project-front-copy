@@ -20,8 +20,7 @@ import {
     ArrayField,
     Edit,
     SimpleForm,
-    ReferenceField,
-    ReferenceInput
+    ReferenceField
 } from 'react-admin';
 
 

@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import React, { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/modal';
 import 'bootstrap/js/dist/collapse';
@@ -15,7 +15,6 @@ export default function Header() {
     const { currentUser, logout } = useAuth();
     const { cartProducts, calculateSumQtyCart } = useCart();
     const { favoriteProducts } = useFavorites();
-    const history = useHistory();
 
     const searchInputRef = useRef();
     const modalCartRef = useRef();
@@ -26,7 +25,6 @@ export default function Header() {
     async function handleLogout() {
         try {
             await logout()
-            history.push('/')
         }
         catch(err){
             console.log(err)
@@ -36,7 +34,6 @@ export default function Header() {
     const onSetSearchInput = () => {
         var value = searchInputRef.current.value.replace(/[^A-Za-z]/ig, '');
         searchInputRef.current.value = value;
-        console.log(value)
         setSearchInput(value);
     }
 
@@ -88,9 +85,9 @@ export default function Header() {
                         <li className="nav-item dropdown">
                             <div className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Store</div>
                             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <Link to={{pathname: "/store/bedroom", category: "Bedroom"}} className="dropdown-item">Bedroom</Link>
-                                <Link to={{pathname: "/store/bathroom", category: "Bathroom"}} className="dropdown-item">Bathroom</Link>
-                                <Link to={{pathname: "/store/living-room", category: "Living-room"}} className="dropdown-item">Living Room</Link>
+                                <Link to="/store/category/bedroom" className="dropdown-item">Bedroom</Link>
+                                <Link to="/store/category/bathroom" className="dropdown-item">Bathroom</Link>
+                                <Link to="/store/category/living-room" className="dropdown-item">Living Room</Link>
                             </div>
 
                         </li>

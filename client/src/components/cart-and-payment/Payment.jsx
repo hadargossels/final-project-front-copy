@@ -6,7 +6,7 @@ import PayPalBtn from './PayPalBtn';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import {useHistory} from 'react-router-dom';
-import { emailPattern, phonePattrern} from '../../data/constants';
+import { phonePattrern} from '../../data/constants';
 import axios from 'axios';
 
 
@@ -16,29 +16,31 @@ export default function Payment() {
     const history = useHistory();
 
     const recipientDetails = useRef();
-    const phoneRef = useRef('');
-    const firstNameRef = useRef('');
-    const lastNameRef = useRef('');
-    const streetRef = useRef('');
-    const homeNumberRef = useRef('');
-    const apartmentNumberRef = useRef('');
-    const selectDelivery = useRef('');
-    const cityRef = useRef('');
+    const phoneRef = useRef();
+    const firstNameRef = useRef();
+    const lastNameRef = useRef();
+    const streetRef = useRef();
+    const homeNumberRef = useRef();
+    const apartmentNumberRef = useRef();
+    const selectDelivery = useRef();
+    const cityRef = useRef();
     
     const [openRecipientDetails, setOpenRecipientDetails] = useState(false);
     const [openPaymentDetails, setOpenPaymentDetails] = useState(false);
     const [deliveryAmount, setDeliveryAmount] = useState(0);
-    const [messagePhone, setMessagePhone] = useState('');
-    const [messageFirstName, setMessageFirstName] = useState('');
-    const [messageLastName, setMessageLastName] = useState('');
-    const [messageStreet, setMessageStreet] = useState('');
-    const [messageHomeNumber, setMessageHomeNumber] = useState('');
-    const [messageCity, setMessageCity] = useState('');
+    const [messagePhone, setMessagePhone] = useState();
+    const [messageFirstName, setMessageFirstName] = useState();
+    const [messageLastName, setMessageLastName] = useState();
+    const [messageStreet, setMessageStreet] = useState();
+    const [messageHomeNumber, setMessageHomeNumber] = useState();
+    const [messageCity, setMessageCity] = useState();
 
-    const invalidMessages = {required: "This field is required", 
-                            emailPattern: "Please provide a valid email",
-                            phonePattern: "Please provide a valid phone number"                           
-                            };
+    const invalidMessages = 
+        {
+            required: "This field is required", 
+            emailPattern: "Please provide a valid email",
+            phonePattern: "Please provide a valid phone number"                           
+        };
 
 
     const calculateDelivery = () => {
@@ -168,6 +170,7 @@ export default function Payment() {
         const userID = currentUser ? currentUser._id : 1;
         const couponDiscountAmount = myCoupon.code ? getCouponDiscountAmount() * -1 : 0;
         const couponCode = myCoupon.code ? myCoupon.code : 0;
+        const emailUser = currentUser ? currentUser.email: null;
 
         const orderedProducts = cartProducts.map((product) => {
             return {
@@ -175,6 +178,12 @@ export default function Payment() {
                 quantity: product.quantity
             }
         })
+
+        orderedProducts.forEach(element => {
+            axios.patch(`${process.env.REACT_APP_PROXY}/products/${element.productId}`, {
+                qtyOrdered: element.quantity
+            }, {headers: getAuthHeaders()})
+        });
 
         const resp = await axios.post(`${process.env.REACT_APP_PROXY}/orders`, {
             // id: data.orderID,
@@ -187,6 +196,7 @@ export default function Payment() {
             deliveryMethod: selectDelivery.current.value,
             products: orderedProducts,
             userId: userID,
+            email: emailUser,
             recipient: {
                 firstName: firstNameRef.current.value,
                 lastName: lastNameRef.current.value,
@@ -205,8 +215,6 @@ export default function Payment() {
             // }
         }, {headers: getAuthHeaders()});
         
-        console.log(resp)
-        console.log(resp.data)
         setCartProducts([]);
         localStorage.removeItem('cartProducts');
         cancelCoupon();

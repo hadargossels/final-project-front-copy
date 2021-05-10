@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { useStore } from '../../context/StoreContext';
 import { Container, Table } from 'react-bootstrap'
 import axios from 'axios';
 
 
 export default function ProfileOrders() {
     const { currentUser, getAuthHeaders } = useAuth();
-    const [myUser, setMyUser] = useState();
     const [userOrders, setUserOrders] = useState([]);
-    const {orders} = useStore();
 
     useEffect(() => {
         if (currentUser){
             axios.get(`${process.env.REACT_APP_PROXY}/orders/user/${currentUser._id}`, {}, {headers: getAuthHeaders()})
             .then(res => {
-                console.log(res.data)
                 setUserOrders(res.data);        
             })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser])
 
     return (
